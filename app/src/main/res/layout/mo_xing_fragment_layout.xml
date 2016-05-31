@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <!--手办的布局-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginTop="10dp">
+                <TextView
+                    android:id="@+id/text_shou_ban"
+                    android:clickable="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/shou_ban"
+                    android:layout_gravity="left"/>
+                <com.example.asus_cp.dongmanbuy.customview.MyGridView
+                    android:id="@+id/grid_view_shou_ban"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:numColumns="3"
+                    android:verticalSpacing="@dimen/category_fragments_gridview_space"
+                    android:horizontalSpacing="@dimen/category_fragments_gridview_space"
+                    android:gravity="center"
+                    >
+                </com.example.asus_cp.dongmanbuy.customview.MyGridView>
+            </LinearLayout>
+
+            <!--模型的布局-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginTop="10dp">
+                <TextView
+                    android:id="@+id/text_mo_xing"
+                    android:clickable="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/mo_xing"
+                    android:layout_gravity="left"/>
+                <com.example.asus_cp.dongmanbuy.customview.MyGridView
+                    android:id="@+id/grid_view_mo_xing"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:numColumns="3"
+                    android:verticalSpacing="@dimen/category_fragments_gridview_space"
+                    android:horizontalSpacing="@dimen/category_fragments_gridview_space"
+                    android:gravity="center"
+                    >
+                </com.example.asus_cp.dongmanbuy.customview.MyGridView>
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+
+
+
+
+</LinearLayout>

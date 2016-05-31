@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="5dp">
+
+    <!--用户名-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp">
+            <EditText
+                android:id="@+id/edit_user_name"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:hint="@string/user_name"
+                android:textSize="@dimen/register_font_size"/>
+        </LinearLayout>
+
+
+
+    <!--请输入邮箱-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp">
+            <EditText
+                android:id="@+id/edit_input_email"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:hint="@string/input_email_number"
+                android:textSize="@dimen/register_font_size"/>
+        </LinearLayout>
+
+
+
+
+    <!--密码-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp">
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content">
+            <EditText
+                android:id="@+id/edit_password_email_register"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:hint="@string/input_password"
+                android:textSize="@dimen/register_font_size"
+                android:password="true"/>
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/img_see_password_email_register"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/see_password_normal"
+            android:layout_gravity="center_vertical"/>
+    </LinearLayout>
+
+    <!--重新输入密码-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp">
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content">
+            <EditText
+                android:id="@+id/edit_password_again_email_register"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:hint="@string/input_password_again"
+                android:textSize="@dimen/register_font_size"
+                android:password="true"/>
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/img_see_password_again_email_register"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/see_password_normal"
+            android:layout_gravity="center_vertical"/>
+    </LinearLayout>
+
+    <!--注册按钮-->
+    <Button
+        android:id="@+id/btn_email_register"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/register"
+        android:textSize="@dimen/register_font_size"
+        android:layout_marginTop="10dp"
+        android:textColor="@color/white_my"
+        android:background="@color/bottom_lable_color"/>
+
+    <!--已注册直接登录-->
+    <TextView
+        android:id="@+id/text_zhi_jie_login_email_register"
+        android:clickable="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="5dp"
+        android:text="@string/have_registered_login"
+        android:layout_gravity="right"/>
+</LinearLayout>

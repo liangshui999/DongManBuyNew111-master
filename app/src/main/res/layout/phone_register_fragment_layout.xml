@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="5dp">
+
+    <!--手机号-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/phone_kai_shi"
+            android:textSize="@dimen/find_password_font_size"
+            android:layout_gravity="center_vertical"/>
+       <LinearLayout
+           android:layout_width="0dp"
+           android:layout_weight="1"
+           android:layout_height="wrap_content">
+           <EditText
+               android:id="@+id/edit_phone_num"
+               android:layout_width="match_parent"
+               android:layout_height="match_parent"
+               android:hint="@string/phone_num"
+               android:textSize="@dimen/register_font_size"/>
+    </LinearLayout>
+    </LinearLayout>
+
+
+    <!--验证码-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content">
+            <EditText
+                android:id="@+id/edit_input_yan_zheng_ma"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:hint="@string/inpu_yan_zheng_ma"
+                android:textSize="@dimen/register_font_size"/>
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/text_send_yan_zheng_ma"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/send_yan_zheng_ma"
+            android:textSize="@dimen/register_font_size"
+            android:layout_gravity="center_vertical"
+            />
+
+    </LinearLayout>
+
+    <!--密码-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp">
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content">
+            <EditText
+                android:id="@+id/edit_password_phone_register"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:hint="@string/input_password"
+                android:textSize="@dimen/register_font_size"/>
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/img_see_password_phone_register"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/see_password_normal"
+            android:layout_gravity="center_vertical"/>
+    </LinearLayout>
+
+    <!--重新输入密码-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp">
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content">
+            <EditText
+                android:id="@+id/edit_password_again_phone_register"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:hint="@string/input_password_again"
+                android:textSize="@dimen/register_font_size"/>
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/img_see_password_again_phone_register"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/see_password_normal"
+            android:layout_gravity="center_vertical"/>
+    </LinearLayout>
+
+    <!--注册按钮-->
+    <Button
+        android:id="@+id/btn_phone_register"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/register"
+        android:textSize="@dimen/register_font_size"
+        android:layout_marginTop="10dp"
+        android:textColor="@color/white_my"
+        android:background="@color/bottom_lable_color"/>
+
+    <!--已注册直接登录-->
+    <TextView
+        android:id="@+id/text_zhi_jie_login_phone_register"
+        android:clickable="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="5dp"
+        android:text="@string/have_registered_login"
+        android:layout_gravity="right"/>
+
+
+</LinearLayout>

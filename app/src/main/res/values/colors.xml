@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+    <color name="bottom_lable_color">#ff5153</color>
+    <color name="gray">#F0F0F0</color>
+    <color name="home_fragment_background">#F0F0F0</color>
+    <color name="white_my">#ffffff</color>
+    <color name="black">#000000</color>
+    <color name="shen_hui">@android:color/darker_gray</color>
+</resources>

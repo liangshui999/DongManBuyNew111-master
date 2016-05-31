@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="5dp">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <!--明信片的布局-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginTop="10dp">
+                <TextView
+                    android:id="@+id/text_ming_xin_pian"
+                    android:clickable="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/ming_xin_pian"
+                    android:layout_gravity="left"/>
+                <com.example.asus_cp.dongmanbuy.customview.MyGridView
+                    android:id="@+id/grid_view_ming_xin_pian"
+                    android:layout_width="match_parent"
+                    android:layout_height="650dp"
+                    android:numColumns="3"
+                    android:verticalSpacing="@dimen/category_fragments_gridview_space"
+                    android:horizontalSpacing="@dimen/category_fragments_gridview_space"
+                    android:gravity="center"
+                    >
+                </com.example.asus_cp.dongmanbuy.customview.MyGridView>
+            </LinearLayout>
+
+            <!--大礼包的布局-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginTop="10dp">
+                <TextView
+                    android:id="@+id/text_da_li_bao"
+                    android:clickable="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/da_li_bao"
+                    android:layout_gravity="left"/>
+                <com.example.asus_cp.dongmanbuy.customview.MyGridView
+                    android:id="@+id/grid_view_da_li_bao"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:columnWidth="@dimen/category_fragments_gridview_cloum_with"
+                    android:numColumns="auto_fit"
+                    android:verticalSpacing="@dimen/category_fragments_gridview_space"
+                    android:horizontalSpacing="@dimen/category_fragments_gridview_space"
+                    android:stretchMode="columnWidth"
+                    android:gravity="center"
+                    >
+                </com.example.asus_cp.dongmanbuy.customview.MyGridView>
+            </LinearLayout>
+
+
+            <!--扑克牌的布局-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginTop="10dp">
+                <TextView
+                    android:id="@+id/text_pu_ke_pai"
+                    android:clickable="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/pu_ke_pai"
+                    android:layout_gravity="left"/>
+                <com.example.asus_cp.dongmanbuy.customview.MyGridView
+                    android:id="@+id/grid_view_pu_ke_pai"
+                    android:layout_width="match_parent"
+                    android:layout_height="650dp"
+                    android:numColumns="3"
+                    android:verticalSpacing="@dimen/category_fragments_gridview_space"
+                    android:horizontalSpacing="@dimen/category_fragments_gridview_space"
+                    android:gravity="center"
+                    >
+                </com.example.asus_cp.dongmanbuy.customview.MyGridView>
+            </LinearLayout>
+
+            <!--台历的布局-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginTop="10dp">
+                <TextView
+                    android:id="@+id/text_tai_li"
+                    android:clickable="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/tai_li"
+                    android:layout_gravity="left"/>
+                <com.example.asus_cp.dongmanbuy.customview.MyGridView
+                    android:id="@+id/grid_view_tai_li"
+                    android:layout_width="match_parent"
+                    android:layout_height="650dp"
+                    android:numColumns="3"
+                    android:verticalSpacing="@dimen/category_fragments_gridview_space"
+                    android:horizontalSpacing="@dimen/category_fragments_gridview_space"
+                    android:gravity="center"
+                    >
+                </com.example.asus_cp.dongmanbuy.customview.MyGridView>
+            </LinearLayout>
+
+            <!--钱包的布局-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginTop="10dp">
+                <TextView
+                    android:id="@+id/text_qian_bao"
+                    android:clickable="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/qian_bao"
+                    android:layout_gravity="left"/>
+                <com.example.asus_cp.dongmanbuy.customview.MyGridView
+                    android:id="@+id/grid_view_qian_bao"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:columnWidth="@dimen/category_fragments_gridview_cloum_with"
+                    android:numColumns="auto_fit"
+                    android:verticalSpacing="@dimen/category_fragments_gridview_space"
+                    android:horizontalSpacing="@dimen/category_fragments_gridview_space"
+                    android:stretchMode="columnWidth"
+                    android:gravity="center"
+                    >
+                </com.example.asus_cp.dongmanbuy.customview.MyGridView>
+            </LinearLayout>
+
+
+            <!--笔记本的布局-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginTop="10dp">
+                <TextView
+                    android:id="@+id/text_bi_ji_ben"
+                    android:clickable="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/bi_ji_ben"
+                    android:layout_gravity="left"/>
+                <com.example.asus_cp.dongmanbuy.customview.MyGridView
+                    android:id="@+id/grid_view_bi_ji_ben"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:columnWidth="@dimen/category_fragments_gridview_cloum_with"
+                    android:numColumns="auto_fit"
+                    android:verticalSpacing="@dimen/category_fragments_gridview_space"
+                    android:horizontalSpacing="@dimen/category_fragments_gridview_space"
+                    android:stretchMode="columnWidth"
+                    android:gravity="center"
+                    >
+                </com.example.asus_cp.dongmanbuy.customview.MyGridView>
+            </LinearLayout>
+
+            <!--同人卡的布局-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginTop="10dp">
+                <TextView
+                    android:id="@+id/text_tong_ren"
+                    android:clickable="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/tong_ren_ka"
+                    android:layout_gravity="left"/>
+                <com.example.asus_cp.dongmanbuy.customview.MyGridView
+                    android:id="@+id/grid_view_tong_ren_ka"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:columnWidth="@dimen/category_fragments_gridview_cloum_with"
+                    android:numColumns="auto_fit"
+                    android:verticalSpacing="@dimen/category_fragments_gridview_space"
+                    android:horizontalSpacing="@dimen/category_fragments_gridview_space"
+                    android:stretchMode="columnWidth"
+                    android:gravity="center"
+                    >
+                </com.example.asus_cp.dongmanbuy.customview.MyGridView>
+            </LinearLayout>
+
+
+        </LinearLayout>
+    </ScrollView>
+
+
+
+
+</LinearLayout>
