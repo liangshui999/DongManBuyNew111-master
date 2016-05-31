@@ -81,4 +81,27 @@
     <string name="please_input_email_yan_zheng_ma">请输入邮箱内收到的验证码</string>
     <string name="please_input_new_password">请输入新密码</string>
     <string name="confirm_change">确认修改</string>
+    <string name="ke_fu">客服</string>
+    <string name="add_to_shopping_car">加入购物车</string>
+    <string name="buy_at_once">立即购买</string>
+    <string name="product_detail">商品详情</string>
+    <string name="shou_cang">收藏</string>
+    <string name="market_price">市场价格:</string>
+    <string name="xiao_liang">销量</string>
+    <string name="ku_cun">当前库存</string>
+    <string name="suo_zai_di_qu">所在地区</string>
+    <string name="yun_fei">运费信息</string>
+    <string name="yi_xuan">已选</string>
+    <string name="fu_wu">服务</string>
+    <string name="zi_ying_fa_huo">由周末自营发货并提供售后服务</string>
+    <string name="huo_dao_fu_kuan">货到付款</string>
+    <string name="tui_huo">7天退货</string>
+    <string name="ji_su_da">极速达</string>
+    <string name="cha_kan_product_detail">查看商品详情</string>
+    <string name="yong_hu_ping_jia">用户评价</string>
+    <string name="hao_ping_lv">好评率</string>
+    <string name="ren_ping_lun">人评论</string>
+    <string name="you_tu_ping_jia">有图评价</string>
+    <string name="wu_tu_ping_jia">全部评价</string>
+    <string name="bao_kuan_xin_pin">爆款新品</string>
 </resources>

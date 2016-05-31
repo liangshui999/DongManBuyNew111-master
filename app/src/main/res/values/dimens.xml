@@ -16,4 +16,5 @@
     <dimen name="main_page_bottom_biao_qian_size">14sp</dimen>
     <dimen name="find_by_email_yan_zhegn_ma_size">18sp</dimen>
     <dimen name="confirm_change_font_size">18sp</dimen>
+    <dimen name="add_to_shoping_car">18sp</dimen>
 </resources>

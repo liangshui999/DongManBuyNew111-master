@@ -24,6 +24,12 @@ import com.example.asus_cp.dongmanbuy.util.MyLog;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -85,7 +91,8 @@ public class ChangPasswordActivity extends Activity implements View.OnClickListe
                 if(newPassword.equals("")||newPassword.isEmpty()){
                     Toast.makeText(ChangPasswordActivity.this,"密码为空",Toast.LENGTH_SHORT).show();
                 }else{
-                    StringRequest stringRequest=new StringRequest(Request.Method.POST, changUrl, new Response.Listener<String>() {
+                    String ceShiUrl="http://192.168.1.104:2007";
+                    StringRequest stringRequest=new StringRequest(Request.Method.POST, ceShiUrl, new Response.Listener<String>() {
                         @Override
                         public void onResponse(String s) {
                             MyLog.d(tag,"返回数据为："+s);
@@ -99,31 +106,80 @@ public class ChangPasswordActivity extends Activity implements View.OnClickListe
                         @Override
                         protected Map<String, String> getParams() throws AuthFailureError {
                             Map<String,String> map = new HashMap<String,String>();
-//                            map.put("email", email);
-//                            map.put("email_code", yanZhegnMa.trim());
-//                            map.put("new_password",newPassword);
+                            map.put("email", email);
+                            map.put("email_code", yanZhegnMa.trim());
+                            map.put("new_password",newPassword);
 
-                            String json="{\"username\":\"\",\"email\":\""+email+"\",\"email_code\":\""+yanZhegnMa.trim()+"\",\"sms_code\":\"\",\"mobile\":\"\",\"new_password\":\""+newPassword+"\"}";
-                            map.put("json", json);
+//                            String json="{\"username\":\"\",\"email\":\""+email+"\",\"email_code\":"+yanZhegnMa.trim()+",\"sms_code\":\"\",\"mobile\":\"\",\"new_password\":"+newPassword+"}";
+//                            map.put("json", json);
 
-                            try {
-                                JSONObject jsonObject=new JSONObject(json);
-                                MyLog.d(tag, jsonObject.getString("email")+"......"+jsonObject.getString("email_code")+"..........."+jsonObject.getString("new_password"));
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                                MyLog.d(tag, e.toString());
-                            }
+//                            String json="{" +
+//                                    "\"username\": \"\"," +
+//                                    "\"email\": \""+email+"\"," +
+//                                    "\"email_code\":\""+yanZhegnMa+"\"," +
+//                                    "\"sms_code\": \"\"," +
+//                                    "\"mobile\": \"\"," +
+//                                    "\"new_password\":\""+newPassword+"\"" +
+//                                    "}";
+//                            String json="{\"username\":\"\",\"email\":\"254304837@qq.com\",\"email_code\":\"641477\",\"sms_code\":\"\",\"mobile\":\"\",\"new_password\":\"1234567\"}";
+//                            map.put("json", json);
+//
+//                            try {
+//                                JSONObject jsonObject=new JSONObject(json);
+//                                MyLog.d(tag, jsonObject.getString("email")+"......"+jsonObject.getString("email_code")+"..........."+jsonObject.getString("new_password"));
+//                            } catch (JSONException e) {
+//                                e.printStackTrace();
+//                                MyLog.d(tag, e.toString());
+//                            }
 
                             MyLog.d(tag, "邮箱" + email);
                             MyLog.d(tag,"验证码"+yanZhegnMa.trim());
                             MyLog.d(tag,"新密码"+newPassword);
-                            MyLog.d(tag,json);
+//                            MyLog.d(tag,json);
                             return map;
                         }
                     };
                     requestQueue.add(stringRequest);//添加到队列中去
                 }
+                //shouDongPost(newPassword);
                 break;
         }
+    }
+
+    /**
+     * 手动发起post请求，此方法作废
+     * @param newPassword
+     */
+    private void shouDongPost(final String newPassword) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                HttpURLConnection conn=null;
+                try {
+                    //String ceShiUrl="http://192.168.1.104:2006";
+                    URL url=new URL(changUrl);
+                    conn= (HttpURLConnection) url.openConnection();
+                    conn.setConnectTimeout(10 * 1000);
+                    conn.setReadTimeout(10 * 1000);
+                    conn.setRequestMethod("POST");
+                    conn.setDoOutput(true);
+                    conn.setDoInput(true);
+                    conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded;charset=" + "utf-8");
+                    OutputStream out=conn.getOutputStream();
+                    String content="json=%7B%22username%22%3A%22%22%2C%22email%22%3A%22254304837%40qq.com%22%2C%22email_code%22%3A%22641477%22%2C%22sms_code%22%3A%22%22%2C%22mobile%22%3A%22%22%2C%22new_password%22%3A%2211%22%7D";
+                    out.write(content.getBytes());
+                    out.flush();
+                    out.close();
+                    InputStream in=conn.getInputStream();
+                    byte[] buf=new byte[1024*1024];
+                    in.read(buf);
+                    MyLog.d(tag, new String(buf));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }finally {
+                    conn.disconnect();
+                }
+            }
+        }).start();
     }
 }
