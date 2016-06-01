@@ -1,10 +1,13 @@
 package com.example.asus_cp.dongmanbuy.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 /**
  * 商品实体
  * Created by asus-cp on 2016-05-20.
  */
-public class Good {
+public class Good implements Parcelable{
     private String goodId;
     private String userId;
     private String goodName;
@@ -15,24 +18,68 @@ public class Good {
     private String model_price;
     private String model_attr;
     private String goods_name_style;
-    private String commentsNumber;
-    private String salesVolume;
-    private String market_price;
+    private String commentsNumber;//评论数
+    private String salesVolume;//销量
+    private String market_price;//市场价
     private String isNew;
     private String isBest;
     private String isHot;
-    private String goodsNumber;
-    private String orgPrice;
-    private String shopPrice;
-    private String promotePrice;
+    private String goodsNumber;//库存
+    private String orgPrice;//原始价
+    private String shopPrice;//商店价
+    private String promotePrice;//促销价
     private String goodType;
-    private String promoteStartDate;
-    private String promoteEndDate;
+    private String promoteStartDate;//促销开始时间
+    private String promoteEndDate;//促销结束时间
     private String isPromote;
     private String goodsBrief;
     private String goodsThumb;//缩略图
-    private String goodsImg;
-    private String goodsSmallImag;
+    private String goodsImg;//大图
+    private String goodsSmallImag;//小图
+
+    public Good(){}
+    protected Good(Parcel in) {
+        goodId = in.readString();
+        userId = in.readString();
+        goodName = in.readString();
+        warehousePrice = in.readString();
+        warehousePromotePrice = in.readString();
+        regionPrice = in.readString();
+        regionPromotePrice = in.readString();
+        model_price = in.readString();
+        model_attr = in.readString();
+        goods_name_style = in.readString();
+        commentsNumber = in.readString();
+        salesVolume = in.readString();
+        market_price = in.readString();
+        isNew = in.readString();
+        isBest = in.readString();
+        isHot = in.readString();
+        goodsNumber = in.readString();
+        orgPrice = in.readString();
+        shopPrice = in.readString();
+        promotePrice = in.readString();
+        goodType = in.readString();
+        promoteStartDate = in.readString();
+        promoteEndDate = in.readString();
+        isPromote = in.readString();
+        goodsBrief = in.readString();
+        goodsThumb = in.readString();
+        goodsImg = in.readString();
+        goodsSmallImag = in.readString();
+    }
+
+    public static final Creator<Good> CREATOR = new Creator<Good>() {
+        @Override
+        public Good createFromParcel(Parcel in) {
+            return new Good(in);
+        }
+
+        @Override
+        public Good[] newArray(int size) {
+            return new Good[size];
+        }
+    };
 
     public String getGoodId() {
         return goodId;
@@ -257,4 +304,42 @@ public class Good {
     public void setGoodsSmallImag(String goodsSmallImag) {
         this.goodsSmallImag = goodsSmallImag;
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(goodId);
+        dest.writeString(userId);
+        dest.writeString(goodName);
+        dest.writeString(warehousePrice);
+        dest.writeString(warehousePromotePrice);
+        dest.writeString(regionPrice);
+        dest.writeString(regionPromotePrice);
+        dest.writeString(model_price);
+        dest.writeString(model_attr);
+        dest.writeString(goods_name_style);
+        dest.writeString(commentsNumber);
+        dest.writeString(salesVolume);
+        dest.writeString(market_price);
+        dest.writeString(isNew);
+        dest.writeString(isBest);
+        dest.writeString(isHot);
+        dest.writeString(goodsNumber);
+        dest.writeString(orgPrice);
+        dest.writeString(shopPrice);
+        dest.writeString(promotePrice);
+        dest.writeString(goodType);
+        dest.writeString(promoteStartDate);
+        dest.writeString(promoteEndDate);
+        dest.writeString(isPromote);
+        dest.writeString(goodsBrief);
+        dest.writeString(goodsThumb);
+        dest.writeString(goodsImg);
+        dest.writeString(goodsSmallImag);
+    }
+
 }

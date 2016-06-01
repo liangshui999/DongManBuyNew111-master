@@ -46,6 +46,9 @@
         <!--输新密码的activity-->
         <activity android:name=".activity.login.ChangPasswordActivity"/>
 
+        <!--商品详情的activity-->
+        <activity android:name=".activity.product_detail.ProductDetailActivity"/>
+
         <!--搜索的activity-->
         <activity android:name=".activity.MySearchActivity">
             <intent-filter>

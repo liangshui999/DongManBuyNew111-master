@@ -102,6 +102,8 @@
     <string name="hao_ping_lv">好评率</string>
     <string name="ren_ping_lun">人评论</string>
     <string name="you_tu_ping_jia">有图评价</string>
-    <string name="wu_tu_ping_jia">全部评价</string>
+    <string name="quan_bu_ping_jia">全部评价</string>
     <string name="bao_kuan_xin_pin">爆款新品</string>
+    <string name="lian_xi_ke_fu">联系客服</string>
+
 </resources>

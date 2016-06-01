@@ -92,7 +92,7 @@ public class ChangPasswordActivity extends Activity implements View.OnClickListe
                     Toast.makeText(ChangPasswordActivity.this,"密码为空",Toast.LENGTH_SHORT).show();
                 }else{
                     String ceShiUrl="http://192.168.1.104:2007";
-                    StringRequest stringRequest=new StringRequest(Request.Method.POST, ceShiUrl, new Response.Listener<String>() {
+                    StringRequest stringRequest=new StringRequest(Request.Method.POST, changUrl, new Response.Listener<String>() {
                         @Override
                         public void onResponse(String s) {
                             MyLog.d(tag,"返回数据为："+s);

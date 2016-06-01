@@ -1,9 +1,12 @@
 package com.example.asus_cp.dongmanbuy.util;
 
 import java.text.DecimalFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
- * 对数字进行格式化的帮助类
+ * 格式化的帮助类
  * Created by asus-cp on 2016-05-21.
  */
 public class FormatHelper {
@@ -12,7 +15,42 @@ public class FormatHelper {
      */
     public static String getMoneyFormat(String str){
         double d=Double.parseDouble(str);
-        DecimalFormat a = new DecimalFormat("￥.##");
+        DecimalFormat a = new DecimalFormat("¥.##");
         return a.format(d);
+    }
+
+    /**
+     * 将数字保留1位小数
+     */
+    public static String getOneXiaoShuFormat(String str){
+        double d=Double.parseDouble(str);
+        DecimalFormat a = new DecimalFormat(".#");
+        return a.format(d);
+    }
+
+    /**
+     * 从人民币中取出数字
+     */
+    public static String getNumberFromRenMingBi(String s){
+        String str=s.substring(1);
+        return str;
+    }
+
+    /**
+     * 对日期进行格式化，2016/03/16 09:55:33 +0800
+     */
+    public static String getDate(String s){
+        String inputPattern="yyyy/MM/dd HH:mm:ss Z";
+        SimpleDateFormat simpleDateFormat=new SimpleDateFormat(inputPattern);
+        String result=null;
+        try {
+            Date date=simpleDateFormat.parse(s);
+            String output="yyyy-MM-dd HH:mm:ss";
+            SimpleDateFormat simpleDateFormat1=new SimpleDateFormat(output);
+            result=simpleDateFormat1.format(date);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return result;
     }
 }

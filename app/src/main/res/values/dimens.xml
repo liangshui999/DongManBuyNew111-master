@@ -17,4 +17,5 @@
     <dimen name="find_by_email_yan_zhegn_ma_size">18sp</dimen>
     <dimen name="confirm_change_font_size">18sp</dimen>
     <dimen name="add_to_shoping_car">18sp</dimen>
+    <dimen name="product_detail_base_font_size">14sp</dimen>
 </resources>

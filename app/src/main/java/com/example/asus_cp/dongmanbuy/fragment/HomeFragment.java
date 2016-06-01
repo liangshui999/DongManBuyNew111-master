@@ -31,6 +31,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.example.asus_cp.dongmanbuy.R;
 import com.example.asus_cp.dongmanbuy.activity.login.LoginActivity;
+import com.example.asus_cp.dongmanbuy.activity.product_detail.ProductDetailActivity;
 import com.example.asus_cp.dongmanbuy.adapter.CaiNiXiHuanAdapter;
 import com.example.asus_cp.dongmanbuy.adapter.JingPinAdapter;
 import com.example.asus_cp.dongmanbuy.adapter.XianShiAdapter;
@@ -120,6 +121,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
     private JsonHelper jsonHelper;//json解析的帮助类
 
     private RequestQueue requestQueue;//请求队列
+
+    public static String GOOD_KEY="good_key";//传递good时的键
 
 
     private Handler handler = new MyHandler();
@@ -465,7 +468,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
             @Override
             public void onResponse(String s) {
                 MyLog.d(tag,"猜你喜欢部分"+s);
-                List<Good> goods=parseCaiNiLikeAndJingPin(s);
+                final List<Good> goods=parseCaiNiLikeAndJingPin(s);
                 CaiNiXiHuanAdapter caiNiXiHuanAdapter=new CaiNiXiHuanAdapter(context,goods);
                 caiNiXiHuanGridView.setAdapter(caiNiXiHuanAdapter);
                 //CategoryImageLoadHelper.setGridViewViewHeightBasedOnChildren(caiNiXiHuanGridView);
@@ -473,6 +476,11 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                         Toast.makeText(context,""+position,Toast.LENGTH_SHORT).show();
+                        Intent intent=new Intent(context, ProductDetailActivity.class);
+                        Bundle bundle=new Bundle();
+                        bundle.putParcelable(GOOD_KEY,goods.get(position));
+                        intent.putExtras(bundle);
+                        startActivity(intent);
                     }
                 });
             }
