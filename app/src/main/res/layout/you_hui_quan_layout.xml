@@ -1,0 +1,308 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:background="@color/white_my">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/ling_qu_dian_pu_you_hui_quan"
+            android:layout_marginLeft="5dp"/>
+        <ImageView
+            android:id="@+id/img_close_ling_qu_you_hui_quan"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@mipmap/close"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="5dp"/>
+    </RelativeLayout>
+
+
+    <!--3张优惠券所在的布局-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@color/gray"
+        >
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:background="@color/white_my">
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_weight="4"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="10dp"
+                android:background="@color/bottom_lable_color"
+                android:layout_margin="10dp">
+
+                <!--优惠券的金额和条件-->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="98"
+                            android:textSize="16sp"
+                            android:textColor="@color/white_my"/>
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_weight="4"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/you_hui_quan"
+                            android:textSize="@dimen/ling_qu_you_hui_quan_base_size"
+                            android:textColor="@color/white_my"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/man_shi_yuan_ke_yong"
+                            android:textSize="@dimen/ling_qu_you_hui_quan_base_size"
+                            android:textColor="@color/white_my"/>
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <!--使用期限-->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/shi_yong_qi_xian"
+                    android:textSize="@dimen/ling_qu_you_hui_quan_base_size"
+                    android:textColor="@color/white_my"/>
+                    <TextView
+                        android:id="@+id/text_shi_yong_qi_xian_98"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="2016.05.17-2016.06.17"
+                        android:layout_marginLeft="5dp"
+                        android:textSize="@dimen/ling_qu_you_hui_quan_base_size"
+                        android:textColor="@color/white_my"/>
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_li_ji_ling_qu_98"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/li_ji_ling_qu"
+                        android:layout_gravity="center"
+                        android:textColor="@color/bottom_lable_color"
+                        android:layout_marginTop="20dp"/>
+            </LinearLayout>
+        </LinearLayout>
+
+
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:background="@color/white_my">
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_weight="4"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="10dp"
+                android:background="@color/you_hui_quan_tian_lan"
+                android:layout_margin="10dp">
+
+                <!--优惠券的金额和条件-->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="21"
+                            android:textSize="16sp"
+                            android:textColor="@color/white_my"/>
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_weight="4"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/you_hui_quan"
+                            android:textSize="@dimen/ling_qu_you_hui_quan_base_size"
+                            android:textColor="@color/white_my"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/man_yi_yuan_ke_yong"
+                            android:textSize="@dimen/ling_qu_you_hui_quan_base_size"
+                            android:textColor="@color/white_my"/>
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <!--使用期限-->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/shi_yong_qi_xian"
+                        android:textSize="@dimen/ling_qu_you_hui_quan_base_size"
+                        android:textColor="@color/white_my"/>
+                    <TextView
+                        android:id="@+id/text_shi_yong_qi_xian_21"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="2016.05.17-2016.06.17"
+                        android:layout_marginLeft="5dp"
+                        android:textSize="@dimen/ling_qu_you_hui_quan_base_size"
+                        android:textColor="@color/white_my"/>
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_li_ji_ling_qu_21"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                >
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/li_ji_ling_qu"
+                    android:layout_gravity="center"
+                    android:textColor="@color/you_hui_quan_tian_lan"
+                    android:layout_marginTop="20dp"
+                    />
+            </LinearLayout>
+        </LinearLayout>
+
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:background="@color/white_my">
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_weight="4"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="10dp"
+                android:background="@color/you_hui_quan_huang_se"
+                android:layout_margin="10dp">
+
+                <!--优惠券的金额和条件-->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="1"
+                            android:textSize="16sp"
+                            android:textColor="@color/white_my"/>
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_weight="4"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/you_hui_quan"
+                            android:textSize="@dimen/ling_qu_you_hui_quan_base_size"
+                            android:textColor="@color/white_my"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/man_yi_yuan_ke_yong"
+                            android:textSize="@dimen/ling_qu_you_hui_quan_base_size"
+                            android:textColor="@color/white_my"/>
+                    </LinearLayout>
+                </LinearLayout>
+
+                <!--使用期限-->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/shi_yong_qi_xian"
+                        android:textSize="@dimen/ling_qu_you_hui_quan_base_size"
+                        android:textColor="@color/white_my"/>
+                    <TextView
+                        android:id="@+id/text_shi_yong_qi_xian_1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="2016.05.17-2016.06.17"
+                        android:layout_marginLeft="5dp"
+                        android:textSize="@dimen/ling_qu_you_hui_quan_base_size"
+                        android:textColor="@color/white_my"/>
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_li_ji_ling_qu_1"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/li_ji_ling_qu"
+                    android:layout_gravity="center"
+                    android:textColor="@color/you_hui_quan_huang_se"
+                    android:layout_marginTop="20dp"/>
+            </LinearLayout>
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+</LinearLayout>

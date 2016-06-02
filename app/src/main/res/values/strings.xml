@@ -105,5 +105,22 @@
     <string name="quan_bu_ping_jia">全部评价</string>
     <string name="bao_kuan_xin_pin">爆款新品</string>
     <string name="lian_xi_ke_fu">联系客服</string>
+    <string name="ling_qu_dian_pu_you_hui_quan">领取店铺优惠券（3）</string>
+    <string name="li_ji_ling_qu">立即\n领取</string>
+    <string name="you_hui_quan">优惠券</string>
+    <string name="shi_yong_qi_xian">使用期限</string>
+    <string name="man_yi_yuan_ke_yong">满1元可用</string>
+    <string name="man_shi_yuan_ke_yong">满10元可用</string>
+    <string name="yi_xuan_ku_cun">库存:</string>
+    <string name="m_ma">M</string>
+    <string name="l_ma">L</string>
+    <string name="xl_ma">XL</string>
+    <string name="xxl_ma">XXL</string>
+    <string name="ci_ma">尺码</string>
+    <string name="count">数量</string>
+    <string name="fu_wu_shuo_ming">服务说明</string>
+    <string name="huo_dao_fu_kuan_content">支持送货上门后再收款，支持现金，pos机刷卡等方式</string>
+    <string name="tui_huo_content">自实际收货日期的次日起的7天内，商品完好，可进行无理由退换货</string>
+    <string name="ji_su_da_content">上午下单，下午送达</string>
 
 </resources>

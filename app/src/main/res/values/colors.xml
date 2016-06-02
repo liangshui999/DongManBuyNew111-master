@@ -10,4 +10,6 @@
     <color name="black">#000000</color>
     <color name="shen_hui">@android:color/darker_gray</color>
     <color name="add_to_shopping_car">#FFE153</color>
+    <color name="you_hui_quan_tian_lan">#4DFFFF</color>
+    <color name="you_hui_quan_huang_se">#FFDC35</color>
 </resources>
