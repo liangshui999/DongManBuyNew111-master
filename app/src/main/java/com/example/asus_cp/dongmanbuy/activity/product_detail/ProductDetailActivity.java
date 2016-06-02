@@ -1,8 +1,8 @@
 package com.example.asus_cp.dongmanbuy.activity.product_detail;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Paint;
-import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -32,7 +32,7 @@ import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.StringRequest;
 import com.example.asus_cp.dongmanbuy.R;
 import com.example.asus_cp.dongmanbuy.fragment.HomeFragment;
-import com.example.asus_cp.dongmanbuy.model.Commet;
+import com.example.asus_cp.dongmanbuy.model.Comment;
 import com.example.asus_cp.dongmanbuy.model.Good;
 import com.example.asus_cp.dongmanbuy.util.FormatHelper;
 import com.example.asus_cp.dongmanbuy.util.ImageLoadHelper;
@@ -224,7 +224,7 @@ public class ProductDetailActivity extends Activity implements View.OnClickListe
             @Override
             public void onResponse(String s) {
                 MyLog.d(tag, "返回的数据是" + s);
-                Commet commet = new Commet();
+                Comment commet = new Comment();
                 try {
                     JSONObject jsonObject = new JSONObject(s);
                     JSONArray jsonArray = jsonObject.getJSONArray("data");
@@ -315,10 +315,20 @@ public class ProductDetailActivity extends Activity implements View.OnClickListe
                 fuWuClickChuLi();
                 break;
             case R.id.re_layout_product_detail://查看商品详情
-                Toast.makeText(this, "查看商品详情", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(this, "查看商品详情", Toast.LENGTH_SHORT).show();
+                Intent intent=new Intent(this,ProductPicAndGuiGeActivity.class);
+                Bundle bundle=new Bundle();
+                bundle.putParcelable(HomeFragment.GOOD_KEY,good);
+                intent.putExtras(bundle);
+                startActivity(intent);
                 break;
             case R.id.re_layout_user_commet://用户评价
-                Toast.makeText(this, "用户评价", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(this, "用户评价", Toast.LENGTH_SHORT).show();
+                Intent userCommentIntent=new Intent(this,CommetnActivity.class);
+                Bundle userBundle=new Bundle();
+                userBundle.putParcelable(HomeFragment.GOOD_KEY,good);
+                userCommentIntent.putExtras(userBundle);
+                startActivity(userCommentIntent);
                 break;
             case R.id.btn_you_tu_ping_jia://有图评价
                 Toast.makeText(this, "有图评价", Toast.LENGTH_SHORT).show();

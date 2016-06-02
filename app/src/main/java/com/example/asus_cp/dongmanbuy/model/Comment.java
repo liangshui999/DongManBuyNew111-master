@@ -4,14 +4,14 @@ package com.example.asus_cp.dongmanbuy.model;
  * 评论的实体
  * Created by asus-cp on 2016-06-01.
  */
-public class Commet {
+public class Comment {
     private String id;//评论的id
     private String author;
     private String content;
     private String createTime;//评论创建的时间
     private String reContent;//再次评论的内容
 
-    public Commet(String id, String author, String content, String reContent, String createTime) {
+    public Comment(String id, String author, String content, String reContent, String createTime) {
         this.id = id;
         this.author = author;
         this.content = content;
@@ -19,7 +19,7 @@ public class Commet {
         this.createTime = createTime;
     }
 
-    public Commet() {
+    public Comment() {
     }
 
     public String getId() {

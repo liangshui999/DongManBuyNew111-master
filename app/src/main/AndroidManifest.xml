@@ -49,6 +49,12 @@
         <!--商品详情的activity-->
         <activity android:name=".activity.product_detail.ProductDetailActivity"/>
 
+        <!--商品详情规格-->
+        <activity android:name=".activity.product_detail.ProductPicAndGuiGeActivity"/>
+
+        <!--用户评价的activity-->
+        <activity android:name=".activity.product_detail.CommetnActivity"/>
+
         <!--搜索的activity-->
         <activity android:name=".activity.MySearchActivity">
             <intent-filter>
