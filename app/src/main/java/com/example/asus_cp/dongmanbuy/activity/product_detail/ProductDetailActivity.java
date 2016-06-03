@@ -121,6 +121,8 @@ public class ProductDetailActivity extends Activity implements View.OnClickListe
     private TextView yiXuanProductCount;//已选商品加减数量
     private int produtCount = 1;
 
+    public static final int REQUEST_CODE_FOR_AREA_ACTIVTY=1;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -306,7 +308,9 @@ public class ProductDetailActivity extends Activity implements View.OnClickListe
                 youHuiQuanClickChuLi();
                 break;
             case R.id.re_layout_suo_zai_di_qu://所在地区
-                Toast.makeText(this, "所在地区", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(this, "所在地区", Toast.LENGTH_SHORT).show();
+                Intent areaIntent=new Intent(this,AreaActivity.class);
+                startActivityForResult(areaIntent, REQUEST_CODE_FOR_AREA_ACTIVTY);//地区选择结束后会向本活动返回数据
                 break;
             case R.id.re_layout_yi_xuan://已选
                 yiXuanClickChuLi();
@@ -526,5 +530,26 @@ public class ProductDetailActivity extends Activity implements View.OnClickListe
         WindowManager.LayoutParams lp = getWindow().getAttributes();
         lp.alpha = bgAlpha; //0.0-1.0
         getWindow().setAttributes(lp);
+    }
+
+    /**
+     * 接受从别的活动返回的数据
+     * @param requestCode
+     * @param resultCode
+     * @param data
+     */
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch (requestCode){
+            case REQUEST_CODE_FOR_AREA_ACTIVTY://地址活动返回的数据
+                if(resultCode==RESULT_OK){
+                    String shiMing=data.getStringExtra(AreaActivity.SHI_MING_KEY);
+                    String xianMing=data.getStringExtra(AreaActivity.XIAN_MING_KEY);
+                    MyLog.d(tag,"市民"+shiMing);
+                    MyLog.d(tag,"县名"+xianMing);
+                }
+                break;
+        }
+
     }
 }

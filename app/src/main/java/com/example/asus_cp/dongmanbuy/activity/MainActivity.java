@@ -3,6 +3,7 @@ package com.example.asus_cp.dongmanbuy.activity;
 import android.app.SearchManager;
 import android.content.ComponentName;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -21,6 +22,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.asus_cp.dongmanbuy.R;
+import com.example.asus_cp.dongmanbuy.constant.MyConstant;
 import com.example.asus_cp.dongmanbuy.customview.SlidingMenu;
 import com.example.asus_cp.dongmanbuy.fragment.CategoryFragment;
 import com.example.asus_cp.dongmanbuy.fragment.FindFragment;
@@ -409,6 +411,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onBackPressed() {
         searchView.clearFocus();
         MyLog.d(tag, "返回键");
+
+        //退出程序时，清除sharepre里面的数据
+        SharedPreferences sharedPreferences=getSharedPreferences(MyConstant.USER_SHAREPREFRENCE_NAME,
+                MODE_APPEND);
+        SharedPreferences.Editor editor=sharedPreferences.edit();
+        editor.remove(MyConstant.UID_KEY);
+        editor.remove(MyConstant.SID_KEY);
+        editor.apply();
         super.onBackPressed();
     }
 

@@ -2,6 +2,7 @@ package com.example.asus_cp.dongmanbuy.activity.login;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
@@ -21,6 +22,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.example.asus_cp.dongmanbuy.R;
+import com.example.asus_cp.dongmanbuy.constant.MyConstant;
 import com.example.asus_cp.dongmanbuy.util.MyApplication;
 import com.example.asus_cp.dongmanbuy.util.MyLog;
 
@@ -119,8 +121,13 @@ public class LoginActivity extends Activity implements View.OnClickListener{
                             try {
                                 JSONObject jsonObject=new JSONObject(s);
                                 JSONObject jsonObject1=jsonObject.getJSONObject("data");
-                                if(jsonObject1!=null){
+                                JSONObject jsonObject2=jsonObject1.getJSONObject("session");
+                                String sid=jsonObject2.getString("sid");
+                                String uid=jsonObject2.getString("uid");
+                                if(!sid.isEmpty() && !sid.equals("")){
                                     Toast.makeText(LoginActivity.this,"登录成功",Toast.LENGTH_SHORT).show();
+                                    writeToSharePreferences(uid, MyConstant.UID_KEY);
+                                    writeToSharePreferences(sid,MyConstant.SID_KEY);
                                 }
                             } catch (JSONException e) {
                                 Toast.makeText(LoginActivity.this,"登录失败",Toast.LENGTH_SHORT).show();
@@ -160,5 +167,17 @@ public class LoginActivity extends Activity implements View.OnClickListener{
                 Toast.makeText(this,"点击了微信登录",Toast.LENGTH_SHORT).show();
                 break;
         }
+    }
+
+    /**
+     * 将数据写入shareprefrence里面
+     * @param s 要写入的字符串
+     * @param key 写入时的键
+     */
+    public void writeToSharePreferences(String s,String key){
+        SharedPreferences sharedPreferences=getSharedPreferences(MyConstant.USER_SHAREPREFRENCE_NAME,MODE_APPEND);
+        SharedPreferences.Editor editor=sharedPreferences.edit();
+        editor.putString(key,s);
+        editor.apply();
     }
 }

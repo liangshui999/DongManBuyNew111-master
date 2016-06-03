@@ -55,6 +55,10 @@
         <!--用户评价的activity-->
         <activity android:name=".activity.product_detail.CommetnActivity"/>
 
+       <!-- 地区列表的activity-->
+        <activity android:name=".activity.product_detail.AreaActivity"/>
+
+
         <!--搜索的activity-->
         <activity android:name=".activity.MySearchActivity">
             <intent-filter>

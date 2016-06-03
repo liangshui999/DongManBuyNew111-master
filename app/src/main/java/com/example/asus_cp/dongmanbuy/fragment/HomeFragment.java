@@ -571,7 +571,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
                 Binner binner=new Binner(jsonObject.getString("id"),jsonObject.getString("photo"));
                 switch (binnerPositionFlag){
                     case FIRST_BINNER_FLAG:
-                        if("7".equals(binner.getId())||"6".equals(binner.getId())){
+                        if(!("2".equals(binner.getId())||"16".equals(binner.getId())||"15".equals(binner.getId()))){
                             binners.add(binner);
                         }
                         break;
@@ -699,7 +699,9 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
          * position  新的页面位置
          */
         public void onPageSelected(int position) {
-            position = position % imageViews.size();
+            if(imageViews.size()>0){
+                position = position % imageViews.size();
+            }
             //改变指示点的状态
             //把当前点enbale 为true
             if(imageViews.size()>1){
