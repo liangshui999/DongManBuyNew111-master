@@ -30,6 +30,7 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -139,9 +140,9 @@ public class ChangPasswordActivity extends Activity implements View.OnClickListe
                             return map;
                         }
                     };
-                    requestQueue.add(stringRequest);//添加到队列中去
+//                    requestQueue.add(stringRequest);//添加到队列中去
                 }
-                //shouDongPost(newPassword);
+                shouDongPost(newPassword);
                 break;
         }
     }
@@ -164,15 +165,17 @@ public class ChangPasswordActivity extends Activity implements View.OnClickListe
                     conn.setRequestMethod("POST");
                     conn.setDoOutput(true);
                     conn.setDoInput(true);
-                    conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded;charset=" + "utf-8");
+                    conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded; charset=" + "UTF-8");
                     OutputStream out=conn.getOutputStream();
-                    String content="json=%7B%22username%22%3A%22%22%2C%22email%22%3A%22254304837%40qq.com%22%2C%22email_code%22%3A%22641477%22%2C%22sms_code%22%3A%22%22%2C%22mobile%22%3A%22%22%2C%22new_password%22%3A%2211%22%7D";
-                    out.write(content.getBytes());
+                    String content="{\"username\":\"\",\"email\":\""+email+"\",\"email_code\":\""+yanZhegnMa+"\",\"sms_code\":\"\",\"mobile\":\"\",\"new_password\":\""+newPassword+"\"}";
+                    content="json="+ URLEncoder.encode(content,"utf-8");
+                    out.write(content.getBytes("utf-8"));
                     out.flush();
                     out.close();
                     InputStream in=conn.getInputStream();
                     byte[] buf=new byte[1024*1024];
                     in.read(buf);
+                    MyLog.d(tag, "发送的数据是" + content);
                     MyLog.d(tag, new String(buf));
                 } catch (Exception e) {
                     e.printStackTrace();

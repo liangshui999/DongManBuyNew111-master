@@ -31,6 +31,11 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -91,13 +96,13 @@ public class AreaActivity extends Activity {
         shengShiTis=new ArrayList<AreaModel>();
         shengAndShiShiTi=new HashMap<String,List<AreaModel>>();
         shiAndXianShiTi=new HashMap<String,List<AreaModel>>();
-        StringRequest addressListRequest = new StringRequest(Request.Method.POST, adrressUrl, new Response.Listener<String>() {
+        final StringRequest addressListRequest = new StringRequest(Request.Method.POST, adrressUrl, new Response.Listener<String>() {
             @Override
             public void onResponse(String s) {
                 jsonParse(s, shengShiTis);//解析出来省的实体数据
 
                 //------------------将省实体遍历出来--------------------------
-                for(final AreaModel areaModel:shengShiTis){
+                /*for(final AreaModel areaModel:shengShiTis){
                     final String shengMing= areaModel.getName();
                     final String shengId=areaModel.getId();
                     StringRequest requestShiShiTi=new StringRequest(Request.Method.POST, adrressUrl,
@@ -156,7 +161,7 @@ public class AreaActivity extends Activity {
                         }
                     };
                     requestQueue.add(requestShiShiTi);
-                }
+                }*/
 
                 //--------------------所有的数据都循环完了以后---------------------------------------------------------------------------
 
@@ -165,22 +170,87 @@ public class AreaActivity extends Activity {
                 ShengMingListViewAdapter shengMingListViewAdapter = new ShengMingListViewAdapter(AreaActivity.this, shengMings);
                 shengListView.setAdapter(shengMingListViewAdapter);
 
-               /* //未点击之前必须进行市县的初始化
-                List<AreaModel> shiShiTi = shengAndShiShiTi.get(shengMings.get(0));
-                MyLog.d(tag,"省名"+shengMings.get(0));
-                shiMings=getStringListFromModelList(shiShiTi);
-                shiMingAndXianMings = getMapStrigFromMapShiTi(shiAndXianShiTi);
-                //市县列表------------------------------------------
-                XianQuMingAdapter xianQuMingAdapter = new XianQuMingAdapter(AreaActivity.this, shiMingAndXianMings, shiMings);
-                shiExapanListView.setAdapter(xianQuMingAdapter);*/
-
-
-
-                //省列表的点击事件
+                //省列表的点击事件,点击之后再请求对应的市数据
                 shengListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                        Toast.makeText(AreaActivity.this, position + "", Toast.LENGTH_SHORT).show();
+                        AreaModel shengShiTi=shengShiTis.get(position);
+                        final String shengId=shengShiTi.getId();
+                        StringRequest thisShengDuiYingShi=new StringRequest(Request.Method.POST, adrressUrl,
+                                new Response.Listener<String>() {
+                                    @Override
+                                    public void onResponse(String s) {
+                                        MyLog.d(tag, "市返回数据：" + s);
+                                        final List<AreaModel> shiShiTis=new ArrayList<AreaModel>();
+                                        jsonParse(s,shiShiTis);//该省对应的所有市的数据都请求出来了
+                                        shiAndXianShiTi=new HashMap<String, List<AreaModel>>();
+
+                                        for(AreaModel areaModel:shiShiTis){
+                                            final String shiId=areaModel.getId();
+                                            final String shiName=areaModel.getName();
+                                            StringRequest thisShiDuiYingXian=new StringRequest(Request.Method.POST,
+                                                    adrressUrl, new Response.Listener<String>() {
+                                                @Override
+                                                public void onResponse(String s) {
+                                                    MyLog.d(tag, "县返回数据：" + s);
+                                                    List<AreaModel> xianShiTis=new ArrayList<AreaModel>();
+                                                    jsonParse(s,xianShiTis);
+                                                    shiAndXianShiTi.put(shiName,xianShiTis);
+
+                                                    //放到县返回的数据里面就可以了
+                                                    shiMings=getStringListFromModelList(shiShiTis);
+                                                    shiMingAndXianMings = getMapStrigFromMapShiTi(shiAndXianShiTi);
+                                                    XianQuMingAdapter xianQuMingAdapter = new XianQuMingAdapter(AreaActivity.this, shiMingAndXianMings, shiMings);
+                                                    shiExapanListView.setAdapter(xianQuMingAdapter);
+                                                    shiExapanListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
+                                                        @Override
+                                                        public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
+                                                            String shiMing = shiMings.get(groupPosition);
+                                                            String xianMing = shiMingAndXianMings.get(shiMing).get(childPosition);
+                                                            Intent intent = new Intent();
+                                                            intent.putExtra(SHI_MING_KEY, shiMing);
+                                                            intent.putExtra(XIAN_MING_KEY, xianMing);
+                                                            setResult(RESULT_OK, intent);//向商品详情返回数据
+                                                            finish();
+                                                            return false;
+                                                        }
+                                                    });
+                                                }
+                                            }, new Response.ErrorListener() {
+                                                @Override
+                                                public void onErrorResponse(VolleyError volleyError) {
+
+                                                }
+                                            }){
+                                                @Override
+                                                protected Map<String, String> getParams() throws AuthFailureError {
+                                                    Map<String, String> map = new HashMap<String, String>();
+                                                    String json = "{\"parent_id\":\"" + shiId + "\"}";
+                                                    map.put("json", json);
+                                                    return map;
+                                                }
+                                            };
+                                            requestQueue.add(thisShiDuiYingXian);
+                                        }
+                                    }
+                                }, new Response.ErrorListener() {
+                            @Override
+                            public void onErrorResponse(VolleyError volleyError) {
+
+                            }
+                        }){
+                            @Override
+                            protected Map<String, String> getParams() throws AuthFailureError {
+                                Map<String, String> map = new HashMap<String, String>();
+                                String json = "{\"parent_id\":\"" + shengId + "\"}";
+                                map.put("json", json);
+                                return map;
+                            }
+                        };
+                        requestQueue.add(thisShengDuiYingShi);
+
+
+                       /* Toast.makeText(AreaActivity.this, position + "", Toast.LENGTH_SHORT).show();
                         List<AreaModel> shiShiTi = shengAndShiShiTi.get(shengMings.get(position));
                         MyLog.d(tag,"省名"+shengMings.get(position));
                         shiMings=getStringListFromModelList(shiShiTi);
@@ -201,7 +271,7 @@ public class AreaActivity extends Activity {
                                 finish();
                                 return false;
                             }
-                        });
+                        });*/
                     }
                 });
             }
@@ -283,8 +353,47 @@ public class AreaActivity extends Activity {
                 String name=areaModel.getName();
                 names.add(name);
             }
-            result.put(key,names);
+            result.put(key, names);
         }
         return result;
+    }
+
+    /**
+     * 手动发起post请求，
+     *
+     */
+    private void shouDongPost(final String id) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                HttpURLConnection conn=null;
+                try {
+                    //String ceShiUrl="http://192.168.1.104:2006";
+                    URL url=new URL(adrressUrl);
+                    conn= (HttpURLConnection) url.openConnection();
+                    conn.setConnectTimeout(10 * 1000);
+                    conn.setReadTimeout(10 * 1000);
+                    conn.setRequestMethod("POST");
+                    conn.setDoOutput(true);
+                    conn.setDoInput(true);
+                    conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded;charset=" + "utf-8");
+                    OutputStream out=conn.getOutputStream();
+                    String content= URLEncoder.encode("{\"parent_id\":\"" + id + "\"}","utf-8");
+                    content="json="+content;
+                    out.write(content.getBytes("utf-8"));//按utf-8转换成字节
+                    out.flush();
+                    out.close();
+                    InputStream in=conn.getInputStream();
+                    byte[] buf=new byte[1024*1024];
+                    in.read(buf);
+                    MyLog.d(tag, id + new String(buf));
+                    MyLog.d(tag, "编码后的内容"+content);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }finally {
+                    conn.disconnect();
+                }
+            }
+        }).start();
     }
 }
