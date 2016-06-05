@@ -100,77 +100,92 @@ public class AreaActivity extends Activity {
             @Override
             public void onResponse(String s) {
                 jsonParse(s, shengShiTis);//解析出来省的实体数据
-
-                //------------------将省实体遍历出来--------------------------
-                /*for(final AreaModel areaModel:shengShiTis){
-                    final String shengMing= areaModel.getName();
-                    final String shengId=areaModel.getId();
-                    StringRequest requestShiShiTi=new StringRequest(Request.Method.POST, adrressUrl,
-                            new Response.Listener<String>() {
-                                @Override
-                                public void onResponse(String s) {
-                                    MyLog.d(tag, "省对应的市的数据" + s);
-                                    List<AreaModel> shiShiTis=new ArrayList<AreaModel>();//装载市实体的集合
-                                    jsonParse(s,shiShiTis);
-                                    shengAndShiShiTi.put(shengMing,shiShiTis);//把该省对应的市添加到集合里面
-
-                                    //------------------把市的实体遍历出来------------------------------
-                                    for(AreaModel areaModel1:shiShiTis){
-                                        final String shiMing=areaModel1.getName();
-                                        final String shiId=areaModel1.getId();
-                                        StringRequest xianShiTiRequest=new StringRequest(Request.Method.POST,
-                                                adrressUrl, new Response.Listener<String>() {
-                                            @Override
-                                            public void onResponse(String s) {
-                                                MyLog.d(tag,"市对应的县数据"+s);
-                                                List<AreaModel> xianShiTis=new ArrayList<AreaModel>();
-                                                jsonParse(s,xianShiTis);
-                                                shiAndXianShiTi.put(shiMing,xianShiTis);//把该市对应的县添加到结合里面
-
-                                            }
-                                        }, new Response.ErrorListener() {
-                                            @Override
-                                            public void onErrorResponse(VolleyError volleyError) {
-
-                                            }
-                                        }){
-                                            @Override
-                                            protected Map<String, String> getParams() throws AuthFailureError {
-                                                Map<String, String> map = new HashMap<String, String>();
-                                                String json = "{\"parent_id\":\"" + shiId + "\"}";
-                                                map.put("json", json);
-                                                return map;
-                                            }
-                                        };
-                                        requestQueue.add(xianShiTiRequest);
-
-                                    }
-                                }
-                            }, new Response.ErrorListener() {
-                        @Override
-                        public void onErrorResponse(VolleyError volleyError) {
-
-                        }
-                    }){
-                        @Override
-                        protected Map<String, String> getParams() throws AuthFailureError {
-                            Map<String, String> map = new HashMap<String, String>();
-                            String json = "{\"parent_id\":\"" + shengId + "\"}";
-                            map.put("json", json);
-                            return map;
-                        }
-                    };
-                    requestQueue.add(requestShiShiTi);
-                }*/
-
-                //--------------------所有的数据都循环完了以后---------------------------------------------------------------------------
-
                 shengMings=getStringListFromModelList(shengShiTis);
                 //省列表的初始化
                 ShengMingListViewAdapter shengMingListViewAdapter = new ShengMingListViewAdapter(AreaActivity.this, shengMings);
                 shengListView.setAdapter(shengMingListViewAdapter);
 
-                //省列表的点击事件,点击之后再请求对应的市数据
+
+                //-------------市和县的初始化------------------------------------
+                AreaModel shengShiTi=shengShiTis.get(11);
+                final String shengId=shengShiTi.getId();
+                StringRequest thisShengDuiYingShi=new StringRequest(Request.Method.POST, adrressUrl,
+                        new Response.Listener<String>() {
+                            @Override
+                            public void onResponse(String s) {
+                                MyLog.d(tag, "市返回数据：" + s);
+                                final List<AreaModel> shiShiTis=new ArrayList<AreaModel>();
+                                jsonParse(s,shiShiTis);//该省对应的所有市的数据都请求出来了
+                                shiAndXianShiTi=new HashMap<String, List<AreaModel>>();
+
+                                for(AreaModel areaModel:shiShiTis){
+                                    final String shiId=areaModel.getId();
+                                    final String shiName=areaModel.getName();
+                                    StringRequest thisShiDuiYingXian=new StringRequest(Request.Method.POST,
+                                            adrressUrl, new Response.Listener<String>() {
+                                        @Override
+                                        public void onResponse(String s) {
+                                            MyLog.d(tag, "县返回数据：" + s);
+                                            List<AreaModel> xianShiTis=new ArrayList<AreaModel>();
+                                            jsonParse(s,xianShiTis);
+                                            shiAndXianShiTi.put(shiName,xianShiTis);
+
+                                            //放到县返回的数据里面就可以了
+                                            shiMings=getStringListFromModelList(shiShiTis);
+                                            shiMingAndXianMings = getMapStrigFromMapShiTi(shiAndXianShiTi);
+                                            XianQuMingAdapter xianQuMingAdapter = new XianQuMingAdapter(AreaActivity.this, shiMingAndXianMings, shiMings);
+                                            shiExapanListView.setAdapter(xianQuMingAdapter);
+                                            shiExapanListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
+                                                @Override
+                                                public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
+                                                    String shiMing = shiMings.get(groupPosition);
+                                                    String xianMing = shiMingAndXianMings.get(shiMing).get(childPosition);
+                                                    Intent intent = new Intent();
+                                                    intent.putExtra(SHI_MING_KEY, shiMing);
+                                                    intent.putExtra(XIAN_MING_KEY, xianMing);
+                                                    setResult(RESULT_OK, intent);//向商品详情返回数据
+                                                    finish();
+                                                    return false;
+                                                }
+                                            });
+                                        }
+                                    }, new Response.ErrorListener() {
+                                        @Override
+                                        public void onErrorResponse(VolleyError volleyError) {
+
+                                        }
+                                    }){
+                                        @Override
+                                        protected Map<String, String> getParams() throws AuthFailureError {
+                                            Map<String, String> map = new HashMap<String, String>();
+                                            String json = "{\"parent_id\":\"" + shiId + "\"}";
+                                            map.put("json", json);
+                                            return map;
+                                        }
+                                    };
+                                    requestQueue.add(thisShiDuiYingXian);
+                                }
+                            }
+                        }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError volleyError) {
+
+                    }
+                }){
+                    @Override
+                    protected Map<String, String> getParams() throws AuthFailureError {
+                        Map<String, String> map = new HashMap<String, String>();
+                        String json = "{\"parent_id\":\"" + shengId + "\"}";
+                        map.put("json", json);
+                        return map;
+                    }
+                };
+                requestQueue.add(thisShengDuiYingShi);
+
+
+
+
+                //-----------------------省列表的点击事件,点击之后再请求对应的市数据-------------------------------------
                 shengListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -248,30 +263,6 @@ public class AreaActivity extends Activity {
                             }
                         };
                         requestQueue.add(thisShengDuiYingShi);
-
-
-                       /* Toast.makeText(AreaActivity.this, position + "", Toast.LENGTH_SHORT).show();
-                        List<AreaModel> shiShiTi = shengAndShiShiTi.get(shengMings.get(position));
-                        MyLog.d(tag,"省名"+shengMings.get(position));
-                        shiMings=getStringListFromModelList(shiShiTi);
-                        shiMingAndXianMings = getMapStrigFromMapShiTi(shiAndXianShiTi);
-
-                        //市县列表------------------------------------------
-                        XianQuMingAdapter xianQuMingAdapter = new XianQuMingAdapter(AreaActivity.this, shiMingAndXianMings, shiMings);
-                        shiExapanListView.setAdapter(xianQuMingAdapter);
-                        shiExapanListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
-                            @Override
-                            public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
-                                String shiMing = shiMings.get(groupPosition);
-                                String xianMing = shiMingAndXianMings.get(shiMing).get(childPosition);
-                                Intent intent = new Intent();
-                                intent.putExtra(SHI_MING_KEY, shiMing);
-                                intent.putExtra(XIAN_MING_KEY, xianMing);
-                                setResult(RESULT_OK, intent);//向商品详情返回数据
-                                finish();
-                                return false;
-                            }
-                        });*/
                     }
                 });
             }

@@ -547,6 +547,7 @@ public class ProductDetailActivity extends Activity implements View.OnClickListe
                     String xianMing=data.getStringExtra(AreaActivity.XIAN_MING_KEY);
                     MyLog.d(tag,"市民"+shiMing);
                     MyLog.d(tag,"县名"+xianMing);
+                    suoZaiDiQuTextView.setText(shiMing+" "+xianMing);
                 }
                 break;
         }
