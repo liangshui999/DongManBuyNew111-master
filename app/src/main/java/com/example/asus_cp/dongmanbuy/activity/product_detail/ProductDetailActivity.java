@@ -1,10 +1,13 @@
 package com.example.asus_cp.dongmanbuy.activity.product_detail;
 
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Paint;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
@@ -31,6 +34,8 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.StringRequest;
 import com.example.asus_cp.dongmanbuy.R;
+import com.example.asus_cp.dongmanbuy.activity.login.LoginActivity;
+import com.example.asus_cp.dongmanbuy.constant.MyConstant;
 import com.example.asus_cp.dongmanbuy.fragment.HomeFragment;
 import com.example.asus_cp.dongmanbuy.model.Comment;
 import com.example.asus_cp.dongmanbuy.model.Good;
@@ -56,6 +61,8 @@ public class ProductDetailActivity extends Activity implements View.OnClickListe
     private TextView isZiYingTextView;//自营还是他营
     private TextView productNameTextView;//商品名称
     private LinearLayout shouCangLinearLayout;//收藏
+    private ImageView shouCangImageView;//收藏的按钮
+    private TextView shouCangTextView;//收藏的文字
     private TextView benDianJiaGeTextView;//本店价格
     private TextView zheKouTextView;//折扣
     private TextView marketPriceTextView;//市场价格
@@ -94,11 +101,21 @@ public class ProductDetailActivity extends Activity implements View.OnClickListe
     private LinearLayout shoppingCarLinearLayout;//购物车
     private Button addToShoppingCarButton;//加入购物车
     private Button buyAtOnceButton;//立即购买
+    private TextView shoppingCarCountTextView;//购物车数量
 
     private RequestQueue requestQueue;
 
     private String productPicUrl = "http://www.zmobuy.com/PHP/index.php?url=/goods/desc";//商品大图的接口地址
     private String userCommentUrl = "http://www.zmobuy.com/PHP/index.php?url=/comments";//用户评论的接口
+
+    private String addToShouCangUrl="http://www.zmobuy.com/PHP/index.php?url=/user/collect/create";//添加到收藏
+    private String quXiaoShouCangUrl="http://www.zmobuy.com/PHP/index.php?url=/user/collect/delete";//取消收藏
+    private String getShouCangListUrl="http://www.zmobuy.com/PHP/index.php?url=/user/collect/list";//获取收藏列表
+
+    private String addToShoppingCarUrl="http://www.zmobuy.com/PHP/index.php?url=/cart/create";//加入购物车
+    private String updateShoppingCarUrl="http://www.zmobuy.com/PHP/index.php?url=/cart/update";//更改购物车的商品数量
+    private String shoppingCarListUrl="http://www.zmobuy.com/PHP/index.php?url=/cart/list";//购物车列表
+    private String deleteShoppingCarUrl="http://www.zmobuy.com/PHP/index.php?url=/cart/delete";//删除购物车
 
     private Good good;//其他活动传进来的商品
 
@@ -119,9 +136,19 @@ public class ProductDetailActivity extends Activity implements View.OnClickListe
     private ImageLoadHelper helper;
 
     private TextView yiXuanProductCount;//已选商品加减数量
-    private int produtCount = 1;
+    private int produtCount = 1;//选中的商品数量
+    private String productChiCun;//选中的商品尺寸
+
 
     public static final int REQUEST_CODE_FOR_AREA_ACTIVTY=1;
+    public static final int REQUEST_LOGIN_ACTIVITY=2;//登陆login活动时的返回码
+
+    private int shouCangYanSeFlag=0;//收藏的颜色的标记，点击一次后变红，再点击变灰
+
+    private int shoppingCarCount;//购物车里面的商品数量，等于选中的商品数量乘以购物车的点击次数
+    private int shoppingCarClickCount;//购物车的点击次数
+
+
 
 
     @Override
@@ -149,6 +176,8 @@ public class ProductDetailActivity extends Activity implements View.OnClickListe
         isZiYingTextView = (TextView) findViewById(R.id.text_is_zi_ying);
         productNameTextView = (TextView) findViewById(R.id.text_product_name);
         shouCangLinearLayout = (LinearLayout) findViewById(R.id.ll_shou_cang);
+        shouCangImageView= (ImageView) findViewById(R.id.img_shou_cang);
+        shouCangTextView= (TextView) findViewById(R.id.text_shou_cang);
         benDianJiaGeTextView = (TextView) findViewById(R.id.text_ben_zhan_price);
         zheKouTextView = (TextView) findViewById(R.id.text_zhe_kou);
         marketPriceTextView = (TextView) findViewById(R.id.text_market_price);
@@ -186,6 +215,7 @@ public class ProductDetailActivity extends Activity implements View.OnClickListe
         shoppingCarLinearLayout = (LinearLayout) findViewById(R.id.ll_shopping_car_product_detail);
         addToShoppingCarButton = (Button) findViewById(R.id.btn_add_to_shopping_car);
         buyAtOnceButton = (Button) findViewById(R.id.btn_buy_at_once);
+        shoppingCarCountTextView= (TextView) findViewById(R.id.text_gou_wu_che_count);
 
         //给爆款新品设置布局管理器和适配器
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
@@ -302,7 +332,7 @@ public class ProductDetailActivity extends Activity implements View.OnClickListe
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.ll_shou_cang://收藏
-                Toast.makeText(this, "点击了收藏", Toast.LENGTH_SHORT).show();
+                shouCangShiJianChuLi();
                 break;
             case R.id.ll_ling_qu_you_hui_quan://领取优惠券
                 youHuiQuanClickChuLi();
@@ -335,10 +365,21 @@ public class ProductDetailActivity extends Activity implements View.OnClickListe
                 startActivity(userCommentIntent);
                 break;
             case R.id.btn_you_tu_ping_jia://有图评价
-                Toast.makeText(this, "有图评价", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(this, "有图评价", Toast.LENGTH_SHORT).show();
+                Intent youTuCommentIntent=new Intent(this,CommetnActivity.class);
+                Bundle youTuBundle=new Bundle();
+                youTuBundle.putParcelable(HomeFragment.GOOD_KEY,good);
+                youTuCommentIntent.putExtras(youTuBundle);
+                youTuCommentIntent.putExtra(MyConstant.YOU_TU_PING_JIA_KEY, MyConstant.YOU_TU_PING_JIA_CONTENT);
+                startActivity(youTuCommentIntent);
                 break;
             case R.id.btn_quan_bu_ping_jia://全部评价
-                Toast.makeText(this, "全部评价", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(this, "全部评价", Toast.LENGTH_SHORT).show();
+                Intent allCommentIntent=new Intent(this,CommetnActivity.class);
+                Bundle allBundle=new Bundle();
+                allBundle.putParcelable(HomeFragment.GOOD_KEY,good);
+                allCommentIntent.putExtras(allBundle);
+                startActivity(allCommentIntent);
                 break;
             case R.id.ll_lian_xi_ke_fu://联系客服
                 Toast.makeText(this, "联系客服", Toast.LENGTH_SHORT).show();
@@ -350,10 +391,11 @@ public class ProductDetailActivity extends Activity implements View.OnClickListe
                 Toast.makeText(this, "购物车", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.btn_add_to_shopping_car://加入购物车
-                Toast.makeText(this, "加入购物车", Toast.LENGTH_SHORT).show();
+                addToShoppingCarChuLi();
                 break;
             case R.id.btn_buy_at_once://立即购买
-                Toast.makeText(this, "立即购买", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(this, "立即购买", Toast.LENGTH_SHORT).show();
+                yiXuanClickChuLi();
                 break;
 
 
@@ -375,6 +417,7 @@ public class ProductDetailActivity extends Activity implements View.OnClickListe
 
             //-------------------已选的弹出窗口的点击事件------------------------------------------
             case R.id.img_yi_xuan_close://关闭已选
+                yiXuanProductTextView.setText(productChiCun+","+produtCount+"个");
                 yiXuanWindow.dismiss();
                 break;
             case R.id.img_yi_xuan_jian_shang_pin://减去商品数量
@@ -394,7 +437,9 @@ public class ProductDetailActivity extends Activity implements View.OnClickListe
                 yiXuanProductCount.setText(produtCount + "");
                 break;
             case R.id.btn_yi_xuan_add_to_shopping_car://加入购物车
-                Toast.makeText(this, "点击了已选的加入购物车", Toast.LENGTH_SHORT).show();
+                addToShoppingCarChuLi();
+                Toast.makeText(this, "已加入购物车", Toast.LENGTH_SHORT).show();
+                yiXuanWindow.dismiss();
                 break;
             case R.id.btn_yi_xuan_buy_at_once://立即购买
                 Toast.makeText(this, "点击了已选的立即购买", Toast.LENGTH_SHORT).show();
@@ -405,6 +450,261 @@ public class ProductDetailActivity extends Activity implements View.OnClickListe
                 fuWuWindow.dismiss();
                 break;
         }
+    }
+
+    /**
+     * 加入购物车的点击事件处理
+     */
+    private void addToShoppingCarChuLi() {
+        //Toast.makeText(this, "加入购物车", Toast.LENGTH_SHORT).show();
+        int kuCun=Integer.parseInt(good.getGoodsNumber());
+        SharedPreferences sharedPreferences=getSharedPreferences(MyConstant.USER_SHAREPREFRENCE_NAME, MODE_APPEND);
+        final String uid=sharedPreferences.getString(MyConstant.UID_KEY, null);
+        final String sid=sharedPreferences.getString(MyConstant.SID_KEY,null);
+        if(uid!=null && !uid.isEmpty()){
+            if(shoppingCarCount<kuCun){
+                shoppingCarClickCount++;
+                shoppingCarCount=shoppingCarCount+produtCount;
+                shoppingCarCountTextView.setText(shoppingCarCount+"");
+                if(shoppingCarClickCount==1){//加入购物车
+                    StringRequest addToShoppingCarRequest=new StringRequest(Request.Method.POST
+                            , addToShoppingCarUrl, new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String s) {
+                            MyLog.d(tag,"加入购物车返回的数据:"+s);
+                        }
+                    }, new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError volleyError) {
+
+                        }
+                    }){
+                        @Override
+                        protected Map<String, String> getParams() throws AuthFailureError {
+                            Map<String,String> map=new HashMap<String,String>();
+                            String json="{\"session\":{\"uid\":\""+uid+"\",\"sid\":\""+sid+"\"},\"goods_id\":\""+good.getGoodId()+"\",\"number\":\""+produtCount+"\",\"spec\":\"\"}";
+                            map.put("json",json);
+                            return map;
+                        }
+                    };
+                    requestQueue.add(addToShoppingCarRequest);
+                }else if(shoppingCarCount>1){//更改购物车的商品数量
+                    //获取购物车的商品数量
+                    StringRequest getProductListRequest=new StringRequest(Request.Method.POST, shoppingCarListUrl,
+                            new Response.Listener<String>() {
+                                @Override
+                                public void onResponse(String s) {
+                                    MyLog.d(tag,"购物车列表的数据:"+s);
+                                    String recId=null;
+                                    try {
+                                        JSONObject jsonObject=new JSONObject(s);
+                                        JSONObject jsonObject1=jsonObject.getJSONObject("data");
+                                        JSONArray jsonArray=jsonObject1.getJSONArray("goods_list");
+                                        for(int i=0;i<jsonArray.length();i++){
+                                            JSONObject ziJsObj=jsonArray.getJSONObject(i);
+                                            String goodId=ziJsObj.getString("goods_id");
+                                            if(good.getGoodId().equals(goodId)){
+                                                recId=ziJsObj.getString("rec_id");
+                                                break;
+                                            }
+                                        }
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
+                                    //更改商品数量
+                                    final String finalRecId = recId;
+                                    StringRequest upDateShoppingCarCountRequest=new StringRequest(Request.Method.POST, updateShoppingCarUrl,
+                                            new Response.Listener<String>() {
+                                                @Override
+                                                public void onResponse(String s) {
+                                                    MyLog.d(tag,"更改商品数量返回的数据："+s);
+                                                }
+                                            }, new Response.ErrorListener() {
+                                        @Override
+                                        public void onErrorResponse(VolleyError volleyError) {
+
+                                        }
+                                    }){
+                                        @Override
+                                        protected Map<String, String> getParams() throws AuthFailureError {
+                                            Map<String,String> map=new HashMap<String,String>();
+                                            String json="{\"session\":{\"uid\":\""+uid+"\",\"sid\":\""+sid+"\"},\"rec_id\":\""+ finalRecId +"\",\"new_number\":\""+shoppingCarCount+"\"}";
+                                            map.put("json",json);
+                                            return map;
+                                        }
+                                    };
+                                    requestQueue.add(upDateShoppingCarCountRequest);
+                                }
+                            }, new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError volleyError) {
+
+                        }
+                    }){
+                        @Override
+                        protected Map<String, String> getParams() throws AuthFailureError {
+                            Map<String,String> map=new HashMap<String,String>();
+                            String json="{\"session\":{\"uid\":\""+uid+"\",\"sid\":\""+sid+"\"}}";
+                            map.put("json",json);
+                            return map;
+                        }
+                    };
+                    requestQueue.add(getProductListRequest);
+                }
+            }else{
+                AlertDialog.Builder builder=new AlertDialog.Builder(this);
+                builder.setTitle("");
+                builder.setMessage("对不起，该商品已经库存不足暂停销售。你现在要进行缺货登记来预定该商品吗？");
+                builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        if(uid!=null && !uid.isEmpty()){
+                            Intent intent=new Intent(ProductDetailActivity.this,QueHuoDengJiActivity.class);
+                            startActivity(intent);
+                        }else{
+                            Intent queHuoIntent=new Intent(ProductDetailActivity.this,LoginActivity.class);
+                            queHuoIntent.putExtra(MyConstant.START_LOGIN_ACTIVITY_FLAG_KEY,"queHuo");
+                            startActivity(queHuoIntent);
+                        }
+                    }
+                });
+                builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                });
+                AlertDialog alertDialog=builder.show();
+                alertDialog.show();
+            }
+        }else{//用户未登录，跳转到登陆界面
+            Intent intent=new Intent(this,LoginActivity.class);
+            intent.putExtra(MyConstant.START_LOGIN_ACTIVITY_FLAG_KEY,"shoppingCar");
+            startActivity(intent);
+        }
+    }
+
+    /**
+     * 收藏的点击事件处理
+     */
+    private void shouCangShiJianChuLi() {
+        //Toast.makeText(this, "点击了收藏", Toast.LENGTH_SHORT).show();
+        SharedPreferences sharedPreferences=getSharedPreferences(MyConstant.USER_SHAREPREFRENCE_NAME,
+                MODE_APPEND);
+        final String uid=sharedPreferences.getString(MyConstant.UID_KEY, null);
+        final String sid=sharedPreferences.getString(MyConstant.SID_KEY,null);
+        if(uid!=null && !uid.isEmpty()){//有值
+            if(shouCangYanSeFlag%2==1){//注意这里为什么是1，因为这里加了2次，本来点就要加一次，登陆之后又加一次
+                shouCangImageView.setImageResource(R.mipmap.like_selected);
+                shouCangTextView.setTextColor(getResources().getColor(R.color.bottom_lable_color));
+                StringRequest addToShouCangRequest=new StringRequest(Request.Method.POST, addToShouCangUrl,
+                        new Response.Listener<String>() {
+                            @Override
+                            public void onResponse(String s) {
+                                MyLog.d(tag, "添加到收藏返回的数据" + s);
+                            }
+                        }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError volleyError) {
+
+                    }
+                }){
+                    @Override
+                    protected Map<String, String> getParams() throws AuthFailureError {
+                        Map<String,String> map=new HashMap<String,String>();
+                        String json="{\"session\":{\"uid\":\""+uid+"\",\"sid\":\""+sid+"\"},\"goods_id\":\""+good.getGoodId()+"\"}";
+                        map.put("json",json);
+                        return map;
+                    }
+                };
+                requestQueue.add(addToShouCangRequest);
+            }else{
+                shouCangImageView.setImageResource(R.mipmap.like);
+                shouCangTextView.setTextColor(getResources().getColor(R.color.black));
+
+                //获取收藏列表
+                StringRequest getListRequest=new StringRequest(Request.Method.POST, getShouCangListUrl,
+                        new Response.Listener<String>() {
+                            @Override
+                            public void onResponse(String s) {
+                                MyLog.d(tag,"收藏列表的数据"+s);
+                                try {
+                                    String recId=null;
+                                    JSONObject jsonObject=new JSONObject(s);
+                                    JSONArray jsonArray=jsonObject.getJSONArray("data");
+                                    for(int i=0;i<jsonArray.length();i++){
+                                        JSONObject ziJsonObj=jsonArray.getJSONObject(i);
+                                        String goodIdJ=ziJsonObj.getString("goods_id");
+                                        if(goodIdJ.equals(good.getGoodId())){
+                                            recId=ziJsonObj.getString("rec_id");
+                                            break;
+                                        }
+                                    }
+                                    //取消收藏,取消收藏之前必须先获取列表
+                                    final String finalRecId = recId;
+                                    StringRequest quXiaoShouCangRequest=new StringRequest(Request.Method.POST, quXiaoShouCangUrl,
+                                            new Response.Listener<String>() {
+                                                @Override
+                                                public void onResponse(String s) {
+                                                    MyLog.d(tag,"取消收藏返回的数据"+s);
+                                                }
+                                            }, new Response.ErrorListener() {
+                                        @Override
+                                        public void onErrorResponse(VolleyError volleyError) {
+                                        }
+                                    }){
+                                        @Override
+                                        protected Map<String, String> getParams() throws AuthFailureError {
+                                            Map<String,String> map=new HashMap<String,String>();
+                                            String json="{\"session\":{\"uid\":\""+uid+"\",\"sid\":\""+sid+"\"},\"rec_id\":\""+ finalRecId +"\"}";
+                                            map.put("json",json);
+                                            return map;
+                                        }
+                                    };
+                                    requestQueue.add(quXiaoShouCangRequest);
+
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+
+                            }
+                        }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError volleyError) {
+
+                    }
+                }){
+                    @Override
+                    protected Map<String, String> getParams() throws AuthFailureError {
+                        Map<String,String> map=new HashMap<String,String>();
+                        String json="{\"session\":{\"uid\":\""+uid+"\",\"sid\":\""+sid+"\"},\"pagination\":{\"page\":\"1\",\"count\":\"100\"}}";
+                        map.put("json",json);
+                        return map;
+                    }
+                };
+                requestQueue.add(getListRequest);
+            }
+        }else{
+            AlertDialog.Builder builder=new AlertDialog.Builder(this);
+            builder.setTitle(R.string.please_login_shou_cang);
+            builder.setPositiveButton("立即登陆", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    Intent toLoginActivity=new Intent(ProductDetailActivity.this, LoginActivity.class);
+                    toLoginActivity.putExtra(MyConstant.START_LOGIN_ACTIVITY_FLAG_KEY, "shouCang");
+                    startActivityForResult(toLoginActivity, REQUEST_LOGIN_ACTIVITY);
+                }
+            });
+            builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+
+                }
+            });
+            AlertDialog shouCangDialog=builder.show();
+            shouCangDialog.show();
+        }
+        shouCangYanSeFlag++;
     }
 
     /**
@@ -454,7 +754,8 @@ public class ProductDetailActivity extends Activity implements View.OnClickListe
                 RadioButton radioButton = (RadioButton) yiXuanView.findViewById(group.getCheckedRadioButtonId());
                 String text = radioButton.getText().toString();
                 MyLog.d(tag, "选中的尺码为：" + text);
-                Toast.makeText(ProductDetailActivity.this, "选中的尺码" + text, Toast.LENGTH_SHORT).show();
+               // Toast.makeText(ProductDetailActivity.this, "选中的尺码" + text, Toast.LENGTH_SHORT).show();
+                productChiCun=text;
             }
         });
 
@@ -550,6 +851,36 @@ public class ProductDetailActivity extends Activity implements View.OnClickListe
                     suoZaiDiQuTextView.setText(shiMing+" "+xianMing);
                 }
                 break;
+            case REQUEST_LOGIN_ACTIVITY://登陆活动返回的数据
+                SharedPreferences sharedPreferences=getSharedPreferences(MyConstant.USER_SHAREPREFRENCE_NAME,
+                        MODE_APPEND);
+                final String uid=sharedPreferences.getString(MyConstant.UID_KEY, null);
+                final String sid=sharedPreferences.getString(MyConstant.SID_KEY,null);
+                shouCangImageView.setImageResource(R.mipmap.like_selected);
+                shouCangTextView.setTextColor(getResources().getColor(R.color.bottom_lable_color));
+                shouCangYanSeFlag++;
+
+                    StringRequest addToShouCangRequest=new StringRequest(Request.Method.POST, addToShouCangUrl,
+                            new Response.Listener<String>() {
+                                @Override
+                                public void onResponse(String s) {
+                                    MyLog.d(tag,"登陆到收藏返回的数据"+s);
+                                }
+                            }, new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError volleyError) {
+
+                        }
+                    }){
+                        @Override
+                        protected Map<String, String> getParams() throws AuthFailureError {
+                            Map<String,String> map=new HashMap<String,String>();
+                            String json="{\"session\":{\"uid\":\""+uid+"\",\"sid\":\""+sid+"\"},\"goods_id\":\""+good.getGoodId()+"\"}";
+                            map.put("json",json);
+                            return map;
+                        }
+                    };
+                    requestQueue.add(addToShouCangRequest);
         }
 
     }

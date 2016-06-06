@@ -107,11 +107,13 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
                     <ImageView
+                        android:id="@+id/img_shou_cang"
                         android:layout_width="20dp"
                         android:layout_height="20dp"
                         android:background="@mipmap/like"
                         android:layout_gravity="center"/>
                     <TextView
+                        android:id="@+id/text_shou_cang"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/shou_cang"
@@ -658,7 +660,7 @@
                     android:orientation="vertical">
                     <TextView
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_height="20dp"
                         android:text="@string/lian_xi_ke_fu"
                         android:layout_gravity="center"
                         android:textSize="@dimen/product_detail_base_font_size"
@@ -690,8 +692,8 @@
             android:gravity="center"
             android:layout_gravity="center_vertical">
             <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
                 android:background="@mipmap/kefu"/>
             <TextView
                 android:layout_width="wrap_content"
@@ -712,10 +714,26 @@
             android:gravity="center"
             android:layout_gravity="center_vertical">
 
-            <ImageView
+            <RelativeLayout
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@mipmap/shoppingcar"/>
+                android:layout_height="wrap_content">
+                <ImageView
+                    android:id="@+id/gou_wu_che"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:background="@mipmap/shoppingcar"/>
+                <TextView
+                    android:id="@+id/text_gou_wu_che_count"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0"
+                    android:layout_alignRight="@id/gou_wu_che"
+                    android:layout_alignTop="@id/gou_wu_che"
+                    android:background="@color/bottom_lable_color"
+                    android:textColor="@color/white_my"
+                    android:textSize="12sp"/>
+            </RelativeLayout>
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -731,6 +749,9 @@
             android:layout_height="wrap_content"
             android:layout_weight="3"
             android:layout_gravity="center_vertical"
+            android:paddingBottom="20dp"
+            android:paddingTop="10dp"
+
             >
             <Button
                 android:id="@+id/btn_add_to_shopping_car"
@@ -750,6 +771,8 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="3"
+            android:paddingBottom="20dp"
+            android:paddingTop="10dp"
             >
             <Button
                 android:id="@+id/btn_buy_at_once"

@@ -18,9 +18,9 @@ public class MyGridViewA extends GridView {
     public MyGridViewA(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
-    public MyGridViewA(Context context, AttributeSet attrs, int defStyle) {
+    /*public MyGridViewA(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
-    }
+    }*/
     /**
      * 设置是否有ScrollBar，当要在ScollView中显示时，应当设置为false。 默认为 true
      *
@@ -40,7 +40,7 @@ public class MyGridViewA extends GridView {
 //        } else {
 //            super.onMeasure(widthMeasureSpec, heightMeasureSpec);
 //        }
-        int expandSpec = MeasureSpec.makeMeasureSpec(Integer.MAX_VALUE >>2,
+        int expandSpec = MeasureSpec.makeMeasureSpec(Integer.MAX_VALUE /2,
                 MeasureSpec.AT_MOST);
         super.onMeasure(widthMeasureSpec, expandSpec);
     }

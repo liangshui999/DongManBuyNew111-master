@@ -112,10 +112,12 @@
     <string name="man_yi_yuan_ke_yong">满1元可用</string>
     <string name="man_shi_yuan_ke_yong">满10元可用</string>
     <string name="yi_xuan_ku_cun">库存:</string>
+    <string name="s_ma">S</string>
     <string name="m_ma">M</string>
     <string name="l_ma">L</string>
     <string name="xl_ma">XL</string>
     <string name="xxl_ma">XXL</string>
+    <string name="xxxl_ma">XXXL</string>
     <string name="ci_ma">尺码</string>
     <string name="count">数量</string>
     <string name="fu_wu_shuo_ming">服务说明</string>
@@ -130,5 +132,8 @@
     <string name="you_tu_comment">有图</string>
     <string name="ci_chu_wu_nei_rong">亲，此处没有内容-！</string>
     <string name="close">关闭</string>
+    <string name="please_login_shou_cang">请登录后收藏该商品</string>
+    <string name="qu_xiao">取消</string>
+    <string name="li_ji_login">立即登陆</string>
 
 </resources>

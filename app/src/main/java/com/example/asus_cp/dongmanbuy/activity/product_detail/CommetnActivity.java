@@ -18,6 +18,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.example.asus_cp.dongmanbuy.R;
+import com.example.asus_cp.dongmanbuy.constant.MyConstant;
 import com.example.asus_cp.dongmanbuy.fragment.HomeFragment;
 import com.example.asus_cp.dongmanbuy.fragment.comments.AllCommentFragment;
 import com.example.asus_cp.dongmanbuy.fragment.comments.ChaCommentFragment;
@@ -77,6 +78,8 @@ public class CommetnActivity extends FragmentActivity implements View.OnClickLis
 
     private Good good;
 
+    private String youTu;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -91,6 +94,7 @@ public class CommetnActivity extends FragmentActivity implements View.OnClickLis
     private void init() {
         requestQueue= MyApplication.getRequestQueue();
         good=getIntent().getParcelableExtra(HomeFragment.GOOD_KEY);
+        youTu=getIntent().getStringExtra(MyConstant.YOU_TU_PING_JIA_KEY);
         allCommentLinearLayout= (LinearLayout) findViewById(R.id.ll_all_comment);
         haoCommentLinearLayout= (LinearLayout) findViewById(R.id.ll_hao_comment);
         zhongCommentLinearLayout= (LinearLayout) findViewById(R.id.ll_zhong_comment);
@@ -148,6 +152,7 @@ public class CommetnActivity extends FragmentActivity implements View.OnClickLis
         allCommentCountTextView.setTextColor(getResources().getColor(R.color.bottom_lable_color));
 
         viewPager= (ViewPager) findViewById(R.id.view_pager_comment);
+
         fragments=new ArrayList<Fragment>();
         AllCommentFragment allCommentFragment=new AllCommentFragment();
         HaoCommentFragment haoCommentFragment=new HaoCommentFragment();
@@ -162,6 +167,14 @@ public class CommetnActivity extends FragmentActivity implements View.OnClickLis
         FragmentManager fragmentManager=getSupportFragmentManager();
         MyFragmentPagerAdapter myFragmentPagerAdapter=new MyFragmentPagerAdapter(fragmentManager);
         viewPager.setAdapter(myFragmentPagerAdapter);
+
+        //有图评价跳转过来
+        if(MyConstant.YOU_TU_PING_JIA_CONTENT.equals(youTu)){
+            reset();
+            viewPager.setCurrentItem(YOU_TU_COMMENT);
+            youTuCommentTextView.setTextColor(getResources().getColor(R.color.bottom_lable_color));
+            youTuCommentCountTextView.setTextColor(getResources().getColor(R.color.bottom_lable_color));
+        }
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {

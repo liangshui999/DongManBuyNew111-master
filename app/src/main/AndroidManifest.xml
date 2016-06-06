@@ -58,6 +58,9 @@
        <!-- 地区列表的activity-->
         <activity android:name=".activity.product_detail.AreaActivity"/>
 
+        <!--缺货登记的activity-->
+        <activity android:name=".activity.product_detail.QueHuoDengJiActivity"/>
+
 
         <!--搜索的activity-->
         <activity android:name=".activity.MySearchActivity">

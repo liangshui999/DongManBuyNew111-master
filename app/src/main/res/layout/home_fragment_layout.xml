@@ -479,7 +479,6 @@
 
             <!--猜你喜欢的内容-->
             <com.example.asus_cp.dongmanbuy.customview.MyGridViewA
-                android:layout_marginTop="10dp"
                 android:id="@+id/grid_view_cai_ni_xi_huan"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

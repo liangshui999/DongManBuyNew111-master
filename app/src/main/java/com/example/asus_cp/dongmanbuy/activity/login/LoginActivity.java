@@ -22,6 +22,8 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.example.asus_cp.dongmanbuy.R;
+import com.example.asus_cp.dongmanbuy.activity.product_detail.ProductDetailActivity;
+import com.example.asus_cp.dongmanbuy.activity.product_detail.QueHuoDengJiActivity;
 import com.example.asus_cp.dongmanbuy.constant.MyConstant;
 import com.example.asus_cp.dongmanbuy.util.MyApplication;
 import com.example.asus_cp.dongmanbuy.util.MyLog;
@@ -54,6 +56,8 @@ public class LoginActivity extends Activity implements View.OnClickListener{
     private LinearLayout weiBoLinearLayout;//微博
     private LinearLayout weiXinLinearLayout;//微信
 
+    private String whoStartMe;//谁开启的我
+
     public static final String USER_NAME_KEY="userName";//向下一个activity传递username时的键
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,6 +66,7 @@ public class LoginActivity extends Activity implements View.OnClickListener{
         setContentView(R.layout.login_layout);
 
         requestQueue= MyApplication.getRequestQueue();
+        whoStartMe=getIntent().getStringExtra(MyConstant.START_LOGIN_ACTIVITY_FLAG_KEY);//谁开启了我
 
         zhangHaoEditText= (EditText) findViewById(R.id.edit_zhang_hao);
         passWordEdtiText= (EditText) findViewById(R.id.edit_password);
@@ -127,8 +132,21 @@ public class LoginActivity extends Activity implements View.OnClickListener{
                                 if(!sid.isEmpty() && !sid.equals("")){
                                     Toast.makeText(LoginActivity.this,"登录成功",Toast.LENGTH_SHORT).show();
                                     writeToSharePreferences(uid, MyConstant.UID_KEY);
-                                    writeToSharePreferences(sid,MyConstant.SID_KEY);
+                                    writeToSharePreferences(sid, MyConstant.SID_KEY);
+
+                                    if(whoStartMe.equals("shouCang")){//说明是从收藏跳转过来的
+                                        finish();
+                                    }else if("queHuo".equals(whoStartMe)){//因为缺货从加入购物车跳转过来的
+                                        Intent intent=new Intent(LoginActivity.this, QueHuoDengJiActivity.class);
+                                        startActivity(intent);
+                                        finish();
+                                    }else if("shoppingCar".equals(whoStartMe)){//直接从购物车跳转过来的
+                                        finish();
+                                    }
+                                }else {
+                                    Toast.makeText(LoginActivity.this,"登录失败",Toast.LENGTH_SHORT).show();
                                 }
+
                             } catch (JSONException e) {
                                 Toast.makeText(LoginActivity.this,"登录失败",Toast.LENGTH_SHORT).show();
                                 e.printStackTrace();
