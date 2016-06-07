@@ -30,6 +30,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.example.asus_cp.dongmanbuy.R;
+import com.example.asus_cp.dongmanbuy.activity.dian_pu_jie.ShopStreetCategoryActvity;
 import com.example.asus_cp.dongmanbuy.activity.login.LoginActivity;
 import com.example.asus_cp.dongmanbuy.activity.product_detail.ProductDetailActivity;
 import com.example.asus_cp.dongmanbuy.adapter.CaiNiXiHuanAdapter;
@@ -661,7 +662,9 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
                 Toast.makeText(context, "点击了精品推荐更多", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.text_dian_pu_jie_more://店铺街的更多按钮
-                Toast.makeText(context, "点击了店铺街更多", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(context, "点击了店铺街更多", Toast.LENGTH_SHORT).show();
+                Intent toDianPuJieIntent=new Intent(context, ShopStreetCategoryActvity.class);
+                startActivity(toDianPuJieIntent);
                 break;
         }
 

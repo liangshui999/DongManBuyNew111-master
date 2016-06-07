@@ -61,6 +61,11 @@
         <!--缺货登记的activity-->
         <activity android:name=".activity.product_detail.QueHuoDengJiActivity"/>
 
+        <!--有货时的activity-->
+        <activity android:name=".activity.product_detail.ShoppingCarActivity"/>
+
+        <!--店铺街的activity-->
+        <activity android:name=".activity.dian_pu_jie.ShopStreetCategoryActvity"/>
 
         <!--搜索的activity-->
         <activity android:name=".activity.MySearchActivity">

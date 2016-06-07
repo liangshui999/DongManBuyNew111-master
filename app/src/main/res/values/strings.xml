@@ -135,5 +135,22 @@
     <string name="please_login_shou_cang">请登录后收藏该商品</string>
     <string name="qu_xiao">取消</string>
     <string name="li_ji_login">立即登陆</string>
+    <string name="zi_ying_dian">自营店</string>
+    <string name="ling_quan">领券</string>
+    <string name="tui_jian_shang_ping">推荐商品</string>
+    <string name="quan_xuan">全选</string>
+    <string name="he_ji">合计:</string>
+    <string name="bu_han_yun_fei">不含运费</string>
+    <string name="bian_ji">编辑</string>
+    <string name="jie_suan">结算</string>
+    <string name="shu_ji">书籍</string>
+    <string name="mo_wan">模玩 手办</string>
+    <string name="diy">DIY定制</string>
+    <string name="shang_zhuang">上装</string>
+    <string name="xia_zhuang">下装</string>
+    <string name="xiang_bao">箱包</string>
+    <string name="zai_pin">宅品</string>
+    <string name="mao_rong">毛绒</string>
+    <string name="pei_shi">配饰</string>
 
 </resources>

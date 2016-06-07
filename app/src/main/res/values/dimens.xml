@@ -20,4 +20,5 @@
     <dimen name="product_detail_base_font_size">14sp</dimen>
     <dimen name="ling_qu_you_hui_quan_base_size">12sp</dimen>
     <dimen name="yi_xuan_base_size">14sp</dimen>
+    <dimen name="dian_pu_jie_category_base_item">12sp</dimen>
 </resources>
