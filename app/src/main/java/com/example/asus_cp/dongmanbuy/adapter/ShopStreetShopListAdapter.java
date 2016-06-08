@@ -21,6 +21,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.StringRequest;
 import com.example.asus_cp.dongmanbuy.R;
+import com.example.asus_cp.dongmanbuy.activity.dian_pu_jie.ShopHomeActivity;
 import com.example.asus_cp.dongmanbuy.activity.login.LoginActivity;
 import com.example.asus_cp.dongmanbuy.constant.MyConstant;
 import com.example.asus_cp.dongmanbuy.model.ShopModel;
@@ -117,19 +118,19 @@ public class ShopStreetShopListAdapter extends BaseAdapter {
                 try {
                     JSONObject jsonObject=new JSONObject(s);
                     JSONObject jsonObject1=jsonObject.getJSONObject("data");
-                    inShopModel.setCommenTrank(jsonObject1.getString("commentrank"));
-                    inShopModel.setCommentServer(jsonObject1.getString("commentserver"));
-                    inShopModel.setCommentDelivery(jsonObject1.getString("commentdelivery"));
-                    inShopModel.setCommenTrankFont(jsonObject1.getString("commentrank_font"));
-                    inShopModel.setCommentServerFont(jsonObject1.getString("commentserver_font"));
-                    inShopModel.setCommentDeliveryFont(jsonObject1.getString("commentdelivery_font"));
-                    finalViewHolder.productScore.setText(inShopModel.getCommenTrank());
-                    finalViewHolder.fuWuScore.setText(inShopModel.getCommentServer());
-                    finalViewHolder.shiXiaoScore.setText(inShopModel.getCommentDelivery());
+                    inShopModel.setCommenTrankScore(jsonObject1.getString("commentrank"));
+                    inShopModel.setCommentServerScore(jsonObject1.getString("commentserver"));
+                    inShopModel.setCommentDeliveryScore(jsonObject1.getString("commentdelivery"));
+                    inShopModel.setCommenTrank(jsonObject1.getString("commentrank_font"));
+                    inShopModel.setCommentServer(jsonObject1.getString("commentserver_font"));
+                    inShopModel.setCommentDelivery(jsonObject1.getString("commentdelivery_font"));
+                    finalViewHolder.productScore.setText(inShopModel.getCommenTrankScore());
+                    finalViewHolder.fuWuScore.setText(inShopModel.getCommentServerScore());
+                    finalViewHolder.shiXiaoScore.setText(inShopModel.getCommentDeliveryScore());
 
-                    finalViewHolder.productPingJi.setText(inShopModel.getCommenTrankFont());
-                    finalViewHolder.fuWuPingJi.setText(inShopModel.getCommentServerFont());
-                    finalViewHolder.shiXiaoPingJi.setText(inShopModel.getCommentDeliveryFont());
+                    finalViewHolder.productPingJi.setText(inShopModel.getCommenTrank());
+                    finalViewHolder.fuWuPingJi.setText(inShopModel.getCommentServer());
+                    finalViewHolder.shiXiaoPingJi.setText(inShopModel.getCommentDelivery());
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -176,7 +177,7 @@ public class ShopStreetShopListAdapter extends BaseAdapter {
                         @Override
                         protected Map<String, String> getParams() throws AuthFailureError {
                             Map<String,String> map=new HashMap<String,String>();
-                            String json="{\"session\":{\"uid\":\""+uid+"\",\"sid\":\""+sid+"\"},\"shopid\":\""+shopModel.getShopId()+"\"}";
+                            String json="{\"session\":{\"uid\":\""+uid+"\",\"sid\":\""+sid+"\"},\"shop_userid\":\""+shopModel.getUserId()+"\"}";
                             map.put("json",json);
                             return map;
                         }
@@ -194,13 +195,21 @@ public class ShopStreetShopListAdapter extends BaseAdapter {
         viewHolder.shopNameTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(context, "点击了店铺名称", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(context, "点击了店铺名称", Toast.LENGTH_SHORT).show();
+                Intent intent=new Intent(context, ShopHomeActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent.putExtra(MyConstant.FROM_SHOP_CATEGORY_TO_CATEGORY_HOME_KEY,shopModel.getUserId());
+                context.startActivity(intent);
             }
         });
         viewHolder.logoImagView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(context, "点击了店铺logo", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(context, "点击了店铺logo", Toast.LENGTH_SHORT).show();
+                Intent intent=new Intent(context, ShopHomeActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent.putExtra(MyConstant.FROM_SHOP_CATEGORY_TO_CATEGORY_HOME_KEY, shopModel.getUserId());
+                context.startActivity(intent);
             }
         });
 

@@ -11,4 +11,6 @@ public interface MyConstant {
     public static final String START_LOGIN_ACTIVITY_FLAG_KEY="startloginkey";//开启登陆活动时，其他活动传过去的标志
     public static final String YOU_TU_PING_JIA_KEY="youTuPingJia";//有图评价的key
     public static final String YOU_TU_PING_JIA_CONTENT="youTu";//有图评价的内容
+    public static final String FROM_SHOP_CATEGORY_TO_CATEGORY_HOME_KEY="categoryHome";//从店铺的分类到店铺主页传值用的key
+    public static final String FROM_SHOP_HOME_TO_SHOP_DETAIL_KEY="shopDetail";//从店铺的主页到店铺的详情的传值
 }

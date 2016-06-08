@@ -193,16 +193,20 @@ public class ShopStreetFragment extends Fragment {
                 shopModel.setLogoThumb(ziJsonObj.getString("logo_thumb"));
                 shopModel.setStreetThumb(ziJsonObj.getString("street_thumb"));
                 shopModel.setBrandThumb(ziJsonObj.getString("brand_thumb"));
-                shopModel.setCommenTrank(ziJsonObj.getString("commentrank"));
-                shopModel.setCommentServer(ziJsonObj.getString("commentserver"));
-                shopModel.setCommentDelivery(ziJsonObj.getString("commentdelivery"));
-                shopModel.setCommenTrankFont(ziJsonObj.getString("commentrank_font"));
-                shopModel.setCommentServerFont(ziJsonObj.getString("commentserver_font"));
-                shopModel.setCommentDeliveryFont(ziJsonObj.getString("commentdelivery_font"));
+                shopModel.setCommenTrank(ziJsonObj.getString("commentrank_font"));
+                shopModel.setCommentServer(ziJsonObj.getString("commentserver_font"));
+                shopModel.setCommentDelivery(ziJsonObj.getString("commentdelivery_font"));
+                shopModel.setCommenTrankScore(ziJsonObj.getString("commentrank"));
+                shopModel.setCommentServerScore(ziJsonObj.getString("commentserver"));
+                shopModel.setCommentDeliveryScore(ziJsonObj.getString("commentdelivery"));
                 shopModel.setGazeNumber(ziJsonObj.getString("gaze_number"));
                 shopModel.setGazeStatus(ziJsonObj.getString("gaze_status"));
-
-                JSONArray goodsArray=ziJsonObj.getJSONArray("goods");
+                JSONArray goodsArray=null;
+                try{
+                    goodsArray=ziJsonObj.getJSONArray("goods");//注意这里的处理方法，这句话崩了，不至于让整个程序都崩掉
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
                 List<Good> goods=new ArrayList<Good>();
                 if(goodsArray!=null){
                     for(int j=0;j<goodsArray.length();j++){

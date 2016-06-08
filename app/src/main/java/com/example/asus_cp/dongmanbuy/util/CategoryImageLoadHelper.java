@@ -5,6 +5,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Adapter;
 import android.widget.GridView;
+import android.widget.LinearLayout;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -185,6 +186,15 @@ public class CategoryImageLoadHelper {
 
         }
         //totalHeight= (int) (2.4*totalHeight);//这真是神来之笔啊,这里根据不同的屏幕做个适配就好了
+        //一种思路，先把gridview放在一个正常的布局里面测出高度，然后再把他放到scrollview里面，同时给他把高度设置好
+        /*GridView gridView1=null;
+        gridView1=gridView;
+        LinearLayout linearLayout=new LinearLayout(MyApplication.getContext());
+        LinearLayout.LayoutParams lllayoutParams=new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT);
+        linearLayout.setLayoutParams(lllayoutParams);
+        linearLayout.addView(gridView1);
+        int heightMy=linearLayout.getMeasuredHeight();*/
 
         ViewGroup.LayoutParams params = gridView.getLayoutParams();
         params.height = totalHeight ;

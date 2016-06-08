@@ -67,6 +67,12 @@
         <!--店铺街的activity-->
         <activity android:name=".activity.dian_pu_jie.ShopStreetCategoryActvity"/>
 
+        <!--店铺主页的activity-->
+        <activity android:name=".activity.dian_pu_jie.ShopHomeActivity"/>
+
+        <!--店铺详情的activity-->
+        <activity android:name=".activity.dian_pu_jie.ShopDetailActivity"/>
+
         <!--搜索的activity-->
         <activity android:name=".activity.MySearchActivity">
             <intent-filter>

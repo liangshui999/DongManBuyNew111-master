@@ -152,5 +152,22 @@
     <string name="zai_pin">宅品</string>
     <string name="mao_rong">毛绒</string>
     <string name="pei_shi">配饰</string>
+    <string name="all_product">全部商品</string>
+    <string name="new_product">新品</string>
+    <string name="tui_jian">推荐</string>
+    <string name="cu_xiao">促销</string>
+    <string name="hot_product">热门商品</string>
+    <string name="see_more">查看更多</string>
+    <string name="shop_detail">店铺详情</string>
+    <string name="re_men_fen_lei">热门分类</string>
+    <string name="search_shop_product">搜索店内商品</string>
+    <string name="zai_xian_ke_fu">在线客服</string>
+    <string name="shop_er_wei_ma">店铺二维码</string>
+    <string name="shang_jia_phone">商家电话</string>
+    <string name="shop_desc">店铺简介</string>
+    <string name="gong_si_name">公司名称</string>
+    <string name="kai_dian_time">开店时间</string>
+    <string name="suo_zai_area">所在地区</string>
+
 
 </resources>

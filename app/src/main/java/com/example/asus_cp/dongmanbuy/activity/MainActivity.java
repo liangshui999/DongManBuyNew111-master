@@ -11,6 +11,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.SearchView;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.Window;
@@ -36,7 +37,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
-    private android.widget.SearchView searchView;
+    private android.support.v7.widget.SearchView searchView;
     private ImageButton loginButton;//登录按钮
     private ImageButton messageButton;//消息按钮
     //private ViewPager viewPager;
@@ -138,7 +139,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      * 初始化view
      */
     private void initView() {
-        searchView= (android.widget.SearchView) findViewById(R.id.search_view);
+        searchView= (SearchView) findViewById(R.id.search_view);
         searchView.setIconifiedByDefault(false);
         searchView.setFocusable(true);//默认不聚焦
         searchView.setFocusableInTouchMode(true);
