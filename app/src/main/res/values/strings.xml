@@ -168,6 +168,10 @@
     <string name="gong_si_name">公司名称</string>
     <string name="kai_dian_time">开店时间</string>
     <string name="suo_zai_area">所在地区</string>
+    <string name="zong_he">综合</string>
+    <string name="xin_pin">新品</string>
+    <string name="price">价格</string>
+    <string name="xiao_liang_mao_hao">销量:</string>
 
 
 </resources>

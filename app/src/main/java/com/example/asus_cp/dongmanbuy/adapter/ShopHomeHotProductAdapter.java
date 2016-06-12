@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.android.volley.toolbox.ImageLoader;
 import com.example.asus_cp.dongmanbuy.R;
 import com.example.asus_cp.dongmanbuy.model.Good;
+import com.example.asus_cp.dongmanbuy.util.FormatHelper;
 import com.example.asus_cp.dongmanbuy.util.ImageLoadHelper;
 
 import java.util.List;
@@ -68,7 +69,7 @@ public class ShopHomeHotProductAdapter extends BaseAdapter{
         imageLoader.get(good.getGoodsImg(), listener, 200, 200);
 
         viewHolder.nameTextView.setText(good.getGoodName());
-        viewHolder.priceTextView.setText(good.getShopPrice());
+        viewHolder.priceTextView.setText(FormatHelper.getMoneyFormat(good.getShopPrice()));
         return v;
     }
 

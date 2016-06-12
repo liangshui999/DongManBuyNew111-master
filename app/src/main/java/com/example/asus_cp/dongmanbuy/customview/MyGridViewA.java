@@ -11,23 +11,24 @@ import android.widget.GridView;
  * Created by asus-cp on 2016-05-21.
  */
 public class MyGridViewA extends GridView {
-    public MyGridViewA(Context context, AttributeSet attrs) {
-        super(context, attrs);
-    }
-
     public MyGridViewA(Context context) {
         super(context);
+    }
+
+    public MyGridViewA(Context context, AttributeSet attrs) {
+        super(context, attrs);
     }
 
     public MyGridViewA(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
     }
 
+
     @Override
-    public void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-        int expandSpec = MeasureSpec.makeMeasureSpec(Integer.MAX_VALUE >> 2,
-                MeasureSpec.AT_MOST);
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        int expandSpec = MeasureSpec.makeMeasureSpec(Integer.MAX_VALUE >> 2, MeasureSpec.AT_MOST);
         super.onMeasure(widthMeasureSpec, expandSpec);
+
     }
+
 }

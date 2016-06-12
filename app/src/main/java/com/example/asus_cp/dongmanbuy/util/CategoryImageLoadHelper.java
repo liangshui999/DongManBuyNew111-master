@@ -6,6 +6,7 @@ import android.view.ViewGroup;
 import android.widget.Adapter;
 import android.widget.GridView;
 import android.widget.LinearLayout;
+import android.widget.ListAdapter;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -22,6 +23,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -198,6 +200,57 @@ public class CategoryImageLoadHelper {
 
         ViewGroup.LayoutParams params = gridView.getLayoutParams();
         params.height = totalHeight ;
+        gridView.setLayoutParams(params);
+    }
+
+
+    public static void setGridViewHeightBasedOnChildren(GridView gridView,
+                                                        View... views) {
+        //获取对应的adapter
+        ListAdapter listAdapter = gridView.getAdapter();
+
+        Class tempGridView = GridView.class; // 获得gridview这个类的class
+
+        int column = -1;
+        try {
+
+            Field field = tempGridView.getDeclaredField("mRequestedNumColumns"); // 获得申明的字段
+            field.setAccessible(true); // 设置访问权限
+            column = Integer.valueOf(field.get(gridView).toString()); // 获取字段的值
+        } catch (Exception e1) {
+        }
+        if (column == -1)
+            return;
+
+        if (listAdapter == null) {
+            // pre-condition
+            return;
+        }
+
+        int totalHeight = 0;
+        for (int i = 0, len = listAdapter.getCount(); i < len; i += column) { // 这边因为一排column个，所以i
+            // +=
+            // column
+            View listItem = listAdapter.getView(i, null, gridView);
+            listItem.measure(0, 0); // 计算子项View 的宽高
+
+            totalHeight += listItem.getMeasuredHeight(); // 统计所有子项的总高度
+        }
+
+        try {
+            if (views != null) {
+                for (View view : views) {
+                    view.measure(0, 0);
+                    totalHeight += view.getMeasuredHeight();
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        ViewGroup.LayoutParams params = gridView.getLayoutParams();
+        params.height = totalHeight
+                + (gridView.getHeight() * (listAdapter.getCount() - 1)) + 10;
         gridView.setLayoutParams(params);
     }
 

@@ -95,7 +95,7 @@ public class ShopDetailActivity extends Activity implements View.OnClickListener
             ImageLoader imageLoader=helper.getImageLoader();
             ImageLoader.ImageListener listener=imageLoader.getImageListener(logoImageView,R.mipmap.yu_jia_zai,
                     R.mipmap.yu_jia_zai);
-//            imageLoader.get(shopModel.getShopLogo(), listener, 200, 200);
+            imageLoader.get(shopModel.getShopLogo(), listener, 200, 200);
 
             //给控件设置值
             shopNameTextView.setText(shopModel.getShopName());

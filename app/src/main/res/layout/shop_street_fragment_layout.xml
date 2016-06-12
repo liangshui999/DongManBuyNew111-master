@@ -53,11 +53,11 @@
     </LinearLayout>
 
     <!--店铺列表-->
-    <ListView
+    <com.handmark.pulltorefresh.library.PullToRefreshListView
         android:id="@+id/list_view_shop_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:dividerHeight="10dp">
-    </ListView>
+    </com.handmark.pulltorefresh.library.PullToRefreshListView>
 
 </LinearLayout>

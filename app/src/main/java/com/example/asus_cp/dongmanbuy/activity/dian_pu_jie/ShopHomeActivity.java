@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.Window;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -62,11 +63,13 @@ public class ShopHomeActivity extends Activity implements View.OnClickListener {
     private LinearLayout allProductLinearLayout;//全部商品
     private LinearLayout newProductLinearLayout;//新商品
     private LinearLayout tuiJianProductLinearLayout;//推荐商品
-    private MyGridView hotProductGridView;//热门商品的网格
+    private MyGridViewA hotProductGridView;//热门商品的网格
     private TextView seeMoreTextView;//查看更多
     private TextView shopDetailTextView;//店铺详情
     private LinearLayout hotCategoryLinearLayout;//热门分类
     private LinearLayout keFuLinearLayout;//客服
+
+    private ScrollView shopHomeScrollView;
 
     private String shopUserId;//店铺所有者的id
 
@@ -107,11 +110,12 @@ public class ShopHomeActivity extends Activity implements View.OnClickListener {
         allProductLinearLayout = (LinearLayout) findViewById(R.id.ll_all_product);
         newProductLinearLayout = (LinearLayout) findViewById(R.id.ll_new_product);
         tuiJianProductLinearLayout = (LinearLayout) findViewById(R.id.ll_tui_jian_product);
-        hotProductGridView = (MyGridView) findViewById(R.id.grid_view_hot_product);
+        hotProductGridView = (MyGridViewA) findViewById(R.id.grid_view_hot_product);
         seeMoreTextView = (TextView) findViewById(R.id.text_see_more);
         shopDetailTextView = (TextView) findViewById(R.id.text_shop_detail);
         hotCategoryLinearLayout = (LinearLayout) findViewById(R.id.ll_hot_category);
         keFuLinearLayout = (LinearLayout) findViewById(R.id.ll_ke_fu_shop_home);
+        shopHomeScrollView= (ScrollView) findViewById(R.id.scrollView_shop_home);
 
 
         //给view设置点击事件
@@ -124,6 +128,7 @@ public class ShopHomeActivity extends Activity implements View.OnClickListener {
         shopDetailTextView.setOnClickListener(this);
         hotCategoryLinearLayout.setOnClickListener(this);
         keFuLinearLayout.setOnClickListener(this);
+        seeMoreTextView.setOnClickListener(this);
 
 
         StringRequest getShopInfoRequest = new StringRequest(Request.Method.POST, shopInfoUrl, new Response.Listener<String>() {
@@ -134,7 +139,7 @@ public class ShopHomeActivity extends Activity implements View.OnClickListener {
                 ImageLoader imageLoader=helper.getImageLoader();
                 ImageLoader.ImageListener listener=imageLoader.getImageListener(logoImageView,
                         R.mipmap.yu_jia_zai,R.mipmap.yu_jia_zai);
-                //imageLoader.get(shopModel.getShopLogo(), listener, 200, 200);
+                imageLoader.get(shopModel.getShopLogo(), listener, 200, 200);
 
                 //给view赋值
                 shopNameTextView.setText(shopModel.getShopName());
@@ -148,7 +153,9 @@ public class ShopHomeActivity extends Activity implements View.OnClickListener {
                 ShopHomeHotProductAdapter adapter=new ShopHomeHotProductAdapter(ShopHomeActivity.this,
                         goods);
                 hotProductGridView.setAdapter(adapter);
-                CategoryImageLoadHelper.setGridViewViewHeightBasedOnChildren(hotProductGridView);
+//                CategoryImageLoadHelper.setGridViewHeightBasedOnChildren(hotProductGridView);
+//                shopHomeScrollView.invalidate();//通知scrollview重绘
+
             }
         }, new Response.ErrorListener() {
             @Override
@@ -183,7 +190,7 @@ public class ShopHomeActivity extends Activity implements View.OnClickListener {
             shopModel.setNewGoodCount(jsonObject1.getString("count_goods_new"));
             shopModel.setShopId(jsonObject1.getString("shop_id"));
             shopModel.setUserId(jsonObject1.getString("ru_id"));
-            shopModel.setShopLogo(jsonObject1.getString("shop_logo"));
+            shopModel.setShopLogo(jsonObject1.getString("brand_thumb"));
             shopModel.setGazeNumber(jsonObject1.getString("count_gaze"));
 
             JSONArray goodsArray = null;
@@ -210,7 +217,7 @@ public class ShopHomeActivity extends Activity implements View.OnClickListener {
                 }
                 shopModel.setGoods(goods);
             }
-
+            shopModel.setShopName(jsonObject1.getString("shop_name"));
             shopModel.setShopDesc(jsonObject1.getString("shop_desc"));
             shopModel.setShopStartTime(jsonObject1.getString("shop_start"));
             shopModel.setShopAddress(jsonObject1.getString("shop_address"));
@@ -238,7 +245,8 @@ public class ShopHomeActivity extends Activity implements View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.img_shop_home_dao_hang://导航
-                Toast.makeText(this, "点击了导航按钮", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(this, "点击了导航按钮", Toast.LENGTH_SHORT).show();
+                finish();
                 break;
             case R.id.text_category_shop_home://分类
                 Toast.makeText(this, "点击了分类按钮", Toast.LENGTH_SHORT).show();
@@ -256,7 +264,12 @@ public class ShopHomeActivity extends Activity implements View.OnClickListener {
                 Toast.makeText(this, "点击了推荐商品", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.text_see_more://查看更多
-                Toast.makeText(this, "点击了查看更多", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(this, "点击了查看更多", Toast.LENGTH_SHORT).show();
+                Intent toSortActivityIntent=new Intent(this,ShopProdcutSortActivity.class);
+                ArrayList<Good> goods= (ArrayList<Good>) shopModel.getGoods();
+                toSortActivityIntent.putExtra(MyConstant.FROM_SHOP_HOME_TO_SHOP_PRODUCT_SORT_KEY,
+                       goods);
+                startActivity(toSortActivityIntent);
                 break;
             case R.id.text_shop_detail://点击了店铺详情
                 //Toast.makeText(this, "点击了店铺详情", Toast.LENGTH_SHORT).show();

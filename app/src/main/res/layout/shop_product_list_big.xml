@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginTop="5dp"
+    android:layout_marginBottom="5dp"
+    android:paddingTop="5dp"
+    android:paddingBottom="5dp">
+
+    <ImageView
+        android:id="@+id/img_shop_product_pic_big_list"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"/>
+    <TextView
+        android:id="@+id/text_shop_product_name_big_list"
+        android:layout_width="wrap_content"
+        android:maxLines="2"
+        android:layout_height="wrap_content"
+        android:layout_gravity="left"
+        android:layout_marginLeft="10dp"
+        />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp">
+        <TextView
+            android:id="@+id/text_shop_product_price_big_list"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:textSize="18sp"
+            android:textColor="@color/bottom_lable_color"
+            android:layout_marginLeft="10dp"
+            android:text="24.00"/>
+
+        <TextView
+            android:id="@+id/text_shop_product_market_price_big_list"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:textSize="14sp"
+            android:layout_marginLeft="10dp"
+            android:text="19.00"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@id/text_shop_product_price_big_list"/>
+
+        <ImageView
+            android:id="@+id/img_shopping_car_big_list"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:background="@mipmap/shoppingcar_hong"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="10dp"/>
+
+    </RelativeLayout>
+
+
+</LinearLayout>

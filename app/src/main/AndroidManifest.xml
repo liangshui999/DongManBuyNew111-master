@@ -73,6 +73,9 @@
         <!--店铺详情的activity-->
         <activity android:name=".activity.dian_pu_jie.ShopDetailActivity"/>
 
+        <!--店铺排序的activity-->
+        <activity android:name=".activity.dian_pu_jie.ShopProdcutSortActivity"/>
+
         <!--搜索的activity-->
         <activity android:name=".activity.MySearchActivity">
             <intent-filter>

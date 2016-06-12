@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!--...................商品图像，名称，价格，库存...................-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp">
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="100dp">
+            <!--商品图像-->
+            <ImageView
+                android:id="@+id/img_product_pic_small_list"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/sina"
+                android:layout_marginLeft="10dp"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="2"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingLeft="10dp">
+            <TextView
+                android:id="@+id/text_product_name_list_small"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="轻小说id杀菌的快乐独立开发框架的法国进口vkjdjfg "
+                />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp">
+                <LinearLayout
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/yi_xuan_ku_cun"
+                        android:textSize="12sp"/>
+                    <TextView
+                        android:id="@+id/text_ku_cun_small_list"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="0"
+                        android:textSize="12sp"/>
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/xiao_liang_mao_hao"
+                        android:textSize="12sp"/>
+                    <TextView
+                        android:id="@+id/text_xiao_liang_small_list"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="0"
+                        android:textSize="12sp"/>
+                </LinearLayout>
+            </LinearLayout>
+
+          <RelativeLayout
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content">
+              <TextView
+                  android:id="@+id/text_shop_price_small_list"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:text="24.00"
+                  android:textSize="18sp"
+                  android:textColor="@color/bottom_lable_color"/>
+              <TextView
+                  android:id="@+id/text_market_price_small_list"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:text="28.00"
+                  android:textSize="12sp"
+                  android:layout_toRightOf="@id/text_shop_price_small_list"
+                  android:layout_centerVertical="true"
+                  android:layout_marginLeft="10dp"
+                  />
+
+              <ImageView
+                  android:id="@+id/img_shopping_car_small_list"
+                  android:layout_width="20dp"
+                  android:layout_height="20dp"
+                  android:background="@mipmap/shoppingcar_hong"
+                  android:layout_alignParentRight="true"
+                  android:layout_marginRight="10dp"/>
+          </RelativeLayout>
+
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>
