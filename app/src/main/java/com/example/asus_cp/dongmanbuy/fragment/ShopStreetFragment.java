@@ -301,7 +301,7 @@ public class ShopStreetFragment extends Fragment {
     }
 
     /**
-     * 点击事件处理的方法重载,主要用于上拉加载
+     * 主要用于上拉加载
      * @param category
      * @param page
      */
@@ -320,25 +320,42 @@ public class ShopStreetFragment extends Fragment {
                             allAdapter.notifyDataSetChanged();
                             break;
                         case SHU_JI:
+                            shuJiModles.addAll(parseJson(s));
+                            shuJiAdapter.notifyDataSetChanged();
                             break;
                         case MO_WAN:
+                            moWanModles.addAll(parseJson(s));
+                            moWanAdapter.notifyDataSetChanged();
                             break;
                         case DIY:
+                            DIYModles.addAll(parseJson(s));
+                            DIYAdapter.notifyDataSetChanged();
                             break;
                         case SHANG_ZHUANG:
+                            shangZhuangModles.addAll(parseJson(s));
+                            shangZhuangAdapter.notifyDataSetChanged();
                             break;
                         case XIA_ZHUANG:
+                            xiaZhuangModles.addAll(parseJson(s));
+                            xiaZhuangAdapter.notifyDataSetChanged();
                             break;
                         case XIANG_BAO:
+                            xiangBaoModles.addAll(parseJson(s));
+                            xiangBaoAdapter.notifyDataSetChanged();
                             break;
                         case ZHAI_PIN:
+                            zhaiPinModles.addAll(parseJson(s));
+                            zhaiPinAdapter.notifyDataSetChanged();
                             break;
                         case MAO_RONG:
+                            maoRongModles.addAll(parseJson(s));
+                            maoRongAdapter.notifyDataSetChanged();
                             break;
                         case PEI_SHI:
+                            peiShiModles.addAll(parseJson(s));
+                            peiShiAdapter.notifyDataSetChanged();
                             break;
                     }
-                    //shopListAdapter.notifyDataSetChanged();
                     shopListListView.onRefreshComplete();//通知刷新完毕
                 }
             }
@@ -442,6 +459,16 @@ public class ShopStreetFragment extends Fragment {
                 refreshView.getLoadingLayoutProxy().setRefreshingLabel("正在加载...");
                 refreshView.getLoadingLayoutProxy().setPullLabel("上拉可以加载");
                 refreshView.getLoadingLayoutProxy().setReleaseLabel("释放刷新");
+                count0++;
+                count1++;
+                count2++;
+                count3++;
+                count4++;
+                count5++;
+                count6++;
+                count7++;
+                count8++;
+                count9++;
                 switch (location) {
                     case ALL:
                         tongYongClickChuLi("", count0 + "");
@@ -474,17 +501,6 @@ public class ShopStreetFragment extends Fragment {
                         tongYongClickChuLi(1506+"", count9 + "");
                         break;
                 }
-                count0++;
-                count1++;
-                count2++;
-                count3++;
-                count4++;
-                count5++;
-                count6++;
-                count7++;
-                count8++;
-                count9++;
-
             }
         }
     }

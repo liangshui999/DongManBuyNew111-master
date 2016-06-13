@@ -56,6 +56,7 @@ import java.util.Map;
  * Created by asus-cp on 2016-06-01.
  */
 public class ProductDetailActivity extends Activity implements View.OnClickListener {
+    private ImageView daoHangImagView;//导航
     private ImageView productBigPicImageView;//商品的大图
     private TextView productPicCountsTextView;//商品的图片数量
     private TextView isZiYingTextView;//自营还是他营
@@ -164,13 +165,14 @@ public class ProductDetailActivity extends Activity implements View.OnClickListe
      */
     private void init() {
         requestQueue = MyApplication.getRequestQueue();
-        good = getIntent().getParcelableExtra(HomeFragment.GOOD_KEY);
+        good = getIntent().getParcelableExtra(MyConstant.GOOD_KEY);
         MyLog.d(tag, "商品id" + good.getGoodId());
         helper = new ImageLoadHelper();
         imageLoader = helper.getImageLoader();
         inflater = LayoutInflater.from(this);
         parentView = inflater.inflate(R.layout.prodcut_detail_layout, null);
         //初始化view
+        daoHangImagView= (ImageView) findViewById(R.id.img_dao_hang_product_detail);
         productBigPicImageView = (ImageView) findViewById(R.id.img_product_big_pic);
         productPicCountsTextView = (TextView) findViewById(R.id.text_product_pic_counts);
         isZiYingTextView = (TextView) findViewById(R.id.text_is_zi_ying);
@@ -231,15 +233,15 @@ public class ProductDetailActivity extends Activity implements View.OnClickListe
         //设置商品名称
         productNameTextView.setText(good.getGoodName());
 
-        //设置商品店铺价格,自带人民币符号
-        benDianJiaGeTextView.setText(good.getShopPrice());
+        //设置商品店铺价格,不带人民币符号
+        benDianJiaGeTextView.setText(FormatHelper.getMoneyFormat(good.getShopPrice()));
 
-        //设置商品市场价格,不带人民币符号
+        //设置商品市场价格,带人民币符号
         marketPriceTextView.setText(FormatHelper.getMoneyFormat(good.getMarket_price()));
         marketPriceTextView.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG | Paint.ANTI_ALIAS_FLAG);
 
         double shopPrice = Double.parseDouble(FormatHelper.getNumberFromRenMingBi(good.getShopPrice()));
-        double marketPrice = Double.parseDouble(good.getMarket_price());
+        double marketPrice = Double.parseDouble(FormatHelper.getNumberFromRenMingBi(good.getMarket_price()));
         double zheKou = shopPrice / marketPrice * 10;
 
         //设置商品折扣
@@ -255,18 +257,21 @@ public class ProductDetailActivity extends Activity implements View.OnClickListe
         StringRequest userCommetRequest = new StringRequest(Request.Method.POST, userCommentUrl, new Response.Listener<String>() {
             @Override
             public void onResponse(String s) {
-                MyLog.d(tag, "返回的数据是" + s);
+                MyLog.d(tag, "评论返回的数据是" + s);
                 Comment commet = new Comment();
                 try {
                     JSONObject jsonObject = new JSONObject(s);
                     JSONArray jsonArray = jsonObject.getJSONArray("data");
-                    JSONObject ziJsonObject = jsonArray.getJSONObject(0);
-                    commet.setId(ziJsonObject.getString("id"));
-                    commet.setAuthor(ziJsonObject.getString("author"));
-                    commet.setContent(ziJsonObject.getString("content"));
-                    commet.setCreateTime(ziJsonObject.getString("create"));
-                    commet.setReContent(ziJsonObject.getString("re_content"));
-
+                    try{
+                        JSONObject ziJsonObject = jsonArray.getJSONObject(0);
+                        commet.setId(ziJsonObject.getString("id"));
+                        commet.setAuthor(ziJsonObject.getString("author"));
+                        commet.setContent(ziJsonObject.getString("content"));
+                        commet.setCreateTime(ziJsonObject.getString("create"));
+                        commet.setReContent(ziJsonObject.getString("re_content"));
+                    }catch (Exception e){
+                        e.printStackTrace();
+                    }
                     JSONObject countJsonobj = jsonObject.getJSONObject("paginated");
                     String count = countJsonobj.getString("total");
                     int counts = Integer.parseInt(count);
@@ -289,6 +294,7 @@ public class ProductDetailActivity extends Activity implements View.OnClickListe
                     }
 
                 } catch (JSONException e) {
+                    commentQuYu.setVisibility(View.GONE);
                     e.printStackTrace();
                 }
 
@@ -311,6 +317,7 @@ public class ProductDetailActivity extends Activity implements View.OnClickListe
 
 
         //给view设置点击事件
+        daoHangImagView.setOnClickListener(this);
         shouCangLinearLayout.setOnClickListener(this);
         lingQuYouHuiQuanLinearLayout.setOnClickListener(this);
         suoZaiDiQuLayout.setOnClickListener(this);
@@ -331,6 +338,9 @@ public class ProductDetailActivity extends Activity implements View.OnClickListe
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+            case R.id.img_dao_hang_product_detail:
+                finish();
+                break;
             case R.id.ll_shou_cang://收藏
                 shouCangShiJianChuLi();
                 break;

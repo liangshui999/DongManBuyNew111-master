@@ -423,89 +423,97 @@
 
 
           <!--查看商品详情  -->
-            <RelativeLayout
-                android:id="@+id/re_layout_product_detail"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingTop="10dp"
-                android:paddingBottom="10dp"
-                android:layout_marginTop="5dp"
-                android:background="@color/white_my">
-                <TextView
-                    android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <RelativeLayout
+                    android:id="@+id/re_layout_product_detail"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/cha_kan_product_detail"
-                    android:layout_marginLeft="5dp"
-                    android:textSize="@dimen/product_detail_base_font_size"/>
+                    android:paddingTop="10dp"
+                    android:paddingBottom="10dp"
+                    android:layout_marginTop="5dp"
+                    android:background="@color/white_my">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/cha_kan_product_detail"
+                        android:layout_marginLeft="5dp"
+                        android:textSize="@dimen/product_detail_base_font_size"/>
 
-                <ImageView
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:src="@mipmap/right"
-                    android:layout_alignParentRight="true"/>
-            </RelativeLayout>
+                    <ImageView
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:src="@mipmap/right"
+                        android:layout_alignParentRight="true"/>
+                </RelativeLayout>
+            </LinearLayout>
 
 
             <!--用户评价-->
-            <RelativeLayout
-                android:id="@+id/re_layout_user_commet"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingTop="10dp"
-                android:paddingBottom="10dp"
-                android:layout_marginTop="5dp"
-                android:background="@color/white_my">
-                <TextView
-                    android:id="@+id/user_comment"
-                    android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <RelativeLayout
+                    android:id="@+id/re_layout_user_commet"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/yong_hu_ping_jia"
-                    android:layout_marginLeft="5dp"
-                    android:textSize="@dimen/product_detail_base_font_size"/>
+                    android:paddingTop="10dp"
+                    android:paddingBottom="10dp"
+                    android:layout_marginTop="5dp"
+                    android:background="@color/white_my">
+                    <TextView
+                        android:id="@+id/user_comment"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/yong_hu_ping_jia"
+                        android:layout_marginLeft="5dp"
+                        android:textSize="@dimen/product_detail_base_font_size"/>
 
-                <TextView
-                    android:id="@+id/hao_ping_lv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/hao_ping_lv"
-                    android:layout_toRightOf="@id/user_comment"
-                    android:layout_marginLeft="5dp"
-                    android:textSize="@dimen/product_detail_base_font_size"/>
+                    <TextView
+                        android:id="@+id/hao_ping_lv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/hao_ping_lv"
+                        android:layout_toRightOf="@id/user_comment"
+                        android:layout_marginLeft="5dp"
+                        android:textSize="@dimen/product_detail_base_font_size"/>
 
-                <TextView
-                    android:id="@+id/text_hao_ping_lv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="100%"
-                    android:textColor="@color/bottom_lable_color"
-                    android:layout_toRightOf="@id/hao_ping_lv"
-                    android:layout_marginLeft="5dp"
-                    android:textSize="@dimen/product_detail_base_font_size"/>
+                    <TextView
+                        android:id="@+id/text_hao_ping_lv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="100%"
+                        android:textColor="@color/bottom_lable_color"
+                        android:layout_toRightOf="@id/hao_ping_lv"
+                        android:layout_marginLeft="5dp"
+                        android:textSize="@dimen/product_detail_base_font_size"/>
 
+                    <ImageView
+                        android:id="@+id/you_dao_hang"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:src="@mipmap/right"
+                        android:layout_alignParentRight="true"/>
 
-                <ImageView
-                    android:id="@+id/you_dao_hang"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:src="@mipmap/right"
-                    android:layout_alignParentRight="true"/>
+                    <TextView
+                        android:id="@+id/ren_ping_lun"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/ren_ping_lun"
+                        android:layout_toLeftOf="@id/you_dao_hang"
+                        android:gravity="center_vertical"/>
 
-                <TextView
-                    android:id="@+id/ren_ping_lun"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/ren_ping_lun"
-                    android:layout_toLeftOf="@id/you_dao_hang"
-                    android:gravity="center_vertical"/>
+                    <TextView
+                        android:id="@+id/text_comment_counts"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="0"
+                        android:textColor="@color/bottom_lable_color"
+                        android:layout_toLeftOf="@id/ren_ping_lun"/>
+                </RelativeLayout>
+            </LinearLayout>
 
-                <TextView
-                    android:id="@+id/text_comment_counts"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="11"
-                    android:textColor="@color/bottom_lable_color"
-                    android:layout_toLeftOf="@id/ren_ping_lun"/>
-            </RelativeLayout>
 
 
             <!--................评论的内容,这个区域可能没有................-->
@@ -619,9 +627,9 @@
                             android:background="@color/white_my"
                             android:text="@string/quan_bu_ping_jia"
                             android:layout_margin="5dp"/>
-
                     </LinearLayout>
                 </LinearLayout>
+            </LinearLayout>
 
 
                 <!--爆款新品-->
@@ -667,7 +675,9 @@
                         android:drawableLeft="@mipmap/kefu"/>
 
                 </LinearLayout>
-            </LinearLayout>
+
+
+
         </LinearLayout>
     </ScrollView>
 

@@ -1,6 +1,7 @@
 package com.example.asus_cp.dongmanbuy.activity.dian_pu_jie;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
@@ -13,8 +14,11 @@ import android.widget.Toast;
 import com.android.volley.toolbox.ImageLoader;
 import com.example.asus_cp.dongmanbuy.R;
 import com.example.asus_cp.dongmanbuy.constant.MyConstant;
+import com.example.asus_cp.dongmanbuy.model.Good;
 import com.example.asus_cp.dongmanbuy.model.ShopModel;
 import com.example.asus_cp.dongmanbuy.util.ImageLoadHelper;
+
+import java.util.ArrayList;
 
 /**
  * 店铺详情的界面
@@ -143,7 +147,12 @@ public class ShopDetailActivity extends Activity implements View.OnClickListener
                 Toast.makeText(this,"点击了关注",Toast.LENGTH_SHORT).show();
                 break;
             case R.id.ll_all_product_shop_detail://点击了全部商品
-                Toast.makeText(this,"点击了全部商品",Toast.LENGTH_SHORT).show();
+                //Toast.makeText(this,"点击了全部商品",Toast.LENGTH_SHORT).show();
+                Intent allIntent=new Intent(this,ShopProdcutSortActivity.class);
+                ArrayList<Good> goods= (ArrayList<Good>) shopModel.getGoods();
+                allIntent.putExtra(MyConstant.FROM_SHOP_HOME_TO_SHOP_PRODUCT_SORT_KEY,
+                        goods);
+                startActivity(allIntent);
                 break;
             case R.id.ll_new_product_shop_detail://点击了新商品
                 Toast.makeText(this,"点击了新商品",Toast.LENGTH_SHORT).show();

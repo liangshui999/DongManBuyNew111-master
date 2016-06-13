@@ -14,9 +14,13 @@ public class FormatHelper {
      * 将数字保留2位小数，且以人民币开头
      */
     public static String getMoneyFormat(String str){
-        double d=Double.parseDouble(str);
-        DecimalFormat a = new DecimalFormat("¥.##");
-        return a.format(d);
+        if(isHaveRenMingBi(str)){
+            return str;
+        }else{
+            double d=Double.parseDouble(str);
+            DecimalFormat a = new DecimalFormat("¥.##");
+            return a.format(d);
+        }
     }
 
     /**
@@ -32,8 +36,24 @@ public class FormatHelper {
      * 从人民币中取出数字
      */
     public static String getNumberFromRenMingBi(String s){
-        String str=s.substring(1);
-        return str;
+        if(isHaveRenMingBi(s)){
+            String str=s.substring(1);
+            return str;
+        }else{
+            return s;
+        }
+    }
+
+    /**
+     * 判断某个字符串是否带人名币符号
+     */
+    public static boolean isHaveRenMingBi(String s){
+        String fuHao=s.substring(0,1);
+        if("¥".equals(fuHao)){
+            return true;
+        }else{
+            return false;
+        }
     }
 
     /**

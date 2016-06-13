@@ -1,8 +1,10 @@
 package com.example.asus_cp.dongmanbuy.adapter;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -23,15 +25,18 @@ import com.android.volley.toolbox.StringRequest;
 import com.example.asus_cp.dongmanbuy.R;
 import com.example.asus_cp.dongmanbuy.activity.dian_pu_jie.ShopHomeActivity;
 import com.example.asus_cp.dongmanbuy.activity.login.LoginActivity;
+import com.example.asus_cp.dongmanbuy.activity.product_detail.ProductDetailActivity;
 import com.example.asus_cp.dongmanbuy.constant.MyConstant;
 import com.example.asus_cp.dongmanbuy.model.ShopModel;
 import com.example.asus_cp.dongmanbuy.util.ImageLoadHelper;
+import com.example.asus_cp.dongmanbuy.util.JsonHelper;
 import com.example.asus_cp.dongmanbuy.util.MyApplication;
 import com.example.asus_cp.dongmanbuy.util.MyLog;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -46,6 +51,7 @@ public class ShopStreetShopListAdapter extends BaseAdapter {
     private List<ShopModel> shopModels;
     private LayoutInflater inflater;
     private ImageLoadHelper helper;
+    private AlertDialog loginDialog;//登陆的对话框
 
     private String shopInfoUrl="http://www.zmobuy.com/PHP/?url=/store/shopinfo";//店铺详细信息的接口
 
@@ -167,6 +173,22 @@ public class ShopStreetShopListAdapter extends BaseAdapter {
                                 @Override
                                 public void onResponse(String s) {
                                     MyLog.d(tag,"关注接口返回的数据"+s);
+                                    try {
+                                        JSONObject jsonObject=new JSONObject(s);
+                                        JSONObject jsonObject1=jsonObject.getJSONObject("data");
+                                        String erroeDesc= JsonHelper.decodeUnicode(jsonObject1.getString("error_desc"));
+                                        if("已关注".equals(erroeDesc)){
+                                            Toast.makeText(context,"关注成功",Toast.LENGTH_SHORT).show();
+                                            finalViewHolder.guanZhuTextView.setTextColor(context.getResources().getColor(R.color.white_my));
+                                            finalViewHolder.guanZhuTextView.setBackgroundResource(R.color.bottom_lable_color);
+                                        }else if("已取消关注".equals(erroeDesc)){
+                                            Toast.makeText(context,"取消关注成功",Toast.LENGTH_SHORT).show();
+                                            finalViewHolder.guanZhuTextView.setTextColor(context.getResources().getColor(R.color.bottom_lable_color));
+                                            finalViewHolder.guanZhuTextView.setBackgroundResource(R.color.white_my);
+                                        }
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
                                 }
                             }, new Response.ErrorListener() {
                         @Override
@@ -184,10 +206,26 @@ public class ShopStreetShopListAdapter extends BaseAdapter {
                     };
                     requestQueue.add(guanZhuRequest);
                 }else{//没有记录就跳转到登陆界面
-                    Intent intent=new Intent(context, LoginActivity.class);
-                    intent.putExtra(MyConstant.START_LOGIN_ACTIVITY_FLAG_KEY,"guanZhu");
-                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    context.startActivity(intent);
+                    AlertDialog.Builder builder=new AlertDialog.Builder(context);
+                    builder.setMessage("请登录后关注该店铺");
+                    builder.setPositiveButton("立即登陆", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            Intent intent = new Intent(context, LoginActivity.class);
+                            intent.putExtra(MyConstant.START_LOGIN_ACTIVITY_FLAG_KEY, "guanZhu");
+                            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            context.startActivity(intent);
+                            loginDialog.dismiss();
+                        }
+                    });
+                    builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            loginDialog.dismiss();
+                        }
+                    });
+                    loginDialog=builder.show();
+                    loginDialog.show();
                 }
 
             }
@@ -196,9 +234,9 @@ public class ShopStreetShopListAdapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
                 //Toast.makeText(context, "点击了店铺名称", Toast.LENGTH_SHORT).show();
-                Intent intent=new Intent(context, ShopHomeActivity.class);
+                Intent intent = new Intent(context, ShopHomeActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                intent.putExtra(MyConstant.FROM_SHOP_CATEGORY_TO_CATEGORY_HOME_KEY,shopModel.getUserId());
+                intent.putExtra(MyConstant.FROM_SHOP_CATEGORY_TO_CATEGORY_HOME_KEY, shopModel.getUserId());
                 context.startActivity(intent);
             }
         });
@@ -206,28 +244,36 @@ public class ShopStreetShopListAdapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
                 //Toast.makeText(context, "点击了店铺logo", Toast.LENGTH_SHORT).show();
-                Intent intent=new Intent(context, ShopHomeActivity.class);
+                Intent intent = new Intent(context, ShopHomeActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 intent.putExtra(MyConstant.FROM_SHOP_CATEGORY_TO_CATEGORY_HOME_KEY, shopModel.getUserId());
                 context.startActivity(intent);
             }
         });
 
-
-        //店铺的商品内容展示
-        ShopStreetShopContentAdapter adapter=new ShopStreetShopContentAdapter(context,shopModel.getGoods());
-        //设置布局管理器
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context);
-        linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
-        viewHolder.shopContentRecyClView.setLayoutManager(linearLayoutManager);
-        //设置适配器
-        viewHolder.shopContentRecyClView.setAdapter(adapter);
-        adapter.setOnItemClickLitener(new ShopStreetShopContentAdapter.OnItemClickLitener() {
-            @Override
-            public void onItemClick(View view, int position) {
-                Toast.makeText(context,"点击的位置是"+position,Toast.LENGTH_SHORT).show();
-            }
-        });
+        if(shopModel.getGoods()!=null){
+            viewHolder.shopContentRecyClView.setVisibility(View.VISIBLE);
+            //店铺的商品内容展示
+            ShopStreetShopContentAdapter adapter=new ShopStreetShopContentAdapter(context,shopModel.getGoods());
+            //设置布局管理器
+            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context);
+            linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+            viewHolder.shopContentRecyClView.setLayoutManager(linearLayoutManager);
+            //设置适配器
+            viewHolder.shopContentRecyClView.setAdapter(adapter);
+            adapter.setOnItemClickLitener(new ShopStreetShopContentAdapter.OnItemClickLitener() {
+                @Override
+                public void onItemClick(View view, int position) {
+                    Toast.makeText(context,"点击的位置是"+position,Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(context, ProductDetailActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    intent.putExtra(MyConstant.GOOD_KEY, shopModel.getGoods().get(position));
+                    context.startActivity(intent);
+                }
+            });
+        }else{
+            viewHolder.shopContentRecyClView.setVisibility(View.GONE);
+        }
         return v;
     }
 

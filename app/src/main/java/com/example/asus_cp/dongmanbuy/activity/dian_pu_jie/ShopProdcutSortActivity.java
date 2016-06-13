@@ -1,6 +1,7 @@
 package com.example.asus_cp.dongmanbuy.activity.dian_pu_jie;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.SearchView;
 import android.view.View;
@@ -13,6 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.asus_cp.dongmanbuy.R;
+import com.example.asus_cp.dongmanbuy.activity.product_detail.ProductDetailActivity;
 import com.example.asus_cp.dongmanbuy.adapter.ShopProductBigListAdapter;
 import com.example.asus_cp.dongmanbuy.adapter.ShopProductGridAdapter;
 import com.example.asus_cp.dongmanbuy.adapter.ShopProductSmallListAdapter;
@@ -78,7 +80,10 @@ public class ShopProdcutSortActivity extends Activity implements View.OnClickLis
         productGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(ShopProdcutSortActivity.this,"点击了"+position,Toast.LENGTH_SHORT).show();
+                //Toast.makeText(ShopProdcutSortActivity.this,"点击了"+position,Toast.LENGTH_SHORT).show();
+                Intent gridIntent=new Intent(ShopProdcutSortActivity.this, ProductDetailActivity.class);
+                gridIntent.putExtra(MyConstant.GOOD_KEY,goods.get(position));
+                startActivity(gridIntent);
             }
         });
 
@@ -128,7 +133,10 @@ public class ShopProdcutSortActivity extends Activity implements View.OnClickLis
                     productGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                         @Override
                         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                            Toast.makeText(ShopProdcutSortActivity.this,"点击了"+position,Toast.LENGTH_SHORT).show();
+                            //Toast.makeText(ShopProdcutSortActivity.this,"点击了"+position,Toast.LENGTH_SHORT).show();
+                            Intent gridIntent=new Intent(ShopProdcutSortActivity.this, ProductDetailActivity.class);
+                            gridIntent.putExtra(MyConstant.GOOD_KEY,goods.get(position));
+                            startActivity(gridIntent);
                         }
                     });
                 }else if(count%3==LIST_SMALL){
@@ -141,7 +149,10 @@ public class ShopProdcutSortActivity extends Activity implements View.OnClickLis
                     productListViewSmall.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                         @Override
                         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                            Toast.makeText(ShopProdcutSortActivity.this,"点击了"+position,Toast.LENGTH_SHORT).show();
+                            //Toast.makeText(ShopProdcutSortActivity.this,"点击了"+position,Toast.LENGTH_SHORT).show();
+                            Intent smallIntent=new Intent(ShopProdcutSortActivity.this, ProductDetailActivity.class);
+                            smallIntent.putExtra(MyConstant.GOOD_KEY,goods.get(position));
+                            startActivity(smallIntent);
                         }
                     });
                 }else if(count%3==LIST_BIG){
@@ -154,7 +165,10 @@ public class ShopProdcutSortActivity extends Activity implements View.OnClickLis
                     productListViewBig.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                         @Override
                         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                            Toast.makeText(ShopProdcutSortActivity.this,"点击了"+position,Toast.LENGTH_SHORT).show();
+                            //Toast.makeText(ShopProdcutSortActivity.this,"点击了"+position,Toast.LENGTH_SHORT).show();
+                            Intent bigIntent=new Intent(ShopProdcutSortActivity.this, ProductDetailActivity.class);
+                            bigIntent.putExtra(MyConstant.GOOD_KEY,goods.get(position));
+                            startActivity(bigIntent);
                         }
                     });
                 }

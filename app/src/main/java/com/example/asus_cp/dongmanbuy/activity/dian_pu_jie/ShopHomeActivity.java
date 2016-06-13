@@ -1,11 +1,16 @@
 package com.example.asus_cp.dongmanbuy.activity.dian_pu_jie;
 
 import android.app.Activity;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.SearchView;
 import android.view.View;
 import android.view.Window;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
@@ -20,6 +25,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.StringRequest;
 import com.example.asus_cp.dongmanbuy.R;
+import com.example.asus_cp.dongmanbuy.activity.login.LoginActivity;
 import com.example.asus_cp.dongmanbuy.activity.product_detail.ProductDetailActivity;
 import com.example.asus_cp.dongmanbuy.adapter.ShopHomeHotProductAdapter;
 import com.example.asus_cp.dongmanbuy.constant.MyConstant;
@@ -73,13 +79,17 @@ public class ShopHomeActivity extends Activity implements View.OnClickListener {
 
     private String shopUserId;//店铺所有者的id
 
-    private String shopInfoUrl = "http://www.zmobuy.com/PHP/?url=/store/shopinfo";//用户详细信息的接口
+    private String shopInfoUrl = "http://www.zmobuy.com/PHP/?url=/store/shopinfo";//店铺详细信息的接口
+
+    private String guanZhuUrl="http://www.zmobuy.com/PHP/?url=/store/addcollect";//关注的接口
 
     private RequestQueue requestQueue;
 
     private ImageLoadHelper helper;
 
     private ShopModel shopModel;
+
+    private AlertDialog loginDialog;//登陆的对话框
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -153,6 +163,15 @@ public class ShopHomeActivity extends Activity implements View.OnClickListener {
                 ShopHomeHotProductAdapter adapter=new ShopHomeHotProductAdapter(ShopHomeActivity.this,
                         goods);
                 hotProductGridView.setAdapter(adapter);
+                hotProductGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        Toast.makeText(ShopHomeActivity.this,"点击的位置是"+position,Toast.LENGTH_SHORT).show();
+                        Intent toDetailActivityIntent=new Intent(ShopHomeActivity.this,ProductDetailActivity.class);
+                        toDetailActivityIntent.putExtra(MyConstant.GOOD_KEY,shopModel.getGoods().get(position));
+                        startActivity(toDetailActivityIntent);
+                    }
+                });
 //                CategoryImageLoadHelper.setGridViewHeightBasedOnChildren(hotProductGridView);
 //                shopHomeScrollView.invalidate();//通知scrollview重绘
 
@@ -252,10 +271,15 @@ public class ShopHomeActivity extends Activity implements View.OnClickListener {
                 Toast.makeText(this, "点击了分类按钮", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.text_guan_zhu_home://关注按钮
-                Toast.makeText(this, "点击了关注按钮", Toast.LENGTH_SHORT).show();
+                guanZhuClickChuLi();
                 break;
             case R.id.ll_all_product://全部商品
-                Toast.makeText(this, "点击了全部商品", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(this, "点击了全部商品", Toast.LENGTH_SHORT).show();
+                Intent allIntent=new Intent(this,ShopProdcutSortActivity.class);
+                ArrayList<Good> allgoods= (ArrayList<Good>) shopModel.getGoods();
+                allIntent.putExtra(MyConstant.FROM_SHOP_HOME_TO_SHOP_PRODUCT_SORT_KEY,
+                        allgoods);
+                startActivity(allIntent);
                 break;
             case R.id.ll_new_product://新商品
                 Toast.makeText(this, "点击了新商品", Toast.LENGTH_SHORT).show();
@@ -289,5 +313,75 @@ public class ShopHomeActivity extends Activity implements View.OnClickListener {
     }
 
 
+    /**
+     * 关注点击事件的处理
+     */
+    private void guanZhuClickChuLi() {
+        Toast.makeText(this, "点击了关注按钮", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(context, "点击了关注", Toast.LENGTH_SHORT).show();
+        SharedPreferences sharedPreferences=getSharedPreferences(MyConstant.USER_SHAREPREFRENCE_NAME,
+                Context.MODE_APPEND);
+        final String uid=sharedPreferences.getString(MyConstant.UID_KEY, null);
+        final String sid=sharedPreferences.getString(MyConstant.SID_KEY,null);
+        if(uid!=null && !uid.isEmpty()){
+            StringRequest guanZhuRequest=new StringRequest(Request.Method.POST, guanZhuUrl,
+                    new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String s) {
+                            MyLog.d(tag, "关注接口返回的数据" + s);
+                            try {
+                                JSONObject jsonObject=new JSONObject(s);
+                                JSONObject jsonObject1=jsonObject.getJSONObject("data");
+                                String erroeDesc= JsonHelper.decodeUnicode(jsonObject1.getString("error_desc"));
+                                if("已关注".equals(erroeDesc)){
+                                    Toast.makeText(ShopHomeActivity.this,"关注成功",Toast.LENGTH_SHORT).show();
+                                    guanZhuTextView.setTextColor(getResources().getColor(R.color.white_my));
+                                    guanZhuTextView.setBackgroundResource(R.color.bottom_lable_color);
+                                }else if("已取消关注".equals(erroeDesc)){
+                                    Toast.makeText(ShopHomeActivity.this,"取消关注成功",Toast.LENGTH_SHORT).show();
+                                    guanZhuTextView.setTextColor(getResources().getColor(R.color.bottom_lable_color));
+                                    guanZhuTextView.setBackgroundResource(R.color.white_my);
+                                }
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError volleyError) {
+
+                }
+            }){
+                @Override
+                protected Map<String, String> getParams() throws AuthFailureError {
+                    Map<String,String> map=new HashMap<String,String>();
+                    String json="{\"session\":{\"uid\":\""+uid+"\",\"sid\":\""+sid+"\"},\"shop_userid\":\""+shopModel.getUserId()+"\"}";
+                    map.put("json",json);
+                    return map;
+                }
+            };
+            requestQueue.add(guanZhuRequest);
+        }else{//没有记录就跳转到登陆界面
+            AlertDialog.Builder builder=new AlertDialog.Builder(ShopHomeActivity.this);
+            builder.setMessage("请登录后关注该店铺");
+            builder.setPositiveButton("立即登陆", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    Intent intent = new Intent(ShopHomeActivity.this, LoginActivity.class);
+                    intent.putExtra(MyConstant.START_LOGIN_ACTIVITY_FLAG_KEY, "guanZhu");
+                    startActivity(intent);
+                    loginDialog.dismiss();
+                }
+            });
+            builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    loginDialog.dismiss();
+                }
+            });
+            loginDialog=builder.show();
+            loginDialog.show();
+        }
+    }
 
 }
