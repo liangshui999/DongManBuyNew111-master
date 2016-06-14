@@ -15,4 +15,5 @@ public interface MyConstant {
     public static final String FROM_SHOP_HOME_TO_SHOP_DETAIL_KEY="shopDetail";//从店铺的主页到店铺的详情的传值
     public static final String FROM_SHOP_HOME_TO_SHOP_PRODUCT_SORT_KEY="productSort";//从店铺主页跳到店铺商品排序的界面的key
     public static final String GOOD_KEY="good_key";//向商品详情传数据时所用的key
+    public static final String KU_CUN_KEY="kuCunKey";//从商品详情向购物车传递库存数量时使用
 }

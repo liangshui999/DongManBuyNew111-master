@@ -398,7 +398,10 @@ public class ProductDetailActivity extends Activity implements View.OnClickListe
                 Toast.makeText(this, "客服", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.ll_shopping_car_product_detail://购物车
-                Toast.makeText(this, "购物车", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(this, "购物车", Toast.LENGTH_SHORT).show();
+                Intent shoppingCatIntent=new Intent(this,ShoppingCarActivity.class);
+                shoppingCatIntent.putExtra(MyConstant.KU_CUN_KEY,good.getGoodsNumber());
+                startActivity(shoppingCatIntent);
                 break;
             case R.id.btn_add_to_shopping_car://加入购物车
                 addToShoppingCarChuLi();

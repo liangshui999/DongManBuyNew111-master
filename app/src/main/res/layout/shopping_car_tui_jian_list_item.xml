@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingTop="10dp"
+    android:paddingBottom="10dp">
+
+    <ImageView
+        android:id="@+id/img_pic_shopping_car_tui_jian"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:background="@mipmap/sina"/>
+    <TextView
+        android:id="@+id/text_product_name_shopping_car_tui_jian"
+        android:layout_width="wrap_content"
+        android:maxLines="2"
+        android:layout_height="wrap_content"
+        android:layout_gravity="left"
+        android:layout_marginLeft="10dp"
+        android:text="超电磁跑速度和犯得上看见的数据反对思考"
+        />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp">
+        <TextView
+            android:id="@+id/text_product_price_shopping_car_tui_jian"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:textSize="16sp"
+            android:textColor="@color/bottom_lable_color"
+            android:layout_marginLeft="10dp"
+            android:text="24.00"/>
+
+        <ImageView
+            android:id="@+id/img_shopping_car_tui_jian"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:background="@mipmap/shoppingcar_hong"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="10dp"/>
+
+    </RelativeLayout>
+
+</LinearLayout>

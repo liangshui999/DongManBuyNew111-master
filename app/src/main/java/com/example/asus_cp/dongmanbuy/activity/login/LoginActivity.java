@@ -144,6 +144,8 @@ public class LoginActivity extends Activity implements View.OnClickListener{
                                         finish();
                                     }else if("guanZhu".equals(whoStartMe)){//从店铺街的关注跳转过来的
                                         finish();
+                                    }else if("shoppingCarActivity".equals(whoStartMe)){//从购物车调过来的
+                                        finish();
                                     }
                                 }else {
                                     Toast.makeText(LoginActivity.this,"登录失败",Toast.LENGTH_SHORT).show();

@@ -172,6 +172,7 @@
     <string name="xin_pin">新品</string>
     <string name="price">价格</string>
     <string name="xiao_liang_mao_hao">销量:</string>
+    <string name="ci_ma_mao_hao">尺码:</string>
 
 
 </resources>

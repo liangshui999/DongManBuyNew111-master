@@ -10,6 +10,7 @@ import android.os.Parcelable;
 public class Good implements Parcelable{
     private String goodId;
     private String userId;
+    private String recId;
     private String goodName;
     private String warehousePrice;
     private String warehousePromotePrice;
@@ -36,11 +37,13 @@ public class Good implements Parcelable{
     private String goodsThumb;//缩略图
     private String goodsImg;//大图
     private String goodsSmallImag;//小图
+    private String shoppingCarNumber;//购物车中该商品数量
 
     public Good(){}
     protected Good(Parcel in) {
         goodId = in.readString();
         userId = in.readString();
+        recId=in.readString();
         goodName = in.readString();
         warehousePrice = in.readString();
         warehousePromotePrice = in.readString();
@@ -67,6 +70,7 @@ public class Good implements Parcelable{
         goodsThumb = in.readString();
         goodsImg = in.readString();
         goodsSmallImag = in.readString();
+        shoppingCarNumber=in.readString();
     }
 
     public static final Creator<Good> CREATOR = new Creator<Good>() {
@@ -95,6 +99,14 @@ public class Good implements Parcelable{
 
     public void setUserId(String userId) {
         this.userId = userId;
+    }
+
+    public String getRecId() {
+        return recId;
+    }
+
+    public void setRecId(String recId) {
+        this.recId = recId;
     }
 
     public String getGoodName() {
@@ -305,6 +317,14 @@ public class Good implements Parcelable{
         this.goodsSmallImag = goodsSmallImag;
     }
 
+    public String getShoppingCarNumber() {
+        return shoppingCarNumber;
+    }
+
+    public void setShoppingCarNumber(String shoppingCarNumber) {
+        this.shoppingCarNumber = shoppingCarNumber;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -314,6 +334,7 @@ public class Good implements Parcelable{
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(goodId);
         dest.writeString(userId);
+        dest.writeString(recId);
         dest.writeString(goodName);
         dest.writeString(warehousePrice);
         dest.writeString(warehousePromotePrice);
@@ -340,6 +361,7 @@ public class Good implements Parcelable{
         dest.writeString(goodsThumb);
         dest.writeString(goodsImg);
         dest.writeString(goodsSmallImag);
+        dest.writeString(shoppingCarNumber);
     }
 
 }
