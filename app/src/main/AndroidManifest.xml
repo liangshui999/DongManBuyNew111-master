@@ -62,7 +62,7 @@
         <activity android:name=".activity.product_detail.QueHuoDengJiActivity"/>
 
         <!--有货时的activity-->
-        <activity android:name=".activity.product_detail.ShoppingCarActivity"/>
+        <activity android:name=".activity.gou_wu.ShoppingCarActivity"/>
 
         <!--店铺街的activity-->
         <activity android:name=".activity.dian_pu_jie.ShopStreetCategoryActvity"/>
@@ -75,6 +75,12 @@
 
         <!--店铺排序的activity-->
         <activity android:name=".activity.dian_pu_jie.ShopProdcutSortActivity"/>
+
+        <!--订单的activity-->
+        <activity android:name=".activity.gou_wu.DingDanActivity"/>
+
+        <!--收货人信息的activity-->
+        <activity android:name=".activity.gou_wu.ShouHuoRenXinXiListActivity"/>
 
         <!--搜索的activity-->
         <activity android:name=".activity.MySearchActivity">

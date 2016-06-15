@@ -165,7 +165,6 @@
             android:background="@color/bottom_lable_color"
             android:paddingRight="5dp">
             <TextView
-                android:clickable="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/white_my"

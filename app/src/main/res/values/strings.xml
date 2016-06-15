@@ -173,6 +173,20 @@
     <string name="price">价格</string>
     <string name="xiao_liang_mao_hao">销量:</string>
     <string name="ci_ma_mao_hao">尺码:</string>
-
+    <string name="pei_song_fang_shi">配送方式</string>
+    <string name="shang_jia_pei_song">商家配送</string>
+    <string name="mian_yun_fei">免运费</string>
+    <string name="mai_jia_liu_yan">买家留言（50字）</string>
+    <string name="xuan_tian">选填</string>
+    <string name="zhi_fu_fang_shi">支付方式</string>
+    <string name="fa_piao_xin_xi">发票信息</string>
+    <string name="shi_yong_ji_fen">本单可使用积分抵扣</string>
+    <string name="product_sum_price">商品总价</string>
+    <string name="use_you_hui_quan">使用优惠券</string>
+    <string name="shi_fu_kuan">实付款</string>
+    <string name="ti_jiao_ding_dan">提交订单</string>
+    <string name="time">时间</string>
+    <string name="zi_ti_dian">自提点</string>
+    <string name="xin_zeng_shou_huo_ren_xin_xi">新增收货人信息</string>
 
 </resources>

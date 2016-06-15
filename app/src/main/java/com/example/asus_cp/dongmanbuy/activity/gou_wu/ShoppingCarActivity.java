@@ -1,18 +1,22 @@
-package com.example.asus_cp.dongmanbuy.activity.product_detail;
+package com.example.asus_cp.dongmanbuy.activity.gou_wu;
 
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.view.WindowManager;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,7 +29,6 @@ import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.StringRequest;
 import com.example.asus_cp.dongmanbuy.R;
 import com.example.asus_cp.dongmanbuy.activity.login.LoginActivity;
-import com.example.asus_cp.dongmanbuy.adapter.ShoppingCarListAdapter;
 import com.example.asus_cp.dongmanbuy.constant.MyConstant;
 import com.example.asus_cp.dongmanbuy.customview.MyGridViewA;
 import com.example.asus_cp.dongmanbuy.customview.MyListView;
@@ -54,9 +57,9 @@ public class ShoppingCarActivity extends Activity implements View.OnClickListene
     private String tag="ShoppingCarActivity";
 
     private ImageView daoHangImageView;//导航
-    private CheckBox ziYingCheckBox;//自营店的chekcbox
+    public CheckBox ziYingCheckBox;//自营店的chekcbox
     private TextView lingQuanTextView;//领券
-    private CheckBox quanXuanCheckBox;//全选
+    public CheckBox quanXuanCheckBox;//全选
     public TextView priceTextView;//总结算价格
     private LinearLayout editLinearLayout;//编辑按钮
     private LinearLayout jieSuanLinearLayout;//结算的按钮
@@ -71,6 +74,7 @@ public class ShoppingCarActivity extends Activity implements View.OnClickListene
     private String updateShoppingCarUrl="http://www.zmobuy.com/PHP/index.php?url=/cart/update";//更改购物车的商品数量
     private String shoppingCarListUrl="http://www.zmobuy.com/PHP/index.php?url=/cart/list";//购物车列表
     private String deleteShoppingCarUrl="http://www.zmobuy.com/PHP/index.php?url=/cart/delete";//删除购物车
+    private String gooDescUrl="http://www.zmobuy.com/PHP/?url=/goods";//商品详情的接口
     private RequestQueue requestQueue;
 
     private String uid;
@@ -79,6 +83,11 @@ public class ShoppingCarActivity extends Activity implements View.OnClickListene
     private SharedPreferences sharedPreferences;
 
     public static final int REQUEST_CODE_TO_LOGIN_ACTIVITY=1;
+
+
+    private View parentView;//所有popu的父布局
+
+    private PopupWindow youHuiQuanWindow;//优惠券的弹出窗口
 
     private int kuCunNumBer;//库存数量
     @Override
@@ -93,6 +102,7 @@ public class ShoppingCarActivity extends Activity implements View.OnClickListene
      * 初始化的方法
      */
     private void init() {
+        parentView=LayoutInflater.from(this).inflate(R.layout.shopping_car_activity_layout,null);
         daoHangImageView= (ImageView) findViewById(R.id.img_shoping_car_activity_dao_hang);
         ziYingCheckBox= (CheckBox) findViewById(R.id.check_box_zi_ying_dian);
         lingQuanTextView= (TextView) findViewById(R.id.text_ling_quan);
@@ -112,7 +122,7 @@ public class ShoppingCarActivity extends Activity implements View.OnClickListene
         editLinearLayout.setOnClickListener(this);
         jieSuanLinearLayout.setOnClickListener(this);
 
-        kuCunNumBer=Integer.parseInt(getIntent().getStringExtra(MyConstant.KU_CUN_KEY));//获取库存数量
+
 
         requestQueue= MyApplication.getRequestQueue();
         sharedPreferences=getSharedPreferences(MyConstant.USER_SHAREPREFRENCE_NAME, MODE_APPEND);
@@ -137,9 +147,9 @@ public class ShoppingCarActivity extends Activity implements View.OnClickListene
                     public void onResponse(String s) {
                         MyLog.d(tag,"返回的数据是"+s);
                         List<Good> goods = parseJson(s);
-                        adapter=new ShoppingCarListAdapter(ShoppingCarActivity.this,
-                                goods);
-                        myListView.setAdapter(adapter);
+//                        adapter=new ShoppingCarListAdapter(ShoppingCarActivity.this,
+//                                goods);
+//                        myListView.setAdapter(adapter);
                     }
                 }, new Response.ErrorListener() {
             @Override
@@ -163,27 +173,62 @@ public class ShoppingCarActivity extends Activity implements View.OnClickListene
      * 主要用于解析json数据
      */
     private List<Good> parseJson(String s) {
-        List<Good> goods=new ArrayList<Good>();
+        final List<Good> goods=new ArrayList<Good>();
         try {
             JSONObject jsonObject=new JSONObject(s);
             JSONObject jsonObject1=jsonObject.getJSONObject("data");
             JSONArray jsonArray=jsonObject1.getJSONArray("goods_list");
             for(int i=0;i<jsonArray.length();i++){
-                Good good=new Good();
+                final Good good=new Good();
                 JSONObject ziJsonObj=jsonArray.getJSONObject(i);
                 good.setRecId(ziJsonObj.getString("rec_id"));
                 good.setGoodId(ziJsonObj.getString("goods_id"));
                 good.setGoodName(JsonHelper.decodeUnicode(ziJsonObj.getString("goods_name")));
                 good.setMarket_price(JsonHelper.decodeUnicode(ziJsonObj.getString("market_price")));
                 good.setShopPrice(JsonHelper.decodeUnicode(ziJsonObj.getString("goods_price")));
-                good.setGoodsNumber(kuCunNumBer + "");
                 good.setShoppingCarNumber(ziJsonObj.getString("goods_number"));
                 JSONObject imgJson=ziJsonObj.getJSONObject("img");
                 good.setGoodsImg(imgJson.getString("url"));
                 good.setGoodsThumb(imgJson.getString("thumb"));
                 good.setGoodsSmallImag(imgJson.getString("small"));
-                goods.add(good);
+
+                StringRequest kuCunRequest=new StringRequest(Request.Method.POST, gooDescUrl, new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String s) {
+                        MyLog.d(tag,"请求库存返回的数据"+s);
+                        try {
+                            JSONObject kuCunJs=new JSONObject(s);
+                            JSONObject ku=kuCunJs.getJSONObject("data");
+                            good.setGoodsNumber(ku.getString("goods_number"));
+                            goods.add(good);
+
+                            adapter=new ShoppingCarListAdapter(ShoppingCarActivity.this,
+                                    goods);
+                            myListView.setAdapter(adapter);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError volleyError) {
+
+                    }
+                }){
+                    @Override
+                    protected Map<String, String> getParams() throws AuthFailureError {
+                        Map<String,String> map=new HashMap<String,String>();
+                        String json="{\"goods_id\":\""+good.getGoodId()+"\",\"session\":{\"uid\":\""+uid+"\",\"sid\":\""+sid+"\"}}";
+                        map.put("json",json);
+                        return map;
+                    }
+                };
+                requestQueue.add(kuCunRequest);
+
             }
+
+
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -230,15 +275,83 @@ public class ShoppingCarActivity extends Activity implements View.OnClickListene
                 quanXuanCount++;
                 break;
             case R.id.img_shoping_car_activity_dao_hang://导航
+                finish();
                 break;
             case R.id.text_ling_quan://领券
+                //Toast.makeText(this,"领券",Toast.LENGTH_SHORT).show();
+                youHuiQuanClickChuLi();
                 break;
             case R.id.ll_edit://编辑
+                Toast.makeText(this,"编辑",Toast.LENGTH_SHORT).show();
                 break;
             case R.id.ll_jie_suan://结算
+                //Toast.makeText(this,"结算...",Toast.LENGTH_SHORT).show();
+                Intent intent=new Intent(ShoppingCarActivity.this,DingDanActivity.class);
+                startActivity(intent);
+                break;
+
+
+            //---------------------------------优惠券的弹出窗口的点击事件---------------------------
+            case R.id.img_close_ling_qu_you_hui_quan:
+                //Toast.makeText(this,"关闭优惠券",Toast.LENGTH_SHORT).show();
+                youHuiQuanWindow.dismiss();
+                break;
+            case R.id.ll_li_ji_ling_qu_98:
+                Toast.makeText(this, "立即领取98", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.ll_li_ji_ling_qu_21:
+                Toast.makeText(this, "立即领取21", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.ll_li_ji_ling_qu_1:
+                Toast.makeText(this, "立即领取1", Toast.LENGTH_SHORT).show();
                 break;
         }
     }
+
+
+    /**
+     * 优惠券的点击事件处理
+     */
+    private void youHuiQuanClickChuLi() {
+        //Toast.makeText(this,"点击了优惠券",Toast.LENGTH_SHORT).show();
+        View youHuiQuanView = LayoutInflater.from(this).inflate(R.layout.you_hui_quan_layout, null);
+        ImageView closeYouHuiQuanImagView = (ImageView) youHuiQuanView.findViewById
+                (R.id.img_close_ling_qu_you_hui_quan);
+        LinearLayout liJiLingQu98 = (LinearLayout) youHuiQuanView.findViewById(R.id.ll_li_ji_ling_qu_98);
+        LinearLayout liJiLingQu21 = (LinearLayout) youHuiQuanView.findViewById(R.id.ll_li_ji_ling_qu_21);
+        LinearLayout liJiLingQu1 = (LinearLayout) youHuiQuanView.findViewById(R.id.ll_li_ji_ling_qu_1);
+        closeYouHuiQuanImagView.setOnClickListener(this);
+        liJiLingQu98.setOnClickListener(this);
+        liJiLingQu21.setOnClickListener(this);
+        liJiLingQu1.setOnClickListener(this);
+
+        youHuiQuanWindow = new PopupWindow(youHuiQuanView,
+                ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        //外部点击时可以消失
+        youHuiQuanWindow.setBackgroundDrawable(new ColorDrawable());
+        youHuiQuanWindow.setOutsideTouchable(true);
+        youHuiQuanWindow.showAtLocation(parentView, Gravity.BOTTOM, 0, 0);//最后才是show,顺序很重要
+        setBackgroundAlpha(0.5f);
+        youHuiQuanWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                setBackgroundAlpha(1f);
+            }
+        });
+    }
+
+
+    /**
+     * 设置添加屏幕的背景透明度
+     *
+     * @param bgAlpha
+     */
+    public void setBackgroundAlpha(float bgAlpha) {
+        WindowManager.LayoutParams lp = getWindow().getAttributes();
+        lp.alpha = bgAlpha; //0.0-1.0
+        getWindow().setAttributes(lp);
+    }
+
 
 
 
@@ -532,9 +645,10 @@ public class ShoppingCarActivity extends Activity implements View.OnClickListene
         }
 
         /**
-         * 从集合中取出check状态
+         * 从集合中取出check状态,每次改完数据之后都会重新调用该方法
          */
         private void getCheckStateAndSetTextView() {
+            int count=0;//记录check数目的
             heJi=0;//注意这里需要清零
             jieSuan=0;//注意这里需要清零
             for(int i=0;i<checks.size();i++){
@@ -542,10 +656,19 @@ public class ShoppingCarActivity extends Activity implements View.OnClickListene
                     int productCount=itemProductCounts.get(i);
                     heJi=heJi+Double.parseDouble(FormatHelper.getNumberFromRenMingBi(goods.get(i).getShopPrice()))*productCount;
                     jieSuan = jieSuan+productCount;
+                    count++;
                 }
             }
             priceTextView.setText(heJi+"");
-            jieSuanShuMuTextView.setText(jieSuan+"");
+            jieSuanShuMuTextView.setText(jieSuan + "");
+
+            if(count==checks.size()){
+                ziYingCheckBox.setChecked(true);
+                quanXuanCheckBox.setChecked(true);
+            }else {
+                ziYingCheckBox.setChecked(false);
+                quanXuanCheckBox.setChecked(false);
+            }
         }
 
 
