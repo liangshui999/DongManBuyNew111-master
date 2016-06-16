@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@color/gray">
+        <!--收货人-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:background="@color/white_my"
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/shou_huo_ren"/>
+            <EditText
+                android:id="@+id/edit_shou_huo_ren_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/please_input_shou_huo_ren_name"
+                android:textSize="14sp"
+                />
+        </LinearLayout>
+
+
+        <!--手机号码-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:layout_marginTop="2dp"
+            android:background="@color/white_my"
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/phone"/>
+            <EditText
+                android:id="@+id/edit_shou_huo_ren_phone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/please_input_phone"
+                android:textSize="14sp"/>
+        </LinearLayout>
+
+        <!--所在地区-->
+        <RelativeLayout
+            android:id="@+id/re_layout_suo_zai_di_qu_add_shou_huo_ren_xin_xi"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:background="@color/white_my"
+            android:layout_marginTop="2dp">
+            <TextView
+                android:id="@+id/suo_zai"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/suo_zai_di_qu"/>
+            <TextView
+                android:id="@+id/text_suo_zai_di_qu_add_xin_xi"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/please_xuan_ze"
+                android:layout_toRightOf="@id/suo_zai"
+                android:layout_marginLeft="5dp"/>
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:background="@mipmap/right"
+                android:layout_alignParentRight="true"/>
+        </RelativeLayout>
+
+
+        <!--详细信息-->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:layout_marginTop="2dp"
+            android:background="@color/white_my"
+            android:text="@string/xiang_xi_xin_xi"/>
+        <EditText
+            android:id="@+id/edit_xiang_xi_di_zhi"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:background="@color/white_my"
+            android:hint="@string/xiang_xi_di_zhi"
+            android:textSize="14sp"/>
+
+    </LinearLayout>
+
+    <!--保存按钮-->
+    <Button
+        android:id="@+id/btn_save"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:background="@color/bottom_lable_color"
+        android:text="@string/save"
+        android:textColor="@color/white_my"/>
+
+
+</LinearLayout>

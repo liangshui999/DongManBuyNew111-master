@@ -188,5 +188,13 @@
     <string name="time">时间</string>
     <string name="zi_ti_dian">自提点</string>
     <string name="xin_zeng_shou_huo_ren_xin_xi">新增收货人信息</string>
+    <string name="shou_huo_ren">收货人</string>
+    <string name="phone">手机号码</string>
+    <string name="xiang_xi_xin_xi">详细信息</string>
+    <string name="save">保存</string>
+    <string name="please_input_shou_huo_ren_name">请输入收货人姓名</string>
+    <string name="please_input_phone">请输入联系电话</string>
+    <string name="please_xuan_ze">请选择</string>
+    <string name="xiang_xi_di_zhi">详细地址</string>
 
 </resources>

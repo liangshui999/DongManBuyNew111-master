@@ -21,7 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 购物车列表的适配器
+ * 购物车列表的适配器,此类作废，直接在购物车d的活动里面寻找即可
  * Created by asus-cp on 2016-06-13.
  */
 public class ShoppingCarListAdapter extends BaseAdapter implements View.OnClickListener{

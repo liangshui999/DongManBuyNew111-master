@@ -80,7 +80,9 @@ public class ShouHuoRenXinXiListActivity extends Activity{
         addShouHuoRenTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(ShouHuoRenXinXiListActivity.this,"新增收货人信息",Toast.LENGTH_SHORT).show();
+                //Toast.makeText(ShouHuoRenXinXiListActivity.this,"新增收货人信息",Toast.LENGTH_SHORT).show();
+                Intent intent=new Intent(ShouHuoRenXinXiListActivity.this,AddShouHuoAddressActivity.class);
+                startActivity(intent);
             }
         });
 

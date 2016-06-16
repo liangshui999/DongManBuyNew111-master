@@ -82,6 +82,9 @@
         <!--收货人信息的activity-->
         <activity android:name=".activity.gou_wu.ShouHuoRenXinXiListActivity"/>
 
+        <!--添加收货人信息的activity-->
+        <activity android:name=".activity.gou_wu.AddShouHuoAddressActivity"/>
+
         <!--搜索的activity-->
         <activity android:name=".activity.MySearchActivity">
             <intent-filter>

@@ -17,4 +17,7 @@ public interface MyConstant {
     public static final String GOOD_KEY="good_key";//向商品详情传数据时所用的key
     public static final String KU_CUN_KEY="kuCunKey";//从商品详情向购物车传递库存数量时使用
     public static final String USER_MODLE_KEY="userModel";//传递usermodel对象时使用的key
+    public static final String KONG_GE=" ";//空格
+    public static final String GOOD_LIST_KEY="goodListKey";//传递商品集合的key
+    public static final String ITEM_PRODUCT_COUNT_KEY="itemProductCount";//小项的商品数目的key，购物车传递到订单里面
 }

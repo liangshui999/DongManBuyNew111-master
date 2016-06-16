@@ -81,6 +81,7 @@
 
             <!--展示几件购买的衣服区-->
             <LinearLayout
+                android:id="@+id/ll_product_display_area"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="2dp"
@@ -95,7 +96,7 @@
                         android:id="@+id/img_one_ding_dan"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:background="@mipmap/sina"/>
+                        />
 
                 </LinearLayout>
                 <LinearLayout
@@ -106,7 +107,7 @@
                         android:id="@+id/img_two_ding_dan"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:background="@mipmap/sina"/>
+                        />
 
                 </LinearLayout>
                 <LinearLayout
@@ -117,7 +118,7 @@
                         android:id="@+id/img_three_ding_dan"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:background="@mipmap/sina"/>
+                        />
 
                 </LinearLayout>
 
@@ -144,6 +145,29 @@
                         android:background="@mipmap/right" />
                 </LinearLayout>
             </LinearLayout>
+
+            <!--隐藏的listview-->
+            <LinearLayout
+                android:id="@+id/ll_list_view_ding_dan"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white_my"
+                android:visibility="gone">
+                <com.example.asus_cp.dongmanbuy.customview.MyListView
+                    android:id="@+id/my_list_view_ding_dan"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content">
+
+                </com.example.asus_cp.dongmanbuy.customview.MyListView>
+                <ImageView
+                    android:id="@+id/img_down_ding_dan"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:background="@mipmap/down"
+                    android:layout_marginRight="10dp"/>
+            </LinearLayout>
+
 
 
            <!-- 配送方式-->
@@ -190,7 +214,8 @@
                 android:background="@color/white_my"
                 android:paddingTop="10dp"
                 android:paddingBottom="10dp"
-                android:paddingLeft="10dp">
+                android:paddingLeft="10dp"
+                android:visibility="gone">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -232,7 +257,8 @@
                 android:background="@color/white_my"
                 android:paddingTop="10dp"
                 android:paddingBottom="10dp"
-                android:paddingLeft="10dp">
+                android:paddingLeft="10dp"
+                android:visibility="gone">
 
                 <TextView
                     android:layout_width="wrap_content"

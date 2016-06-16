@@ -68,6 +68,14 @@ public class AreaActivity extends Activity {
 
     public static final String XIAN_MING_KEY = "xianMingKey";//向商品详情返回数据时用
 
+    public static final String SHENG_MING_KEY="shengMingKey";
+
+    public static final String SHENG_BIAN_MA_KEY="shengBianMaKey";//向添加收获地址的活动返回数据时用
+
+    public static final String SHI_BIAN_MA_KEY="shiBianMaKey";
+
+    public static final String XIAN_BIAN_MA_KEY="xianBianMaKey";
+
     private SharedPreferences sharedPreferences;
 
     private String uid;
@@ -191,6 +199,8 @@ public class AreaActivity extends Activity {
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                         AreaModel shengShiTi=shengShiTis.get(position);
                         final String shengId=shengShiTi.getId();
+                        final String shengName=shengShiTi.getName();
+                        String shengBianMa=shengShiTi.getId();
                         StringRequest thisShengDuiYingShi=new StringRequest(Request.Method.POST, adrressUrl,
                                 new Response.Listener<String>() {
                                     @Override
@@ -208,7 +218,7 @@ public class AreaActivity extends Activity {
                                                 @Override
                                                 public void onResponse(String s) {
                                                     MyLog.d(tag, "县返回数据：" + s);
-                                                    List<AreaModel> xianShiTis=new ArrayList<AreaModel>();
+                                                    final List<AreaModel> xianShiTis=new ArrayList<AreaModel>();
                                                     jsonParse(s,xianShiTis);
                                                     shiAndXianShiTi.put(shiName,xianShiTis);
 
@@ -222,9 +232,15 @@ public class AreaActivity extends Activity {
                                                         public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
                                                             String shiMing = shiMings.get(groupPosition);
                                                             String xianMing = shiMingAndXianMings.get(shiMing).get(childPosition);
+                                                            String shiIdPass=shiShiTis.get(groupPosition).getId();//传递给添加地址活动的
+                                                            String xianId=shiAndXianShiTi.get(shiMing).get(childPosition).getId();//传递给添加地址活动的
                                                             Intent intent = new Intent();
                                                             intent.putExtra(SHI_MING_KEY, shiMing);
                                                             intent.putExtra(XIAN_MING_KEY, xianMing);
+                                                            intent.putExtra(SHENG_MING_KEY,shengName);
+                                                            intent.putExtra(SHENG_BIAN_MA_KEY,shengId);
+                                                            intent.putExtra(SHI_BIAN_MA_KEY,shiIdPass);
+                                                            intent.putExtra(XIAN_BIAN_MA_KEY,xianId);
                                                             setResult(RESULT_OK, intent);//向商品详情返回数据
                                                             finish();
                                                             return false;

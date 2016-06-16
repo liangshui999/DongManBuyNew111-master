@@ -89,7 +89,7 @@ public class ShoppingCarActivity extends Activity implements View.OnClickListene
 
     private PopupWindow youHuiQuanWindow;//优惠券的弹出窗口
 
-    private int kuCunNumBer;//库存数量
+    private List<Good> goods;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -135,6 +135,8 @@ public class ShoppingCarActivity extends Activity implements View.OnClickListene
             toLoginActivityIntent.putExtra(MyConstant.START_LOGIN_ACTIVITY_FLAG_KEY,"shoppingCarActivity");
             startActivityForResult(toLoginActivityIntent, REQUEST_CODE_TO_LOGIN_ACTIVITY);
         }
+
+        goods=new ArrayList<Good>();
     }
 
     /**
@@ -146,7 +148,7 @@ public class ShoppingCarActivity extends Activity implements View.OnClickListene
                     @Override
                     public void onResponse(String s) {
                         MyLog.d(tag,"返回的数据是"+s);
-                        List<Good> goods = parseJson(s);
+                        parseJson(s);
 //                        adapter=new ShoppingCarListAdapter(ShoppingCarActivity.this,
 //                                goods);
 //                        myListView.setAdapter(adapter);
@@ -172,8 +174,7 @@ public class ShoppingCarActivity extends Activity implements View.OnClickListene
     /**
      * 主要用于解析json数据
      */
-    private List<Good> parseJson(String s) {
-        final List<Good> goods=new ArrayList<Good>();
+    private void parseJson(String s) {
         try {
             JSONObject jsonObject=new JSONObject(s);
             JSONObject jsonObject1=jsonObject.getJSONObject("data");
@@ -232,7 +233,6 @@ public class ShoppingCarActivity extends Activity implements View.OnClickListene
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        return goods;
     }
 
 
@@ -246,6 +246,7 @@ public class ShoppingCarActivity extends Activity implements View.OnClickListene
                 break;
         }
     }
+
 
     @Override
     public void onClick(View v) {
@@ -286,12 +287,25 @@ public class ShoppingCarActivity extends Activity implements View.OnClickListene
                 break;
             case R.id.ll_jie_suan://结算
                 //Toast.makeText(this,"结算...",Toast.LENGTH_SHORT).show();
+                List<Boolean> checks=adapter.getChecks();
+                ArrayList<Integer> itemProductCounts= (ArrayList<Integer>) adapter.getItemProductCounts();//返回小项的商品数目
+                ArrayList<Good> passGoods=new ArrayList<Good>();//需要传递给订单界面的
+                ArrayList<Integer> passItemProductCount=new ArrayList<Integer>();
+                for(int i=0;i<checks.size();i++){
+                    if(checks.get(i)){
+                        passGoods.add(goods.get(i));
+                        passItemProductCount.add(itemProductCounts.get(i));
+                    }
+                }
+
                 Intent intent=new Intent(ShoppingCarActivity.this,DingDanActivity.class);
+                intent.putExtra(MyConstant.GOOD_LIST_KEY,passGoods);
+                intent.putExtra(MyConstant.ITEM_PRODUCT_COUNT_KEY,passItemProductCount);
                 startActivity(intent);
                 break;
 
 
-            //---------------------------------优惠券的弹出窗口的点击事件---------------------------
+            //---------------------------------领券的弹出窗口的点击事件---------------------------
             case R.id.img_close_ling_qu_you_hui_quan:
                 //Toast.makeText(this,"关闭优惠券",Toast.LENGTH_SHORT).show();
                 youHuiQuanWindow.dismiss();
@@ -310,7 +324,7 @@ public class ShoppingCarActivity extends Activity implements View.OnClickListene
 
 
     /**
-     * 优惠券的点击事件处理
+     * 领券的点击事件处理
      */
     private void youHuiQuanClickChuLi() {
         //Toast.makeText(this,"点击了优惠券",Toast.LENGTH_SHORT).show();
@@ -387,6 +401,13 @@ public class ShoppingCarActivity extends Activity implements View.OnClickListene
          */
         public List<Boolean> getChecks() {
             return checks;
+        }
+
+        /**
+         *返回每一个小项的商品数目
+         */
+        public List<Integer> getItemProductCounts() {
+            return itemProductCounts;
         }
 
         /**
