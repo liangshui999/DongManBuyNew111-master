@@ -26,4 +26,5 @@ dependencies {
     compile 'com.android.support:design:23.3.0'
     compile files('libs/volley.jar')
     compile project(':library')
+    compile project(':wheelLibariry')
 }

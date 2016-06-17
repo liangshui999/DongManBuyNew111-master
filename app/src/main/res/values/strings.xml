@@ -175,6 +175,7 @@
     <string name="ci_ma_mao_hao">尺码:</string>
     <string name="pei_song_fang_shi">配送方式</string>
     <string name="shang_jia_pei_song">商家配送</string>
+    <string name="men_dian_zi_ti">门店自提</string>
     <string name="mian_yun_fei">免运费</string>
     <string name="mai_jia_liu_yan">买家留言（50字）</string>
     <string name="xuan_tian">选填</string>
@@ -196,5 +197,19 @@
     <string name="please_input_phone">请输入联系电话</string>
     <string name="please_xuan_ze">请选择</string>
     <string name="xiang_xi_di_zhi">详细地址</string>
+    <string name="month">月</string>
+    <string name="day">日</string>
+    <string name="hour">时</string>
+    <string name="minute">分</string>
+    <string name="pei_song_shi_jian">配送时间</string>
+    <string name="cancel">取消</string>
+    <string name="confirm">确定</string>
+    <string name="zhi_fu_bao">支付宝【手续费】</string>
+    <string name="yu_e_zhi_fu">余额支付【手续费】</string>
+    <string name="fa_piao_tai_tou">发票抬头</string>
+    <string name="fa_piao_content">发票内容</string>
+    <string name="ming_xi">明细</string>
+    <string name="please_input_ge_ren_huo_dan_wei_ming_cheng">可填写个人或单位名称</string>
+
 
 </resources>

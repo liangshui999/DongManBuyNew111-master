@@ -20,4 +20,5 @@ public interface MyConstant {
     public static final String KONG_GE=" ";//空格
     public static final String GOOD_LIST_KEY="goodListKey";//传递商品集合的key
     public static final String ITEM_PRODUCT_COUNT_KEY="itemProductCount";//小项的商品数目的key，购物车传递到订单里面
+    public static final String FA_PIAO_RESUCLT_KEY="fapiaokey";//发票活动向订单返回数据时的key
 }

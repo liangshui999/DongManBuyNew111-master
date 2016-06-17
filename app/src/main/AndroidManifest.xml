@@ -85,6 +85,15 @@
         <!--添加收货人信息的activity-->
         <activity android:name=".activity.gou_wu.AddShouHuoAddressActivity"/>
 
+        <!--自提地点的activity-->
+        <activity android:name=".activity.gou_wu.ZiTiAreaActivity"/>
+
+        <!--发票的activity-->
+        <activity android:name=".activity.gou_wu.FaPiaoActiity"/>
+
+        <!--优惠券的activity-->
+        <activity android:name=".activity.gou_wu.YouHuiQuanActivity"/>
+
         <!--搜索的activity-->
         <activity android:name=".activity.MySearchActivity">
             <intent-filter>

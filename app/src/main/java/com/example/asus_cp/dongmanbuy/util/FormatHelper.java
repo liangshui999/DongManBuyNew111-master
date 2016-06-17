@@ -57,6 +57,18 @@ public class FormatHelper {
     }
 
     /**
+     * 如果字符串是一位的话，就在他的前面加0，如：9变成09
+     * @return
+     */
+    public static String convertStringToTwoString(String s){
+        if(s.length()==1){
+            return 0+s;
+        }else{
+            return s;
+        }
+    }
+
+    /**
      * 对日期进行格式化，2016/03/16 09:55:33 +0800
      */
     public static String getDate(String s){

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/gray"
+        android:orientation="vertical">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/fa_piao_tai_tou"
+            android:padding="10dp"
+            android:background="@color/white_my"/>
+        <EditText
+            android:id="@+id/edit_fa_piao_tai_tou"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:layout_marginTop="2dp"
+            android:background="@color/white_my"
+            android:hint="@string/please_input_ge_ren_huo_dan_wei_ming_cheng"
+            android:textSize="14sp"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:padding="10dp"
+            android:background="@color/white_my"
+            android:text="@string/fa_piao_content"/>
+
+        <com.example.asus_cp.dongmanbuy.customview.MyListView
+            android:id="@+id/my_list_view_fa_piao_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white_my"
+            android:layout_marginTop="2dp">
+
+        </com.example.asus_cp.dongmanbuy.customview.MyListView>
+
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btn_confirm_fa_piao"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/confirm"
+        android:background="@color/bottom_lable_color"
+        android:textColor="@color/white_my"
+        android:layout_margin="10dp"/>
+
+
+</LinearLayout>

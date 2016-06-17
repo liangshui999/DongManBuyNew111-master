@@ -1,15 +1,24 @@
 package com.example.asus_cp.dongmanbuy.activity.gou_wu;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Typeface;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -27,6 +36,7 @@ import com.example.asus_cp.dongmanbuy.constant.MyConstant;
 import com.example.asus_cp.dongmanbuy.customview.MyListView;
 import com.example.asus_cp.dongmanbuy.model.Good;
 import com.example.asus_cp.dongmanbuy.model.UserModel;
+import com.example.asus_cp.dongmanbuy.util.FormatHelper;
 import com.example.asus_cp.dongmanbuy.util.ImageLoadHelper;
 import com.example.asus_cp.dongmanbuy.util.JsonHelper;
 import com.example.asus_cp.dongmanbuy.util.MyApplication;
@@ -36,9 +46,15 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import kankan.wheel.widget.OnWheelChangedListener;
+import kankan.wheel.widget.WheelView;
+import kankan.wheel.widget.adapters.ArrayWheelAdapter;
+import kankan.wheel.widget.adapters.NumericWheelAdapter;
 
 /**
  * 订单的界面
@@ -64,7 +80,7 @@ public class DingDanActivity extends Activity implements View.OnClickListener{
     private TextView peiSongFangShiTextView;//配送方式
     private RelativeLayout ziTiShiJianRelativeLayout;//自提时间
     private TextView ziTiRiQiTextView;//自提日期
-    private TextView ziTiXingQiTextView;//自提星期
+    private TextView ziTiHourTextView;//自提小时
     private RelativeLayout ziTiAreaRelativeLayout;//自提地点
     private TextView ziTiAreaTextView;//自提地点
     private EditText maiJiaLiuYanEditeText;//买家留言
@@ -74,16 +90,20 @@ public class DingDanActivity extends Activity implements View.OnClickListener{
     private TextView zhiFuFangShiTextView;//支付方式
     private TextView shouXuFeiTextView;//手续费
     private RelativeLayout faPiaoXinXiRelativeLayout;//发票信息
+    private TextView faPiaoXinXiTextView;//发票信息
     private RelativeLayout youHuiQuanRelativeLayout;//优惠券
     private TextView youHuiQuanTextView;//优惠券
+    private TextView youHuiQuanShuMuTextView;//优惠券数目
     private RelativeLayout jiFenRelaytiveLayout;//积分
     private TextView jiFenTextView;//积分
     private ImageView jiFenImageView;//积分
     private TextView productSumPriceTextBottomView;//商品总价
+    private TextView youHuiQuanDiKouTextView;//优惠券抵扣
     private TextView shiFuKuanTextView;//实付款
     private Button tiJiaoDingDanButton;//提交订单
 
     public static final int SHOU_HUO_REN_XIN_XI_REQUEST_KEY=0;//startactivityforresult的key，跳转到收货人信息
+    public static final int FA_PIAO_REQUEST_KEY=1;//跳转到发票
 
     public static final String KONG_GE=" ";
 
@@ -99,6 +119,32 @@ public class DingDanActivity extends Activity implements View.OnClickListener{
 
     private String uid;
     private String sid;
+
+    private View parentView;//所有弹出窗口的父view
+
+    private LayoutInflater inflater;
+
+    private String month;
+    private String day;
+    private String hour;
+    private String xingQi;
+
+
+    private PopupWindow peiSongFangShiWindow;//配送方式的弹出窗口
+    private PopupWindow ziTiShiJianWindow;//自提时间的弹出窗口
+    private PopupWindow ziTiAreaWindow;//自提地点的弹出窗口
+    private PopupWindow zhiFuFangShiWindow;//支付方式的弹出窗口
+    private PopupWindow faPiaoXinXiWindow;//发票信息的弹出窗口
+    private PopupWindow youHuiQuanWindow;//优惠券的弹出窗口
+
+    //配送方式弹出窗口的组件
+    private CheckBox shangJiaPeiSongCheckBox;
+    private CheckBox menDianZiTiChcekBox;
+
+    //支付方式弹出窗口的组件
+    private CheckBox zhiFuBaoCheckBox;
+    private CheckBox yuEZhiFuCheckBox;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -113,6 +159,7 @@ public class DingDanActivity extends Activity implements View.OnClickListener{
     private void init() {
         requestQueue= MyApplication.getRequestQueue();
         helper=new ImageLoadHelper();
+        inflater=LayoutInflater.from(this);
         initView();
 
         //获取uid和sid
@@ -243,6 +290,9 @@ public class DingDanActivity extends Activity implements View.OnClickListener{
      * 初始化view
      */
     private void initView() {
+
+        parentView= LayoutInflater.from(this).inflate(R.layout.ding_dan_activity_layout,null);
+
         shouHuoAddressRelativeLayout= (RelativeLayout) findViewById(R.id.re_layout_shou_huo_address_ding_dan);
         peopleNameTextView= (TextView) findViewById(R.id.text_shou_huo_ren_name_ding_dan);
         phoneTextView= (TextView) findViewById(R.id.text_shou_huo_ren_phone_ding_dan);
@@ -259,8 +309,8 @@ public class DingDanActivity extends Activity implements View.OnClickListener{
         peiSongFangShiRelaytiveLayout= (RelativeLayout) findViewById(R.id.re_layout_pei_song_fang_shi_ding_dan);
         peiSongFangShiTextView= (TextView) findViewById(R.id.text_pei_song_fang_shi_ding_dan);
         ziTiShiJianRelativeLayout= (RelativeLayout) findViewById(R.id.re_layout_zi_ti_shi_jian_ding_dan);
-        ziTiRiQiTextView= (TextView) findViewById(R.id.text_zi_ti_time_ri_qi_ding_dan);
-        ziTiXingQiTextView= (TextView) findViewById(R.id.text_zi_ti_time_xing_qi_ding_dan);
+        ziTiRiQiTextView= (TextView) findViewById(R.id.text_zi_ti_time_day_ding_dan);
+        ziTiHourTextView = (TextView) findViewById(R.id.text_zi_ti_time_hour_ding_dan);
         ziTiAreaRelativeLayout= (RelativeLayout) findViewById(R.id.re_layout_zi_ti_area_ding_dan);
         ziTiAreaTextView= (TextView) findViewById(R.id.text_zi_ti_area_ding_dan);
         maiJiaLiuYanEditeText= (EditText) findViewById(R.id.edit_mai_jia_liu_yan_ding_dan);
@@ -270,12 +320,15 @@ public class DingDanActivity extends Activity implements View.OnClickListener{
         zhiFuFangShiTextView= (TextView) findViewById(R.id.text_zhi_fu_fang_shi_ding_dan);
         shouXuFeiTextView= (TextView) findViewById(R.id.text_shou_xu_fei_ding_dan);
         faPiaoXinXiRelativeLayout= (RelativeLayout) findViewById(R.id.re_layout_fa_piao_xin_xi_ding_dan);
+        faPiaoXinXiTextView= (TextView) findViewById(R.id.text_fa_piao_xin_xi_ding_dan);
         youHuiQuanRelativeLayout= (RelativeLayout) findViewById(R.id.re_layout_you_hui_quan_ding_dan);
         youHuiQuanTextView= (TextView) findViewById(R.id.text_you_hui_quan_ding_dan);
+        youHuiQuanShuMuTextView= (TextView) findViewById(R.id.text_you_hui_quan_shu_mu_ding_dan);
         jiFenRelaytiveLayout= (RelativeLayout) findViewById(R.id.re_layout_ji_fen_ding_dan);
         jiFenTextView= (TextView) findViewById(R.id.text_ji_fen_ding_dan);
         jiFenImageView= (ImageView) findViewById(R.id.img_ji_fen_ding_dan);
         productSumPriceTextBottomView= (TextView) findViewById(R.id.text_product_sum_price_ding_dan);
+        youHuiQuanDiKouTextView= (TextView) findViewById(R.id.text_you_hui_quan_di_kou_ding_dan);
         shiFuKuanTextView= (TextView) findViewById(R.id.text_shi_fu_kuan_ding_dan);
         tiJiaoDingDanButton= (Button) findViewById(R.id.btn_ti_jiao_ding_dan);
 
@@ -304,7 +357,6 @@ public class DingDanActivity extends Activity implements View.OnClickListener{
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.re_layout_shou_huo_address_ding_dan://收获地址
-                //Toast.makeText(this,"点击了收货地址",Toast.LENGTH_SHORT).show();
                 Intent addresListIntent=new Intent(this,ShouHuoRenXinXiListActivity.class);
                 startActivityForResult(addresListIntent, SHOU_HUO_REN_XIN_XI_REQUEST_KEY);
                 break;
@@ -318,35 +370,34 @@ public class DingDanActivity extends Activity implements View.OnClickListener{
                 Toast.makeText(this,"点击了第三个商品图片",Toast.LENGTH_SHORT).show();
                 break;
             case R.id.ll_dispaly_all_product_ding_dan://点击了展示所有图片
-                Toast.makeText(this,"点击了展示所有图片",Toast.LENGTH_SHORT).show();
                 productDisplayLinearLayoutOrignal.setVisibility(View.GONE);
                 productListLinearLayoutZhanKai.setVisibility(View.VISIBLE);
                 DingDanListAdapter adapter=new DingDanListAdapter(this,goods,itemProductCount);
                 listView.setAdapter(adapter);
-
                 break;
             case R.id.img_down_ding_dan://点击了下拉,收起
-                Toast.makeText(this,"点击了下拉",Toast.LENGTH_SHORT).show();
                 productDisplayLinearLayoutOrignal.setVisibility(View.VISIBLE);
                 productListLinearLayoutZhanKai.setVisibility(View.GONE);
                 break;
             case R.id.re_layout_pei_song_fang_shi_ding_dan://点击了配送方式
-                Toast.makeText(this,"点击了配送方式",Toast.LENGTH_SHORT).show();
+                peiSongFangShiClickChuLi();
                 break;
             case R.id.re_layout_zi_ti_shi_jian_ding_dan://点击了自提时间
-                Toast.makeText(this,"点击了自提时间",Toast.LENGTH_SHORT).show();
+                ziTiShiJianClickChuLi();
                 break;
             case R.id.re_layout_zi_ti_area_ding_dan://点击了自提地点
-                Toast.makeText(this,"点击了自提地点",Toast.LENGTH_SHORT).show();
+                Intent ziTiDiDianIntent=new Intent(this,ZiTiAreaActivity.class);
+                startActivity(ziTiDiDianIntent);
                 break;
             case R.id.re_layout_zhi_fu_fang_shi_ding_dan://点击了支付方式
-                Toast.makeText(this,"点击了支付方式",Toast.LENGTH_SHORT).show();
+                zhiFuFangShiClickChuLi();
                 break;
             case R.id.re_layout_fa_piao_xin_xi_ding_dan://点击了发票信息
-                Toast.makeText(this,"点击了发票信息",Toast.LENGTH_SHORT).show();
+                Intent toFaPiaoIntent=new Intent(this,FaPiaoActiity.class);
+                startActivityForResult(toFaPiaoIntent, FA_PIAO_REQUEST_KEY);
                 break;
             case R.id.re_layout_you_hui_quan_ding_dan://点击了优惠券
-                Toast.makeText(this,"点击了优惠券",Toast.LENGTH_SHORT).show();
+                //Toast.makeText(this,"点击了优惠券",Toast.LENGTH_SHORT).show();
                 break;
             case R.id.re_layout_ji_fen_ding_dan://点击了积分
                 Toast.makeText(this,"点击了积分",Toast.LENGTH_SHORT).show();
@@ -354,8 +405,203 @@ public class DingDanActivity extends Activity implements View.OnClickListener{
             case R.id.btn_ti_jiao_ding_dan://点击了提交订单
                 Toast.makeText(this,"点击了提交订单",Toast.LENGTH_SHORT).show();
                 break;
+
+
+            //-----------------------配送方式窗口的点击事件-----------------------------------------
+            case R.id.img_close_pei_song_fang_shi://点击了关闭配送方式
+                peiSongFangShiWindow.dismiss();
+                break;
+            case R.id.re_layout_shang_jia_pei_song://点击了商家配送
+                shangJiaPeiSongCheckBox.setChecked(true);
+                menDianZiTiChcekBox.setChecked(false);
+                //peiSongFangShiWindow.dismiss();
+                peiSongFangShiTextView.setText("商家配送");
+                ziTiShiJianRelativeLayout.setVisibility(View.GONE);
+                ziTiAreaRelativeLayout.setVisibility(View.GONE);
+                break;
+            case R.id.re_layout_men_dian_zi_ti://点击了门店自提
+                shangJiaPeiSongCheckBox.setChecked(false);
+                menDianZiTiChcekBox.setChecked(true);
+                //peiSongFangShiWindow.dismiss();
+                peiSongFangShiTextView.setText("门店自提");
+                ziTiShiJianRelativeLayout.setVisibility(View.VISIBLE);
+                ziTiAreaRelativeLayout.setVisibility(View.VISIBLE);
+                break;
+
+
+            //-----------自提时间的弹出窗口------------------------------------------
+            case R.id.text_cancel_date_picker://取消
+                //Toast.makeText(this,"点击了取消",Toast.LENGTH_SHORT).show();
+                ziTiShiJianWindow.dismiss();
+                break;
+            case R.id.text_confirm_date_picker://确定
+                //Toast.makeText(this,"点击了确定",Toast.LENGTH_SHORT).show();
+                ziTiRiQiTextView.setText(day);
+                ziTiHourTextView.setText(hour);
+                ziTiShiJianWindow.dismiss();
+                break;
+
+            //-----------------------支付方式窗口的点击事件-----------------------------------------
+            case R.id.img_close_zhi_fu_fang_shi://点击了关闭支付方式
+                zhiFuFangShiWindow.dismiss();
+                break;
+            case R.id.re_layout_zhi_fu_bao://点击了支付宝支付
+                zhiFuBaoCheckBox.setChecked(true);
+                yuEZhiFuCheckBox.setChecked(false);
+                zhiFuFangShiTextView.setText("支付宝【手续费】");
+                //shouXuFeiTextView.setText("0.00");
+
+                break;
+            case R.id.re_layout_yu_e_zhi_fu://点击了余额支付
+                zhiFuBaoCheckBox.setChecked(false);
+                yuEZhiFuCheckBox.setChecked(true);
+                zhiFuFangShiTextView.setText("余额支付【手续费】");
+                break;
         }
     }
+
+
+    /**
+     * 支付方式的点击事件处理
+     */
+    private void zhiFuFangShiClickChuLi() {
+        View zhiFuFangShiView=inflater.inflate(R.layout.zhi_fu_fang_shi_tan_chu_layout,null);
+        ImageView closeZhiFuFangShiImageView= (ImageView) zhiFuFangShiView.findViewById(R.id.img_close_zhi_fu_fang_shi);
+        RelativeLayout zhiFuBaoRelativeLayout= (RelativeLayout) zhiFuFangShiView.findViewById(R.id.re_layout_zhi_fu_bao);
+        RelativeLayout yuEZhiFuRelaytiveLayout= (RelativeLayout) zhiFuFangShiView.findViewById(R.id.re_layout_yu_e_zhi_fu);
+        zhiFuBaoCheckBox= (CheckBox) zhiFuFangShiView.findViewById(R.id.check_box_zhi_fu_bao);
+        yuEZhiFuCheckBox = (CheckBox) zhiFuFangShiView.findViewById(R.id.check_box_yu_e_zhi_fu);
+        TextView zhiFuBaoShouXuFeiTextView= (TextView) zhiFuFangShiView.findViewById(R.id.text_zhi_fu_bao_shou_xu_fei);//支付宝手续费
+        TextView yuEZhiFuShouXuFeiTextView= (TextView) zhiFuFangShiView.findViewById(R.id.text_yu_e_zhi_fu_shou_xu_fei);//余额支付手续费
+        closeZhiFuFangShiImageView.setOnClickListener(this);
+        zhiFuBaoRelativeLayout.setOnClickListener(this);
+        yuEZhiFuRelaytiveLayout.setOnClickListener(this);
+        zhiFuFangShiWindow=new PopupWindow(zhiFuFangShiView, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        //外部点击时可以消失
+        zhiFuFangShiWindow.setBackgroundDrawable(new ColorDrawable());
+        zhiFuFangShiWindow.setOutsideTouchable(true);
+        zhiFuFangShiWindow.showAtLocation(parentView, Gravity.BOTTOM, 0, 0);//最后才是show,顺序很重要
+        setBackgroundAlpha(0.5f);
+        zhiFuFangShiWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                setBackgroundAlpha(1f);
+            }
+        });
+    }
+
+
+    /**
+     * 自提时间的点击事件处理
+     */
+    private void ziTiShiJianClickChuLi() {
+        //Toast.makeText(this,"点击了自提时间",Toast.LENGTH_SHORT).show();
+        View ziTiShiJianView=inflater.inflate(R.layout.date_picker_layout_tan_chu,null);
+        TextView cancelTextView= (TextView) ziTiShiJianView.findViewById(R.id.text_cancel_date_picker);
+        TextView confirmTextView= (TextView) ziTiShiJianView.findViewById(R.id.text_confirm_date_picker);
+        WheelView wheelViewDay= (WheelView) ziTiShiJianView.findViewById(R.id.whe_day);
+        WheelView wheelViewHour= (WheelView) ziTiShiJianView.findViewById(R.id.whe_hour);
+
+        //设置点击事件
+        cancelTextView.setOnClickListener(this);
+        confirmTextView.setOnClickListener(this);
+        final String[] riQis=new String[8];
+        String[] xingQiS={"星期日","星期一","星期二","星期三","星期四","星期五","星期六"};
+        for(int i=0;i<8;i++){
+            Calendar calendar=Calendar.getInstance();
+            calendar.add(Calendar.DAY_OF_MONTH,i);
+            String month=FormatHelper.convertStringToTwoString(String.valueOf(calendar.get(Calendar.MONTH)+1));
+            String day=FormatHelper.convertStringToTwoString(String.valueOf(calendar.get(Calendar.DAY_OF_MONTH)));
+            String xingQi=xingQiS[calendar.get(Calendar.DAY_OF_WEEK)-1];
+            String riQi=month+"月"+day+"日"+" "+xingQi;
+            riQis[i]=riQi;
+        }
+
+        final String[] hours={"9:00-12:00"};
+
+        OnWheelChangedListener listener=new OnWheelChangedListener() {
+            @Override
+            public void onChanged(WheelView wheel, int oldValue, int newValue) {
+                switch (wheel.getId()){
+                    case R.id.whe_day:
+                        day=riQis[newValue];
+                        MyLog.d(tag,day+"");
+                        break;
+                    case R.id.whe_hour:
+                        hour=hours[newValue];
+                        MyLog.d(tag,hour+"");
+                        break;
+                }
+            }
+        };
+
+
+        wheelViewDay.setViewAdapter(new MyArrayAdapter(this, riQis));
+        wheelViewDay.setCurrentItem(0);
+        wheelViewDay.setCyclic(false);//设置是否需要循环
+        wheelViewDay.addChangingListener(listener);
+
+        wheelViewHour.setViewAdapter(new MyArrayAdapter(this, hours));
+        wheelViewHour.setCurrentItem(0);
+        wheelViewHour.setCyclic(false);
+        wheelViewHour.addChangingListener(listener);
+
+
+
+        ziTiShiJianWindow=new PopupWindow(ziTiShiJianView, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        //外部点击时可以消失
+        ziTiShiJianWindow.setBackgroundDrawable(new ColorDrawable());
+        ziTiShiJianWindow.setOutsideTouchable(true);
+        ziTiShiJianWindow.showAtLocation(parentView, Gravity.BOTTOM, 0, 0);//最后才是show,顺序很重要
+        setBackgroundAlpha(0.5f);
+        ziTiShiJianWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                setBackgroundAlpha(1f);
+            }
+        });
+    }
+
+
+    /**
+     * 配送方式的点击处理
+     */
+    private void peiSongFangShiClickChuLi() {
+        View peiSongFangShiView=inflater.inflate(R.layout.pei_song_fang_shi_layout,null);
+        ImageView closePeiSongFangShi= (ImageView) peiSongFangShiView.findViewById(R.id.img_close_pei_song_fang_shi);
+        RelativeLayout shangJiaPeiSongRelativeLayout= (RelativeLayout) peiSongFangShiView.findViewById(R.id.re_layout_shang_jia_pei_song);
+        RelativeLayout menDianZitIRelaytiveLayout= (RelativeLayout) peiSongFangShiView.findViewById(R.id.re_layout_men_dian_zi_ti);
+        shangJiaPeiSongCheckBox= (CheckBox) peiSongFangShiView.findViewById(R.id.check_box_shang_jia_pei_song);
+        menDianZiTiChcekBox= (CheckBox) peiSongFangShiView.findViewById(R.id.check_box_men_dian_zi_ti);
+        closePeiSongFangShi.setOnClickListener(this);
+        shangJiaPeiSongRelativeLayout.setOnClickListener(this);
+        menDianZitIRelaytiveLayout.setOnClickListener(this);
+        peiSongFangShiWindow=new PopupWindow(peiSongFangShiView, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        //外部点击时可以消失
+        peiSongFangShiWindow.setBackgroundDrawable(new ColorDrawable());
+        peiSongFangShiWindow.setOutsideTouchable(true);
+        peiSongFangShiWindow.showAtLocation(parentView, Gravity.BOTTOM, 0, 0);//最后才是show,顺序很重要
+        setBackgroundAlpha(0.5f);
+        peiSongFangShiWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                setBackgroundAlpha(1f);
+            }
+        });
+    }
+
+
+    /**
+     * 设置添加屏幕的背景透明度
+     *
+     * @param bgAlpha
+     */
+    public void setBackgroundAlpha(float bgAlpha) {
+        WindowManager.LayoutParams lp = getWindow().getAttributes();
+        lp.alpha = bgAlpha; //0.0-1.0
+        getWindow().setAttributes(lp);
+    }
+
 
 
     @Override
@@ -370,6 +616,63 @@ public class DingDanActivity extends Activity implements View.OnClickListener{
                     +KONG_GE+userModel.getDistrictName()+KONG_GE+userModel.getShouHuoArea());
                 }
                 break;
+            case FA_PIAO_REQUEST_KEY://从发票活动返回的数据
+                if(resultCode==RESULT_OK){
+                    String faPiaoContent=data.getStringExtra(MyConstant.FA_PIAO_RESUCLT_KEY);
+                    faPiaoXinXiTextView.setText(faPiaoContent);
+                }
         }
     }
+
+
+    /**
+     * wheelview的适配器，继承自numerricwheelapter，不需要往里面传入数组，只需要传最大值，最小值即可
+     */
+    public class MyWheelAdapter extends NumericWheelAdapter {
+
+        /**
+         * Constructor
+         * @param minValue 传入的数字的最小值
+         * @param maxValue 传入的数字的最大值
+         *
+         */
+        public MyWheelAdapter(Context context, int minValue, int maxValue) {
+            super(context, minValue, maxValue);
+            setTextSize(16);
+        }
+
+        @Override
+        protected void configureTextView(TextView view) {
+            super.configureTextView(view);
+            view.setTypeface(Typeface.MONOSPACE);
+        }
+
+    }
+
+
+    /**
+     * Adapter for string based wheel. Highlights the current value.
+     * 如果是非纯数字，就必须使用这种适配器，往里面传入数组
+     */
+    private class MyArrayAdapter extends ArrayWheelAdapter<String> {
+        /**
+         * Constructor
+         */
+        public MyArrayAdapter(Context context, String[] items) {
+            super(context, items);
+            setTextSize(16);
+        }
+
+        @Override
+        protected void configureTextView(TextView view) {
+            super.configureTextView(view);
+            view.setTypeface(Typeface.MONOSPACE);
+        }
+
+        @Override
+        public View getItem(int index, View cachedView, ViewGroup parent) {
+            return super.getItem(index, cachedView, parent);
+        }
+    }
+
 }
