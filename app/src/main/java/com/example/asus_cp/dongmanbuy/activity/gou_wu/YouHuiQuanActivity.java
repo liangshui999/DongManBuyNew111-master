@@ -1,6 +1,7 @@
 package com.example.asus_cp.dongmanbuy.activity.gou_wu;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
@@ -10,6 +11,7 @@ import android.widget.ListView;
 
 import com.example.asus_cp.dongmanbuy.R;
 import com.example.asus_cp.dongmanbuy.adapter.YouHuiQuanListAdapter;
+import com.example.asus_cp.dongmanbuy.constant.MyConstant;
 import com.example.asus_cp.dongmanbuy.model.YouHuiQuanModel;
 
 import java.util.ArrayList;
@@ -25,6 +27,7 @@ public class YouHuiQuanActivity extends Activity{
     private List<YouHuiQuanModel> models;
     private List<Boolean> checks;
     private YouHuiQuanListAdapter adapter;
+    private YouHuiQuanModel passModel;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,7 +46,11 @@ public class YouHuiQuanActivity extends Activity{
         confirmButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent intent=new Intent();
+                intent.putExtra(MyConstant.YOU_HUI_QUAN_MODEL_KEY,passModel);
+                intent.putExtra(MyConstant.YOU_HUI_QUAN_SHU_MU_KEY,models.size()+"");
+                setResult(RESULT_OK, intent);
+                finish();
             }
         });
 
@@ -68,8 +75,9 @@ public class YouHuiQuanActivity extends Activity{
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 adapter.allBuXuanZhong();
-                checks.set(position,true);
+                checks.set(position, true);
                 adapter.notifyDataSetChanged();
+                passModel=models.get(position);
             }
         });
     }

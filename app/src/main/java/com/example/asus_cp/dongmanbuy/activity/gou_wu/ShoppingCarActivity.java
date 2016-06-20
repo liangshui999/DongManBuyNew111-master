@@ -301,6 +301,8 @@ public class ShoppingCarActivity extends Activity implements View.OnClickListene
                 Intent intent=new Intent(ShoppingCarActivity.this,DingDanActivity.class);
                 intent.putExtra(MyConstant.GOOD_LIST_KEY,passGoods);
                 intent.putExtra(MyConstant.ITEM_PRODUCT_COUNT_KEY,passItemProductCount);
+                intent.putExtra(MyConstant.PRODUCT_PRICE_SUM_KEY,priceTextView.getText().toString());
+                intent.putExtra(MyConstant.PRODUCT_SHU_MU_SUM_KEY,jieSuanShuMuTextView.getText().toString());
                 startActivity(intent);
                 break;
 
@@ -680,7 +682,7 @@ public class ShoppingCarActivity extends Activity implements View.OnClickListene
                     count++;
                 }
             }
-            priceTextView.setText(heJi+"");
+            priceTextView.setText(FormatHelper.getMoneyFormat(heJi+""));
             jieSuanShuMuTextView.setText(jieSuan + "");
 
             if(count==checks.size()){

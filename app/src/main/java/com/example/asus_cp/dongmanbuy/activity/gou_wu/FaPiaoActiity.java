@@ -58,9 +58,10 @@ public class FaPiaoActiity extends Activity{
                         if(faPiao.equals("") || faPiao.isEmpty()){
                             faPiao="个人";
                         }
-                        String fanHui=faPiao+"\n"+categories.get(i);
+                        //String fanHui=faPiao+"\n"+categories.get(i);
                         Intent intent=new Intent();
-                        intent.putExtra(MyConstant.FA_PIAO_RESUCLT_KEY, fanHui);
+                        intent.putExtra(MyConstant.FA_PIAO_TAI_TOU_KEY, faPiao);
+                        intent.putExtra(MyConstant.FA_PIAO_CONTENT_KEY, categories.get(i));
                         setResult(RESULT_OK, intent);
                         finish();
                     }

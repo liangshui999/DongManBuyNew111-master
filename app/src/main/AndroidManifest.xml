@@ -94,6 +94,15 @@
         <!--优惠券的activity-->
         <activity android:name=".activity.gou_wu.YouHuiQuanActivity"/>
 
+        <!--提交订单之后的activity-->
+        <activity android:name=".activity.gou_wu.AfterTiJiaoDingDanActivity"/>
+
+        <!--余额支付成功之后的acitivity-->
+        <activity android:name=".activity.gou_wu.YuEZhiFuSuccessedActivity"/>
+
+        <!--订单列表的activity-->
+        <activity android:name=".activity.gou_wu.DingDanListActivity"/>
+
         <!--搜索的activity-->
         <activity android:name=".activity.MySearchActivity">
             <intent-filter>

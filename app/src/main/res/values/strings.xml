@@ -210,6 +210,16 @@
     <string name="fa_piao_content">发票内容</string>
     <string name="ming_xi">明细</string>
     <string name="please_input_ge_ren_huo_dan_wei_ming_cheng">可填写个人或单位名称</string>
+    <string name="fu_kuan_jin_e">付款金额</string>
+    <string name="ding_dan_hao">订单号</string>
+    <string name="zhi_fu_bao_zhi_fu">支付宝支付</string>
+    <string name="see_ding_dan">查看订单</string>
+    <string name="yu_e_zhi_fu_successed">余额支付成功</string>
+    <string name="all_ding_dan">全部订单</string>
+    <string name="dai_fu_kuan">待付款</string>
+    <string name="dai_shou_huo">代收货</string>
+    <string name="zhou_mo_zi_ying">周末自营</string>
+
 
 
 </resources>

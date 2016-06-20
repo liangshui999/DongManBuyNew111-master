@@ -31,11 +31,12 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.StringRequest;
 import com.example.asus_cp.dongmanbuy.R;
-import com.example.asus_cp.dongmanbuy.adapter.DingDanListAdapter;
+import com.example.asus_cp.dongmanbuy.adapter.DingDanJieMianListAdapter;
 import com.example.asus_cp.dongmanbuy.constant.MyConstant;
 import com.example.asus_cp.dongmanbuy.customview.MyListView;
 import com.example.asus_cp.dongmanbuy.model.Good;
 import com.example.asus_cp.dongmanbuy.model.UserModel;
+import com.example.asus_cp.dongmanbuy.model.YouHuiQuanModel;
 import com.example.asus_cp.dongmanbuy.util.FormatHelper;
 import com.example.asus_cp.dongmanbuy.util.ImageLoadHelper;
 import com.example.asus_cp.dongmanbuy.util.JsonHelper;
@@ -90,7 +91,8 @@ public class DingDanActivity extends Activity implements View.OnClickListener{
     private TextView zhiFuFangShiTextView;//支付方式
     private TextView shouXuFeiTextView;//手续费
     private RelativeLayout faPiaoXinXiRelativeLayout;//发票信息
-    private TextView faPiaoXinXiTextView;//发票信息
+    private TextView faPiaoTaiTouTextView;//发票抬头
+    private TextView faPiaocontentTextView;//发票内容
     private RelativeLayout youHuiQuanRelativeLayout;//优惠券
     private TextView youHuiQuanTextView;//优惠券
     private TextView youHuiQuanShuMuTextView;//优惠券数目
@@ -104,10 +106,13 @@ public class DingDanActivity extends Activity implements View.OnClickListener{
 
     public static final int SHOU_HUO_REN_XIN_XI_REQUEST_KEY=0;//startactivityforresult的key，跳转到收货人信息
     public static final int FA_PIAO_REQUEST_KEY=1;//跳转到发票
+    public static final int YOU_HUI_QUAN_REQUEST_KEY=2;//跳转到优惠券
 
     public static final String KONG_GE=" ";
 
     private String shouHuoAddressListUrl="http://www.zmobuy.com/PHP/index.php?url=/address/list";//收货地址列表的接口
+
+    private String tiJiaoDingDanUrl="http://www.zmobuy.com/PHP/?url=/flow/done";//提交订单的接口
 
     private RequestQueue requestQueue;
 
@@ -145,6 +150,10 @@ public class DingDanActivity extends Activity implements View.OnClickListener{
     private CheckBox zhiFuBaoCheckBox;
     private CheckBox yuEZhiFuCheckBox;
 
+    //商品总价格和商品总数
+    private String productSumPrice;//总价格
+    private String productSumCount;//总数
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -169,6 +178,8 @@ public class DingDanActivity extends Activity implements View.OnClickListener{
         getShouHuoAddressList();
 
         //获取购物车页面传递过来的商品列表
+        productSumPrice=getIntent().getStringExtra(MyConstant.PRODUCT_PRICE_SUM_KEY);
+        productSumCount=getIntent().getStringExtra(MyConstant.PRODUCT_SHU_MU_SUM_KEY);
         goods= (List<Good>) getIntent().getSerializableExtra(MyConstant.GOOD_LIST_KEY);//注意这儿接收的时候不要接收错了,不是parceable
         if(goods.size()==1){
             ImageLoader imageLoader1=helper.getImageLoader();
@@ -208,7 +219,21 @@ public class DingDanActivity extends Activity implements View.OnClickListener{
         //从购物车列表获取记录每个小项商品数目的集合
         itemProductCount= (List<Integer>) getIntent().getSerializableExtra(MyConstant.ITEM_PRODUCT_COUNT_KEY);
 
+        //设置商品总价，总数目，结算价格
+        productSumTextView.setText(productSumCount);
+        productSumPriceTextView.setText(productSumPrice);
+        productSumPriceTextBottomView.setText(productSumPrice);
+        setShiFuKuan();
 
+    }
+
+
+    //设置实付款
+    private void setShiFuKuan() {
+        double sunPrice=Double.parseDouble(FormatHelper.getNumberFromRenMingBi(productSumPrice));
+        double youHuiQuan=Double.parseDouble(FormatHelper.getNumberFromRenMingBi(youHuiQuanDiKouTextView.getText().toString()));
+        double shiFuKuan=sunPrice-youHuiQuan;
+        shiFuKuanTextView.setText(FormatHelper.getMoneyFormat(shiFuKuan + ""));
     }
 
 
@@ -320,7 +345,8 @@ public class DingDanActivity extends Activity implements View.OnClickListener{
         zhiFuFangShiTextView= (TextView) findViewById(R.id.text_zhi_fu_fang_shi_ding_dan);
         shouXuFeiTextView= (TextView) findViewById(R.id.text_shou_xu_fei_ding_dan);
         faPiaoXinXiRelativeLayout= (RelativeLayout) findViewById(R.id.re_layout_fa_piao_xin_xi_ding_dan);
-        faPiaoXinXiTextView= (TextView) findViewById(R.id.text_fa_piao_xin_xi_ding_dan);
+        faPiaoTaiTouTextView= (TextView) findViewById(R.id.text_fa_piao_tai_tou_ding_dan);
+        faPiaocontentTextView= (TextView) findViewById(R.id.text_fa_piao_content_ding_dan);
         youHuiQuanRelativeLayout= (RelativeLayout) findViewById(R.id.re_layout_you_hui_quan_ding_dan);
         youHuiQuanTextView= (TextView) findViewById(R.id.text_you_hui_quan_ding_dan);
         youHuiQuanShuMuTextView= (TextView) findViewById(R.id.text_you_hui_quan_shu_mu_ding_dan);
@@ -372,7 +398,7 @@ public class DingDanActivity extends Activity implements View.OnClickListener{
             case R.id.ll_dispaly_all_product_ding_dan://点击了展示所有图片
                 productDisplayLinearLayoutOrignal.setVisibility(View.GONE);
                 productListLinearLayoutZhanKai.setVisibility(View.VISIBLE);
-                DingDanListAdapter adapter=new DingDanListAdapter(this,goods,itemProductCount);
+                DingDanJieMianListAdapter adapter=new DingDanJieMianListAdapter(this,goods,itemProductCount);
                 listView.setAdapter(adapter);
                 break;
             case R.id.img_down_ding_dan://点击了下拉,收起
@@ -398,12 +424,14 @@ public class DingDanActivity extends Activity implements View.OnClickListener{
                 break;
             case R.id.re_layout_you_hui_quan_ding_dan://点击了优惠券
                 //Toast.makeText(this,"点击了优惠券",Toast.LENGTH_SHORT).show();
+                Intent toYouHuiQuanIntent=new Intent(this,YouHuiQuanActivity.class);
+                startActivityForResult(toYouHuiQuanIntent, YOU_HUI_QUAN_REQUEST_KEY);
                 break;
             case R.id.re_layout_ji_fen_ding_dan://点击了积分
                 Toast.makeText(this,"点击了积分",Toast.LENGTH_SHORT).show();
                 break;
             case R.id.btn_ti_jiao_ding_dan://点击了提交订单
-                Toast.makeText(this,"点击了提交订单",Toast.LENGTH_SHORT).show();
+                tiJiaoDingDanClickChuLi();
                 break;
 
 
@@ -458,6 +486,60 @@ public class DingDanActivity extends Activity implements View.OnClickListener{
                 zhiFuFangShiTextView.setText("余额支付【手续费】");
                 break;
         }
+    }
+
+
+    /**
+     * 提交订单的点击事件处理
+     */
+    private void tiJiaoDingDanClickChuLi() {
+        String zhiFuFangShi=zhiFuFangShiTextView.getText().toString();
+        if("支付宝【手续费】".equals(zhiFuFangShi)){
+            StringRequest tiJiaoDingDanRequest=new StringRequest(Request.Method.POST, tiJiaoDingDanUrl,
+                    new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String s) {
+                            MyLog.d(tag,"提交订单的返回数据:"+s);
+                            try {
+                                JSONObject jsonObject=new JSONObject(s);
+                                JSONObject jsonObject1=jsonObject.getJSONObject("data");
+                                String bianHao=jsonObject1.getString("order_sn");
+//                            if("支付宝【手续费】".equals(zhiFuFangShi)){
+                                Intent toAfterIntent=new Intent(DingDanActivity.this,AfterTiJiaoDingDanActivity.class);
+                                toAfterIntent.putExtra(MyConstant.SHI_FU_KUAN_KEY,shiFuKuanTextView.getText().toString());
+                                toAfterIntent.putExtra(MyConstant.DING_DAN_BIAN_HAO_KEY,bianHao);
+                                startActivity(toAfterIntent);
+//                            }else if("余额支付【手续费】".equals(zhiFuFangShi)){
+//                                Intent toYuEIntent=new Intent(DingDanActivity.this,YuEZhiFuSuccessedActivity.class);
+//                                toYuEIntent.putExtra(MyConstant.DING_DAN_BIAN_HAO_KEY,bianHao);
+//                                startActivity(toYuEIntent);
+//                            }
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError volleyError) {
+
+                }
+            }){
+                @Override
+                protected Map<String, String> getParams() throws AuthFailureError {
+                    Map<String,String> map=new HashMap<String,String>();
+                    String json="{\"session\":{\"uid\":\""+uid+"\",\"sid\":\""+sid+"\"},\"pay_id\":\""+"9"+"\",\"shipping_id\":\""+"2"+"\",\"bonus\":\"\",\"integral\":\"\",\"inv_type\":\""+"4"+"\",\"inv_content\":\""+""+"\",\"inv_payee\":\"\"}";
+                    map.put("json",json);
+                    return map;
+                }
+            };
+            requestQueue.add(tiJiaoDingDanRequest);
+
+        }else if("余额支付【手续费】".equals(zhiFuFangShi)){
+
+        }
+
+
+
     }
 
 
@@ -618,9 +700,28 @@ public class DingDanActivity extends Activity implements View.OnClickListener{
                 break;
             case FA_PIAO_REQUEST_KEY://从发票活动返回的数据
                 if(resultCode==RESULT_OK){
-                    String faPiaoContent=data.getStringExtra(MyConstant.FA_PIAO_RESUCLT_KEY);
-                    faPiaoXinXiTextView.setText(faPiaoContent);
+                    String faPiaoTaiTou=data.getStringExtra(MyConstant.FA_PIAO_TAI_TOU_KEY);
+                    String faPiaoContent=data.getStringExtra(MyConstant.FA_PIAO_CONTENT_KEY);
+                    faPiaoTaiTouTextView.setText(faPiaoTaiTou);
+                    faPiaocontentTextView.setText(faPiaoContent);
                 }
+                break;
+            case YOU_HUI_QUAN_REQUEST_KEY://从优惠券活动返回的数据
+                if(resultCode==RESULT_OK){
+                    YouHuiQuanModel model=data.getParcelableExtra(MyConstant.YOU_HUI_QUAN_MODEL_KEY);
+                    String shuMu=data.getStringExtra(MyConstant.YOU_HUI_QUAN_SHU_MU_KEY);
+                    if (Integer.parseInt(shuMu)>0){
+                        youHuiQuanTextView.setText(FormatHelper.getMoneyFormat(model.getYouHuiQuanJinE()));
+                        youHuiQuanDiKouTextView.setText("-"+FormatHelper.getMoneyFormat(model.getYouHuiQuanJinE()));
+                        youHuiQuanShuMuTextView.setText(shuMu);
+                    }else{
+                        youHuiQuanTextView.setText(FormatHelper.getMoneyFormat(0+""));
+                        youHuiQuanDiKouTextView.setText("-"+FormatHelper.getMoneyFormat(0+""));
+                        youHuiQuanShuMuTextView.setText(0+"");
+                    }
+                    setShiFuKuan();//设置实付款
+                }
+                break;
         }
     }
 

@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/gray">
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:orientation="vertical"
+            android:padding="20dp">
+            <ImageView
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:background="@mipmap/ic_launcher"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/fu_kuan_jin_e"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"/>
+            <TextView
+                android:id="@+id/text_fu_kuan_jin_e_after_ti_jiao_ding_dan"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="256.00"/>
+
+        </LinearLayout>
+    </RelativeLayout>
+
+
+    <!--订单号-->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:background="@color/white_my">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/ding_dan_hao"/>
+        <TextView
+            android:id="@+id/text_ding_dan_hao_after_ti_jiao_ding_dan"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="2013546685523221"
+            android:layout_alignParentRight="true"/>
+    </RelativeLayout>
+
+
+    <Button
+        android:id="@+id/btn_zhi_fu_bao_zhi_fu_after_ti_jiao_ding_dan"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:background="@color/bottom_lable_color"
+        android:textColor="@color/white_my"
+        android:text="@string/zhi_fu_bao_zhi_fu"/>
+
+    <TextView
+        android:id="@+id/text_see_ding_dan_after_ti_jiao_ding_dan"
+        android:clickable="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:text="@string/see_ding_dan"
+        android:gravity="center"/>
+
+</LinearLayout>

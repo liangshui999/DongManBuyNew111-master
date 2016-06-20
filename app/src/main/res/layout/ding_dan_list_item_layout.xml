@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp">
+        <TextView
+            android:id="@+id/text_gui_shu_ding_dan_list_item"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/zhou_mo_zi_ying"/>
+        <TextView
+            android:id="@+id/text_fu_kuan_yu_fou_ding_dan_list_item"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="未确认，未付款，未发货"
+            android:layout_alignParentRight="true"
+            android:textColor="@color/bottom_lable_color"/>
+    </RelativeLayout>
+
+
+    <!--订单号和订单时间-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="10dp"
+        android:paddingLeft="10dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/ding_dan_hao"/>
+
+        <TextView
+            android:id="@+id/text_ding_dan_hao_ding_dan_list_item"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="2013325553322555"
+            android:layout_marginLeft="10dp"/>
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/text_time_ding_dan_list_item"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingBottom="10dp"
+        android:paddingLeft="10dp"
+        android:text="2015-06-20 14:00:00"
+        android:textSize="12sp"/>
+
+
+
+    <!--商品图片展示的的区域-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp">
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content">
+            <GridView
+                android:id="@+id/grid_view_product_pic_ding_dan_list_item"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:numColumns="3">
+
+            </GridView>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_product_count_ding_dan_list_item"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/text_product_count_ding_dan_list_item"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="共一款"
+                android:layout_gravity="center"/>
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:background="@mipmap/right"
+                android:layout_gravity="center"/>
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+
+    <!--合计和取消订单-->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp">
+        <TextView
+            android:id="@+id/heji"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/he_ji"/>
+        <TextView
+            android:id="@+id/text_sum_price_ding_dan_list_item"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="1699.00"
+            android:layout_toRightOf="@id/heji"
+            android:layout_marginLeft="5dp"
+            android:textColor="@color/bottom_lable_color"/>
+
+        <TextView
+            android:id="@+id/text_qu_xiao_ding_dan_ding_dan_list_item"
+            android:clickable="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="取消订单"
+            android:layout_alignParentRight="true"/>
+
+    </RelativeLayout>
+
+
+
+
+
+
+
+
+
+
+</LinearLayout>

@@ -20,5 +20,12 @@ public interface MyConstant {
     public static final String KONG_GE=" ";//空格
     public static final String GOOD_LIST_KEY="goodListKey";//传递商品集合的key
     public static final String ITEM_PRODUCT_COUNT_KEY="itemProductCount";//小项的商品数目的key，购物车传递到订单里面
-    public static final String FA_PIAO_RESUCLT_KEY="fapiaokey";//发票活动向订单返回数据时的key
+    public static final String FA_PIAO_TAI_TOU_KEY="fapiaotaitoukey";//发票活动向订单返回数据时的key
+    public static final String FA_PIAO_CONTENT_KEY="fapiaocontentkey";//发票活动向订单返回数据时的key
+    public static final String YOU_HUI_QUAN_MODEL_KEY ="youHuiQuanKey";//传递优惠券实体时使用
+    public static final String YOU_HUI_QUAN_SHU_MU_KEY="youhuishumu";//传递优惠券数目时使用
+    public static final String PRODUCT_PRICE_SUM_KEY="pricesumkey";//传递商品总价格时的key
+    public static final String PRODUCT_SHU_MU_SUM_KEY="shumucount";//传递商品总数时的key
+    public static final String SHI_FU_KUAN_KEY="shifukuan";//传递实付款时所用的key
+    public static final String DING_DAN_BIAN_HAO_KEY="dingDanBianHao";//传递订单编号用的key
 }

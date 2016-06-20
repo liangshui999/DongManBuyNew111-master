@@ -399,7 +399,7 @@
                         android:id="@+id/text_zhi_fu_fang_shi_ding_dan"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="支付宝（手续费）"
+                        android:text="支付宝【手续费】"
                         android:textSize="@dimen/ding_dan_layout_base_font"
                         android:layout_toLeftOf="@id/text_shou_xu_fei_ding_dan"
                         android:layout_marginRight="10dp"/>
@@ -433,13 +433,26 @@
                         android:layout_alignParentRight="true"
                         android:layout_marginRight="10dp"
                         android:layout_centerVertical="true"/>
-                    <TextView
-                        android:id="@+id/text_fa_piao_xin_xi_ding_dan"
+                    <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="个人\n明细"
-                        android:layout_toLeftOf="@id/fa_piao_right"
-                        android:textSize="@dimen/ding_dan_layout_base_font"/>
+                        android:orientation="vertical"
+                        android:layout_toLeftOf="@id/fa_piao_right">
+                        <TextView
+                            android:id="@+id/text_fa_piao_tai_tou_ding_dan"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="个人"
+                            android:textSize="@dimen/ding_dan_layout_base_font"/>
+                        <TextView
+                            android:id="@+id/text_fa_piao_content_ding_dan"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="明细"
+                            android:textSize="@dimen/ding_dan_layout_base_font"/>
+
+                    </LinearLayout>
+
                 </RelativeLayout>
 
 
@@ -483,7 +496,8 @@
                         android:layout_height="wrap_content"
                         android:text="不使用优惠券"
                         android:layout_toLeftOf="@id/you_hui_quan_right"
-                        android:textSize="@dimen/ding_dan_layout_base_font"/>
+                        android:textSize="@dimen/ding_dan_layout_base_font"
+                        android:textColor="@color/bottom_lable_color"/>
                 </RelativeLayout>
 
 
@@ -577,7 +591,7 @@
                         android:id="@+id/text_you_hui_quan_di_kou_ding_dan"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="1.00"
+                        android:text="0.00"
                         android:textColor="@color/bottom_lable_color"
                         android:layout_alignParentRight="true"
                         android:layout_marginRight="10dp"

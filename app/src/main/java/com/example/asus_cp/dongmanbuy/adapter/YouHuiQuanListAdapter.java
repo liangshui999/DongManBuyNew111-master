@@ -36,8 +36,7 @@ public class YouHuiQuanListAdapter extends BaseAdapter{
      */
     private void initChecks() {
         checks=new ArrayList<Boolean>();
-        checks.add(true);
-        for(int i=1;i<youHuiQuanModels.size();i++){
+        for(int i=0;i<youHuiQuanModels.size();i++){
             checks.add(false);
         }
     }
@@ -46,7 +45,7 @@ public class YouHuiQuanListAdapter extends BaseAdapter{
      *都不选中
      */
     public void allBuXuanZhong(){
-        for(int i=1;i<youHuiQuanModels.size();i++){
+        for(int i=0;i<youHuiQuanModels.size();i++){
             checks.set(i,false);
         }
     }
