@@ -252,28 +252,33 @@ public class ShoppingCarActivity extends Activity implements View.OnClickListene
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.check_box_zi_ying_dian://自营店
-                if(ziYingCount%2==0){
-                    adapter.allXuanZhong();
-                    adapter.notifyDataSetChanged();
-                    quanXuanCheckBox.setChecked(true);
-                }else{
-                    adapter.allBuXuanZhong();
-                    adapter.notifyDataSetChanged();
-                    quanXuanCheckBox.setChecked(false);
+                if(goods.size()>0){
+                    if(ziYingCount%2==0){
+                        adapter.allXuanZhong();
+                        adapter.notifyDataSetChanged();
+                        quanXuanCheckBox.setChecked(true);
+                    }else{
+                        adapter.allBuXuanZhong();
+                        adapter.notifyDataSetChanged();
+                        quanXuanCheckBox.setChecked(false);
+                    }
+                    ziYingCount++;
                 }
-                ziYingCount++;
                 break;
             case R.id.check_box_quan_xuan://全选
-                if(quanXuanCount%2==0){
-                    adapter.allXuanZhong();
-                    adapter.notifyDataSetChanged();
-                    ziYingCheckBox.setChecked(true);
-                }else{
-                    adapter.allBuXuanZhong();
-                    adapter.notifyDataSetChanged();
-                    ziYingCheckBox.setChecked(false);
+                if(goods.size()>0){
+                    if(quanXuanCount%2==0){
+                        adapter.allXuanZhong();
+                        adapter.notifyDataSetChanged();
+                        ziYingCheckBox.setChecked(true);
+
+                    }else{
+                        adapter.allBuXuanZhong();
+                        adapter.notifyDataSetChanged();
+                        ziYingCheckBox.setChecked(false);
+                    }
+                    quanXuanCount++;
                 }
-                quanXuanCount++;
                 break;
             case R.id.img_shoping_car_activity_dao_hang://导航
                 finish();
@@ -287,23 +292,28 @@ public class ShoppingCarActivity extends Activity implements View.OnClickListene
                 break;
             case R.id.ll_jie_suan://结算
                 //Toast.makeText(this,"结算...",Toast.LENGTH_SHORT).show();
-                List<Boolean> checks=adapter.getChecks();
-                ArrayList<Integer> itemProductCounts= (ArrayList<Integer>) adapter.getItemProductCounts();//返回小项的商品数目
-                ArrayList<Good> passGoods=new ArrayList<Good>();//需要传递给订单界面的
-                ArrayList<Integer> passItemProductCount=new ArrayList<Integer>();
-                for(int i=0;i<checks.size();i++){
-                    if(checks.get(i)){
-                        passGoods.add(goods.get(i));
-                        passItemProductCount.add(itemProductCounts.get(i));
-                    }
-                }
 
-                Intent intent=new Intent(ShoppingCarActivity.this,DingDanActivity.class);
-                intent.putExtra(MyConstant.GOOD_LIST_KEY,passGoods);
-                intent.putExtra(MyConstant.ITEM_PRODUCT_COUNT_KEY,passItemProductCount);
-                intent.putExtra(MyConstant.PRODUCT_PRICE_SUM_KEY,priceTextView.getText().toString());
-                intent.putExtra(MyConstant.PRODUCT_SHU_MU_SUM_KEY,jieSuanShuMuTextView.getText().toString());
-                startActivity(intent);
+                    List<Boolean> checks=adapter.getChecks();
+                    ArrayList<Integer> itemProductCounts= (ArrayList<Integer>) adapter.getItemProductCounts();//返回小项的商品数目
+                    ArrayList<Good> passGoods=new ArrayList<Good>();//需要传递给订单界面的
+                    ArrayList<Integer> passItemProductCount=new ArrayList<Integer>();
+                    for(int i=0;i<checks.size();i++){
+                        if(checks.get(i)){
+                            passGoods.add(goods.get(i));
+                            passItemProductCount.add(itemProductCounts.get(i));
+                        }
+                    }
+
+                if(passGoods.size()>0){
+                    Intent intent=new Intent(ShoppingCarActivity.this,DingDanActivity.class);
+                    intent.putExtra(MyConstant.GOOD_LIST_KEY,passGoods);
+                    intent.putExtra(MyConstant.ITEM_PRODUCT_COUNT_KEY,passItemProductCount);
+                    intent.putExtra(MyConstant.PRODUCT_PRICE_SUM_KEY,priceTextView.getText().toString());
+                    intent.putExtra(MyConstant.PRODUCT_SHU_MU_SUM_KEY,jieSuanShuMuTextView.getText().toString());
+                    startActivity(intent);
+                }else{
+                    Toast.makeText(this,"请至少选择一个商品",Toast.LENGTH_SHORT).show();
+                }
                 break;
 
 
@@ -522,7 +532,7 @@ public class ShoppingCarActivity extends Activity implements View.OnClickListene
                 public void onClick(View v) {
                 prodcutCount[0]++;
                 if(prodcutCount[0] <= kuCun){
-                    Toast.makeText(context,"库存数量:"+kuCun,Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(context,"库存数量:"+kuCun,Toast.LENGTH_SHORT).show();
                     finalViewHolder.productCountTextView.setText(prodcutCount[0] +"");
                 }else{
                     Toast.makeText(context,"超过了库存数量",Toast.LENGTH_SHORT).show();

@@ -28,4 +28,6 @@ public interface MyConstant {
     public static final String PRODUCT_SHU_MU_SUM_KEY="shumucount";//传递商品总数时的key
     public static final String SHI_FU_KUAN_KEY="shifukuan";//传递实付款时所用的key
     public static final String DING_DAN_BIAN_HAO_KEY="dingDanBianHao";//传递订单编号用的key
+    public static final String DING_DAN_MODEL_KEY="dingDanMoDS";//传递订单实体时使用的key
+    public static final String SHOP_ID_KEY="shopIdKey";//店铺id的key
 }

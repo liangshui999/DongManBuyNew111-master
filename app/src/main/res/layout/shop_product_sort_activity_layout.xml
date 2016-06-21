@@ -54,13 +54,31 @@
             android:layout_weight="1"
             android:layout_height="wrap_content"
             android:orientation="vertical">
-            <TextView
-                android:id="@+id/text_zong_he_sort"
-                android:clickable="true"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/zong_he"
-                android:layout_gravity="center"/>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:id="@+id/text_zong_he_sort"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:clickable="true"
+                    android:text="@string/zong_he"
+                    android:layout_centerInParent="true"
+                    />
+                <ImageView
+                    android:id="@+id/img_down_zong_he_sort"
+                    android:layout_width="15dp"
+                    android:layout_height="15dp"
+                    android:src="@mipmap/down_black_sort"
+                    android:layout_toRightOf="@id/text_zong_he_sort"
+                    android:layout_centerVertical="true"
+                    />
+
+
+            </RelativeLayout>
+
+
         </LinearLayout>
 
 
@@ -99,13 +117,28 @@
             android:layout_weight="1"
             android:layout_height="wrap_content"
             android:orientation="vertical">
-            <TextView
-                android:id="@+id/text_price_sort"
-                android:clickable="true"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/price"
-                android:layout_gravity="center"/>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:id="@+id/text_price_sort"
+                    android:clickable="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/price"
+                    android:layout_centerInParent="true"
+                   />
+                <ImageView
+                    android:id="@+id/img_down_price_sort"
+                    android:layout_width="15dp"
+                    android:layout_height="15dp"
+                    android:src="@mipmap/down_black_sort"
+                    android:layout_toRightOf="@id/text_price_sort"
+                    android:layout_centerVertical="true"
+
+                    />
+            </RelativeLayout>
+
         </LinearLayout>
 
 

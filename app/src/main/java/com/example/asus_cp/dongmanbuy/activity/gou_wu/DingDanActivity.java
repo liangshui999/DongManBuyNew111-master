@@ -213,17 +213,22 @@ public class DingDanActivity extends Activity implements View.OnClickListener{
                     R.mipmap.yu_jia_zai);
             imageLoader3.get(goods.get(2).getGoodsImg(),listener3,200,200);
         }
-        gongJiJianTextView.setText("共"+goods.size()+"件");
-
 
         //从购物车列表获取记录每个小项商品数目的集合
-        itemProductCount= (List<Integer>) getIntent().getSerializableExtra(MyConstant.ITEM_PRODUCT_COUNT_KEY);
+        itemProductCount= (List<Integer>) getIntent().getSerializableExtra(MyConstant.ITEM_PRODUCT_COUNT_KEY);//主要是展开界面的时候需要用到该项
 
         //设置商品总价，总数目，结算价格
         productSumTextView.setText(productSumCount);
         productSumPriceTextView.setText(productSumPrice);
         productSumPriceTextBottomView.setText(productSumPrice);
         setShiFuKuan();
+
+        //设置共几件商品
+        int sum=0;
+        for(int i=0;i<itemProductCount.size();i++){
+            sum=sum+itemProductCount.get(i);
+        }
+        gongJiJianTextView.setText("共"+sum+"件");
 
     }
 

@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import com.example.asus_cp.dongmanbuy.R;
 import com.example.asus_cp.dongmanbuy.customview.MyGridView;
+import com.example.asus_cp.dongmanbuy.customview.MyGridViewA;
 import com.example.asus_cp.dongmanbuy.util.CategoryImageLoadHelper;
 import com.example.asus_cp.dongmanbuy.util.MyApplication;
 
@@ -20,9 +21,9 @@ import com.example.asus_cp.dongmanbuy.util.MyApplication;
  * Created by asus-cp on 2016-05-25.
  */
 public class ZaiPingFragment extends Fragment implements View.OnClickListener{
-    private MyGridView mingXinPianGridView;//明信片
-    private MyGridView puKePaiGridView;//扑克牌
-    private MyGridView taiLiGridView;//台历
+    private MyGridViewA mingXinPianGridView;//明信片
+    private MyGridViewA puKePaiGridView;//扑克牌
+    private MyGridViewA taiLiGridView;//台历
 
     private TextView mingXinPianTextView;
     private TextView daLiBaoTextView;
@@ -51,9 +52,9 @@ public class ZaiPingFragment extends Fragment implements View.OnClickListener{
     private void init(View v) {
         context= MyApplication.getContext();
         helper=new CategoryImageLoadHelper();
-        mingXinPianGridView= (MyGridView) v.findViewById(R.id.grid_view_ming_xin_pian);
-        puKePaiGridView= (MyGridView) v.findViewById(R.id.grid_view_pu_ke_pai);
-        taiLiGridView= (MyGridView) v.findViewById(R.id.grid_view_tai_li);
+        mingXinPianGridView= (MyGridViewA) v.findViewById(R.id.grid_view_ming_xin_pian);
+        puKePaiGridView= (MyGridViewA) v.findViewById(R.id.grid_view_pu_ke_pai);
+        taiLiGridView= (MyGridViewA) v.findViewById(R.id.grid_view_tai_li);
 
         helper.asynLoadCatgory(mingXinPianGridView,"明信片","18");
         helper.asynLoadCatgory(puKePaiGridView,"扑克牌","18");

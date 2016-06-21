@@ -135,10 +135,13 @@ public class DingDanListActivity extends Activity implements View.OnClickListene
                                             Good good=new Good();
                                             good.setGoodId(goodJs.getString("goods_id"));
                                             good.setGoodName(JsonHelper.decodeUnicode(goodJs.getString("name")));
+                                            good.setDingDanNumber(goodJs.getString("goods_number"));
+                                            good.setDingDanSumPrice(JsonHelper.decodeUnicode(goodJs.getString("subtotal")));
                                             JSONObject imgJs=goodJs.getJSONObject("img");
                                             good.setGoodsImg(imgJs.getString("url"));
                                             good.setGoodsThumb(imgJs.getString("thumb"));
                                             good.setGoodsSmallImag(imgJs.getString("small"));
+
                                             goods.add(good);
                                         }
                                     }

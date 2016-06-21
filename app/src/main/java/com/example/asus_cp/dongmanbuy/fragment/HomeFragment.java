@@ -36,6 +36,7 @@ import com.example.asus_cp.dongmanbuy.activity.product_detail.ProductDetailActiv
 import com.example.asus_cp.dongmanbuy.adapter.CaiNiXiHuanAdapter;
 import com.example.asus_cp.dongmanbuy.adapter.JingPinAdapter;
 import com.example.asus_cp.dongmanbuy.adapter.XianShiAdapter;
+import com.example.asus_cp.dongmanbuy.constant.MyConstant;
 import com.example.asus_cp.dongmanbuy.customview.MyGridView;
 import com.example.asus_cp.dongmanbuy.customview.MyGridViewA;
 import com.example.asus_cp.dongmanbuy.model.Binner;
@@ -181,6 +182,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
                 case REFRESH_XIAN_SHI_MIAO_SHA://更新限时秒杀
                     Bitmap bitmap= (Bitmap) msg.obj;
                     xianShiMiaoShaImagView.setImageBitmap(bitmap);
+
                     break;
             }
         }
@@ -318,7 +320,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
             @Override
             public void onResponse(String s) {
                 MyLog.d(tag,s);
-                List<Good> goods = new ArrayList<Good>();
+                final List<Good> goods = new ArrayList<Good>();
                 try {
                     JSONObject jsonObject = new JSONObject(s);
                     JSONArray jsonArray = jsonObject.getJSONArray("data");
@@ -339,6 +341,15 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
                         goods.add(good);
                     }
                     xianShiMiaoShaImagView= (ImageView) v.findViewById(R.id.img_xian_shi_miao_sha_content);
+                    xianShiMiaoShaImagView.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent intent=new Intent(context,ProductDetailActivity.class);
+                            intent.putExtra(MyConstant.GOOD_KEY,goods.get(0));
+                            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            context.startActivity(intent);
+                        }
+                    });
                     final String urlString=goods.get(0).getGoodsImg();
                     new Thread(new Runnable() {
                         @Override
@@ -368,7 +379,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
                     if (goods.size() > 0) {
                         XianShiAdapter xianShiAdapter = new XianShiAdapter(context, getElementsFromList(goods, 4));
                         xianShiMiaoShaGridView.setAdapter(xianShiAdapter);
-                        xianShiMiaoShaGridView.setOnItemClickListener(new XianShiOnItemClickListener());
+                        xianShiMiaoShaGridView.setOnItemClickListener(new XianShiOnItemClickListener(getElementsFromList(goods, 4)));
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -391,7 +402,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
         StringRequest jingPinStringRequest=new StringRequest(Request.Method.GET, jingPinRequestUrl, new Response.Listener<String>() {
             @Override
             public void onResponse(String s) {
-                List<Good> goods = parseCaiNiLikeAndJingPin(s);
+                final List<Good> goods = parseCaiNiLikeAndJingPin(s);
                // Good[] goodArray= (Good[]) goods.toArray();
                 int size=goods.size();
                 int count=0;//取的次数
@@ -401,7 +412,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
                     count=size/3+1;
                 }
                 for(int i=0;i<count;i++){
-                    List<Good> goodItems=new ArrayList<Good>();
+                    final List<Good> goodItems=new ArrayList<Good>();
                     for(int j=3*i;j<3*i+3;j++){
                         if(j<size){
                             goodItems.add(goods.get(j));
@@ -419,7 +430,11 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
                     gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                         @Override
                         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                            Toast.makeText(context,""+position,Toast.LENGTH_SHORT).show();
+                           // Toast.makeText(context,""+position,Toast.LENGTH_SHORT).show();
+                            Intent intent=new Intent(context,ProductDetailActivity.class);
+                            intent.putExtra(MyConstant.GOOD_KEY,goodItems.get(position));
+                            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            context.startActivity(intent);
                         }
                     });
                     gridViews.add(gridView);
@@ -778,9 +793,17 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
      * 限时秒杀gridview的项目点击监听器
      */
     public class XianShiOnItemClickListener implements AdapterView.OnItemClickListener{
+        private List<Good> goods;
+        public XianShiOnItemClickListener(List<Good> goods){
+            this.goods=goods;
+        }
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            Toast.makeText(context,position+"",Toast.LENGTH_SHORT).show();
+            //Toast.makeText(context,position+"",Toast.LENGTH_SHORT).show();
+            Intent intent=new Intent(context,ProductDetailActivity.class);
+            intent.putExtra(MyConstant.GOOD_KEY,goods.get(position));
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            context.startActivity(intent);
         }
     }
 
@@ -788,9 +811,19 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
      * 精品推荐gridview的项目点击监听器
      */
     public class JingPinOnItemClickListener implements AdapterView.OnItemClickListener{
+        private List<Good> goods;
+
+        public JingPinOnItemClickListener(List<Good> goods) {
+            this.goods = goods;
+        }
+
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            Toast.makeText(context,position+"",Toast.LENGTH_SHORT).show();
+            //Toast.makeText(context,position+"",Toast.LENGTH_SHORT).show();
+            Intent intent=new Intent(context,ProductDetailActivity.class);
+            intent.putExtra(MyConstant.GOOD_KEY,goods.get(position));
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            context.startActivity(intent);
         }
     }
 

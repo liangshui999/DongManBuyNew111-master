@@ -290,9 +290,9 @@ public class ShopHomeActivity extends Activity implements View.OnClickListener {
             case R.id.text_see_more://查看更多
                 //Toast.makeText(this, "点击了查看更多", Toast.LENGTH_SHORT).show();
                 Intent toSortActivityIntent=new Intent(this,ShopProdcutSortActivity.class);
-                ArrayList<Good> goods= (ArrayList<Good>) shopModel.getGoods();
-                toSortActivityIntent.putExtra(MyConstant.FROM_SHOP_HOME_TO_SHOP_PRODUCT_SORT_KEY,
-                       goods);
+                //ArrayList<Good> goods= (ArrayList<Good>) shopModel.getGoods();
+                toSortActivityIntent.putExtra(MyConstant.SHOP_ID_KEY,
+                       shopModel.getUserId());
                 startActivity(toSortActivityIntent);
                 break;
             case R.id.text_shop_detail://点击了店铺详情

@@ -74,7 +74,14 @@ public class DingDanJieMianListAdapter extends BaseAdapter{
         imageLoader.get(good.getGoodsImg(), listener, 200, 200);
 
         viewHolder.nameTextView.setText(good.getGoodName());
-        viewHolder.priceTextView.setText(FormatHelper.getMoneyFormat(good.getShopPrice()));
+        if("".equals(good.getShopPrice()) ||good.getShopPrice()==null){
+            double sumPrice=Double.parseDouble(FormatHelper.getNumberFromRenMingBi(good.getDingDanSumPrice()));
+            int productCount=Integer.parseInt(good.getDingDanNumber());
+            double danJia=sumPrice/productCount;
+            viewHolder.priceTextView.setText(FormatHelper.getMoneyFormat(""+danJia));
+        }else{
+            viewHolder.priceTextView.setText(FormatHelper.getMoneyFormat(good.getShopPrice()));
+        }
         viewHolder.countTextView.setText("×"+itemProductCount.get(position));
 
         return v;

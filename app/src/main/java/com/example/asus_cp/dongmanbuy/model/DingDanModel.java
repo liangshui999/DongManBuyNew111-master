@@ -1,12 +1,15 @@
 package com.example.asus_cp.dongmanbuy.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.util.List;
 
 /**
  * 订单实体
  * Created by asus-cp on 2016-06-20.
  */
-public class DingDanModel {
+public class DingDanModel implements Parcelable{
     private String orderId;//订单id
     private String orderBianHao;//订单编号
     private String orderTime;//订单时间
@@ -17,6 +20,33 @@ public class DingDanModel {
     private String shouXuFei;//手续费
     private String payCode;//paycode
     private String dingDanDesc;//订单描述
+
+    protected DingDanModel(Parcel in) {
+        orderId = in.readString();
+        orderBianHao = in.readString();
+        orderTime = in.readString();
+        sumPrice = in.readString();
+        goods = in.createTypedArrayList(Good.CREATOR);
+        shipFee = in.readString();
+        hongBao = in.readString();
+        shouXuFei = in.readString();
+        payCode = in.readString();
+        dingDanDesc = in.readString();
+    }
+
+    public DingDanModel(){}
+
+    public static final Creator<DingDanModel> CREATOR = new Creator<DingDanModel>() {
+        @Override
+        public DingDanModel createFromParcel(Parcel in) {
+            return new DingDanModel(in);
+        }
+
+        @Override
+        public DingDanModel[] newArray(int size) {
+            return new DingDanModel[size];
+        }
+    };
 
     public String getOrderId() {
         return orderId;
@@ -96,5 +126,24 @@ public class DingDanModel {
 
     public void setDingDanDesc(String dingDanDesc) {
         this.dingDanDesc = dingDanDesc;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(orderId);
+        dest.writeString(orderBianHao);
+        dest.writeString(orderTime);
+        dest.writeString(sumPrice);
+        dest.writeTypedList(goods);
+        dest.writeString(shipFee);
+        dest.writeString(hongBao);
+        dest.writeString(shouXuFei);
+        dest.writeString(payCode);
+        dest.writeString(dingDanDesc);
     }
 }

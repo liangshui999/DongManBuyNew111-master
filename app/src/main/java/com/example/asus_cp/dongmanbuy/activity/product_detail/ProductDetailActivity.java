@@ -235,6 +235,7 @@ public class ProductDetailActivity extends Activity implements View.OnClickListe
         productNameTextView.setText(good.getGoodName());
 
         //设置商品店铺价格,不带人民币符号
+        MyLog.d(tag,"店铺价格为："+good.getShopPrice());
         benDianJiaGeTextView.setText(FormatHelper.getMoneyFormat(good.getShopPrice()));
 
         //设置商品市场价格,带人民币符号

@@ -22,7 +22,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/shou_ban"
                     android:layout_gravity="left"/>
-                <com.example.asus_cp.dongmanbuy.customview.MyGridView
+                <com.example.asus_cp.dongmanbuy.customview.MyGridViewA
                     android:id="@+id/grid_view_shou_ban"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -31,7 +31,7 @@
                     android:horizontalSpacing="@dimen/category_fragments_gridview_space"
                     android:gravity="center"
                     >
-                </com.example.asus_cp.dongmanbuy.customview.MyGridView>
+                </com.example.asus_cp.dongmanbuy.customview.MyGridViewA>
             </LinearLayout>
 
             <!--模型的布局-->
@@ -47,7 +47,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/mo_xing"
                     android:layout_gravity="left"/>
-                <com.example.asus_cp.dongmanbuy.customview.MyGridView
+                <com.example.asus_cp.dongmanbuy.customview.MyGridViewA
                     android:id="@+id/grid_view_mo_xing"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -56,7 +56,7 @@
                     android:horizontalSpacing="@dimen/category_fragments_gridview_space"
                     android:gravity="center"
                     >
-                </com.example.asus_cp.dongmanbuy.customview.MyGridView>
+                </com.example.asus_cp.dongmanbuy.customview.MyGridViewA>
             </LinearLayout>
         </LinearLayout>
     </ScrollView>

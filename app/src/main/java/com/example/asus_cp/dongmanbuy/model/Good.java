@@ -38,6 +38,8 @@ public class Good implements Parcelable{
     private String goodsImg;//大图
     private String goodsSmallImag;//小图
     private String shoppingCarNumber;//购物车中该商品数量
+    private String dingDanNumber;//在订单中该商品的数量
+    private String dingDanSumPrice;//在订单列表中该商品的总价
 
     public Good(){}
     protected Good(Parcel in) {
@@ -71,6 +73,8 @@ public class Good implements Parcelable{
         goodsImg = in.readString();
         goodsSmallImag = in.readString();
         shoppingCarNumber=in.readString();
+        dingDanNumber=in.readString();
+        dingDanSumPrice=in.readString();
     }
 
     public static final Creator<Good> CREATOR = new Creator<Good>() {
@@ -325,6 +329,22 @@ public class Good implements Parcelable{
         this.shoppingCarNumber = shoppingCarNumber;
     }
 
+    public String getDingDanNumber() {
+        return dingDanNumber;
+    }
+
+    public void setDingDanNumber(String dingDanNumber) {
+        this.dingDanNumber = dingDanNumber;
+    }
+
+    public String getDingDanSumPrice() {
+        return dingDanSumPrice;
+    }
+
+    public void setDingDanSumPrice(String dingDanSumPrice) {
+        this.dingDanSumPrice = dingDanSumPrice;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -362,6 +382,8 @@ public class Good implements Parcelable{
         dest.writeString(goodsImg);
         dest.writeString(goodsSmallImag);
         dest.writeString(shoppingCarNumber);
+        dest.writeString(dingDanNumber);
+        dest.writeString(dingDanSumPrice);
     }
 
 }

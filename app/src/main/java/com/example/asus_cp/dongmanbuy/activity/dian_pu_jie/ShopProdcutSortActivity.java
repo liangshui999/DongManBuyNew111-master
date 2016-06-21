@@ -36,6 +36,8 @@ public class ShopProdcutSortActivity extends Activity implements View.OnClickLis
     private TextView xinPinTextView;//新品
     private TextView xiaoLiangTextView;//销量
     private TextView priceTextView;//价格
+    private ImageView zongHeDownImageView;//综合右边的箭头
+    private ImageView priceDownImageView;//价格右边的箭头
     private ImageView displayYangShiImageView;//分类方式
     private GridView productGridView;//商品列表
     private ListView productListViewSmall;//商品列表
@@ -46,7 +48,11 @@ public class ShopProdcutSortActivity extends Activity implements View.OnClickLis
     public static final int LIST_SMALL=2;
     public static final int LIST_BIG=0;
 
-    private ArrayList<Good> goods;
+    private List<Good> goods;//迟早需要注销掉的，只是暂时让程序不要报太多错，而保留
+    private String shopId;//店铺id
+
+    private int zongHeFlag;//综合标签点击次数的标记
+    private int priceFlag;
 
 
     @Override
@@ -61,7 +67,7 @@ public class ShopProdcutSortActivity extends Activity implements View.OnClickLis
      * 初始化的方法
      */
     private void init() {
-        goods= (ArrayList<Good>) getIntent().getSerializableExtra(MyConstant.FROM_SHOP_HOME_TO_SHOP_PRODUCT_SORT_KEY);
+        shopId=getIntent().getStringExtra(MyConstant.SHOP_ID_KEY);
 
         daoHangImageView= (ImageView) findViewById(R.id.img_shop_product_sort_dao_hang);
         searchView= (SearchView) findViewById(R.id.search_view_shop_product_sort);
@@ -70,11 +76,16 @@ public class ShopProdcutSortActivity extends Activity implements View.OnClickLis
         xinPinTextView= (TextView) findViewById(R.id.text_xin_pin_sort);
         xiaoLiangTextView= (TextView) findViewById(R.id.text_xiao_liang_sort);
         priceTextView= (TextView) findViewById(R.id.text_price_sort);
+        zongHeDownImageView= (ImageView) findViewById(R.id.img_down_zong_he_sort);
+        priceDownImageView= (ImageView) findViewById(R.id.img_down_price_sort);
         displayYangShiImageView= (ImageView) findViewById(R.id.img_display_style_sort);
         productGridView= (GridView) findViewById(R.id.grid_view_product_sort);
         productListViewSmall= (ListView) findViewById(R.id.list_view_product_sort_small);
         productListViewBig= (ListView) findViewById(R.id.list_view_product_sort_big);
 
+
+        zongHeTextView.setTextColor(getResources().getColor(R.color.bottom_lable_color));
+        zongHeDownImageView.setImageResource(R.mipmap.down_red_sort);
         ShopProductGridAdapter shopProductGridAdapter=new ShopProductGridAdapter(this,goods);
         productGridView.setAdapter(shopProductGridAdapter);
         productGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -109,16 +120,32 @@ public class ShopProdcutSortActivity extends Activity implements View.OnClickLis
                 Toast.makeText(this,"点击了分类",Toast.LENGTH_SHORT).show();
                 break;
             case R.id.text_zong_he_sort://综合
-                Toast.makeText(this,"点击了综合",Toast.LENGTH_SHORT).show();
+                reset();
+                zongHeTextView.setTextColor(getResources().getColor(R.color.bottom_lable_color));
+                if(zongHeFlag%2==0){
+                    zongHeDownImageView.setImageResource(R.mipmap.down_red_sort);
+                }else{
+                    zongHeDownImageView.setImageResource(R.mipmap.up_red_sort);
+                }
+                zongHeFlag++;
                 break;
             case R.id.text_xin_pin_sort://新品
-                Toast.makeText(this,"点击了新品",Toast.LENGTH_SHORT).show();
+               reset();
+                xinPinTextView.setTextColor(getResources().getColor(R.color.bottom_lable_color));
                 break;
             case R.id.text_xiao_liang_sort://销量
-                Toast.makeText(this,"点击了销量",Toast.LENGTH_SHORT).show();
+               reset();
+                xiaoLiangTextView.setTextColor(getResources().getColor(R.color.bottom_lable_color));
                 break;
             case R.id.text_price_sort://价格
-                Toast.makeText(this,"点击了价格",Toast.LENGTH_SHORT).show();
+               reset();
+                priceTextView.setTextColor(getResources().getColor(R.color.bottom_lable_color));
+                if(priceFlag%2==0){
+                    priceDownImageView.setImageResource(R.mipmap.down_red_sort);
+                }else{
+                    priceDownImageView.setImageResource(R.mipmap.up_red_sort);
+                }
+                priceFlag++;
                 break;
             case R.id.img_display_style_sort://展示样式
                 //Toast.makeText(this,"点击了展示样式",Toast.LENGTH_SHORT).show();
@@ -174,5 +201,17 @@ public class ShopProdcutSortActivity extends Activity implements View.OnClickLis
                 }
                 break;
         }
+    }
+
+    /**
+     * 将标签的颜色设置成初始状态
+     */
+    public void reset(){
+        zongHeTextView.setTextColor(getResources().getColor(R.color.black));
+        xinPinTextView.setTextColor(getResources().getColor(R.color.black));
+        xiaoLiangTextView.setTextColor(getResources().getColor(R.color.black));
+        priceTextView.setTextColor(getResources().getColor(R.color.black));
+        zongHeDownImageView.setImageResource(R.mipmap.down_black_sort);
+        priceDownImageView.setImageResource(R.mipmap.down_black_sort);
     }
 }

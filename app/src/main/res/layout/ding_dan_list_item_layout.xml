@@ -54,6 +54,7 @@
 
     <!--商品图片展示的的区域-->
     <LinearLayout
+        android:id="@+id/ll_pic_display_ding_dan_list_item"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="10dp">
@@ -61,13 +62,14 @@
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content">
-            <GridView
+            <com.example.asus_cp.dongmanbuy.customview.MyGridViewA
                 android:id="@+id/grid_view_product_pic_ding_dan_list_item"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:numColumns="3">
+                android:numColumns="3"
+                >
 
-            </GridView>
+            </com.example.asus_cp.dongmanbuy.customview.MyGridViewA>
         </LinearLayout>
 
         <LinearLayout

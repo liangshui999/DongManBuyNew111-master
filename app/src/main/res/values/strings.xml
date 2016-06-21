@@ -219,6 +219,10 @@
     <string name="dai_fu_kuan">待付款</string>
     <string name="dai_shou_huo">代收货</string>
     <string name="zhou_mo_zi_ying">周末自营</string>
+    <string name="product_jin_e">商品金额</string>
+    <string name="product_you_hui">商品优惠</string>
+    <string name="cancel_order">取消订单</string>
+    <string name="ying_fu_zong_e">应付总额</string>
 
 
 

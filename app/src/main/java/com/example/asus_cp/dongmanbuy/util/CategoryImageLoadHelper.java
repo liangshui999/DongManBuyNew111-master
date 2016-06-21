@@ -1,9 +1,11 @@
 package com.example.asus_cp.dongmanbuy.util;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Adapter;
+import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.LinearLayout;
 import android.widget.ListAdapter;
@@ -14,8 +16,11 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.example.asus_cp.dongmanbuy.activity.product_detail.ProductDetailActivity;
 import com.example.asus_cp.dongmanbuy.adapter.CategoryGridViewAdapter;
+import com.example.asus_cp.dongmanbuy.constant.MyConstant;
 import com.example.asus_cp.dongmanbuy.customview.MyGridView;
+import com.example.asus_cp.dongmanbuy.customview.MyGridViewA;
 import com.example.asus_cp.dongmanbuy.model.CategoryModel;
 import com.example.asus_cp.dongmanbuy.model.Good;
 
@@ -60,7 +65,7 @@ public class CategoryImageLoadHelper {
      * @param cateGory 商品的类别
      * @param length 需要加载的数据长度
      */
-    public void asynLoadCatgory(final MyGridView gridView, final String cateGory, final String length) {
+    public void asynLoadCatgory(final MyGridViewA gridView, final String cateGory, final String length) {
         StringRequest allRequest = new StringRequest(Request.Method.GET, getAllCategoryUrl, new Response.Listener<String>() {
             private ArrayList<CategoryModel> categoryModels = new ArrayList<CategoryModel>();
 
@@ -91,7 +96,7 @@ public class CategoryImageLoadHelper {
                         @Override
                         public void onResponse(String s) {
                             MyLog.d(tag, "post请求的数据：" + s);
-                            List<Good> goods=new ArrayList<Good>();
+                            final List<Good> goods=new ArrayList<Good>();
                             try {
                                 JSONObject postJsonObject=new JSONObject(s);
                                 JSONArray postJsArray=postJsonObject.getJSONArray("data");
@@ -103,11 +108,23 @@ public class CategoryImageLoadHelper {
                                     good.setGoodsImg(jsObject.getJSONObject("img").getString("url"));
                                     good.setGoodsSmallImag(jsObject.getJSONObject("img").getString("small"));
                                     good.setGoodsThumb(jsObject.getJSONObject("img").getString("thumb"));
+                                    good.setSalesVolume(jsObject.getString("sales_volume"));
+                                    good.setMarket_price(jsObject.getString("market_price"));
+                                    good.setShopPrice(jsObject.getString("shop_price"));
                                     goods.add(good);
                                 }
                                 CategoryGridViewAdapter adapter=new CategoryGridViewAdapter(goods,context);
                                 gridView.setAdapter(adapter);
-                                setGridViewViewHeightBasedOnChildren(gridView);
+                                gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                                    @Override
+                                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                                        Intent intent=new Intent(context, ProductDetailActivity.class);
+                                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                        intent.putExtra(MyConstant.GOOD_KEY,goods.get(position));
+                                        context.startActivity(intent);
+                                    }
+                                });
+                                //setGridViewViewHeightBasedOnChildren(gridView);
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }

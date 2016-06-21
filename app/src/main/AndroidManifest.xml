@@ -103,6 +103,9 @@
         <!--订单列表的activity-->
         <activity android:name=".activity.gou_wu.DingDanListActivity"/>
 
+        <!--订单详情的activity-->
+        <activity android:name=".activity.gou_wu.DingDanDetailActivity"/>
+
         <!--搜索的activity-->
         <activity android:name=".activity.MySearchActivity">
             <intent-filter>

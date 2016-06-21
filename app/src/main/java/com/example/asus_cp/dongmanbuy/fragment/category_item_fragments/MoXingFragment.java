@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import com.example.asus_cp.dongmanbuy.R;
 import com.example.asus_cp.dongmanbuy.customview.MyGridView;
+import com.example.asus_cp.dongmanbuy.customview.MyGridViewA;
 import com.example.asus_cp.dongmanbuy.util.CategoryImageLoadHelper;
 import com.example.asus_cp.dongmanbuy.util.MyApplication;
 
@@ -22,8 +23,8 @@ import com.example.asus_cp.dongmanbuy.util.MyApplication;
 public class MoXingFragment extends Fragment implements View.OnClickListener{
     private TextView shouBanTextView;
     private TextView moXingTextView;
-    private MyGridView shouBanGridView;
-    private MyGridView moXingGridView;
+    private MyGridViewA shouBanGridView;
+    private MyGridViewA moXingGridView;
     private Context context;
     private CategoryImageLoadHelper helper;
     @Nullable
@@ -39,8 +40,8 @@ public class MoXingFragment extends Fragment implements View.OnClickListener{
         helper=new CategoryImageLoadHelper();
         shouBanTextView= (TextView) v.findViewById(R.id.text_shou_ban);
         moXingTextView= (TextView) v.findViewById(R.id.text_mo_xing);
-        shouBanGridView= (MyGridView) v.findViewById(R.id.grid_view_shou_ban);
-        moXingGridView= (MyGridView) v.findViewById(R.id.grid_view_mo_xing);
+        shouBanGridView= (MyGridViewA) v.findViewById(R.id.grid_view_shou_ban);
+        moXingGridView= (MyGridViewA) v.findViewById(R.id.grid_view_mo_xing);
 
         shouBanTextView.setOnClickListener(this);
         moXingTextView.setOnClickListener(this);

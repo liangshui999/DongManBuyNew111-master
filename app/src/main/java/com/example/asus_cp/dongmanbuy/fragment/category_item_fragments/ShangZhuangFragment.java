@@ -13,6 +13,7 @@ import android.widget.Toast;
 import com.android.volley.RequestQueue;
 import com.example.asus_cp.dongmanbuy.R;
 import com.example.asus_cp.dongmanbuy.customview.MyGridView;
+import com.example.asus_cp.dongmanbuy.customview.MyGridViewA;
 import com.example.asus_cp.dongmanbuy.util.CategoryImageLoadHelper;
 import com.example.asus_cp.dongmanbuy.util.MyApplication;
 
@@ -32,10 +33,10 @@ import java.net.URL;
  * Created by asus-cp on 2016-05-25.
  */
 public class ShangZhuangFragment extends Fragment implements View.OnClickListener{
-    private MyGridView weiYiGridView;//卫衣的
-    private MyGridView zhenZhiShanGridView;//针织衫
-    private MyGridView waiTaoGridView;//外套
-    private MyGridView tXueGridView;//T恤
+    private MyGridViewA weiYiGridView;//卫衣的
+    private MyGridViewA zhenZhiShanGridView;//针织衫
+    private MyGridViewA waiTaoGridView;//外套
+    private MyGridViewA tXueGridView;//T恤
 
     private TextView weiYiTextView;
     private TextView zhenZhiShanTextView;
@@ -72,10 +73,10 @@ public class ShangZhuangFragment extends Fragment implements View.OnClickListene
         helper=new CategoryImageLoadHelper();
         requestQueue=MyApplication.getRequestQueue();
         //控件的初始化
-        weiYiGridView= (MyGridView) v.findViewById(R.id.grid_view_wei_yi);
-        zhenZhiShanGridView= (MyGridView) v.findViewById(R.id.grid_view_zhen_zhi_shan);
-        waiTaoGridView= (MyGridView) v.findViewById(R.id.grid_view_wai_tao);
-        tXueGridView= (MyGridView) v.findViewById(R.id.grid_view_t_xue);
+        weiYiGridView= (MyGridViewA) v.findViewById(R.id.grid_view_wei_yi);
+        zhenZhiShanGridView= (MyGridViewA) v.findViewById(R.id.grid_view_zhen_zhi_shan);
+        waiTaoGridView= (MyGridViewA) v.findViewById(R.id.grid_view_wai_tao);
+        tXueGridView= (MyGridViewA) v.findViewById(R.id.grid_view_t_xue);
 
 
         //卫衣部分

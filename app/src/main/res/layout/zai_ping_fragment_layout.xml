@@ -25,7 +25,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/ming_xin_pian"
                     android:layout_gravity="left"/>
-                <com.example.asus_cp.dongmanbuy.customview.MyGridView
+                <com.example.asus_cp.dongmanbuy.customview.MyGridViewA
                     android:id="@+id/grid_view_ming_xin_pian"
                     android:layout_width="match_parent"
                     android:layout_height="650dp"
@@ -34,7 +34,7 @@
                     android:horizontalSpacing="@dimen/category_fragments_gridview_space"
                     android:gravity="center"
                     >
-                </com.example.asus_cp.dongmanbuy.customview.MyGridView>
+                </com.example.asus_cp.dongmanbuy.customview.MyGridViewA>
             </LinearLayout>
 
             <!--大礼包的布局-->
@@ -50,7 +50,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/da_li_bao"
                     android:layout_gravity="left"/>
-                <com.example.asus_cp.dongmanbuy.customview.MyGridView
+                <com.example.asus_cp.dongmanbuy.customview.MyGridViewA
                     android:id="@+id/grid_view_da_li_bao"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -61,7 +61,7 @@
                     android:stretchMode="columnWidth"
                     android:gravity="center"
                     >
-                </com.example.asus_cp.dongmanbuy.customview.MyGridView>
+                </com.example.asus_cp.dongmanbuy.customview.MyGridViewA>
             </LinearLayout>
 
 
@@ -78,7 +78,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/pu_ke_pai"
                     android:layout_gravity="left"/>
-                <com.example.asus_cp.dongmanbuy.customview.MyGridView
+                <com.example.asus_cp.dongmanbuy.customview.MyGridViewA
                     android:id="@+id/grid_view_pu_ke_pai"
                     android:layout_width="match_parent"
                     android:layout_height="650dp"
@@ -87,7 +87,7 @@
                     android:horizontalSpacing="@dimen/category_fragments_gridview_space"
                     android:gravity="center"
                     >
-                </com.example.asus_cp.dongmanbuy.customview.MyGridView>
+                </com.example.asus_cp.dongmanbuy.customview.MyGridViewA>
             </LinearLayout>
 
             <!--台历的布局-->
@@ -103,7 +103,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/tai_li"
                     android:layout_gravity="left"/>
-                <com.example.asus_cp.dongmanbuy.customview.MyGridView
+                <com.example.asus_cp.dongmanbuy.customview.MyGridViewA
                     android:id="@+id/grid_view_tai_li"
                     android:layout_width="match_parent"
                     android:layout_height="650dp"
@@ -112,7 +112,7 @@
                     android:horizontalSpacing="@dimen/category_fragments_gridview_space"
                     android:gravity="center"
                     >
-                </com.example.asus_cp.dongmanbuy.customview.MyGridView>
+                </com.example.asus_cp.dongmanbuy.customview.MyGridViewA>
             </LinearLayout>
 
             <!--钱包的布局-->
@@ -128,7 +128,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/qian_bao"
                     android:layout_gravity="left"/>
-                <com.example.asus_cp.dongmanbuy.customview.MyGridView
+                <com.example.asus_cp.dongmanbuy.customview.MyGridViewA
                     android:id="@+id/grid_view_qian_bao"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -139,7 +139,7 @@
                     android:stretchMode="columnWidth"
                     android:gravity="center"
                     >
-                </com.example.asus_cp.dongmanbuy.customview.MyGridView>
+                </com.example.asus_cp.dongmanbuy.customview.MyGridViewA>
             </LinearLayout>
 
 
@@ -156,7 +156,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/bi_ji_ben"
                     android:layout_gravity="left"/>
-                <com.example.asus_cp.dongmanbuy.customview.MyGridView
+                <com.example.asus_cp.dongmanbuy.customview.MyGridViewA
                     android:id="@+id/grid_view_bi_ji_ben"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -167,7 +167,7 @@
                     android:stretchMode="columnWidth"
                     android:gravity="center"
                     >
-                </com.example.asus_cp.dongmanbuy.customview.MyGridView>
+                </com.example.asus_cp.dongmanbuy.customview.MyGridViewA>
             </LinearLayout>
 
             <!--同人卡的布局-->
@@ -183,7 +183,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/tong_ren_ka"
                     android:layout_gravity="left"/>
-                <com.example.asus_cp.dongmanbuy.customview.MyGridView
+                <com.example.asus_cp.dongmanbuy.customview.MyGridViewA
                     android:id="@+id/grid_view_tong_ren_ka"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -194,7 +194,7 @@
                     android:stretchMode="columnWidth"
                     android:gravity="center"
                     >
-                </com.example.asus_cp.dongmanbuy.customview.MyGridView>
+                </com.example.asus_cp.dongmanbuy.customview.MyGridViewA>
             </LinearLayout>
 
 
