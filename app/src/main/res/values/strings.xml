@@ -218,11 +218,28 @@
     <string name="all_ding_dan">全部订单</string>
     <string name="dai_fu_kuan">待付款</string>
     <string name="dai_shou_huo">代收货</string>
+    <string name="dai_ping_jia">代评价</string>
     <string name="zhou_mo_zi_ying">周末自营</string>
     <string name="product_jin_e">商品金额</string>
     <string name="product_you_hui">商品优惠</string>
     <string name="cancel_order">取消订单</string>
     <string name="ying_fu_zong_e">应付总额</string>
+    <string name="yu_e">余额</string>
+    <string name="ji_fen">积分</string>
+    <string name="ke_hu_fu_wu">客户服务</string>
+    <string name="liu_lan_li_shi">浏览历史</string>
+    <string name="guan_zhu">关注</string>
+    <string name="zi_jin_guan_li">资金管理</string>
+    <string name="qing_kong">清空</string>
+    <string name="tou_xiang">头像</string>
+    <string name="yong_hu_ming">用户名</string>
+    <string name="xing_bie">性别</string>
+    <string name="shou_ji">手机</string>
+    <string name="you_xiang">邮箱</string>
+    <string name="exit">退出</string>
+    <string name="nan">男</string>
+    <string name="nv">女</string>
+    <string name="please_input_email">请输入邮箱</string>
 
 
 

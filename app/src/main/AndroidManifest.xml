@@ -106,6 +106,18 @@
         <!--订单详情的activity-->
         <activity android:name=".activity.gou_wu.DingDanDetailActivity"/>
 
+        <!--个人中心的activity-->
+        <activity android:name=".activity.personal_center.PersonalCenterActivity"/>
+
+        <!--资料设置的activity-->
+        <activity android:name=".activity.personal_center.DataSetActivity"/>
+
+        <!--性别选择的activity-->
+        <activity android:name=".activity.personal_center.SexSelectActivity"/>
+
+        <!--修改邮箱的activity-->
+        <activity android:name=".activity.personal_center.ChangeEmailActivity"/>
+
         <!--搜索的activity-->
         <activity android:name=".activity.MySearchActivity">
             <intent-filter>

@@ -3,6 +3,7 @@ package com.example.asus_cp.dongmanbuy.activity;
 import android.app.SearchManager;
 import android.content.ComponentName;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -23,6 +24,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.asus_cp.dongmanbuy.R;
+import com.example.asus_cp.dongmanbuy.activity.personal_center.PersonalCenterActivity;
 import com.example.asus_cp.dongmanbuy.constant.MyConstant;
 import com.example.asus_cp.dongmanbuy.customview.SlidingMenu;
 import com.example.asus_cp.dongmanbuy.fragment.CategoryFragment;
@@ -380,6 +382,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.img_login:
                 Toast.makeText(this,"点击了登录",Toast.LENGTH_SHORT).show();
+                Intent toPersonalCenterIntent=new Intent(this, PersonalCenterActivity.class);
+                startActivity(toPersonalCenterIntent);
                 break;
             case R.id.text_my_zhu_ye:
                 Toast.makeText(this,"点击了我的主页",Toast.LENGTH_SHORT).show();

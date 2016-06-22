@@ -4,7 +4,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 /**
- * 用户实体
+ * 用户实体,收货地址用
  * Created by asus-cp on 2016-06-15.
  */
 public class UserModel implements Parcelable{

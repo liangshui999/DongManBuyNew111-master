@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/gray">
+
+    <!--头像-->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:background="@color/white_my">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/tou_xiang"
+            android:layout_centerVertical="true"/>
+        <ImageView
+            android:id="@+id/img_tou_xiang_data_set"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@mipmap/ic_launcher"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"/>
+    </RelativeLayout>
+
+
+    <!--用户名-->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:background="@color/white_my"
+        android:layout_marginTop="2dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="@string/yong_hu_ming"/>
+        <TextView
+            android:id="@+id/text_name_data_set"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="liangshui"
+            android:layout_alignParentRight="true"/>
+    </RelativeLayout>
+
+
+   <!-- 性别-->
+    <RelativeLayout
+        android:id="@+id/re_layout_sex_data_set"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:layout_marginTop="2dp"
+        android:background="@color/white_my">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/xing_bie"/>
+        <ImageView
+            android:id="@+id/sex"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@mipmap/right"
+            android:layout_alignParentRight="true"/>
+        <TextView
+            android:id="@+id/text_sex_data_set"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="男"
+            android:layout_toLeftOf="@id/sex"
+            android:layout_centerVertical="true"/>
+    </RelativeLayout>
+
+
+    <!--手机-->
+    <RelativeLayout
+        android:id="@+id/re_layout_phone_data_set"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:layout_marginTop="2dp"
+        android:background="@color/white_my">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/shou_ji"/>
+        <ImageView
+            android:id="@+id/shouji"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@mipmap/right"
+            android:layout_alignParentRight="true"/>
+        <TextView
+            android:id="@+id/text_phone_data_set"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="未绑定"
+            android:layout_toLeftOf="@id/shouji"
+            android:layout_centerVertical="true"/>
+    </RelativeLayout>
+
+
+
+    <!--邮箱-->
+    <RelativeLayout
+        android:id="@+id/re_layout_email_data_set"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:layout_marginTop="2dp"
+        android:background="@color/white_my">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/you_xiang"/>
+        <ImageView
+            android:id="@+id/email"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@mipmap/right"
+            android:layout_alignParentRight="true"/>
+        <TextView
+            android:id="@+id/text_email_data_set"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="25430@qq.com"
+            android:layout_toLeftOf="@id/email"
+            android:layout_centerVertical="true"/>
+    </RelativeLayout>
+
+
+
+   <!-- 修改密码-->
+    <RelativeLayout
+        android:id="@+id/re_layout_change_password_data_set"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:layout_marginTop="2dp"
+        android:background="@color/white_my">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/change_password"/>
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@mipmap/right"
+            android:layout_alignParentRight="true"/>
+
+    </RelativeLayout>
+
+
+
+    <!--收货地址-->
+    <RelativeLayout
+        android:id="@+id/re_layout_ship_address_data_set"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:layout_marginTop="2dp"
+        android:background="@color/white_my">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/ship_address"/>
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@mipmap/right"
+            android:layout_alignParentRight="true"/>
+
+    </RelativeLayout>
+
+
+    <!--退出-->
+    <Button
+        android:id="@+id/btn_exit_data_set"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:text="@string/exit"
+        android:background="@color/bottom_lable_color"
+        android:textColor="@color/white_my"/>
+
+
+
+
+
+
+
+
+
+
+
+</LinearLayout>

@@ -30,4 +30,7 @@ public interface MyConstant {
     public static final String DING_DAN_BIAN_HAO_KEY="dingDanBianHao";//传递订单编号用的key
     public static final String DING_DAN_MODEL_KEY="dingDanMoDS";//传递订单实体时使用的key
     public static final String SHOP_ID_KEY="shopIdKey";//店铺id的key
+    public static final String USER_KEY="userKey";//传递user对象时使用的key
+    public static final String SEX_KEY="sexKy";//性别key
+    public static final String EMAIL_KEY="emailKey";//邮箱的key
 }
