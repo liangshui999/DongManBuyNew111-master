@@ -51,7 +51,7 @@ public class ChangPasswordActivity extends Activity implements View.OnClickListe
 
     private String changUrl="http://www.zmobuy.com/PHP/index.php?url=/user/getpasswordemail";
 
-    private String tag="ChangPasswordActivity";
+    private String tag="ChangPasswordPersonalCenterActivity";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

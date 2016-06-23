@@ -33,4 +33,7 @@ public interface MyConstant {
     public static final String USER_KEY="userKey";//传递user对象时使用的key
     public static final String SEX_KEY="sexKy";//性别key
     public static final String EMAIL_KEY="emailKey";//邮箱的key
+    public static final String PHONE_KEY="phoneKey";//传递电话的key
+    public static final String START_ADD_SHOU_HUO_ADDRESS_ACTIVTIY_KEY="addshouhuoaddress";//跳转到收获地址，传过去的key
+    public static final String ADAPTER_KEY="adapterKey";//传递适配器的key
 }

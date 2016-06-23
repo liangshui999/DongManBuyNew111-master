@@ -118,6 +118,18 @@
         <!--修改邮箱的activity-->
         <activity android:name=".activity.personal_center.ChangeEmailActivity"/>
 
+        <!--修改手机的activity-->
+        <activity android:name=".activity.personal_center.ChangePhoneActivity"/>
+
+        <!--个人中心修改密码的activity-->
+        <activity android:name=".activity.personal_center.ChangPasswordPersonalCenterActivity"/>
+
+        <!--编辑收获地址列表的activity-->
+        <activity android:name=".activity.personal_center.EditShipAddressActivity"/>
+
+        <!--更新收货地址的activity-->
+        <activity android:name=".activity.personal_center.UpdateShipAddressActivity"/>
+
         <!--搜索的activity-->
         <activity android:name=".activity.MySearchActivity">
             <intent-filter>

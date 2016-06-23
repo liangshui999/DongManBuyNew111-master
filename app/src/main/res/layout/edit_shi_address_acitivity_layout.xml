@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+        <ListView
+            android:id="@+id/list_ship_address_personal_center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:dividerHeight="10dp">
+        </ListView>
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btn_add_ship_address_personal_center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/bottom_lable_color"
+        android:textColor="@color/white_my"
+        android:text="@string/xin_zeng_shou_huo_ren_xin_xi"
+        android:layout_margin="10dp"/>
+
+
+</LinearLayout>

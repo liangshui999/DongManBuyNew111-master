@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/gray">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:background="@color/white_my">
+
+        <CheckBox
+            android:id="@+id/check_box_edit_ship_address_list_item"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:button="@null"
+            android:checked="true"
+            android:background="@drawable/mycheckbox"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/set_default"
+            android:layout_toRightOf="@id/check_box_edit_ship_address_list_item"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="5dp"/>
+
+        <LinearLayout
+            android:id="@+id/ll_delete_ship_address_list_item"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true">
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/delete"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/delete"
+                android:layout_gravity="center"
+                android:layout_marginLeft="5dp"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_edit_ship_address_list_item"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toLeftOf="@id/ll_delete_ship_address_list_item"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp">
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@mipmap/edit"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/edit"
+                android:layout_gravity="center"
+                android:layout_marginLeft="5dp"/>
+        </LinearLayout>
+    </RelativeLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:layout_marginTop="2dp"
+        android:background="@color/white_my">
+
+        <TextView
+            android:id="@+id/text_name_ship_address_list_item"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="朱熹" />
+
+        <TextView
+            android:id="@+id/text_phone_ship_address_list_item"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="188265349865"
+            android:layout_marginLeft="5dp"/>
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/text_address_ship_address_list_item"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="四川省泸州市"
+        android:layout_marginLeft="10dp"
+        android:background="@color/white_my"/>
+
+
+
+
+
+
+</LinearLayout>

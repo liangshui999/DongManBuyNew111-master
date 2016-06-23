@@ -104,21 +104,23 @@ public class DataSetActivity extends Activity implements View.OnClickListener{
                 startActivityForResult(toSexIntent,REQUEST_CODE_SEX);
                 break;
             case R.id.re_layout_phone_data_set://点击了手机
-                Intent toPhoneIntent=new Intent(this,SexSelectActivity.class);//注意要修改后一个参数
-                startActivityForResult(toPhoneIntent,REQUEST_CODE_SEX);
+                Intent toPhoneIntent=new Intent(this,ChangePhoneActivity.class);//注意要修改后一个参数
+                startActivityForResult(toPhoneIntent,REQUEST_CODE_PHONE);
                 break;
             case R.id.re_layout_email_data_set://点击邮箱
                 Intent toEmailIntent=new Intent(this,ChangeEmailActivity.class);
                 startActivityForResult(toEmailIntent,REQUEST_CODE_EMAIL);
                 break;
             case R.id.re_layout_change_password_data_set://点击了修改密码
-                Toast.makeText(this,"点击了修改密码",Toast.LENGTH_SHORT).show();
+                Intent toChangePasswordIntent=new Intent(this,ChangPasswordPersonalCenterActivity.class);
+                startActivity(toChangePasswordIntent);
                 break;
             case R.id.re_layout_ship_address_data_set://点击了收货地址
-                Toast.makeText(this,"点击了收货地址",Toast.LENGTH_SHORT).show();
+                Intent toEditShipAddressListIntent=new Intent(this,EditShipAddressActivity.class);
+                startActivity(toEditShipAddressListIntent);
                 break;
             case R.id.btn_exit_data_set://点击了退出按钮
-                Toast.makeText(this,"点击了退出按钮",Toast.LENGTH_SHORT).show();
+                finish();
                 break;
         }
     }
@@ -135,7 +137,8 @@ public class DataSetActivity extends Activity implements View.OnClickListener{
                 break;
             case REQUEST_CODE_PHONE:
                 if(resultCode==RESULT_OK){
-
+                    String phone=data.getStringExtra(MyConstant.PHONE_KEY);
+                    phoneTextView.setText(phone);
                 }
                 break;
             case REQUEST_CODE_EMAIL:

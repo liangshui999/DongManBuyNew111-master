@@ -240,6 +240,12 @@
     <string name="nan">男</string>
     <string name="nv">女</string>
     <string name="please_input_email">请输入邮箱</string>
+    <string name="please_input_shou_ji_hao">请输入手机号</string>
+    <string name="please_input_old_password">请输入旧密码</string>
+    <string name="please_input_new_password_again">请再次输入新密码</string>
+    <string name="set_default">设为默认</string>
+    <string name="edit">编辑</string>
+    <string name="delete">删除</string>
 
 
 
