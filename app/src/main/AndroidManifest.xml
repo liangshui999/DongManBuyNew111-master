@@ -110,25 +110,37 @@
         <activity android:name=".activity.personal_center.PersonalCenterActivity"/>
 
         <!--资料设置的activity-->
-        <activity android:name=".activity.personal_center.DataSetActivity"/>
+        <activity android:name=".activity.personal_center.data_set.DataSetActivity"/>
 
         <!--性别选择的activity-->
-        <activity android:name=".activity.personal_center.SexSelectActivity"/>
+        <activity android:name=".activity.personal_center.data_set.SexSelectActivity"/>
 
         <!--修改邮箱的activity-->
-        <activity android:name=".activity.personal_center.ChangeEmailActivity"/>
+        <activity android:name=".activity.personal_center.data_set.ChangeEmailActivity"/>
 
         <!--修改手机的activity-->
-        <activity android:name=".activity.personal_center.ChangePhoneActivity"/>
+        <activity android:name=".activity.personal_center.data_set.ChangePhoneActivity"/>
 
         <!--个人中心修改密码的activity-->
-        <activity android:name=".activity.personal_center.ChangPasswordPersonalCenterActivity"/>
+        <activity android:name=".activity.personal_center.data_set.ChangPasswordPersonalCenterActivity"/>
 
         <!--编辑收获地址列表的activity-->
-        <activity android:name=".activity.personal_center.EditShipAddressActivity"/>
+        <activity android:name=".activity.personal_center.data_set.EditShipAddressActivity"/>
 
         <!--更新收货地址的activity-->
-        <activity android:name=".activity.personal_center.UpdateShipAddressActivity"/>
+        <activity android:name=".activity.personal_center.data_set.UpdateShipAddressActivity"/>
+
+        <!--收藏列表的activity-->
+        <activity android:name=".activity.personal_center.ShouCangListActivity"/>
+
+        <!--关注列表的activity-->
+        <activity android:name=".activity.personal_center.GuanZhuListActivity"/>
+
+        <!--资金管理的activity-->
+        <activity android:name=".activity.personal_center.fund_manager.FundManagerActivity"/>
+
+        <!--充值的activity-->
+        <activity android:name=".activity.personal_center.fund_manager.ChongZhiActivity"/>
 
         <!--搜索的activity-->
         <activity android:name=".activity.MySearchActivity">

@@ -36,4 +36,9 @@ public interface MyConstant {
     public static final String PHONE_KEY="phoneKey";//传递电话的key
     public static final String START_ADD_SHOU_HUO_ADDRESS_ACTIVTIY_KEY="addshouhuoaddress";//跳转到收获地址，传过去的key
     public static final String ADAPTER_KEY="adapterKey";//传递适配器的key
+    public static final String FROM_PERSONAL_CENTER_TO_DING_DAN_LIST_KEY="fromPersonalToDingDan";//从个人中心到订单界面传递的key
+    public static final String ALL_DING_DAN="allDingDan";
+    public static final String DAI_FU_KUAN_DING_DAN="daiFuKuanDingDan";
+    public static final String DAI_SHOU_HUO_DING_DAN="daiShouHuoDingDan";
+    public static final String DAI_PING_JIA_DING_DAN="daiPingJiaDingDan";
 }

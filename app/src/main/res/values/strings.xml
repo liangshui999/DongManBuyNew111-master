@@ -246,6 +246,23 @@
     <string name="set_default">设为默认</string>
     <string name="edit">编辑</string>
     <string name="delete">删除</string>
+    <string name="qu_xiao_guan_zhu">取消关注</string>
+    <string name="ke_yong_yu_e">可用余额</string>
+    <string name="dong_jie_jin_e">冻结金额:</string>
+    <string name="chong_zhi">充值</string>
+    <string name="ti_xian">提现</string>
+    <string name="hong_bao">红包</string>
+    <string name="yin_hang_ka">银行卡</string>
+    <string name="dang_qian_ji_fen">当前积分</string>
+    <string name="zhang_hu_ming_xi">账户明细</string>
+    <string name="shen_qing_ji_lu">申请记录</string>
+    <string name="chong_zhi_jin_e">充值金额</string>
+    <string name="hui_yuan_bei_zhu">会员备注(50字)</string>
+    <string name="chong_zhi_fang_shi">充值方式</string>
+    <string name="ti_jiao_shen_qing">提交申请</string>
+    <string name="please_input_chong_zhi_jin_e">请输入充值金额</string>
+    <string name="ti_xian_jin_e">提现金额</string>
+    <string name="ti_xian_fang_shi">提现方式</string>
 
 
 

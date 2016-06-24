@@ -1,7 +1,6 @@
 package com.example.asus_cp.dongmanbuy.activity.personal_center;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Window;
@@ -14,9 +13,9 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.example.asus_cp.dongmanbuy.R;
-import com.example.asus_cp.dongmanbuy.adapter.ShouCangListAdapter;
+import com.example.asus_cp.dongmanbuy.adapter.GuanZhuListAdapter;
 import com.example.asus_cp.dongmanbuy.constant.MyConstant;
-import com.example.asus_cp.dongmanbuy.model.Good;
+import com.example.asus_cp.dongmanbuy.model.ShopModel;
 import com.example.asus_cp.dongmanbuy.util.JsonHelper;
 import com.example.asus_cp.dongmanbuy.util.MyApplication;
 import com.example.asus_cp.dongmanbuy.util.MyLog;
@@ -31,14 +30,14 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * 收藏列表
- * Created by asus-cp on 2016-06-23.
+ * 关注列表的界面，个人中心里面
+ * Created by asus-cp on 2016-06-24.
  */
-public class ShouCangListActivity extends Activity{
+public class GuanZhuListActivity extends Activity{
 
-    private String tag="ShouCangListActivity";
+    private String tag="GuanZhuListActivity";
 
-    private String shouCangListUrl="http://www.zmobuy.com/PHP/?url=/user/collect/list";//获取收藏列表
+    private String guanZhuListUrl="http://www.zmobuy.com/PHP/?url=/user/storelist";//获取关注列表的数据
 
     private RequestQueue requestQueue;
 
@@ -46,30 +45,32 @@ public class ShouCangListActivity extends Activity{
     private String sid;
 
     private ListView listView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
-        setContentView(R.layout.shou_cang_list_activity_layout);
+        setContentView(R.layout.guan_zhu_list_activity);
         init();
     }
 
+    /**
+     * 初始化的方法
+     */
     private void init() {
-
         requestQueue= MyApplication.getRequestQueue();
         SharedPreferences sharedPreferences=getSharedPreferences(MyConstant.USER_SHAREPREFRENCE_NAME,MODE_APPEND);
         uid=sharedPreferences.getString(MyConstant.UID_KEY,null);
         sid=sharedPreferences.getString(MyConstant.SID_KEY,null);
 
-        listView= (ListView) findViewById(R.id.list_shou_cang);
+        listView= (ListView) findViewById(R.id.list_guan_zhu);
 
-        //获取收藏列表
-        StringRequest getShouCangListRequest=new StringRequest(Request.Method.POST, shouCangListUrl,
+        StringRequest getGuanZhuListRequest=new StringRequest(Request.Method.POST, guanZhuListUrl,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String s) {
-                        List<Good> goods=parseJson(s);
-                        ShouCangListAdapter adapter=new ShouCangListAdapter(ShouCangListActivity.this,goods);
+                        List<ShopModel> shopModels=parseJson(s);
+                        GuanZhuListAdapter adapter = new GuanZhuListAdapter(GuanZhuListActivity.this, shopModels);
                         listView.setAdapter(adapter);
                     }
                 }, new Response.ErrorListener() {
@@ -81,51 +82,43 @@ public class ShouCangListActivity extends Activity{
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String,String> map=new HashMap<String,String>();
-                String json="{\"session\":{\"uid\":\""+uid+"\",\"sid\":\""+sid+"\"},\"pagination\":{\"page\":\""+"1"+"\",\"count\":\""+"50"+"\"}}";
+                String json="{\"session\":{\"uid\":\""+uid+"\",\"sid\":\""+sid+"\"},\"page\":\""+"1"+"\"}";
                 map.put("json",json);
                 return map;
             }
         };
-        requestQueue.add(getShouCangListRequest);
+        requestQueue.add(getGuanZhuListRequest);
     }
+
 
 
     /**
      * 解析json数据
      * @param s
+     * @return
      */
-    private List<Good> parseJson(String s) {
-        MyLog.d(tag, "返回的数据是" + s);
-        List<Good> goods=new ArrayList<Good>();
+    private List<ShopModel> parseJson(String s) {
+        MyLog.d(tag, "返回的数据是：" + s);
+        List<ShopModel> shopModels=new ArrayList<ShopModel>();
         try {
             JSONObject jsonObject=new JSONObject(s);
-            JSONArray jsonArray=jsonObject.getJSONArray("data");
+            JSONObject jsonObject1=jsonObject.getJSONObject("data");
+            JSONArray jsonArray=jsonObject1.getJSONArray("store_list");
             for(int i=0;i<jsonArray.length();i++){
                 JSONObject ziJsObj=jsonArray.getJSONObject(i);
-                Good good=new Good();
-                good.setGoodId(ziJsObj.getString("goods_id"));
-                good.setSalesVolume(ziJsObj.getString("sales_volume"));
-                good.setGoodName(JsonHelper.decodeUnicode(ziJsObj.getString("name")));
-                good.setMarket_price(JsonHelper.decodeUnicode(ziJsObj.getString("market_price")));
-                good.setShopPrice(JsonHelper.decodeUnicode(ziJsObj.getString("shop_price")));
-
-                JSONObject picJs=ziJsObj.getJSONObject("img");
-                good.setGoodsThumb(picJs.getString("thumb"));
-                good.setGoodsImg(picJs.getString("url"));
-                good.setGoodsSmallImag(picJs.getString("small"));
-                good.setRecId(ziJsObj.getString("rec_id"));
-                goods.add(good);
+                ShopModel shopModel=new ShopModel();
+                shopModel.setUserId(ziJsObj.getString("shop_id"));
+                shopModel.setShopName(JsonHelper.decodeUnicode(ziJsObj.getString("store_name")));
+                shopModel.setShopLogo(ziJsObj.getString("shop_logo"));
+                shopModel.setGazeNumber(ziJsObj.getString("count_store"));
+                shopModel.setBrandThumb(ziJsObj.getString("brand_thumb"));
+                shopModels.add(shopModel);
             }
+
+
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        return goods;
-    }
-
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        Intent intent=new Intent();
-        setResult(RESULT_OK,intent);
+        return shopModels;
     }
 }

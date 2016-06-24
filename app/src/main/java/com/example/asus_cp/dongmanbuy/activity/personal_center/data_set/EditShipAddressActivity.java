@@ -1,4 +1,4 @@
-package com.example.asus_cp.dongmanbuy.activity.personal_center;
+package com.example.asus_cp.dongmanbuy.activity.personal_center.data_set;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -6,7 +6,6 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 
@@ -19,7 +18,6 @@ import com.android.volley.toolbox.StringRequest;
 import com.example.asus_cp.dongmanbuy.R;
 import com.example.asus_cp.dongmanbuy.activity.gou_wu.AddShouHuoAddressActivity;
 import com.example.asus_cp.dongmanbuy.adapter.EditShipAddressListAdapter;
-import com.example.asus_cp.dongmanbuy.adapter.ShouHuoRenXinXiListAdapter;
 import com.example.asus_cp.dongmanbuy.constant.MyConstant;
 import com.example.asus_cp.dongmanbuy.model.UserModel;
 import com.example.asus_cp.dongmanbuy.util.JsonHelper;

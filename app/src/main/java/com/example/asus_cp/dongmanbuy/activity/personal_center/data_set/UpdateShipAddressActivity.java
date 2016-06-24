@@ -1,4 +1,4 @@
-package com.example.asus_cp.dongmanbuy.activity.personal_center;
+package com.example.asus_cp.dongmanbuy.activity.personal_center.data_set;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -20,7 +20,6 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.example.asus_cp.dongmanbuy.R;
 import com.example.asus_cp.dongmanbuy.activity.product_detail.AreaActivity;
-import com.example.asus_cp.dongmanbuy.adapter.EditShipAddressListAdapter;
 import com.example.asus_cp.dongmanbuy.constant.MyConstant;
 import com.example.asus_cp.dongmanbuy.model.UserModel;
 import com.example.asus_cp.dongmanbuy.util.CheckMobileAndEmail;

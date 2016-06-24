@@ -21,7 +21,10 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.StringRequest;
 import com.example.asus_cp.dongmanbuy.R;
+import com.example.asus_cp.dongmanbuy.activity.gou_wu.DingDanListActivity;
 import com.example.asus_cp.dongmanbuy.activity.login.LoginActivity;
+import com.example.asus_cp.dongmanbuy.activity.personal_center.data_set.DataSetActivity;
+import com.example.asus_cp.dongmanbuy.activity.personal_center.fund_manager.FundManagerActivity;
 import com.example.asus_cp.dongmanbuy.constant.MyConstant;
 import com.example.asus_cp.dongmanbuy.model.User;
 import com.example.asus_cp.dongmanbuy.util.ImageLoadHelper;
@@ -83,6 +86,7 @@ public class PersonalCenterActivity extends Activity implements View.OnClickList
     private String sid;
 
     public static final int REQUEST_CODE_LOGIN_KEY=0;//跳转到登陆界面用
+    public static final int REQUEST_CODE_SHOU_CANG_KEY=1;//跳转到收藏界面
 
     private User passUser;//传递到设置资料界面
 
@@ -121,7 +125,7 @@ public class PersonalCenterActivity extends Activity implements View.OnClickList
      */
     private void getDataFromIntenetAndSetView() {
         uid=sharedPreferences.getString(MyConstant.UID_KEY, null);
-        sid=sharedPreferences.getString(MyConstant.SID_KEY,null);
+        sid=sharedPreferences.getString(MyConstant.SID_KEY, null);
         StringRequest userInfoRequest=new StringRequest(Request.Method.POST, userInfoUrl,
                 new Response.Listener<String>() {
                     @Override
@@ -176,6 +180,7 @@ public class PersonalCenterActivity extends Activity implements View.OnClickList
             user.setEmail(jsonObject1.getString("email"));
             user.setName(jsonObject1.getString("user_name"));
             user.setMoney(jsonObject1.getString("user_money"));
+            user.setDongJieJinE(jsonObject1.getString("frozen_money"));
             user.setJiFen(jsonObject1.getString("pay_points"));
             user.setPhone(jsonObject1.getString("mobile_phone"));
             user.setPic(jsonObject1.getString("user_picture"));
@@ -265,28 +270,30 @@ public class PersonalCenterActivity extends Activity implements View.OnClickList
                 toDataSetActivity();
                 break;
             case R.id.ll_shou_cang_personal_center://点击了收藏
-                Toast.makeText(this,"点击了收藏",Toast.LENGTH_SHORT).show();
+                Intent toShouCangIntent=new Intent(this,ShouCangListActivity.class);
+                startActivityForResult(toShouCangIntent, REQUEST_CODE_SHOU_CANG_KEY);
                 break;
             case R.id.ll_guan_zhu_personal_center://点击了关注
-                Toast.makeText(this,"点击了关注",Toast.LENGTH_SHORT).show();
+                Intent toGuanZhuIntent=new Intent(this,GuanZhuListActivity.class);
+                startActivity(toGuanZhuIntent);
                 break;
             case R.id.re_layout_my_order_personal_center://点击了我的订单
-                Toast.makeText(this,"点击了我的订单",Toast.LENGTH_SHORT).show();
+                toDingDanListAcitivy(MyConstant.ALL_DING_DAN);
                 break;
             case R.id.ll_dai_fu_kuan_personal_center://点击了待付款
-                Toast.makeText(this,"点击了待付款",Toast.LENGTH_SHORT).show();
+                toDingDanListAcitivy(MyConstant.DAI_FU_KUAN_DING_DAN);
                 break;
             case R.id.ll_dai_shou_huo_personal_center://点击了待收货
-                Toast.makeText(this,"点击了待收货",Toast.LENGTH_SHORT).show();
+                toDingDanListAcitivy(MyConstant.DAI_SHOU_HUO_DING_DAN);
                 break;
             case R.id.ll_dai_ping_jia_personal_center://点击了待评价
-                Toast.makeText(this,"点击了待评价",Toast.LENGTH_SHORT).show();
+                toDingDanListAcitivy(MyConstant.DAI_PING_JIA_DING_DAN);
                 break;
             case R.id.re_layout_my_wallet_personal_center://点击了我的钱包
-                Toast.makeText(this,"点击了我的钱包",Toast.LENGTH_SHORT).show();
+                toFundManagerAcitvity();
                 break;
             case R.id.ll_yu_e_personal_center://点击了余额
-                Toast.makeText(this,"点击了余额",Toast.LENGTH_SHORT).show();
+                toFundManagerAcitvity();
                 break;
             case R.id.ll_you_hui_quan_personal_center://点击了优惠券
                 Toast.makeText(this,"点击了优惠券",Toast.LENGTH_SHORT).show();
@@ -304,6 +311,26 @@ public class PersonalCenterActivity extends Activity implements View.OnClickList
     }
 
 
+    /**
+     * 跳转到资金管理的界面
+     */
+    private void toFundManagerAcitvity() {
+        Intent toFundManagerIntent=new Intent(this,FundManagerActivity.class);
+        toFundManagerIntent.putExtra(MyConstant.USER_KEY,passUser);
+        startActivity(toFundManagerIntent);
+    }
+
+
+    /**
+     * 跳转到订单列表界面
+     * @param str 传给订单列表界面的标记，到底是从哪一个跳转过去的
+     */
+    private void toDingDanListAcitivy(String str) {
+        Intent allDingDanIntent=new Intent(this, DingDanListActivity.class);
+        allDingDanIntent.putExtra(MyConstant.FROM_PERSONAL_CENTER_TO_DING_DAN_LIST_KEY,str);
+        startActivity(allDingDanIntent);
+    }
+
 
     /**
      * 跳转到资料设置的界面
@@ -318,6 +345,9 @@ public class PersonalCenterActivity extends Activity implements View.OnClickList
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         switch (requestCode){
             case REQUEST_CODE_LOGIN_KEY://从登陆界面返回的
+                getDataFromIntenetAndSetView();
+                break;
+            case REQUEST_CODE_SHOU_CANG_KEY://从收藏界面返回的
                 getDataFromIntenetAndSetView();
                 break;
         }

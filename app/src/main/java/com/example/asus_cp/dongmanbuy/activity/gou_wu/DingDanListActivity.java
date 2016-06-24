@@ -59,6 +59,8 @@ public class DingDanListActivity extends Activity implements View.OnClickListene
     private String uid;
     private String sid;
 
+    private String whoStartMe;//谁开启了我
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,6 +73,8 @@ public class DingDanListActivity extends Activity implements View.OnClickListene
      * 初始化的方法
      */
     private void init() {
+
+        whoStartMe=getIntent().getStringExtra(MyConstant.FROM_PERSONAL_CENTER_TO_DING_DAN_LIST_KEY);
         requestQueue= MyApplication.getRequestQueue();
 
         SharedPreferences sharedPreferences=getSharedPreferences(MyConstant.USER_SHAREPREFRENCE_NAME,MODE_APPEND);
@@ -85,8 +89,24 @@ public class DingDanListActivity extends Activity implements View.OnClickListene
         daiFuKuanDingDanTextView= (TextView) findViewById(R.id.text_dai_fu_kuan_ding_dan);
         daiShouHuoDingDanTextView= (TextView) findViewById(R.id.text_dai_shou_huo_ding_dan);
 
-        allDingDanTextView.setTextColor(getResources().getColor(R.color.bottom_lable_color));
-        getOrderList("");//获取所有的订单数据
+        switch (whoStartMe){
+            case MyConstant.ALL_DING_DAN:
+                allDingDanTextView.setTextColor(getResources().getColor(R.color.bottom_lable_color));
+                getOrderList("");//获取所有的订单数据
+                break;
+            case MyConstant.DAI_FU_KUAN_DING_DAN:
+                getOrderList("await_pay");//获取待付款的订单数据
+                daiFuKuanDingDanTextView.setTextColor(getResources().getColor(R.color.bottom_lable_color));
+                break;
+            case MyConstant.DAI_SHOU_HUO_DING_DAN:
+                getOrderList("await_ship");//获取代收货的订单数据
+                daiShouHuoDingDanTextView.setTextColor(getResources().getColor(R.color.bottom_lable_color));
+                break;
+            case MyConstant.DAI_PING_JIA_DING_DAN:
+                break;
+
+        }
+
 
         //设置点击事件
         allDingDanLinearLayout.setOnClickListener(this);

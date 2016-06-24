@@ -25,6 +25,7 @@ public class User implements Parcelable{
     private String awaitPay;//待支付
     private String awaitShip;//待收货
     private String awaitComment;//待评论
+    private String dongJieJinE;//冻结金额
 
     public User(){}
 
@@ -46,6 +47,7 @@ public class User implements Parcelable{
         awaitPay = in.readString();
         awaitShip = in.readString();
         awaitComment = in.readString();
+        dongJieJinE=in.readString();
     }
 
     public static final Creator<User> CREATOR = new Creator<User>() {
@@ -196,6 +198,14 @@ public class User implements Parcelable{
         this.awaitComment = awaitComment;
     }
 
+    public String getDongJieJinE() {
+        return dongJieJinE;
+    }
+
+    public void setDongJieJinE(String dongJieJinE) {
+        this.dongJieJinE = dongJieJinE;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -220,5 +230,6 @@ public class User implements Parcelable{
         dest.writeString(awaitPay);
         dest.writeString(awaitShip);
         dest.writeString(awaitComment);
+        dest.writeString(dongJieJinE);
     }
 }
