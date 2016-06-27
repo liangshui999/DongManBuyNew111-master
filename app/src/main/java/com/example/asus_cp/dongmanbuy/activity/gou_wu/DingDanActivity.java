@@ -505,15 +505,19 @@ public class DingDanActivity extends Activity implements View.OnClickListener{
                         @Override
                         public void onResponse(String s) {
                             MyLog.d(tag,"提交订单的返回数据:"+s);
+                            Intent toAfterIntent=new Intent(DingDanActivity.this,AfterTiJiaoDingDanActivity.class);
+                            toAfterIntent.putExtra(MyConstant.SHI_FU_KUAN_KEY,shiFuKuanTextView.getText().toString());
+                            toAfterIntent.putExtra(MyConstant.DING_DAN_BIAN_HAO_KEY, "20166666666666666");
+                            startActivity(toAfterIntent);
                             try {
                                 JSONObject jsonObject=new JSONObject(s);
                                 JSONObject jsonObject1=jsonObject.getJSONObject("data");
                                 String bianHao=jsonObject1.getString("order_sn");
 //                            if("支付宝【手续费】".equals(zhiFuFangShi)){
-                                Intent toAfterIntent=new Intent(DingDanActivity.this,AfterTiJiaoDingDanActivity.class);
-                                toAfterIntent.putExtra(MyConstant.SHI_FU_KUAN_KEY,shiFuKuanTextView.getText().toString());
-                                toAfterIntent.putExtra(MyConstant.DING_DAN_BIAN_HAO_KEY,bianHao);
-                                startActivity(toAfterIntent);
+//                                Intent toAfterIntent=new Intent(DingDanActivity.this,AfterTiJiaoDingDanActivity.class);
+//                                toAfterIntent.putExtra(MyConstant.SHI_FU_KUAN_KEY,shiFuKuanTextView.getText().toString());
+//                                toAfterIntent.putExtra(MyConstant.DING_DAN_BIAN_HAO_KEY,bianHao);
+//                                startActivity(toAfterIntent);
 //                            }else if("余额支付【手续费】".equals(zhiFuFangShi)){
 //                                Intent toYuEIntent=new Intent(DingDanActivity.this,YuEZhiFuSuccessedActivity.class);
 //                                toYuEIntent.putExtra(MyConstant.DING_DAN_BIAN_HAO_KEY,bianHao);
