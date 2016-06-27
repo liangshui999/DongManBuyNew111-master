@@ -77,12 +77,18 @@
             android:orientation="horizontal"
             android:layout_centerVertical="true">
 
-
             <TextView
-                android:id="@+id/text_shou_xu_fei_chong_zhi"
+                android:id="@+id/text_ti_xian_fang_shi_bank_name_ti_xian"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="0.00"
+                android:layout_gravity="center"
+                android:textColor="@color/bottom_lable_color"
+                android:layout_marginLeft="5dp"/>
+
+            <TextView
+                android:id="@+id/text_ti_xian_fang_shi_ka_hao_ti_xian"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:textColor="@color/bottom_lable_color"
                 android:layout_marginLeft="5dp"/>
@@ -95,7 +101,7 @@
 
     <!--提交申请-->
     <Button
-        android:id="@+id/btn_ti_jiao_shen_qing_chong_zhi"
+        android:id="@+id/btn_ti_jiao_shen_qing_ti_xian"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"

@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp">
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent">
+            <RelativeLayout
+                android:id="@+id/re_layout_jin_e_hong_bao_list_item"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/bottom_lable_color">
+                <TextView
+                    android:id="@+id/text_jin_e_hong_bao_list_item"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="10.0"
+                    android:textSize="20sp"
+                    android:layout_centerInParent="true"
+                    android:textColor="@color/white_my"/>
+            </RelativeLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="3"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:background="@color/white_my">
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:orientation="vertical"
+                android:layout_marginLeft="5dp">
+                <TextView
+                    android:id="@+id/text_dian_pu_hong_bao_list_item"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="自营店"/>
+                <TextView
+                    android:id="@+id/text_name_hong_bao_list_item"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="测试优惠"
+                    android:textSize="12sp"/>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:id="@+id/text_start_time_hong_bao_list_item"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="2016.6.20"
+                        android:textSize="12sp"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="-"
+                        android:textSize="12sp"/>
+                    <TextView
+                        android:id="@+id/text_end_time_hong_bao_list_item"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="2016.7.20"
+                        android:textSize="12sp"/>
+                </LinearLayout>
+
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>

@@ -101,16 +101,21 @@ public class FundManagerActivity extends Activity implements View.OnClickListene
                 startActivity(toChongZhiIntent);
                 break;
             case R.id.ll_ti_xian_fund_manager://点击提现
-                Toast.makeText(this,"点击了提现",Toast.LENGTH_SHORT).show();
+                Intent toTiXianIntent=new Intent(this,TiXianActivity.class);
+                toTiXianIntent.putExtra(MyConstant.USER_KEY,user);
+                startActivity(toTiXianIntent);
                 break;
             case R.id.ll_hong_bao_fund_manager://点击了红包
-                Toast.makeText(this,"点击了红包",Toast.LENGTH_SHORT).show();
+                Intent toHongBaoIntent=new Intent(this,HongBaoListActivity.class);
+                startActivity(toHongBaoIntent);
                 break;
             case R.id.ll_yin_hang_ka_fund_manager://点击了银行卡
-                Toast.makeText(this,"点击了银行卡",Toast.LENGTH_SHORT).show();
+                Intent toBankCardListActivityIntent=new Intent(this,BankCardListActivity.class);
+                startActivity(toBankCardListActivityIntent);
                 break;
             case R.id.re_layout_zhang_hu_ming_xi_fund_manager://点击了账户明细
-                Toast.makeText(this,"点击了账户明细",Toast.LENGTH_SHORT).show();
+                Intent toAccountDetailIntent=new Intent(this,AccountDetailActivity.class);
+                startActivity(toAccountDetailIntent);
                 break;
             case R.id.re_layout_shen_qing_ji_lu_fund_manager://点击了申请记录
                 Toast.makeText(this,"点击了申请记录",Toast.LENGTH_SHORT).show();

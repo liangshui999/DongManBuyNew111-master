@@ -142,6 +142,21 @@
         <!--充值的activity-->
         <activity android:name=".activity.personal_center.fund_manager.ChongZhiActivity"/>
 
+        <!--提现的activity-->
+        <activity android:name=".activity.personal_center.fund_manager.TiXianActivity"/>
+
+        <!--红包列表的activity-->
+        <activity android:name=".activity.personal_center.fund_manager.HongBaoListActivity"/>
+
+        <!--银行卡列表的activity-->
+        <activity android:name=".activity.personal_center.fund_manager.BankCardListActivity"/>
+
+        <!--添加银行卡的activity-->
+        <activity android:name=".activity.personal_center.fund_manager.AddBankCardActivity"/>
+
+        <!--账户明细的activity-->
+        <activity android:name=".activity.personal_center.fund_manager.AccountDetailActivity"/>
+
         <!--搜索的activity-->
         <activity android:name=".activity.MySearchActivity">
             <intent-filter>

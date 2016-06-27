@@ -716,8 +716,8 @@ public class DingDanActivity extends Activity implements View.OnClickListener{
                     YouHuiQuanModel model=data.getParcelableExtra(MyConstant.YOU_HUI_QUAN_MODEL_KEY);
                     String shuMu=data.getStringExtra(MyConstant.YOU_HUI_QUAN_SHU_MU_KEY);
                     if (Integer.parseInt(shuMu)>0){
-                        youHuiQuanTextView.setText(FormatHelper.getMoneyFormat(model.getYouHuiQuanJinE()));
-                        youHuiQuanDiKouTextView.setText("-"+FormatHelper.getMoneyFormat(model.getYouHuiQuanJinE()));
+                        youHuiQuanTextView.setText(FormatHelper.getMoneyFormat(model.getJinE()));
+                        youHuiQuanDiKouTextView.setText("-"+FormatHelper.getMoneyFormat(model.getJinE()));
                         youHuiQuanShuMuTextView.setText(shuMu);
                     }else{
                         youHuiQuanTextView.setText(FormatHelper.getMoneyFormat(0+""));

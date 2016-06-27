@@ -56,15 +56,15 @@ public class YouHuiQuanActivity extends Activity{
 
         models=new ArrayList<YouHuiQuanModel>();
         YouHuiQuanModel youHuiQuanModel=new YouHuiQuanModel();
-        youHuiQuanModel.setYouHuiQuanJinE(98+"");
-        youHuiQuanModel.setYouHuiQuanName("ceshi");
-        youHuiQuanModel.setYouHuiQuanTime("2016.5.18-2.016.6.18");
+        youHuiQuanModel.setJinE(98 + "");
+        youHuiQuanModel.setName("ceshi");
+        youHuiQuanModel.setStartTime("2016.5.18-2.016.6.18");
         models.add(youHuiQuanModel);
 
         YouHuiQuanModel youHuiQuanModel1=new YouHuiQuanModel();
-        youHuiQuanModel1.setYouHuiQuanJinE(1 + "");
-        youHuiQuanModel1.setYouHuiQuanName("dddsdd");
-        youHuiQuanModel1.setYouHuiQuanTime("2017.5.18-2.017.6.18");
+        youHuiQuanModel1.setJinE(1 + "");
+        youHuiQuanModel1.setName("dddsdd");
+        youHuiQuanModel1.setStartTime("2017.5.18-2.017.6.18");
         models.add(youHuiQuanModel1);
 
         adapter=new YouHuiQuanListAdapter(this,models);

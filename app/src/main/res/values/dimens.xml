@@ -23,4 +23,5 @@
     <dimen name="dian_pu_jie_category_base_item">12sp</dimen>
     <dimen name="ding_dan_layout_base_font">14sp</dimen>
     <dimen name="personal_center_base_font">14sp</dimen>
+    <dimen name="add_bank_card_base_size">14sp</dimen>
 </resources>

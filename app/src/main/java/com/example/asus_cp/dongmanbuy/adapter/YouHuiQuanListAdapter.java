@@ -87,9 +87,9 @@ public class YouHuiQuanListAdapter extends BaseAdapter{
         }
 
         YouHuiQuanModel model=youHuiQuanModels.get(position);
-        viewHolder.jinETextView.setText(model.getYouHuiQuanJinE());
-        viewHolder.nameTextView.setText(model.getYouHuiQuanName());
-        viewHolder.timeTextView.setText(model.getYouHuiQuanTime());
+        viewHolder.jinETextView.setText(model.getJinE());
+        viewHolder.nameTextView.setText(model.getName());
+        viewHolder.timeTextView.setText(model.getStartTime());
         viewHolder.checkBox.setChecked(checks.get(position));
 
         return v;

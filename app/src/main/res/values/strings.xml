@@ -263,7 +263,23 @@
     <string name="please_input_chong_zhi_jin_e">请输入充值金额</string>
     <string name="ti_xian_jin_e">提现金额</string>
     <string name="ti_xian_fang_shi">提现方式</string>
-
+    <string name="select_bank_card">选择银行卡</string>
+    <string name="wei_shi_yong">未使用</string>
+    <string name="yi_shi_yong">已使用</string>
+    <string name="yi_guo_qi">已过期</string>
+    <string name="add_hong_bao">添加优惠券/红包</string>
+    <string name="wei_hao">尾号</string>
+    <string name="add_bank_card">+添加银行卡</string>
+    <string name="ka_hao">卡号</string>
+    <string name="bank_ka_hao">银行卡号</string>
+    <string name="chi_ka_ren">持卡人</string>
+    <string name="chi_ka_ren_name">持卡人姓名</string>
+    <string name="kai_hu_hang">开户行</string>
+    <string name="kai_hu_hang_sample">如：工商银行武汉***支行</string>
+    <string name="bank">银行</string>
+    <string name="bank_sample">如：工商银行</string>
+    <string name="ti_jiao">提交</string>
+    <string name="ding_dan">订单</string>
 
 
 </resources>
