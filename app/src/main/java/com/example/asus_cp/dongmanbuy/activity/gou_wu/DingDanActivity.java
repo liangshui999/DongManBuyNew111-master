@@ -47,6 +47,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
@@ -505,19 +506,24 @@ public class DingDanActivity extends Activity implements View.OnClickListener{
                         @Override
                         public void onResponse(String s) {
                             MyLog.d(tag,"提交订单的返回数据:"+s);
-                            Intent toAfterIntent=new Intent(DingDanActivity.this,AfterTiJiaoDingDanActivity.class);
-                            toAfterIntent.putExtra(MyConstant.SHI_FU_KUAN_KEY,shiFuKuanTextView.getText().toString());
-                            toAfterIntent.putExtra(MyConstant.DING_DAN_BIAN_HAO_KEY, "20166666666666666");
-                            startActivity(toAfterIntent);
+//                            Intent toAfterIntent=new Intent(DingDanActivity.this,AfterTiJiaoDingDanActivity.class);
+//                            toAfterIntent.putExtra(MyConstant.SHI_FU_KUAN_KEY,shiFuKuanTextView.getText().toString());
+//                            toAfterIntent.putExtra(MyConstant.DING_DAN_BIAN_HAO_KEY, "20166666666666666");
+//                            startActivity(toAfterIntent);
                             try {
                                 JSONObject jsonObject=new JSONObject(s);
                                 JSONObject jsonObject1=jsonObject.getJSONObject("data");
                                 String bianHao=jsonObject1.getString("order_sn");
+                                JSONObject orderJs=jsonObject1.getJSONObject("order_info");
+                                String subject=JsonHelper.decodeUnicode(orderJs.getString("subject"));
+                                String desc=JsonHelper.decodeUnicode(orderJs.getString("desc"));
 //                            if("支付宝【手续费】".equals(zhiFuFangShi)){
-//                                Intent toAfterIntent=new Intent(DingDanActivity.this,AfterTiJiaoDingDanActivity.class);
-//                                toAfterIntent.putExtra(MyConstant.SHI_FU_KUAN_KEY,shiFuKuanTextView.getText().toString());
-//                                toAfterIntent.putExtra(MyConstant.DING_DAN_BIAN_HAO_KEY,bianHao);
-//                                startActivity(toAfterIntent);
+                                Intent toAfterIntent=new Intent(DingDanActivity.this,AfterTiJiaoDingDanActivity.class);
+                                toAfterIntent.putExtra(MyConstant.SHI_FU_KUAN_KEY,shiFuKuanTextView.getText().toString());
+                                toAfterIntent.putExtra(MyConstant.DING_DAN_BIAN_HAO_KEY,bianHao);
+                                toAfterIntent.putExtra(MyConstant.DING_DAN_SUBJECT_KEY,subject);
+                                toAfterIntent.putExtra(MyConstant.DING_DAN_DESC_KEY,desc);
+                                startActivity(toAfterIntent);
 //                            }else if("余额支付【手续费】".equals(zhiFuFangShi)){
 //                                Intent toYuEIntent=new Intent(DingDanActivity.this,YuEZhiFuSuccessedActivity.class);
 //                                toYuEIntent.putExtra(MyConstant.DING_DAN_BIAN_HAO_KEY,bianHao);
@@ -536,7 +542,7 @@ public class DingDanActivity extends Activity implements View.OnClickListener{
                 @Override
                 protected Map<String, String> getParams() throws AuthFailureError {
                     Map<String,String> map=new HashMap<String,String>();
-                    String json="{\"session\":{\"uid\":\""+uid+"\",\"sid\":\""+sid+"\"},\"pay_id\":\""+"9"+"\",\"shipping_id\":\""+"2"+"\",\"bonus\":\"\",\"integral\":\"\",\"inv_type\":\""+"4"+"\",\"inv_content\":\""+""+"\",\"inv_payee\":\"\"}";
+                    String json="{\"session\":{\"uid\":\""+uid+"\",\"sid\":\""+sid+"\"},\"pay_id\":\""+"9"+"\",\"shipping_id\":\""+"9"+"\",\"bonus\":\"\",\"integral\":\"\",\"inv_type\":\""+"4"+"\",\"inv_content\":\""+"00"+"\",\"inv_payee\":\"\"}";
                     map.put("json",json);
                     return map;
                 }

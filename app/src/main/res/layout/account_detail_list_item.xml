@@ -13,13 +13,14 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/ding_dan"/>
+                android:text="@string/ding_dan"
+                android:visibility="gone"/>
             <TextView
                 android:id="@+id/text_ding_dan_hao_account_detail_list_item"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="20000100003658995"
-                android:layout_marginLeft="5dp"/>
+                android:maxWidth="200dp"/>
         </LinearLayout>
 
         <TextView

@@ -118,7 +118,8 @@ public class FundManagerActivity extends Activity implements View.OnClickListene
                 startActivity(toAccountDetailIntent);
                 break;
             case R.id.re_layout_shen_qing_ji_lu_fund_manager://点击了申请记录
-                Toast.makeText(this,"点击了申请记录",Toast.LENGTH_SHORT).show();
+                Intent toShenQingJiLuIntent=new Intent(this,ShenQingJiLuActivity.class);
+                startActivity(toShenQingJiLuIntent);
                 break;
         }
     }

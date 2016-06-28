@@ -165,6 +165,12 @@
         <!--账户明细的activity-->
         <activity android:name=".activity.personal_center.fund_manager.AccountDetailActivity"/>
 
+        <!--申请记录的activity-->
+        <activity android:name=".activity.personal_center.fund_manager.ShenQingJiLuActivity"/>
+
+        <!--申请记录详情的activity-->
+        <activity android:name=".activity.personal_center.fund_manager.ShenQingJiLuDetailActivity"/>
+
         <!--搜索的activity-->
         <activity android:name=".activity.MySearchActivity">
             <intent-filter>

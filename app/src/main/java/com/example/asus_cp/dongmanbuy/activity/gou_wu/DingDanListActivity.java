@@ -8,7 +8,6 @@ import android.view.Window;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -74,7 +73,7 @@ public class DingDanListActivity extends Activity implements View.OnClickListene
      */
     private void init() {
 
-        whoStartMe=getIntent().getStringExtra(MyConstant.FROM_PERSONAL_CENTER_TO_DING_DAN_LIST_KEY);
+        whoStartMe=getIntent().getStringExtra(MyConstant.TO_DING_DAN_LIST_KEY);
         requestQueue= MyApplication.getRequestQueue();
 
         SharedPreferences sharedPreferences=getSharedPreferences(MyConstant.USER_SHAREPREFRENCE_NAME,MODE_APPEND);

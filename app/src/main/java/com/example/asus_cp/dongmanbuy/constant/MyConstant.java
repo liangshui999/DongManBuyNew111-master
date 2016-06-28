@@ -28,6 +28,8 @@ public interface MyConstant {
     public static final String PRODUCT_SHU_MU_SUM_KEY="shumucount";//传递商品总数时的key
     public static final String SHI_FU_KUAN_KEY="shifukuan";//传递实付款时所用的key
     public static final String DING_DAN_BIAN_HAO_KEY="dingDanBianHao";//传递订单编号用的key
+    public static final String DING_DAN_SUBJECT_KEY="dingDansubject";//传递订单编号用的key
+    public static final String DING_DAN_DESC_KEY="dingDandesc";//传递订单编号用的key
     public static final String DING_DAN_MODEL_KEY="dingDanMoDS";//传递订单实体时使用的key
     public static final String SHOP_ID_KEY="shopIdKey";//店铺id的key
     public static final String USER_KEY="userKey";//传递user对象时使用的key
@@ -36,9 +38,10 @@ public interface MyConstant {
     public static final String PHONE_KEY="phoneKey";//传递电话的key
     public static final String START_ADD_SHOU_HUO_ADDRESS_ACTIVTIY_KEY="addshouhuoaddress";//跳转到收获地址，传过去的key
     public static final String ADAPTER_KEY="adapterKey";//传递适配器的key
-    public static final String FROM_PERSONAL_CENTER_TO_DING_DAN_LIST_KEY="fromPersonalToDingDan";//从个人中心到订单界面传递的key
+    public static final String TO_DING_DAN_LIST_KEY ="fromPersonalToDingDan";//跳转到订单列表界面传递的key
     public static final String ALL_DING_DAN="allDingDan";
-    public static final String DAI_FU_KUAN_DING_DAN="daiFuKuanDingDan";
+    public static final String DAI_FU_KUAN_DING_DAN="daiFuKuanDingDan";//待付款的订单key
     public static final String DAI_SHOU_HUO_DING_DAN="daiShouHuoDingDan";
     public static final String DAI_PING_JIA_DING_DAN="daiPingJiaDingDan";
+    public static final String SHEN_QING_JI_LU_MODEL_KEY="shenqingjilumodel";//传递申请记录modle的key
 }

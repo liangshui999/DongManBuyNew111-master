@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
 import android.graphics.Paint;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -37,6 +38,8 @@ import com.example.asus_cp.dongmanbuy.R;
 import com.example.asus_cp.dongmanbuy.activity.gou_wu.ShoppingCarActivity;
 import com.example.asus_cp.dongmanbuy.activity.login.LoginActivity;
 import com.example.asus_cp.dongmanbuy.constant.MyConstant;
+import com.example.asus_cp.dongmanbuy.db.CursorHandler;
+import com.example.asus_cp.dongmanbuy.db.DBOperateHelper;
 import com.example.asus_cp.dongmanbuy.fragment.HomeFragment;
 import com.example.asus_cp.dongmanbuy.model.Comment;
 import com.example.asus_cp.dongmanbuy.model.Good;
@@ -150,6 +153,8 @@ public class ProductDetailActivity extends Activity implements View.OnClickListe
     private int shoppingCarCount;//购物车里面的商品数量，等于选中的商品数量乘以购物车的点击次数
     private int shoppingCarClickCount;//购物车的点击次数
 
+    private DBOperateHelper dbHelper;//数据库操作的帮助类
+
 
 
 
@@ -167,58 +172,14 @@ public class ProductDetailActivity extends Activity implements View.OnClickListe
     private void init() {
         requestQueue = MyApplication.getRequestQueue();
         good = getIntent().getParcelableExtra(MyConstant.GOOD_KEY);
+        liuLanJiLu();//向数据库中插入数据，做浏览记录
+
         MyLog.d(tag, "商品id" + good.getGoodId());
         helper = new ImageLoadHelper();
         imageLoader = helper.getImageLoader();
         inflater = LayoutInflater.from(this);
         parentView = inflater.inflate(R.layout.prodcut_detail_layout, null);
-        //初始化view
-        daoHangImagView= (ImageView) findViewById(R.id.img_dao_hang_product_detail);
-        productBigPicImageView = (ImageView) findViewById(R.id.img_product_big_pic);
-        productPicCountsTextView = (TextView) findViewById(R.id.text_product_pic_counts);
-        isZiYingTextView = (TextView) findViewById(R.id.text_is_zi_ying);
-        productNameTextView = (TextView) findViewById(R.id.text_product_name);
-        shouCangLinearLayout = (LinearLayout) findViewById(R.id.ll_shou_cang);
-        shouCangImageView= (ImageView) findViewById(R.id.img_shou_cang);
-        shouCangTextView= (TextView) findViewById(R.id.text_shou_cang);
-        benDianJiaGeTextView = (TextView) findViewById(R.id.text_ben_zhan_price);
-        zheKouTextView = (TextView) findViewById(R.id.text_zhe_kou);
-        marketPriceTextView = (TextView) findViewById(R.id.text_market_price);
-        xiaoLiangTextView = (TextView) findViewById(R.id.text_xiao_liang);
-        kuCunTextView = (TextView) findViewById(R.id.text_ku_cun);
-        lingQuYouHuiQuanLinearLayout = (LinearLayout) findViewById(R.id.ll_ling_qu_you_hui_quan);
-        youHuiQuanCountsTextView = (TextView) findViewById(R.id.text_you_hui_quan_counts);
-        youHuiQuanOneTextView = (TextView) findViewById(R.id.text_you_hui_quan_one);
-        youHuiQuanTwoTextView = (TextView) findViewById(R.id.text_you_hui_quan_two);
-        suoZaiDiQuLayout = (RelativeLayout) findViewById(R.id.re_layout_suo_zai_di_qu);
-        suoZaiDiQuTextView = (TextView) findViewById(R.id.text_suo_zai_di_qu);
-        yunFeiTextView = (TextView) findViewById(R.id.text_yun_fei);
-        yiXuanRelaytiveLayout = (RelativeLayout) findViewById(R.id.re_layout_yi_xuan);
-        yiXuanProductTextView = (TextView) findViewById(R.id.text_yi_xuan_product);
-        fuWuLineatLayout = (LinearLayout) findViewById(R.id.ll_fu_wu);
-        seeProductDetailReLativeLayout = (RelativeLayout) findViewById(R.id.re_layout_product_detail);
-        userCommentReLativeLayout = (RelativeLayout) findViewById(R.id.re_layout_user_commet);
-        haoPingLvTextView = (TextView) findViewById(R.id.text_hao_ping_lv);
-        pingLunShuTextView = (TextView) findViewById(R.id.text_comment_counts);
-        xingOneImageView = (ImageView) findViewById(R.id.img_xing_one);
-        xingTwoImageView = (ImageView) findViewById(R.id.img_xing_two);
-        xingThreeImageView = (ImageView) findViewById(R.id.img_xing_three);
-        xingFourImageView = (ImageView) findViewById(R.id.img_xing_four);
-        xingFiveImageView = (ImageView) findViewById(R.id.img_xing_five);
-        songXingPepleName = (TextView) findViewById(R.id.text_song_xing_people_name);
-        commentTimeTextView = (TextView) findViewById(R.id.text_comment_time);
-        commentContentTextView = (TextView) findViewById(R.id.text_commet_content);
-        youTuPingJiaButton = (Button) findViewById(R.id.btn_you_tu_ping_jia);
-        quanBuPingJiaButton = (Button) findViewById(R.id.btn_quan_bu_ping_jia);
-        lianXiKeFuLinearLayout = (LinearLayout) findViewById(R.id.ll_lian_xi_ke_fu);
-        baoKuanXinPinRecyclerView = (RecyclerView) findViewById(R.id.recycle_view_bao_kuan_xin_pin);
-        commentQuYu = (LinearLayout) findViewById(R.id.ll_comment_content);
-
-        keFuLinearLayout = (LinearLayout) findViewById(R.id.ll_ke_fu);
-        shoppingCarLinearLayout = (LinearLayout) findViewById(R.id.ll_shopping_car_product_detail);
-        addToShoppingCarButton = (Button) findViewById(R.id.btn_add_to_shopping_car);
-        buyAtOnceButton = (Button) findViewById(R.id.btn_buy_at_once);
-        shoppingCarCountTextView= (TextView) findViewById(R.id.text_gou_wu_che_count);
+        initView();
 
         //给爆款新品设置布局管理器和适配器
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
@@ -335,6 +296,85 @@ public class ProductDetailActivity extends Activity implements View.OnClickListe
         shoppingCarLinearLayout.setOnClickListener(this);
         addToShoppingCarButton.setOnClickListener(this);
         buyAtOnceButton.setOnClickListener(this);
+    }
+
+
+    /**
+     * 做浏览记录时用
+     */
+    private void liuLanJiLu() {
+        dbHelper=new DBOperateHelper();
+        Object obj=dbHelper.queryGoodById(good.getGoodId(), new CursorHandler() {
+            @Override
+            public Object handleCursor(Cursor cursor) {
+                if (cursor.moveToNext()) {
+                    return "have value";
+                } else {
+                    return null;
+                }
+            }
+        });
+        if(obj==null){
+            dbHelper.insert(good);
+        }else{
+            dbHelper.delete(good);
+            dbHelper.insert(good);
+        }
+    }
+
+
+
+    /**
+     * 初始化view
+     */
+    private void initView() {
+        //初始化view
+        daoHangImagView= (ImageView) findViewById(R.id.img_dao_hang_product_detail);
+        productBigPicImageView = (ImageView) findViewById(R.id.img_product_big_pic);
+        productPicCountsTextView = (TextView) findViewById(R.id.text_product_pic_counts);
+        isZiYingTextView = (TextView) findViewById(R.id.text_is_zi_ying);
+        productNameTextView = (TextView) findViewById(R.id.text_product_name);
+        shouCangLinearLayout = (LinearLayout) findViewById(R.id.ll_shou_cang);
+        shouCangImageView= (ImageView) findViewById(R.id.img_shou_cang);
+        shouCangTextView= (TextView) findViewById(R.id.text_shou_cang);
+        benDianJiaGeTextView = (TextView) findViewById(R.id.text_ben_zhan_price);
+        zheKouTextView = (TextView) findViewById(R.id.text_zhe_kou);
+        marketPriceTextView = (TextView) findViewById(R.id.text_market_price);
+        xiaoLiangTextView = (TextView) findViewById(R.id.text_xiao_liang);
+        kuCunTextView = (TextView) findViewById(R.id.text_ku_cun);
+        lingQuYouHuiQuanLinearLayout = (LinearLayout) findViewById(R.id.ll_ling_qu_you_hui_quan);
+        youHuiQuanCountsTextView = (TextView) findViewById(R.id.text_you_hui_quan_counts);
+        youHuiQuanOneTextView = (TextView) findViewById(R.id.text_you_hui_quan_one);
+        youHuiQuanTwoTextView = (TextView) findViewById(R.id.text_you_hui_quan_two);
+        suoZaiDiQuLayout = (RelativeLayout) findViewById(R.id.re_layout_suo_zai_di_qu);
+        suoZaiDiQuTextView = (TextView) findViewById(R.id.text_suo_zai_di_qu);
+        yunFeiTextView = (TextView) findViewById(R.id.text_yun_fei);
+        yiXuanRelaytiveLayout = (RelativeLayout) findViewById(R.id.re_layout_yi_xuan);
+        yiXuanProductTextView = (TextView) findViewById(R.id.text_yi_xuan_product);
+        fuWuLineatLayout = (LinearLayout) findViewById(R.id.ll_fu_wu);
+        seeProductDetailReLativeLayout = (RelativeLayout) findViewById(R.id.re_layout_product_detail);
+        userCommentReLativeLayout = (RelativeLayout) findViewById(R.id.re_layout_user_commet);
+        haoPingLvTextView = (TextView) findViewById(R.id.text_hao_ping_lv);
+        pingLunShuTextView = (TextView) findViewById(R.id.text_comment_counts);
+        xingOneImageView = (ImageView) findViewById(R.id.img_xing_one);
+        xingTwoImageView = (ImageView) findViewById(R.id.img_xing_two);
+        xingThreeImageView = (ImageView) findViewById(R.id.img_xing_three);
+        xingFourImageView = (ImageView) findViewById(R.id.img_xing_four);
+        xingFiveImageView = (ImageView) findViewById(R.id.img_xing_five);
+        songXingPepleName = (TextView) findViewById(R.id.text_song_xing_people_name);
+        commentTimeTextView = (TextView) findViewById(R.id.text_comment_time);
+        commentContentTextView = (TextView) findViewById(R.id.text_commet_content);
+        youTuPingJiaButton = (Button) findViewById(R.id.btn_you_tu_ping_jia);
+        quanBuPingJiaButton = (Button) findViewById(R.id.btn_quan_bu_ping_jia);
+        lianXiKeFuLinearLayout = (LinearLayout) findViewById(R.id.ll_lian_xi_ke_fu);
+        baoKuanXinPinRecyclerView = (RecyclerView) findViewById(R.id.recycle_view_bao_kuan_xin_pin);
+        commentQuYu = (LinearLayout) findViewById(R.id.ll_comment_content);
+
+        keFuLinearLayout = (LinearLayout) findViewById(R.id.ll_ke_fu);
+        shoppingCarLinearLayout = (LinearLayout) findViewById(R.id.ll_shopping_car_product_detail);
+        addToShoppingCarButton = (Button) findViewById(R.id.btn_add_to_shopping_car);
+        buyAtOnceButton = (Button) findViewById(R.id.btn_buy_at_once);
+        shoppingCarCountTextView= (TextView) findViewById(R.id.text_gou_wu_che_count);
     }
 
     @Override

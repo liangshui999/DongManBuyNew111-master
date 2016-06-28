@@ -18,11 +18,16 @@ import android.widget.Toast;
 import com.alipay.sdk.app.PayTask;
 import com.example.asus_cp.dongmanbuy.R;
 import com.example.asus_cp.dongmanbuy.constant.MyConstant;
+import com.example.asus_cp.dongmanbuy.model.Good;
+import com.example.asus_cp.dongmanbuy.util.FormatHelper;
+import com.example.asus_cp.dongmanbuy.util.MyLog;
 import com.example.asus_cp.dongmanbuy.util.zhi_fu_bao_util.PayResult;
 import com.example.asus_cp.dongmanbuy.util.zhi_fu_bao_util.SignUtils;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 提交订单之后出现的页面
@@ -36,6 +41,13 @@ public class AfterTiJiaoDingDanActivity extends Activity implements View.OnClick
 
     private String price;//付款金额
     private String bianHao;//订单编号
+    private String subject;//订单标题
+    private String desc;//订单描述
+
+    private String tag="AfterTiJiaoDingDanActivity";
+
+
+
 
 
     // 商户PID
@@ -121,6 +133,12 @@ public class AfterTiJiaoDingDanActivity extends Activity implements View.OnClick
         bianHao=getIntent().getStringExtra(MyConstant.DING_DAN_BIAN_HAO_KEY);
         dingDanHaoTextView.setText(bianHao);
 
+        subject=getIntent().getStringExtra(MyConstant.DING_DAN_SUBJECT_KEY);
+        desc=getIntent().getStringExtra(MyConstant.DING_DAN_DESC_KEY);
+        MyLog.d(tag,"subject="+subject);
+        MyLog.d(tag,"desc="+desc);
+        MyLog.d(tag,"price="+price);
+
         //设置点击事件
         zhiFuBaoZhiFuButton.setOnClickListener(this);
         seeDingDanTextView.setOnClickListener(this);
@@ -135,6 +153,7 @@ public class AfterTiJiaoDingDanActivity extends Activity implements View.OnClick
                 break;
             case R.id.text_see_ding_dan_after_ti_jiao_ding_dan://点击了查看订单
                 Intent seeIntent=new Intent(this,DingDanListActivity.class);
+                seeIntent.putExtra(MyConstant.TO_DING_DAN_LIST_KEY,MyConstant.ALL_DING_DAN);
                 startActivity(seeIntent);
                 break;
         }
@@ -156,7 +175,7 @@ public class AfterTiJiaoDingDanActivity extends Activity implements View.OnClick
                     }).show();
             return;
         }
-        String orderInfo = getOrderInfo("测试的商品", "该测试商品的详细描述", "0.01");
+        String orderInfo = getOrderInfo(subject, desc, FormatHelper.getNumberFromRenMingBi(price));
 
         /**
          * 特别注意，这里的签名逻辑需要放在服务端，切勿将私钥泄露在代码中！

@@ -280,6 +280,7 @@
     <string name="bank_sample">如：工商银行</string>
     <string name="ti_jiao">提交</string>
     <string name="ding_dan">订单</string>
+    <string name="shou_xu_fei">手续费</string>
 
 
 </resources>

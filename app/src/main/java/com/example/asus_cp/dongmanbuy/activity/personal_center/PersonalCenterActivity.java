@@ -3,7 +3,9 @@ package com.example.asus_cp.dongmanbuy.activity.personal_center;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.Window;
@@ -25,7 +27,15 @@ import com.example.asus_cp.dongmanbuy.activity.gou_wu.DingDanListActivity;
 import com.example.asus_cp.dongmanbuy.activity.login.LoginActivity;
 import com.example.asus_cp.dongmanbuy.activity.personal_center.data_set.DataSetActivity;
 import com.example.asus_cp.dongmanbuy.activity.personal_center.fund_manager.FundManagerActivity;
+import com.example.asus_cp.dongmanbuy.activity.personal_center.fund_manager.HongBaoListActivity;
+import com.example.asus_cp.dongmanbuy.activity.product_detail.ProductDetailActivity;
+import com.example.asus_cp.dongmanbuy.adapter.LiuLanJiLuAdapter;
+import com.example.asus_cp.dongmanbuy.adapter.ShopStreetShopContentAdapter;
+import com.example.asus_cp.dongmanbuy.constant.DBConstant;
 import com.example.asus_cp.dongmanbuy.constant.MyConstant;
+import com.example.asus_cp.dongmanbuy.db.CursorHandler;
+import com.example.asus_cp.dongmanbuy.db.DBOperateHelper;
+import com.example.asus_cp.dongmanbuy.model.Good;
 import com.example.asus_cp.dongmanbuy.model.User;
 import com.example.asus_cp.dongmanbuy.util.ImageLoadHelper;
 import com.example.asus_cp.dongmanbuy.util.JsonHelper;
@@ -35,7 +45,9 @@ import com.example.asus_cp.dongmanbuy.util.MyLog;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -90,6 +102,8 @@ public class PersonalCenterActivity extends Activity implements View.OnClickList
 
     private User passUser;//传递到设置资料界面
 
+    private DBOperateHelper dbHelper;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -103,6 +117,7 @@ public class PersonalCenterActivity extends Activity implements View.OnClickList
      * 初始化的方法
      */
     private void init() {
+        dbHelper=new DBOperateHelper();
         initView();
         requestQueue= MyApplication.getRequestQueue();
         helper=new ImageLoadHelper();
@@ -232,6 +247,51 @@ public class PersonalCenterActivity extends Activity implements View.OnClickList
         recyclerView= (RecyclerView) findViewById(R.id.id_recyle_view_personal_center);
 
 
+
+        //设置recyclerView
+
+        final List<Good> goods= (List<Good>) dbHelper.queryGoods("0", "20", new CursorHandler() {
+            private List<Good> goodsN=new ArrayList<Good>();
+            @Override
+            public Object handleCursor(Cursor cursor) {
+                while(cursor.moveToNext()){
+                    Good good=new Good();
+                    good.setGoodId(cursor.getString(cursor.getColumnIndex(DBConstant.Good.GOOD_ID)));
+                    good.setGoodsImg(cursor.getString(cursor.getColumnIndex(DBConstant.Good.BIG_IMAG)));
+                    good.setGoodsThumb(cursor.getString(cursor.getColumnIndex(DBConstant.Good.THUM_IMAG)));
+                    good.setGoodsSmallImag(cursor.getString(cursor.getColumnIndex(DBConstant.Good.SMALL_IMAG)));
+                    good.setGoodName(cursor.getString(cursor.getColumnIndex(DBConstant.Good.GOOD_NAME)));
+                    good.setShopPrice(cursor.getString(cursor.getColumnIndex(DBConstant.Good.SHOP_PRICE)));
+                    good.setMarket_price(cursor.getString(cursor.getColumnIndex(DBConstant.Good.MARKET_PRICE)));
+                    good.setSalesVolume(cursor.getString(cursor.getColumnIndex(DBConstant.Good.SALE_VOLUME)));
+                    good.setGoodsNumber(cursor.getString(cursor.getColumnIndex(DBConstant.Good.GOODS_NUMBER)));
+                    goodsN.add(good);
+                }
+                return goodsN;
+            }
+        });
+        LiuLanJiLuAdapter adapter=new LiuLanJiLuAdapter(this,goods);
+        //设置布局管理器
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+        recyclerView.setLayoutManager(linearLayoutManager);
+        //设置适配器
+        recyclerView.setAdapter(adapter);
+
+       adapter.setOnItemClickLitener(new LiuLanJiLuAdapter.OnItemClickLitener() {
+           @Override
+           public void onItemClick(View view, int position) {
+               Toast.makeText(PersonalCenterActivity.this,"点击的位置是"+position,Toast.LENGTH_SHORT).show();
+               Intent intent = new Intent(PersonalCenterActivity.this, ProductDetailActivity.class);
+               intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+               intent.putExtra(MyConstant.GOOD_KEY, goods.get(position));
+               startActivity(intent);
+           }
+       });
+
+
+
+
         //设置点击事件
         nameLinearLayout.setOnClickListener(this);
         touXiangImageView.setOnClickListener(this);
@@ -296,10 +356,11 @@ public class PersonalCenterActivity extends Activity implements View.OnClickList
                 toFundManagerAcitvity();
                 break;
             case R.id.ll_you_hui_quan_personal_center://点击了优惠券
-                Toast.makeText(this,"点击了优惠券",Toast.LENGTH_SHORT).show();
+                Intent toHongBaoListIntent=new Intent(this, HongBaoListActivity.class);
+                startActivity(toHongBaoListIntent);
                 break;
             case R.id.ll_ji_fen_personal_center://点击了积分
-                Toast.makeText(this,"点击了积分",Toast.LENGTH_SHORT).show();
+                //Toast.makeText(this,"点击了积分",Toast.LENGTH_SHORT).show();
                 break;
             case R.id.re_layout_ke_fu_personal_center://点击了客服
                 Toast.makeText(this,"点击了客服",Toast.LENGTH_SHORT).show();
@@ -327,7 +388,7 @@ public class PersonalCenterActivity extends Activity implements View.OnClickList
      */
     private void toDingDanListAcitivy(String str) {
         Intent allDingDanIntent=new Intent(this, DingDanListActivity.class);
-        allDingDanIntent.putExtra(MyConstant.FROM_PERSONAL_CENTER_TO_DING_DAN_LIST_KEY,str);
+        allDingDanIntent.putExtra(MyConstant.TO_DING_DAN_LIST_KEY,str);
         startActivity(allDingDanIntent);
     }
 
