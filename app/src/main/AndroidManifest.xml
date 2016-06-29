@@ -171,7 +171,13 @@
         <!--申请记录详情的activity-->
         <activity android:name=".activity.personal_center.fund_manager.ShenQingJiLuDetailActivity"/>
 
-        <!--搜索的activity-->
+        <!--搜索的actiity-->
+        <activity android:name=".activity.search.SearchActivity"/>
+
+        <!--搜索结果展示的activity-->
+        <activity android:name=".activity.search.GoodSearchResultActivity"/>
+
+        <!--搜索的activity,因为必须按照ui做，此类作废-->
         <activity android:name=".activity.MySearchActivity">
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH" />

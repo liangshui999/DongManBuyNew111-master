@@ -303,22 +303,26 @@ public class ProductDetailActivity extends Activity implements View.OnClickListe
      * 做浏览记录时用
      */
     private void liuLanJiLu() {
-        dbHelper=new DBOperateHelper();
-        Object obj=dbHelper.queryGoodById(good.getGoodId(), new CursorHandler() {
-            @Override
-            public Object handleCursor(Cursor cursor) {
-                if (cursor.moveToNext()) {
-                    return "have value";
-                } else {
-                    return null;
+        SharedPreferences sharedPreferences=getSharedPreferences(MyConstant.USER_SHAREPREFRENCE_NAME,MODE_APPEND);
+        String uid=sharedPreferences.getString(MyConstant.UID_KEY, null);
+        if(uid !=null && !uid.isEmpty()){
+            dbHelper=new DBOperateHelper();
+            Object obj=dbHelper.queryGoodById(good.getGoodId(), new CursorHandler() {
+                @Override
+                public Object handleCursor(Cursor cursor) {
+                    if (cursor.moveToNext()) {
+                        return "have value";
+                    } else {
+                        return null;
+                    }
                 }
+            });
+            if(obj==null){
+                dbHelper.insert(good);
+            }else{
+                dbHelper.delete(good);
+                dbHelper.insert(good);
             }
-        });
-        if(obj==null){
-            dbHelper.insert(good);
-        }else{
-            dbHelper.delete(good);
-            dbHelper.insert(good);
         }
     }
 

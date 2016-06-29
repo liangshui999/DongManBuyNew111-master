@@ -48,7 +48,7 @@ public class ShopProdcutSortActivity extends Activity implements View.OnClickLis
     public static final int LIST_SMALL=2;
     public static final int LIST_BIG=0;
 
-    private List<Good> goods;//迟早需要注销掉的，只是暂时让程序不要报太多错，而保留
+    private List<Good> goods;//
     private String shopId;//店铺id
 
     private int zongHeFlag;//综合标签点击次数的标记
@@ -67,8 +67,7 @@ public class ShopProdcutSortActivity extends Activity implements View.OnClickLis
      * 初始化的方法
      */
     private void init() {
-        shopId=getIntent().getStringExtra(MyConstant.SHOP_ID_KEY);
-
+        goods= (List<Good>) getIntent().getSerializableExtra(MyConstant.GOOD_LIST_KEY);
         daoHangImageView= (ImageView) findViewById(R.id.img_shop_product_sort_dao_hang);
         searchView= (SearchView) findViewById(R.id.search_view_shop_product_sort);
         categoryTextView= (TextView) findViewById(R.id.text_category_shop_product_sort);

@@ -99,10 +99,14 @@ public class PersonalCenterActivity extends Activity implements View.OnClickList
 
     public static final int REQUEST_CODE_LOGIN_KEY=0;//跳转到登陆界面用
     public static final int REQUEST_CODE_SHOU_CANG_KEY=1;//跳转到收藏界面
+    public static final int REQUEST_DATA_SET_KEY=2;//跳转到资料设置界面
 
     private User passUser;//传递到设置资料界面
 
     private DBOperateHelper dbHelper;
+
+    private LiuLanJiLuAdapter liuLanJiLuAdapter;
+    private List<Good> goods;
 
 
     @Override
@@ -250,7 +254,7 @@ public class PersonalCenterActivity extends Activity implements View.OnClickList
 
         //设置recyclerView
 
-        final List<Good> goods= (List<Good>) dbHelper.queryGoods("0", "20", new CursorHandler() {
+        goods= (List<Good>) dbHelper.queryGoods("0", "20", new CursorHandler() {
             private List<Good> goodsN=new ArrayList<Good>();
             @Override
             public Object handleCursor(Cursor cursor) {
@@ -270,18 +274,18 @@ public class PersonalCenterActivity extends Activity implements View.OnClickList
                 return goodsN;
             }
         });
-        LiuLanJiLuAdapter adapter=new LiuLanJiLuAdapter(this,goods);
+        liuLanJiLuAdapter=new LiuLanJiLuAdapter(this,goods);
         //设置布局管理器
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         recyclerView.setLayoutManager(linearLayoutManager);
         //设置适配器
-        recyclerView.setAdapter(adapter);
+        recyclerView.setAdapter(liuLanJiLuAdapter);
 
-       adapter.setOnItemClickLitener(new LiuLanJiLuAdapter.OnItemClickLitener() {
+       liuLanJiLuAdapter.setOnItemClickLitener(new LiuLanJiLuAdapter.OnItemClickLitener() {
            @Override
            public void onItemClick(View view, int position) {
-               Toast.makeText(PersonalCenterActivity.this,"点击的位置是"+position,Toast.LENGTH_SHORT).show();
+               Toast.makeText(PersonalCenterActivity.this, "点击的位置是" + position, Toast.LENGTH_SHORT).show();
                Intent intent = new Intent(PersonalCenterActivity.this, ProductDetailActivity.class);
                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                intent.putExtra(MyConstant.GOOD_KEY, goods.get(position));
@@ -366,7 +370,29 @@ public class PersonalCenterActivity extends Activity implements View.OnClickList
                 Toast.makeText(this,"点击了客服",Toast.LENGTH_SHORT).show();
                 break;
             case R.id.ll_qing_kong_personal_center://点击了清空
-                Toast.makeText(this,"点击了清空",Toast.LENGTH_SHORT).show();
+                dbHelper.deleteAll();
+                List<Good> goodss=(List<Good>) dbHelper.queryGoods("0", "20", new CursorHandler() {
+                    private List<Good> goodsN=new ArrayList<Good>();
+                    @Override
+                    public Object handleCursor(Cursor cursor) {
+                        while(cursor.moveToNext()){
+                            Good good=new Good();
+                            good.setGoodId(cursor.getString(cursor.getColumnIndex(DBConstant.Good.GOOD_ID)));
+                            good.setGoodsImg(cursor.getString(cursor.getColumnIndex(DBConstant.Good.BIG_IMAG)));
+                            good.setGoodsThumb(cursor.getString(cursor.getColumnIndex(DBConstant.Good.THUM_IMAG)));
+                            good.setGoodsSmallImag(cursor.getString(cursor.getColumnIndex(DBConstant.Good.SMALL_IMAG)));
+                            good.setGoodName(cursor.getString(cursor.getColumnIndex(DBConstant.Good.GOOD_NAME)));
+                            good.setShopPrice(cursor.getString(cursor.getColumnIndex(DBConstant.Good.SHOP_PRICE)));
+                            good.setMarket_price(cursor.getString(cursor.getColumnIndex(DBConstant.Good.MARKET_PRICE)));
+                            good.setSalesVolume(cursor.getString(cursor.getColumnIndex(DBConstant.Good.SALE_VOLUME)));
+                            good.setGoodsNumber(cursor.getString(cursor.getColumnIndex(DBConstant.Good.GOODS_NUMBER)));
+                            goodsN.add(good);
+                        }
+                        return goodsN;
+                    }
+                });
+                liuLanJiLuAdapter=new LiuLanJiLuAdapter(this,goodss);
+                recyclerView.setAdapter(liuLanJiLuAdapter);
                 break;
         }
     }
@@ -399,7 +425,7 @@ public class PersonalCenterActivity extends Activity implements View.OnClickList
     private void toDataSetActivity() {
         Intent intent=new Intent(this,DataSetActivity.class);
         intent.putExtra(MyConstant.USER_KEY,passUser);
-        startActivity(intent);
+        startActivityForResult(intent, REQUEST_DATA_SET_KEY);
     }
 
     @Override
@@ -409,6 +435,9 @@ public class PersonalCenterActivity extends Activity implements View.OnClickList
                 getDataFromIntenetAndSetView();
                 break;
             case REQUEST_CODE_SHOU_CANG_KEY://从收藏界面返回的
+                getDataFromIntenetAndSetView();
+                break;
+            case REQUEST_DATA_SET_KEY://从资料设置返回
                 getDataFromIntenetAndSetView();
                 break;
         }

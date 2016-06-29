@@ -1,10 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/gray">
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
     <!--标题栏的布局-->
     <LinearLayout
@@ -16,29 +13,26 @@
         android:layout_alignParentTop="true"
         android:background="@color/white_my">
         <ImageView
-            android:id="@+id/img_shop_product_sort_dao_hang"
+            android:id="@+id/img_dao_hang_search_result"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_gravity="center_vertical"
             android:background="@mipmap/left"/>
-        <android.support.v7.widget.SearchView
+        <!--<android.support.v7.widget.SearchView
             android:id="@+id/search_view_shop_product_sort"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="40dp"
             android:queryHint="@string/search_shop_product"
             >
-        </android.support.v7.widget.SearchView>
-        <TextView
-            android:id="@+id/text_category_shop_product_sort"
-            android:clickable="true"
-            android:layout_width="wrap_content"
+        </android.support.v7.widget.SearchView>-->
+        <ImageView
+            android:id="@+id/img_search_search_result"
+            android:layout_width="0dp"
+            android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:text="@string/category"
-            android:layout_marginBottom="5dp"
-            android:layout_marginTop="10dp"
-            android:paddingRight="5dp"/>
+            android:src="@mipmap/search_pic"/>
+
     </LinearLayout>
 
     <!--排序的方法-->
@@ -59,7 +53,7 @@
                 android:paddingTop="10dp"
                 android:paddingBottom="10dp">
                 <TextView
-                    android:id="@+id/text_zong_he_sort"
+                    android:id="@+id/text_zong_he_sort_search_result"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:clickable="true"
@@ -67,11 +61,11 @@
                     android:layout_centerInParent="true"
                     />
                 <ImageView
-                    android:id="@+id/img_down_zong_he_sort"
+                    android:id="@+id/img_down_zong_he_sort_search_result"
                     android:layout_width="15dp"
                     android:layout_height="15dp"
                     android:src="@mipmap/down_black_sort"
-                    android:layout_toRightOf="@id/text_zong_he_sort"
+                    android:layout_toRightOf="@id/text_zong_he_sort_search_result"
                     android:layout_centerVertical="true"
                     />
 
@@ -90,7 +84,7 @@
             android:paddingTop="10dp"
             android:paddingBottom="10dp">
             <TextView
-                android:id="@+id/text_xin_pin_sort"
+                android:id="@+id/text_xin_pin_sort_search_result"
                 android:clickable="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -107,7 +101,7 @@
             android:paddingTop="10dp"
             android:paddingBottom="10dp">
             <TextView
-                android:id="@+id/text_xiao_liang_sort"
+                android:id="@+id/text_xiao_liang_sort_search_result"
                 android:clickable="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -127,19 +121,19 @@
                 android:paddingTop="10dp"
                 android:paddingBottom="10dp">
                 <TextView
-                    android:id="@+id/text_price_sort"
+                    android:id="@+id/text_price_sort_search_result"
                     android:clickable="true"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/price"
                     android:layout_centerInParent="true"
-                   />
+                    />
                 <ImageView
-                    android:id="@+id/img_down_price_sort"
+                    android:id="@+id/img_down_price_sort_search_result"
                     android:layout_width="15dp"
                     android:layout_height="15dp"
                     android:src="@mipmap/down_black_sort"
-                    android:layout_toRightOf="@id/text_price_sort"
+                    android:layout_toRightOf="@id/text_price_sort_search_result"
                     android:layout_centerVertical="true"
 
                     />
@@ -156,7 +150,7 @@
             android:paddingTop="10dp"
             android:paddingBottom="10dp">
             <ImageView
-                android:id="@+id/img_display_style_sort"
+                android:id="@+id/img_display_style_sort_search_result"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:layout_gravity="center"
@@ -166,26 +160,28 @@
 
 
     <!--内容展示的区域-->
-    <GridView
-        android:id="@+id/grid_view_product_sort"
+    <com.handmark.pulltorefresh.library.PullToRefreshGridView
+        android:id="@+id/grid_view_product_sort_search_result"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:numColumns="2">
-    </GridView>
+        android:layout_height="match_parent"
+        android:numColumns="2"
+        android:visibility="visible">
+    </com.handmark.pulltorefresh.library.PullToRefreshGridView>
 
-    <ListView
-        android:id="@+id/list_view_product_sort_small"
+    <com.handmark.pulltorefresh.library.PullToRefreshListView
+        android:id="@+id/list_view_product_sort_small_search_result"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:visibility="gone">
-    </ListView>
+    </com.handmark.pulltorefresh.library.PullToRefreshListView>
 
-    <ListView
-        android:id="@+id/list_view_product_sort_big"
+    <com.handmark.pulltorefresh.library.PullToRefreshListView
+        android:id="@+id/list_view_product_sort_big_search_result"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:visibility="gone">
-    </ListView>
+    </com.handmark.pulltorefresh.library.PullToRefreshListView>
+
 
 
 

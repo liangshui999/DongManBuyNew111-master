@@ -18,14 +18,22 @@
             android:layout_height="30dp"
             android:layout_gravity="center_vertical"
             android:background="@mipmap/login"/>
-        <android.support.v7.widget.SearchView
+       <!-- <android.support.v7.widget.SearchView
             android:id="@+id/search_view"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="40dp"
             android:queryHint="@string/search_hint"
             >
-        </android.support.v7.widget.SearchView>
+        </android.support.v7.widget.SearchView>-->
+
+        <ImageView
+            android:id="@+id/img_search_main"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/search_pic"/>
+
         <ImageButton
             android:id="@+id/img_btn_message"
             android:layout_width="30dp"

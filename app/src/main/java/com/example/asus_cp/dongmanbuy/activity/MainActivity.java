@@ -25,6 +25,7 @@ import android.widget.Toast;
 
 import com.example.asus_cp.dongmanbuy.R;
 import com.example.asus_cp.dongmanbuy.activity.personal_center.PersonalCenterActivity;
+import com.example.asus_cp.dongmanbuy.activity.search.SearchActivity;
 import com.example.asus_cp.dongmanbuy.constant.MyConstant;
 import com.example.asus_cp.dongmanbuy.customview.SlidingMenu;
 import com.example.asus_cp.dongmanbuy.fragment.CategoryFragment;
@@ -39,7 +40,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
-    private android.support.v7.widget.SearchView searchView;
+    //private android.support.v7.widget.SearchView searchView;
+    private ImageView searchImageView;//搜索的图片
     private ImageButton loginButton;//登录按钮
     private ImageButton messageButton;//消息按钮
     //private ViewPager viewPager;
@@ -141,7 +143,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      * 初始化view
      */
     private void initView() {
-        searchView= (SearchView) findViewById(R.id.search_view);
+        /*searchView= (SearchView) findViewById(R.id.search_view);
         searchView.setIconifiedByDefault(false);
         searchView.setFocusable(true);//默认不聚焦
         searchView.setFocusableInTouchMode(true);
@@ -155,26 +157,27 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     //searchView.requestFocus();
                 }
             }
-        });
+        });*/
         //searchView.setFocusableInTouchMode(false);
         //searchView.setEnabled(false);
-        loginButton= (ImageButton) findViewById(R.id.img_btn_login);
-        messageButton= (ImageButton) findViewById(R.id.img_btn_message);
-        messageButton.setOnClickListener(this);
-        loginButton.setOnClickListener(this);
         // Get the SearchView and set the searchable configuration
-        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+        //SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
         //searchView = (SearchView) findViewById(R.id.search_view);
         // 前面的包名是根节点下的包名，不要带activity
-        if (searchView != null) {
+        /*if (searchView != null) {
             searchView.setSearchableInfo(searchManager.getSearchableInfo
                     (new ComponentName("com.example.asus_cp.dongmanbuy",
                             "com.example.asus_cp.dongmanbuy.activity.MySearchActivity")));
             searchView.setIconifiedByDefault(false); // Do not iconify the widget; expand it by default
             searchView.clearFocus();
-        }
+        }*/
 
-
+        searchImageView= (ImageView) findViewById(R.id.img_search_main);
+        loginButton= (ImageButton) findViewById(R.id.img_btn_login);
+        messageButton= (ImageButton) findViewById(R.id.img_btn_message);
+        messageButton.setOnClickListener(this);
+        loginButton.setOnClickListener(this);
+        searchImageView.setOnClickListener(this);
 
         //初始化底部标签
         homell = (LinearLayout) findViewById(R.id.ll_home);
@@ -409,12 +412,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.text_setting:
                 Toast.makeText(this,"点击了设置",Toast.LENGTH_SHORT).show();
                 break;
+            case R.id.img_search_main://点击了search按钮
+                Intent toSearchIntent=new Intent(this, SearchActivity.class);
+                startActivity(toSearchIntent);
+                break;
         }
     }
 
     @Override
     public void onBackPressed() {
-        searchView.clearFocus();
+        //searchView.clearFocus();
         MyLog.d(tag, "返回键");
 
         //退出程序时，清除sharepre里面的数据

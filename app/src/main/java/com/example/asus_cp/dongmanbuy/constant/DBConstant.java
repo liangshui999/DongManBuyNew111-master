@@ -53,7 +53,7 @@ public interface DBConstant {
 
         //查询前20条商品，按id进行倒序排列
         public static final String SELECT_PART_GOOD_ORDER_BY_ID="select * from"+KONG_GE+TABLE_NAME+KONG_GE
-                +"order by id limit ?,?;";
+                +"order by id desc limit ?,?;";
 
         //根据goodId删除商品
         public static final String DELETE_GOOD_BY_ID="delete from"+KONG_GE+TABLE_NAME+KONG_GE+

@@ -44,4 +44,6 @@ public interface MyConstant {
     public static final String DAI_SHOU_HUO_DING_DAN="daiShouHuoDingDan";
     public static final String DAI_PING_JIA_DING_DAN="daiPingJiaDingDan";
     public static final String SHEN_QING_JI_LU_MODEL_KEY="shenqingjilumodel";//传递申请记录modle的key
+    public static final String SEARCH_CONTENT_KEY="searchKey";//传递搜索关键字用
+    public static final String SEARCH_CATEGORY_KEY="searchCategoryKey";//传递搜索的类别用
 }

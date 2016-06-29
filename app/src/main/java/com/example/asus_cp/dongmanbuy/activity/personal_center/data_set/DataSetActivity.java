@@ -2,6 +2,7 @@ package com.example.asus_cp.dongmanbuy.activity.personal_center.data_set;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
@@ -118,6 +119,14 @@ public class DataSetActivity extends Activity implements View.OnClickListener{
                 startActivity(toEditShipAddressListIntent);
                 break;
             case R.id.btn_exit_data_set://点击了退出按钮
+                SharedPreferences sharedPreferences=getSharedPreferences(MyConstant.USER_SHAREPREFRENCE_NAME,
+                        MODE_APPEND);
+                SharedPreferences.Editor editor=sharedPreferences.edit();
+                editor.remove(MyConstant.UID_KEY);
+                editor.remove(MyConstant.SID_KEY);
+                editor.apply();
+                Intent backIntent=new Intent();
+                setResult(RESULT_OK,backIntent);
                 finish();
                 break;
         }
