@@ -7,7 +7,6 @@ import android.view.View;
 import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,6 +22,7 @@ import com.example.asus_cp.dongmanbuy.adapter.ShopProductBigListAdapter;
 import com.example.asus_cp.dongmanbuy.adapter.ShopProductGridAdapter;
 import com.example.asus_cp.dongmanbuy.adapter.ShopProductSmallListAdapter;
 import com.example.asus_cp.dongmanbuy.constant.MyConstant;
+import com.example.asus_cp.dongmanbuy.db.SearchRecordDBOperateHelper;
 import com.example.asus_cp.dongmanbuy.model.Good;
 import com.example.asus_cp.dongmanbuy.util.ImageLoadHelper;
 import com.example.asus_cp.dongmanbuy.util.JsonHelper;
@@ -47,9 +47,9 @@ import java.util.Map;
  * 搜索结果展示的界面
  * Created by asus-cp on 2016-06-29.
  */
-public class GoodSearchResultActivity extends Activity implements View.OnClickListener{
+public class GoodSearchResultActivity extends Activity implements View.OnClickListener {
 
-    private String tag="GoodSearchResultActivity";
+    private String tag = "GoodSearchResultActivity";
 
     private ImageView daoHangImageView;//导航的imageview
     private ImageView searchImagView;//搜索框
@@ -64,14 +64,14 @@ public class GoodSearchResultActivity extends Activity implements View.OnClickLi
     private PullToRefreshListView productListViewSmall;//商品列表
     private PullToRefreshListView productListViewBig;//大的商品列表
 
-    private int count=1;//展示样式
-    public static final int KA_PIAN=1;//卡片的样式
-    public static final int LIST_SMALL=2;
-    public static final int LIST_BIG=0;
+    private int count = 1;//展示样式
+    public static final int KA_PIAN = 1;//卡片的样式
+    public static final int LIST_SMALL = 2;
+    public static final int LIST_BIG = 0;
 
-    public static final int GRID_VIEW_FLAG=1;
-    public static final int BIG_LIST_VIEW_FLAG=2;
-    public static final int SMALL_LIST_VIEW_FLAG=3;
+    public static final int GRID_VIEW_FLAG = 3;
+    public static final int BIG_LIST_VIEW_FLAG = 4;
+    public static final int SMALL_LIST_VIEW_FLAG = 5;
 
     private List<Good> goods;//
     private String shopId;//店铺id
@@ -81,7 +81,7 @@ public class GoodSearchResultActivity extends Activity implements View.OnClickLi
 
     private String searchContent;//搜索的内容
 
-    private String searchUrl="http://www.zmobuy.com/PHP/?url=/search";//搜索的接口
+    private String searchUrl = "http://www.zmobuy.com/PHP/?url=/search";//搜索的接口
     private RequestQueue requestQueue;
     private ImageLoadHelper helper;
 
@@ -96,8 +96,12 @@ public class GoodSearchResultActivity extends Activity implements View.OnClickLi
     private List<Good> bigListGoods;
 
 
+    public static final String LOAD_COUNT_ONCE_STR ="10";//每次加载的商品数量，不要太大了，太大了加载太慢
+    public static final int LOAD_COUNT_ONCE_INT =10;//每次加载的商品数量，不要太大了，太大了加载太慢
 
+    private int loadCount = 2;//记录向上加载的次数
 
+    private SearchRecordDBOperateHelper dbHelper;
 
 
     @Override
@@ -114,18 +118,25 @@ public class GoodSearchResultActivity extends Activity implements View.OnClickLi
     private void init() {
         initView();
 
-        searchContent=getIntent().getStringExtra(MyConstant.SEARCH_CONTENT_KEY);
-        MyLog.d(tag,"传递过来的数据是："+searchContent);
-        requestQueue= MyApplication.getRequestQueue();
-        helper=new ImageLoadHelper();
+        searchContent = getIntent().getStringExtra(MyConstant.SEARCH_CONTENT_KEY);
+        dbHelper=new SearchRecordDBOperateHelper();
+        if(dbHelper.queryByKeyWord(searchContent)){
+            dbHelper.deleteByKeyWord(searchContent);
+            dbHelper.insert(searchContent);
+        }else{
+            dbHelper.insert(searchContent);
+        }
+        MyLog.d(tag, "传递过来的数据是：" + searchContent);
+        requestQueue = MyApplication.getRequestQueue();
+        helper = new ImageLoadHelper();
 
-        gridGoods=new ArrayList<Good>();
-        smallListGoods=new ArrayList<Good>();
-        bigListGoods=new ArrayList<Good>();
+        gridGoods = new ArrayList<Good>();
+        smallListGoods = new ArrayList<Good>();
+        bigListGoods = new ArrayList<Good>();
 
-        gridAdapter=new ShopProductGridAdapter(GoodSearchResultActivity.this,gridGoods);
-        smallListAdapter=new ShopProductSmallListAdapter(GoodSearchResultActivity.this,smallListGoods);
-        bigListAdapter=new ShopProductBigListAdapter(GoodSearchResultActivity.this,bigListGoods);
+        gridAdapter = new ShopProductGridAdapter(GoodSearchResultActivity.this, gridGoods);
+        smallListAdapter = new ShopProductSmallListAdapter(GoodSearchResultActivity.this, smallListGoods);
+        bigListAdapter = new ShopProductBigListAdapter(GoodSearchResultActivity.this, bigListGoods);
 
         productGridView.setAdapter(gridAdapter);
         productListViewSmall.setAdapter(smallListAdapter);
@@ -146,7 +157,7 @@ public class GoodSearchResultActivity extends Activity implements View.OnClickLi
             }
         });
 
-        getDataFromIntenet(GRID_VIEW_FLAG,searchContent,"id_asc","1","20");
+        getDataFromIntenet(GRID_VIEW_FLAG, searchContent, "id_asc", "1", LOAD_COUNT_ONCE_STR);
 
         //给gridview设置上拉加载的监听事件
         productGridView.setMode(PullToRefreshBase.Mode.BOTH);
@@ -174,54 +185,100 @@ public class GoodSearchResultActivity extends Activity implements View.OnClickLi
      * 初始化视图
      */
     private void initView() {
-        daoHangImageView= (ImageView) findViewById(R.id.img_dao_hang_search_result);
-        searchImagView= (ImageView) findViewById(R.id.img_search_search_result);
-        zongHeTextView= (TextView) findViewById(R.id.text_zong_he_sort_search_result);
-        xinPinTextView= (TextView) findViewById(R.id.text_xin_pin_sort_search_result);
-        xiaoLiangTextView= (TextView) findViewById(R.id.text_xiao_liang_sort_search_result);
-        priceTextView= (TextView) findViewById(R.id.text_price_sort_search_result);
-        zongHeDownImageView= (ImageView) findViewById(R.id.img_down_zong_he_sort_search_result);
-        priceDownImageView= (ImageView) findViewById(R.id.img_down_price_sort_search_result);
-        displayYangShiImageView= (ImageView) findViewById(R.id.img_display_style_sort_search_result);
-        productGridView= (PullToRefreshGridView) findViewById(R.id.grid_view_product_sort_search_result);
-        productListViewSmall= (PullToRefreshListView) findViewById(R.id.list_view_product_sort_small_search_result);
-        productListViewBig= (PullToRefreshListView) findViewById(R.id.list_view_product_sort_big_search_result);
+        daoHangImageView = (ImageView) findViewById(R.id.img_dao_hang_search_result);
+        searchImagView = (ImageView) findViewById(R.id.img_search_search_result);
+        zongHeTextView = (TextView) findViewById(R.id.text_zong_he_sort_search_result);
+        xinPinTextView = (TextView) findViewById(R.id.text_xin_pin_sort_search_result);
+        xiaoLiangTextView = (TextView) findViewById(R.id.text_xiao_liang_sort_search_result);
+        priceTextView = (TextView) findViewById(R.id.text_price_sort_search_result);
+        zongHeDownImageView = (ImageView) findViewById(R.id.img_down_zong_he_sort_search_result);
+        priceDownImageView = (ImageView) findViewById(R.id.img_down_price_sort_search_result);
+        displayYangShiImageView = (ImageView) findViewById(R.id.img_display_style_sort_search_result);
+        productGridView = (PullToRefreshGridView) findViewById(R.id.grid_view_product_sort_search_result);
+        productListViewSmall = (PullToRefreshListView) findViewById(R.id.list_view_product_sort_small_search_result);
+        productListViewBig = (PullToRefreshListView) findViewById(R.id.list_view_product_sort_big_search_result);
     }
 
 
     /**
      * 从网络获取数据
-     * @param flag 给哪个view设置适配器
+     *
+     * @param flag    给哪个view设置适配器
      * @param keyWord 搜索的关键字
-     * @param sortBy 排序方式
-     * @param start 开始
-     * @param end 结束
+     * @param sortBy  排序方式
+     * @param start   开始
+     * @param end     结束
      */
     private void getDataFromIntenet(final int flag, final String keyWord, final String sortBy, final String start, final String end) {
-        StringRequest searchRequest=new StringRequest(Request.Method.POST, searchUrl,
+        StringRequest searchRequest = new StringRequest(Request.Method.POST, searchUrl,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String s) {
-                        List<Good> goods=parseJson(s);
-                        MyLog.d(tag,"商品数量是："+goods.size());
-                        switch (flag){
+                        List<Good> goods = parseJson(s);
+                        MyLog.d(tag, "商品数量是：" + goods.size());
+                        switch (flag) {
                             case GRID_VIEW_FLAG:
-                                MyLog.d(tag,"网格");
-                                gridGoods.addAll(goods);
-                                gridAdapter.notifyDataSetChanged();
-                                productGridView.onRefreshComplete();
+                                MyLog.d(tag, "网格");
+                                if(goods.size()>1){
+                                    gridGoods.addAll(goods);
+                                    gridAdapter.notifyDataSetChanged();
+                                    productGridView.onRefreshComplete();
+                                }else{
+                                    Toast.makeText(GoodSearchResultActivity.this,"已经是最后一项了",Toast.LENGTH_SHORT).show();
+                                    productGridView.onRefreshComplete();
+                                }
+
+                                productGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                                    @Override
+                                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                                        //Toast.makeText(ShopProdcutSortActivity.this,"点击了"+position,Toast.LENGTH_SHORT).show();
+                                        Intent gridIntent = new Intent(GoodSearchResultActivity.this, ProductDetailActivity.class);
+                                        gridIntent.putExtra(MyConstant.GOOD_KEY, gridGoods.get(position));
+                                        startActivity(gridIntent);
+                                    }
+                                });
                                 break;
                             case SMALL_LIST_VIEW_FLAG:
-                                MyLog.d(tag,"小列表");
-                                smallListGoods.addAll(goods);
-                                smallListAdapter.notifyDataSetChanged();
-                                productListViewSmall.onRefreshComplete();
+                                MyLog.d(tag, "小列表");
+                                if(goods.size()>1){
+                                    smallListGoods.addAll(goods);
+                                    smallListAdapter.notifyDataSetChanged();
+                                    productListViewSmall.onRefreshComplete();
+                                }else{
+                                    Toast.makeText(GoodSearchResultActivity.this,"已经是最后一项了",Toast.LENGTH_SHORT).show();
+                                    productListViewSmall.onRefreshComplete();
+                                }
+
+                                productListViewSmall.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                                    @Override
+                                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                                        //Toast.makeText(ShopProdcutSortActivity.this,"点击了"+position,Toast.LENGTH_SHORT).show();
+                                        Intent smallIntent = new Intent(GoodSearchResultActivity.this, ProductDetailActivity.class);
+                                        smallIntent.putExtra(MyConstant.GOOD_KEY, smallListGoods.get(position));
+                                        startActivity(smallIntent);
+                                    }
+                                });
                                 break;
                             case BIG_LIST_VIEW_FLAG:
-                                MyLog.d(tag,"大列表");
-                                bigListGoods.addAll(goods);
-                                bigListAdapter.notifyDataSetChanged();
-                                productListViewBig.onRefreshComplete();
+                                MyLog.d(tag, "大列表");
+                                if(goods.size()>1){
+                                    bigListGoods.addAll(goods);
+                                    bigListAdapter.notifyDataSetChanged();
+                                    productListViewBig.onRefreshComplete();
+                                }else{
+                                    Toast.makeText(GoodSearchResultActivity.this,"已经是最后一项了",Toast.LENGTH_SHORT).show();
+                                    productListViewBig.onRefreshComplete();
+                                }
+
+                                productListViewBig.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                                    @Override
+                                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                                        //Toast.makeText(ShopProdcutSortActivity.this,"点击了"+position,Toast.LENGTH_SHORT).show();
+                                        Intent bigIntent = new Intent(GoodSearchResultActivity.this, ProductDetailActivity.class);
+                                        bigIntent.putExtra(MyConstant.GOOD_KEY, bigListGoods.get(position));
+                                        startActivity(bigIntent);
+                                    }
+                                });
                                 break;
                         }
                     }
@@ -230,12 +287,13 @@ public class GoodSearchResultActivity extends Activity implements View.OnClickLi
             public void onErrorResponse(VolleyError volleyError) {
 
             }
-        }){
+        }) {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
-                Map<String,String> map=new HashMap<String,String>();
-                String json="{\"filter\":{\"keywords\":\""+keyWord+"\",\"category_id\":\"\",\"price_range\":\"\",\"brand_id\":\"\",\"intro\":\"\",\"sort_by\":\""+sortBy+"\"},\"pagination\":{\"page\":\""+start+"\",\"count\":\""+end+"\"}}";
-                map.put("json",json);
+                MyLog.d(tag,"sortby="+sortBy+"...."+"keyword="+keyWord+"....."+"start="+start+"....."+"end="+end);
+                Map<String, String> map = new HashMap<String, String>();
+                String json = "{\"filter\":{\"keywords\":\"" + keyWord + "\",\"category_id\":\"\",\"price_range\":\"\",\"brand_id\":\"\",\"intro\":\"\",\"sort_by\":\"" + sortBy + "\"},\"pagination\":{\"page\":\"" + start + "\",\"loadCount\":\"" + end + "\"}}";
+                map.put("json", json);
                 return map;
             }
         };
@@ -243,28 +301,27 @@ public class GoodSearchResultActivity extends Activity implements View.OnClickLi
     }
 
 
-
-
     /**
      * 解析json数据
+     *
      * @param s
      */
     private List<Good> parseJson(String s) {
         MyLog.d(tag, "返回的数据是：" + s);
-        List<Good> goods=new ArrayList<Good>();
+        List<Good> goods = new ArrayList<Good>();
         try {
-            JSONObject jsonObject=new JSONObject(s);
-            JSONArray jsonArray=jsonObject.getJSONArray("data");
-            for(int i=0;i<jsonArray.length();i++){
-                JSONObject ziJsonObj=jsonArray.getJSONObject(i);
-                Good good=new Good();
+            JSONObject jsonObject = new JSONObject(s);
+            JSONArray jsonArray = jsonObject.getJSONArray("data");
+            for (int i = 0; i < jsonArray.length(); i++) {
+                JSONObject ziJsonObj = jsonArray.getJSONObject(i);
+                Good good = new Good();
                 good.setGoodId(ziJsonObj.getString("goods_id"));
                 good.setSalesVolume(ziJsonObj.getString("sales_volume"));
                 good.setGoodName(JsonHelper.decodeUnicode(ziJsonObj.getString("name")));
                 good.setMarket_price(JsonHelper.decodeUnicode(ziJsonObj.getString("market_price")));
                 good.setShopPrice(JsonHelper.decodeUnicode(ziJsonObj.getString("shop_price")));
 
-                JSONObject imgObj=ziJsonObj.getJSONObject("img");
+                JSONObject imgObj = ziJsonObj.getJSONObject("img");
                 good.setGoodsThumb(imgObj.getString("thumb"));
                 good.setGoodsImg(imgObj.getString("url"));
                 good.setGoodsSmallImag(imgObj.getString("small"));
@@ -277,144 +334,377 @@ public class GoodSearchResultActivity extends Activity implements View.OnClickLi
     }
 
 
-
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
-            case R.id.img_shop_product_sort_dao_hang://导航
+        switch (v.getId()) {
+            case R.id.img_dao_hang_search_result://导航
                 //Toast.makeText(this,"点击了导航",Toast.LENGTH_SHORT).show();
+                Intent intent=new Intent();
+                setResult(RESULT_OK,intent);
                 finish();
                 break;
             case R.id.img_search_search_result://搜索按钮
                 Toast.makeText(this, "点击了按钮", Toast.LENGTH_SHORT).show();
                 break;
-            case R.id.text_zong_he_sort://综合
-                reset();
-                zongHeTextView.setTextColor(getResources().getColor(R.color.bottom_lable_color));
-                if(zongHeFlag%2==0){
-                    zongHeDownImageView.setImageResource(R.mipmap.down_red_sort);
-                }else{
-                    zongHeDownImageView.setImageResource(R.mipmap.up_red_sort);
-                }
-                zongHeFlag++;
+            case R.id.text_zong_he_sort_search_result://综合
+                zongHeClickChuLi();
                 break;
-            case R.id.text_xin_pin_sort://新品
-                reset();
-                xinPinTextView.setTextColor(getResources().getColor(R.color.bottom_lable_color));
+            case R.id.text_xin_pin_sort_search_result://新品
+                XinPinClickChuLi();
                 break;
-            case R.id.text_xiao_liang_sort://销量
-                reset();
-                xiaoLiangTextView.setTextColor(getResources().getColor(R.color.bottom_lable_color));
+            case R.id.text_xiao_liang_sort_search_result://销量
+                xiaoLiangClickChuLi();
                 break;
-            case R.id.text_price_sort://价格
-                reset();
-                priceTextView.setTextColor(getResources().getColor(R.color.bottom_lable_color));
-                if(priceFlag%2==0){
-                    priceDownImageView.setImageResource(R.mipmap.down_red_sort);
-                }else{
-                    priceDownImageView.setImageResource(R.mipmap.up_red_sort);
-                }
-                priceFlag++;
+            case R.id.text_price_sort_search_result://价格
+                priceClickChuLi();
                 break;
-            case R.id.img_display_style_sort://展示样式
-                count++;
-                if(count%3==KA_PIAN){
-                    displayYangShiImageView.setBackgroundResource(R.mipmap.kapian);
-                    productListViewSmall.setVisibility(View.GONE);
-                    productListViewBig.setVisibility(View.GONE);
-                    productGridView.setVisibility(View.VISIBLE);
-                    ShopProductGridAdapter shopProductGridAdapter=new ShopProductGridAdapter(this,goods);
-                    productGridView.setAdapter(shopProductGridAdapter);
-                    productGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                        @Override
-                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                            //Toast.makeText(ShopProdcutSortActivity.this,"点击了"+position,Toast.LENGTH_SHORT).show();
-                            Intent gridIntent=new Intent(GoodSearchResultActivity.this, ProductDetailActivity.class);
-                            gridIntent.putExtra(MyConstant.GOOD_KEY,goods.get(position));
-                            startActivity(gridIntent);
-                        }
-                    });
-                }else if(count%3==LIST_SMALL){
-                    displayYangShiImageView.setBackgroundResource(R.mipmap.liebiao);
-                    productGridView.setVisibility(View.GONE);
-                    productListViewBig.setVisibility(View.GONE);
-                    productListViewSmall.setVisibility(View.VISIBLE);
-                    ShopProductSmallListAdapter shopProductSmallListAdapter=new ShopProductSmallListAdapter(this,goods);
-                    productListViewSmall.setAdapter(shopProductSmallListAdapter);
-                    productListViewSmall.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                        @Override
-                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                            //Toast.makeText(ShopProdcutSortActivity.this,"点击了"+position,Toast.LENGTH_SHORT).show();
-                            Intent smallIntent=new Intent(GoodSearchResultActivity.this, ProductDetailActivity.class);
-                            smallIntent.putExtra(MyConstant.GOOD_KEY,goods.get(position));
-                            startActivity(smallIntent);
-                        }
-                    });
-                }else if(count%3==LIST_BIG){
-                    displayYangShiImageView.setBackgroundResource(R.mipmap.fangxing);
-                    productGridView.setVisibility(View.GONE);
-                    productListViewSmall.setVisibility(View.GONE);
-                    productListViewBig.setVisibility(View.VISIBLE);
-                    ShopProductBigListAdapter shopProductBigListAdapter=new ShopProductBigListAdapter(this,goods);
-                    productListViewBig.setAdapter(shopProductBigListAdapter);
-                    productListViewBig.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                        @Override
-                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                            //Toast.makeText(ShopProdcutSortActivity.this,"点击了"+position,Toast.LENGTH_SHORT).show();
-                            Intent bigIntent=new Intent(GoodSearchResultActivity.this, ProductDetailActivity.class);
-                            bigIntent.putExtra(MyConstant.GOOD_KEY,goods.get(position));
-                            startActivity(bigIntent);
-                        }
-                    });
-                }
+            case R.id.img_display_style_sort_search_result://展示样式
+                dispalyClickChuLi();
                 break;
         }
+    }
+
+
+    /**
+     * 展示样式的点击事件处理
+     */
+    private void dispalyClickChuLi() {
+        count++;
+        if (count % 3 == KA_PIAN) {
+            displayYangShiImageView.setBackgroundResource(R.mipmap.kapian);
+            productListViewSmall.setVisibility(View.GONE);
+            productListViewBig.setVisibility(View.GONE);
+            productGridView.setVisibility(View.VISIBLE);
+
+            if (zongHeTextView.getCurrentTextColor() == getResources().getColor(R.color.bottom_lable_color)//综合红色向下
+                    && zongHeFlag % 2 == 0) {
+                gridAdapter.notifyDataSetChanged();
+
+            } else if (zongHeTextView.getCurrentTextColor() == getResources().getColor(R.color.bottom_lable_color)//综合红色向上
+                    && zongHeFlag % 2 == 1) {
+                gridAdapter.notifyDataSetChanged();
+
+            } else if (priceTextView.getCurrentTextColor() == getResources().getColor(R.color.bottom_lable_color)//价格红色向下
+                    && priceFlag % 2 == 0) {
+
+                gridAdapter.notifyDataSetChanged();
+
+            } else if (priceTextView.getCurrentTextColor() == getResources().getColor(R.color.bottom_lable_color)//价格红色向上
+                    && priceFlag % 2 == 1) {
+
+                gridAdapter.notifyDataSetChanged();
+
+            } else if (xinPinTextView.getCurrentTextColor() == getResources().getColor(R.color.bottom_lable_color)) {//新品红色
+
+                gridAdapter.notifyDataSetChanged();
+
+            } else if (xiaoLiangTextView.getCurrentTextColor() == getResources().getColor(R.color.bottom_lable_color)) {//销量红色
+
+                gridAdapter.notifyDataSetChanged();
+            }
+
+
+        } else if (count % 3 == LIST_SMALL) {
+            displayYangShiImageView.setBackgroundResource(R.mipmap.liebiao);
+            productGridView.setVisibility(View.GONE);
+            productListViewBig.setVisibility(View.GONE);
+            productListViewSmall.setVisibility(View.VISIBLE);
+
+            if (zongHeTextView.getCurrentTextColor() == getResources().getColor(R.color.bottom_lable_color)//综合红色向下
+                    && zongHeFlag % 2 == 0) {
+                smallListGoods.clear();
+                smallListGoods.addAll(gridGoods);
+                smallListAdapter.notifyDataSetChanged();
+
+            } else if (zongHeTextView.getCurrentTextColor() == getResources().getColor(R.color.bottom_lable_color)//综合红色向上
+                    && zongHeFlag % 2 == 1) {
+                smallListGoods.clear();
+                smallListGoods.addAll(gridGoods);
+                smallListAdapter.notifyDataSetChanged();
+
+            } else if (priceTextView.getCurrentTextColor() == getResources().getColor(R.color.bottom_lable_color)//价格红色向下
+                    && priceFlag % 2 == 0) {
+                smallListGoods.clear();
+                smallListGoods.addAll(gridGoods);
+                smallListAdapter.notifyDataSetChanged();
+
+            } else if (priceTextView.getCurrentTextColor() == getResources().getColor(R.color.bottom_lable_color)//价格红色向上
+                    && priceFlag % 2 == 1) {
+                smallListGoods.clear();
+                smallListGoods.addAll(gridGoods);
+                smallListAdapter.notifyDataSetChanged();
+
+            } else if (xinPinTextView.getCurrentTextColor() == getResources().getColor(R.color.bottom_lable_color)) {//新品红色
+                smallListGoods.clear();
+                smallListGoods.addAll(gridGoods);
+                smallListAdapter.notifyDataSetChanged();
+
+            } else if (xiaoLiangTextView.getCurrentTextColor() == getResources().getColor(R.color.bottom_lable_color)) {//销量红色
+                smallListGoods.clear();
+                smallListGoods.addAll(gridGoods);
+                smallListAdapter.notifyDataSetChanged();
+            }
+
+
+        } else if (count % 3 == LIST_BIG) {
+            displayYangShiImageView.setBackgroundResource(R.mipmap.fangxing);
+            productGridView.setVisibility(View.GONE);
+            productListViewSmall.setVisibility(View.GONE);
+            productListViewBig.setVisibility(View.VISIBLE);
+
+            if (zongHeTextView.getCurrentTextColor() == getResources().getColor(R.color.bottom_lable_color)//综合红色向下
+                    && zongHeFlag % 2 == 0) {
+                bigListGoods.clear();
+                bigListGoods.addAll(gridGoods);
+                bigListAdapter.notifyDataSetChanged();
+
+            } else if (zongHeTextView.getCurrentTextColor() == getResources().getColor(R.color.bottom_lable_color)//综合红色向上
+                    && zongHeFlag % 2 == 1) {
+                bigListGoods.clear();
+                bigListGoods.addAll(gridGoods);
+                bigListAdapter.notifyDataSetChanged();
+
+            } else if (priceTextView.getCurrentTextColor() == getResources().getColor(R.color.bottom_lable_color)//价格红色向下
+                    && priceFlag % 2 == 0) {
+                bigListGoods.clear();
+                bigListGoods.addAll(gridGoods);
+                bigListAdapter.notifyDataSetChanged();
+
+            } else if (priceTextView.getCurrentTextColor() == getResources().getColor(R.color.bottom_lable_color)//价格红色向上
+                    && priceFlag % 2 == 1) {
+                bigListGoods.clear();
+                bigListGoods.addAll(gridGoods);
+                bigListAdapter.notifyDataSetChanged();
+
+            } else if (xinPinTextView.getCurrentTextColor() == getResources().getColor(R.color.bottom_lable_color)) {//新品红色
+                bigListGoods.clear();
+                bigListGoods.addAll(gridGoods);
+                bigListAdapter.notifyDataSetChanged();
+
+            } else if (xiaoLiangTextView.getCurrentTextColor() == getResources().getColor(R.color.bottom_lable_color)) {//销量红色
+                bigListGoods.clear();
+                bigListGoods.addAll(gridGoods);
+                bigListAdapter.notifyDataSetChanged();
+            }
+
+        }
+    }
+
+
+    /**
+     * 价格的点击事件处理
+     */
+    private void priceClickChuLi() {
+        reset();
+        priceTextView.setTextColor(getResources().getColor(R.color.bottom_lable_color));
+        if (priceFlag % 2 == 0) {
+            priceDownImageView.setImageResource(R.mipmap.down_red_sort);
+            if (count % 3 == KA_PIAN) {
+                gridGoods.clear();
+                getDataFromIntenet(GRID_VIEW_FLAG, searchContent, "price_desc", "1", LOAD_COUNT_ONCE_STR);
+            } else if (count % 3 == LIST_SMALL) {
+                smallListGoods.clear();
+                getDataFromIntenet(SMALL_LIST_VIEW_FLAG, searchContent, "price_desc", "1", LOAD_COUNT_ONCE_STR);
+            } else if (count % 3 == LIST_BIG) {
+                bigListGoods.clear();
+                getDataFromIntenet(BIG_LIST_VIEW_FLAG, searchContent, "price_desc", "1", LOAD_COUNT_ONCE_STR);
+            }
+        } else {
+            priceDownImageView.setImageResource(R.mipmap.up_red_sort);
+            if (count % 3 == KA_PIAN) {
+                gridGoods.clear();
+                getDataFromIntenet(GRID_VIEW_FLAG, searchContent, "price_asc", "1", LOAD_COUNT_ONCE_STR);
+            } else if (count % 3 == LIST_SMALL) {
+                smallListGoods.clear();
+                getDataFromIntenet(SMALL_LIST_VIEW_FLAG, searchContent, "price_asc", "1", LOAD_COUNT_ONCE_STR);
+            } else if (count % 3 == LIST_BIG) {
+                bigListGoods.clear();
+                getDataFromIntenet(BIG_LIST_VIEW_FLAG, searchContent, "price_asc", "1", LOAD_COUNT_ONCE_STR);
+            }
+        }
+        priceFlag++;
+    }
+
+
+    /**
+     * 销量的点击事件处理
+     */
+    private void xiaoLiangClickChuLi() {
+        reset();
+        xiaoLiangTextView.setTextColor(getResources().getColor(R.color.bottom_lable_color));
+        if (count % 3 == KA_PIAN) {
+            gridGoods.clear();
+            getDataFromIntenet(GRID_VIEW_FLAG, searchContent, "sales_volume_desc", "1", LOAD_COUNT_ONCE_STR);
+        } else if (count % 3 == LIST_SMALL) {
+            smallListGoods.clear();
+            getDataFromIntenet(SMALL_LIST_VIEW_FLAG, searchContent, "sales_volume_desc", "1", LOAD_COUNT_ONCE_STR);
+        } else if (count % 3 == LIST_BIG) {
+            bigListGoods.clear();
+            getDataFromIntenet(BIG_LIST_VIEW_FLAG, searchContent, "sales_volume_desc", "1", LOAD_COUNT_ONCE_STR);
+        }
+    }
+
+
+    /**
+     * 新品的点击事件处理
+     */
+    private void XinPinClickChuLi() {
+        reset();
+        xinPinTextView.setTextColor(getResources().getColor(R.color.bottom_lable_color));
+        if (count % 3 == KA_PIAN) {
+            gridGoods.clear();
+            getDataFromIntenet(GRID_VIEW_FLAG, searchContent, "is_hot", "1", LOAD_COUNT_ONCE_STR);
+        } else if (count % 3 == LIST_SMALL) {
+            smallListGoods.clear();
+            getDataFromIntenet(SMALL_LIST_VIEW_FLAG, searchContent, "is_hot", "1", LOAD_COUNT_ONCE_STR);
+        } else if (count % 3 == LIST_BIG) {
+            bigListGoods.clear();
+            getDataFromIntenet(BIG_LIST_VIEW_FLAG, searchContent, "is_hot", "1", LOAD_COUNT_ONCE_STR);
+        }
+    }
+
+
+    /**
+     * 综合点击事件处理
+     */
+    private void zongHeClickChuLi() {
+        reset();
+        zongHeTextView.setTextColor(getResources().getColor(R.color.bottom_lable_color));
+        if (zongHeFlag % 2 == 0) {
+            zongHeDownImageView.setImageResource(R.mipmap.down_red_sort);
+            if (count % 3 == KA_PIAN) {
+                gridGoods.clear();
+                getDataFromIntenet(GRID_VIEW_FLAG, searchContent, "id_desc", "1", LOAD_COUNT_ONCE_STR);
+            } else if (count % 3 == LIST_SMALL) {
+                smallListGoods.clear();
+                getDataFromIntenet(SMALL_LIST_VIEW_FLAG, searchContent, "id_desc", "1", LOAD_COUNT_ONCE_STR);
+            } else if (count % 3 == LIST_BIG) {
+                bigListGoods.clear();
+                getDataFromIntenet(BIG_LIST_VIEW_FLAG, searchContent, "id_desc", "1", LOAD_COUNT_ONCE_STR);
+            }
+        } else {
+            zongHeDownImageView.setImageResource(R.mipmap.up_red_sort);
+            if (count % 3 == KA_PIAN) {
+                gridGoods.clear();
+                getDataFromIntenet(GRID_VIEW_FLAG, searchContent, "id_asc", "1", LOAD_COUNT_ONCE_STR);
+            } else if (count % 3 == LIST_SMALL) {
+                smallListGoods.clear();
+                getDataFromIntenet(SMALL_LIST_VIEW_FLAG, searchContent, "id_asc", "1", LOAD_COUNT_ONCE_STR);
+            } else if (count % 3 == LIST_BIG) {
+                bigListGoods.clear();
+                getDataFromIntenet(BIG_LIST_VIEW_FLAG, searchContent, "id_asc", "1", LOAD_COUNT_ONCE_STR);
+            }
+        }
+        zongHeFlag++;
     }
 
     /**
      * 将标签的颜色设置成初始状态
      */
-    public void reset(){
+    public void reset() {
         zongHeTextView.setTextColor(getResources().getColor(R.color.black));
         xinPinTextView.setTextColor(getResources().getColor(R.color.black));
         xiaoLiangTextView.setTextColor(getResources().getColor(R.color.black));
         priceTextView.setTextColor(getResources().getColor(R.color.black));
         zongHeDownImageView.setImageResource(R.mipmap.down_black_sort);
         priceDownImageView.setImageResource(R.mipmap.down_black_sort);
+        loadCount=2;//将loadcount设置为初始值
     }
-
 
 
     /**
      * 自定义的刷新监听器
      */
     class MyOnrefreshListener implements PullToRefreshBase.OnRefreshListener {
-        private int count=1;//记录向上加载的次数
 
         @Override
         public void onRefresh(PullToRefreshBase refreshView) {
-            SimpleDateFormat simpleDateFormat=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            String formatedDate=simpleDateFormat.format(new Date());
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            String formatedDate = simpleDateFormat.format(new Date());
             // Update the LastUpdatedLabel
             refreshView.getLoadingLayoutProxy().setLastUpdatedLabel(formatedDate);
-            PullToRefreshBase.Mode mode= refreshView.getCurrentMode();//注意是currentmode，不是mode
+            PullToRefreshBase.Mode mode = refreshView.getCurrentMode();//注意是currentmode，不是mode
 
-            if(mode== PullToRefreshBase.Mode.PULL_FROM_START){      //下拉刷新
+            if (mode == PullToRefreshBase.Mode.PULL_FROM_START) {      //下拉刷新
                 refreshView.getLoadingLayoutProxy().setPullLabel("下拉可以刷新");
                 refreshView.getLoadingLayoutProxy().setReleaseLabel("释放刷新");
                 refreshView.getLoadingLayoutProxy().setRefreshingLabel("正在刷新...");
 
-            }else if(mode== PullToRefreshBase.Mode.PULL_FROM_END){      //向上加载
+            } else if (mode == PullToRefreshBase.Mode.PULL_FROM_END) {      //向上加载
                 refreshView.getLoadingLayoutProxy().setRefreshingLabel("正在加载...");
                 refreshView.getLoadingLayoutProxy().setPullLabel("上拉可以加载");
                 refreshView.getLoadingLayoutProxy().setReleaseLabel("释放刷新");
-                getDataFromIntenet(GRID_VIEW_FLAG,searchContent,"id_asc",20*count+1+"",20*(++count)+"");
 
-                if(zongHeTextView.getCurrentTextColor()==getResources().getColor(R.color.bottom_lable_color)){
+                if (count % 3 == KA_PIAN) {
+                    if (zongHeTextView.getCurrentTextColor() == getResources().getColor(R.color.bottom_lable_color)//综合红色向下
+                            && zongHeFlag % 2 == 1) {
+                        getDataFromIntenet(GRID_VIEW_FLAG, searchContent, "id_desc", loadCount + "", LOAD_COUNT_ONCE_STR);
 
+                    } else if (zongHeTextView.getCurrentTextColor() == getResources().getColor(R.color.bottom_lable_color)//综合红色向上
+                            && zongHeFlag % 2 == 0) {
+                        getDataFromIntenet(GRID_VIEW_FLAG, searchContent, "id_asc", loadCount+ "", LOAD_COUNT_ONCE_STR);
+                    } else if (priceTextView.getCurrentTextColor() == getResources().getColor(R.color.bottom_lable_color)//价格红色向下
+                            && priceFlag % 2 == 1) {
+                        getDataFromIntenet(GRID_VIEW_FLAG, searchContent, "price_desc", loadCount + "", LOAD_COUNT_ONCE_STR);
+                    } else if (priceTextView.getCurrentTextColor() == getResources().getColor(R.color.bottom_lable_color)//价格红色向上
+                            && priceFlag % 2 == 0) {
+                        getDataFromIntenet(GRID_VIEW_FLAG, searchContent, "price_asc", loadCount  + "", LOAD_COUNT_ONCE_STR);
+                    } else if (xinPinTextView.getCurrentTextColor() == getResources().getColor(R.color.bottom_lable_color)) {//新品红色
+                        getDataFromIntenet(GRID_VIEW_FLAG, searchContent, "is_hot", loadCount +  "", LOAD_COUNT_ONCE_STR);
+                    } else if (xiaoLiangTextView.getCurrentTextColor() == getResources().getColor(R.color.bottom_lable_color)) {//销量红色
+                        getDataFromIntenet(GRID_VIEW_FLAG, searchContent, "sales_volume_desc", loadCount  + "", LOAD_COUNT_ONCE_STR);
+                    }
+                } else if (count % 3 == LIST_SMALL) {
+                    if (zongHeTextView.getCurrentTextColor() == getResources().getColor(R.color.bottom_lable_color)//综合红色向下
+                            && zongHeFlag % 2 == 1) {
+                        getDataFromIntenet(SMALL_LIST_VIEW_FLAG, searchContent, "id_desc", loadCount  + "",LOAD_COUNT_ONCE_STR);
+
+                    } else if (zongHeTextView.getCurrentTextColor() == getResources().getColor(R.color.bottom_lable_color)//综合红色向上
+                            && zongHeFlag % 2 == 0) {
+                        getDataFromIntenet(SMALL_LIST_VIEW_FLAG, searchContent, "id_asc", loadCount  + "", LOAD_COUNT_ONCE_STR);
+                    } else if (priceTextView.getCurrentTextColor() == getResources().getColor(R.color.bottom_lable_color)//价格红色向下
+                            && priceFlag % 2 == 1) {
+                        getDataFromIntenet(SMALL_LIST_VIEW_FLAG, searchContent, "price_desc", loadCount  + "", LOAD_COUNT_ONCE_STR);
+                    } else if (priceTextView.getCurrentTextColor() == getResources().getColor(R.color.bottom_lable_color)//价格红色向上
+                            && priceFlag % 2 == 0) {
+                        getDataFromIntenet(SMALL_LIST_VIEW_FLAG, searchContent, "price_asc", loadCount + "", LOAD_COUNT_ONCE_STR);
+                    } else if (xinPinTextView.getCurrentTextColor() == getResources().getColor(R.color.bottom_lable_color)) {//新品红色
+                        getDataFromIntenet(SMALL_LIST_VIEW_FLAG, searchContent, "is_hot", loadCount  + "", LOAD_COUNT_ONCE_STR);
+                    } else if (xiaoLiangTextView.getCurrentTextColor() == getResources().getColor(R.color.bottom_lable_color)) {//销量红色
+                        getDataFromIntenet(SMALL_LIST_VIEW_FLAG, searchContent, "sales_volume_desc", loadCount + "", LOAD_COUNT_ONCE_STR);
+                    }
+                } else if (count % 3 == LIST_BIG) {
+                    if (zongHeTextView.getCurrentTextColor() == getResources().getColor(R.color.bottom_lable_color)//综合红色向下
+                            && zongHeFlag % 2 == 1) {
+                        getDataFromIntenet(BIG_LIST_VIEW_FLAG, searchContent, "id_desc", loadCount+ "", LOAD_COUNT_ONCE_STR);
+
+                    } else if (zongHeTextView.getCurrentTextColor() == getResources().getColor(R.color.bottom_lable_color)//综合红色向上
+                            && zongHeFlag % 2 == 0) {
+                        getDataFromIntenet(BIG_LIST_VIEW_FLAG, searchContent, "id_asc", loadCount  + "", LOAD_COUNT_ONCE_STR);
+                    } else if (priceTextView.getCurrentTextColor() == getResources().getColor(R.color.bottom_lable_color)//价格红色向下
+                            && priceFlag % 2 == 1) {
+                        getDataFromIntenet(BIG_LIST_VIEW_FLAG, searchContent, "price_desc", loadCount  + "", LOAD_COUNT_ONCE_STR);
+                    } else if (priceTextView.getCurrentTextColor() == getResources().getColor(R.color.bottom_lable_color)//价格红色向上
+                            && priceFlag % 2 == 0) {
+                        getDataFromIntenet(BIG_LIST_VIEW_FLAG, searchContent, "price_asc", loadCount  + "",LOAD_COUNT_ONCE_STR);
+                    } else if (xinPinTextView.getCurrentTextColor() == getResources().getColor(R.color.bottom_lable_color)) {//新品红色
+                        getDataFromIntenet(BIG_LIST_VIEW_FLAG, searchContent, "is_hot", loadCount  + "", LOAD_COUNT_ONCE_STR);
+                    } else if (xiaoLiangTextView.getCurrentTextColor() == getResources().getColor(R.color.bottom_lable_color)) {//销量红色
+                        getDataFromIntenet(BIG_LIST_VIEW_FLAG, searchContent, "sales_volume_desc", loadCount  + "", LOAD_COUNT_ONCE_STR);
+                    }
                 }
+
             }
+            loadCount++;
         }
     }
 
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent intent=new Intent();
+        setResult(RESULT_OK,intent);
+        finish();
+    }
 }

@@ -30,11 +30,10 @@ import com.example.asus_cp.dongmanbuy.activity.personal_center.fund_manager.Fund
 import com.example.asus_cp.dongmanbuy.activity.personal_center.fund_manager.HongBaoListActivity;
 import com.example.asus_cp.dongmanbuy.activity.product_detail.ProductDetailActivity;
 import com.example.asus_cp.dongmanbuy.adapter.LiuLanJiLuAdapter;
-import com.example.asus_cp.dongmanbuy.adapter.ShopStreetShopContentAdapter;
 import com.example.asus_cp.dongmanbuy.constant.DBConstant;
 import com.example.asus_cp.dongmanbuy.constant.MyConstant;
 import com.example.asus_cp.dongmanbuy.db.CursorHandler;
-import com.example.asus_cp.dongmanbuy.db.DBOperateHelper;
+import com.example.asus_cp.dongmanbuy.db.BookDBOperateHelper;
 import com.example.asus_cp.dongmanbuy.model.Good;
 import com.example.asus_cp.dongmanbuy.model.User;
 import com.example.asus_cp.dongmanbuy.util.ImageLoadHelper;
@@ -103,7 +102,7 @@ public class PersonalCenterActivity extends Activity implements View.OnClickList
 
     private User passUser;//传递到设置资料界面
 
-    private DBOperateHelper dbHelper;
+    private BookDBOperateHelper dbHelper;
 
     private LiuLanJiLuAdapter liuLanJiLuAdapter;
     private List<Good> goods;
@@ -121,7 +120,7 @@ public class PersonalCenterActivity extends Activity implements View.OnClickList
      * 初始化的方法
      */
     private void init() {
-        dbHelper=new DBOperateHelper();
+        dbHelper=new BookDBOperateHelper();
         initView();
         requestQueue= MyApplication.getRequestQueue();
         helper=new ImageLoadHelper();

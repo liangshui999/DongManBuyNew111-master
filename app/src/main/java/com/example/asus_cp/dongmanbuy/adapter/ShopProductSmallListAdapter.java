@@ -72,7 +72,7 @@ public class ShopProductSmallListAdapter  extends BaseAdapter{
         ImageLoader imageLoader=helper.getImageLoader();
         ImageLoader.ImageListener listener=imageLoader.getImageListener(viewHolder.picImageView,
                 R.mipmap.yu_jia_zai,R.mipmap.yu_jia_zai);
-        imageLoader.get(good.getGoodsImg(), listener, 200, 200);
+        imageLoader.get(good.getGoodsThumb(), listener, 200, 200);
 
         viewHolder.nameTextView.setText(good.getGoodName());
         viewHolder.kuCunTextView.setText(good.getGoodsNumber());

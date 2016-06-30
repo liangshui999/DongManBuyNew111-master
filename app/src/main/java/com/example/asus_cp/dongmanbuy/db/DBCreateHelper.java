@@ -34,6 +34,7 @@ public class DBCreateHelper extends SQLiteOpenHelper{
     public void onCreate(SQLiteDatabase db) {
         MyLog.d(tag,"建表语句是："+DBConstant.Good.CREATE_TABLE);
         db.execSQL(DBConstant.Good.CREATE_TABLE);
+        db.execSQL(DBConstant.SearchRecord.CREATE_TABLE);
     }
 
     @Override

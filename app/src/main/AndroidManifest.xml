@@ -174,8 +174,11 @@
         <!--搜索的actiity-->
         <activity android:name=".activity.search.SearchActivity"/>
 
-        <!--搜索结果展示的activity-->
+        <!--商品搜索结果展示的activity-->
         <activity android:name=".activity.search.GoodSearchResultActivity"/>
+
+        <!--店铺搜索结果的展示页-->
+        <activity android:name=".activity.search.ShopSearchResultActivity"/>
 
         <!--搜索的activity,因为必须按照ui做，此类作废-->
         <activity android:name=".activity.MySearchActivity">

@@ -20,8 +20,9 @@
         <Spinner
             android:id="@+id/spinner_search"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:visibility="visible">
+            android:layout_height="40dp"
+            android:visibility="visible"
+            android:layout_gravity="center">
         </Spinner>
 
         <EditText
@@ -30,7 +31,8 @@
             android:layout_weight="1"
             android:layout_height="wrap_content"
             android:hint="@string/search_hint"
-            android:textSize="14sp"/>
+            android:textSize="14sp"
+            android:layout_gravity="center"/>
         <TextView
             android:id="@+id/text_search"
             android:clickable="true"
@@ -39,7 +41,8 @@
             android:text="@string/search"
             android:background="@color/bottom_lable_color"
             android:textColor="@color/white_my"
-            android:padding="8dp"/>
+            android:padding="8dp"
+            android:layout_gravity="center"/>
     </LinearLayout>
 
 

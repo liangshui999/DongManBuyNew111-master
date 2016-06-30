@@ -14,13 +14,13 @@ import java.util.List;
  * 数据库操作的帮助类
  * Created by asus-cp on 2016-06-28.
  */
-public class DBOperateHelper {
+public class BookDBOperateHelper {
 
-    private String tag="DBOperateHelper";
+    private String tag="BookDBOperateHelper";
 
     private DBCreateHelper helper;
 
-    public DBOperateHelper() {
+    public BookDBOperateHelper() {
         helper=DBCreateHelper.getDBCreateHelper();
     }
 

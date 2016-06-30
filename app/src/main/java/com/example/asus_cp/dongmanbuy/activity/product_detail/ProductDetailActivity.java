@@ -39,7 +39,7 @@ import com.example.asus_cp.dongmanbuy.activity.gou_wu.ShoppingCarActivity;
 import com.example.asus_cp.dongmanbuy.activity.login.LoginActivity;
 import com.example.asus_cp.dongmanbuy.constant.MyConstant;
 import com.example.asus_cp.dongmanbuy.db.CursorHandler;
-import com.example.asus_cp.dongmanbuy.db.DBOperateHelper;
+import com.example.asus_cp.dongmanbuy.db.BookDBOperateHelper;
 import com.example.asus_cp.dongmanbuy.fragment.HomeFragment;
 import com.example.asus_cp.dongmanbuy.model.Comment;
 import com.example.asus_cp.dongmanbuy.model.Good;
@@ -153,7 +153,7 @@ public class ProductDetailActivity extends Activity implements View.OnClickListe
     private int shoppingCarCount;//购物车里面的商品数量，等于选中的商品数量乘以购物车的点击次数
     private int shoppingCarClickCount;//购物车的点击次数
 
-    private DBOperateHelper dbHelper;//数据库操作的帮助类
+    private BookDBOperateHelper dbHelper;//数据库操作的帮助类
 
 
 
@@ -306,7 +306,7 @@ public class ProductDetailActivity extends Activity implements View.OnClickListe
         SharedPreferences sharedPreferences=getSharedPreferences(MyConstant.USER_SHAREPREFRENCE_NAME,MODE_APPEND);
         String uid=sharedPreferences.getString(MyConstant.UID_KEY, null);
         if(uid !=null && !uid.isEmpty()){
-            dbHelper=new DBOperateHelper();
+            dbHelper=new BookDBOperateHelper();
             Object obj=dbHelper.queryGoodById(good.getGoodId(), new CursorHandler() {
                 @Override
                 public Object handleCursor(Cursor cursor) {
