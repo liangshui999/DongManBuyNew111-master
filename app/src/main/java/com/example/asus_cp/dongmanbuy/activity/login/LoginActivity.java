@@ -150,6 +150,10 @@ public class LoginActivity extends Activity implements View.OnClickListener{
                                         finish();
                                     }else if("changPassword".equals(whoStartMe)){//从个人中心的修改密码跳过来的
                                         finish();
+                                    }else if("homeFragment".equals(whoStartMe)){//从首页碎片跳转过来的
+                                        Intent homeIntent=new Intent();
+                                        setResult(RESULT_OK,homeIntent);
+                                        finish();
                                     }
                                 }else {
                                     Toast.makeText(LoginActivity.this,"登录失败",Toast.LENGTH_SHORT).show();

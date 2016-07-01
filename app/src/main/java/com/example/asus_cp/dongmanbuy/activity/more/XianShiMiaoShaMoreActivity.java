@@ -1,8 +1,11 @@
-package com.example.asus_cp.dongmanbuy.activity.search;
+package com.example.asus_cp.dongmanbuy.activity.more;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.os.Message;
 import android.view.View;
 import android.view.Window;
 import android.widget.AdapterView;
@@ -22,7 +25,9 @@ import com.example.asus_cp.dongmanbuy.activity.product_detail.ProductDetailActiv
 import com.example.asus_cp.dongmanbuy.adapter.ShopProductBigListAdapter;
 import com.example.asus_cp.dongmanbuy.adapter.ShopProductGridAdapter;
 import com.example.asus_cp.dongmanbuy.adapter.ShopProductSmallListAdapter;
+import com.example.asus_cp.dongmanbuy.adapter.XianShiAdapter;
 import com.example.asus_cp.dongmanbuy.constant.MyConstant;
+import com.example.asus_cp.dongmanbuy.customview.MyGridView;
 import com.example.asus_cp.dongmanbuy.db.SearchRecordDBOperateHelper;
 import com.example.asus_cp.dongmanbuy.model.Good;
 import com.example.asus_cp.dongmanbuy.util.ImageLoadHelper;
@@ -37,6 +42,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -45,13 +53,12 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * 搜索结果展示的界面
- * Created by asus-cp on 2016-06-29.
+ * 限时秒杀的更多界面
+ * Created by asus-cp on 2016-07-01.
  */
-public class GoodSearchResultActivity extends Activity implements View.OnClickListener {
+public class XianShiMiaoShaMoreActivity extends Activity implements View.OnClickListener{
 
-    private String tag = "GoodSearchResultActivity";
-
+    private String tag="XianShiMiaoShaMoreActivity";
     private ImageView daoHangImageView;//导航的imageview
     private ImageView searchImagView;//搜索框
     private TextView zongHeTextView;//综合
@@ -88,6 +95,8 @@ public class GoodSearchResultActivity extends Activity implements View.OnClickLi
     private String searchContent;//搜索的内容
 
     private String searchUrl = "http://www.zmobuy.com/PHP/?url=/search";//搜索的接口
+    private String xianShiMiaoShaUrl="http://www.zmobuy.com/PHP/index.php?url=/home/grab";//限时秒杀的接口
+
     private RequestQueue requestQueue;
     private ImageLoadHelper helper;
 
@@ -107,14 +116,13 @@ public class GoodSearchResultActivity extends Activity implements View.OnClickLi
 
     private int loadCount = 2;//记录向上加载的次数
 
-    private SearchRecordDBOperateHelper dbHelper;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
-        setContentView(R.layout.search_result_activity_layout);
+        setContentView(R.layout.xian_shi_miao_sha_more_activity_layout);
         init();
     }
 
@@ -123,16 +131,7 @@ public class GoodSearchResultActivity extends Activity implements View.OnClickLi
      */
     private void init() {
         initView();
-
-        searchContent = getIntent().getStringExtra(MyConstant.SEARCH_CONTENT_KEY);
-        dbHelper=new SearchRecordDBOperateHelper();
-        if(dbHelper.queryByKeyWord(searchContent)){
-            dbHelper.deleteByKeyWord(searchContent);
-            dbHelper.insert(searchContent);
-        }else{
-            dbHelper.insert(searchContent);
-        }
-        MyLog.d(tag, "传递过来的数据是：" + searchContent);
+        searchContent="";
         requestQueue = MyApplication.getRequestQueue();
         helper = new ImageLoadHelper();
 
@@ -140,9 +139,9 @@ public class GoodSearchResultActivity extends Activity implements View.OnClickLi
         smallListGoods = new ArrayList<Good>();
         bigListGoods = new ArrayList<Good>();
 
-        gridAdapter = new ShopProductGridAdapter(GoodSearchResultActivity.this, gridGoods);
-        smallListAdapter = new ShopProductSmallListAdapter(GoodSearchResultActivity.this, smallListGoods);
-        bigListAdapter = new ShopProductBigListAdapter(GoodSearchResultActivity.this, bigListGoods);
+        gridAdapter = new ShopProductGridAdapter(XianShiMiaoShaMoreActivity.this, gridGoods);
+        smallListAdapter = new ShopProductSmallListAdapter(XianShiMiaoShaMoreActivity.this, smallListGoods);
+        bigListAdapter = new ShopProductBigListAdapter(XianShiMiaoShaMoreActivity.this, bigListGoods);
 
         productGridView.setAdapter(gridAdapter);
         productListViewSmall.setAdapter(smallListAdapter);
@@ -157,13 +156,15 @@ public class GoodSearchResultActivity extends Activity implements View.OnClickLi
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 //Toast.makeText(ShopProdcutSortActivity.this,"点击了"+position,Toast.LENGTH_SHORT).show();
-                Intent gridIntent = new Intent(GoodSearchResultActivity.this, ProductDetailActivity.class);
+                Intent gridIntent = new Intent(XianShiMiaoShaMoreActivity.this, ProductDetailActivity.class);
                 gridIntent.putExtra(MyConstant.GOOD_KEY, goods.get(position));
                 startActivity(gridIntent);
             }
         });
 
-        getDataFromIntenet(GRID_VIEW_FLAG, searchContent, "id_asc", "1", LOAD_COUNT_ONCE_STR);
+        //初始化界面的显示,由于接口，只能初始化的时候，显示限时秒杀的商品,之后再跳转就是全部的商品了
+        //getDataFromIntenet(GRID_VIEW_FLAG, searchContent, "id_asc", "1", LOAD_COUNT_ONCE_STR);
+        initJieMian();
 
         //给gridview设置上拉加载的监听事件
         productGridView.setMode(PullToRefreshBase.Mode.PULL_FROM_END);
@@ -188,26 +189,71 @@ public class GoodSearchResultActivity extends Activity implements View.OnClickLi
 
 
     /**
+     * 初始化界面的显示，只有第一次显示限时秒杀的界面
+     */
+    private void initJieMian() {
+        StringRequest xianShiStringRequest=new StringRequest(Request.Method.GET, xianShiMiaoShaUrl, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String s) {
+                MyLog.d(tag, "限时秒杀返回的数据：" + s);
+                final List<Good> goods = new ArrayList<Good>();
+                try {
+                    JSONObject jsonObject = new JSONObject(s);
+                    JSONArray jsonArray = jsonObject.getJSONArray("data");
+                    for (int i = 0; i < jsonArray.length(); i++) {
+                        Good good = new Good();
+                        JSONObject js = jsonArray.getJSONObject(i);
+                        good.setGoodId(js.getString("goods_id"));
+                        good.setGoodsImg(js.getString("goods_img"));
+                        good.setGoodsThumb(js.getString("goods_thumb"));
+                        good.setPromoteEndDate(js.getString("promote_end_date"));
+                        good.setPromotePrice(js.getString("promote_price"));
+                        good.setIsPromote(js.getString("is_promote"));
+                        good.setPromoteStartDate(js.getString("promote_start_date"));
+                        good.setGoodName(JsonHelper.decodeUnicode(js.getString("goods_name")));
+                        good.setMarket_price(js.getString("market_price"));
+                        good.setShopPrice(JsonHelper.decodeUnicode(js.getString("shop_price")));
+                        good.setGoodsNumber(js.getString("goods_number"));
+                        goods.add(good);
+                    }
+                    gridGoods.clear();
+                    gridGoods.addAll(goods);
+                    gridAdapter.notifyDataSetChanged();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+
+            }
+        });
+        requestQueue.add(xianShiStringRequest);
+    }
+
+
+    /**
      * 初始化视图
      */
     private void initView() {
-        daoHangImageView = (ImageView) findViewById(R.id.img_dao_hang_search_result);
-        searchImagView = (ImageView) findViewById(R.id.img_search_search_result);
-        zongHeTextView = (TextView) findViewById(R.id.text_zong_he_sort_search_result);
-        xinPinTextView = (TextView) findViewById(R.id.text_xin_pin_sort_search_result);
-        xiaoLiangTextView = (TextView) findViewById(R.id.text_xiao_liang_sort_search_result);
-        priceTextView = (TextView) findViewById(R.id.text_price_sort_search_result);
-        zongHeDownImageView = (ImageView) findViewById(R.id.img_down_zong_he_sort_search_result);
-        priceDownImageView = (ImageView) findViewById(R.id.img_down_price_sort_search_result);
-        displayYangShiImageView = (ImageView) findViewById(R.id.img_display_style_sort_search_result);
-        productGridView = (PullToRefreshGridView) findViewById(R.id.grid_view_product_sort_search_result);
-        productListViewSmall = (PullToRefreshListView) findViewById(R.id.list_view_product_sort_small_search_result);
-        productListViewBig = (PullToRefreshListView) findViewById(R.id.list_view_product_sort_big_search_result);
-        zongHeLinearLayout= (LinearLayout) findViewById(R.id.ll_zong_he_sort_search_result);
-        xinPinLinearLayout= (LinearLayout) findViewById(R.id.ll_xin_pin_sort_search_result);
-        xiaoLiangLinearLayout= (LinearLayout) findViewById(R.id.ll_xiao_liang_sort_search_result);
-        priceLinearLayout= (LinearLayout) findViewById(R.id.ll_price_sort_search_result);
-        displayLinearLayout= (LinearLayout) findViewById(R.id.ll_display_style_sort_search_result);
+        daoHangImageView = (ImageView) findViewById(R.id.img_dao_hang_xian_shi_miao_sha_more);
+        searchImagView = (ImageView) findViewById(R.id.img_search_xian_shi_miao_sha_more);
+        zongHeTextView = (TextView) findViewById(R.id.text_zong_he_sort_xian_shi_miao_sha_more);
+        xinPinTextView = (TextView) findViewById(R.id.text_xin_pin_sort_xian_shi_miao_sha_more);
+        xiaoLiangTextView = (TextView) findViewById(R.id.text_xiao_liang_sort_xian_shi_miao_sha_more);
+        priceTextView = (TextView) findViewById(R.id.text_price_sort_xian_shi_miao_sha_more);
+        zongHeDownImageView = (ImageView) findViewById(R.id.img_down_zong_he_sort_xian_shi_miao_sha_more);
+        priceDownImageView = (ImageView) findViewById(R.id.img_down_price_sort_xian_shi_miao_sha_more);
+        displayYangShiImageView = (ImageView) findViewById(R.id.img_display_style_sort_xian_shi_miao_sha_more);
+        productGridView = (PullToRefreshGridView) findViewById(R.id.grid_view_product_sort_xian_shi_miao_sha_more);
+        productListViewSmall = (PullToRefreshListView) findViewById(R.id.list_view_product_sort_small_xian_shi_miao_sha_more);
+        productListViewBig = (PullToRefreshListView) findViewById(R.id.list_view_product_sort_big_xian_shi_miao_sha_more);
+        zongHeLinearLayout= (LinearLayout) findViewById(R.id.ll_zong_he_sort_xian_shi_miao_sha_more);
+        xinPinLinearLayout= (LinearLayout) findViewById(R.id.ll_xin_pin_sort_xian_shi_miao_sha_more);
+        xiaoLiangLinearLayout= (LinearLayout) findViewById(R.id.ll_xiao_liang_sort_xian_shi_miao_sha_more);
+        priceLinearLayout= (LinearLayout) findViewById(R.id.ll_price_sort_xian_shi_miao_sha_more);
+        displayLinearLayout= (LinearLayout) findViewById(R.id.ll_display_style_sort_xian_shi_miao_sha_more);
     }
 
 
@@ -223,37 +269,19 @@ public class GoodSearchResultActivity extends Activity implements View.OnClickLi
     private void getDataFromIntenet(final int flag, final String keyWord, final String sortBy, final String start, final String end) {
         StringRequest searchRequest = new StringRequest(Request.Method.POST, searchUrl,
                 new Response.Listener<String>() {
-                    List<Good> temp=new ArrayList<Good>();
                     @Override
                     public void onResponse(String s) {
                         List<Good> goods = parseJson(s);
-                        temp.clear();
                         MyLog.d(tag, "商品数量是：" + goods.size());
                         switch (flag) {
                             case GRID_VIEW_FLAG:
                                 MyLog.d(tag, "网格");
-                                int gridCount=0;
-                                if(gridGoods.size()>0){
-                                    for (int i = 0; i < goods.size(); i++) {
-                                        for (int j = 0; j < gridGoods.size(); j++) {
-                                            if (gridGoods.get(j).getGoodId().equals(goods.get(i).getGoodId())) {
-                                                Toast.makeText(GoodSearchResultActivity.this, "已经是最后一项了", Toast.LENGTH_SHORT).show();
-                                                productGridView.onRefreshComplete();
-                                                break ;
-                                            }else{
-                                                gridCount++;
-                                            }
-                                        }
-                                        if(gridCount==gridGoods.size()){//说明在整个gridgoods里面都没有找到该商品
-                                            temp.add(goods.get(i));
-                                        }
-                                    }
-                                    gridGoods.addAll(temp);
+                                if(goods.size()>1){
+                                    gridGoods.addAll(goods);
                                     gridAdapter.notifyDataSetChanged();
                                     productGridView.onRefreshComplete();
                                 }else{
-                                    gridGoods.addAll(goods);
-                                    gridAdapter.notifyDataSetChanged();
+                                    Toast.makeText(XianShiMiaoShaMoreActivity.this, "已经是最后一项了", Toast.LENGTH_SHORT).show();
                                     productGridView.onRefreshComplete();
                                 }
 
@@ -261,7 +289,7 @@ public class GoodSearchResultActivity extends Activity implements View.OnClickLi
                                     @Override
                                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                                         //Toast.makeText(ShopProdcutSortActivity.this,"点击了"+position,Toast.LENGTH_SHORT).show();
-                                        Intent gridIntent = new Intent(GoodSearchResultActivity.this, ProductDetailActivity.class);
+                                        Intent gridIntent = new Intent(XianShiMiaoShaMoreActivity.this, ProductDetailActivity.class);
                                         gridIntent.putExtra(MyConstant.GOOD_KEY, gridGoods.get(position));
                                         startActivity(gridIntent);
                                     }
@@ -269,28 +297,12 @@ public class GoodSearchResultActivity extends Activity implements View.OnClickLi
                                 break;
                             case SMALL_LIST_VIEW_FLAG:
                                 MyLog.d(tag, "小列表");
-                                int smallCount=0;
-                                if(smallListGoods.size()>0){
-                                    for (int i = 0; i < goods.size(); i++) {
-                                        for (int j = 0; j < smallListGoods.size(); j++) {
-                                            if (smallListGoods.get(j).getGoodId().equals(goods.get(i).getGoodId())) {
-                                                Toast.makeText(GoodSearchResultActivity.this, "已经是最后一项了", Toast.LENGTH_SHORT).show();
-                                                productListViewSmall.onRefreshComplete();
-                                                break ;
-                                            }else{
-                                                smallCount++;
-                                            }
-                                        }
-                                        if(smallCount==smallListGoods.size()){//说明在整个gridgoods里面都没有找到该商品
-                                            temp.add(goods.get(i));
-                                        }
-                                    }
-                                    smallListGoods.addAll(temp);
+                                if(goods.size()>1){
+                                    smallListGoods.addAll(goods);
                                     smallListAdapter.notifyDataSetChanged();
                                     productListViewSmall.onRefreshComplete();
                                 }else{
-                                    smallListGoods.addAll(goods);
-                                    smallListAdapter.notifyDataSetChanged();
+                                    Toast.makeText(XianShiMiaoShaMoreActivity.this,"已经是最后一项了",Toast.LENGTH_SHORT).show();
                                     productListViewSmall.onRefreshComplete();
                                 }
 
@@ -298,7 +310,7 @@ public class GoodSearchResultActivity extends Activity implements View.OnClickLi
                                     @Override
                                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                                         //Toast.makeText(ShopProdcutSortActivity.this,"点击了"+position,Toast.LENGTH_SHORT).show();
-                                        Intent smallIntent = new Intent(GoodSearchResultActivity.this, ProductDetailActivity.class);
+                                        Intent smallIntent = new Intent(XianShiMiaoShaMoreActivity.this, ProductDetailActivity.class);
                                         smallIntent.putExtra(MyConstant.GOOD_KEY, smallListGoods.get(position));
                                         startActivity(smallIntent);
                                     }
@@ -306,28 +318,12 @@ public class GoodSearchResultActivity extends Activity implements View.OnClickLi
                                 break;
                             case BIG_LIST_VIEW_FLAG:
                                 MyLog.d(tag, "大列表");
-                                int bigCount=0;
-                                if(bigListGoods.size()>0){
-                                    for (int i = 0; i < goods.size(); i++) {
-                                        for (int j = 0; j < bigListGoods.size(); j++) {
-                                            if (bigListGoods.get(j).getGoodId().equals(goods.get(i).getGoodId())) {
-                                                Toast.makeText(GoodSearchResultActivity.this, "已经是最后一项了", Toast.LENGTH_SHORT).show();
-                                                productListViewBig.onRefreshComplete();
-                                                break ;
-                                            }else{
-                                                bigCount++;
-                                            }
-                                        }
-                                        if(bigCount==bigListGoods.size()){//说明在整个gridgoods里面都没有找到该商品
-                                            temp.add(goods.get(i));
-                                        }
-                                    }
-                                    bigListGoods.addAll(temp);
+                                if(goods.size()>1){
+                                    bigListGoods.addAll(goods);
                                     bigListAdapter.notifyDataSetChanged();
                                     productListViewBig.onRefreshComplete();
                                 }else{
-                                    bigListGoods.addAll(goods);
-                                    bigListAdapter.notifyDataSetChanged();
+                                    Toast.makeText(XianShiMiaoShaMoreActivity.this,"已经是最后一项了",Toast.LENGTH_SHORT).show();
                                     productListViewBig.onRefreshComplete();
                                 }
 
@@ -335,7 +331,7 @@ public class GoodSearchResultActivity extends Activity implements View.OnClickLi
                                     @Override
                                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                                         //Toast.makeText(ShopProdcutSortActivity.this,"点击了"+position,Toast.LENGTH_SHORT).show();
-                                        Intent bigIntent = new Intent(GoodSearchResultActivity.this, ProductDetailActivity.class);
+                                        Intent bigIntent = new Intent(XianShiMiaoShaMoreActivity.this, ProductDetailActivity.class);
                                         bigIntent.putExtra(MyConstant.GOOD_KEY, bigListGoods.get(position));
                                         startActivity(bigIntent);
                                     }
@@ -398,28 +394,28 @@ public class GoodSearchResultActivity extends Activity implements View.OnClickLi
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.img_dao_hang_search_result://导航
+            case R.id.img_dao_hang_xian_shi_miao_sha_more://导航
                 //Toast.makeText(this,"点击了导航",Toast.LENGTH_SHORT).show();
                 Intent intent=new Intent();
                 setResult(RESULT_OK,intent);
                 finish();
                 break;
-            case R.id.img_search_search_result://搜索按钮
+            case R.id.img_search_xian_shi_miao_sha_more://搜索按钮
                 Toast.makeText(this, "点击了按钮", Toast.LENGTH_SHORT).show();
                 break;
-            case R.id.ll_zong_he_sort_search_result://综合
+            case R.id.ll_zong_he_sort_xian_shi_miao_sha_more://综合
                 zongHeClickChuLi();
                 break;
-            case R.id.ll_xin_pin_sort_search_result://新品
+            case R.id.ll_xin_pin_sort_xian_shi_miao_sha_more://新品
                 XinPinClickChuLi();
                 break;
-            case R.id.ll_xiao_liang_sort_search_result://销量
+            case R.id.ll_xiao_liang_sort_xian_shi_miao_sha_more://销量
                 xiaoLiangClickChuLi();
                 break;
-            case R.id.ll_price_sort_search_result://价格
+            case R.id.ll_price_sort_xian_shi_miao_sha_more://价格
                 priceClickChuLi();
                 break;
-            case R.id.ll_display_style_sort_search_result://展示样式
+            case R.id.ll_display_style_sort_xian_shi_miao_sha_more://展示样式
                 dispalyClickChuLi();
                 break;
         }

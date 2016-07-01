@@ -110,7 +110,6 @@ public class SlidingMenu extends HorizontalScrollView
         }
     }
 
-
     private float myFirstX =0f;
     private float myLastX=0f;
 
@@ -126,18 +125,10 @@ public class SlidingMenu extends HorizontalScrollView
         switch (action)
         {
             case MotionEvent.ACTION_DOWN:
-                myFirstX =ev.getX();//当是拦截的，把事件转过来的时候，这边会接收不到down事件，所以在onintercept的方法里面也必须有这个语句
+                //myFirstX =ev.getX();//当是拦截的，把事件转过来的时候，这边会接收不到down事件，所以在onintercept的方法里面也必须有这个语句
                 break;
 
             case MotionEvent.ACTION_MOVE:
-                /*float moveX=ev.getX();
-                float moveDeltaX=moveX- myFirstX;
-                if(moveX-myLastX>0){
-                    this.smoothScrollTo((int) (600-moveDeltaX),0);
-                }else{
-                    this.smoothScrollTo((int) moveDeltaX,0);
-                }
-                myLastX=moveX;*/
                 break;
             // Up时，进行判断，如果显示区域大于菜单宽度一半则完全显示，否则隐藏
             case MotionEvent.ACTION_UP:
@@ -155,31 +146,7 @@ public class SlidingMenu extends HorizontalScrollView
                 return true;
         }
         return super.onTouchEvent(ev);
-        /*int action = ev.getAction();
-        float firstX=0;
-        switch (action)
-        {
-            // Up时，进行判断，如果显示区域大于菜单宽度一半则完全显示，否则隐藏
-            case MotionEvent.ACTION_UP:
-                int scrollX = getScrollX();
-                MyLog.d(tag,"滚动的距离"+scrollX+"");
-                if (scrollX <-100) {    //没用
-                    this.smoothScrollTo(-200, 0);
-                    isOpen = false;
-                    MyLog.d(tag,"-200执行了吗");
-                } else if(scrollX==0){
-                    this.smoothScrollTo(600, 0);//关闭侧滑
-                    isOpen = false;
-                    MyLog.d(tag,"600执行了吗");
-                }
-                else {
-                    this.smoothScrollTo(0, 0);//打开侧滑
-                    isOpen = true;
-                    MyLog.d(tag,"0执行了吗");
-                }
-                return false;
-        }
-        return false;*/
+
     }
 
 

@@ -1,8 +1,5 @@
 package com.example.asus_cp.dongmanbuy.activity;
 
-import android.app.SearchManager;
-import android.content.ComponentName;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
@@ -12,7 +9,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.SearchView;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.Window;
@@ -23,8 +19,22 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
 import com.example.asus_cp.dongmanbuy.R;
+import com.example.asus_cp.dongmanbuy.activity.gou_wu.DingDanListActivity;
+import com.example.asus_cp.dongmanbuy.activity.login.LoginActivity;
+import com.example.asus_cp.dongmanbuy.activity.personal_center.GuanZhuListActivity;
 import com.example.asus_cp.dongmanbuy.activity.personal_center.PersonalCenterActivity;
+import com.example.asus_cp.dongmanbuy.activity.personal_center.ShouCangListActivity;
+import com.example.asus_cp.dongmanbuy.activity.personal_center.data_set.ChangPasswordPersonalCenterActivity;
+import com.example.asus_cp.dongmanbuy.activity.personal_center.data_set.DataSetActivity;
+import com.example.asus_cp.dongmanbuy.activity.personal_center.data_set.EditShipAddressActivity;
+import com.example.asus_cp.dongmanbuy.activity.personal_center.fund_manager.FundManagerActivity;
 import com.example.asus_cp.dongmanbuy.activity.search.SearchActivity;
 import com.example.asus_cp.dongmanbuy.constant.MyConstant;
 import com.example.asus_cp.dongmanbuy.customview.SlidingMenu;
@@ -33,13 +43,24 @@ import com.example.asus_cp.dongmanbuy.fragment.FindFragment;
 import com.example.asus_cp.dongmanbuy.fragment.HomeFragment;
 import com.example.asus_cp.dongmanbuy.fragment.ShopStreetFragment;
 import com.example.asus_cp.dongmanbuy.fragment.ShoppingCarFragment;
+import com.example.asus_cp.dongmanbuy.model.User;
 import com.example.asus_cp.dongmanbuy.util.CategoryImageLoadHelper;
+import com.example.asus_cp.dongmanbuy.util.JsonHelper;
+import com.example.asus_cp.dongmanbuy.util.MyApplication;
 import com.example.asus_cp.dongmanbuy.util.MyLog;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
+    private static final int REQUEST_CODE_SHOU_CANG_KEY = 9;
     //private android.support.v7.widget.SearchView searchView;
     private ImageView searchImageView;//搜索的图片
     private ImageButton loginButton;//登录按钮
@@ -85,7 +106,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private SlidingMenu slidingMenu;
 
     //侧滑菜单
-    private ImageView loginImage;//登录按钮
+    private de.hdodenhof.circleimageview.CircleImageView loginImage;//登录按钮
     private TextView myZhuYeTextView;//我的主页
     private TextView myOrderTextView;//我的订单
     private TextView myWalletTextView;//我的钱包
@@ -94,9 +115,32 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private TextView shipAddressTextView;//收货地址
     private TextView changPassWordTextView;//修改密码
     private TextView setTingTextView;//设置
-
+    private TextView nameTextView;//名字
+    private TextView emailTextView;//邮箱
 
     private String tag="MainActivity";
+
+    private SharedPreferences sharedPreferences;
+
+    public static final int REQUEST_CODE_LOGIN_HOME=1;//从主页跳转到登陆界面的请求码
+
+    public static final int REQUEST_CODE_LOGIN_ORDER=2;//从订单跳转到登陆界面的请求码
+
+    public static final int REQUEST_CODE_LOGIN_WALLET=3;//从钱包跳转到登陆界面的请求码
+
+    public static final int REQUEST_CODE_LOGIN_SHOU_CANG=4;//从收藏跳转到登陆界面的请求码
+
+    public static final int REQUEST_CODE_LOGIN_GUAN_ZHU=5;//从关注跳转到登陆界面的请求码
+
+    public static final int REQUEST_CODE_LOGIN_SHIP_ADDRESS=6;//从收货地址跳转到登陆界面的请求码
+
+    public static final int REQUEST_CODE_LOGIN_CHANGE_PASSWORD=7;//从修改密码跳转到登陆界面的请求码
+
+    public static final int REQUEST_CODE_LOGIN_SETTING=8;//从设置跳转到登陆界面的请求码
+
+    private String userInfoUrl="http://www.zmobuy.com/PHP/?url=/user/info";//用户信息的接口
+
+    private RequestQueue requestQueue;
 
 
     @Override
@@ -112,6 +156,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      * 初始化数据
      */
     private void initData() {
+        sharedPreferences=getSharedPreferences(MyConstant.USER_SHAREPREFRENCE_NAME,MODE_APPEND);
+        requestQueue= MyApplication.getRequestQueue();
         fragments=new ArrayList<Fragment>();
         Fragment homeFragment=new HomeFragment();
         Fragment categoryFragment=new CategoryFragment();
@@ -276,7 +322,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
         //-----------------------初始化侧滑菜单-----------------------------
-        loginImage= (ImageView) findViewById(R.id.img_login);
+        loginImage= (CircleImageView) findViewById(R.id.img_login);
         myZhuYeTextView= (TextView) findViewById(R.id.text_my_zhu_ye);
         myOrderTextView= (TextView) findViewById(R.id.text_my_order);
         myWalletTextView= (TextView) findViewById(R.id.text_my_wallet);
@@ -285,6 +331,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         shipAddressTextView= (TextView) findViewById(R.id.text_ship_addres);
         changPassWordTextView= (TextView) findViewById(R.id.text_change_password);
         setTingTextView= (TextView) findViewById(R.id.text_setting);
+        nameTextView= (TextView) findViewById(R.id.text_name_slid_menu);
+        emailTextView= (TextView) findViewById(R.id.text_email_slid_menu);
 
         loginImage.setOnClickListener(this);
         myZhuYeTextView.setOnClickListener(this);
@@ -383,40 +431,277 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 Toast.makeText(this,"点击了扫一扫",Toast.LENGTH_SHORT).show();
                 messageAndSao.setVisibility(View.GONE);
                 break;
-            case R.id.img_login:
-                Toast.makeText(this,"点击了登录",Toast.LENGTH_SHORT).show();
-                Intent toPersonalCenterIntent=new Intent(this, PersonalCenterActivity.class);
-                startActivity(toPersonalCenterIntent);
+            case R.id.img_login://登陆
+                toPersonalCenter();
                 break;
-            case R.id.text_my_zhu_ye:
-                Toast.makeText(this,"点击了我的主页",Toast.LENGTH_SHORT).show();
+            case R.id.text_my_zhu_ye://我的主页
+                toPersonalCenter();
                 break;
-            case R.id.text_my_order:
-                Toast.makeText(this,"点击了我的菜单",Toast.LENGTH_SHORT).show();
+            case R.id.text_my_order://我的订单
+                myOrderClickChuLi();
                 break;
-            case R.id.text_my_wallet:
-                Toast.makeText(this,"点击了我的钱包",Toast.LENGTH_SHORT).show();
+            case R.id.text_my_wallet://我的钱包
+                myWalletClickChuLi();
                 break;
-            case R.id.text_my_shou_cang:
-                Toast.makeText(this,"点击了我的收藏",Toast.LENGTH_SHORT).show();
+            case R.id.text_my_shou_cang://我的收藏
+                shouCangClickChuLi();
                 break;
-            case R.id.text_guan_zhu_dian_pu:
-                Toast.makeText(this,"点击了关注店铺",Toast.LENGTH_SHORT).show();
+            case R.id.text_guan_zhu_dian_pu://我的关注
+                myGuanZhuClickChuLi();
                 break;
-            case R.id.text_ship_addres:
-                Toast.makeText(this,"点击了收货地址",Toast.LENGTH_SHORT).show();
+            case R.id.text_ship_addres://收获地址
+                shipAddressClickChuLi();
                 break;
-            case R.id.text_change_password:
-                Toast.makeText(this,"点击了修改密码",Toast.LENGTH_SHORT).show();
+            case R.id.text_change_password://修改密码
+                changePasswordClickChuLi();
                 break;
-            case R.id.text_setting:
-                Toast.makeText(this,"点击了设置",Toast.LENGTH_SHORT).show();
+            case R.id.text_setting://设置
+                setClickChuLi();
                 break;
             case R.id.img_search_main://点击了search按钮
                 Intent toSearchIntent=new Intent(this, SearchActivity.class);
                 startActivity(toSearchIntent);
                 break;
         }
+    }
+
+
+    /**
+     * 我的订单的点击事件处理
+     */
+    private void myOrderClickChuLi(){
+
+        String uid=sharedPreferences.getString(MyConstant.UID_KEY,null);
+        String sid=null;
+        if(uid==null || uid.isEmpty()){
+            Intent toLoginIntent=new Intent(this,LoginActivity.class);
+            toLoginIntent.putExtra(MyConstant.START_LOGIN_ACTIVITY_FLAG_KEY,"homeFragment");
+            startActivityForResult(toLoginIntent, REQUEST_CODE_LOGIN_ORDER);
+        }else {
+            toDingDanListAcitivy(MyConstant.ALL_DING_DAN);
+        }
+    }
+
+
+    /**
+     * 我的钱包点击事件处理
+     */
+    private void myWalletClickChuLi() {
+        String uid=sharedPreferences.getString(MyConstant.UID_KEY,null);
+        String sid=null;
+        if(uid==null || uid.isEmpty()){
+            Intent toLoginIntent=new Intent(this,LoginActivity.class);
+            toLoginIntent.putExtra(MyConstant.START_LOGIN_ACTIVITY_FLAG_KEY,"homeFragment");
+            startActivityForResult(toLoginIntent, REQUEST_CODE_LOGIN_WALLET);
+        }else {
+            sid=sharedPreferences.getString(MyConstant.SID_KEY,null);
+            getDataFromIntenetAndToMyWallet(uid, sid);
+        }
+    }
+
+
+    /**
+     * 收藏的点击事件处理
+     */
+    private void shouCangClickChuLi(){
+        String uid=sharedPreferences.getString(MyConstant.UID_KEY,null);
+        String sid=null;
+        if(uid==null || uid.isEmpty()){
+            Intent toLoginIntent=new Intent(this,LoginActivity.class);
+            toLoginIntent.putExtra(MyConstant.START_LOGIN_ACTIVITY_FLAG_KEY,"homeFragment");
+            startActivityForResult(toLoginIntent, REQUEST_CODE_LOGIN_SHOU_CANG);
+        }else {
+            Intent toShouCangIntent=new Intent(this,ShouCangListActivity.class);
+            startActivity(toShouCangIntent);
+        }
+    }
+
+
+    /**
+     * 我的关注的点击事件处理
+     */
+    private void myGuanZhuClickChuLi(){
+        String uid=sharedPreferences.getString(MyConstant.UID_KEY,null);
+        String sid=null;
+        if(uid==null || uid.isEmpty()){
+            Intent toLoginIntent=new Intent(this,LoginActivity.class);
+            toLoginIntent.putExtra(MyConstant.START_LOGIN_ACTIVITY_FLAG_KEY,"homeFragment");
+            startActivityForResult(toLoginIntent, REQUEST_CODE_LOGIN_GUAN_ZHU);
+        }else {
+            Intent toGuanZhuIntent=new Intent(this,GuanZhuListActivity.class);
+            startActivity(toGuanZhuIntent);
+        }
+    }
+
+
+
+    /**
+     * 收获地址的点击事件处理
+     */
+    private void shipAddressClickChuLi(){
+        String uid=sharedPreferences.getString(MyConstant.UID_KEY,null);
+        String sid=null;
+        if(uid==null || uid.isEmpty()){
+            Intent toLoginIntent=new Intent(this,LoginActivity.class);
+            toLoginIntent.putExtra(MyConstant.START_LOGIN_ACTIVITY_FLAG_KEY,"homeFragment");
+            startActivityForResult(toLoginIntent, REQUEST_CODE_LOGIN_SHIP_ADDRESS);
+        }else {
+            Intent toShipAddressIntent=new Intent(this, EditShipAddressActivity.class);
+            startActivity(toShipAddressIntent);
+        }
+    }
+
+
+    /**
+     * 修改密码的点击事件处理
+     */
+    private void changePasswordClickChuLi(){
+        String uid=sharedPreferences.getString(MyConstant.UID_KEY,null);
+        String sid=null;
+        if(uid==null || uid.isEmpty()){
+            Intent toLoginIntent=new Intent(this,LoginActivity.class);
+            toLoginIntent.putExtra(MyConstant.START_LOGIN_ACTIVITY_FLAG_KEY,"homeFragment");
+            startActivityForResult(toLoginIntent, REQUEST_CODE_LOGIN_CHANGE_PASSWORD);
+        }else {
+            Intent changPassWordIntent=new Intent(this, ChangPasswordPersonalCenterActivity.class);
+            startActivity(changPassWordIntent);
+        }
+    }
+
+
+    /**
+     * 设置的点击事件处理
+     */
+    private void setClickChuLi(){
+        String uid=sharedPreferences.getString(MyConstant.UID_KEY,null);
+        String sid=null;
+        if(uid==null || uid.isEmpty()){
+            Intent toLoginIntent=new Intent(this,LoginActivity.class);
+            toLoginIntent.putExtra(MyConstant.START_LOGIN_ACTIVITY_FLAG_KEY,"homeFragment");
+            startActivityForResult(toLoginIntent, REQUEST_CODE_LOGIN_SETTING);
+        }else {
+            sid=sharedPreferences.getString(MyConstant.SID_KEY,null);
+            getDataFromIntenetAndToSetting(uid,sid);
+        }
+    }
+
+
+    /**
+     * 联网获取数据，并跳转到我的设置
+     */
+    private void getDataFromIntenetAndToSetting(final String uid, final String sid){
+        StringRequest userInfoRequest=new StringRequest(Request.Method.POST, userInfoUrl,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String s) {
+                        User user=parseJson(s);
+                        Intent settingIntent=new Intent(MainActivity.this, DataSetActivity.class);
+                        settingIntent.putExtra(MyConstant.USER_KEY,user);
+                        startActivity(settingIntent);
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+
+            }
+        }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String,String> map=new HashMap<String,String>();
+                String json="{\"session\":{\"uid\":\""+uid+"\",\"sid\":\""+sid+"\"}}";
+                map.put("json",json);
+                return map;
+            }
+        };
+        requestQueue.add(userInfoRequest);
+    }
+
+
+
+    /**
+     * 联网获取数据，跳转到我的钱包
+     */
+    private void getDataFromIntenetAndToMyWallet(final String uid, final String sid) {
+        StringRequest userInfoRequest=new StringRequest(Request.Method.POST, userInfoUrl,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String s) {
+                        User user=parseJson(s);
+                        Intent toMyWalletIntent=new Intent(MainActivity.this, FundManagerActivity.class);
+                        toMyWalletIntent.putExtra(MyConstant.USER_KEY,user);
+                        startActivity(toMyWalletIntent);
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+
+            }
+        }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String,String> map=new HashMap<String,String>();
+                String json="{\"session\":{\"uid\":\""+uid+"\",\"sid\":\""+sid+"\"}}";
+                map.put("json",json);
+                return map;
+            }
+        };
+        requestQueue.add(userInfoRequest);
+    }
+
+
+    /**
+     * 解析json数据
+     * @param s
+     */
+    private User parseJson(String s) {
+        MyLog.d(tag, "返回的数据是：" + s);
+        User user=new User();
+        try {
+            JSONObject jsonObject=new JSONObject(s);
+            JSONObject jsonObject1=jsonObject.getJSONObject("data");
+            user.setId(jsonObject1.getString("user_id"));
+            user.setEmail(jsonObject1.getString("email"));
+            user.setName(jsonObject1.getString("user_name"));
+            user.setMoney(jsonObject1.getString("user_money"));
+            user.setDongJieJinE(jsonObject1.getString("frozen_money"));
+            user.setJiFen(jsonObject1.getString("pay_points"));
+            user.setPhone(jsonObject1.getString("mobile_phone"));
+            user.setPic(jsonObject1.getString("user_picture"));
+            user.setSex(JsonHelper.decodeUnicode(jsonObject1.getString("sexcn")));
+            user.setBankCards(jsonObject1.getString("bank_cards"));
+            user.setHongBao(jsonObject1.getString("bonus"));
+            user.setRankName(JsonHelper.decodeUnicode(jsonObject1.getString("rank_name")));
+            user.setShouCangShu(jsonObject1.getString("collection_num"));
+            JSONObject jsonObject2=jsonObject1.getJSONObject("order_num");
+            user.setAwaitPay(jsonObject2.getString("await_pay"));
+            user.setAwaitShip(jsonObject2.getString("await_ship"));
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return user;
+    }
+
+
+
+    /**
+     * 跳转到订单列表界面
+     * @param str 传给订单列表界面的标记，到底是从哪一个跳转过去的
+     */
+    private void toDingDanListAcitivy(String str) {
+        Intent allDingDanIntent=new Intent(this, DingDanListActivity.class);
+        allDingDanIntent.putExtra(MyConstant.TO_DING_DAN_LIST_KEY, str);
+        startActivity(allDingDanIntent);
+    }
+
+
+
+    /**
+     * 跳转到个人中心
+     */
+    private void toPersonalCenter() {
+        Intent toPersonalCenterIntent=new Intent(this, PersonalCenterActivity.class);
+        startActivity(toPersonalCenterIntent);
     }
 
     @Override
@@ -454,4 +739,40 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
         return super.onKeyDown(keyCode, event);
     }*/
+
+
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch (requestCode){
+            case REQUEST_CODE_LOGIN_WALLET://从登陆界面返回的数据,我的钱包跳过去的
+                String uid=sharedPreferences.getString(MyConstant.UID_KEY,null);
+                String sid=sharedPreferences.getString(MyConstant.SID_KEY,null);
+                getDataFromIntenetAndToMyWallet(uid, sid);
+                break;
+            case REQUEST_CODE_LOGIN_ORDER://从订单跳过去的
+                toDingDanListAcitivy(MyConstant.ALL_DING_DAN);
+                break;
+            case REQUEST_CODE_LOGIN_SHIP_ADDRESS://从收货地址跳过去的
+                Intent toShipAddressIntent=new Intent(this, EditShipAddressActivity.class);
+                startActivity(toShipAddressIntent);
+                break;
+            case REQUEST_CODE_LOGIN_SHOU_CANG://从收藏跳过去的
+                Intent toShouCangIntent=new Intent(this,ShouCangListActivity.class);
+                startActivity(toShouCangIntent);
+                break;
+            case REQUEST_CODE_LOGIN_GUAN_ZHU://从关注跳过去的
+                Intent toGuanZhuIntent=new Intent(this,GuanZhuListActivity.class);
+                startActivity(toGuanZhuIntent);
+                break;
+            case REQUEST_CODE_LOGIN_CHANGE_PASSWORD://从修改密码跳转过去的
+                Intent changPassWordIntent=new Intent(this, ChangPasswordPersonalCenterActivity.class);
+                startActivity(changPassWordIntent);
+                break;
+            case REQUEST_CODE_LOGIN_SETTING://从设置跳转过去的
+                String uidSetting=sharedPreferences.getString(MyConstant.UID_KEY,null);
+                String sidSetting=sharedPreferences.getString(MyConstant.SID_KEY,null);
+                getDataFromIntenetAndToSetting(uidSetting, sidSetting);
+                break;
+        }
+    }
+
 }

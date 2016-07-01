@@ -175,10 +175,10 @@ public class SearchActivity extends Activity implements View.OnClickListener{
 
 
     /**
-     * 刷新试图
+     * 刷新试图,注意为什么要先清空，再添加，还要弄出个临时的
      */
     private void flushView() {
-        records= (List<String>) dbHelper.queryAll("0", "20", new CursorHandler() {
+        List<String> temp= (List<String>) dbHelper.queryAll("0", "20", new CursorHandler() {
             private List<String> recordsN=new ArrayList<String>();
             @Override
             public Object handleCursor(Cursor cursor) {
@@ -189,6 +189,8 @@ public class SearchActivity extends Activity implements View.OnClickListener{
                 return recordsN;
             }
         });
+        records.clear();
+        records.addAll(temp);
         MyLog.d(tag,"集合的大小是："+records.size());
         listAdapter.notifyDataSetChanged();
     }

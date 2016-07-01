@@ -28,4 +28,5 @@ dependencies {
     compile project(':library')
     compile project(':wheelLibariry')
     compile files('libs/alipaySingle-20160516.jar')
+    compile 'de.hdodenhof:circleimageview:2.0.0'
 }

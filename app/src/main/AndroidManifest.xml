@@ -180,6 +180,12 @@
         <!--店铺搜索结果的展示页-->
         <activity android:name=".activity.search.ShopSearchResultActivity"/>
 
+        <!--限时秒杀更多的activity-->
+        <activity android:name=".activity.more.XianShiMiaoShaMoreActivity"/>
+
+        <!--精品推荐的activity-->
+        <activity android:name=".activity.more.JingPinTuiJianMoreActivity"/>
+
         <!--搜索的activity,因为必须按照ui做，此类作废-->
         <activity android:name=".activity.MySearchActivity">
             <intent-filter>

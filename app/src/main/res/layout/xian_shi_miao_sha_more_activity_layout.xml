@@ -13,7 +13,7 @@
         android:layout_alignParentTop="true"
         android:background="@color/white_my">
         <ImageView
-            android:id="@+id/img_dao_hang_search_result"
+            android:id="@+id/img_dao_hang_xian_shi_miao_sha_more"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_gravity="center_vertical"
@@ -27,7 +27,7 @@
             >
         </android.support.v7.widget.SearchView>-->
         <ImageView
-            android:id="@+id/img_search_search_result"
+            android:id="@+id/img_search_xian_shi_miao_sha_more"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
@@ -42,30 +42,29 @@
         android:layout_marginTop="10dp"
         android:background="@color/white_my">
         <LinearLayout
-            android:id="@+id/ll_zong_he_sort_search_result"
+            android:id="@+id/ll_zong_he_sort_xian_shi_miao_sha_more"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
             android:orientation="vertical">
-
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingTop="10dp"
                 android:paddingBottom="10dp">
                 <TextView
-                    android:id="@+id/text_zong_he_sort_search_result"
+                    android:id="@+id/text_zong_he_sort_xian_shi_miao_sha_more"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/zong_he"
                     android:layout_centerInParent="true"
                     />
                 <ImageView
-                    android:id="@+id/img_down_zong_he_sort_search_result"
+                    android:id="@+id/img_down_zong_he_sort_xian_shi_miao_sha_more"
                     android:layout_width="15dp"
                     android:layout_height="15dp"
                     android:src="@mipmap/down_black_sort"
-                    android:layout_toRightOf="@id/text_zong_he_sort_search_result"
+                    android:layout_toRightOf="@id/text_zong_he_sort_xian_shi_miao_sha_more"
                     android:layout_centerVertical="true"
                     android:clickable="false"
                     />
@@ -78,7 +77,7 @@
 
 
         <LinearLayout
-            android:id="@+id/ll_xin_pin_sort_search_result"
+            android:id="@+id/ll_xin_pin_sort_xian_shi_miao_sha_more"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
@@ -86,7 +85,7 @@
             android:paddingTop="10dp"
             android:paddingBottom="10dp">
             <TextView
-                android:id="@+id/text_xin_pin_sort_search_result"
+                android:id="@+id/text_xin_pin_sort_xian_shi_miao_sha_more"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/xin_pin"
@@ -95,7 +94,7 @@
 
 
         <LinearLayout
-            android:id="@+id/ll_xiao_liang_sort_search_result"
+            android:id="@+id/ll_xiao_liang_sort_xian_shi_miao_sha_more"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
@@ -103,7 +102,7 @@
             android:paddingTop="10dp"
             android:paddingBottom="10dp">
             <TextView
-                android:id="@+id/text_xiao_liang_sort_search_result"
+                android:id="@+id/text_xiao_liang_sort_xian_shi_miao_sha_more"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/xiao_liang"
@@ -112,7 +111,7 @@
 
 
         <LinearLayout
-            android:id="@+id/ll_price_sort_search_result"
+            android:id="@+id/ll_price_sort_xian_shi_miao_sha_more"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
@@ -123,18 +122,18 @@
                 android:paddingTop="10dp"
                 android:paddingBottom="10dp">
                 <TextView
-                    android:id="@+id/text_price_sort_search_result"
+                    android:id="@+id/text_price_sort_xian_shi_miao_sha_more"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/price"
                     android:layout_centerInParent="true"
                     />
                 <ImageView
-                    android:id="@+id/img_down_price_sort_search_result"
+                    android:id="@+id/img_down_price_sort_xian_shi_miao_sha_more"
                     android:layout_width="15dp"
                     android:layout_height="15dp"
                     android:src="@mipmap/down_black_sort"
-                    android:layout_toRightOf="@id/text_price_sort_search_result"
+                    android:layout_toRightOf="@id/text_price_sort_xian_shi_miao_sha_more"
                     android:layout_centerVertical="true"
                     android:clickable="false"
                     />
@@ -144,7 +143,7 @@
 
 
         <LinearLayout
-            android:id="@+id/ll_display_style_sort_search_result"
+            android:id="@+id/ll_display_style_sort_xian_shi_miao_sha_more"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
@@ -152,7 +151,7 @@
             android:paddingTop="10dp"
             android:paddingBottom="10dp">
             <ImageView
-                android:id="@+id/img_display_style_sort_search_result"
+                android:id="@+id/img_display_style_sort_xian_shi_miao_sha_more"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:layout_gravity="center"
@@ -172,7 +171,7 @@
         android:visibility="visible">
         <!--内容展示的区域-->
         <com.handmark.pulltorefresh.library.PullToRefreshGridView
-            android:id="@+id/grid_view_product_sort_search_result"
+            android:id="@+id/grid_view_product_sort_xian_shi_miao_sha_more"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:numColumns="2"
@@ -180,20 +179,21 @@
         </com.handmark.pulltorefresh.library.PullToRefreshGridView>
 
         <com.handmark.pulltorefresh.library.PullToRefreshListView
-            android:id="@+id/list_view_product_sort_small_search_result"
+            android:id="@+id/list_view_product_sort_small_xian_shi_miao_sha_more"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:visibility="visible">
         </com.handmark.pulltorefresh.library.PullToRefreshListView>
 
         <com.handmark.pulltorefresh.library.PullToRefreshListView
-            android:id="@+id/list_view_product_sort_big_search_result"
+            android:id="@+id/list_view_product_sort_big_xian_shi_miao_sha_more"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:visibility="visible">
         </com.handmark.pulltorefresh.library.PullToRefreshListView>
 
     </LinearLayout>
+
 
 
 

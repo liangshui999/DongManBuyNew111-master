@@ -10,16 +10,25 @@
         android:layout_height="200dp"
         android:background="@color/bottom_lable_color"
         android:layout_margin="5dp">
-        <ImageView
+        <de.hdodenhof.circleimageview.CircleImageView
+            xmlns:app="http://schemas.android.com/apk/res-auto"
             android:id="@+id/img_login"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:src="@mipmap/sina"
+            app:civ_border_width="1dp"
+            app:civ_border_color="@color/white_my"
+            android:layout_margin="5dp"/>
+        <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
             android:layout_margin="10dp"
-            android:src="@mipmap/login"/>
+            android:src="@mipmap/login"
+            android:visibility="gone"/>
         <TextView
-            android:id="@+id/text_email"
+            android:id="@+id/text_email_slid_menu"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
@@ -28,11 +37,13 @@
             android:layout_margin="5dp"
             android:textSize="@dimen/menu_font_size"/>
         <TextView
+            android:id="@+id/text_name_slid_menu"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_above="@id/text_email"
+            android:layout_above="@id/text_email_slid_menu"
             android:text="@string/zhou_mou_buy"
-            android:textSize="@dimen/menu_font_size"/>
+            android:textSize="@dimen/menu_font_size"
+            android:layout_marginLeft="5dp"/>
 
     </RelativeLayout>
 

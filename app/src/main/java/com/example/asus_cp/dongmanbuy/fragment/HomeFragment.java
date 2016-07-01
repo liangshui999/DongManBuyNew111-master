@@ -2,6 +2,7 @@ package com.example.asus_cp.dongmanbuy.fragment;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -24,14 +25,21 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.StringRequest;
 import com.example.asus_cp.dongmanbuy.R;
 import com.example.asus_cp.dongmanbuy.activity.dian_pu_jie.ShopStreetCategoryActvity;
+import com.example.asus_cp.dongmanbuy.activity.gou_wu.DingDanListActivity;
 import com.example.asus_cp.dongmanbuy.activity.login.LoginActivity;
+import com.example.asus_cp.dongmanbuy.activity.more.JingPinTuiJianMoreActivity;
+import com.example.asus_cp.dongmanbuy.activity.more.XianShiMiaoShaMoreActivity;
+import com.example.asus_cp.dongmanbuy.activity.personal_center.data_set.EditShipAddressActivity;
+import com.example.asus_cp.dongmanbuy.activity.personal_center.fund_manager.FundManagerActivity;
 import com.example.asus_cp.dongmanbuy.activity.product_detail.ProductDetailActivity;
 import com.example.asus_cp.dongmanbuy.adapter.CaiNiXiHuanAdapter;
 import com.example.asus_cp.dongmanbuy.adapter.JingPinAdapter;
@@ -42,6 +50,7 @@ import com.example.asus_cp.dongmanbuy.customview.MyGridViewA;
 import com.example.asus_cp.dongmanbuy.db.DBCreateHelper;
 import com.example.asus_cp.dongmanbuy.model.Binner;
 import com.example.asus_cp.dongmanbuy.model.Good;
+import com.example.asus_cp.dongmanbuy.model.User;
 import com.example.asus_cp.dongmanbuy.util.JsonHelper;
 import com.example.asus_cp.dongmanbuy.util.MyApplication;
 import com.example.asus_cp.dongmanbuy.util.MyLog;
@@ -54,7 +63,9 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 首页的展示界面
@@ -126,6 +137,18 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
     private RequestQueue requestQueue;//请求队列
 
     public static String GOOD_KEY="good_key";//传递good时的键
+
+    private SharedPreferences sharedPreferences;
+
+    public static final int REQUEST_CODE_LOGIN_WALLET=1;//从钱包跳转到登陆界面的请求码
+
+    public static final int REQUEST_CODE_LOGIN_ORDER=2;//从订单跳转到登陆界面的请求码
+
+    public static final int REQUEST_CODE_LOGIN_LIU_LAN_JI_LU=3;//从浏览记录跳转到登陆界面的请求码
+
+    public static final int REQUEST_CODE_LOGIN_SHIP_ADDRESS=4;//从收货地址跳转到登陆界面的请求码
+
+    private String userInfoUrl="http://www.zmobuy.com/PHP/?url=/user/info";//用户信息的接口
 
 
     private Handler handler = new MyHandler();
@@ -216,6 +239,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         context=getActivity();
+        sharedPreferences=context.getSharedPreferences(MyConstant.USER_SHAREPREFRENCE_NAME,Context.MODE_APPEND);
         v=inflater.inflate(R.layout.home_fragment_layout, null);
         initView();
         return v;
@@ -646,18 +670,17 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.ll_my_wallet:
-                Intent intent=new Intent(context, LoginActivity.class);
-                startActivity(intent);
+            case R.id.ll_my_wallet://我的钱包
+                MyWalletClickChuLi();
                 break;
-            case R.id.ll_my_order:
-                Toast.makeText(context, "点击了我的订单", Toast.LENGTH_SHORT).show();
+            case R.id.ll_my_order://我的订单
+                MyOrderClickChuLi();
                 break;
             case R.id.ll_browse_history:
                 Toast.makeText(context, "点击了浏览记录", Toast.LENGTH_SHORT).show();
                 break;
-            case R.id.ll_ship_address:
-                Toast.makeText(context, "点击了收货地址", Toast.LENGTH_SHORT).show();
+            case R.id.ll_ship_address://点击了收货地址
+                shipAddressClickChuLi();
                 break;
             case R.id.ll_xian_shi_te_you:
                 Toast.makeText(context, "点击了限时特优", Toast.LENGTH_SHORT).show();
@@ -672,10 +695,14 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
                 Toast.makeText(context, "点击了优惠活动", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.text_xian_shi_more://限时秒杀的更多按钮
-                Toast.makeText(context, "点击了限时秒杀更多", Toast.LENGTH_SHORT).show();
+                Intent toXianShiMiaoShaMore=new Intent(context, XianShiMiaoShaMoreActivity.class);
+                toXianShiMiaoShaMore.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                context.startActivity(toXianShiMiaoShaMore);
                 break;
             case R.id.text_jing_pin_more://精品推荐的更多按钮
-                Toast.makeText(context, "点击了精品推荐更多", Toast.LENGTH_SHORT).show();
+                Intent toJingPinTuiJianMore=new Intent(context, JingPinTuiJianMoreActivity.class);
+                toJingPinTuiJianMore.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                context.startActivity(toJingPinTuiJianMore);
                 break;
             case R.id.text_dian_pu_jie_more://店铺街的更多按钮
                 //Toast.makeText(context, "点击了店铺街更多", Toast.LENGTH_SHORT).show();
@@ -683,6 +710,136 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
                 startActivity(toDianPuJieIntent);
                 break;
         }
+    }
+
+
+    /**
+     * 我的钱包点击事件处理
+     */
+    private void MyWalletClickChuLi() {
+        String uid=sharedPreferences.getString(MyConstant.UID_KEY,null);
+        String sid=null;
+        if(uid==null || uid.isEmpty()){
+            Intent toLoginIntent=new Intent(context,LoginActivity.class);
+            toLoginIntent.putExtra(MyConstant.START_LOGIN_ACTIVITY_FLAG_KEY,"homeFragment");
+            startActivityForResult(toLoginIntent, REQUEST_CODE_LOGIN_WALLET);
+        }else {
+            sid=sharedPreferences.getString(MyConstant.SID_KEY,null);
+            getDataFromIntenetAndSetView(uid,sid);
+        }
+    }
+
+    /**
+     * 我的订单的点击事件处理
+     */
+    private void MyOrderClickChuLi(){
+
+        String uid=sharedPreferences.getString(MyConstant.UID_KEY,null);
+        String sid=null;
+        if(uid==null || uid.isEmpty()){
+            Intent toLoginIntent=new Intent(context,LoginActivity.class);
+            toLoginIntent.putExtra(MyConstant.START_LOGIN_ACTIVITY_FLAG_KEY,"homeFragment");
+            startActivityForResult(toLoginIntent, REQUEST_CODE_LOGIN_ORDER);
+        }else {
+            toDingDanListAcitivy(MyConstant.ALL_DING_DAN);
+        }
+    }
+
+
+    /**
+     * 收获地址的点击事件处理
+     */
+    private void shipAddressClickChuLi(){
+        String uid=sharedPreferences.getString(MyConstant.UID_KEY,null);
+        String sid=null;
+        if(uid==null || uid.isEmpty()){
+            Intent toLoginIntent=new Intent(context,LoginActivity.class);
+            toLoginIntent.putExtra(MyConstant.START_LOGIN_ACTIVITY_FLAG_KEY,"homeFragment");
+            startActivityForResult(toLoginIntent, REQUEST_CODE_LOGIN_SHIP_ADDRESS);
+        }else {
+            Intent toShipAddressIntent=new Intent(context, EditShipAddressActivity.class);
+            startActivity(toShipAddressIntent);
+        }
+    }
+
+
+
+
+    /**
+     * 联网获取数据，并给view赋值
+     */
+    private void getDataFromIntenetAndSetView(final String uid, final String sid) {
+        StringRequest userInfoRequest=new StringRequest(Request.Method.POST, userInfoUrl,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String s) {
+                        User user=parseJson(s);
+                        Intent toMyWalletIntent=new Intent(context, FundManagerActivity.class);
+                        toMyWalletIntent.putExtra(MyConstant.USER_KEY,user);
+                        startActivity(toMyWalletIntent);
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+
+            }
+        }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String,String> map=new HashMap<String,String>();
+                String json="{\"session\":{\"uid\":\""+uid+"\",\"sid\":\""+sid+"\"}}";
+                map.put("json",json);
+                return map;
+            }
+        };
+        requestQueue.add(userInfoRequest);
+    }
+
+
+    /**
+     * 解析json数据
+     * @param s
+     */
+    private User parseJson(String s) {
+        MyLog.d(tag, "返回的数据是：" + s);
+        User user=new User();
+        try {
+            JSONObject jsonObject=new JSONObject(s);
+            JSONObject jsonObject1=jsonObject.getJSONObject("data");
+            user.setId(jsonObject1.getString("user_id"));
+            user.setEmail(jsonObject1.getString("email"));
+            user.setName(jsonObject1.getString("user_name"));
+            user.setMoney(jsonObject1.getString("user_money"));
+            user.setDongJieJinE(jsonObject1.getString("frozen_money"));
+            user.setJiFen(jsonObject1.getString("pay_points"));
+            user.setPhone(jsonObject1.getString("mobile_phone"));
+            user.setPic(jsonObject1.getString("user_picture"));
+            user.setSex(JsonHelper.decodeUnicode(jsonObject1.getString("sexcn")));
+            user.setBankCards(jsonObject1.getString("bank_cards"));
+            user.setHongBao(jsonObject1.getString("bonus"));
+            user.setRankName(JsonHelper.decodeUnicode(jsonObject1.getString("rank_name")));
+            user.setShouCangShu(jsonObject1.getString("collection_num"));
+            JSONObject jsonObject2=jsonObject1.getJSONObject("order_num");
+            user.setAwaitPay(jsonObject2.getString("await_pay"));
+            user.setAwaitShip(jsonObject2.getString("await_ship"));
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return user;
+    }
+
+
+
+    /**
+     * 跳转到订单列表界面
+     * @param str 传给订单列表界面的标记，到底是从哪一个跳转过去的
+     */
+    private void toDingDanListAcitivy(String str) {
+        Intent allDingDanIntent=new Intent(context, DingDanListActivity.class);
+        allDingDanIntent.putExtra(MyConstant.TO_DING_DAN_LIST_KEY, str);
+        allDingDanIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        context.startActivity(allDingDanIntent);
 
     }
 
@@ -889,6 +1046,32 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
          */
         public void destroyItem(ViewGroup container, int position, Object object) {
             //container.removeView(firstImageViews.get(position % firstImageViews.size()));
+        }
+    }
+
+
+    /**
+     * 从其他活动返回的数据
+     * @param requestCode
+     * @param resultCode
+     * @param data
+     */
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch (requestCode){
+            case REQUEST_CODE_LOGIN_WALLET://从登陆界面返回的数据,我的钱包跳过去的
+                String uid=sharedPreferences.getString(MyConstant.UID_KEY,null);
+                String sid=sharedPreferences.getString(MyConstant.SID_KEY,null);
+                getDataFromIntenetAndSetView(uid,sid);
+                break;
+            case REQUEST_CODE_LOGIN_ORDER://从订单跳过去的
+                toDingDanListAcitivy(MyConstant.ALL_DING_DAN);
+                break;
+            case REQUEST_CODE_LOGIN_SHIP_ADDRESS://从收获地址跳过去的
+                Intent toShipAddressIntent=new Intent(context, EditShipAddressActivity.class);
+                startActivity(toShipAddressIntent);
+                break;
+
         }
     }
 }
