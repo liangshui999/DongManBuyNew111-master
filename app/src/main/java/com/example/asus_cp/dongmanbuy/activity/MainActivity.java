@@ -461,7 +461,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.ll_sao:
                 Toast.makeText(this,"点击了扫一扫",Toast.LENGTH_SHORT).show();
                 messageAndSao.setVisibility(View.GONE);
-                Intent intent = new Intent(MainActivity.this, CaptureActivity.class);
+                Intent intent = new Intent(MainActivity.this, MipcaActivityCapture.class);
                 startActivityForResult(intent, SCAN_CODE);
                 break;
 
