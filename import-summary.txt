@@ -7,17 +7,18 @@ The following files were *not* copied into the new Gradle project; you
 should evaluate whether these are still needed in your project and if
 so manually move them:
 
-* LICENSE
 * pom.xml
+* proguard.cfg
 
 Moved Files:
 ------------
 Android Gradle projects use a different directory structure than ADT
 Eclipse projects. Here's how the projects were restructured:
 
-* AndroidManifest.xml => library\src\main\AndroidManifest.xml
-* res\ => library\src\main\res\
-* src\ => library\src\main\java\
+* AndroidManifest.xml => saoyisao\src\main\AndroidManifest.xml
+* assets\ => saoyisao\src\main\assets\
+* res\ => saoyisao\src\main\res\
+* src\ => saoyisao\src\main\java\
 
 Next Steps:
 -----------

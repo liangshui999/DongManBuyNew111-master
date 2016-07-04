@@ -46,4 +46,5 @@ public interface MyConstant {
     public static final String SHEN_QING_JI_LU_MODEL_KEY="shenqingjilumodel";//传递申请记录modle的key
     public static final String SEARCH_CONTENT_KEY="searchKey";//传递搜索关键字用
     public static final String SEARCH_CATEGORY_KEY="searchCategoryKey";//传递搜索的类别用
+    public static final String SAO_MIAO_RESULT_KEY="saoMiaoResult";//传递扫描结果的key
 }

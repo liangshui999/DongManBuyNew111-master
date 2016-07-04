@@ -38,7 +38,7 @@ public class SlidingMenu extends HorizontalScrollView
 
     private boolean once;
 
-    private int flag;//我自定义的，是否是第一次
+    private OnScrollListenerMySli listenerMySli;
 
     public SlidingMenu(Context context, AttributeSet attrs)
     {
@@ -139,6 +139,7 @@ public class SlidingMenu extends HorizontalScrollView
                     this.smoothScrollTo(0, 0);
                     isOpen = true;
                     MyLog.d(tag,"处理从左往右滑动"+isOpen);
+                    listenerMySli.onScroll(this);//调用回调接口中的方法
                 }else{
                     this.smoothScrollTo(mMenuWidth, 0);
                     isOpen = false;
@@ -253,6 +254,9 @@ public class SlidingMenu extends HorizontalScrollView
         }
     }
 
+    public void setOnScrollListnerMy(OnScrollListenerMySli listnerMy){
+        this.listenerMySli=listnerMy;
+    }
 
 }
 

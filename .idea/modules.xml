@@ -5,6 +5,7 @@
       <module fileurl="file://$PROJECT_DIR$/DongManBuyNew-master.iml" filepath="$PROJECT_DIR$/DongManBuyNew-master.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/library/library.iml" filepath="$PROJECT_DIR$/library/library.iml" />
+      <module fileurl="file://$PROJECT_DIR$/saoyisao/saoyisao.iml" filepath="$PROJECT_DIR$/saoyisao/saoyisao.iml" />
       <module fileurl="file://$PROJECT_DIR$/wheelLibariry/wheelLibariry.iml" filepath="$PROJECT_DIR$/wheelLibariry/wheelLibariry.iml" />
     </modules>
   </component>

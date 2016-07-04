@@ -1,0 +1,14 @@
+[
+    {
+        "merged": "D:\\Android\\DongManBuyNew111-master\\DongManBuyNew-master\\saoyisao\\build\\intermediates\\res\\merged\\debug\\menu\\history.xml",
+        "source": "D:\\Android\\DongManBuyNew111-master\\DongManBuyNew-master\\saoyisao\\src\\main\\res\\menu\\history.xml"
+    },
+    {
+        "merged": "D:\\Android\\DongManBuyNew111-master\\DongManBuyNew-master\\saoyisao\\build\\intermediates\\res\\merged\\debug\\menu\\capture.xml",
+        "source": "D:\\Android\\DongManBuyNew111-master\\DongManBuyNew-master\\saoyisao\\src\\main\\res\\menu\\capture.xml"
+    },
+    {
+        "merged": "D:\\Android\\DongManBuyNew111-master\\DongManBuyNew-master\\saoyisao\\build\\intermediates\\res\\merged\\debug\\menu\\encode.xml",
+        "source": "D:\\Android\\DongManBuyNew111-master\\DongManBuyNew-master\\saoyisao\\src\\main\\res\\menu\\encode.xml"
+    }
+]

@@ -24,6 +24,7 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.StringRequest;
 import com.example.asus_cp.dongmanbuy.R;
 import com.example.asus_cp.dongmanbuy.activity.gou_wu.DingDanListActivity;
@@ -35,8 +36,10 @@ import com.example.asus_cp.dongmanbuy.activity.personal_center.data_set.ChangPas
 import com.example.asus_cp.dongmanbuy.activity.personal_center.data_set.DataSetActivity;
 import com.example.asus_cp.dongmanbuy.activity.personal_center.data_set.EditShipAddressActivity;
 import com.example.asus_cp.dongmanbuy.activity.personal_center.fund_manager.FundManagerActivity;
+import com.example.asus_cp.dongmanbuy.activity.sao_maio.SaoMiaoResultActivity;
 import com.example.asus_cp.dongmanbuy.activity.search.SearchActivity;
 import com.example.asus_cp.dongmanbuy.constant.MyConstant;
+import com.example.asus_cp.dongmanbuy.customview.OnScrollListenerMySli;
 import com.example.asus_cp.dongmanbuy.customview.SlidingMenu;
 import com.example.asus_cp.dongmanbuy.fragment.CategoryFragment;
 import com.example.asus_cp.dongmanbuy.fragment.FindFragment;
@@ -45,9 +48,11 @@ import com.example.asus_cp.dongmanbuy.fragment.ShopStreetFragment;
 import com.example.asus_cp.dongmanbuy.fragment.ShoppingCarFragment;
 import com.example.asus_cp.dongmanbuy.model.User;
 import com.example.asus_cp.dongmanbuy.util.CategoryImageLoadHelper;
+import com.example.asus_cp.dongmanbuy.util.ImageLoadHelper;
 import com.example.asus_cp.dongmanbuy.util.JsonHelper;
 import com.example.asus_cp.dongmanbuy.util.MyApplication;
 import com.example.asus_cp.dongmanbuy.util.MyLog;
+import com.google.zxing.client.android.CaptureActivity;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -64,7 +69,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     //private android.support.v7.widget.SearchView searchView;
     private ImageView searchImageView;//搜索的图片
     private ImageButton loginButton;//登录按钮
-    private ImageButton messageButton;//消息按钮
+    private ImageView messageButton;//消息按钮
     //private ViewPager viewPager;
     private FrameLayout frameLaout;//内容区域的容器
     private FragmentManager fragmentManager;//
@@ -141,6 +146,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private String userInfoUrl="http://www.zmobuy.com/PHP/?url=/user/info";//用户信息的接口
 
     private RequestQueue requestQueue;
+
+    private int messageAndSaoCount;//标记message和扫一扫的是显示还是隐藏
+
+    public static final int SCAN_CODE = 1;//扫一扫的请求码
 
 
     @Override
@@ -220,10 +229,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         searchImageView= (ImageView) findViewById(R.id.img_search_main);
         loginButton= (ImageButton) findViewById(R.id.img_btn_login);
-        messageButton= (ImageButton) findViewById(R.id.img_btn_message);
-        messageButton.setOnClickListener(this);
+        messageButton= (ImageView) findViewById(R.id.img_btn_message);
+
         loginButton.setOnClickListener(this);
         searchImageView.setOnClickListener(this);
+        messageButton.setOnClickListener(this);
 
         //初始化底部标签
         homell = (LinearLayout) findViewById(R.id.ll_home);
@@ -344,6 +354,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         changPassWordTextView.setOnClickListener(this);
         setTingTextView.setOnClickListener(this);
 
+        //给侧滑菜单设置滚动的监听事件
+        slidingMenu.setOnScrollListnerMy(new OnScrollListenerMySli() {
+            @Override
+            public void onScroll(View v) {
+                String uid=sharedPreferences.getString(MyConstant.UID_KEY,null);
+                String sid=sharedPreferences.getString(MyConstant.SID_KEY,null);
+                if(uid!=null && !uid.isEmpty()){
+                    getDataFromIntenetAndSetNameAndEmailAndPic(uid,sid);
+                }else{
+                    nameTextView.setText("");
+                    emailTextView.setText("");
+                    loginImage.setImageResource(R.mipmap.ic_launcher);
+                }
+            }
+        });
+
 
     }
 
@@ -376,7 +402,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 slidingMenu.toggle();
                 break;
             case R.id.img_btn_message://消息按钮的点击事件
-                messageAndSao.setVisibility(View.VISIBLE);//让下拉框弹出来
+                if(messageAndSaoCount%2==0){
+                    messageAndSao.setVisibility(View.VISIBLE);//让下拉框弹出来
+                }else{
+                    messageAndSao.setVisibility(View.GONE);
+                }
+                messageAndSaoCount++;
                 break;
             case R.id.ll_home:
                 //viewPager.setCurrentItem(HOME);
@@ -430,7 +461,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.ll_sao:
                 Toast.makeText(this,"点击了扫一扫",Toast.LENGTH_SHORT).show();
                 messageAndSao.setVisibility(View.GONE);
+                Intent intent = new Intent(MainActivity.this, CaptureActivity.class);
+                startActivityForResult(intent, SCAN_CODE);
                 break;
+
             case R.id.img_login://登陆
                 toPersonalCenter();
                 break;
@@ -581,9 +615,46 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             startActivityForResult(toLoginIntent, REQUEST_CODE_LOGIN_SETTING);
         }else {
             sid=sharedPreferences.getString(MyConstant.SID_KEY,null);
-            getDataFromIntenetAndToSetting(uid,sid);
+            getDataFromIntenetAndToSetting(uid, sid);
         }
     }
+
+
+    /**
+     * 联网获取数据并设置name和email
+     */
+    public void getDataFromIntenetAndSetNameAndEmailAndPic(final String uid, final String sid){
+        StringRequest userInfoRequest=new StringRequest(Request.Method.POST, userInfoUrl,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String s) {
+                        User user=parseJson(s);
+                        nameTextView.setText(user.getName());
+                        emailTextView.setText(user.getEmail());
+                        ImageLoadHelper helper=new ImageLoadHelper();
+                        ImageLoader imageLoader=helper.getImageLoader();
+                        ImageLoader.ImageListener listener=imageLoader.getImageListener(loginImage,R.mipmap.yu_jia_zai,
+                                R.mipmap.yu_jia_zai);
+                        //imageLoader.get(user.getPic(),listener,200,200);
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+
+            }
+        }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String,String> map=new HashMap<String,String>();
+                String json="{\"session\":{\"uid\":\""+uid+"\",\"sid\":\""+sid+"\"}}";
+                map.put("json",json);
+                return map;
+            }
+        };
+        requestQueue.add(userInfoRequest);
+    }
+
+
 
 
     /**
@@ -771,6 +842,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 String uidSetting=sharedPreferences.getString(MyConstant.UID_KEY,null);
                 String sidSetting=sharedPreferences.getString(MyConstant.SID_KEY,null);
                 getDataFromIntenetAndToSetting(uidSetting, sidSetting);
+                break;
+            case SCAN_CODE:
+                if (resultCode == RESULT_OK) {
+                    String result = data.getStringExtra("scan_result");
+                    Intent toSaoMiaoResultIntent=new Intent(this, SaoMiaoResultActivity.class);
+                    toSaoMiaoResultIntent.putExtra(MyConstant.SAO_MIAO_RESULT_KEY,result);
+                    startActivity(toSaoMiaoResultIntent);
+                } else if (resultCode == RESULT_CANCELED) {
+                    Toast.makeText(this,"扫描出错",Toast.LENGTH_SHORT).show();
+                }
                 break;
         }
     }
