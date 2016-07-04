@@ -1,5 +1,7 @@
 package com.example.asus_cp.dongmanbuy.util;
 
+import android.widget.Toast;
+
 import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -106,6 +108,60 @@ public class FormatHelper {
             result=simpleDateFormat1.format(date);
         } catch (ParseException e) {
             e.printStackTrace();
+        }
+        return result;
+    }
+
+
+    /**
+     * 将网址拆分成3部分,按？和&进行拆分
+     */
+    public static String[] splitUrl(String s){
+        //String regex="\\?\\w+\\=\\w+(\\/\\w+)*\\&";
+        String regex1="\\?";
+        String[] buf=new String[3];
+        String[] temp=s.split(regex1);
+        buf[0]=temp[0];
+
+        String regex2="\\&";
+        String[] temp1=temp[1].split(regex2);
+        buf[1]=temp1[0];
+        buf[2]=temp1[1];
+        return buf;
+
+    }
+
+    /**
+     * 判断某个网址是否是本网站的 http://www.zmobuy.com
+     */
+    public static boolean isMyNet(String s){
+        return s.contains("http://www.zmobuy.com");
+    }
+
+    /**
+     * 将字符串按=进行划分，并取后半部分
+     */
+    public static String splitByDengHao(String s){
+        String regex="\\=";
+        String[] buf=s.split(regex);
+        return buf[1];
+    }
+
+    /**
+     * 获取网址中的id
+     */
+    public static String getIdFromUrl(String s){
+        String result = null;
+        if (isMyNet(s)) {
+            String[] buf = splitUrl(s);
+            if (buf[1].contains("r=good")) {
+                result = "A" + splitByDengHao(buf[2]).trim();
+            } else if (buf[1].contains("r=store")) {
+                result = "B" + splitByDengHao(buf[2]).trim();
+            }
+
+        } else {
+            Toast.makeText(MyApplication.getContext(), "不是我们的网站", Toast.LENGTH_SHORT).show();
         }
         return result;
     }

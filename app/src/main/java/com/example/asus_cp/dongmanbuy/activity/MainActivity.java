@@ -48,6 +48,7 @@ import com.example.asus_cp.dongmanbuy.fragment.ShopStreetFragment;
 import com.example.asus_cp.dongmanbuy.fragment.ShoppingCarFragment;
 import com.example.asus_cp.dongmanbuy.model.User;
 import com.example.asus_cp.dongmanbuy.util.CategoryImageLoadHelper;
+import com.example.asus_cp.dongmanbuy.util.FormatHelper;
 import com.example.asus_cp.dongmanbuy.util.ImageLoadHelper;
 import com.example.asus_cp.dongmanbuy.util.JsonHelper;
 import com.example.asus_cp.dongmanbuy.util.MyApplication;
@@ -846,9 +847,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case SCAN_CODE:
                 if (resultCode == RESULT_OK) {
                     String result = data.getStringExtra("scan_result");
-                    Intent toSaoMiaoResultIntent=new Intent(this, SaoMiaoResultActivity.class);
+                    String id=FormatHelper.getIdFromUrl(result);
+                    if(id!=null){
+                        if("A".equals(id.charAt(0)+"")){  //商品
+                            String goodId=id.substring(1);
+                            MyLog.d(tag,"goodId="+goodId);
+                            Toast.makeText(this,"goodId"+goodId,Toast.LENGTH_SHORT).show();
+                        }else if("B".equals(id.charAt(0)+"")){    //商店
+                            String shopId=id.substring(1);
+                            MyLog.d(tag,"shopId="+shopId);
+                            Toast.makeText(this,"shopId="+shopId,Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                    /*Intent toSaoMiaoResultIntent=new Intent(this, SaoMiaoResultActivity.class);
                     toSaoMiaoResultIntent.putExtra(MyConstant.SAO_MIAO_RESULT_KEY,result);
-                    startActivity(toSaoMiaoResultIntent);
+                    startActivity(toSaoMiaoResultIntent);*/
                 } else if (resultCode == RESULT_CANCELED) {
                     Toast.makeText(this,"扫描出错",Toast.LENGTH_SHORT).show();
                 }
