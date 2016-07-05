@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     >
-    <com.example.asus_cp.dongmanbuy.customview.MyScrollView
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -15,7 +15,8 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:background="@color/white_my">
                 <android.support.v4.view.ViewPager
                     android:id="@+id/viewpager_binner_first"
                     android:layout_width="match_parent"
@@ -28,6 +29,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignBottom="@id/viewpager_binner_first"
                     android:layout_centerInParent="true"
+                    android:layout_marginBottom="10dp"
                     android:orientation="horizontal">
                 </LinearLayout>
             </RelativeLayout>
@@ -291,7 +293,8 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:background="@color/white_my">
                 <android.support.v4.view.ViewPager
                     android:id="@+id/viewpager_binner_second"
                     android:layout_width="match_parent"
@@ -305,6 +308,7 @@
                     android:layout_alignBottom="@id/viewpager_binner_second"
                     android:layout_above="@id/viewpager_binner_second"
                     android:layout_centerInParent="true"
+                    android:layout_marginBottom="10dp"
                     android:orientation="horizontal">
                 </LinearLayout>
             </RelativeLayout>
@@ -363,7 +367,9 @@
                     android:layout_marginTop="10dp"
                     android:layout_below="@id/viewpager_jing_pin"
                     android:layout_centerInParent="true"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:layout_marginBottom="10dp"
+                    android:paddingBottom="10dp">
                 </LinearLayout>
             </RelativeLayout>
 
@@ -387,7 +393,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:layout_marginTop="10dp">
+                android:layout_marginTop="10dp"
+                android:background="@color/white_my">
                 <android.support.v4.view.ViewPager
                     android:id="@+id/viewpager_binner_three"
                     android:layout_width="wrap_content"
@@ -401,6 +408,7 @@
                     android:layout_alignBottom="@id/viewpager_binner_three"
                     android:layout_above="@id/viewpager_binner_three"
                     android:layout_centerInParent="true"
+                    android:layout_marginBottom="10dp"
                     android:orientation="horizontal">
                 </LinearLayout>
             </RelativeLayout>
@@ -449,7 +457,7 @@
                 <android.support.v4.view.ViewPager
                     android:id="@+id/viewpager_shop_street"
                     android:layout_width="wrap_content"
-                    android:layout_height="160dp">
+                    android:layout_height="200dp">
                 </android.support.v4.view.ViewPager>
 
                 <LinearLayout
@@ -500,9 +508,14 @@
                     android:textSize="18sp"
                     android:layout_margin="20dp"/>
             </LinearLayout>-->
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                android:text="测试"/>
 
         </LinearLayout>
-    </com.example.asus_cp.dongmanbuy.customview.MyScrollView>
+    </ScrollView>
 
 
 </LinearLayout>

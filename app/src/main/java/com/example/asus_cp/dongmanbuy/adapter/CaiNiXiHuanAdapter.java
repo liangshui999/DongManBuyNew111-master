@@ -61,11 +61,12 @@ public class CaiNiXiHuanAdapter extends BaseAdapter{
         }else{
             viewHolder= (ViewHolder) v.getTag();
         }
-        ImageLoader.ImageListener imageListener=ImageLoader.getImageListener(viewHolder.imageView,R.mipmap.ic_launcher,
-                R.mipmap.ic_launcher);
-        imageLoader.get(goods.get(position).getGoodsImg(), imageListener,300,300);
         viewHolder.nameTextView.setText(goods.get(position).getGoodName());
         viewHolder.shopPriceTextView.setText(goods.get(position).getShopPrice());
+        ImageLoader.ImageListener imageListener=imageLoader.getImageListener(viewHolder.imageView, R.mipmap.yu_jia_zai_cai_ni_xi_huan,
+                R.mipmap.yu_jia_zai_cai_ni_xi_huan);
+        imageLoader.get(goods.get(position).getGoodsThumb(), imageListener);
+
         return v;
     }
 

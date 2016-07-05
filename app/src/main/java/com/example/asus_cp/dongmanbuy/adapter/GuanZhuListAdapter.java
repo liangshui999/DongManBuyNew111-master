@@ -1,12 +1,8 @@
 package com.example.asus_cp.dongmanbuy.adapter;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,8 +20,6 @@ import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.StringRequest;
 import com.example.asus_cp.dongmanbuy.R;
 import com.example.asus_cp.dongmanbuy.activity.dian_pu_jie.ShopHomeActivity;
-import com.example.asus_cp.dongmanbuy.activity.login.LoginActivity;
-import com.example.asus_cp.dongmanbuy.activity.product_detail.ProductDetailActivity;
 import com.example.asus_cp.dongmanbuy.constant.MyConstant;
 import com.example.asus_cp.dongmanbuy.model.ShopModel;
 import com.example.asus_cp.dongmanbuy.util.ImageLoadHelper;
@@ -213,7 +207,7 @@ public class GuanZhuListAdapter extends BaseAdapter {
                 //Toast.makeText(context, "点击了店铺名称", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(context, ShopHomeActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                intent.putExtra(MyConstant.FROM_SHOP_CATEGORY_TO_CATEGORY_HOME_KEY, shopModel.getUserId());
+                intent.putExtra(MyConstant.SHOP_USER_ID_KEY, shopModel.getUserId());
                 context.startActivity(intent);
             }
         });
@@ -223,7 +217,7 @@ public class GuanZhuListAdapter extends BaseAdapter {
                 //Toast.makeText(context, "点击了店铺logo", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(context, ShopHomeActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                intent.putExtra(MyConstant.FROM_SHOP_CATEGORY_TO_CATEGORY_HOME_KEY, shopModel.getUserId());
+                intent.putExtra(MyConstant.SHOP_USER_ID_KEY, shopModel.getUserId());
                 context.startActivity(intent);
             }
         });

@@ -27,7 +27,9 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.StringRequest;
 import com.example.asus_cp.dongmanbuy.R;
+import com.example.asus_cp.dongmanbuy.activity.dian_pu_jie.ShopHomeActivity;
 import com.example.asus_cp.dongmanbuy.activity.gou_wu.DingDanListActivity;
+import com.example.asus_cp.dongmanbuy.activity.gou_wu.ShoppingCarActivity;
 import com.example.asus_cp.dongmanbuy.activity.login.LoginActivity;
 import com.example.asus_cp.dongmanbuy.activity.personal_center.GuanZhuListActivity;
 import com.example.asus_cp.dongmanbuy.activity.personal_center.PersonalCenterActivity;
@@ -67,6 +69,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
     private static final int REQUEST_CODE_SHOU_CANG_KEY = 9;
+    private static final int REQUEST_CODE_SHOPPING_CAR =10 ;
     //private android.support.v7.widget.SearchView searchView;
     private ImageView searchImageView;//搜索的图片
     private ImageButton loginButton;//登录按钮
@@ -144,6 +147,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     public static final int REQUEST_CODE_LOGIN_SETTING=8;//从设置跳转到登陆界面的请求码
 
+    public static final int REQUEST_CODE_TO_SETTING=9;//直接跳转到设置界面
+
     private String userInfoUrl="http://www.zmobuy.com/PHP/?url=/user/info";//用户信息的接口
 
     private RequestQueue requestQueue;
@@ -151,6 +156,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private int messageAndSaoCount;//标记message和扫一扫的是显示还是隐藏
 
     public static final int SCAN_CODE = 1;//扫一扫的请求码
+
+    private String passUid;//传递给碎片的uid
+    private String passsid;
 
 
     @Override
@@ -194,6 +202,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         };
         new CategoryImageLoadHelper(getXiangSuMiDu());
     }
+
+
+    public String getPassUid() {
+        return passUid;
+    }
+
+    public String getPasssid() {
+        return passsid;
+    }
+
 
     /**
      * 初始化view
@@ -447,13 +465,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 shopStreetText.setTextColor(getResources().getColor(R.color.bottom_lable_color));
                 break;
             case R.id.ll_shopping_car:
-                //viewPager.setCurrentItem(SHOPPING_CAR);
-                FragmentTransaction shoppingCarTransaction=fragmentManager.beginTransaction();
-                shoppingCarTransaction.replace(R.id.frame_layout_main,shoppingCarFragment);
-                shoppingCarTransaction.commit();
-                resetLabel();
-                shoppingCarImg.setImageResource(R.mipmap.shoppingcar_selected);
-                shoppingCarText.setTextColor(getResources().getColor(R.color.bottom_lable_color));
+                shoppingCarClickChuLi();
                 break;
             case R.id.ll_message:
                 Toast.makeText(this,"点击了消息",Toast.LENGTH_SHORT).show();
@@ -499,6 +511,35 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
         }
     }
+
+
+
+    /**
+     * 购物车的点击事件处理
+     */
+    private void shoppingCarClickChuLi() {
+        //viewPager.setCurrentItem(SHOPPING_CAR);
+        String uid=sharedPreferences.getString(MyConstant.UID_KEY,null);
+        String sid=sharedPreferences.getString(MyConstant.SID_KEY,null);
+        if(uid==null || uid.isEmpty()){
+            Intent toLoginIntent=new Intent(this,LoginActivity.class);
+            toLoginIntent.putExtra(MyConstant.START_LOGIN_ACTIVITY_FLAG_KEY,"homeFragment");
+            startActivityForResult(toLoginIntent,REQUEST_CODE_SHOPPING_CAR);
+        }else {
+           /* FragmentTransaction shoppingCarTransaction=fragmentManager.beginTransaction();
+            shoppingCarTransaction.replace(R.id.frame_layout_main,shoppingCarFragment);
+            shoppingCarTransaction.commit();
+            resetLabel();
+            shoppingCarImg.setImageResource(R.mipmap.shoppingcar_selected);
+            shoppingCarText.setTextColor(getResources().getColor(R.color.bottom_lable_color));
+            passUid=uid;
+            passsid=sid;*/
+            Intent toShoppingCarIntent=new Intent(this, ShoppingCarActivity.class);
+            startActivity(toShoppingCarIntent);
+        }
+
+    }
+
 
 
     /**
@@ -636,7 +677,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         ImageLoader imageLoader=helper.getImageLoader();
                         ImageLoader.ImageListener listener=imageLoader.getImageListener(loginImage,R.mipmap.yu_jia_zai,
                                 R.mipmap.yu_jia_zai);
-                        //imageLoader.get(user.getPic(),listener,200,200);
+                        imageLoader.get(MyConstant.YU_MING+user.getPic(),listener,200,200);
                     }
                 }, new Response.ErrorListener() {
             @Override
@@ -669,7 +710,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         User user=parseJson(s);
                         Intent settingIntent=new Intent(MainActivity.this, DataSetActivity.class);
                         settingIntent.putExtra(MyConstant.USER_KEY,user);
-                        startActivity(settingIntent);
+                        startActivityForResult(settingIntent, REQUEST_CODE_TO_SETTING);
                     }
                 }, new Response.ErrorListener() {
             @Override
@@ -856,7 +897,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         }else if("B".equals(id.charAt(0)+"")){    //商店
                             String shopId=id.substring(1);
                             MyLog.d(tag,"shopId="+shopId);
-                            Toast.makeText(this,"shopId="+shopId,Toast.LENGTH_SHORT).show();
+                            Intent toShopHomeIntent=new Intent(this, ShopHomeActivity.class);
+                            toShopHomeIntent.putExtra(MyConstant.SHOP_USER_ID_KEY,shopId);
+                            startActivity(toShopHomeIntent);
                         }
                     }
                     /*Intent toSaoMiaoResultIntent=new Intent(this, SaoMiaoResultActivity.class);
@@ -865,6 +908,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 } else if (resultCode == RESULT_CANCELED) {
                     Toast.makeText(this,"扫描出错",Toast.LENGTH_SHORT).show();
                 }
+                break;
+            case REQUEST_CODE_TO_SETTING://从设置界面回来的
+                loginImage.setImageResource(R.mipmap.ic_launcher);
+                nameTextView.setText("");
+                emailTextView.setText("");
+                break;
+            case REQUEST_CODE_SHOPPING_CAR://跳转到购物车碎片
+                shoppingCarClickChuLi();
                 break;
         }
     }

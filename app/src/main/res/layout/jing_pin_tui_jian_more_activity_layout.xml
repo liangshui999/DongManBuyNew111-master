@@ -175,7 +175,10 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:numColumns="2"
-            android:visibility="visible">
+            android:visibility="visible"
+            android:background="@color/white_my"
+            android:horizontalSpacing="5dp"
+            android:verticalSpacing="5dp">
         </com.handmark.pulltorefresh.library.PullToRefreshGridView>
 
         <com.handmark.pulltorefresh.library.PullToRefreshListView

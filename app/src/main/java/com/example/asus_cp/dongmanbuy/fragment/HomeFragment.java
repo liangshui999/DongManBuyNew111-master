@@ -33,6 +33,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.StringRequest;
 import com.example.asus_cp.dongmanbuy.R;
+import com.example.asus_cp.dongmanbuy.activity.dian_pu_jie.ShopHomeActivity;
 import com.example.asus_cp.dongmanbuy.activity.dian_pu_jie.ShopStreetCategoryActvity;
 import com.example.asus_cp.dongmanbuy.activity.gou_wu.DingDanListActivity;
 import com.example.asus_cp.dongmanbuy.activity.login.LoginActivity;
@@ -42,6 +43,7 @@ import com.example.asus_cp.dongmanbuy.activity.personal_center.data_set.EditShip
 import com.example.asus_cp.dongmanbuy.activity.personal_center.fund_manager.FundManagerActivity;
 import com.example.asus_cp.dongmanbuy.activity.product_detail.ProductDetailActivity;
 import com.example.asus_cp.dongmanbuy.adapter.CaiNiXiHuanAdapter;
+import com.example.asus_cp.dongmanbuy.adapter.HomeShopStreetAdapter;
 import com.example.asus_cp.dongmanbuy.adapter.JingPinAdapter;
 import com.example.asus_cp.dongmanbuy.adapter.XianShiAdapter;
 import com.example.asus_cp.dongmanbuy.constant.MyConstant;
@@ -50,6 +52,7 @@ import com.example.asus_cp.dongmanbuy.customview.MyGridViewA;
 import com.example.asus_cp.dongmanbuy.db.DBCreateHelper;
 import com.example.asus_cp.dongmanbuy.model.Binner;
 import com.example.asus_cp.dongmanbuy.model.Good;
+import com.example.asus_cp.dongmanbuy.model.ShopModel;
 import com.example.asus_cp.dongmanbuy.model.User;
 import com.example.asus_cp.dongmanbuy.util.JsonHelper;
 import com.example.asus_cp.dongmanbuy.util.MyApplication;
@@ -149,6 +152,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
     public static final int REQUEST_CODE_LOGIN_SHIP_ADDRESS=4;//从收货地址跳转到登陆界面的请求码
 
     private String userInfoUrl="http://www.zmobuy.com/PHP/?url=/user/info";//用户信息的接口
+
+
 
 
     private Handler handler = new MyHandler();
@@ -402,9 +407,9 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
                     //限时秒杀的gridview
                     xianShiMiaoShaGridView = (MyGridView) v.findViewById(R.id.grid_view_xian_shi_miao_sha);
                     if (goods.size() > 0) {
-                        XianShiAdapter xianShiAdapter = new XianShiAdapter(context, getElementsFromList(goods, 4));
+                        XianShiAdapter xianShiAdapter = new XianShiAdapter(context, getElementsFromList(goods, 5));
                         xianShiMiaoShaGridView.setAdapter(xianShiAdapter);
-                        xianShiMiaoShaGridView.setOnItemClickListener(new XianShiOnItemClickListener(getElementsFromList(goods, 4)));
+                        xianShiMiaoShaGridView.setOnItemClickListener(new XianShiOnItemClickListener(getElementsFromList(goods, 5)));
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -502,6 +507,73 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
         requestQueue.add(jingPinStringRequest);*/
 
 
+        //----------------------店铺街部分-----------------------------------
+        String indexUrl="http://www.zmobuy.com/PHP/?url=/store/index";//店铺分类的url
+        final ViewPager shopStreetViewPager= (ViewPager) v.findViewById(R.id.viewpager_shop_street);
+        final List<View> shopStreetGridViews=new ArrayList<View>();
+        StringRequest shopStreetStringRequest=new StringRequest(Request.Method.POST, indexUrl, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String s) {
+                final List<ShopModel> shopModels = parseJsonShopStreet(s);
+                // Good[] goodArray= (Good[]) goods.toArray();
+                int size=shopModels.size();
+                int count=0;//取的次数
+                if(size%3==0){
+                    count=size;
+                }else{
+                    count=size/3+1;
+                }
+                for(int i=0;i<count;i++){
+                    final List<ShopModel> shopItems=new ArrayList<ShopModel>();
+                    for(int j=3*i;j<3*i+3;j++){
+                        if(j<size){
+                            shopItems.add(shopModels.get(j));
+                        }
+                    }
+                    HomeShopStreetAdapter homeShopStreetAdapter=new HomeShopStreetAdapter(context,shopItems);
+                    MyGridView gridView=new MyGridView(context);
+                    //gridView.setColumnWidth(230);
+                    gridView.setHorizontalSpacing(5);
+                    gridView.setVerticalSpacing(5);
+                    gridView.setGravity(Gravity.CENTER);
+                    gridView.setStretchMode(GridView.STRETCH_COLUMN_WIDTH);
+                    gridView.setNumColumns(3);
+                    gridView.setAdapter(homeShopStreetAdapter);
+                    gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                            // Toast.makeText(context,""+position,Toast.LENGTH_SHORT).show();
+                            Intent intent=new Intent(context,ShopHomeActivity.class);
+                            intent.putExtra(MyConstant.SHOP_USER_ID_KEY,shopItems.get(position).getUserId());
+                            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            context.startActivity(intent);
+                        }
+                    });
+                    shopStreetGridViews.add(gridView);
+                }
+                shopStreetViewPager.setAdapter(new MyPagerAdapter(shopStreetGridViews));
+                LinearLayout shopStreetPointGroup= (LinearLayout) v.findViewById(R.id.ll_point_group_shop_street);
+                initPoint(shopStreetPointGroup,shopStreetGridViews.size());
+                shopStreetViewPager.addOnPageChangeListener(new MyPageChangeListener(shopStreetGridViews,shopStreetPointGroup));
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+
+            }
+        }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String,String>map=new HashMap<String,String>();
+                String json="{\"page\":\"1\",\"where\":\"\""+""+"\"\",\"type\":\"1\"}";
+                map.put("json",json);
+                return map;
+            }
+        };
+        requestQueue.add(shopStreetStringRequest);
+
+
+
         //-----------------------猜你喜欢部分---------------------------------
         caiNiXiHuanGridView= (MyGridViewA) v.findViewById(R.id.grid_view_cai_ni_xi_huan);
         String caiNiUrl="http://www.zmobuy.com/PHP/index.php?url=/home/hotgoods";
@@ -516,7 +588,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
                 caiNiXiHuanGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                        Toast.makeText(context,""+position,Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(context,""+position,Toast.LENGTH_SHORT).show();
                         Intent intent=new Intent(context, ProductDetailActivity.class);
                         Bundle bundle=new Bundle();
                         bundle.putParcelable(GOOD_KEY,goods.get(position));
@@ -541,6 +613,72 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
         jingPinMoreTextView.setOnClickListener(this);
         dianPuJieMoreTextView.setOnClickListener(this);
     }
+
+
+    /**
+     *将json数据解析出来放到集合里面
+     */
+    private List<ShopModel> parseJsonShopStreet(String s) {
+        MyLog.d(tag, "书籍返回的数据是" + s);
+        List<ShopModel> shopModels=new ArrayList<ShopModel>();
+        try {
+            JSONObject jsonObject=new JSONObject(s);
+            JSONObject jsonObject1=jsonObject.getJSONObject("data");
+            JSONArray jsonArray=jsonObject1.getJSONArray("list");
+            for(int i=0;i<jsonArray.length();i++){
+                JSONObject ziJsonObj=jsonArray.getJSONObject(i);
+                ShopModel shopModel=new ShopModel();
+                shopModel.setShopId(ziJsonObj.getString("shop_id"));
+                shopModel.setUserId(ziJsonObj.getString("user_id"));
+                shopModel.setShopName(JsonHelper.decodeUnicode(ziJsonObj.getString("shop_name")));
+                shopModel.setShopLogo(ziJsonObj.getString("shop_logo"));
+                shopModel.setLogoThumb(ziJsonObj.getString("logo_thumb"));
+                shopModel.setStreetThumb(ziJsonObj.getString("street_thumb"));
+                shopModel.setBrandThumb(ziJsonObj.getString("brand_thumb"));
+                shopModel.setCommenTrank(ziJsonObj.getString("commentrank_font"));
+                shopModel.setCommentServer(ziJsonObj.getString("commentserver_font"));
+                shopModel.setCommentDelivery(ziJsonObj.getString("commentdelivery_font"));
+                shopModel.setCommenTrankScore(ziJsonObj.getString("commentrank"));
+                shopModel.setCommentServerScore(ziJsonObj.getString("commentserver"));
+                shopModel.setCommentDeliveryScore(ziJsonObj.getString("commentdelivery"));
+                shopModel.setGazeNumber(ziJsonObj.getString("gaze_number"));
+                shopModel.setGazeStatus(ziJsonObj.getString("gaze_status"));
+                JSONArray goodsArray=null;
+                try{
+                    goodsArray=ziJsonObj.getJSONArray("goods");//注意这里的处理方法，这句话崩了，不至于让整个程序都崩掉
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+                List<Good> goods=new ArrayList<Good>();
+                if(goodsArray!=null){
+                    for(int j=0;j<goodsArray.length();j++){
+                        JSONObject goodJsonObject=goodsArray.getJSONObject(j);
+                        Good good=new Good();
+                        good.setGoodId(goodJsonObject.getString("goods_id"));
+                        good.setGoodName(JsonHelper.decodeUnicode(goodJsonObject.getString("goods_name")));
+                        good.setGoodsNumber(goodJsonObject.getString("goods_number"));
+                        good.setMarket_price(JsonHelper.decodeUnicode(goodJsonObject.getString("market_price")));
+                        good.setShopPrice(goodJsonObject.getString("shop_price"));
+                        good.setGoodsThumb(goodJsonObject.getString("goods_thumb"));
+                        good.setGoodsImg(goodJsonObject.getString("goods_img"));
+                        good.setSalesVolume(goodJsonObject.getString("sales_volume"));
+                        good.setCommentsNumber(goodJsonObject.getString("comments_number"));
+                        goods.add(good);
+                    }
+                    shopModel.setGoods(goods);
+                }
+                shopModels.add(shopModel);
+            }
+            MyLog.d(tag, "集合的大小:" + shopModels.size());
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return shopModels;
+    }
+
+
+
 
 
     /**

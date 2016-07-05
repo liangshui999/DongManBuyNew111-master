@@ -36,7 +36,6 @@ import com.example.asus_cp.dongmanbuy.util.MyLog;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -236,7 +235,7 @@ public class ShopStreetShopListAdapter extends BaseAdapter {
                 //Toast.makeText(context, "点击了店铺名称", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(context, ShopHomeActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                intent.putExtra(MyConstant.FROM_SHOP_CATEGORY_TO_CATEGORY_HOME_KEY, shopModel.getUserId());
+                intent.putExtra(MyConstant.SHOP_USER_ID_KEY, shopModel.getUserId());
                 context.startActivity(intent);
             }
         });
@@ -246,7 +245,7 @@ public class ShopStreetShopListAdapter extends BaseAdapter {
                 //Toast.makeText(context, "点击了店铺logo", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(context, ShopHomeActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                intent.putExtra(MyConstant.FROM_SHOP_CATEGORY_TO_CATEGORY_HOME_KEY, shopModel.getUserId());
+                intent.putExtra(MyConstant.SHOP_USER_ID_KEY, shopModel.getUserId());
                 context.startActivity(intent);
             }
         });

@@ -1,6 +1,8 @@
 package com.example.asus_cp.dongmanbuy.fragment;
 
 import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -14,6 +16,7 @@ import android.widget.Toast;
 
 import com.android.volley.RequestQueue;
 import com.example.asus_cp.dongmanbuy.R;
+import com.example.asus_cp.dongmanbuy.activity.MainActivity;
 import com.example.asus_cp.dongmanbuy.util.MyApplication;
 
 /**
@@ -28,6 +31,9 @@ public class ShoppingCarFragment extends Fragment implements View.OnClickListene
     private Button quGuangGuangButton;//去逛一逛
     private RecyclerView mayBeYouWant;//你可能想要
 
+    private String uid;
+    private String sid;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -41,6 +47,9 @@ public class ShoppingCarFragment extends Fragment implements View.OnClickListene
      */
     private void init(View v) {
         context=getActivity();
+        MainActivity mainActivity= (MainActivity) getActivity();
+        uid=mainActivity.getPassUid();
+        sid=mainActivity.getPasssid();
         requestQueue= MyApplication.getRequestQueue();
         backImageView= (ImageView) v.findViewById(R.id.img_shoping_car_dao_hang);
         quGuangGuangButton= (Button) v.findViewById(R.id.btn_qu_guang_guang);
@@ -56,10 +65,10 @@ public class ShoppingCarFragment extends Fragment implements View.OnClickListene
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.img_shoping_car_dao_hang://返回按钮的点击事件
-                Toast.makeText(context,"点击了返回按钮",Toast.LENGTH_SHORT).show();
                 break;
             case R.id.btn_qu_guang_guang://去逛一逛的点击事件
-                Toast.makeText(context,"点击了去逛一逛",Toast.LENGTH_SHORT).show();
+                Intent intent=new Intent(context, MainActivity.class);
+                startActivity(intent);
                 break;
         }
     }

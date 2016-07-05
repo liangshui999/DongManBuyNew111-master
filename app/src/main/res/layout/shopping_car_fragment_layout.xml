@@ -18,17 +18,18 @@
                 android:background="@color/bottom_lable_color">
                 <ImageView
                     android:id="@+id/img_shoping_car_dao_hang"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
                     android:layout_alignParentLeft="true"
                     android:layout_margin="10dp"
-                    android:src="@mipmap/left"/>
+                    android:src="@mipmap/left"
+                    android:layout_centerVertical="true"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/shopping_car"
                     android:layout_centerInParent="true"
-                    android:textSize="26sp"
+                    android:textSize="18sp"
                     android:textColor="@color/white_my"/>
             </RelativeLayout>
 
@@ -43,8 +44,8 @@
                     android:layout_centerInParent="true"
                     android:orientation="vertical">
                     <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
                         android:layout_gravity="center"
                         android:src="@mipmap/shoppingcarcontent"/>
                     <TextView
@@ -52,7 +53,7 @@
                         android:layout_height="wrap_content"
                         android:text="@string/nothing"
                         android:layout_gravity="center"
-                        android:textSize="20sp"
+                        android:textSize="16sp"
                         android:layout_marginTop="20dp"/>
                     <Button
                         android:id="@+id/btn_qu_guang_guang"
@@ -65,9 +66,10 @@
                         android:text="@string/qu_guang_guang"/>
 
                 </LinearLayout>
-
-
             </RelativeLayout>
+
+
+
 
             <!--你可能想要的布局-->
             <LinearLayout
@@ -80,7 +82,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="left"
                     android:text="@string/may_be_you_want"
-                    android:textSize="20sp"
+                    android:textSize="16sp"
                     android:layout_marginTop="20dp"
                     android:layout_marginLeft="10dp"/>
                 <android.support.v7.widget.RecyclerView

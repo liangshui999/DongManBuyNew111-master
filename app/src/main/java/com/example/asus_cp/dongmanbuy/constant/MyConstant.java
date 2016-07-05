@@ -11,7 +11,7 @@ public interface MyConstant {
     public static final String START_LOGIN_ACTIVITY_FLAG_KEY="startloginkey";//开启登陆活动时，其他活动传过去的标志
     public static final String YOU_TU_PING_JIA_KEY="youTuPingJia";//有图评价的key
     public static final String YOU_TU_PING_JIA_CONTENT="youTu";//有图评价的内容
-    public static final String FROM_SHOP_CATEGORY_TO_CATEGORY_HOME_KEY="categoryHome";//从店铺的分类到店铺主页传值用的key
+    public static final String SHOP_USER_ID_KEY ="categoryHome";//从店铺的分类到店铺主页传值用的key
     public static final String FROM_SHOP_HOME_TO_SHOP_DETAIL_KEY="shopDetail";//从店铺的主页到店铺的详情的传值
     public static final String FROM_SHOP_HOME_TO_SHOP_PRODUCT_SORT_KEY="productSort";//从店铺主页跳到店铺商品排序的界面的key
     public static final String GOOD_KEY="good_key";//向商品详情传数据时所用的key
@@ -47,4 +47,5 @@ public interface MyConstant {
     public static final String SEARCH_CONTENT_KEY="searchKey";//传递搜索关键字用
     public static final String SEARCH_CATEGORY_KEY="searchCategoryKey";//传递搜索的类别用
     public static final String SAO_MIAO_RESULT_KEY="saoMiaoResult";//传递扫描结果的key
+    public static final String YU_MING="http://www.zmobuy.com";//网站的域名
 }

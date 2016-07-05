@@ -153,7 +153,7 @@ public class PersonalCenterActivity extends Activity implements View.OnClickList
                         ImageLoader imageLoader=helper.getImageLoader();
                         ImageLoader.ImageListener listener=imageLoader.getImageListener(touXiangImageView,
                                 R.mipmap.yu_jia_zai,R.mipmap.yu_jia_zai);
-                        //imageLoader.get(user.getPic(),listener,200,200);
+                        imageLoader.get(MyConstant.YU_MING+user.getPic(),listener,200,200);
                         nameTextView.setText(user.getName());
                         dengJiTextView.setText(user.getRankName());
                         shouCangShuTextView.setText(user.getShouCangShu());

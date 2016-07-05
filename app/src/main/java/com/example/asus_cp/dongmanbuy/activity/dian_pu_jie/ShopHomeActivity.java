@@ -29,11 +29,9 @@ import com.example.asus_cp.dongmanbuy.activity.login.LoginActivity;
 import com.example.asus_cp.dongmanbuy.activity.product_detail.ProductDetailActivity;
 import com.example.asus_cp.dongmanbuy.adapter.ShopHomeHotProductAdapter;
 import com.example.asus_cp.dongmanbuy.constant.MyConstant;
-import com.example.asus_cp.dongmanbuy.customview.MyGridView;
 import com.example.asus_cp.dongmanbuy.customview.MyGridViewA;
 import com.example.asus_cp.dongmanbuy.model.Good;
 import com.example.asus_cp.dongmanbuy.model.ShopModel;
-import com.example.asus_cp.dongmanbuy.util.CategoryImageLoadHelper;
 import com.example.asus_cp.dongmanbuy.util.ImageLoadHelper;
 import com.example.asus_cp.dongmanbuy.util.JsonHelper;
 import com.example.asus_cp.dongmanbuy.util.MyApplication;
@@ -103,7 +101,7 @@ public class ShopHomeActivity extends Activity implements View.OnClickListener {
      * 初始化的方法
      */
     private void init() {
-        shopUserId = getIntent().getStringExtra(MyConstant.FROM_SHOP_CATEGORY_TO_CATEGORY_HOME_KEY);
+        shopUserId = getIntent().getStringExtra(MyConstant.SHOP_USER_ID_KEY);
         requestQueue = MyApplication.getRequestQueue();
         helper=new ImageLoadHelper();
 

@@ -377,7 +377,7 @@ public class ShopStreetFragment extends Fragment {
     }
 
     /**
-     *将json数据解析出来放到集合厘米那
+     *将json数据解析出来放到集合里面
      */
     private List<ShopModel> parseJson(String s) {
         MyLog.d(tag, "书籍返回的数据是" + s);
