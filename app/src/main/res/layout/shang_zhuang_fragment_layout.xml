@@ -25,11 +25,12 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/wei_yi"
-                    android:layout_gravity="left"/>
+                    android:layout_gravity="left"
+                    />
                 <com.example.asus_cp.dongmanbuy.customview.MyGridViewA
                     android:id="@+id/grid_view_wei_yi"
                     android:layout_width="match_parent"
-                    android:layout_height="380dp"
+                    android:layout_height="wrap_content"
                     android:numColumns="3"
                     android:verticalSpacing="10dp"
                     android:horizontalSpacing="10dp"
@@ -44,18 +45,19 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:layout_marginTop="10dp">
+                android:layout_marginTop="20dp">
                 <TextView
                     android:id="@+id/text_zhen_zhi_shan"
                     android:clickable="true"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/zhen_zhi_shan"
-                    android:layout_gravity="left"/>
+                    android:layout_gravity="left"
+                    />
                 <com.example.asus_cp.dongmanbuy.customview.MyGridViewA
                     android:id="@+id/grid_view_zhen_zhi_shan"
                     android:layout_width="match_parent"
-                    android:layout_height="250dp"
+                    android:layout_height="wrap_content"
                     android:numColumns="3"
                     android:verticalSpacing="10dp"
                     android:horizontalSpacing="10dp"
@@ -69,18 +71,19 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:layout_marginTop="10dp">
+                android:layout_marginTop="20dp">
                 <TextView
                     android:id="@+id/text_wai_tao"
                     android:clickable="true"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/wai_tao"
-                    android:layout_gravity="left"/>
+                    android:layout_gravity="left"
+                    />
                 <com.example.asus_cp.dongmanbuy.customview.MyGridViewA
                     android:id="@+id/grid_view_wai_tao"
                     android:layout_width="match_parent"
-                    android:layout_height="130dp"
+                    android:layout_height="wrap_content"
                     android:numColumns="3"
                     android:verticalSpacing="10dp"
                     android:horizontalSpacing="10dp"

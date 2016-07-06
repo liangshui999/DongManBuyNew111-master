@@ -5,7 +5,7 @@
     <ImageView
         android:id="@+id/img_home_shop_street"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="100dp"
         android:layout_gravity="center"
         android:paddingTop="10dp"
         android:paddingBottom="10dp"/>

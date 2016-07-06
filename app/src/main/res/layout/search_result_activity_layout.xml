@@ -176,21 +176,24 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:numColumns="2"
-            android:visibility="visible">
+            android:visibility="visible"
+            android:background="@color/white_my">
         </com.handmark.pulltorefresh.library.PullToRefreshGridView>
 
         <com.handmark.pulltorefresh.library.PullToRefreshListView
             android:id="@+id/list_view_product_sort_small_search_result"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:visibility="visible">
+            android:visibility="visible"
+            android:background="@color/white_my">
         </com.handmark.pulltorefresh.library.PullToRefreshListView>
 
         <com.handmark.pulltorefresh.library.PullToRefreshListView
             android:id="@+id/list_view_product_sort_big_search_result"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:visibility="visible">
+            android:visibility="visible"
+            android:background="@color/white_my">
         </com.handmark.pulltorefresh.library.PullToRefreshListView>
 
     </LinearLayout>

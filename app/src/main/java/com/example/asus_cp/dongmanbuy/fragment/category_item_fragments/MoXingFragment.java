@@ -46,8 +46,8 @@ public class MoXingFragment extends Fragment implements View.OnClickListener{
         shouBanTextView.setOnClickListener(this);
         moXingTextView.setOnClickListener(this);
 
-        helper.asynLoadCatgory(shouBanGridView, "手办", "9");
-        helper.asynLoadCatgory(moXingGridView,"模型","12");
+        helper.asynLoadCatgory(shouBanGridView, "手办", "9",R.mipmap.yu_jia_zai);
+        helper.asynLoadCatgory(moXingGridView,"模型","12",R.mipmap.yu_jia_zai);
     }
 
     @Override

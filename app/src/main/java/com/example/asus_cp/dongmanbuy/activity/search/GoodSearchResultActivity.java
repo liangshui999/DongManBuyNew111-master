@@ -405,7 +405,10 @@ public class GoodSearchResultActivity extends Activity implements View.OnClickLi
                 finish();
                 break;
             case R.id.img_search_search_result://搜索按钮
-                Toast.makeText(this, "点击了按钮", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(this, "点击了按钮", Toast.LENGTH_SHORT).show();
+                Intent toSearchIntent=new Intent(this,SearchActivity.class);
+                startActivity(toSearchIntent);
+                finish();
                 break;
             case R.id.ll_zong_he_sort_search_result://综合
                 zongHeClickChuLi();

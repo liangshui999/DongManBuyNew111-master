@@ -80,13 +80,13 @@ public class ShangZhuangFragment extends Fragment implements View.OnClickListene
 
 
         //卫衣部分
-        helper.asynLoadCatgory(weiYiGridView,"卫衣","9");
+        helper.asynLoadCatgory(weiYiGridView,"卫衣","9",R.mipmap.yu_jia_zai);
         //针织衫部分
-        helper.asynLoadCatgory(zhenZhiShanGridView,"针织衫","6");
+        helper.asynLoadCatgory(zhenZhiShanGridView,"针织衫","6",R.mipmap.yu_jia_zai);
         //外套部分
-        helper.asynLoadCatgory(waiTaoGridView,"外套","3");
+        helper.asynLoadCatgory(waiTaoGridView,"外套","3",R.mipmap.yu_jia_zai);
         //T恤部分
-        helper.asynLoadCatgory(tXueGridView,"T恤","3");
+        helper.asynLoadCatgory(tXueGridView,"T恤","3",R.mipmap.yu_jia_zai);
 
 
 

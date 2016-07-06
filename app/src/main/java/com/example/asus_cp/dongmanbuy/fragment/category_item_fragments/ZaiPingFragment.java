@@ -56,9 +56,9 @@ public class ZaiPingFragment extends Fragment implements View.OnClickListener{
         puKePaiGridView= (MyGridViewA) v.findViewById(R.id.grid_view_pu_ke_pai);
         taiLiGridView= (MyGridViewA) v.findViewById(R.id.grid_view_tai_li);
 
-        helper.asynLoadCatgory(mingXinPianGridView,"明信片","18");
-        helper.asynLoadCatgory(puKePaiGridView,"扑克牌","18");
-        helper.asynLoadCatgory(taiLiGridView,"台历","18");
+        helper.asynLoadCatgory(mingXinPianGridView,"明信片","18",R.mipmap.yu_jia_zai);
+        helper.asynLoadCatgory(puKePaiGridView,"扑克牌","18",R.mipmap.yu_jia_zai);
+        helper.asynLoadCatgory(taiLiGridView,"台历","18",R.mipmap.yu_jia_zai);
 
         mingXinPianTextView= (TextView) v.findViewById(R.id.text_ming_xin_pian);
         daLiBaoTextView= (TextView) v.findViewById(R.id.text_da_li_bao);

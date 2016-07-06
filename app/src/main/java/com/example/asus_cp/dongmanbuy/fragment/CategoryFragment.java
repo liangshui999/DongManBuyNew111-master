@@ -64,6 +64,8 @@ public class CategoryFragment extends Fragment {
 
     private int density;//屏幕像素密度
 
+    private View lastView;//上一个点击的view
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -106,9 +108,7 @@ public class CategoryFragment extends Fragment {
         //categoryList.getAdapter().getView(0,null,categoryList).setBackgroundResource(R.color.white_my);
 
 
-
         categoryList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            private View lastView;
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 switch (position) {

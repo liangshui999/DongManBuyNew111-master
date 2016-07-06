@@ -184,7 +184,8 @@
         <activity android:name=".activity.personal_center.fund_manager.ShenQingJiLuDetailActivity"/>
 
         <!--搜索的actiity-->
-        <activity android:name=".activity.search.SearchActivity"/>
+        <activity android:name=".activity.search.SearchActivity"
+            android:launchMode="singleTask"/>
 
         <!--商品搜索结果展示的activity-->
         <activity android:name=".activity.search.GoodSearchResultActivity"/>

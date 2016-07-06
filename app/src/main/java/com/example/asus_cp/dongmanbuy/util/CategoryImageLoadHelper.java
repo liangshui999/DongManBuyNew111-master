@@ -53,10 +53,12 @@ public class CategoryImageLoadHelper {
     public CategoryImageLoadHelper() {
         requestQueue=MyApplication.getRequestQueue();
         context=MyApplication.getContext();
+
     }
 
     public CategoryImageLoadHelper(int densty1){
         densty=densty1;
+
     }
 
     /**
@@ -64,14 +66,16 @@ public class CategoryImageLoadHelper {
      * @param gridView 需要异步加载图片的gridview
      * @param cateGory 商品的类别
      * @param length 需要加载的数据长度
+     * @param yuJiaZaiPic 预加载图片
      */
-    public void asynLoadCatgory(final MyGridViewA gridView, final String cateGory, final String length) {
+    public void asynLoadCatgory(final MyGridViewA gridView, final String cateGory, final String length, final int yuJiaZaiPic) {
         StringRequest allRequest = new StringRequest(Request.Method.GET, getAllCategoryUrl, new Response.Listener<String>() {
             private ArrayList<CategoryModel> categoryModels = new ArrayList<CategoryModel>();
 
             @Override
             public void onResponse(String s) {
-                // MyLog.d(tag,s);
+                 MyLog.d(tag,"类别的数据是："+s);
+                MyLog.d(tag,"像素密度"+densty);
                 try {
                     JSONObject jsonObject = new JSONObject(s);
                     JSONArray jsonArray = jsonObject.getJSONArray("data");
@@ -113,7 +117,7 @@ public class CategoryImageLoadHelper {
                                     good.setShopPrice(jsObject.getString("shop_price"));
                                     goods.add(good);
                                 }
-                                CategoryGridViewAdapter adapter=new CategoryGridViewAdapter(goods,context);
+                                CategoryGridViewAdapter adapter=new CategoryGridViewAdapter(goods,context,yuJiaZaiPic);
                                 gridView.setAdapter(adapter);
                                 gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                                     @Override

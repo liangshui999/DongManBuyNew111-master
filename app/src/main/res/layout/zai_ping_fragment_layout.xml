@@ -28,7 +28,7 @@
                 <com.example.asus_cp.dongmanbuy.customview.MyGridViewA
                     android:id="@+id/grid_view_ming_xin_pian"
                     android:layout_width="match_parent"
-                    android:layout_height="650dp"
+                    android:layout_height="wrap_content"
                     android:numColumns="3"
                     android:verticalSpacing="@dimen/category_fragments_gridview_space"
                     android:horizontalSpacing="@dimen/category_fragments_gridview_space"
@@ -81,7 +81,7 @@
                 <com.example.asus_cp.dongmanbuy.customview.MyGridViewA
                     android:id="@+id/grid_view_pu_ke_pai"
                     android:layout_width="match_parent"
-                    android:layout_height="650dp"
+                    android:layout_height="wrap_content"
                     android:numColumns="3"
                     android:verticalSpacing="@dimen/category_fragments_gridview_space"
                     android:horizontalSpacing="@dimen/category_fragments_gridview_space"

@@ -45,6 +45,7 @@
             android:textColor="@color/bottom_lable_color"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
+            android:background="@drawable/guan_zhu_background"
             android:layout_marginRight="5dp"/>
     </RelativeLayout>
 
@@ -76,9 +77,10 @@
                 android:layout_height="wrap_content"
                 android:text="高"
                 android:textColor="@color/white_my"
-                android:background="@color/bottom_lable_color"
+                android:background="@drawable/product_ping_fen_background"
                 android:layout_marginLeft="5dp"
-                android:textSize="12sp"/>
+                android:textSize="12sp"
+                android:layout_gravity="top"/>
         </LinearLayout>
 
 
@@ -106,9 +108,10 @@
                 android:layout_height="wrap_content"
                 android:text="高"
                 android:textColor="@color/white_my"
-                android:background="@color/bottom_lable_color"
+                android:background="@drawable/fu_wu_ping_fen_background"
                 android:layout_marginLeft="5dp"
-                android:textSize="12sp"/>
+                android:textSize="12sp"
+                android:layout_gravity="top"/>
         </LinearLayout>
 
 
@@ -136,9 +139,10 @@
                 android:layout_height="wrap_content"
                 android:text="高"
                 android:textColor="@color/white_my"
-                android:background="@color/bottom_lable_color"
+                android:background="@drawable/shi_xiao_ping_fen_background"
                 android:layout_marginLeft="5dp"
-                android:textSize="12sp"/>
+                android:textSize="12sp"
+                android:layout_gravity="top"/>
         </LinearLayout>
 
     </LinearLayout>

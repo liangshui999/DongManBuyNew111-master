@@ -23,11 +23,13 @@ public class CategoryGridViewAdapter extends BaseAdapter {
     private Context context;
     private List<Good> goods;
     private LayoutInflater inflater;
+    private int yuJiaZaiPic;//预加载图片
 
-    public CategoryGridViewAdapter(List<Good> goods, Context context) {
+    public CategoryGridViewAdapter(List<Good> goods, Context context,int yuJiaZaiPic) {
         this.goods = goods;
         this.context = context;
         inflater=LayoutInflater.from(context);
+        this.yuJiaZaiPic=yuJiaZaiPic;
     }
 
     @Override
@@ -61,7 +63,7 @@ public class CategoryGridViewAdapter extends BaseAdapter {
         ImageLoadHelper imageLoadHelper=new ImageLoadHelper();
         ImageLoader imageLoader=imageLoadHelper.getImageLoader();
         ImageLoader.ImageListener imageListener=ImageLoader.getImageListener(viewHolder.imageView,
-                R.mipmap.yu_jia_zai,R.mipmap.yu_jia_zai);
+                yuJiaZaiPic,yuJiaZaiPic);
         imageLoader.get(goods.get(position).getGoodsSmallImag(),imageListener,200,200);
         viewHolder.textView.setText(goods.get(position).getGoodName());
         return v;

@@ -149,6 +149,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     public static final int REQUEST_CODE_TO_SETTING=9;//直接跳转到设置界面
 
+    public static final int REQUEST_CODE_TO_PERSONAL_CENTER=11;//跳转到个人中心
+
     private String userInfoUrl="http://www.zmobuy.com/PHP/?url=/user/info";//用户信息的接口
 
     private RequestQueue requestQueue;
@@ -813,8 +815,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      * 跳转到个人中心
      */
     private void toPersonalCenter() {
-        Intent toPersonalCenterIntent=new Intent(this, PersonalCenterActivity.class);
-        startActivity(toPersonalCenterIntent);
+        String uid=sharedPreferences.getString(MyConstant.UID_KEY,null);
+        String sid=sharedPreferences.getString(MyConstant.SID_KEY,null);
+        if(uid!=null && !uid.isEmpty()){
+            Intent toPersonalCenterIntent=new Intent(this, PersonalCenterActivity.class);
+            startActivity(toPersonalCenterIntent);
+        }else{
+            Intent toLoginIntent=new Intent(this,LoginActivity.class);
+            toLoginIntent.putExtra(MyConstant.START_LOGIN_ACTIVITY_FLAG_KEY,"homeFragment");
+            startActivityForResult(toLoginIntent, REQUEST_CODE_TO_PERSONAL_CENTER);
+        }
+
     }
 
     @Override
@@ -857,33 +868,47 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         switch (requestCode){
             case REQUEST_CODE_LOGIN_WALLET://从登陆界面返回的数据,我的钱包跳过去的
-                String uid=sharedPreferences.getString(MyConstant.UID_KEY,null);
-                String sid=sharedPreferences.getString(MyConstant.SID_KEY,null);
-                getDataFromIntenetAndToMyWallet(uid, sid);
+                if(resultCode==RESULT_OK){
+                    String uid=sharedPreferences.getString(MyConstant.UID_KEY,null);
+                    String sid=sharedPreferences.getString(MyConstant.SID_KEY,null);
+                    getDataFromIntenetAndToMyWallet(uid, sid);
+                }
                 break;
             case REQUEST_CODE_LOGIN_ORDER://从订单跳过去的
-                toDingDanListAcitivy(MyConstant.ALL_DING_DAN);
+                if(resultCode==RESULT_OK){
+                    toDingDanListAcitivy(MyConstant.ALL_DING_DAN);
+                }
                 break;
             case REQUEST_CODE_LOGIN_SHIP_ADDRESS://从收货地址跳过去的
-                Intent toShipAddressIntent=new Intent(this, EditShipAddressActivity.class);
-                startActivity(toShipAddressIntent);
+                if(resultCode==RESULT_OK){
+                    Intent toShipAddressIntent=new Intent(this, EditShipAddressActivity.class);
+                    startActivity(toShipAddressIntent);
+                }
                 break;
             case REQUEST_CODE_LOGIN_SHOU_CANG://从收藏跳过去的
-                Intent toShouCangIntent=new Intent(this,ShouCangListActivity.class);
-                startActivity(toShouCangIntent);
+                if(resultCode==RESULT_OK){
+                    Intent toShouCangIntent=new Intent(this,ShouCangListActivity.class);
+                    startActivity(toShouCangIntent);
+                }
                 break;
             case REQUEST_CODE_LOGIN_GUAN_ZHU://从关注跳过去的
-                Intent toGuanZhuIntent=new Intent(this,GuanZhuListActivity.class);
-                startActivity(toGuanZhuIntent);
+                if(resultCode==RESULT_OK){
+                    Intent toGuanZhuIntent=new Intent(this,GuanZhuListActivity.class);
+                    startActivity(toGuanZhuIntent);
+                }
                 break;
             case REQUEST_CODE_LOGIN_CHANGE_PASSWORD://从修改密码跳转过去的
-                Intent changPassWordIntent=new Intent(this, ChangPasswordPersonalCenterActivity.class);
-                startActivity(changPassWordIntent);
+                if(resultCode==RESULT_OK){
+                    Intent changPassWordIntent=new Intent(this, ChangPasswordPersonalCenterActivity.class);
+                    startActivity(changPassWordIntent);
+                }
                 break;
             case REQUEST_CODE_LOGIN_SETTING://从设置跳转过去的
-                String uidSetting=sharedPreferences.getString(MyConstant.UID_KEY,null);
-                String sidSetting=sharedPreferences.getString(MyConstant.SID_KEY,null);
-                getDataFromIntenetAndToSetting(uidSetting, sidSetting);
+                if(resultCode==RESULT_OK){
+                    String uidSetting=sharedPreferences.getString(MyConstant.UID_KEY,null);
+                    String sidSetting=sharedPreferences.getString(MyConstant.SID_KEY,null);
+                    getDataFromIntenetAndToSetting(uidSetting, sidSetting);
+                }
                 break;
             case SCAN_CODE:
                 if (resultCode == RESULT_OK) {
@@ -910,12 +935,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
                 break;
             case REQUEST_CODE_TO_SETTING://从设置界面回来的
-                loginImage.setImageResource(R.mipmap.ic_launcher);
-                nameTextView.setText("");
-                emailTextView.setText("");
+                if(resultCode==RESULT_OK){
+                    loginImage.setImageResource(R.mipmap.ic_launcher);
+                    nameTextView.setText("");
+                    emailTextView.setText("");
+                }
                 break;
             case REQUEST_CODE_SHOPPING_CAR://跳转到购物车碎片
-                shoppingCarClickChuLi();
+                if(resultCode==RESULT_OK){
+                    shoppingCarClickChuLi();
+                }
+                break;
+            case REQUEST_CODE_TO_PERSONAL_CENTER://跳转到个人中心
+                if(resultCode==RESULT_OK){
+                    toPersonalCenter();
+                }
                 break;
         }
     }

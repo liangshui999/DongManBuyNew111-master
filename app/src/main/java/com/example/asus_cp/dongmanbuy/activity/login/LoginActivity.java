@@ -307,4 +307,12 @@ public class LoginActivity extends Activity implements View.OnClickListener{
                     "Auth exception : " + e.getMessage(), Toast.LENGTH_LONG).show();
         }
     }
+
+
+    @Override
+    public void onBackPressed() {
+        Intent intent=new Intent();
+        setResult(RESULT_CANCELED,intent);
+        finish();
+    }
 }

@@ -37,14 +37,15 @@
             <!--白色背景-->
             <ImageView
                 android:layout_width="match_parent"
-                android:layout_height="30dp"
+                android:layout_height="20dp"
                 android:background="@color/white_my"/>
             <!--我的钱包，我的订单8个图标-->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:background="@android:color/white">
+                android:background="@android:color/white"
+                android:paddingBottom="20dp">
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
@@ -224,7 +225,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:background="@android:color/white">
+                android:background="@android:color/white"
+                android:padding="10dp">
                 <TextView
                     android:id="@+id/xian_shi_biao_ti"
                     android:layout_width="wrap_content"
@@ -258,7 +260,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/white_my"
-                android:layout_marginTop="5dp">
+                >
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="200dp"
@@ -327,14 +329,18 @@
                     android:text="@string/jing_pin_tui_jian"
                     android:layout_marginLeft="10dp"
                     android:textSize="18sp"
-                    android:textStyle="bold"/>
+                    android:paddingTop="10dp"
+                    android:textStyle="bold"
+                    android:layout_centerVertical="true"/>
                 <TextView
                     android:layout_toRightOf="@id/jing_ping_tui_jian_biao_ti"
                     android:layout_centerVertical="true"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/jing_ping_tui_jian_content"
-                    android:layout_marginLeft="10dp"/>
+                    android:layout_marginLeft="10dp"
+                    android:paddingTop="10dp"
+                    />
                 <TextView
                     android:id="@+id/text_jing_pin_more"
                     android:layout_width="wrap_content"
@@ -343,6 +349,7 @@
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:layout_marginRight="5dp"
+                    android:paddingTop="10dp"
                     android:clickable="true"
                     android:text="@string/more"/>
             </RelativeLayout>
@@ -419,7 +426,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:background="@android:color/white"
-                android:layout_marginTop="10dp">
+                >
                 <TextView
                     android:id="@+id/dian_pu_jie_biao_ti"
                     android:layout_width="wrap_content"
@@ -427,13 +434,15 @@
                     android:text="@string/shop_street"
                     android:textStyle="bold"
                     android:textSize="18sp"
-                    android:layout_marginLeft="10dp"/>
+                    android:layout_marginLeft="10dp"
+                    android:layout_centerVertical="true"/>
                 <TextView
                     android:layout_toRightOf="@id/dian_pu_jie_biao_ti"
                     android:layout_centerVertical="true"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/shop_street_content"
+                    android:layout_marginTop="10dp"
                     android:layout_marginLeft="10dp"/>
                 <TextView
                     android:id="@+id/text_dian_pu_jie_more"
@@ -443,6 +452,7 @@
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:layout_marginRight="5dp"
+                    android:layout_marginTop="10dp"
                     android:clickable="true"
                     android:text="@string/more"/>
 
@@ -453,11 +463,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:background="@color/white_my">
+                android:background="@color/white_my"
+                android:paddingBottom="10dp">
                 <android.support.v4.view.ViewPager
                     android:id="@+id/viewpager_shop_street"
                     android:layout_width="wrap_content"
-                    android:layout_height="200dp">
+                    android:layout_height="120dp">
                 </android.support.v4.view.ViewPager>
 
                 <LinearLayout

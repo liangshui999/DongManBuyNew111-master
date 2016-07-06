@@ -60,8 +60,8 @@ public class HomeShopStreetAdapter extends BaseAdapter{
             viewHolder= (ViewHolder) v.getTag();
         }
         ImageLoader imageLoader=helper.getImageLoader();
-        ImageLoader.ImageListener listener=imageLoader.getImageListener(viewHolder.imageView,R.mipmap.yu_jia_zai,
-                R.mipmap.yu_jia_zai);
+        ImageLoader.ImageListener listener=imageLoader.getImageListener(viewHolder.imageView,R.mipmap.yu_jia_zai_shop_street,
+                R.mipmap.yu_jia_zai_shop_street);
         imageLoader.get(shops.get(position).getLogoThumb(),listener,200,200);
 
         return v;

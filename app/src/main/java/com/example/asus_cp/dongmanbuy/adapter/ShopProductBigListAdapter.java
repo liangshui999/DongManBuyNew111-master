@@ -70,7 +70,7 @@ public class ShopProductBigListAdapter extends BaseAdapter{
         ImageLoader imageLoader=helper.getImageLoader();
         ImageLoader.ImageListener listener=imageLoader.getImageListener(viewHolder.picImagView,
                 R.mipmap.yu_jia_zai,R.mipmap.yu_jia_zai);
-        imageLoader.get(good.getGoodsThumb(),listener,300,300);
+        imageLoader.get(good.getGoodsThumb(),listener,200,200);
 
         viewHolder.nameTextView.setText(good.getGoodName());
         viewHolder.shopPriceTextView.setText(FormatHelper.getMoneyFormat(good.getShopPrice()));
