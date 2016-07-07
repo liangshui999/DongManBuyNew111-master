@@ -45,6 +45,7 @@ import com.example.asus_cp.dongmanbuy.model.Comment;
 import com.example.asus_cp.dongmanbuy.model.Good;
 import com.example.asus_cp.dongmanbuy.util.FormatHelper;
 import com.example.asus_cp.dongmanbuy.util.ImageLoadHelper;
+import com.example.asus_cp.dongmanbuy.util.JsonHelper;
 import com.example.asus_cp.dongmanbuy.util.MyApplication;
 import com.example.asus_cp.dongmanbuy.util.MyLog;
 
@@ -122,6 +123,8 @@ public class ProductDetailActivity extends Activity implements View.OnClickListe
     private String shoppingCarListUrl="http://www.zmobuy.com/PHP/index.php?url=/cart/list";//购物车列表
     private String deleteShoppingCarUrl="http://www.zmobuy.com/PHP/index.php?url=/cart/delete";//删除购物车
 
+    private String goodInfoUrl="http://www.zmobuy.com/PHP/?url=/goods";//商品详情的接口
+
     private Good good;//其他活动传进来的商品
 
     private String tag = "ProductDetailActivity";
@@ -150,7 +153,7 @@ public class ProductDetailActivity extends Activity implements View.OnClickListe
 
     private int shouCangYanSeFlag=0;//收藏的颜色的标记，点击一次后变红，再点击变灰
 
-    private int shoppingCarCount;//购物车里面的商品数量，等于选中的商品数量乘以购物车的点击次数
+    private int shoppingCarGoodCount;//购物车里面的商品数量，等于选中的商品数量乘以购物车的点击次数
     private int shoppingCarClickCount;//购物车的点击次数
 
     private BookDBOperateHelper dbHelper;//数据库操作的帮助类
@@ -180,42 +183,84 @@ public class ProductDetailActivity extends Activity implements View.OnClickListe
         inflater = LayoutInflater.from(this);
         parentView = inflater.inflate(R.layout.prodcut_detail_layout, null);
         initView();
+        if(good.getGoodsNumber()==null || good.getGoodsNumber().equals("") || good.getGoodsNumber().isEmpty()
+                || good.getSalesVolume()==null || good.getSalesVolume().equals("") || good.getSalesVolume().isEmpty()){//没有库存数据才需要联网获取
+            getGoodInfoFromIntenet();
+        }else{
+            setValueToView();
+        }
+        setValueToComment();
 
-        //给爆款新品设置布局管理器和适配器
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
-        linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
-        baoKuanXinPinRecyclerView.setLayoutManager(linearLayoutManager);
-        //设置适配器(暂时没有接口适配器已经写好了)
+        //给view设置点击事件
+        daoHangImagView.setOnClickListener(this);
+        shouCangLinearLayout.setOnClickListener(this);
+        lingQuYouHuiQuanLinearLayout.setOnClickListener(this);
+        suoZaiDiQuLayout.setOnClickListener(this);
+        yiXuanRelaytiveLayout.setOnClickListener(this);
+        fuWuLineatLayout.setOnClickListener(this);
+        seeProductDetailReLativeLayout.setOnClickListener(this);
+        userCommentReLativeLayout.setOnClickListener(this);
+        youTuPingJiaButton.setOnClickListener(this);
+        quanBuPingJiaButton.setOnClickListener(this);
+        lianXiKeFuLinearLayout.setOnClickListener(this);
 
-        //设置商品图片
-        ImageLoader.ImageListener listener = imageLoader.getImageListener(productBigPicImageView, R.mipmap.yu_jia_zai,
-                R.mipmap.yu_jia_zai);
-        imageLoader.get(good.getGoodsImg(), listener, 300, 300);
+        keFuLinearLayout.setOnClickListener(this);
+        shoppingCarLinearLayout.setOnClickListener(this);
+        addToShoppingCarButton.setOnClickListener(this);
+        buyAtOnceButton.setOnClickListener(this);
+    }
 
-        //设置商品名称
-        productNameTextView.setText(good.getGoodName());
 
-        //设置商品店铺价格,不带人民币符号
-        MyLog.d(tag,"店铺价格为："+good.getShopPrice());
-        benDianJiaGeTextView.setText(FormatHelper.getMoneyFormat(good.getShopPrice()));
+    /**
+     * 当传过来的商品信息不足时，联网获取商品，比如没有库存信息
+     */
+    private void getGoodInfoFromIntenet() {
+        StringRequest goodInfoRequest=new StringRequest(Request.Method.POST, goodInfoUrl,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String s) {
+                        MyLog.d(tag,"访问商品详情返回的数据"+s);
+                        Good good1=new Good();
+                        try {
+                            JSONObject jsonObject=new JSONObject(s);
+                            JSONObject jsonObject1=jsonObject.getJSONObject("data");
+                            good1.setGoodId(jsonObject1.getString("id"));
+                            good1.setGoodName(JsonHelper.decodeUnicode(jsonObject1.getString("goods_name")));
+                            good1.setMarket_price(JsonHelper.decodeUnicode(jsonObject1.getString("market_price")));
+                            good1.setShopPrice(JsonHelper.decodeUnicode(jsonObject1.getString("shop_price")));
+                            good1.setGoodsNumber(jsonObject1.getString("goods_number"));
+                            JSONObject picJson=jsonObject1.getJSONObject("img");
+                            good1.setGoodsThumb(picJson.getString("thumb"));
+                            good1.setGoodsImg(picJson.getString("url"));
+                            good1.setGoodsSmallImag(picJson.getString("small"));
+                            good=good1;
+                            setValueToView();
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
 
-        //设置商品市场价格,带人民币符号
-        marketPriceTextView.setText(FormatHelper.getMoneyFormat(good.getMarket_price()));
-        marketPriceTextView.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG | Paint.ANTI_ALIAS_FLAG);
+            }
+        }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String,String> map=new HashMap<String,String>();
+                String json="{\"goods_id\":\""+good.getGoodId()+"\",\"session\":{\"uid\":\"\",\"sid\":\"\"}}";
+                map.put("json",json);
+                return map;
+            }
+        };
+        requestQueue.add(goodInfoRequest);
+    }
 
-        double shopPrice = Double.parseDouble(FormatHelper.getNumberFromRenMingBi(good.getShopPrice()));
-        double marketPrice = Double.parseDouble(FormatHelper.getNumberFromRenMingBi(good.getMarket_price()));
-        double zheKou = shopPrice / marketPrice * 10;
 
-        //设置商品折扣
-        zheKouTextView.setText(FormatHelper.getOneXiaoShuFormat("" + zheKou) + "折");
-
-        //设置商品销量
-        xiaoLiangTextView.setText(good.getSalesVolume());
-
-        //设置商品库存
-        kuCunTextView.setText(good.getGoodsNumber());
-
+    /**
+     * 给评论设置值
+     */
+    private void setValueToComment() {
         //设置用户评价的内容
         StringRequest userCommetRequest = new StringRequest(Request.Method.POST, userCommentUrl, new Response.Listener<String>() {
             @Override
@@ -277,25 +322,47 @@ public class ProductDetailActivity extends Activity implements View.OnClickListe
             }
         };
         requestQueue.add(userCommetRequest);
+    }
 
 
-        //给view设置点击事件
-        daoHangImagView.setOnClickListener(this);
-        shouCangLinearLayout.setOnClickListener(this);
-        lingQuYouHuiQuanLinearLayout.setOnClickListener(this);
-        suoZaiDiQuLayout.setOnClickListener(this);
-        yiXuanRelaytiveLayout.setOnClickListener(this);
-        fuWuLineatLayout.setOnClickListener(this);
-        seeProductDetailReLativeLayout.setOnClickListener(this);
-        userCommentReLativeLayout.setOnClickListener(this);
-        youTuPingJiaButton.setOnClickListener(this);
-        quanBuPingJiaButton.setOnClickListener(this);
-        lianXiKeFuLinearLayout.setOnClickListener(this);
+    /**
+     * 给view设置值,除了评论以外，其他的view
+     */
+    private void setValueToView() {
+        //给爆款新品设置布局管理器和适配器
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+        baoKuanXinPinRecyclerView.setLayoutManager(linearLayoutManager);
+        //设置适配器(暂时没有接口适配器已经写好了)
 
-        keFuLinearLayout.setOnClickListener(this);
-        shoppingCarLinearLayout.setOnClickListener(this);
-        addToShoppingCarButton.setOnClickListener(this);
-        buyAtOnceButton.setOnClickListener(this);
+        //设置商品图片
+        ImageLoader.ImageListener listener = imageLoader.getImageListener(productBigPicImageView, R.mipmap.yu_jia_zai,
+                R.mipmap.yu_jia_zai);
+        imageLoader.get(good.getGoodsImg(), listener);
+
+        //设置商品名称
+        productNameTextView.setText(good.getGoodName());
+
+        //设置商品店铺价格,不带人民币符号
+        MyLog.d(tag, "店铺价格为：" + good.getShopPrice());
+        benDianJiaGeTextView.setText(FormatHelper.getMoneyFormat(good.getShopPrice()));
+
+        //设置商品市场价格,带人民币符号
+        marketPriceTextView.setText(FormatHelper.getMoneyFormat(good.getMarket_price()));
+        marketPriceTextView.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG | Paint.ANTI_ALIAS_FLAG);
+
+        double shopPrice = Double.parseDouble(FormatHelper.getNumberFromRenMingBi(good.getShopPrice()));
+        double marketPrice = Double.parseDouble(FormatHelper.getNumberFromRenMingBi(good.getMarket_price()));
+        double zheKou = shopPrice / marketPrice * 10;
+
+        //设置商品折扣
+        zheKouTextView.setText(FormatHelper.getOneXiaoShuFormat("" + zheKou) + "折");
+
+        //设置商品销量
+        xiaoLiangTextView.setText(good.getSalesVolume());
+
+        //设置商品库存
+        kuCunTextView.setText(good.getGoodsNumber());
     }
 
 
@@ -521,10 +588,10 @@ public class ProductDetailActivity extends Activity implements View.OnClickListe
         final String uid=sharedPreferences.getString(MyConstant.UID_KEY, null);
         final String sid=sharedPreferences.getString(MyConstant.SID_KEY,null);
         if(uid!=null && !uid.isEmpty()){
-            if(shoppingCarCount<kuCun){
+            if(shoppingCarGoodCount <kuCun){
                 shoppingCarClickCount++;
-                shoppingCarCount=shoppingCarCount+produtCount;
-                shoppingCarCountTextView.setText(shoppingCarCount+"");
+                shoppingCarGoodCount = shoppingCarGoodCount +produtCount;
+                shoppingCarCountTextView.setText(shoppingCarGoodCount +"");
                 if(shoppingCarClickCount==1){//加入购物车
                     StringRequest addToShoppingCarRequest=new StringRequest(Request.Method.POST
                             , addToShoppingCarUrl, new Response.Listener<String>() {
@@ -547,7 +614,7 @@ public class ProductDetailActivity extends Activity implements View.OnClickListe
                         }
                     };
                     requestQueue.add(addToShoppingCarRequest);
-                }else if(shoppingCarCount>1){//更改购物车的商品数量
+                }else if(shoppingCarGoodCount >1){//更改购物车的商品数量
                     //获取购物车的商品数量
                     StringRequest getProductListRequest=new StringRequest(Request.Method.POST, shoppingCarListUrl,
                             new Response.Listener<String>() {
@@ -587,7 +654,7 @@ public class ProductDetailActivity extends Activity implements View.OnClickListe
                                         @Override
                                         protected Map<String, String> getParams() throws AuthFailureError {
                                             Map<String,String> map=new HashMap<String,String>();
-                                            String json="{\"session\":{\"uid\":\""+uid+"\",\"sid\":\""+sid+"\"},\"rec_id\":\""+ finalRecId +"\",\"new_number\":\""+shoppingCarCount+"\"}";
+                                            String json="{\"session\":{\"uid\":\""+uid+"\",\"sid\":\""+sid+"\"},\"rec_id\":\""+ finalRecId +"\",\"new_number\":\""+ shoppingCarGoodCount +"\"}";
                                             map.put("json",json);
                                             return map;
                                         }

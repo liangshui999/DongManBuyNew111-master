@@ -22,7 +22,7 @@
                     android:id="@+id/img_dao_hang_product_detail"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
-                    android:layout_gravity="center_vertical"
+                    android:layout_centerVertical="true"
                     android:src="@mipmap/leftdaohang"/>
                 <TextView
                     android:layout_width="match_parent"
@@ -41,14 +41,14 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
                 android:background="@color/white_my">
                 <ImageView
                     android:id="@+id/img_product_big_pic"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="300dp"
                     android:layout_centerInParent="true"
-                    android:src="@mipmap/sina"/>
+                    android:src="@mipmap/sina"
+                    android:visibility="visible"/>
 
                 <TextView
                     android:id="@+id/text_product_pic_counts"
@@ -56,9 +56,11 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_alignParentBottom="true"
-                    android:layout_marginRight="5dp"
+                    android:layout_marginRight="10dp"
                     android:layout_marginBottom="5dp"
-                    android:text="1/1"/>
+                    android:text="1/1"
+                    android:textColor="@color/white_my"
+                    android:background="@drawable/pic_count_background"/>
             </RelativeLayout>
 
 
@@ -80,7 +82,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="left"
                         android:text="自营"
-                        android:background="@color/bottom_lable_color"
+                        android:background="@drawable/zi_ying_background"
                         android:textColor="@color/white_my"
                         android:layout_marginLeft="5dp"/>
                 </LinearLayout>
@@ -138,7 +140,7 @@
                         android:id="@+id/text_ben_zhan_price"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="539.00"
+                        android:text="0.00"
                         android:layout_marginLeft="5dp"
                         android:textColor="@color/bottom_lable_color"
                         android:textSize="20sp"/>
@@ -146,9 +148,9 @@
                         android:id="@+id/text_zhe_kou"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="8.3折"
+                        android:text="0.0折"
                         android:layout_marginLeft="10dp"
-                        android:background="@color/bottom_lable_color"
+                        android:background="@drawable/zi_ying_background"
                         android:textColor="@color/white_my"/>
                 </LinearLayout>
 
@@ -169,7 +171,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="15dp"
                         android:textSize="16sp"
-                        android:text="166.00"/>
+                        android:text="0.00"/>
                 </LinearLayout>
 
 
@@ -221,14 +223,15 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:layout_marginTop="5dp"
-                    android:paddingTop="10dp"
-                    android:paddingBottom="10dp"
+                    android:layout_marginTop="@dimen/product_detail_margin"
+
                     android:background="@color/white_my">
                     <LinearLayout
                         android:layout_width="0dp"
                         android:layout_weight="1"
-                        android:layout_height="wrap_content">
+                        android:layout_height="wrap_content"
+                        android:paddingTop="10dp"
+                        android:paddingBottom="10dp">
                         <TextView
                             android:id="@+id/text_you_hui_quan_counts"
                             android:layout_width="wrap_content"
@@ -240,18 +243,22 @@
 
                     <LinearLayout
                         android:layout_width="0dp"
-                        android:layout_weight="1"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical">
+                        android:layout_weight="2"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical"
+                        android:layout_margin="5dp"
+                        android:background="@color/bottom_lable_color"
+                        >
                         <TextView
                             android:id="@+id/text_you_hui_quan_one"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
                             android:text="满10减98"
                             android:textColor="@color/white_my"
-                            android:background="@color/bottom_lable_color"
                             android:textSize="@dimen/product_detail_base_font_size"
-                            android:layout_gravity="center"/>
+                            android:layout_gravity="center"
+                            android:gravity="center"
+                            />
 
                     </LinearLayout>
 
@@ -259,7 +266,8 @@
                         android:layout_width="0dp"
                         android:layout_weight="1"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical">
+                        android:orientation="vertical"
+                        android:visibility="gone">
                         <TextView
                             android:id="@+id/text_you_hui_quan_two"
                             android:layout_width="wrap_content"
@@ -268,7 +276,8 @@
                             android:textColor="@color/white_my"
                             android:background="@color/bottom_lable_color"
                             android:textSize="@dimen/product_detail_base_font_size"
-                            android:layout_gravity="center"/>
+                            android:layout_gravity="center"
+                            />
 
                     </LinearLayout>
                 </LinearLayout>
@@ -280,7 +289,7 @@
                     android:layout_height="wrap_content"
                     android:paddingTop="10dp"
                     android:paddingBottom="10dp"
-                    android:layout_marginTop="5dp"
+                    android:layout_marginTop="@dimen/product_detail_margin"
                     android:background="@color/white_my">
                     <TextView
                         android:id="@+id/text_suo_zai"
@@ -310,7 +319,7 @@
                     android:layout_height="wrap_content"
                     android:paddingTop="10dp"
                     android:paddingBottom="10dp"
-                    android:layout_marginTop="5dp"
+                    android:layout_marginTop="@dimen/product_detail_margin"
                     android:background="@color/white_my">
                     <TextView
                         android:layout_width="wrap_content"
@@ -333,7 +342,7 @@
                     android:layout_height="wrap_content"
                     android:paddingTop="10dp"
                     android:paddingBottom="10dp"
-                    android:layout_marginTop="5dp"
+                    android:layout_marginTop="@dimen/product_detail_margin"
                     android:background="@color/white_my">
                     <TextView
                         android:id="@+id/text_yi_xuan"
@@ -366,6 +375,7 @@
                 android:orientation="vertical"
                 android:paddingTop="10dp"
                 android:paddingBottom="10dp"
+                android:layout_marginTop="@dimen/product_detail_margin"
                 android:background="@color/white_my">
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -432,7 +442,7 @@
                     android:layout_height="wrap_content"
                     android:paddingTop="10dp"
                     android:paddingBottom="10dp"
-                    android:layout_marginTop="5dp"
+                    android:layout_marginTop="@dimen/product_detail_margin"
                     android:background="@color/white_my">
                     <TextView
                         android:layout_width="wrap_content"
@@ -460,7 +470,7 @@
                     android:layout_height="wrap_content"
                     android:paddingTop="10dp"
                     android:paddingBottom="10dp"
-                    android:layout_marginTop="5dp"
+                    android:layout_marginTop="@dimen/product_detail_margin"
                     android:background="@color/white_my">
                     <TextView
                         android:id="@+id/user_comment"
@@ -524,7 +534,7 @@
                 android:orientation="vertical"
                 android:paddingTop="10dp"
                 android:paddingBottom="10dp"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="@dimen/product_detail_margin"
                 android:background="@color/white_my">
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -610,9 +620,10 @@
                             android:id="@+id/btn_you_tu_ping_jia"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:background="@color/white_my"
+                            android:background="@drawable/comment_button_background"
                             android:text="@string/you_tu_ping_jia"
-                            android:layout_margin="5dp"/>
+                            android:layout_margin="5dp"
+                            android:textSize="16sp"/>
 
                     </LinearLayout>
 
@@ -624,9 +635,10 @@
                             android:id="@+id/btn_quan_bu_ping_jia"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:background="@color/white_my"
+                            android:background="@drawable/comment_button_background"
                             android:text="@string/quan_bu_ping_jia"
-                            android:layout_margin="5dp"/>
+                            android:layout_margin="5dp"
+                            android:textSize="16sp"/>
                     </LinearLayout>
                 </LinearLayout>
             </LinearLayout>
@@ -696,7 +708,7 @@
         <LinearLayout
             android:id="@+id/ll_ke_fu"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             android:orientation="vertical"
             android:gravity="center"
@@ -722,27 +734,31 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center"
-            android:layout_gravity="center_vertical">
-
+            android:layout_gravity="center_vertical"
+            >
             <RelativeLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
                 <ImageView
                     android:id="@+id/gou_wu_che"
                     android:layout_width="20dp"
                     android:layout_height="20dp"
-                    android:background="@mipmap/shoppingcar"/>
+                    android:background="@mipmap/shoppingcar"
+                    android:layout_centerHorizontal="true"/>
                 <TextView
                     android:id="@+id/text_gou_wu_che_count"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="0"
+                    android:layout_alignParentTop="true"
                     android:layout_alignRight="@id/gou_wu_che"
-                    android:layout_alignTop="@id/gou_wu_che"
-                    android:background="@color/bottom_lable_color"
+                    android:background="@drawable/shang_biao_background"
+                    android:text="0"
                     android:textColor="@color/white_my"
-                    android:textSize="12sp"/>
+                    android:textSize="10sp"
+                    android:layout_gravity="right"
+                    android:visibility="visible"/>
             </RelativeLayout>
+
 
             <TextView
                 android:layout_width="wrap_content"
@@ -768,7 +784,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:background="@color/add_to_shopping_car"
+                android:background="@drawable/add_to_shopping_car_button_background"
                 android:text="@string/add_to_shopping_car"
                 android:textColor="@color/white_my"
                 android:textSize="@dimen/add_to_shoping_car"
@@ -791,7 +807,7 @@
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:gravity="center"
-                android:background="@color/bottom_lable_color"
+                android:background="@drawable/buy_at_once_button_background"
                 android:text="@string/buy_at_once"
                 android:textColor="@color/white_my"
                 android:textSize="@dimen/add_to_shoping_car"/>

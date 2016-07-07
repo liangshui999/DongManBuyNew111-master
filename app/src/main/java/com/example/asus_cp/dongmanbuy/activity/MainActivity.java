@@ -38,6 +38,7 @@ import com.example.asus_cp.dongmanbuy.activity.personal_center.data_set.ChangPas
 import com.example.asus_cp.dongmanbuy.activity.personal_center.data_set.DataSetActivity;
 import com.example.asus_cp.dongmanbuy.activity.personal_center.data_set.EditShipAddressActivity;
 import com.example.asus_cp.dongmanbuy.activity.personal_center.fund_manager.FundManagerActivity;
+import com.example.asus_cp.dongmanbuy.activity.product_detail.ProductDetailActivity;
 import com.example.asus_cp.dongmanbuy.activity.sao_maio.SaoMiaoResultActivity;
 import com.example.asus_cp.dongmanbuy.activity.search.SearchActivity;
 import com.example.asus_cp.dongmanbuy.constant.MyConstant;
@@ -48,6 +49,7 @@ import com.example.asus_cp.dongmanbuy.fragment.FindFragment;
 import com.example.asus_cp.dongmanbuy.fragment.HomeFragment;
 import com.example.asus_cp.dongmanbuy.fragment.ShopStreetFragment;
 import com.example.asus_cp.dongmanbuy.fragment.ShoppingCarFragment;
+import com.example.asus_cp.dongmanbuy.model.Good;
 import com.example.asus_cp.dongmanbuy.model.User;
 import com.example.asus_cp.dongmanbuy.util.CategoryImageLoadHelper;
 import com.example.asus_cp.dongmanbuy.util.FormatHelper;
@@ -474,7 +476,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 messageAndSao.setVisibility(View.GONE);
                 break;
             case R.id.ll_sao:
-                Toast.makeText(this,"点击了扫一扫",Toast.LENGTH_SHORT).show();
+                //Toast.makeText(this,"点击了扫一扫",Toast.LENGTH_SHORT).show();
                 messageAndSao.setVisibility(View.GONE);
                 Intent intent = new Intent(MainActivity.this, MipcaActivityCapture.class);
                 startActivityForResult(intent, SCAN_CODE);
@@ -918,7 +920,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         if("A".equals(id.charAt(0)+"")){  //商品
                             String goodId=id.substring(1);
                             MyLog.d(tag,"goodId="+goodId);
-                            Toast.makeText(this,"goodId"+goodId,Toast.LENGTH_SHORT).show();
+                            Good good=new Good();
+                            good.setGoodId(goodId);
+                            Intent toGoodIntent=new Intent(this, ProductDetailActivity.class);
+                            toGoodIntent.putExtra(MyConstant.GOOD_KEY,good);
+                            startActivity(toGoodIntent);
                         }else if("B".equals(id.charAt(0)+"")){    //商店
                             String shopId=id.substring(1);
                             MyLog.d(tag,"shopId="+shopId);

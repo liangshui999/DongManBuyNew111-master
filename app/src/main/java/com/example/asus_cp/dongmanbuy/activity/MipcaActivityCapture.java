@@ -75,7 +75,7 @@ public class MipcaActivityCapture extends Activity implements Callback {
 		hasSurface = false;
 		inactivityTimer = new InactivityTimer(this);
 
-
+		//闪光灯
 		dengControlImageView= (ImageView) findViewById(R.id.img_deng_control);
 		dengControlImageView.setOnClickListener(new OnClickListener() {
 			@Override

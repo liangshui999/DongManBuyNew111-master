@@ -158,10 +158,32 @@ public class GoodSearchResultActivity extends Activity implements View.OnClickLi
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 //Toast.makeText(ShopProdcutSortActivity.this,"点击了"+position,Toast.LENGTH_SHORT).show();
                 Intent gridIntent = new Intent(GoodSearchResultActivity.this, ProductDetailActivity.class);
-                gridIntent.putExtra(MyConstant.GOOD_KEY, goods.get(position));
+                gridIntent.putExtra(MyConstant.GOOD_KEY, gridGoods.get(position));
                 startActivity(gridIntent);
             }
         });
+
+        productListViewSmall.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Toast.makeText(GoodSearchResultActivity.this,"点击了"+position,Toast.LENGTH_SHORT).show();
+                Intent smallIntent = new Intent(GoodSearchResultActivity.this, ProductDetailActivity.class);
+                smallIntent.putExtra(MyConstant.GOOD_KEY, smallListGoods.get(position));
+                startActivity(smallIntent);
+            }
+        });
+
+        productListViewBig.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Toast.makeText(GoodSearchResultActivity.this,"点击了"+position,Toast.LENGTH_SHORT).show();
+                Intent bigIntent = new Intent(GoodSearchResultActivity.this, ProductDetailActivity.class);
+                bigIntent.putExtra(MyConstant.GOOD_KEY, bigListGoods.get(position));
+                startActivity(bigIntent);
+            }
+        });
+
+
 
         getDataFromIntenet(GRID_VIEW_FLAG, searchContent, "id_asc", "1", LOAD_COUNT_ONCE_STR);
 
@@ -257,15 +279,6 @@ public class GoodSearchResultActivity extends Activity implements View.OnClickLi
                                     productGridView.onRefreshComplete();
                                 }
 
-                                productGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                                    @Override
-                                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                                        //Toast.makeText(ShopProdcutSortActivity.this,"点击了"+position,Toast.LENGTH_SHORT).show();
-                                        Intent gridIntent = new Intent(GoodSearchResultActivity.this, ProductDetailActivity.class);
-                                        gridIntent.putExtra(MyConstant.GOOD_KEY, gridGoods.get(position));
-                                        startActivity(gridIntent);
-                                    }
-                                });
                                 break;
                             case SMALL_LIST_VIEW_FLAG:
                                 MyLog.d(tag, "小列表");
@@ -294,15 +307,6 @@ public class GoodSearchResultActivity extends Activity implements View.OnClickLi
                                     productListViewSmall.onRefreshComplete();
                                 }
 
-                                productListViewSmall.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                                    @Override
-                                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                                        //Toast.makeText(ShopProdcutSortActivity.this,"点击了"+position,Toast.LENGTH_SHORT).show();
-                                        Intent smallIntent = new Intent(GoodSearchResultActivity.this, ProductDetailActivity.class);
-                                        smallIntent.putExtra(MyConstant.GOOD_KEY, smallListGoods.get(position));
-                                        startActivity(smallIntent);
-                                    }
-                                });
                                 break;
                             case BIG_LIST_VIEW_FLAG:
                                 MyLog.d(tag, "大列表");
@@ -330,16 +334,6 @@ public class GoodSearchResultActivity extends Activity implements View.OnClickLi
                                     bigListAdapter.notifyDataSetChanged();
                                     productListViewBig.onRefreshComplete();
                                 }
-
-                                productListViewBig.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                                    @Override
-                                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                                        //Toast.makeText(ShopProdcutSortActivity.this,"点击了"+position,Toast.LENGTH_SHORT).show();
-                                        Intent bigIntent = new Intent(GoodSearchResultActivity.this, ProductDetailActivity.class);
-                                        bigIntent.putExtra(MyConstant.GOOD_KEY, bigListGoods.get(position));
-                                        startActivity(bigIntent);
-                                    }
-                                });
                                 break;
                         }
                     }

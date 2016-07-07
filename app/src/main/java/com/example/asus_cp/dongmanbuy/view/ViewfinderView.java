@@ -57,16 +57,16 @@ public final class ViewfinderView extends View {
 	/**
 	 * �ĸ���ɫ�߽Ƕ�Ӧ�Ŀ��
 	 */
-	private static final int CORNER_WIDTH = 10;
+	private int CORNER_WIDTH = 5;
 	/**
 	 * ɨ����е��м��ߵĿ��
 	 */
-	private static final int MIDDLE_LINE_WIDTH = 6;
+	private int MIDDLE_LINE_WIDTH = 2;
 	
 	/**
 	 * ɨ����е��м��ߵ���ɨ������ҵļ�϶
 	 */
-	private static final int MIDDLE_LINE_PADDING = 5;
+	private int MIDDLE_LINE_PADDING = 2;
 	
 	/**
 	 * �м�������ÿ��ˢ���ƶ��ľ���
@@ -120,6 +120,11 @@ public final class ViewfinderView extends View {
 		density = context.getResources().getDisplayMetrics().density;
 		//������ת����dp
 		ScreenRate = (int)(20 * density);
+		//我自己加上去的
+		MIDDLE_LINE_PADDING= (int) (MIDDLE_LINE_PADDING*density);
+		MIDDLE_LINE_WIDTH= (int) (MIDDLE_LINE_WIDTH*density);
+		//我自己加的
+		CORNER_WIDTH= (int) (density*CORNER_WIDTH);
 
 		paint = new Paint();
 		Resources resources = getResources();
@@ -166,10 +171,9 @@ public final class ViewfinderView extends View {
 			paint.setAlpha(OPAQUE);
 			canvas.drawBitmap(resultBitmap, frame.left, frame.top, paint);
 		} else {
-
 			//��ɨ�����ϵĽǣ��ܹ�8������
 			paint.setColor(Color.GREEN);
-			canvas.drawRect(frame.left, frame.top, frame.left + ScreenRate,
+			canvas.drawRect(frame.left, frame.top, frame.left+ ScreenRate,
 					frame.top + CORNER_WIDTH, paint);
 			canvas.drawRect(frame.left, frame.top, frame.left + CORNER_WIDTH, frame.top
 					+ ScreenRate, paint);
@@ -192,9 +196,14 @@ public final class ViewfinderView extends View {
 			if(slideTop >= frame.bottom){
 				slideTop = frame.top;
 			}
-			canvas.drawRect(frame.left + MIDDLE_LINE_PADDING, slideTop - MIDDLE_LINE_WIDTH/2, frame.right - MIDDLE_LINE_PADDING,slideTop + MIDDLE_LINE_WIDTH/2, paint);
-			
-			
+
+			//原始的，
+			//canvas.drawRect(frame.left + MIDDLE_LINE_PADDING, slideTop - MIDDLE_LINE_WIDTH/2, frame.right - MIDDLE_LINE_PADDING,slideTop + MIDDLE_LINE_WIDTH/2, paint);
+
+			//我更改过后的
+			canvas.drawRect(frame.left, slideTop - MIDDLE_LINE_WIDTH/2, frame.right,slideTop + MIDDLE_LINE_WIDTH/2, paint);
+
+
 			//��ɨ����������
 			paint.setColor(Color.WHITE);
 			paint.setTextSize(TEXT_SIZE * density);

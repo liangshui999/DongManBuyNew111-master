@@ -39,10 +39,18 @@ public final class CameraManager {
 
   private static final String TAG = CameraManager.class.getSimpleName();
 
-  private static final int MIN_FRAME_WIDTH = 240;
-  private static final int MIN_FRAME_HEIGHT = 240;
-  private static final int MAX_FRAME_WIDTH = 480;
-  private static final int MAX_FRAME_HEIGHT = 360;
+  private static float density;//这个是我自己加上去的
+
+  //原始值
+  /*private static  int MIN_FRAME_WIDTH = 240;
+  private static  int MIN_FRAME_HEIGHT = 240;
+  private static  int MAX_FRAME_WIDTH = 480;
+  private static  int MAX_FRAME_HEIGHT = 360;*/
+
+  private static  int MIN_FRAME_WIDTH = 240;
+  private static  int MIN_FRAME_HEIGHT = 240;
+  private static  int MAX_FRAME_WIDTH = 240;
+  private static  int MAX_FRAME_HEIGHT = 240;
 
   private static CameraManager cameraManager;
 
@@ -108,6 +116,13 @@ public final class CameraManager {
 
     previewCallback = new PreviewCallback(configManager, useOneShotPreviewCallback);
     autoFocusCallback = new AutoFocusCallback();
+
+
+    density = context.getResources().getDisplayMetrics().density;//这句话是我自己加上去的
+    MIN_FRAME_WIDTH= (int) (density*MIN_FRAME_WIDTH);
+    MIN_FRAME_HEIGHT= (int) (density*MIN_FRAME_HEIGHT);
+    MAX_FRAME_WIDTH= (int) (density*MAX_FRAME_WIDTH);
+    MAX_FRAME_HEIGHT= (int) (density*MAX_FRAME_HEIGHT);
   }
 
   /**
