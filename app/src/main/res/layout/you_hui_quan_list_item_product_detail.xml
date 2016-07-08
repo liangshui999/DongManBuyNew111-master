@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/gray"
+        android:padding="10dp">
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="4"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@color/bottom_lable_color"
+            android:padding="10dp"
+            >
+
+            <!--优惠券的金额和条件-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:id="@+id/text_jin_e_you_hui_quan_list_item"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="98"
+                        android:textSize="16sp"
+                        android:textColor="@color/white_my"/>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="4"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/you_hui_quan"
+                        android:textSize="@dimen/ling_qu_you_hui_quan_base_size"
+                        android:textColor="@color/white_my"/>
+                    <TextView
+                        android:id="@+id/text_use_conditon_you_hui_quan_list_item"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/man_shi_yuan_ke_yong"
+                        android:textSize="@dimen/ling_qu_you_hui_quan_base_size"
+                        android:textColor="@color/white_my"/>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <!--使用期限-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/shi_yong_qi_xian"
+                    android:textSize="@dimen/ling_qu_you_hui_quan_base_size"
+                    android:textColor="@color/white_my"/>
+                <TextView
+                    android:id="@+id/text_start_date_you_hui_quan_list_item"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="2016.05.17"
+                    android:layout_marginLeft="5dp"
+                    android:textSize="@dimen/ling_qu_you_hui_quan_base_size"
+                    android:textColor="@color/white_my"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="-"
+                    android:layout_marginLeft="5dp"
+                    android:textSize="@dimen/ling_qu_you_hui_quan_base_size"
+                    android:textColor="@color/white_my"/>
+                <TextView
+                    android:id="@+id/text_end_date_you_hui_quan_list_item"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="2016.06.17"
+                    android:layout_marginLeft="5dp"
+                    android:textSize="@dimen/ling_qu_you_hui_quan_base_size"
+                    android:textColor="@color/white_my"/>
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_li_ji_ling_qu_98"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+            <RelativeLayout
+                android:id="@+id/re_layout_ling_qu_at_once_you_hui_quan_list_item"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/white_my"
+                >
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/li_ji_ling_qu"
+                    android:layout_centerInParent="true"
+                    android:textColor="@color/bottom_lable_color"
+                    />
+            </RelativeLayout>
+
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>

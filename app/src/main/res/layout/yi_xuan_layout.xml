@@ -2,24 +2,24 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white_my">
+    android:background="@color/gray">
 
     <!--...................商品图像，名称，价格，库存...................-->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp">
+        android:background="@color/white_my">
         <LinearLayout
             android:layout_width="0dp"
             android:layout_weight="1"
-            android:layout_height="100dp">
+            android:layout_height="150dp">
             <!--商品图像-->
             <ImageView
                 android:id="@+id/img_yi_xuan_product_pic"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="150dp"
                 android:src="@mipmap/sina"
-                android:layout_marginLeft="10dp"/>
+                />
         </LinearLayout>
 
         <LinearLayout
@@ -29,7 +29,8 @@
             android:orientation="vertical">
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="100dp">
+                android:layout_height="150dp"
+                android:paddingTop="10dp">
                 <TextView
                     android:id="@+id/text_yi_xuan_productName"
                     android:layout_width="wrap_content"
@@ -53,6 +54,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
+                    android:layout_marginBottom="20dp"
                     >
                     <TextView
                         android:layout_width="wrap_content"
@@ -63,7 +65,7 @@
                         android:id="@+id/text_yi_xuan_ku_cun"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="1"
+                        android:text="0"
                         android:textSize="12sp"/>
                 </LinearLayout>
 
@@ -73,6 +75,7 @@
                     android:layout_height="wrap_content"
                     android:text="99"
                     android:textSize="18sp"
+                    android:layout_marginBottom="5dp"
                     android:textColor="@color/bottom_lable_color"
                     android:layout_above="@id/ll_ku_cun"/>
             </RelativeLayout>
@@ -83,11 +86,12 @@
 
     <!--尺码-->
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/white_my"
+        android:padding="10dp"
         android:text="@string/ci_ma"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="10dp"/>
+        android:layout_marginTop="2dp"/>
 
     <RadioGroup
         android:id="@+id/radio_group_yi_xuan_chi_ma"
@@ -95,7 +99,8 @@
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
+        android:padding="10dp"
+        android:background="@color/white_my"
         >
         <RadioButton
             android:id="@+id/btn_yi_xuan_chi_ma_s"
@@ -169,36 +174,39 @@
 
     <!--数量-->
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/count"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="10dp"/>
+        android:padding="10dp"
+        android:background="@color/white_my"/>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="5dp">
+        android:padding="10dp"
+        android:background="@color/white_my">
         <ImageView
             android:id="@+id/img_yi_xuan_jian_shang_pin"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:src="@mipmap/jianhao"/>
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@mipmap/jianhao"
+            android:background="@drawable/chi_ma_background_wei_xuan_zhong"/>
         <TextView
             android:id="@+id/text_yi_xuan_jia_jian_shang_pin_count"
             android:layout_width="wrap_content"
-            android:layout_height="20dp"
-            android:textSize="12sp"
-            android:text="1"
-            android:gravity="center_vertical"
-            android:layout_marginLeft="20dp"/>
+            android:layout_height="match_parent"
+            android:textSize="14sp"
+            android:text="2"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:background="@drawable/count_backgroud"
+            />
 
         <ImageView
             android:id="@+id/img_yi_xuan_jia_shang_pin"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
             android:src="@mipmap/jiahao"
-            android:layout_marginLeft="20dp"/>
+            android:background="@drawable/chi_ma_background_wei_xuan_zhong"/>
     </LinearLayout>
 
     <!--加入购物车和立即购买-->
@@ -219,7 +227,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:background="@color/add_to_shopping_car"
+                android:background="@drawable/add_to_shopping_car_button_background"
                 android:text="@string/add_to_shopping_car"
                 android:textColor="@color/white_my"
                 android:textSize="@dimen/add_to_shoping_car"
@@ -240,7 +248,7 @@
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:gravity="center"
-                android:background="@color/bottom_lable_color"
+                android:background="@drawable/buy_at_once_button_background"
                 android:text="@string/buy_at_once"
                 android:textColor="@color/white_my"
                 android:textSize="@dimen/add_to_shoping_car"/>

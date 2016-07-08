@@ -16,6 +16,7 @@ import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -29,10 +30,12 @@ import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.StringRequest;
 import com.example.asus_cp.dongmanbuy.R;
 import com.example.asus_cp.dongmanbuy.activity.login.LoginActivity;
+import com.example.asus_cp.dongmanbuy.adapter.ProductDetailYouHuiQuanListAdapter;
 import com.example.asus_cp.dongmanbuy.constant.MyConstant;
 import com.example.asus_cp.dongmanbuy.customview.MyGridViewA;
 import com.example.asus_cp.dongmanbuy.customview.MyListView;
 import com.example.asus_cp.dongmanbuy.model.Good;
+import com.example.asus_cp.dongmanbuy.model.YouHuiQuanModel;
 import com.example.asus_cp.dongmanbuy.util.FormatHelper;
 import com.example.asus_cp.dongmanbuy.util.ImageLoadHelper;
 import com.example.asus_cp.dongmanbuy.util.JsonHelper;
@@ -322,15 +325,6 @@ public class ShoppingCarActivity extends Activity implements View.OnClickListene
                 //Toast.makeText(this,"关闭优惠券",Toast.LENGTH_SHORT).show();
                 youHuiQuanWindow.dismiss();
                 break;
-            case R.id.ll_li_ji_ling_qu_98:
-                Toast.makeText(this, "立即领取98", Toast.LENGTH_SHORT).show();
-                break;
-            case R.id.ll_li_ji_ling_qu_21:
-                Toast.makeText(this, "立即领取21", Toast.LENGTH_SHORT).show();
-                break;
-            case R.id.ll_li_ji_ling_qu_1:
-                Toast.makeText(this, "立即领取1", Toast.LENGTH_SHORT).show();
-                break;
         }
     }
 
@@ -343,13 +337,18 @@ public class ShoppingCarActivity extends Activity implements View.OnClickListene
         View youHuiQuanView = LayoutInflater.from(this).inflate(R.layout.you_hui_quan_layout, null);
         ImageView closeYouHuiQuanImagView = (ImageView) youHuiQuanView.findViewById
                 (R.id.img_close_ling_qu_you_hui_quan);
-        LinearLayout liJiLingQu98 = (LinearLayout) youHuiQuanView.findViewById(R.id.ll_li_ji_ling_qu_98);
-        LinearLayout liJiLingQu21 = (LinearLayout) youHuiQuanView.findViewById(R.id.ll_li_ji_ling_qu_21);
-        LinearLayout liJiLingQu1 = (LinearLayout) youHuiQuanView.findViewById(R.id.ll_li_ji_ling_qu_1);
         closeYouHuiQuanImagView.setOnClickListener(this);
-        liJiLingQu98.setOnClickListener(this);
-        liJiLingQu21.setOnClickListener(this);
-        liJiLingQu1.setOnClickListener(this);
+
+        ListView youHuiQuanListView= (ListView) youHuiQuanView.findViewById(R.id.list_you_quan_list_product_detail);
+        YouHuiQuanModel model=new YouHuiQuanModel();
+        model.setJinE("10");
+        model.setUseConditon("99");
+        model.setStartTime("2022.00.00");
+        model.setEndTime("2050.00.00");
+        List<YouHuiQuanModel> youHuiQuanModelList=new ArrayList<YouHuiQuanModel>();
+        youHuiQuanModelList.add(model);
+        ProductDetailYouHuiQuanListAdapter adapter=new ProductDetailYouHuiQuanListAdapter(this,youHuiQuanModelList);
+        youHuiQuanListView.setAdapter(adapter);
 
         youHuiQuanWindow = new PopupWindow(youHuiQuanView,
                 ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);

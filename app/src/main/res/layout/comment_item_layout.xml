@@ -18,7 +18,8 @@
             <LinearLayout
                 android:id="@+id/xings"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true">
                 <ImageView
                     android:id="@+id/img_xing_one"
                     android:layout_width="10dp"

@@ -14,6 +14,7 @@ public class YouHuiQuanModel implements Parcelable{
     private String endTime;//结束时间
     private String suoShuDianPu;//优惠券所属的店铺
     private String status;//状态
+    private String useConditon;//使用条件,满多少才能使用
 
     public YouHuiQuanModel(){}
 
@@ -66,6 +67,14 @@ public class YouHuiQuanModel implements Parcelable{
         this.status = status;
     }
 
+    public String getUseConditon() {
+        return useConditon;
+    }
+
+    public void setUseConditon(String useConditon) {
+        this.useConditon = useConditon;
+    }
+
     protected YouHuiQuanModel(Parcel in) {
         jinE = in.readString();
         name = in.readString();
@@ -73,6 +82,7 @@ public class YouHuiQuanModel implements Parcelable{
         endTime = in.readString();
         suoShuDianPu = in.readString();
         status = in.readString();
+        useConditon=in.readString();
     }
 
     public static final Creator<YouHuiQuanModel> CREATOR = new Creator<YouHuiQuanModel>() {
@@ -100,5 +110,6 @@ public class YouHuiQuanModel implements Parcelable{
         dest.writeString(endTime);
         dest.writeString(suoShuDianPu);
         dest.writeString(status);
+        dest.writeString(useConditon);
     }
 }

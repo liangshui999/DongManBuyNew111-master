@@ -12,7 +12,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/ling_qu_dian_pu_you_hui_quan"
-            android:layout_marginLeft="5dp"/>
+            android:layout_marginLeft="10dp"/>
         <ImageView
             android:id="@+id/img_close_ling_qu_you_hui_quan"
             android:layout_width="20dp"
@@ -23,7 +23,15 @@
     </RelativeLayout>
 
 
-    <!--3张优惠券所在的布局-->
+    <ListView
+        android:id="@+id/list_you_quan_list_product_detail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    </ListView>
+
+
+   <!-- &lt;!&ndash;3张优惠券所在的布局&ndash;&gt;
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -34,17 +42,18 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            android:background="@color/white_my">
+            android:background="@color/gray"
+            android:padding="10dp">
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_weight="4"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:padding="10dp"
                 android:background="@color/bottom_lable_color"
-                android:layout_margin="10dp">
+                android:padding="10dp"
+                >
 
-                <!--优惠券的金额和条件-->
+                &lt;!&ndash;优惠券的金额和条件&ndash;&gt;
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
@@ -81,7 +90,7 @@
 
                 </LinearLayout>
 
-                <!--使用期限-->
+                &lt;!&ndash;使用期限&ndash;&gt;
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
@@ -107,15 +116,22 @@
                 android:id="@+id/ll_li_ji_ling_qu_98"
                 android:layout_width="0dp"
                 android:layout_weight="1"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/white_my"
+                    >
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/li_ji_ling_qu"
-                        android:layout_gravity="center"
+                        android:layout_centerInParent="true"
                         android:textColor="@color/bottom_lable_color"
-                        android:layout_marginTop="20dp"/>
+                        />
+                </RelativeLayout>
+
             </LinearLayout>
         </LinearLayout>
 
@@ -126,7 +142,8 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            android:background="@color/white_my">
+            android:background="@color/gray"
+            android:padding="10dp">
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_weight="4"
@@ -134,9 +151,9 @@
                 android:orientation="vertical"
                 android:padding="10dp"
                 android:background="@color/you_hui_quan_tian_lan"
-                android:layout_margin="10dp">
+                >
 
-                <!--优惠券的金额和条件-->
+                &lt;!&ndash;优惠券的金额和条件&ndash;&gt;
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
@@ -173,7 +190,7 @@
 
                 </LinearLayout>
 
-                <!--使用期限-->
+                &lt;!&ndash;使用期限&ndash;&gt;
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
@@ -199,7 +216,7 @@
                 android:id="@+id/ll_li_ji_ling_qu_21"
                 android:layout_width="0dp"
                 android:layout_weight="1"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:orientation="vertical"
                 >
                 <TextView
@@ -229,7 +246,7 @@
                 android:background="@color/you_hui_quan_huang_se"
                 android:layout_margin="10dp">
 
-                <!--优惠券的金额和条件-->
+                &lt;!&ndash;优惠券的金额和条件&ndash;&gt;
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
@@ -264,7 +281,7 @@
                     </LinearLayout>
                 </LinearLayout>
 
-                <!--使用期限-->
+                &lt;!&ndash;使用期限&ndash;&gt;
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
@@ -301,8 +318,6 @@
                     android:layout_marginTop="20dp"/>
             </LinearLayout>
         </LinearLayout>
-
-
     </LinearLayout>
-
+-->
 </LinearLayout>

@@ -355,7 +355,7 @@
                         android:id="@+id/text_yi_xuan_product"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="M,1个"
+                        android:text="S,1个"
                         android:layout_toRightOf="@id/text_yi_xuan"
                         android:layout_marginLeft="10dp"
                         android:textSize="@dimen/product_detail_base_font_size"/>
@@ -408,25 +408,57 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp">
-                    <TextView
-                        android:id="@+id/text_tui_huo"
+                    <LinearLayout
+                        android:id="@+id/ll_qi"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/tui_huo"
-                        android:layout_centerInParent="true"/>
-                    <TextView
+                        android:layout_centerInParent="true"
+                        android:orientation="horizontal">
+                        <ImageView
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:src="@mipmap/qi_day"/>
+                        <TextView
+                            android:id="@+id/text_tui_huo"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/tui_huo"
+                            />
+                    </LinearLayout>
+
+                    <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/huo_dao_fu_kuan"
-                        android:layout_toLeftOf="@id/text_tui_huo"
-                        android:layout_marginRight="10dp"/>
-                    <TextView
+                        android:layout_toLeftOf="@id/ll_qi"
+                        android:layout_marginRight="10dp">
+                        <ImageView
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:src="@mipmap/huo_dao_fu_kuan"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/huo_dao_fu_kuan"
+                            />
+                    </LinearLayout>
+
+                    <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/ji_su_da"
-                        android:layout_toRightOf="@id/text_tui_huo"
-                        android:layout_marginLeft="10dp"
-                        />
+                        android:layout_centerInParent="true"
+                        android:layout_toRightOf="@id/ll_qi"
+                        android:layout_marginLeft="10dp">
+                        <ImageView
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:src="@mipmap/ji_su_da"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/ji_su_da"
+                            />
+                    </LinearLayout>
+
                 </RelativeLayout>
             </LinearLayout>
 
@@ -542,7 +574,8 @@
                     <LinearLayout
                         android:id="@+id/xings"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content">
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true">
                         <ImageView
                             android:id="@+id/img_xing_one"
                             android:layout_width="10dp"
