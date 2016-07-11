@@ -36,6 +36,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.StringRequest;
 import com.example.asus_cp.dongmanbuy.R;
+import com.example.asus_cp.dongmanbuy.activity.MainActivity;
 import com.example.asus_cp.dongmanbuy.activity.gou_wu.ShoppingCarActivity;
 import com.example.asus_cp.dongmanbuy.activity.login.LoginActivity;
 import com.example.asus_cp.dongmanbuy.adapter.ProductDetailYouHuiQuanListAdapter;
@@ -66,6 +67,7 @@ import java.util.Map;
  * Created by asus-cp on 2016-06-01.
  */
 public class ProductDetailActivity extends Activity implements View.OnClickListener {
+
     private ImageView daoHangImagView;//导航
     private ImageView productBigPicImageView;//商品的大图
     private TextView productPicCountsTextView;//商品的图片数量
@@ -155,6 +157,7 @@ public class ProductDetailActivity extends Activity implements View.OnClickListe
 
     public static final int REQUEST_CODE_FOR_AREA_ACTIVTY=1;
     public static final int REQUEST_LOGIN_ACTIVITY=2;//登陆login活动时的返回码
+    private static final int REQUEST_CODE_LOGIN = 3;
 
     private int shouCangYanSeFlag=0;//收藏的颜色的标记，点击一次后变红，再点击变灰
 
@@ -582,9 +585,20 @@ public class ProductDetailActivity extends Activity implements View.OnClickListe
      * 跳转到购物车列表的界面
      */
     private void toShoppingCarList() {
-        Intent shoppingCatIntent=new Intent(this,ShoppingCarActivity.class);
-        shoppingCatIntent.putExtra(MyConstant.KU_CUN_KEY,good.getGoodsNumber());
-        startActivity(shoppingCatIntent);
+        SharedPreferences sharedPreferences=getSharedPreferences(MyConstant.USER_SHAREPREFRENCE_NAME, MODE_APPEND);
+        String uid=sharedPreferences.getString(MyConstant.UID_KEY, null);
+        String sid=sharedPreferences.getString(MyConstant.SID_KEY,null);
+        if(uid!=null && !uid.isEmpty()){
+            Intent shoppingCatIntent=new Intent(this,MainActivity.class);
+            shoppingCatIntent.putExtra(MyConstant.KU_CUN_KEY,good.getGoodsNumber());
+            shoppingCatIntent.putExtra(MyConstant.MAIN_ACTIVITY_LABLE_FALG_KEY,MyConstant.SHOPPING_CAR_FLAG_KEY);
+            startActivity(shoppingCatIntent);
+        }else {
+            Intent toLoginIntent=new Intent(this,LoginActivity.class);
+            toLoginIntent.putExtra(MyConstant.START_LOGIN_ACTIVITY_FLAG_KEY,"productDetail");
+            startActivityForResult(toLoginIntent, REQUEST_CODE_LOGIN);
+        }
+
     }
 
     /**
@@ -1260,6 +1274,12 @@ public class ProductDetailActivity extends Activity implements View.OnClickListe
                         }
                     };
                     requestQueue.add(addToShouCangRequest);
+                break;
+            case REQUEST_CODE_LOGIN://从登陆界面返回的数据
+                if(resultCode==RESULT_OK){
+                    toShoppingCarList();
+                }
+                break;
         }
     }
 }

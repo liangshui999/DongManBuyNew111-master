@@ -54,6 +54,7 @@ import com.example.asus_cp.dongmanbuy.model.Binner;
 import com.example.asus_cp.dongmanbuy.model.Good;
 import com.example.asus_cp.dongmanbuy.model.ShopModel;
 import com.example.asus_cp.dongmanbuy.model.User;
+import com.example.asus_cp.dongmanbuy.util.ImageLoadHelper;
 import com.example.asus_cp.dongmanbuy.util.JsonHelper;
 import com.example.asus_cp.dongmanbuy.util.MyApplication;
 import com.example.asus_cp.dongmanbuy.util.MyLog;
@@ -380,8 +381,13 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
                             context.startActivity(intent);
                         }
                     });
-                    final String urlString=goods.get(0).getGoodsImg();
-                    new Thread(new Runnable() {
+                    final String urlString=goods.get(0).getGoodsThumb();
+                    ImageLoadHelper imageLoadHelper=new ImageLoadHelper();
+                    ImageLoader imageLoader=imageLoadHelper.getImageLoader();
+                    ImageLoader.ImageListener listener=imageLoader.getImageListener(xianShiMiaoShaImagView,R.mipmap.yu_jia_zai,
+                            R.mipmap.yu_jia_zai);
+                    imageLoader.get(urlString,listener);
+                    /*new Thread(new Runnable() {
                         @Override
                         public void run() {
                             HttpURLConnection conn=null;
@@ -402,7 +408,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
                             }
 
                         }
-                    }).start();
+                    }).start();*/
 
                     //限时秒杀的gridview
                     xianShiMiaoShaGridView = (MyGridView) v.findViewById(R.id.grid_view_xian_shi_miao_sha);
@@ -767,7 +773,18 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
                 }
 
             }
-            new Thread(new Runnable() {
+            final ImageLoadHelper imageLoadHelper=new ImageLoadHelper();
+            for(final Binner binner:binners){
+                ImageView imageView=new ImageView(context);
+                ImageLoader imageLoader=imageLoadHelper.getImageLoader();
+                ImageLoader.ImageListener imageListener=imageLoader.getImageListener(imageView,
+                        R.mipmap.yu_jia_zai,R.mipmap.yu_jia_zai);
+                imageLoader.get(binner.getImg(),imageListener);
+                imageViews.add(imageView);
+            }
+            handler.sendEmptyMessage(refreshFlag);
+            handler.sendEmptyMessage(scrollFlag);
+           /* new Thread(new Runnable() {
                     @Override
                     public void run() {
                         for(final Binner binner:binners){
@@ -786,7 +803,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
                         handler.sendEmptyMessage(refreshFlag);
                         handler.sendEmptyMessage(scrollFlag);
                     }
-                }).start();
+                }).start();*/
 
         } catch (Exception e) {
             e.printStackTrace();

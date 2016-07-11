@@ -63,7 +63,7 @@ public class JingPinAdapter extends BaseAdapter{
         }
         ImageLoader.ImageListener imageListener=ImageLoader.getImageListener(viewHolder.imageView,R.mipmap.yu_jia_zai,
                 R.mipmap.yu_jia_zai);
-        imageLoader.get(goods.get(position).getGoodsImg(), imageListener);
+        imageLoader.get(goods.get(position).getGoodsImg(), imageListener,400,400);
         viewHolder.nameTextView.setText(goods.get(position).getGoodName());
         viewHolder.shopPriceTextView.setText(goods.get(position).getShopPrice());
         return v;

@@ -48,4 +48,6 @@ public interface MyConstant {
     public static final String SEARCH_CATEGORY_KEY="searchCategoryKey";//传递搜索的类别用
     public static final String SAO_MIAO_RESULT_KEY="saoMiaoResult";//传递扫描结果的key
     public static final String YU_MING="http://www.zmobuy.com";//网站的域名
+    public static final String MAIN_ACTIVITY_LABLE_FALG_KEY="MAINactivityflag";//决定mainactivity切换到那个界面的标记
+    public static final String SHOPPING_CAR_FLAG_KEY="shoppingCarFlagKey";//购物车的标记
 }

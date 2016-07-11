@@ -7,7 +7,8 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:paddingTop="10dp"
-        android:paddingBottom="10dp">
+        android:paddingBottom="10dp"
+        android:background="@color/white_my">
 
         <!--checkbox所在的布局-->
         <LinearLayout
@@ -32,7 +33,7 @@
                 <ImageView
                     android:id="@+id/img_pic_shopping_car_list"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="100dp"
                     android:layout_gravity="top"
                     />
         </LinearLayout>
@@ -90,24 +91,25 @@
                     android:layout_marginTop="5dp">
                     <ImageView
                         android:id="@+id/img_jian_hao_shopping_car_list"
-                        android:layout_width="15dp"
-                        android:layout_height="15dp"
-                        android:src="@mipmap/jianhao"/>
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:src="@mipmap/jianhao"
+                        android:background="@drawable/chi_ma_background_wei_xuan_zhong"/>
                     <TextView
                         android:id="@+id/text_product_count_jia_jian_shopping_car_list"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
                         android:textSize="12sp"
                         android:text="1"
-                        android:gravity="center_vertical"
-                        android:layout_marginLeft="10dp"/>
+                        android:gravity="center"
+                        android:background="@drawable/chi_ma_background_wei_xuan_zhong"/>
 
                     <ImageView
                         android:id="@+id/img_jia_hao_shopping_car_list"
-                        android:layout_width="15dp"
-                        android:layout_height="15dp"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
                         android:src="@mipmap/jiahao"
-                        android:layout_marginLeft="10dp"/>
+                        android:background="@drawable/chi_ma_background_wei_xuan_zhong"/>
                 </LinearLayout>
 
             <ImageView
@@ -116,7 +118,8 @@
                 android:layout_height="18dp"
                 android:background="@drawable/delete"
                 android:layout_alignParentRight="true"
-                android:layout_marginRight="10dp"/>
+                android:layout_marginRight="10dp"
+                android:layout_centerVertical="true"/>
             </RelativeLayout>
 
 

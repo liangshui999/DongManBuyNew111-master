@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
+
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="1"
         >
         <LinearLayout
             android:layout_width="match_parent"
@@ -21,14 +23,14 @@
                     android:layout_height="26dp"
                     android:layout_alignParentLeft="true"
                     android:layout_margin="10dp"
-                    android:src="@mipmap/left"
+                    android:src="@mipmap/leftdaohang"
                     android:layout_centerVertical="true"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/shopping_car"
                     android:layout_centerInParent="true"
-                    android:textSize="22sp"
+                    android:textSize="20sp"
                     android:textColor="@color/white_my"/>
             </RelativeLayout>
 
@@ -99,7 +101,6 @@
         android:paddingLeft="5dp"
         android:paddingBottom="10dp"
         android:paddingRight="10dp"
-        android:layout_alignParentBottom="true"
         android:background="@color/white_my"
         >
         <CheckBox
@@ -162,20 +163,21 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:background="@color/bottom_lable_color"
-            android:paddingRight="5dp">
+            android:background="@drawable/jie_suan_button_background"
+            android:layout_marginRight="5dp">
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/white_my"
                 android:text="@string/jie_suan"
-                android:padding="10dp"/>
+                />
             <TextView
                 android:id="@+id/text_jie_suan_su_mu"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/white_my"
                 android:text="(0)"
+                android:layout_marginLeft="5dp"
                 android:layout_gravity="center_vertical"/>
         </LinearLayout>
 
@@ -187,7 +189,8 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:layout_toLeftOf="@id/ll_jie_suan"
-            android:layout_marginRight="10dp">
+            android:layout_marginRight="10dp"
+            android:visibility="gone">
             <ImageView
                 android:layout_width="20dp"
                 android:layout_height="20dp"
@@ -203,4 +206,4 @@
                 />
         </LinearLayout>
     </RelativeLayout>
-</RelativeLayout>
+</LinearLayout>

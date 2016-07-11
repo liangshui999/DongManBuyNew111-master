@@ -197,6 +197,8 @@ public class LoginActivity extends Activity implements View.OnClickListener{
                                 startActivity(intent);
                                 finish();
                             }else if("shoppingCar".equals(whoStartMe)){//直接从购物车跳转过来的
+                                Intent shoppingCarIntent=new Intent();
+                                setResult(RESULT_OK,shoppingCarIntent);
                                 finish();
                             }else if("guanZhu".equals(whoStartMe)){//从店铺街的关注跳转过来的
                                 finish();
@@ -209,6 +211,10 @@ public class LoginActivity extends Activity implements View.OnClickListener{
                             }else if("homeFragment".equals(whoStartMe)){//从首页碎片跳转过来的
                                 Intent homeIntent=new Intent();
                                 setResult(RESULT_OK,homeIntent);
+                                finish();
+                            }else if("productDetail".equals(whoStartMe)){//从商品详情跳转过去的
+                                Intent detailIntent=new Intent();
+                                setResult(RESULT_OK,detailIntent);
                                 finish();
                             }
                         }else {

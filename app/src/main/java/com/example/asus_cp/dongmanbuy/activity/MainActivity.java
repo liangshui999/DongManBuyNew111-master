@@ -42,6 +42,7 @@ import com.example.asus_cp.dongmanbuy.activity.product_detail.ProductDetailActiv
 import com.example.asus_cp.dongmanbuy.activity.sao_maio.SaoMiaoResultActivity;
 import com.example.asus_cp.dongmanbuy.activity.search.SearchActivity;
 import com.example.asus_cp.dongmanbuy.constant.MyConstant;
+import com.example.asus_cp.dongmanbuy.customview.MyListView;
 import com.example.asus_cp.dongmanbuy.customview.OnScrollListenerMySli;
 import com.example.asus_cp.dongmanbuy.customview.SlidingMenu;
 import com.example.asus_cp.dongmanbuy.fragment.CategoryFragment;
@@ -59,6 +60,7 @@ import com.example.asus_cp.dongmanbuy.util.MyApplication;
 import com.example.asus_cp.dongmanbuy.util.MyLog;
 import com.google.zxing.client.android.CaptureActivity;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -72,6 +74,9 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
     private static final int REQUEST_CODE_SHOU_CANG_KEY = 9;
     private static final int REQUEST_CODE_SHOPPING_CAR =10 ;
+    private static final int REQUEST_CODE_TO_LOGIN_ACTIVITY = 12;
+
+    private String shoppingCarListUrl="http://www.zmobuy.com/PHP/index.php?url=/cart/list";//购物车列表
     //private android.support.v7.widget.SearchView searchView;
     private ImageView searchImageView;//搜索的图片
     private ImageButton loginButton;//登录按钮
@@ -163,6 +168,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private String passUid;//传递给碎片的uid
     private String passsid;
+
+    private String labelFlag;//跳转到哪个标签的标记
 
 
     @Override
@@ -304,6 +311,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         FragmentTransaction fragmentTransaction=fragmentManager.beginTransaction();
         fragmentTransaction.add(R.id.frame_layout_main,homeFragment);
         fragmentTransaction.commit();
+
+        labelFlag=getIntent().getStringExtra(MyConstant.MAIN_ACTIVITY_LABLE_FALG_KEY);
+        if(MyConstant.SHOPPING_CAR_FLAG_KEY.equals(labelFlag)){
+            MyLog.d(tag,"init中的方法执行了吗");
+            FragmentTransaction shoppingTransaction=fragmentManager.beginTransaction();
+            shoppingTransaction.replace(R.id.frame_layout_main, shoppingCarFragment);
+            shoppingTransaction.commit();
+            resetLabel();
+            shoppingCarImg.setImageResource(R.mipmap.home_selected);
+            shoppingCarText.setTextColor(getResources().getColor(R.color.bottom_lable_color));
+//            Intent intent=new Intent();
+//            setResult(RESULT_OK,intent);
+//            finish();
+        }
 
 
 
@@ -530,16 +551,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             toLoginIntent.putExtra(MyConstant.START_LOGIN_ACTIVITY_FLAG_KEY,"homeFragment");
             startActivityForResult(toLoginIntent,REQUEST_CODE_SHOPPING_CAR);
         }else {
-           /* FragmentTransaction shoppingCarTransaction=fragmentManager.beginTransaction();
-            shoppingCarTransaction.replace(R.id.frame_layout_main,shoppingCarFragment);
-            shoppingCarTransaction.commit();
+            FragmentTransaction shoppingTransaction=fragmentManager.beginTransaction();
+            shoppingTransaction.replace(R.id.frame_layout_main, shoppingCarFragment);
+            shoppingTransaction.commitAllowingStateLoss();
             resetLabel();
-            shoppingCarImg.setImageResource(R.mipmap.shoppingcar_selected);
+            shoppingCarImg.setImageResource(R.mipmap.home_selected);
             shoppingCarText.setTextColor(getResources().getColor(R.color.bottom_lable_color));
-            passUid=uid;
-            passsid=sid;*/
-            Intent toShoppingCarIntent=new Intent(this, ShoppingCarActivity.class);
-            startActivity(toShoppingCarIntent);
         }
 
     }
@@ -681,7 +698,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         ImageLoader imageLoader=helper.getImageLoader();
                         ImageLoader.ImageListener listener=imageLoader.getImageListener(loginImage,R.mipmap.yu_jia_zai,
                                 R.mipmap.yu_jia_zai);
-                        imageLoader.get(MyConstant.YU_MING+user.getPic(),listener,200,200);
+                        imageLoader.get(MyConstant.YU_MING + user.getPic(), listener, 200, 200);
                     }
                 }, new Response.ErrorListener() {
             @Override
@@ -834,14 +851,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onBackPressed() {
         //searchView.clearFocus();
         MyLog.d(tag, "返回键");
-
-        //退出程序时，清除sharepre里面的数据
-        SharedPreferences sharedPreferences=getSharedPreferences(MyConstant.USER_SHAREPREFRENCE_NAME,
-                MODE_APPEND);
-        SharedPreferences.Editor editor=sharedPreferences.edit();
-        editor.remove(MyConstant.UID_KEY);
-        editor.remove(MyConstant.SID_KEY);
-        editor.apply();
+//        //退出程序时，清除sharepre里面的数据
+//        SharedPreferences sharedPreferences=getSharedPreferences(MyConstant.USER_SHAREPREFRENCE_NAME,
+//                MODE_APPEND);
+//        SharedPreferences.Editor editor=sharedPreferences.edit();
+//        editor.remove(MyConstant.UID_KEY);
+//        editor.remove(MyConstant.SID_KEY);
+//        editor.apply();
         super.onBackPressed();
     }
 
@@ -957,7 +973,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     toPersonalCenter();
                 }
                 break;
+
         }
     }
+
+
+
 
 }

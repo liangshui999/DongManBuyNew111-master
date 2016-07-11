@@ -3,21 +3,59 @@ package com.example.asus_cp.dongmanbuy.fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.widget.AdapterView;
+import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ListView;
+import android.widget.PopupWindow;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
 import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.ImageLoader;
+import com.android.volley.toolbox.StringRequest;
 import com.example.asus_cp.dongmanbuy.R;
 import com.example.asus_cp.dongmanbuy.activity.MainActivity;
+import com.example.asus_cp.dongmanbuy.activity.gou_wu.DingDanActivity;
+import com.example.asus_cp.dongmanbuy.activity.login.LoginActivity;
+import com.example.asus_cp.dongmanbuy.activity.product_detail.ProductDetailActivity;
+import com.example.asus_cp.dongmanbuy.adapter.ProductDetailYouHuiQuanListAdapter;
+import com.example.asus_cp.dongmanbuy.constant.MyConstant;
+import com.example.asus_cp.dongmanbuy.customview.MyGridViewA;
+import com.example.asus_cp.dongmanbuy.customview.MyListView;
+import com.example.asus_cp.dongmanbuy.model.Good;
+import com.example.asus_cp.dongmanbuy.model.YouHuiQuanModel;
+import com.example.asus_cp.dongmanbuy.util.FormatHelper;
+import com.example.asus_cp.dongmanbuy.util.ImageLoadHelper;
+import com.example.asus_cp.dongmanbuy.util.JsonHelper;
 import com.example.asus_cp.dongmanbuy.util.MyApplication;
+import com.example.asus_cp.dongmanbuy.util.MyLog;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * 购物车的内容
@@ -25,19 +63,49 @@ import com.example.asus_cp.dongmanbuy.util.MyApplication;
  */
 public class ShoppingCarFragment extends Fragment implements View.OnClickListener{
     private Context context;
-    private RequestQueue requestQueue;
+    private String tag="ShoppingCarActivity";
 
-    private ImageView backImageView;//返回
-    private Button quGuangGuangButton;//去逛一逛
-    private RecyclerView mayBeYouWant;//你可能想要
+    private ImageView daoHangImageView;//导航
+    public CheckBox ziYingCheckBox;//自营店的chekcbox
+    private TextView lingQuanTextView;//领券
+    public CheckBox quanXuanCheckBox;//全选
+    public TextView priceTextView;//总结算价格
+    private LinearLayout editLinearLayout;//编辑按钮
+    private LinearLayout jieSuanLinearLayout;//结算的按钮
+    public TextView jieSuanShuMuTextView;//结算的数目
+    private MyListView myListView;//购物车列表
+    private MyGridViewA tuiJianProductGridView;//推荐商品列表
+
+    private ShoppingCarListAdapter adapter;
+    private int ziYingCount;//自营店的选中状态
+    private int quanXuanCount;
+
+    private String updateShoppingCarUrl="http://www.zmobuy.com/PHP/index.php?url=/cart/update";//更改购物车的商品数量
+    private String shoppingCarListUrl="http://www.zmobuy.com/PHP/index.php?url=/cart/list";//购物车列表
+    private String deleteShoppingCarUrl="http://www.zmobuy.com/PHP/index.php?url=/cart/delete";//删除购物车
+    private String gooDescUrl="http://www.zmobuy.com/PHP/?url=/goods";//商品详情的接口
+    private RequestQueue requestQueue;
 
     private String uid;
     private String sid;
 
+    private SharedPreferences sharedPreferences;
+
+    public static final int REQUEST_CODE_TO_LOGIN_ACTIVITY=12;
+
+
+    private View parentView;//所有popu的父布局
+
+    private PopupWindow youHuiQuanWindow;//优惠券的弹出窗口
+
+    private List<Good> goods;
+
+    private MainActivity mainActivity;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View v=inflater.inflate(R.layout.shopping_car_fragment_layout,null);
+        View v=inflater.inflate(R.layout.shopping_car_activity_layout,null);
         init(v);
         return v;
     }
@@ -46,30 +114,655 @@ public class ShoppingCarFragment extends Fragment implements View.OnClickListene
      * 初始化的方法
      */
     private void init(View v) {
-        context=getActivity();
-        MainActivity mainActivity= (MainActivity) getActivity();
-        uid=mainActivity.getPassUid();
-        sid=mainActivity.getPasssid();
-        requestQueue= MyApplication.getRequestQueue();
-        backImageView= (ImageView) v.findViewById(R.id.img_shoping_car_dao_hang);
-        quGuangGuangButton= (Button) v.findViewById(R.id.btn_qu_guang_guang);
-        mayBeYouWant= (RecyclerView) v.findViewById(R.id.recycle_view_may_be_you_want);
-        backImageView.setOnClickListener(this);
-        quGuangGuangButton.setOnClickListener(this);
 
-        //你可能想要部分,该部分暂时没有接口，适配器都已经做好了，maybeyouwantadapter，只要有接口之后就可以做了
-        //StringRequest youWantRequst=new StringRequest();
+        context=getActivity();
+        mainActivity= (MainActivity) getActivity();
+        goods=new ArrayList<Good>();
+
+        parentView=LayoutInflater.from(context).inflate(R.layout.shopping_car_activity_layout, null);
+        daoHangImageView= (ImageView) v.findViewById(R.id.img_shoping_car_activity_dao_hang);
+        ziYingCheckBox= (CheckBox) v.findViewById(R.id.check_box_zi_ying_dian);
+        lingQuanTextView= (TextView) v.findViewById(R.id.text_ling_quan);
+        quanXuanCheckBox= (CheckBox) v.findViewById(R.id.check_box_quan_xuan);
+        priceTextView= (TextView) v.findViewById(R.id.text_he_ji_price);
+        editLinearLayout= (LinearLayout) v.findViewById(R.id.ll_edit);
+        jieSuanLinearLayout= (LinearLayout) v.findViewById(R.id.ll_jie_suan);
+        jieSuanShuMuTextView = (TextView) v.findViewById(R.id.text_jie_suan_su_mu);
+        myListView= (MyListView) v.findViewById(R.id.my_list_view_shopping_car_list);
+        tuiJianProductGridView= (MyGridViewA) v.findViewById(R.id.my_grid_view_tui_jian_product);
+
+        //设置点击事件
+        daoHangImageView.setOnClickListener(this);
+        ziYingCheckBox.setOnClickListener(this);
+        quanXuanCheckBox.setOnClickListener(this);
+        lingQuanTextView.setOnClickListener(this);
+        editLinearLayout.setOnClickListener(this);
+        jieSuanLinearLayout.setOnClickListener(this);
+        myListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent=new Intent(context, ProductDetailActivity.class);
+                intent.putExtra(MyConstant.GOOD_KEY,goods.get(position));
+                startActivity(intent);
+            }
+        });
+
+
+
+        requestQueue= MyApplication.getRequestQueue();
+        sharedPreferences=context.getSharedPreferences(MyConstant.USER_SHAREPREFRENCE_NAME, Context.MODE_APPEND);
+        uid=sharedPreferences.getString(MyConstant.UID_KEY,null);
+        sid = sharedPreferences.getString(MyConstant.SID_KEY, null);
+        getShoppingCarListFromIntetnt();
+
     }
+
+    /**
+     * 从网络请求购物车列表的数据
+     */
+    public void getShoppingCarListFromIntetnt() {
+        StringRequest shoppingCarListRequest=new StringRequest(Request.Method.POST, shoppingCarListUrl,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String s) {
+                        MyLog.d(tag, "返回的数据是" + s);
+                        parseJson(s);
+//                        adapter=new ShoppingCarListAdapter(ShoppingCarActivity.this,
+//                                goods);
+//                        myListView.setAdapter(adapter);
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+
+            }
+        }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String,String> map=new HashMap<String,String>();
+                String json="{\"session\":{\"uid\":\""+uid+"\",\"sid\":\""+sid+"\"}}";
+                map.put("json",json);
+                return map;
+            }
+        };
+        requestQueue.add(shoppingCarListRequest);
+    }
+
+
+    /**
+     * 主要用于解析json数据
+     */
+    private void parseJson(String s) {
+        try {
+            JSONObject jsonObject=new JSONObject(s);
+            JSONObject jsonObject1=jsonObject.getJSONObject("data");
+            JSONArray jsonArray=jsonObject1.getJSONArray("goods_list");
+            for(int i=0;i<jsonArray.length();i++){
+                final Good good=new Good();
+                JSONObject ziJsonObj=jsonArray.getJSONObject(i);
+                good.setRecId(ziJsonObj.getString("rec_id"));
+                good.setGoodId(ziJsonObj.getString("goods_id"));
+                good.setGoodName(JsonHelper.decodeUnicode(ziJsonObj.getString("goods_name")));
+                good.setMarket_price(JsonHelper.decodeUnicode(ziJsonObj.getString("market_price")));
+                good.setShopPrice(JsonHelper.decodeUnicode(ziJsonObj.getString("goods_price")));
+                good.setShoppingCarNumber(ziJsonObj.getString("goods_number"));
+                JSONObject imgJson=ziJsonObj.getJSONObject("img");
+                good.setGoodsImg(imgJson.getString("url"));
+                good.setGoodsThumb(imgJson.getString("thumb"));
+                good.setGoodsSmallImag(imgJson.getString("small"));
+
+                StringRequest kuCunRequest=new StringRequest(Request.Method.POST, gooDescUrl, new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String s) {
+                        MyLog.d(tag,"请求库存返回的数据"+s);
+                        try {
+                            JSONObject kuCunJs=new JSONObject(s);
+                            JSONObject ku=kuCunJs.getJSONObject("data");
+                            good.setGoodsNumber(ku.getString("goods_number"));
+                            goods.add(good);
+
+                            adapter=new ShoppingCarListAdapter(context,
+                                    goods);
+                            myListView.setAdapter(adapter);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError volleyError) {
+
+                    }
+                }){
+                    @Override
+                    protected Map<String, String> getParams() throws AuthFailureError {
+                        Map<String,String> map=new HashMap<String,String>();
+                        String json="{\"goods_id\":\""+good.getGoodId()+"\",\"session\":{\"uid\":\""+uid+"\",\"sid\":\""+sid+"\"}}";
+                        map.put("json",json);
+                        return map;
+                    }
+                };
+                requestQueue.add(kuCunRequest);
+
+            }
+
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+/*    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch (requestCode){
+            case REQUEST_CODE_TO_LOGIN_ACTIVITY://从登陆界面回来的
+                uid=sharedPreferences.getString(MyConstant.UID_KEY,null);
+                sid=sharedPreferences.getString(MyConstant.SID_KEY,null);
+                getShoppingCarListFromIntetnt();
+                break;
+        }
+    }*/
+
 
     @Override
     public void onClick(View v) {
         switch (v.getId()){
-            case R.id.img_shoping_car_dao_hang://返回按钮的点击事件
+            case R.id.check_box_zi_ying_dian://自营店
+                if(goods.size()>0){
+                    if(ziYingCount%2==0){
+                        adapter.allXuanZhong();
+                        adapter.notifyDataSetChanged();
+                        quanXuanCheckBox.setChecked(true);
+                    }else{
+                        adapter.allBuXuanZhong();
+                        adapter.notifyDataSetChanged();
+                        quanXuanCheckBox.setChecked(false);
+                    }
+                    ziYingCount++;
+                }
                 break;
-            case R.id.btn_qu_guang_guang://去逛一逛的点击事件
-                Intent intent=new Intent(context, MainActivity.class);
-                startActivity(intent);
+            case R.id.check_box_quan_xuan://全选
+                if(goods.size()>0){
+                    if(quanXuanCount%2==0){
+                        adapter.allXuanZhong();
+                        adapter.notifyDataSetChanged();
+                        ziYingCheckBox.setChecked(true);
+
+                    }else{
+                        adapter.allBuXuanZhong();
+                        adapter.notifyDataSetChanged();
+                        ziYingCheckBox.setChecked(false);
+                    }
+                    quanXuanCount++;
+                }
+                break;
+            case R.id.img_shoping_car_activity_dao_hang://导航
+                mainActivity.finish();
+                break;
+            case R.id.text_ling_quan://领券
+                //Toast.makeText(this,"领券",Toast.LENGTH_SHORT).show();
+                youHuiQuanClickChuLi();
+                break;
+            case R.id.ll_edit://编辑
+                Toast.makeText(context,"编辑",Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.ll_jie_suan://结算
+                //Toast.makeText(this,"结算...",Toast.LENGTH_SHORT).show();
+
+                List<Boolean> checks=adapter.getChecks();
+                ArrayList<Integer> itemProductCounts= (ArrayList<Integer>) adapter.getItemProductCounts();//返回小项的商品数目
+                ArrayList<Good> passGoods=new ArrayList<Good>();//需要传递给订单界面的
+                ArrayList<Integer> passItemProductCount=new ArrayList<Integer>();
+                for(int i=0;i<checks.size();i++){
+                    if(checks.get(i)){
+                        passGoods.add(goods.get(i));
+                        passItemProductCount.add(itemProductCounts.get(i));
+                    }
+                }
+
+                if(passGoods.size()>0){
+                    Intent intent=new Intent(context,DingDanActivity.class);
+                    intent.putExtra(MyConstant.GOOD_LIST_KEY,passGoods);
+                    intent.putExtra(MyConstant.ITEM_PRODUCT_COUNT_KEY,passItemProductCount);
+                    intent.putExtra(MyConstant.PRODUCT_PRICE_SUM_KEY,priceTextView.getText().toString());
+                    intent.putExtra(MyConstant.PRODUCT_SHU_MU_SUM_KEY,jieSuanShuMuTextView.getText().toString());
+                    startActivity(intent);
+                }else{
+                    Toast.makeText(context,"请至少选择一个商品",Toast.LENGTH_SHORT).show();
+                }
+                break;
+
+
+            //---------------------------------领券的弹出窗口的点击事件---------------------------
+            case R.id.img_close_ling_qu_you_hui_quan:
+                //Toast.makeText(this,"关闭优惠券",Toast.LENGTH_SHORT).show();
+                youHuiQuanWindow.dismiss();
                 break;
         }
     }
+
+
+    /**
+     * 领券的点击事件处理
+     */
+    private void youHuiQuanClickChuLi() {
+        //Toast.makeText(this,"点击了优惠券",Toast.LENGTH_SHORT).show();
+        View youHuiQuanView = LayoutInflater.from(context).inflate(R.layout.you_hui_quan_layout, null);
+        ImageView closeYouHuiQuanImagView = (ImageView) youHuiQuanView.findViewById
+                (R.id.img_close_ling_qu_you_hui_quan);
+        closeYouHuiQuanImagView.setOnClickListener(this);
+
+        ListView youHuiQuanListView= (ListView) youHuiQuanView.findViewById(R.id.list_you_quan_list_product_detail);
+        YouHuiQuanModel model=new YouHuiQuanModel();
+        model.setJinE("10");
+        model.setUseConditon("99");
+        model.setStartTime("2022.00.00");
+        model.setEndTime("2050.00.00");
+        List<YouHuiQuanModel> youHuiQuanModelList=new ArrayList<YouHuiQuanModel>();
+        youHuiQuanModelList.add(model);
+        ProductDetailYouHuiQuanListAdapter adapter=new ProductDetailYouHuiQuanListAdapter(context,youHuiQuanModelList);
+        youHuiQuanListView.setAdapter(adapter);
+
+        youHuiQuanWindow = new PopupWindow(youHuiQuanView,
+                ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        //外部点击时可以消失
+        youHuiQuanWindow.setBackgroundDrawable(new ColorDrawable());
+        youHuiQuanWindow.setOutsideTouchable(true);
+        youHuiQuanWindow.showAtLocation(parentView, Gravity.BOTTOM, 0, 0);//最后才是show,顺序很重要
+        setBackgroundAlpha(0.5f);
+        youHuiQuanWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                setBackgroundAlpha(1f);
+            }
+        });
+    }
+
+
+    /**
+     * 设置添加屏幕的背景透明度
+     *
+     * @param bgAlpha
+     */
+    public void setBackgroundAlpha(float bgAlpha) {
+        WindowManager.LayoutParams lp = mainActivity.getWindow().getAttributes();
+        lp.alpha = bgAlpha; //0.0-1.0
+        mainActivity.getWindow().setAttributes(lp);
+    }
+
+
+
+
+
+    /**
+     * 购物车列表的适配器
+     * Created by asus-cp on 2016-06-13.
+     */
+    public class ShoppingCarListAdapter extends BaseAdapter implements View.OnClickListener{
+        private String tag="ShoppingCarListAdapter";
+        private Context context;
+        private List<Good> goods;
+        private LayoutInflater inflater;
+        private ImageLoadHelper helper;
+
+        private List<Boolean> checks;//记录选中状态的集合
+        private double heJi;//合计的值
+        private int jieSuan;//结算数目的值
+
+        private List<Integer> itemProductCounts;//记录每一个item在购物车中的数量
+
+        public ShoppingCarListAdapter(Context context, List<Good> goods
+        ) {
+            this.context = context;
+            this.goods = goods;
+            inflater=LayoutInflater.from(context);
+            helper=new ImageLoadHelper();
+            init();
+        }
+
+        /**
+         *返回记录选中状态的集合
+         */
+        public List<Boolean> getChecks() {
+            return checks;
+        }
+
+        /**
+         *返回每一个小项的商品数目
+         */
+        public List<Integer> getItemProductCounts() {
+            return itemProductCounts;
+        }
+
+        /**
+         * 都选中
+         */
+        public void allXuanZhong(){
+            for(int i=0;i<goods.size();i++){
+                checks.set(i,true);
+            }
+        }
+
+        /**
+         * 都不选中
+         */
+        public void allBuXuanZhong(){
+            for(int i=0;i<goods.size();i++){
+                checks.set(i, false);
+            }
+        }
+
+
+        /**
+         * 初始化checks
+         */
+        public void init(){
+            checks=new ArrayList<Boolean>();
+            itemProductCounts=new ArrayList<Integer>();
+            for(int i=0;i<goods.size();i++){
+                checks.add(false);
+                itemProductCounts.add(Integer.parseInt(goods.get(i).getShoppingCarNumber()));
+            }
+        }
+
+
+        @Override
+        public int getCount() {
+            return goods.size();
+        }
+
+        @Override
+        public Object getItem(int position) {
+            return goods.get(position);
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return position;
+        }
+
+        @Override
+        public View getView(final int position, View convertView, ViewGroup parent) {
+            View v=convertView;
+            ViewHolder viewHolder=null;
+            if(v==null){
+                v=inflater.inflate(R.layout.shopping_car_list_item_layout,null);
+                viewHolder=new ViewHolder();
+                viewHolder.checkBox= (CheckBox) v.findViewById(R.id.check_box_shopping_car_list_item);
+                viewHolder.picImageView= (ImageView) v.findViewById(R.id.img_pic_shopping_car_list);
+                viewHolder.nameTextView= (TextView) v.findViewById(R.id.text_product_name_shopping_car_list);
+                viewHolder.priceTextView= (TextView) v.findViewById(R.id.text_product_price_shopping_car_list);
+                viewHolder.chiMaTextView= (TextView) v.findViewById(R.id.text_product_chi_ma_shopping_car_list);
+                viewHolder.jianHaoImageView= (ImageView) v.findViewById(R.id.img_jian_hao_shopping_car_list);
+                viewHolder.productCountTextView= (TextView) v.findViewById(R.id.text_product_count_jia_jian_shopping_car_list);
+                viewHolder.jiaHaoImageView= (ImageView) v.findViewById(R.id.img_jia_hao_shopping_car_list);
+                viewHolder.deleteImageView= (ImageView) v.findViewById(R.id.img_delete_shopping_car_list);
+                v.setTag(viewHolder);
+            }else{
+                viewHolder= (ViewHolder) v.getTag();
+            }
+
+            final Good good=goods.get(position);
+            final int[] prodcutCount = {Integer.parseInt(good.getShoppingCarNumber())};//加号和减号公用的商品数量,不能放在全局里面，也不能放在onclicklistener厘米那
+
+            //给控件设置值
+            ImageLoader imageLoader=helper.getImageLoader();
+            ImageLoader.ImageListener listener=imageLoader.getImageListener(viewHolder.picImageView,
+                    R.mipmap.yu_jia_zai,R.mipmap.yu_jia_zai);
+            imageLoader.get(good.getGoodsImg(), listener);
+            viewHolder.nameTextView.setText(good.getGoodName());
+            viewHolder.priceTextView.setText(FormatHelper.getMoneyFormat(good.getShopPrice()));
+            viewHolder.checkBox.setChecked(checks.get(position));//设置选择框的选中状态
+            viewHolder.productCountTextView.setText(itemProductCounts.get(position)+"");
+
+            //未点击时，也需要设置，在adapter外面弄全选的时候需要用到
+            getCheckStateAndSetTextView();
+
+            //给checkBox设置点击事件
+            viewHolder.checkBox.setOnClickListener(new View.OnClickListener() {
+                private int count;//点击选择框的次数,不是同一个checkbox时，count的计数是不一样的
+                @Override
+                public void onClick(View v) {
+                    if (count % 2 == 0) {
+                        checks.set(position, true);
+                    } else {
+                        checks.set(position, false);
+                    }
+                    getCheckStateAndSetTextView();
+                    count++;
+                }
+            });
+
+
+            final ViewHolder finalViewHolder=viewHolder;
+
+            //加号的点击事件
+            viewHolder.jiaHaoImageView.setOnClickListener(new View.OnClickListener() {
+
+                private int kuCun=Integer.parseInt(good.getGoodsNumber());;
+                @Override
+                public void onClick(View v) {
+                    prodcutCount[0]++;
+                    if(prodcutCount[0] <= kuCun){
+                        //Toast.makeText(context,"库存数量:"+kuCun,Toast.LENGTH_SHORT).show();
+                        finalViewHolder.productCountTextView.setText(prodcutCount[0] +"");
+                    }else{
+                        Toast.makeText(context,"超过了库存数量",Toast.LENGTH_SHORT).show();
+                        prodcutCount[0]=kuCun;
+                        finalViewHolder.productCountTextView.setText(kuCun + "");
+                    }
+                    itemProductCounts.set(position,prodcutCount[0]);
+                    getCheckStateAndSetTextView();
+                    updateShoppingCar(good,prodcutCount[0]+"");
+                }
+            });
+
+
+            //减号的点击事件
+            viewHolder.jianHaoImageView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    prodcutCount[0]--;
+                    if(prodcutCount[0]>= 1){
+                        //Toast.makeText(context,"商品数量:"+prodcutCount[0],Toast.LENGTH_SHORT).show();
+                        finalViewHolder.productCountTextView.setText(prodcutCount[0]+"");
+                    }else{
+                        Toast.makeText(context,"不能比1小",Toast.LENGTH_SHORT).show();
+                        finalViewHolder.productCountTextView.setText("1");
+                        prodcutCount[0]=1;
+                    }
+                    itemProductCounts.set(position,prodcutCount[0]);
+                    getCheckStateAndSetTextView();
+                    updateShoppingCar(good, prodcutCount[0] + "");
+                }
+            });
+
+
+
+
+            //删除的点击事件
+            viewHolder.deleteImageView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    goods.remove(position);
+                    notifyDataSetChanged();
+                    checks.remove(position);
+                    itemProductCounts.remove(position);
+                    getCheckStateAndSetTextView();
+
+                    StringRequest deleteRequest=new StringRequest(Request.Method.POST, deleteShoppingCarUrl,
+                            new Response.Listener<String>() {
+                                @Override
+                                public void onResponse(String s) {
+                                    MyLog.d(tag,"删除返回的数据是："+s);
+                                }
+                            }, new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError volleyError) {
+
+                        }
+                    }){
+                        @Override
+                        protected Map<String, String> getParams() throws AuthFailureError {
+                            Map<String,String> map=new HashMap<String,String>();
+                            String json="{\"session\":{\"uid\":\""+uid+"\",\"sid\":\""+sid+"\"},\"rec_id\":\""+good.getRecId()+"\"}";
+                            map.put("json",json);
+                            return map;
+                        }
+                    };
+                    requestQueue.add(deleteRequest);
+                }
+            });
+
+
+            //图片的点击事件
+            viewHolder.picImageView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent=new Intent(context, ProductDetailActivity.class);
+                    intent.putExtra(MyConstant.GOOD_KEY,goods.get(position));
+                    startActivity(intent);
+                }
+            });
+
+            viewHolder.nameTextView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent=new Intent(context, ProductDetailActivity.class);
+                    intent.putExtra(MyConstant.GOOD_KEY,goods.get(position));
+                    startActivity(intent);
+                }
+            });
+
+            return v;
+        }
+
+
+        /**
+         * 更改购物车商品数量
+         */
+        public void updateShoppingCar(final Good good, final String shoppingCarCount){
+            //获取购物车的商品数量
+            StringRequest getProductListRequest=new StringRequest(Request.Method.POST, shoppingCarListUrl,
+                    new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String s) {
+                            MyLog.d(tag,"购物车列表的数据:"+s);
+                            String recId=null;
+                            try {
+                                JSONObject jsonObject=new JSONObject(s);
+                                JSONObject jsonObject1=jsonObject.getJSONObject("data");
+                                JSONArray jsonArray=jsonObject1.getJSONArray("goods_list");
+                                for(int i=0;i<jsonArray.length();i++){
+                                    JSONObject ziJsObj=jsonArray.getJSONObject(i);
+                                    String goodId=ziJsObj.getString("goods_id");
+                                    if(good.getGoodId().equals(goodId)){
+                                        recId=ziJsObj.getString("rec_id");
+                                        break;
+                                    }
+                                }
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                            //更改商品数量
+                            final String finalRecId = recId;
+                            StringRequest upDateShoppingCarCountRequest=new StringRequest(Request.Method.POST, updateShoppingCarUrl,
+                                    new Response.Listener<String>() {
+                                        @Override
+                                        public void onResponse(String s) {
+                                            MyLog.d(tag,"更改商品数量返回的数据："+s);
+                                        }
+                                    }, new Response.ErrorListener() {
+                                @Override
+                                public void onErrorResponse(VolleyError volleyError) {
+
+                                }
+                            }){
+                                @Override
+                                protected Map<String, String> getParams() throws AuthFailureError {
+                                    Map<String,String> map=new HashMap<String,String>();
+                                    String json="{\"session\":{\"uid\":\""+uid+"\",\"sid\":\""+sid+"\"},\"rec_id\":\""+ finalRecId +"\",\"new_number\":\""+shoppingCarCount+"\"}";
+                                    map.put("json",json);
+                                    return map;
+                                }
+                            };
+                            requestQueue.add(upDateShoppingCarCountRequest);
+                        }
+                    }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError volleyError) {
+
+                }
+            }){
+                @Override
+                protected Map<String, String> getParams() throws AuthFailureError {
+                    Map<String,String> map=new HashMap<String,String>();
+                    String json="{\"session\":{\"uid\":\""+uid+"\",\"sid\":\""+sid+"\"}}";
+                    map.put("json",json);
+                    return map;
+                }
+            };
+            requestQueue.add(getProductListRequest);
+        }
+
+        /**
+         * 从集合中取出check状态,每次改完数据之后都会重新调用该方法
+         */
+        private void getCheckStateAndSetTextView() {
+            int count=0;//记录check数目的
+            heJi=0;//注意这里需要清零
+            jieSuan=0;//注意这里需要清零
+            for(int i=0;i<checks.size();i++){
+                if(checks.get(i)){
+                    int productCount=itemProductCounts.get(i);
+                    heJi=heJi+Double.parseDouble(FormatHelper.getNumberFromRenMingBi(goods.get(i).getShopPrice()))*productCount;
+                    jieSuan = jieSuan+productCount;
+                    count++;
+                }
+            }
+            priceTextView.setText(FormatHelper.getMoneyFormat(heJi+""));
+            jieSuanShuMuTextView.setText("("+jieSuan + ")");
+
+            if(count==checks.size()){
+                ziYingCheckBox.setChecked(true);
+                quanXuanCheckBox.setChecked(true);
+            }else {
+                ziYingCheckBox.setChecked(false);
+                quanXuanCheckBox.setChecked(false);
+            }
+        }
+
+
+
+        @Override
+        public void onClick(View v) {
+            switch(v.getId()){
+                case R.id.img_pic_shopping_car_list://点击了图片
+                    Toast.makeText(context, "点击了图片", Toast.LENGTH_SHORT).show();
+                    break;
+                case R.id.text_product_name_shopping_car_list://点击了名字
+                    Toast.makeText(context,"点击了名字",Toast.LENGTH_SHORT).show();
+                    break;
+                case R.id.img_delete_shopping_car_list://点击了删除
+                    Toast.makeText(context,"点击了删除",Toast.LENGTH_SHORT).show();
+
+                    break;
+            }
+        }
+
+        class ViewHolder{
+            CheckBox checkBox;
+            ImageView picImageView;
+            TextView nameTextView;
+            TextView priceTextView;
+            TextView chiMaTextView;
+            ImageView jianHaoImageView;
+            TextView productCountTextView;
+            ImageView jiaHaoImageView;
+            ImageView deleteImageView;
+        }
+    }
+
 }

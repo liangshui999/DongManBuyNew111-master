@@ -66,7 +66,7 @@ public class XianShiAdapter extends BaseAdapter{
         }
         ImageLoader.ImageListener imageListener=ImageLoader.getImageListener(viewHolder.imageView,R.mipmap.ic_launcher,
                 R.mipmap.ic_launcher);
-        imageLoader.get(goods.get(position).getGoodsImg(), imageListener, 320, 320);
+        imageLoader.get(goods.get(position).getGoodsThumb(), imageListener, 320, 320);
         viewHolder.nameTextView.setText(goods.get(position).getGoodName());
         viewHolder.shopPriceTextView.setText(goods.get(position).getShopPrice());
         viewHolder.marketPriceTextView.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG | Paint.ANTI_ALIAS_FLAG);  // 设置中划线并加清晰
