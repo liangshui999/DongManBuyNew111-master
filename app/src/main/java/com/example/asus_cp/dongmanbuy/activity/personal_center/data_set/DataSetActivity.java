@@ -15,6 +15,7 @@ import com.android.volley.toolbox.ImageLoader;
 import com.example.asus_cp.dongmanbuy.R;
 import com.example.asus_cp.dongmanbuy.constant.MyConstant;
 import com.example.asus_cp.dongmanbuy.model.User;
+import com.example.asus_cp.dongmanbuy.service.UidService;
 import com.example.asus_cp.dongmanbuy.util.ImageLoadHelper;
 
 /**
@@ -122,9 +123,10 @@ public class DataSetActivity extends Activity implements View.OnClickListener{
                 SharedPreferences sharedPreferences=getSharedPreferences(MyConstant.USER_SHAREPREFRENCE_NAME,
                         MODE_APPEND);
                 SharedPreferences.Editor editor=sharedPreferences.edit();
-                editor.remove(MyConstant.UID_KEY);
-                editor.remove(MyConstant.SID_KEY);
+                editor.clear();
                 editor.apply();
+                Intent serviceIntent=new Intent(this, UidService.class);
+                stopService(serviceIntent);
                 Intent backIntent=new Intent();
                 setResult(RESULT_OK,backIntent);
                 finish();

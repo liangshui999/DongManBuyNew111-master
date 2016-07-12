@@ -99,7 +99,7 @@
                         <ImageView
                             android:id="@+id/img_one_ding_dan"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_height="100dp"
                             />
 
                     </LinearLayout>
@@ -110,7 +110,7 @@
                         <ImageView
                             android:id="@+id/img_two_ding_dan"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_height="100dp"
                             />
 
                     </LinearLayout>
@@ -121,7 +121,7 @@
                         <ImageView
                             android:id="@+id/img_three_ding_dan"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_height="100dp"
                             />
 
                     </LinearLayout>
@@ -308,6 +308,7 @@
                         android:layout_height="wrap_content"
                         android:paddingTop="5dp"
                         android:hint="选填"
+                        android:textSize="14sp"
 
                         />
                 </LinearLayout>
@@ -356,7 +357,7 @@
                             android:id="@+id/text_he_ji_price_ding_dan"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="20171.00"
+                            android:text="0.00"
                             android:textColor="@color/bottom_lable_color"
                             android:textSize="@dimen/ding_dan_layout_base_font"/>
 
@@ -524,7 +525,7 @@
                         android:id="@+id/text_ji_fen_ding_dan"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="200.00"
+                        android:text="0.00"
                         android:layout_toRightOf="@id/ji_fen"
                         android:layout_marginLeft="5dp"
                         android:textColor="@color/bottom_lable_color"
@@ -563,7 +564,7 @@
                         android:id="@+id/text_product_sum_price_ding_dan"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="2017.00"
+                        android:text="0.00"
                         android:textColor="@color/bottom_lable_color"
                         android:layout_alignParentRight="true"
                         android:layout_marginRight="10dp"
@@ -613,7 +614,7 @@
         android:paddingTop="10dp"
         android:paddingBottom="10dp"
         android:paddingLeft="10dp"
-        android:background="@color/white_my">
+        android:background="@color/gray">
         <TextView
             android:id="@+id/shi_fu_kuan"
             android:layout_width="wrap_content"
@@ -624,7 +625,7 @@
             android:id="@+id/text_shi_fu_kuan_ding_dan"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="2018.20"
+            android:text="0.00"
             android:layout_toRightOf="@id/shi_fu_kuan"
             android:textColor="@color/bottom_lable_color"
             android:layout_marginLeft="5dp"
@@ -633,7 +634,7 @@
             android:id="@+id/btn_ti_jiao_ding_dan"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@color/bottom_lable_color"
+            android:background="@drawable/ti_jiao_ding_dan_button_background"
             android:textColor="@color/white_my"
             android:text="@string/ti_jiao_ding_dan"
             android:layout_alignParentRight="true"

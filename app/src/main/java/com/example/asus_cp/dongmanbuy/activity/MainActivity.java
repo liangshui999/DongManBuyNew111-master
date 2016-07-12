@@ -52,6 +52,7 @@ import com.example.asus_cp.dongmanbuy.fragment.ShopStreetFragment;
 import com.example.asus_cp.dongmanbuy.fragment.ShoppingCarFragment;
 import com.example.asus_cp.dongmanbuy.model.Good;
 import com.example.asus_cp.dongmanbuy.model.User;
+import com.example.asus_cp.dongmanbuy.service.UidService;
 import com.example.asus_cp.dongmanbuy.util.CategoryImageLoadHelper;
 import com.example.asus_cp.dongmanbuy.util.FormatHelper;
 import com.example.asus_cp.dongmanbuy.util.ImageLoadHelper;
@@ -179,13 +180,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
         initData();
         initView();
+
+        Intent intent=new Intent(this,UidService.class);
+        startService(intent);
+
     }
 
     /**
      * 初始化数据
      */
     private void initData() {
-        sharedPreferences=getSharedPreferences(MyConstant.USER_SHAREPREFRENCE_NAME,MODE_APPEND);
+        sharedPreferences=getSharedPreferences(MyConstant.USER_SHAREPREFRENCE_NAME, MODE_APPEND);
         requestQueue= MyApplication.getRequestQueue();
         fragments=new ArrayList<Fragment>();
         Fragment homeFragment=new HomeFragment();
@@ -214,14 +219,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         new CategoryImageLoadHelper(getXiangSuMiDu());
     }
 
-
-    public String getPassUid() {
-        return passUid;
-    }
-
-    public String getPasssid() {
-        return passsid;
-    }
 
 
     /**
@@ -309,10 +306,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         shopStreetFragment=new ShopStreetFragment();
         shoppingCarFragment=new ShoppingCarFragment();
         FragmentTransaction fragmentTransaction=fragmentManager.beginTransaction();
-        fragmentTransaction.add(R.id.frame_layout_main,homeFragment);
+        fragmentTransaction.add(R.id.frame_layout_main, homeFragment);
         fragmentTransaction.commit();
 
+
         labelFlag=getIntent().getStringExtra(MyConstant.MAIN_ACTIVITY_LABLE_FALG_KEY);
+        MyLog.d(tag, "labelFlag=" + labelFlag);
         if(MyConstant.SHOPPING_CAR_FLAG_KEY.equals(labelFlag)){
             MyLog.d(tag,"init中的方法执行了吗");
             FragmentTransaction shoppingTransaction=fragmentManager.beginTransaction();
@@ -321,9 +320,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             resetLabel();
             shoppingCarImg.setImageResource(R.mipmap.home_selected);
             shoppingCarText.setTextColor(getResources().getColor(R.color.bottom_lable_color));
-//            Intent intent=new Intent();
-//            setResult(RESULT_OK,intent);
-//            finish();
         }
 
 
@@ -436,6 +432,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         shopStreetText.setTextColor(Color.BLACK);
         shoppingCarText.setTextColor(Color.BLACK);
     }
+
+
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        MyLog.d(tag, "onResume");
+
+    }
+
 
 
     @Override

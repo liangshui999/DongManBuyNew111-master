@@ -187,9 +187,11 @@ public class LoginActivity extends Activity implements View.OnClickListener{
                         String uid=jsonObject2.getString("uid");
                         if(!sid.isEmpty() && !sid.equals("")){
                             Toast.makeText(LoginActivity.this,"登录成功",Toast.LENGTH_SHORT).show();
+                            clearSharePerefrences();//清空之前保存的数据
                             writeToSharePreferences(uid, MyConstant.UID_KEY);
                             writeToSharePreferences(sid, MyConstant.SID_KEY);
-
+                            writeToSharePreferences(zhangHao, MyConstant.USER_NAME);
+                            writeToSharePreferences(password, MyConstant.PASS_WORD);
                             if(whoStartMe.equals("shouCang")){//说明是从收藏跳转过来的
                                 finish();
                             }else if("queHuo".equals(whoStartMe)){//因为缺货从加入购物车跳转过来的
@@ -245,6 +247,16 @@ public class LoginActivity extends Activity implements View.OnClickListener{
         }
     }
 
+
+    /**
+     * 清空shareprefrence
+     */
+    public void clearSharePerefrences(){
+        SharedPreferences sharedPreferences=getSharedPreferences(MyConstant.USER_SHAREPREFRENCE_NAME, MODE_APPEND);
+        SharedPreferences.Editor editor=sharedPreferences.edit();
+        editor.clear();
+        editor.apply();
+    }
 
     /**
      * 将数据写入shareprefrence里面

@@ -20,6 +20,18 @@ public class DingDanModel implements Parcelable{
     private String shouXuFei;//手续费
     private String payCode;//paycode
     private String dingDanDesc;//订单描述
+    private String shouHuoRenName;//收货人姓名
+    private String phone;//收获人电话
+    private String sheng;//省
+    private String shi;//市
+    private String xian;//县
+    private String detailAddress;//详细地址
+    private String orderStatus;
+    private String shippingStatus;
+    private String payStatus;
+    private String shipName;//快递方式
+
+    public DingDanModel(){}
 
     protected DingDanModel(Parcel in) {
         orderId = in.readString();
@@ -32,9 +44,17 @@ public class DingDanModel implements Parcelable{
         shouXuFei = in.readString();
         payCode = in.readString();
         dingDanDesc = in.readString();
+        shouHuoRenName = in.readString();
+        phone = in.readString();
+        sheng = in.readString();
+        shi = in.readString();
+        xian = in.readString();
+        detailAddress = in.readString();
+        orderStatus = in.readString();
+        shippingStatus = in.readString();
+        payStatus = in.readString();
+        shipName=in.readString();
     }
-
-    public DingDanModel(){}
 
     public static final Creator<DingDanModel> CREATOR = new Creator<DingDanModel>() {
         @Override
@@ -128,6 +148,86 @@ public class DingDanModel implements Parcelable{
         this.dingDanDesc = dingDanDesc;
     }
 
+    public String getShouHuoRenName() {
+        return shouHuoRenName;
+    }
+
+    public void setShouHuoRenName(String shouHuoRenName) {
+        this.shouHuoRenName = shouHuoRenName;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public String getSheng() {
+        return sheng;
+    }
+
+    public void setSheng(String sheng) {
+        this.sheng = sheng;
+    }
+
+    public String getShi() {
+        return shi;
+    }
+
+    public void setShi(String shi) {
+        this.shi = shi;
+    }
+
+    public String getXian() {
+        return xian;
+    }
+
+    public void setXian(String xian) {
+        this.xian = xian;
+    }
+
+    public String getDetailAddress() {
+        return detailAddress;
+    }
+
+    public void setDetailAddress(String detailAddress) {
+        this.detailAddress = detailAddress;
+    }
+
+    public String getOrderStatus() {
+        return orderStatus;
+    }
+
+    public void setOrderStatus(String orderStatus) {
+        this.orderStatus = orderStatus;
+    }
+
+    public String getShippingStatus() {
+        return shippingStatus;
+    }
+
+    public void setShippingStatus(String shippingStatus) {
+        this.shippingStatus = shippingStatus;
+    }
+
+    public String getPayStatus() {
+        return payStatus;
+    }
+
+    public void setPayStatus(String payStatus) {
+        this.payStatus = payStatus;
+    }
+
+    public String getShipName() {
+        return shipName;
+    }
+
+    public void setShipName(String shipName) {
+        this.shipName = shipName;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -145,5 +245,15 @@ public class DingDanModel implements Parcelable{
         dest.writeString(shouXuFei);
         dest.writeString(payCode);
         dest.writeString(dingDanDesc);
+        dest.writeString(shouHuoRenName);
+        dest.writeString(phone);
+        dest.writeString(sheng);
+        dest.writeString(shi);
+        dest.writeString(xian);
+        dest.writeString(detailAddress);
+        dest.writeString(orderStatus);
+        dest.writeString(shippingStatus);
+        dest.writeString(payStatus);
+        dest.writeString(shipName);
     }
 }

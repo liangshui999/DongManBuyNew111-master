@@ -514,6 +514,7 @@ public class DingDanActivity extends Activity implements View.OnClickListener{
                                 JSONObject jsonObject=new JSONObject(s);
                                 JSONObject jsonObject1=jsonObject.getJSONObject("data");
                                 String bianHao=jsonObject1.getString("order_sn");
+                                String id=jsonObject1.getString("order_id");
                                 JSONObject orderJs=jsonObject1.getJSONObject("order_info");
                                 String subject=JsonHelper.decodeUnicode(orderJs.getString("subject"));
                                 String desc=JsonHelper.decodeUnicode(orderJs.getString("desc"));
@@ -523,6 +524,7 @@ public class DingDanActivity extends Activity implements View.OnClickListener{
                                 toAfterIntent.putExtra(MyConstant.DING_DAN_BIAN_HAO_KEY,bianHao);
                                 toAfterIntent.putExtra(MyConstant.DING_DAN_SUBJECT_KEY,subject);
                                 toAfterIntent.putExtra(MyConstant.DING_DAN_DESC_KEY,desc);
+                                toAfterIntent.putExtra(MyConstant.DING_DAN_ID_KEY,id);
                                 startActivity(toAfterIntent);
 //                            }else if("余额支付【手续费】".equals(zhiFuFangShi)){
 //                                Intent toYuEIntent=new Intent(DingDanActivity.this,YuEZhiFuSuccessedActivity.class);

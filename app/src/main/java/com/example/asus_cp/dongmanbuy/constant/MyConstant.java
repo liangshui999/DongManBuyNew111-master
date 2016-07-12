@@ -30,6 +30,7 @@ public interface MyConstant {
     public static final String DING_DAN_BIAN_HAO_KEY="dingDanBianHao";//传递订单编号用的key
     public static final String DING_DAN_SUBJECT_KEY="dingDansubject";//传递订单编号用的key
     public static final String DING_DAN_DESC_KEY="dingDandesc";//传递订单编号用的key
+    public static final String DING_DAN_ID_KEY="dingDanId";//传递订单id所用的key
     public static final String DING_DAN_MODEL_KEY="dingDanMoDS";//传递订单实体时使用的key
     public static final String SHOP_ID_KEY="shopIdKey";//店铺id的key
     public static final String USER_KEY="userKey";//传递user对象时使用的key
@@ -50,4 +51,6 @@ public interface MyConstant {
     public static final String YU_MING="http://www.zmobuy.com";//网站的域名
     public static final String MAIN_ACTIVITY_LABLE_FALG_KEY="MAINactivityflag";//决定mainactivity切换到那个界面的标记
     public static final String SHOPPING_CAR_FLAG_KEY="shoppingCarFlagKey";//购物车的标记
+    public static final String USER_NAME="userName";//用户名
+    public static final String PASS_WORD="password";//密码
 }

@@ -1,10 +1,12 @@
 package com.example.asus_cp.dongmanbuy.activity.gou_wu;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
+import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -111,6 +113,9 @@ public class DingDanListActivity extends Activity implements View.OnClickListene
         allDingDanLinearLayout.setOnClickListener(this);
         daiFuKuanDingDanLinearLayout.setOnClickListener(this);
         daiShouHuoDingDanLinearLayout.setOnClickListener(this);
+
+
+
     }
 
 
@@ -127,7 +132,7 @@ public class DingDanListActivity extends Activity implements View.OnClickListene
                         MyLog.d(tag, "返回的数据是" + s);
 //                        MyLog.d(tag,"uid="+uid);
 //                        MyLog.d(tag,"sid="+sid);
-                        List<DingDanModel> dingDanModels=new ArrayList<DingDanModel>();
+                        final List<DingDanModel> dingDanModels=new ArrayList<DingDanModel>();
                         try {
                             JSONObject jsonObject=new JSONObject(s);
                             JSONArray jsonArray=jsonObject.getJSONArray("data");
@@ -169,6 +174,15 @@ public class DingDanListActivity extends Activity implements View.OnClickListene
                                 }
                                 DingDanListAdapter dingDanListAdapter=new DingDanListAdapter(DingDanListActivity.this,dingDanModels);
                                 dingDanListListView.setAdapter(dingDanListAdapter);
+
+                                dingDanListListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                                    @Override
+                                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                                        Intent intent=new Intent(DingDanListActivity.this, DingDanDetailActivity.class);
+                                        intent.putExtra(MyConstant.DING_DAN_MODEL_KEY, dingDanModels.get(position));
+                                        startActivity(intent);
+                                    }
+                                });
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();

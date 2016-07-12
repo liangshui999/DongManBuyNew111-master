@@ -43,6 +43,7 @@ public class AfterTiJiaoDingDanActivity extends Activity implements View.OnClick
     private String bianHao;//订单编号
     private String subject;//订单标题
     private String desc;//订单描述
+    private String dingDanId;//订单id
 
     private String tag="AfterTiJiaoDingDanActivity";
 
@@ -125,6 +126,7 @@ public class AfterTiJiaoDingDanActivity extends Activity implements View.OnClick
         zhiFuBaoZhiFuButton= (Button) findViewById(R.id.btn_zhi_fu_bao_zhi_fu_after_ti_jiao_ding_dan);
         seeDingDanTextView= (TextView) findViewById(R.id.text_see_ding_dan_after_ti_jiao_ding_dan);
 
+        dingDanId=getIntent().getStringExtra(MyConstant.DING_DAN_ID_KEY);
         //设置付款金额
         price=getIntent().getStringExtra(MyConstant.SHI_FU_KUAN_KEY);
         priceTextView.setText(price);
@@ -152,9 +154,13 @@ public class AfterTiJiaoDingDanActivity extends Activity implements View.OnClick
                 pay();//调用支付宝支付
                 break;
             case R.id.text_see_ding_dan_after_ti_jiao_ding_dan://点击了查看订单
-                Intent seeIntent=new Intent(this,DingDanListActivity.class);
+                /*Intent seeIntent=new Intent(this,DingDanDetailActivity.class);
                 seeIntent.putExtra(MyConstant.TO_DING_DAN_LIST_KEY,MyConstant.ALL_DING_DAN);
-                startActivity(seeIntent);
+                startActivity(seeIntent);*/
+                Intent intent=new Intent(AfterTiJiaoDingDanActivity.this,DingDanDetailActivity.class);
+                intent.putExtra(MyConstant.DING_DAN_BIAN_HAO_KEY,bianHao);
+                intent.putExtra(MyConstant.DING_DAN_ID_KEY,dingDanId);
+                startActivity(intent);
                 break;
         }
     }

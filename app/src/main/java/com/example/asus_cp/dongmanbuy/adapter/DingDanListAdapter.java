@@ -105,11 +105,15 @@ public class DingDanListAdapter extends BaseAdapter{
         final DingDanModel dingDanModel=models.get(position);
         viewHolder.dingDanHaoTextView.setText(dingDanModel.getOrderBianHao());
         viewHolder.dingDanTimeTextView.setText(FormatHelper.getDate(dingDanModel.getOrderTime()));
-        viewHolder.productCountTextView.setText("共"+dingDanModel.getGoods().size()+"款");
+        viewHolder.productCountTextView.setText("共" + dingDanModel.getGoods().size() + "款");
         viewHolder.heJiTextView.setText(FormatHelper.getMoneyFormat(dingDanModel.getSumPrice()));
 
         DingDanListGridAdapter adapter=new DingDanListGridAdapter(context,dingDanModel.getGoods());
         viewHolder.picGridView.setAdapter(adapter);
+        viewHolder.picGridView.setFocusable(false);
+        viewHolder.picGridView.setClickable(false);
+        viewHolder.picGridView.setPressed(false);
+        viewHolder.picGridView.setEnabled(false);
 
         //设置点击事件
         viewHolder.quXiaoDingDanTextView.setOnClickListener(new View.OnClickListener() {
@@ -119,13 +123,13 @@ public class DingDanListAdapter extends BaseAdapter{
             }
         });
 
-        viewHolder.picDisplayLinearLayout.setOnClickListener(new View.OnClickListener() {
+       /* viewHolder.picDisplayLinearLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                // MyLog.d(tag, "点击了查看订单详情");
                 startDingDanDetail(dingDanModel);
             }
-        });
+        });*/
 
         viewHolder.picGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
