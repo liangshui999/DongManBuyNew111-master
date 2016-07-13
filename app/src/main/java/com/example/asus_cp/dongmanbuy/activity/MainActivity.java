@@ -184,6 +184,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Intent intent=new Intent(this,UidService.class);
         startService(intent);
 
+        MyLog.d(tag,"oncreate()执行了");
+
     }
 
     /**
@@ -310,6 +312,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         fragmentTransaction.commit();
 
 
+        //跳转到购物车碎片(从别的活动跳过来的时候)
         labelFlag=getIntent().getStringExtra(MyConstant.MAIN_ACTIVITY_LABLE_FALG_KEY);
         MyLog.d(tag, "labelFlag=" + labelFlag);
         if(MyConstant.SHOPPING_CAR_FLAG_KEY.equals(labelFlag)){
@@ -439,10 +442,29 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onStart() {
         super.onStart();
         MyLog.d(tag, "onResume");
-
     }
 
 
+    /**
+     * 当模式为singtask时，用普通的方法根本就得不到intent的数据，必须使用该方法
+     * @param intent
+     */
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        //跳转到购物车碎片
+        labelFlag=intent.getStringExtra(MyConstant.MAIN_ACTIVITY_LABLE_FALG_KEY);
+        MyLog.d(tag, "labelFlag=" + labelFlag);
+        if(MyConstant.SHOPPING_CAR_FLAG_KEY.equals(labelFlag)){
+            MyLog.d(tag,"init中的方法执行了吗");
+            FragmentTransaction shoppingTransaction=fragmentManager.beginTransaction();
+            shoppingTransaction.replace(R.id.frame_layout_main, shoppingCarFragment);
+            shoppingTransaction.commit();
+            resetLabel();
+            shoppingCarImg.setImageResource(R.mipmap.home_selected);
+            shoppingCarText.setTextColor(getResources().getColor(R.color.bottom_lable_color));
+        }
+    }
 
     @Override
     public void onClick(View v) {

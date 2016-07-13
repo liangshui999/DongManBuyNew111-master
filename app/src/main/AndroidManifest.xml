@@ -3,6 +3,7 @@
     package="com.example.asus_cp.dongmanbuy">
 
     <!--支付宝jar所需要的权限-->
+    <uses-permission android:name="android.permission.CALL_PHONE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
@@ -41,7 +42,7 @@
             android:name=".activity.MainActivity"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="adjustPan|stateHidden"
-            android:launchMode="standard">
+            android:launchMode="singleTask">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -95,7 +96,12 @@
         <activity android:name=".activity.dian_pu_jie.ShopDetailActivity"/>
 
         <!--店铺排序的activity-->
-        <activity android:name=".activity.dian_pu_jie.ShopProdcutSortActivity"/>
+        <activity android:name=".activity.dian_pu_jie.ShopProdcutSortActivity"
+            android:launchMode="singleTask"/>
+
+        <!--店铺搜索的搜索界面-->
+        <activity android:name=".activity.dian_pu_jie.ShopSearchActivity"
+            android:launchMode="singleTask"/>
 
         <!--订单的activity-->
         <activity android:name=".activity.gou_wu.DingDanActivity"/>
@@ -205,6 +211,8 @@
 
         <!--扫描页所在的activity-->
         <activity android:name=".activity.MipcaActivityCapture"/>
+
+
 
         <!--搜索的activity,因为必须按照ui做，此类作废-->
         <activity android:name=".activity.MySearchActivity">

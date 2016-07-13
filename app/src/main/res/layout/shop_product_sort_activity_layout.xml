@@ -21,14 +21,20 @@
             android:layout_height="30dp"
             android:layout_gravity="center_vertical"
             android:background="@mipmap/left"/>
-        <android.support.v7.widget.SearchView
+        <!--<android.support.v7.widget.SearchView
             android:id="@+id/search_view_shop_product_sort"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="40dp"
             android:queryHint="@string/search_shop_product"
             >
-        </android.support.v7.widget.SearchView>
+        </android.support.v7.widget.SearchView>-->
+        <ImageView
+            android:id="@+id/img_search_shop_product_sort"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="40dp"
+            android:background="@mipmap/search_pic"/>
         <TextView
             android:id="@+id/text_category_shop_product_sort"
             android:clickable="true"
@@ -166,26 +172,50 @@
 
 
     <!--内容展示的区域-->
-    <GridView
+    <com.handmark.pulltorefresh.library.PullToRefreshGridView
         android:id="@+id/grid_view_product_sort"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:numColumns="2">
-    </GridView>
+        android:layout_height="match_parent"
+        android:numColumns="2"
+        android:background="@color/white_my">
+    </com.handmark.pulltorefresh.library.PullToRefreshGridView>
 
-    <ListView
+    <com.handmark.pulltorefresh.library.PullToRefreshListView
         android:id="@+id/list_view_product_sort_small"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:visibility="gone">
-    </ListView>
+        android:layout_height="match_parent"
+        android:background="@color/white_my"
+        android:visibility="visible">
+    </com.handmark.pulltorefresh.library.PullToRefreshListView>
 
-    <ListView
+    <com.handmark.pulltorefresh.library.PullToRefreshListView
         android:id="@+id/list_view_product_sort_big"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:visibility="gone">
-    </ListView>
+        android:layout_height="match_parent"
+        android:background="@color/white_my"
+        android:visibility="visible">
+    </com.handmark.pulltorefresh.library.PullToRefreshListView>
+
+
+    <LinearLayout
+        android:id="@+id/ll_no_content_display"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:orientation="vertical"
+        >
+        <ImageView
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:src="@mipmap/no_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="50dp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/ci_chu_wu_nei_rong"
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp"/>
+    </LinearLayout>
 
 
 

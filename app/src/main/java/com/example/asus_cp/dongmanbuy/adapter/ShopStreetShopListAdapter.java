@@ -179,11 +179,11 @@ public class ShopStreetShopListAdapter extends BaseAdapter {
                                         if("已关注".equals(erroeDesc)){
                                             Toast.makeText(context,"关注成功",Toast.LENGTH_SHORT).show();
                                             finalViewHolder.guanZhuTextView.setTextColor(context.getResources().getColor(R.color.white_my));
-                                            finalViewHolder.guanZhuTextView.setBackgroundResource(R.color.bottom_lable_color);
+                                            finalViewHolder.guanZhuTextView.setBackgroundResource(R.drawable.guan_zhu_successed_background);
                                         }else if("已取消关注".equals(erroeDesc)){
                                             Toast.makeText(context,"取消关注成功",Toast.LENGTH_SHORT).show();
                                             finalViewHolder.guanZhuTextView.setTextColor(context.getResources().getColor(R.color.bottom_lable_color));
-                                            finalViewHolder.guanZhuTextView.setBackgroundResource(R.color.white_my);
+                                            finalViewHolder.guanZhuTextView.setBackgroundResource(R.drawable.guan_zhu_background);
                                         }
                                     } catch (JSONException e) {
                                         e.printStackTrace();
@@ -263,7 +263,7 @@ public class ShopStreetShopListAdapter extends BaseAdapter {
             adapter.setOnItemClickLitener(new ShopStreetShopContentAdapter.OnItemClickLitener() {
                 @Override
                 public void onItemClick(View view, int position) {
-                    Toast.makeText(context,"点击的位置是"+position,Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(context,"点击的位置是"+position,Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(context, ProductDetailActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     intent.putExtra(MyConstant.GOOD_KEY, shopModel.getGoods().get(position));

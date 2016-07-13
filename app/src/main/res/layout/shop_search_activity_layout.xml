@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!--头部所在的布局-->
+    <LinearLayout
+        android:id="@+id/head"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:focusable="true"
+        android:focusableInTouchMode="true">
+        <ImageView
+            android:id="@+id/img_dao_hang_search"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:background="@mipmap/left"
+            android:layout_gravity="center"/>
+        <Spinner
+            android:id="@+id/spinner_search"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:layout_gravity="center"
+
+            >
+        </Spinner>
+
+        <EditText
+            android:id="@+id/edit_search"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:hint="@string/search_hint"
+            android:textSize="14sp"
+            android:layout_gravity="center"/>
+        <TextView
+            android:id="@+id/text_search"
+            android:clickable="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/search"
+            android:background="@color/bottom_lable_color"
+            android:textColor="@color/white_my"
+            android:padding="8dp"
+            android:layout_gravity="center"/>
+    </LinearLayout>
+
+
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/head">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                >
+                <!--热门搜索-->
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="10dp"
+                    android:text="@string/re_men_sou_suo"
+                    android:visibility="gone"/>
+
+                <com.example.asus_cp.dongmanbuy.customview.MyGridViewA
+                    android:id="@+id/grid_view_hot_search"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:numColumns="3"
+                    android:horizontalSpacing="20dp"
+                    android:verticalSpacing="10dp"
+                    android:visibility="gone">
+
+                </com.example.asus_cp.dongmanbuy.customview.MyGridViewA>
+
+
+                <!--最近搜索-->
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="10dp">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/zui_jin_sou_suo"/>
+                    <ImageView
+                        android:id="@+id/img_delete_recent_search"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:background="@drawable/delete"
+                        android:layout_alignParentRight="true"/>
+                </RelativeLayout>
+
+                <com.example.asus_cp.dongmanbuy.customview.MyListView
+                    android:id="@+id/list_view_recent_search"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                </com.example.asus_cp.dongmanbuy.customview.MyListView>
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+    </ScrollView>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_alignParentBottom="true">
+        <TextView
+            android:id="@+id/text_close_search"
+            android:clickable="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:padding="10dp"
+            android:text="@string/click_close"/>
+    </LinearLayout>
+
+
+
+
+
+
+
+</RelativeLayout>

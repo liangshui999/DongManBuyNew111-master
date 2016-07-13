@@ -1,8 +1,13 @@
 package com.example.asus_cp.dongmanbuy.activity.dian_pu_jie;
 
 import android.app.Activity;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.view.Window;
 import android.widget.ImageView;
@@ -11,20 +16,42 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
+import com.android.volley.toolbox.StringRequest;
 import com.example.asus_cp.dongmanbuy.R;
+import com.example.asus_cp.dongmanbuy.activity.MipcaActivityCapture;
+import com.example.asus_cp.dongmanbuy.activity.login.LoginActivity;
+import com.example.asus_cp.dongmanbuy.activity.product_detail.ProductDetailActivity;
 import com.example.asus_cp.dongmanbuy.constant.MyConstant;
 import com.example.asus_cp.dongmanbuy.model.Good;
 import com.example.asus_cp.dongmanbuy.model.ShopModel;
+import com.example.asus_cp.dongmanbuy.util.FormatHelper;
 import com.example.asus_cp.dongmanbuy.util.ImageLoadHelper;
+import com.example.asus_cp.dongmanbuy.util.JsonHelper;
+import com.example.asus_cp.dongmanbuy.util.MyApplication;
+import com.example.asus_cp.dongmanbuy.util.MyLog;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * 店铺详情的界面
  * Created by asus-cp on 2016-06-08.
  */
 public class ShopDetailActivity extends Activity implements View.OnClickListener{
+
+    private static final int SCAN_CODE = 1;
+    private String tag="ShopDetailActivity";
+
     private ImageView logoImageView;//logo
     private TextView shopNameTextView;//店铺名字
     private TextView guanZhuRenShuTextView;//关注人数
@@ -55,6 +82,13 @@ public class ShopDetailActivity extends Activity implements View.OnClickListener
     private ImageLoadHelper helper;
 
 
+    private String guanZhuUrl="http://www.zmobuy.com/PHP/?url=/store/addcollect";//关注的接口
+
+    private RequestQueue requestQueue;
+
+    private AlertDialog loginDialog;//登陆的对话框
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,6 +102,9 @@ public class ShopDetailActivity extends Activity implements View.OnClickListener
      * 初始化的方法
      */
     private void init() {
+
+        requestQueue= MyApplication.getRequestQueue();
+
         logoImageView= (ImageView) findViewById(R.id.img_shop_logo_shop_detail);
         shopNameTextView= (TextView) findViewById(R.id.text_shop_name_shop_detail);
         guanZhuRenShuTextView= (TextView) findViewById(R.id.text_guan_zhu_ren_shu_shop_detail);
@@ -93,7 +130,7 @@ public class ShopDetailActivity extends Activity implements View.OnClickListener
         kaiDianTimeTextView= (TextView) findViewById(R.id.text_kai_dian_time);
         suoZaiAreaTextView= (TextView) findViewById(R.id.text_suo_zai_di_qu_shop_detail);
 
-        shopModel=getIntent().getParcelableExtra(MyConstant.FROM_SHOP_HOME_TO_SHOP_DETAIL_KEY);
+        shopModel=getIntent().getParcelableExtra(MyConstant.SHOP_MODEL_KEY);
         if(shopModel!=null){
             helper=new ImageLoadHelper();
             ImageLoader imageLoader=helper.getImageLoader();
@@ -124,6 +161,7 @@ public class ShopDetailActivity extends Activity implements View.OnClickListener
 
             //给控件设置点击事件
             logoImageView.setOnClickListener(this);
+            shopNameTextView.setOnClickListener(this);
             guanZhuTextView.setOnClickListener(this);
             allProductLinearLayout.setOnClickListener(this);
             newProductLinearLayout.setOnClickListener(this);
@@ -138,36 +176,159 @@ public class ShopDetailActivity extends Activity implements View.OnClickListener
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.img_shop_logo_shop_detail://点击了店铺logo
-                Toast.makeText(this,"点击了logo",Toast.LENGTH_SHORT).show();
+                toShopHomeActivity();
                 break;
             case R.id.text_shop_name_shop_detail://点击了店铺名称
-                Toast.makeText(this,"点击了店铺名称",Toast.LENGTH_SHORT).show();
+                toShopHomeActivity();
                 break;
             case R.id.text_guan_zhu_shop_detail://点击了关注
-                Toast.makeText(this,"点击了关注",Toast.LENGTH_SHORT).show();
+                guanZhuClickChuLi();
                 break;
             case R.id.ll_all_product_shop_detail://点击了全部商品
-                //Toast.makeText(this,"点击了全部商品",Toast.LENGTH_SHORT).show();
-                Intent allIntent=new Intent(this,ShopProdcutSortActivity.class);
-                ArrayList<Good> goods= (ArrayList<Good>) shopModel.getGoods();
-                allIntent.putExtra(MyConstant.FROM_SHOP_HOME_TO_SHOP_PRODUCT_SORT_KEY,
-                        goods);
-                startActivity(allIntent);
+                toShopGoodSortActivity("");
                 break;
             case R.id.ll_new_product_shop_detail://点击了新商品
-                Toast.makeText(this,"点击了新商品",Toast.LENGTH_SHORT).show();
+                toShopGoodSortActivity("is_new");
                 break;
             case R.id.ll_cu_xiao_product_shop_detail://点击了促销商品
-                Toast.makeText(this,"点击了促销商品",Toast.LENGTH_SHORT).show();
+                toShopGoodSortActivity("is_promote");
                 break;
             case R.id.re_layout_ke_fu://点击了在线客服
                 Toast.makeText(this,"点击了在线客服",Toast.LENGTH_SHORT).show();
                 break;
             case R.id.re_layout_shop_er_wei_ma://点击了二维码
-                Toast.makeText(this,"点击了二维码",Toast.LENGTH_SHORT).show();
+                Intent saoYiSaoIntent = new Intent(ShopDetailActivity.this, MipcaActivityCapture.class);
+                startActivityForResult(saoYiSaoIntent, SCAN_CODE);
                 break;
             case R.id.re_layout_shang_jia_phone://点击了商家电话
-                Toast.makeText(this,"点击了商家电话",Toast.LENGTH_SHORT).show();
+                Intent callIntent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:"+
+                    shangJiaPhoneTextView.getText().toString()));
+                startActivity(callIntent);
+                break;
+        }
+    }
+
+
+    /**
+     * 跳转到店铺商品排序的界面
+     */
+    private void toShopGoodSortActivity(String goodType) {
+        Intent allIntent=new Intent(this,ShopProdcutSortActivity.class);
+        allIntent.putExtra(MyConstant.SHOP_USER_ID_KEY,
+                shopModel.getUserId());
+        allIntent.putExtra(MyConstant.GOOD_TYPE_KEY,goodType);
+        startActivity(allIntent);
+    }
+
+
+    /**
+     * 跳转到店铺主页
+     */
+    private void toShopHomeActivity() {
+        finish();
+    }
+
+
+
+    /**
+     * 关注点击事件的处理
+     */
+    private void guanZhuClickChuLi() {
+        //Toast.makeText(this, "点击了关注按钮", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(context, "点击了关注", Toast.LENGTH_SHORT).show();
+        SharedPreferences sharedPreferences=getSharedPreferences(MyConstant.USER_SHAREPREFRENCE_NAME,
+                Context.MODE_APPEND);
+        final String uid=sharedPreferences.getString(MyConstant.UID_KEY, null);
+        final String sid=sharedPreferences.getString(MyConstant.SID_KEY,null);
+        if(uid!=null && !uid.isEmpty()){
+            StringRequest guanZhuRequest=new StringRequest(Request.Method.POST, guanZhuUrl,
+                    new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String s) {
+                            MyLog.d(tag, "关注接口返回的数据" + s);
+                            try {
+                                JSONObject jsonObject=new JSONObject(s);
+                                JSONObject jsonObject1=jsonObject.getJSONObject("data");
+                                String erroeDesc= JsonHelper.decodeUnicode(jsonObject1.getString("error_desc"));
+                                if("已关注".equals(erroeDesc)){
+                                    Toast.makeText(ShopDetailActivity.this,"关注成功",Toast.LENGTH_SHORT).show();
+                                    guanZhuTextView.setTextColor(getResources().getColor(R.color.white_my));
+                                    guanZhuTextView.setBackgroundResource(R.drawable.guan_zhu_successed_background);
+                                }else if("已取消关注".equals(erroeDesc)){
+                                    Toast.makeText(ShopDetailActivity.this,"取消关注成功",Toast.LENGTH_SHORT).show();
+                                    guanZhuTextView.setTextColor(getResources().getColor(R.color.bottom_lable_color));
+                                    guanZhuTextView.setBackgroundResource(R.drawable.guan_zhu_background);
+                                }
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError volleyError) {
+
+                }
+            }){
+                @Override
+                protected Map<String, String> getParams() throws AuthFailureError {
+                    Map<String,String> map=new HashMap<String,String>();
+                    String json="{\"session\":{\"uid\":\""+uid+"\",\"sid\":\""+sid+"\"},\"shop_userid\":\""+shopModel.getUserId()+"\"}";
+                    map.put("json",json);
+                    return map;
+                }
+            };
+            requestQueue.add(guanZhuRequest);
+        }else{//没有记录就跳转到登陆界面
+            AlertDialog.Builder builder=new AlertDialog.Builder(ShopDetailActivity.this);
+            builder.setMessage("请登录后关注该店铺");
+            builder.setPositiveButton("立即登陆", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    Intent intent = new Intent(ShopDetailActivity.this, LoginActivity.class);
+                    intent.putExtra(MyConstant.START_LOGIN_ACTIVITY_FLAG_KEY, "guanZhu");
+                    startActivity(intent);
+                    loginDialog.dismiss();
+                }
+            });
+            builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    loginDialog.dismiss();
+                }
+            });
+            loginDialog=builder.show();
+            loginDialog.show();
+        }
+    }
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch (requestCode){
+            case SCAN_CODE:
+                if (resultCode == RESULT_OK) {
+                    String result = data.getStringExtra("scan_result");
+                    String id= FormatHelper.getIdFromUrl(result);
+                    if(id!=null){
+                        if("A".equals(id.charAt(0)+"")){  //商品
+                            String goodId=id.substring(1);
+                            MyLog.d(tag,"goodId="+goodId);
+                            Good good=new Good();
+                            good.setGoodId(goodId);
+                            Intent toGoodIntent=new Intent(this, ProductDetailActivity.class);
+                            toGoodIntent.putExtra(MyConstant.GOOD_KEY,good);
+                            startActivity(toGoodIntent);
+                        }else if("B".equals(id.charAt(0)+"")){    //商店
+                            String shopId=id.substring(1);
+                            MyLog.d(tag,"shopId="+shopId);
+                            Intent toShopHomeIntent=new Intent(this, ShopHomeActivity.class);
+                            toShopHomeIntent.putExtra(MyConstant.SHOP_USER_ID_KEY,shopId);
+                            startActivity(toShopHomeIntent);
+                        }
+                    }
+                } else if (resultCode == RESULT_CANCELED) {
+                    Toast.makeText(this,"扫描出错",Toast.LENGTH_SHORT).show();
+                }
                 break;
         }
     }

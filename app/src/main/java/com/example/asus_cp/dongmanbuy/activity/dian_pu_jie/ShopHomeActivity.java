@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.widget.SearchView;
 import android.view.View;
 import android.view.Window;
 import android.widget.AdapterView;
@@ -55,7 +54,7 @@ public class ShopHomeActivity extends Activity implements View.OnClickListener {
     private String tag = "ShopHomeActivity";
 
     private ImageView daoHangImagView;//导航
-    private SearchView searchView;//搜索框
+    private ImageView searchImageView;//搜索框
     private TextView categoryTextView;//分类
     private ImageView logoImageView;//logo
     private TextView shopNameTextView;//店铺名称
@@ -106,7 +105,7 @@ public class ShopHomeActivity extends Activity implements View.OnClickListener {
         helper=new ImageLoadHelper();
 
         daoHangImagView = (ImageView) findViewById(R.id.img_shop_home_dao_hang);
-        searchView = (SearchView) findViewById(R.id.search_view_shop_home);
+        searchImageView = (ImageView) findViewById(R.id.img_search_shop_home);
         categoryTextView = (TextView) findViewById(R.id.text_category_shop_home);
         logoImageView = (ImageView) findViewById(R.id.img_shop_logo_home);
         shopNameTextView = (TextView) findViewById(R.id.text_shop_name_home);
@@ -128,6 +127,7 @@ public class ShopHomeActivity extends Activity implements View.OnClickListener {
 
         //给view设置点击事件
         daoHangImagView.setOnClickListener(this);
+        searchImageView.setOnClickListener(this);
         categoryTextView.setOnClickListener(this);
         guanZhuTextView.setOnClickListener(this);
         allProductLinearLayout.setOnClickListener(this);
@@ -164,7 +164,7 @@ public class ShopHomeActivity extends Activity implements View.OnClickListener {
                 hotProductGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                        Toast.makeText(ShopHomeActivity.this,"点击的位置是"+position,Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(ShopHomeActivity.this,"点击的位置是"+position,Toast.LENGTH_SHORT).show();
                         Intent toDetailActivityIntent=new Intent(ShopHomeActivity.this,ProductDetailActivity.class);
                         toDetailActivityIntent.putExtra(MyConstant.GOOD_KEY,shopModel.getGoods().get(position));
                         startActivity(toDetailActivityIntent);
@@ -265,6 +265,11 @@ public class ShopHomeActivity extends Activity implements View.OnClickListener {
                 //Toast.makeText(this, "点击了导航按钮", Toast.LENGTH_SHORT).show();
                 finish();
                 break;
+            case R.id.img_search_shop_home://点击了搜索
+                Intent toShopSearchIntent=new Intent(this,ShopSearchActivity.class);
+                toShopSearchIntent.putExtra(MyConstant.SHOP_USER_ID_KEY,shopModel.getUserId());
+                startActivity(toShopSearchIntent);
+                break;
             case R.id.text_category_shop_home://分类
                 Toast.makeText(this, "点击了分类按钮", Toast.LENGTH_SHORT).show();
                 break;
@@ -287,17 +292,13 @@ public class ShopHomeActivity extends Activity implements View.OnClickListener {
                 break;
             case R.id.text_see_more://查看更多
                 //Toast.makeText(this, "点击了查看更多", Toast.LENGTH_SHORT).show();
-                Intent toSortActivityIntent=new Intent(this,ShopProdcutSortActivity.class);
-                ArrayList<Good> goods= (ArrayList<Good>) shopModel.getGoods();
-                toSortActivityIntent.putExtra(MyConstant.GOOD_LIST_KEY,
-                       goods);
-                startActivity(toSortActivityIntent);
+                toSortActivity();
                 break;
             case R.id.text_shop_detail://点击了店铺详情
                 //Toast.makeText(this, "点击了店铺详情", Toast.LENGTH_SHORT).show();
                 Intent toProductDetailIntent=new Intent(this, ShopDetailActivity.class);
                 Bundle bundle=new Bundle();
-                bundle.putParcelable(MyConstant.FROM_SHOP_HOME_TO_SHOP_DETAIL_KEY,shopModel);
+                bundle.putParcelable(MyConstant.SHOP_MODEL_KEY,shopModel);
                 toProductDetailIntent.putExtras(bundle);
                 startActivity(toProductDetailIntent);
                 break;
@@ -308,6 +309,17 @@ public class ShopHomeActivity extends Activity implements View.OnClickListener {
                 Toast.makeText(this, "点击了客服", Toast.LENGTH_SHORT).show();
                 break;
         }
+    }
+
+    /**
+     * 跳转到店铺搜索界面
+     */
+    public void toSortActivity(){
+        Intent toSortActivityIntent=new Intent(this,ShopProdcutSortActivity.class);
+        toSortActivityIntent.putExtra(MyConstant.SHOP_USER_ID_KEY,
+                shopModel.getUserId());
+        toSortActivityIntent.putExtra(MyConstant.SEARCH_CONTENT_KEY,"");
+        startActivity(toSortActivityIntent);
     }
 
 
@@ -334,11 +346,11 @@ public class ShopHomeActivity extends Activity implements View.OnClickListener {
                                 if("已关注".equals(erroeDesc)){
                                     Toast.makeText(ShopHomeActivity.this,"关注成功",Toast.LENGTH_SHORT).show();
                                     guanZhuTextView.setTextColor(getResources().getColor(R.color.white_my));
-                                    guanZhuTextView.setBackgroundResource(R.color.bottom_lable_color);
+                                    guanZhuTextView.setBackgroundResource(R.drawable.guan_zhu_successed_background);
                                 }else if("已取消关注".equals(erroeDesc)){
                                     Toast.makeText(ShopHomeActivity.this,"取消关注成功",Toast.LENGTH_SHORT).show();
                                     guanZhuTextView.setTextColor(getResources().getColor(R.color.bottom_lable_color));
-                                    guanZhuTextView.setBackgroundResource(R.color.white_my);
+                                    guanZhuTextView.setBackgroundResource(R.drawable.guan_zhu_background);
                                 }
                             } catch (JSONException e) {
                                 e.printStackTrace();

@@ -5,7 +5,9 @@
     >
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:background="@color/white_my"
+        android:paddingBottom="10dp">
         <!--排列顺序-->
         <LinearLayout
             android:layout_width="0dp"
@@ -52,12 +54,19 @@
         </LinearLayout>
     </LinearLayout>
 
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:background="@color/gray"
+        />
+
     <!--店铺列表-->
     <com.handmark.pulltorefresh.library.PullToRefreshListView
         android:id="@+id/list_view_shop_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:dividerHeight="10dp">
+        android:dividerHeight="10dp"
+        android:background="@color/white_my">
     </com.handmark.pulltorefresh.library.PullToRefreshListView>
 
 </LinearLayout>

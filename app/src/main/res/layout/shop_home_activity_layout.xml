@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
      android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
 
     <!--标题栏的布局-->
     <LinearLayout
@@ -17,14 +18,20 @@
             android:layout_height="30dp"
             android:layout_gravity="center_vertical"
             android:background="@mipmap/left"/>
-        <android.support.v7.widget.SearchView
+        <!--<android.support.v7.widget.SearchView
             android:id="@+id/search_view_shop_home"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="40dp"
             android:queryHint="@string/search_shop_product"
             >
-        </android.support.v7.widget.SearchView>
+        </android.support.v7.widget.SearchView>-->
+        <ImageView
+            android:id="@+id/img_search_shop_home"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="40dp"
+            android:background="@mipmap/search_pic"/>
         <TextView
             android:id="@+id/text_category_shop_home"
             android:clickable="true"
@@ -46,7 +53,8 @@
         <ScrollView
             android:id="@+id/scrollView_shop_home"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="1"
             android:layout_below="@id/titel">
             <LinearLayout
                 android:layout_width="match_parent"
@@ -62,7 +70,7 @@
                         android:id="@+id/img_shop_logo_home"
                         android:layout_width="70dp"
                         android:layout_height="70dp"
-                        android:background="@color/white_my"/>
+                        android:background="@drawable/shop_logo_backgroud"/>
 
                     <LinearLayout
                         android:layout_width="wrap_content"
@@ -95,7 +103,8 @@
                         android:textColor="@color/bottom_lable_color"
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
-                        android:layout_marginRight="5dp"/>
+                        android:layout_marginRight="5dp"
+                        android:background="@drawable/guan_zhu_background"/>
                 </RelativeLayout>
 
                 <!--商品类型和数量-->
@@ -164,9 +173,15 @@
                 </LinearLayout>
 
 
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="5dp"
+                    android:background="@color/gray"/>
+
                 <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    >
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -175,20 +190,7 @@
                         android:layout_marginTop="10dp"
                         android:textSize="16sp"/>
 
-                    <TextView
-                        android:id="@+id/text_see_more"
-                        android:clickable="true"
-                        android:layout_width="wrap_content"
-                        android:layout_height="50dp"
-                        android:text="@string/see_more"
-                        android:layout_gravity="center"
-                        android:paddingTop="10dp"
-                        android:paddingBottom="10dp"
-                        android:layout_alignParentRight="true"
-                        android:layout_marginRight="5dp"
-                        />
                 </RelativeLayout>
-
 
 
 
@@ -198,8 +200,26 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:numColumns="2"
+                    android:background="@color/white_my"
                     >
                 </com.example.asus_cp.dongmanbuy.customview.MyGridViewA>
+
+
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="5dp"
+                    android:background="@color/gray"/>
+                <TextView
+                    android:id="@+id/text_see_more"
+                    android:clickable="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:text="@string/see_more"
+                    android:layout_gravity="center"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="10dp"
+                    />
 
 
             </LinearLayout>
@@ -285,4 +305,4 @@
     </LinearLayout>
 
 
-</RelativeLayout>
+</LinearLayout>

@@ -533,6 +533,7 @@ public class DingDanActivity extends Activity implements View.OnClickListener{
 //                            }
                             } catch (JSONException e) {
                                 e.printStackTrace();
+                                Toast.makeText(DingDanActivity.this,"提交订单失败",Toast.LENGTH_SHORT).show();
                             }
                         }
                     }, new Response.ErrorListener() {
