@@ -14,7 +14,7 @@
             android:id="@+id/img_shop_logo_guan_zhu_list"
             android:layout_width="70dp"
             android:layout_height="70dp"
-            android:background="@color/white_my"/>
+            android:background="@drawable/shop_logo_backgroud"/>
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -47,7 +47,8 @@
             android:textColor="@color/bottom_lable_color"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:layout_marginRight="5dp"/>
+            android:layout_marginRight="5dp"
+            android:background="@drawable/guan_zhu_background"/>
     </RelativeLayout>
 
     <!--评分-->
@@ -78,7 +79,7 @@
                 android:layout_height="wrap_content"
                 android:text="高"
                 android:textColor="@color/white_my"
-                android:background="@color/bottom_lable_color"
+                android:background="@drawable/product_ping_fen_background"
                 android:layout_marginLeft="5dp"
                 android:textSize="12sp"/>
         </LinearLayout>
@@ -99,7 +100,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="5分"
-                android:textColor="@color/bottom_lable_color"
+                android:textColor="@color/fu_wu_ping_fen"
                 android:layout_marginLeft="5dp"
                 android:textSize="12sp"/>
             <TextView
@@ -108,7 +109,7 @@
                 android:layout_height="wrap_content"
                 android:text="高"
                 android:textColor="@color/white_my"
-                android:background="@color/bottom_lable_color"
+                android:background="@drawable/fu_wu_ping_fen_background"
                 android:layout_marginLeft="5dp"
                 android:textSize="12sp"/>
         </LinearLayout>
@@ -129,7 +130,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="5分"
-                android:textColor="@color/bottom_lable_color"
+                android:textColor="@color/shi_xiao_ping_fen"
                 android:layout_marginLeft="5dp"
                 android:textSize="12sp"/>
             <TextView
@@ -138,7 +139,7 @@
                 android:layout_height="wrap_content"
                 android:text="高"
                 android:textColor="@color/white_my"
-                android:background="@color/bottom_lable_color"
+                android:background="@drawable/shi_xiao_ping_fen_background"
                 android:layout_marginLeft="5dp"
                 android:textSize="12sp"/>
         </LinearLayout>

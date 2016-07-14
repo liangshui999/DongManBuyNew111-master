@@ -175,6 +175,9 @@
         <!--红包列表的activity-->
         <activity android:name=".activity.personal_center.fund_manager.HongBaoListActivity"/>
 
+        <!--添加红包的activity-->
+        <activity android:name=".activity.personal_center.fund_manager.AddHongBaoActivity"/>
+
         <!--银行卡列表的activity-->
         <activity android:name=".activity.personal_center.fund_manager.BankCardListActivity"/>
 

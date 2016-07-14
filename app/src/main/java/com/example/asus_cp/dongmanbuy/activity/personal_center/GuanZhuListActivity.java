@@ -1,9 +1,13 @@
 package com.example.asus_cp.dongmanbuy.activity.personal_center;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.View;
 import android.view.Window;
+import android.widget.AdapterView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import com.android.volley.AuthFailureError;
@@ -13,6 +17,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.example.asus_cp.dongmanbuy.R;
+import com.example.asus_cp.dongmanbuy.activity.dian_pu_jie.ShopHomeActivity;
 import com.example.asus_cp.dongmanbuy.adapter.GuanZhuListAdapter;
 import com.example.asus_cp.dongmanbuy.constant.MyConstant;
 import com.example.asus_cp.dongmanbuy.model.ShopModel;
@@ -45,6 +50,7 @@ public class GuanZhuListActivity extends Activity{
     private String sid;
 
     private ListView listView;
+    private LinearLayout noContentLinearLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,14 +70,31 @@ public class GuanZhuListActivity extends Activity{
         sid=sharedPreferences.getString(MyConstant.SID_KEY,null);
 
         listView= (ListView) findViewById(R.id.list_guan_zhu);
+        noContentLinearLayout= (LinearLayout) findViewById(R.id.ll_no_content_guan_zhu);
 
         StringRequest getGuanZhuListRequest=new StringRequest(Request.Method.POST, guanZhuListUrl,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String s) {
-                        List<ShopModel> shopModels=parseJson(s);
-                        GuanZhuListAdapter adapter = new GuanZhuListAdapter(GuanZhuListActivity.this, shopModels);
-                        listView.setAdapter(adapter);
+                        final List<ShopModel> shopModels=parseJson(s);
+                        if(shopModels.size()>0){
+                            listView.setVisibility(View.VISIBLE);
+                            noContentLinearLayout.setVisibility(View.GONE);
+                            GuanZhuListAdapter adapter = new GuanZhuListAdapter(GuanZhuListActivity.this, shopModels);
+                            listView.setAdapter(adapter);
+                            listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                                @Override
+                                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                                    Intent intent=new Intent(GuanZhuListActivity.this, ShopHomeActivity.class);
+                                    intent.putExtra(MyConstant.SHOP_USER_ID_KEY,shopModels.get(position).getUserId());
+                                    startActivity(intent);
+                                }
+                            });
+                        }else{
+                            listView.setVisibility(View.GONE);
+                            noContentLinearLayout.setVisibility(View.VISIBLE);
+                        }
+
                     }
                 }, new Response.ErrorListener() {
             @Override

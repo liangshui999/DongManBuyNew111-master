@@ -14,7 +14,7 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="200dp"
             android:padding="30dp">
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -32,9 +32,9 @@
                     android:id="@+id/text_ke_yong_yu_e_fund_manager"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="618.00"
+                    android:text="0.00"
                     android:textColor="@color/white_my"
-                    android:textSize="22sp"
+                    android:textSize="24sp"
                     android:layout_gravity="center"
                     android:layout_marginTop="5dp"/>
 
@@ -65,7 +65,7 @@
         <!--分割线-->
         <ImageView
             android:layout_width="match_parent"
-            android:layout_height="2dp"
+            android:layout_height="1dp"
             android:background="@color/white_my"/>
 
         <!--充值和提现-->
@@ -169,6 +169,11 @@
 
         </LinearLayout>
 
+        <ImageView
+            android:layout_width="1dp"
+            android:layout_height="32dp"
+            android:background="@color/gray"/>
+
         <LinearLayout
             android:id="@+id/ll_yin_hang_ka_fund_manager"
             android:layout_width="0dp"
@@ -190,6 +195,12 @@
                 android:textSize="@dimen/personal_center_base_font"/>
 
         </LinearLayout>
+
+
+        <ImageView
+            android:layout_width="1dp"
+            android:layout_height="32dp"
+            android:background="@color/gray"/>
 
 
         <LinearLayout
@@ -247,7 +258,7 @@
         android:layout_height="wrap_content"
         android:padding="10dp"
         android:background="@color/white_my"
-        android:layout_marginTop="5dp">
+        android:layout_marginTop="2dp">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

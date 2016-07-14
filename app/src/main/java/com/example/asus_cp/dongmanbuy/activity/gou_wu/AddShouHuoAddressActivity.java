@@ -185,4 +185,14 @@ public class AddShouHuoAddressActivity extends Activity implements View.OnClickL
                 break;
         }
     }
+
+
+    @Override
+    public void onBackPressed() {
+        if(whoStartMe!=null){
+            Intent intent=new Intent();
+            setResult(RESULT_OK,intent);
+            finish();
+        }
+    }
 }

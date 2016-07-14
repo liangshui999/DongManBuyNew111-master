@@ -286,6 +286,8 @@
     <string name="zui_jin_sou_suo">最近搜索</string>
     <string name="click_close">点击关闭</string>
     <string name="scan_text">将二维码放入框内, 即可自动扫描</string>
+    <string name="input_hong_bao_kou_ling">请输入红包口令</string>
+    <string name="input_hong_bao_password">请输入红包密码</string>
 
 
 </resources>

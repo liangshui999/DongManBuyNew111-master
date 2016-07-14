@@ -74,7 +74,7 @@ public class HongBaoListAdapter extends BaseAdapter{
         if(isGray){
             viewHolder.jinERelativeLayout.setBackgroundResource(R.color.gray);
         }else{
-            viewHolder.jinERelativeLayout.setBackgroundResource(R.color.bottom_lable_color);
+            viewHolder.jinERelativeLayout.setBackgroundResource(R.color.you_hui_quan_huang_se);
         }
         return v;
     }

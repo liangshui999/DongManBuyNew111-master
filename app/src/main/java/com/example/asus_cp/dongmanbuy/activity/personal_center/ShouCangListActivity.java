@@ -4,7 +4,10 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.View;
 import android.view.Window;
+import android.widget.AdapterView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import com.android.volley.AuthFailureError;
@@ -14,6 +17,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.example.asus_cp.dongmanbuy.R;
+import com.example.asus_cp.dongmanbuy.activity.product_detail.ProductDetailActivity;
 import com.example.asus_cp.dongmanbuy.adapter.ShouCangListAdapter;
 import com.example.asus_cp.dongmanbuy.constant.MyConstant;
 import com.example.asus_cp.dongmanbuy.model.Good;
@@ -46,6 +50,8 @@ public class ShouCangListActivity extends Activity{
     private String sid;
 
     private ListView listView;
+
+    private LinearLayout noContentLinearLayout;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,15 +68,32 @@ public class ShouCangListActivity extends Activity{
         sid=sharedPreferences.getString(MyConstant.SID_KEY,null);
 
         listView= (ListView) findViewById(R.id.list_shou_cang);
+        noContentLinearLayout= (LinearLayout) findViewById(R.id.ll_no_content_shou_cang);
 
         //获取收藏列表
         StringRequest getShouCangListRequest=new StringRequest(Request.Method.POST, shouCangListUrl,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String s) {
-                        List<Good> goods=parseJson(s);
-                        ShouCangListAdapter adapter=new ShouCangListAdapter(ShouCangListActivity.this,goods);
-                        listView.setAdapter(adapter);
+                        final List<Good> goods=parseJson(s);
+                        if(goods.size()>0){
+                            noContentLinearLayout.setVisibility(View.GONE);
+                            listView.setVisibility(View.VISIBLE);
+                            ShouCangListAdapter adapter=new ShouCangListAdapter(ShouCangListActivity.this,goods);
+                            listView.setAdapter(adapter);
+                            listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                                @Override
+                                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                                    Intent intent=new Intent(ShouCangListActivity.this, ProductDetailActivity.class);
+                                    intent.putExtra(MyConstant.GOOD_KEY,goods.get(position));
+                                    startActivity(intent);
+                                }
+                            });
+                        }else{
+                            noContentLinearLayout.setVisibility(View.VISIBLE);
+                            listView.setVisibility(View.GONE);
+                        }
+
                     }
                 }, new Response.ErrorListener() {
             @Override

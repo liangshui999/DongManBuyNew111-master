@@ -92,11 +92,13 @@ public class SexSelectActivity extends Activity implements View.OnClickListener{
         switch (v.getId()){
             case R.id.ll_nan_sex_select:
                 reset();
-                nanTextView.setTextColor(getResources().getColor(R.color.bottom_lable_color));
+                nanTextView.setTextColor(getResources().getColor(R.color.man_backgroud));
+                nanImageView.setImageResource(R.drawable.man_selected);
                 break;
             case R.id.ll_nv_sex_select:
                 reset();
                 nvTextView.setTextColor(getResources().getColor(R.color.bottom_lable_color));
+                nvImageView.setImageResource(R.drawable.woman_selected);
                 break;
             case R.id.btn_confirm_sex_select:
                 conirmClickChuLi();
@@ -110,7 +112,7 @@ public class SexSelectActivity extends Activity implements View.OnClickListener{
      */
     private void conirmClickChuLi() {
         final String sex;
-        if(nanTextView.getCurrentTextColor()==getResources().getColor(R.color.bottom_lable_color)){
+        if(nanTextView.getCurrentTextColor()==getResources().getColor(R.color.man_backgroud)){
             sex="男";
         }else {
             sex="女";
@@ -162,5 +164,7 @@ public class SexSelectActivity extends Activity implements View.OnClickListener{
     public void reset(){
         nanTextView.setTextColor(getResources().getColor(R.color.black));
         nvTextView.setTextColor(getResources().getColor(R.color.black));
+        nanImageView.setImageResource(R.drawable.man_normal);
+        nvImageView.setImageResource(R.drawable.woman_normal);
     }
 }

@@ -49,6 +49,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 /**
  * 个人中心的界面
  * Created by asus-cp on 2016-06-22.
@@ -57,7 +59,7 @@ public class PersonalCenterActivity extends Activity implements View.OnClickList
 
     private String tag="PersonalCenterActivity";
 
-    private ImageView touXiangImageView;//头像
+    private de.hdodenhof.circleimageview.CircleImageView touXiangImageView;//头像
     private TextView nameTextView;//名字
     private TextView dengJiTextView;//等级
     private LinearLayout nameLinearLayout;//名字和等级点击用
@@ -124,7 +126,7 @@ public class PersonalCenterActivity extends Activity implements View.OnClickList
         initView();
         requestQueue= MyApplication.getRequestQueue();
         helper=new ImageLoadHelper();
-        sharedPreferences=getSharedPreferences(MyConstant.USER_SHAREPREFRENCE_NAME,MODE_APPEND);
+        sharedPreferences=getSharedPreferences(MyConstant.USER_SHAREPREFRENCE_NAME, MODE_APPEND);
         uid=sharedPreferences.getString(MyConstant.UID_KEY,null);
         if(uid==null){
             Intent loginIntent=new Intent(this, LoginActivity.class);
@@ -153,18 +155,18 @@ public class PersonalCenterActivity extends Activity implements View.OnClickList
                         ImageLoader imageLoader=helper.getImageLoader();
                         ImageLoader.ImageListener listener=imageLoader.getImageListener(touXiangImageView,
                                 R.mipmap.yu_jia_zai,R.mipmap.yu_jia_zai);
-                        imageLoader.get(MyConstant.YU_MING+user.getPic(),listener,200,200);
+                        imageLoader.get(MyConstant.YU_MING + user.getPic(), listener, 200, 200);
                         nameTextView.setText(user.getName());
                         dengJiTextView.setText(user.getRankName());
-                        shouCangShuTextView.setText(user.getShouCangShu());
-                        guanZhuShuTextView.setText(user.getGuanZhuShu());
-                        daiFuKuanShuTextView.setText(user.getAwaitPay());
-                        daiShouHuoShuTextView.setText(user.getAwaitShip());
-                        daiPingJiaShuTextView.setText(user.getAwaitComment());
-                        yuEShuTextView.setText(user.getMoney());
-                        youHuiQuanShuTextView.setText(user.getYouHuiQuanShu());
-                        jiFenShuTextView.setText(user.getJiFen());
 
+                        setTextViewValue(shouCangShuTextView, user.getShouCangShu());
+                        setTextViewValue(guanZhuShuTextView,user.getGuanZhuShu());
+                        setTextViewValue(daiFuKuanShuTextView, user.getAwaitPay());
+                        setTextViewValue(daiShouHuoShuTextView,user.getAwaitShip());
+                        setTextViewValue(daiPingJiaShuTextView,user.getAwaitComment());
+                        setTextViewValue(yuEShuTextView,user.getMoney());
+                        setTextViewValue(youHuiQuanShuTextView,user.getYouHuiQuanShu());
+                        setTextViewValue(jiFenShuTextView,user.getJiFen());
                     }
                 }, new Response.ErrorListener() {
             @Override
@@ -183,6 +185,19 @@ public class PersonalCenterActivity extends Activity implements View.OnClickList
         requestQueue.add(userInfoRequest);
     }
 
+
+    /**
+     * 给view赋值的通用方法
+     * @param textView 需要赋值的textview
+     * @param str 准备给textview赋值的值
+     */
+    public void setTextViewValue(TextView textView,String str){
+        if(str==null || str.equals("")){
+            textView.setText("0");
+        }else{
+            textView.setText(str);
+        }
+    }
 
     /**
      * 解析json数据
@@ -221,7 +236,7 @@ public class PersonalCenterActivity extends Activity implements View.OnClickList
      * 初始化view
      */
     private void initView() {
-        touXiangImageView= (ImageView) findViewById(R.id.img_tou_xiang_personal_center);
+        touXiangImageView= (CircleImageView) findViewById(R.id.img_tou_xiang_personal_center);
         nameTextView= (TextView) findViewById(R.id.text_name_personal_center);
         dengJiTextView= (TextView) findViewById(R.id.text_deng_ji_personal_center);
         nameLinearLayout= (LinearLayout) findViewById(R.id.ll_name_personal_center);

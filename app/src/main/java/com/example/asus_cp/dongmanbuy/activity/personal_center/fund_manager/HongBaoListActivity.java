@@ -1,6 +1,7 @@
 package com.example.asus_cp.dongmanbuy.activity.personal_center.fund_manager;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
@@ -40,6 +41,7 @@ import java.util.Map;
  */
 public class HongBaoListActivity extends Activity implements View.OnClickListener{
 
+    private static final int REQUEST_CODE_ADD_HONG_BAO =1 ;
     private String tag="HongBaoListActivity";
 
     private LinearLayout weiShiYongLinearLayout;//未使用
@@ -210,7 +212,9 @@ public class HongBaoListActivity extends Activity implements View.OnClickListene
                 getDataFromIntet("已过期",true);
                 break;
             case R.id.btn_add_hong_bao_hong_bao_list://点击了添加红包
-                Toast.makeText(this,"点击了添加红包",Toast.LENGTH_SHORT).show();
+                //Toast.makeText(this,"点击了添加红包",Toast.LENGTH_SHORT).show();
+                Intent addHongBaoIntent=new Intent(this,AddHongBaoActivity.class);
+                startActivityForResult(addHongBaoIntent, REQUEST_CODE_ADD_HONG_BAO);
                 break;
         }
     }
@@ -229,4 +233,17 @@ public class HongBaoListActivity extends Activity implements View.OnClickListene
     }
 
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch (requestCode){
+            case REQUEST_CODE_ADD_HONG_BAO://添加红包
+                if(resultCode==RESULT_OK){
+                    reset();
+                    weiShiYongTextView.setTextColor(getResources().getColor(R.color.bottom_lable_color));
+                    weiShiYongShuTextView.setTextColor(getResources().getColor(R.color.bottom_lable_color));
+                    getDataFromIntet("未使用",false);
+                }
+                break;
+        }
+    }
 }

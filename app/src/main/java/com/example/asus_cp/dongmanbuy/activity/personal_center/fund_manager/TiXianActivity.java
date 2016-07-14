@@ -1,6 +1,7 @@
 package com.example.asus_cp.dongmanbuy.activity.personal_center.fund_manager;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -132,11 +133,14 @@ public class TiXianActivity extends Activity implements View.OnClickListener{
      */
     private void tiJiaoShenQingClickChuLi() {
         final String tiXianJinE=tiXianJinEEditText.getText().toString();
+        double tiXianDouble=Double.parseDouble(tiXianJinE);
         final String beiZhu=beiZhuEditText.getText().toString();
         final String kaHao=tiXianFangShiKaHaoTextView.getText().toString();
 
         if("".equals(tiXianJinE) || tiXianJinE.isEmpty()){
             Toast.makeText(this,"请输入提现金额",Toast.LENGTH_SHORT).show();
+        }else if(tiXianDouble>Double.parseDouble(user.getMoney())){
+            Toast.makeText(this,"提现金额大于余额",Toast.LENGTH_SHORT).show();
         }else if("".equals(kaHao) || kaHao.isEmpty()){
             Toast.makeText(this,"请输入卡号",Toast.LENGTH_SHORT).show();
         }else{
@@ -151,6 +155,8 @@ public class TiXianActivity extends Activity implements View.OnClickListener{
                                 String succed=jsonObject1.getString("succeed");
                                 if("1".equals(succed)){
                                     Toast.makeText(TiXianActivity.this,"提现成功",Toast.LENGTH_SHORT).show();
+                                    Intent intent=new Intent(TiXianActivity.this,ShenQingJiLuActivity.class);
+                                    startActivity(intent);
                                 }else {
                                     Toast.makeText(TiXianActivity.this,"提现失败",Toast.LENGTH_SHORT).show();
                                 }

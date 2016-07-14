@@ -34,7 +34,7 @@ import java.util.Map;
  */
 public class ChangePhoneActivity extends Activity{
 
-    private String tag="ChangeEmailActivity";
+    private String tag="ChangePhoneActivity";
 
     private EditText editText;
     private Button confirmButton;

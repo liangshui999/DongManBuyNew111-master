@@ -10,8 +10,8 @@
         android:layout_gravity="left"/>
     <TextView
         android:id="@+id/text_shop_content_name"
-        android:layout_width="70dp"
-        android:maxLines="2"
+        android:layout_width="160dp"
+        android:lines="2"
         android:layout_height="wrap_content"
         android:layout_gravity="left"
         android:layout_marginLeft="10dp"

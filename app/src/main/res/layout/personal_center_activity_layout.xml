@@ -17,14 +17,17 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="10dp"
+                android:padding="20dp"
                 android:background="@color/white_my">
 
-                <ImageView
+                <de.hdodenhof.circleimageview.CircleImageView
+                    xmlns:app="http://schemas.android.com/apk/res-auto"
                     android:id="@+id/img_tou_xiang_personal_center"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:src="@mipmap/ic_launcher"/>
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    app:civ_border_width="1dp"
+                    app:civ_border_color="@color/gray"
+                    android:layout_margin="5dp"/>
 
                 <LinearLayout
                     android:id="@+id/ll_name_personal_center"
@@ -32,7 +35,8 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:layout_toRightOf="@id/img_tou_xiang_personal_center"
-                    android:layout_marginLeft="5dp">
+                    android:layout_marginLeft="5dp"
+                    android:layout_centerVertical="true">
                     <TextView
                         android:id="@+id/text_name_personal_center"
                         android:layout_width="wrap_content"
@@ -51,7 +55,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:layout_centerVertical="true">
                     <ImageView
                         android:id="@+id/img_xin_feng_personal_center"
                         android:layout_width="20dp"
@@ -109,6 +114,10 @@
 
                 </LinearLayout>
 
+                <ImageView
+                    android:layout_width="1dp"
+                    android:layout_height="40dp"
+                    android:background="@color/gray"/>
                 <LinearLayout
                     android:id="@+id/ll_guan_zhu_personal_center"
                     android:layout_width="0dp"
@@ -195,8 +204,8 @@
                             android:layout_centerInParent="true"
                             android:orientation="vertical">
                             <ImageView
-                                android:layout_width="20dp"
-                                android:layout_height="20dp"
+                                android:layout_width="30dp"
+                                android:layout_height="30dp"
                                 android:src="@mipmap/dai_fu_kuan"
                                 android:layout_gravity="center"
                                 />
@@ -210,9 +219,10 @@
                             android:id="@+id/text_dai_fu_kuan_count_personal_center"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:background="@color/bottom_lable_color"
+                            android:background="@drawable/shang_biao_background"
                             android:textColor="@color/white_my"
-                            android:text="11"
+                            android:text="0"
+                            android:textSize="10sp"
                             android:layout_alignRight="@id/dai_fu_kuan"
                             android:layout_alignTop="@id/dai_fu_kuan"/>
                     </RelativeLayout>
@@ -236,8 +246,8 @@
                             android:layout_centerInParent="true"
                             android:orientation="vertical">
                             <ImageView
-                                android:layout_width="20dp"
-                                android:layout_height="20dp"
+                                android:layout_width="30dp"
+                                android:layout_height="30dp"
                                 android:src="@mipmap/dai_shou_huo"
                                 android:layout_gravity="center"
                                 />
@@ -251,9 +261,10 @@
                             android:id="@+id/text_dai_shou_huo_count_personal_center"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:background="@color/bottom_lable_color"
+                            android:background="@drawable/shang_biao_background"
                             android:textColor="@color/white_my"
-                            android:text="11"
+                            android:text="0"
+                            android:textSize="10sp"
                             android:layout_alignRight="@id/dai_shou_huo"
                             android:layout_alignTop="@id/dai_shou_huo"/>
                     </RelativeLayout>
@@ -277,8 +288,8 @@
                             android:layout_centerInParent="true"
                             android:orientation="vertical">
                             <ImageView
-                                android:layout_width="20dp"
-                                android:layout_height="20dp"
+                                android:layout_width="30dp"
+                                android:layout_height="30dp"
                                 android:src="@mipmap/dai_ping_jia"
                                 android:layout_gravity="center"
                                 />
@@ -292,9 +303,10 @@
                             android:id="@+id/text_dai_ping_jia_count_personal_center"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:background="@color/bottom_lable_color"
+                            android:background="@drawable/shang_biao_background"
                             android:textColor="@color/white_my"
-                            android:text="11"
+                            android:text="0"
+                            android:textSize="10sp"
                             android:layout_alignRight="@id/dai_ping_jia"
                             android:layout_alignTop="@id/dai_ping_jia"/>
                     </RelativeLayout>
@@ -372,6 +384,11 @@
 
                 </LinearLayout>
 
+                <ImageView
+                    android:layout_width="1dp"
+                    android:layout_height="40dp"
+                    android:background="@color/gray"/>
+
                 <LinearLayout
                     android:id="@+id/ll_you_hui_quan_personal_center"
                     android:layout_width="0dp"
@@ -392,6 +409,12 @@
                         android:layout_gravity="center"
                         android:textSize="@dimen/personal_center_base_font"/>
                 </LinearLayout>
+
+
+                <ImageView
+                    android:layout_width="1dp"
+                    android:layout_height="40dp"
+                    android:background="@color/gray"/>
 
 
                 <LinearLayout

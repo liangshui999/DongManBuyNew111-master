@@ -7,14 +7,16 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/please_input_email"
-        android:padding="10dp"
-        android:layout_marginTop="5dp"/>
+        android:textSize="14sp"
+        android:paddingLeft="10dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="10dp"/>
     <Button
         android:id="@+id/btn_confirm_change_email"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
-        android:background="@color/bottom_lable_color"
+        android:background="@drawable/red_backgroud_yuan_jiao_button"
         android:textColor="@color/white_my"
         android:text="@string/confirm_change"/>
 

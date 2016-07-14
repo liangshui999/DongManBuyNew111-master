@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bottom_lable_color">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="150dp">
+        <ImageView
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_centerInParent="true"
+            android:src="@mipmap/money_order"/>
+    </RelativeLayout>
+
+    <EditText
+        android:id="@+id/edit_hong_bao_kou_ling"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/input_hong_bao_kou_ling"
+        android:textSize="16sp"
+        android:textColor="@color/white_my"
+        android:textColorHint="@color/white_my"
+        android:padding="10dp"
+        android:background="@drawable/edit_text_background"
+        android:layout_margin="5dp"
+        />
+
+    <EditText
+        android:id="@+id/edit_hong_bao_password"
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/input_hong_bao_password"
+        android:textSize="16sp"
+        android:textColor="@color/white_my"
+        android:textColorHint="@color/white_my"
+        android:padding="10dp"
+        android:layout_margin="5dp"
+        android:background="@drawable/edit_text_background"
+        />
+
+    <Button
+        android:id="@+id/btn_add_hong_bao"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/yellow_backgroud_yuan_jiao_button"
+        android:layout_margin="10dp"
+        android:text="@string/ti_jiao"
+        android:textColor="@color/white_my"/>
+
+</LinearLayout>

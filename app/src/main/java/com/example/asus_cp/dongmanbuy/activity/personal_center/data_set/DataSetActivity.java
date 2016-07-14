@@ -18,13 +18,15 @@ import com.example.asus_cp.dongmanbuy.model.User;
 import com.example.asus_cp.dongmanbuy.service.UidService;
 import com.example.asus_cp.dongmanbuy.util.ImageLoadHelper;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 /**
  * 资料设置的界面
  * Created by asus-cp on 2016-06-22.
  */
 public class DataSetActivity extends Activity implements View.OnClickListener{
 
-    private ImageView touXiangImageView;//头像
+    private de.hdodenhof.circleimageview.CircleImageView touXiangImageView;//头像
     private TextView nameTextView;//姓名
     private RelativeLayout sexRelativeLayout;//性别
     private TextView sexTextView;//性别
@@ -63,7 +65,7 @@ public class DataSetActivity extends Activity implements View.OnClickListener{
         user=getIntent().getParcelableExtra(MyConstant.USER_KEY);
         helper=new ImageLoadHelper();
 
-        touXiangImageView= (ImageView) findViewById(R.id.img_tou_xiang_data_set);
+        touXiangImageView= (CircleImageView) findViewById(R.id.img_tou_xiang_data_set);
         nameTextView= (TextView) findViewById(R.id.text_name_data_set);
         sexRelativeLayout= (RelativeLayout) findViewById(R.id.re_layout_sex_data_set);
         sexTextView= (TextView) findViewById(R.id.text_sex_data_set);
@@ -79,7 +81,7 @@ public class DataSetActivity extends Activity implements View.OnClickListener{
         ImageLoader imageLoader=helper.getImageLoader();
         ImageLoader.ImageListener listener=imageLoader.getImageListener(touXiangImageView,
                 R.mipmap.yu_jia_zai,R.mipmap.yu_jia_zai);
-        //imageLoader.get(user.getPic(),listener,200,200);
+        imageLoader.get(MyConstant.YU_MING+user.getPic(),listener,200,200);
 
         nameTextView.setText(user.getName());
         sexTextView.setText(user.getSex());

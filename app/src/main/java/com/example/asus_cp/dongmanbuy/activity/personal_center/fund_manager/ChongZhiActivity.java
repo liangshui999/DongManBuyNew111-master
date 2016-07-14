@@ -83,7 +83,7 @@ public class ChongZhiActivity extends Activity implements View.OnClickListener{
                 }else if("".equals(chongZhiFangShi) || chongZhiFangShi.isEmpty()){
                     Toast.makeText(this,"请选择支付方式",Toast.LENGTH_SHORT).show();
                 }else{
-                    Toast.makeText(this,"充值成功",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this,"此功能暂时没有接口",Toast.LENGTH_SHORT).show();
                 }
                 break;
 

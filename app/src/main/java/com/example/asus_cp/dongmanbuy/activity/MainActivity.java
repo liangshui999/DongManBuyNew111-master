@@ -408,7 +408,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }else{
                     nameTextView.setText("");
                     emailTextView.setText("");
-                    loginImage.setImageResource(R.mipmap.ic_launcher);
+                    //loginImage.setImageResource(R.mipmap.ic_launcher);
                 }
             }
         });

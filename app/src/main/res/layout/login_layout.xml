@@ -23,6 +23,7 @@
                 android:id="@+id/edit_zhang_hao"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:textSize="@dimen/login_font_size"
                 android:hint="@string/zhang_hao_hint"/>
         </LinearLayout>
 
@@ -49,6 +50,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/password_hint"
+                android:textSize="@dimen/login_font_size"
                 android:password="true"/>
         </LinearLayout>
         <ImageView
@@ -79,7 +81,7 @@
         android:text="@string/login"
         android:textSize="@dimen/login_font_size"
         android:textColor="@color/white_my"
-        android:background="@color/bottom_lable_color"/>
+        android:background="@drawable/red_backgroud_yuan_jiao_button"/>
 
     <!--新用户注册-->
     <TextView
@@ -100,12 +102,14 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:text="@string/di_san_fang_deng_lu"
+        android:visibility="gone"
         />
 
     <!--第三方登录的具体内容-->
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:visibility="gone">
 
         <LinearLayout
             android:id="@+id/ll_qq"
