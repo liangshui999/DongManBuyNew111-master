@@ -12,10 +12,10 @@
     <dimen name="category_fragments_gridview_space">10dp</dimen>
     <dimen name="login_font_size">16sp</dimen>
     <dimen name="register_font_size">16sp</dimen>
-    <dimen name="find_password_font_size">20sp</dimen>
+    <dimen name="find_password_font_size">16sp</dimen>
     <dimen name="main_page_bottom_biao_qian_size">14sp</dimen>
-    <dimen name="find_by_email_yan_zhegn_ma_size">18sp</dimen>
-    <dimen name="confirm_change_font_size">18sp</dimen>
+    <dimen name="find_by_email_yan_zhegn_ma_size">16sp</dimen>
+    <dimen name="confirm_change_font_size">16sp</dimen>
     <dimen name="add_to_shoping_car">16sp</dimen>
     <dimen name="product_detail_base_font_size">14sp</dimen>
     <dimen name="ling_qu_you_hui_quan_base_size">12sp</dimen>
@@ -25,4 +25,6 @@
     <dimen name="personal_center_base_font">14sp</dimen>
     <dimen name="add_bank_card_base_size">14sp</dimen>
     <dimen name="product_detail_margin">2dp</dimen>
+    <dimen name="slidingmenu_offset">60dp</dimen>
+    <dimen name="shadow_width">5dp</dimen>
 </resources>

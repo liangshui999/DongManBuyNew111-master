@@ -39,6 +39,9 @@ public class UidService extends Service{
     private RequestQueue requestQueue=MyApplication.getRequestQueue();
     private String loginUrl="http://www.zmobuy.com/PHP/index.php?url=/user/signin";
 
+    private SharedPreferences sharedPreferences;
+    private SharedPreferences.Editor editor;
+
     private long time=5*60*1000;
 
     private Handler handler=new MyHandler();
@@ -48,16 +51,8 @@ public class UidService extends Service{
         public void handleMessage(Message msg) {
             switch (msg.what){
                 case 1:
-                    SharedPreferences sharedPreferences = context.getSharedPreferences(
-                            MyConstant.USER_SHAREPREFRENCE_NAME, context.MODE_APPEND);
-                    final String userName=sharedPreferences.getString(MyConstant.USER_NAME, null);
-                    final String passWord=sharedPreferences.getString(MyConstant.PASS_WORD,null);
-
-                    SharedPreferences.Editor editor=sharedPreferences.edit();
-                    editor.remove(MyConstant.UID_KEY);
-                    editor.remove(MyConstant.SID_KEY);
-                    editor.apply();
-
+                    String userName=sharedPreferences.getString(MyConstant.USER_NAME, null);
+                    String passWord=sharedPreferences.getString(MyConstant.PASS_WORD,null);
                     MyLog.d(tag,"userName为空");
                     if(userName!=null && !userName.isEmpty()){
                         getUidSid(userName, passWord);
@@ -70,12 +65,51 @@ public class UidService extends Service{
     }
 
 
+
+
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        sharedPreferences=getSharedPreferences(MyConstant.USER_SHAREPREFRENCE_NAME, MODE_APPEND);
+        editor=sharedPreferences.edit();
+    }
+
+    @Nullable
+    @Override
+    public IBinder onBind(Intent intent) {
+        return null;
+    }
+
+    @Override
+    public int onStartCommand(Intent intent, int flags, int startId) {
+
+        String userName=sharedPreferences.getString(MyConstant.USER_NAME, null);
+        String passWord=sharedPreferences.getString(MyConstant.PASS_WORD,null);
+        MyLog.d(tag,"userName为空");
+        if(userName!=null && !userName.isEmpty()){
+            getUidSid(userName, passWord);
+            MyLog.d(tag, "userName不空");
+        }
+
+        Message message = handler.obtainMessage();
+        message.what = 1;
+        handler.sendMessageDelayed(message, time);
+        return super.onStartCommand(intent, flags, startId);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        clearSharePerefrences();
+    }
+
     /**
      * 获取uid和sid
      * @param userName
      * @param passWord
      */
     private void getUidSid(final String userName, final String passWord) {
+        clearSharePerefrences();
         StringRequest loginRequest=new StringRequest(Request.Method.POST, loginUrl, new Response.Listener<String>() {
             @Override
             public void onResponse(String s) {
@@ -90,10 +124,10 @@ public class UidService extends Service{
                         writeToSharePreferences(uid, MyConstant.UID_KEY);
                         writeToSharePreferences(sid, MyConstant.SID_KEY);
                     }else {
-                       // Toast.makeText(context,"登录失败",Toast.LENGTH_SHORT).show();
+                        // Toast.makeText(context,"登录失败",Toast.LENGTH_SHORT).show();
                     }
                 } catch (JSONException e) {
-                   // Toast.makeText(context,"登录失败",Toast.LENGTH_SHORT).show();
+                    // Toast.makeText(context,"登录失败",Toast.LENGTH_SHORT).show();
                     e.printStackTrace();
                 }
             }
@@ -115,31 +149,13 @@ public class UidService extends Service{
         requestQueue.add(loginRequest);
     }
 
-    @Nullable
-    @Override
-    public IBinder onBind(Intent intent) {
-        return null;
-    }
-
-    @Override
-    public int onStartCommand(Intent intent, int flags, int startId) {
-        Message message = handler.obtainMessage();
-        message.what = 1;
-        handler.sendMessageDelayed(message, time);
-        return super.onStartCommand(intent, flags, startId);
-    }
-
-
-
-
 
     /**
      * 清空shareprefrence
      */
     public void clearSharePerefrences(){
-        SharedPreferences sharedPreferences=getSharedPreferences(MyConstant.USER_SHAREPREFRENCE_NAME, MODE_APPEND);
-        SharedPreferences.Editor editor=sharedPreferences.edit();
-        editor.clear();
+        editor.remove(MyConstant.UID_KEY);
+        editor.remove(MyConstant.SID_KEY);
         editor.apply();
     }
 
@@ -149,8 +165,6 @@ public class UidService extends Service{
      * @param key 写入时的键
      */
     public void writeToSharePreferences(String s,String key){
-        SharedPreferences sharedPreferences=getSharedPreferences(MyConstant.USER_SHAREPREFRENCE_NAME, MODE_APPEND);
-        SharedPreferences.Editor editor=sharedPreferences.edit();
         editor.putString(key, s);
         editor.apply();
     }

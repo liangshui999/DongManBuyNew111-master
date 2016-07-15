@@ -3,6 +3,7 @@ package com.example.asus_cp.dongmanbuy.fragment.register_fragment;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -25,9 +26,14 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.example.asus_cp.dongmanbuy.R;
 import com.example.asus_cp.dongmanbuy.activity.login.LoginActivity;
+import com.example.asus_cp.dongmanbuy.activity.personal_center.PersonalCenterActivity;
+import com.example.asus_cp.dongmanbuy.constant.MyConstant;
 import com.example.asus_cp.dongmanbuy.util.CheckMobileAndEmail;
 import com.example.asus_cp.dongmanbuy.util.MyApplication;
 import com.example.asus_cp.dongmanbuy.util.MyLog;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -118,8 +124,29 @@ public class EmailRegisterFragment extends Fragment implements View.OnClickListe
                     StringRequest registerRequest=new StringRequest(Request.Method.POST, requestUrl, new Response.Listener<String>() {
                         @Override
                         public void onResponse(String s) {
-                            Toast.makeText(context,"注册成功",Toast.LENGTH_SHORT).show();
-                            MyLog.d(tag,"返回的数据是："+s);
+                            MyLog.d(tag, "返回的数据是：" + s);
+                            try {
+                                JSONObject jsonObject=new JSONObject(s);
+                                JSONObject jsonObject1=jsonObject.getJSONObject("data");
+                                JSONObject jsonObject2=jsonObject1.getJSONObject("session");
+                                String sid=jsonObject2.getString("sid");
+                                String uid=jsonObject2.getString("uid");
+                                if(!sid.isEmpty() && !"".equals(sid)){
+                                    Toast.makeText(context,"注册成功",Toast.LENGTH_SHORT).show();
+                                    clearSharePerefrences();//清空之前保存的数据
+                                    writeToSharePreferences(uid, MyConstant.UID_KEY);
+                                    writeToSharePreferences(sid, MyConstant.SID_KEY);
+                                    writeToSharePreferences(userName, MyConstant.USER_NAME);
+                                    writeToSharePreferences(password, MyConstant.PASS_WORD);
+                                    //跳转到个人中心
+                                    Intent intent=new Intent(context, PersonalCenterActivity.class);
+                                    startActivity(intent);
+                                }else{
+                                    Toast.makeText(context,"注册失败",Toast.LENGTH_SHORT).show();
+                                }
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
                         }
                     }, new Response.ErrorListener() {
                         @Override
@@ -166,5 +193,28 @@ public class EmailRegisterFragment extends Fragment implements View.OnClickListe
                 againPasswordFlag++;
                 break;
         }
+    }
+
+
+    /**
+     * 清空shareprefrence
+     */
+    public void clearSharePerefrences(){
+        SharedPreferences sharedPreferences=context.getSharedPreferences(MyConstant.USER_SHAREPREFRENCE_NAME, Context.MODE_APPEND);
+        SharedPreferences.Editor editor=sharedPreferences.edit();
+        editor.clear();
+        editor.apply();
+    }
+
+    /**
+     * 将数据写入shareprefrence里面
+     * @param s 要写入的字符串
+     * @param key 写入时的键
+     */
+    public void writeToSharePreferences(String s,String key){
+        SharedPreferences sharedPreferences=context.getSharedPreferences(MyConstant.USER_SHAREPREFRENCE_NAME, Context.MODE_APPEND);
+        SharedPreferences.Editor editor=sharedPreferences.edit();
+        editor.putString(key,s);
+        editor.apply();
     }
 }

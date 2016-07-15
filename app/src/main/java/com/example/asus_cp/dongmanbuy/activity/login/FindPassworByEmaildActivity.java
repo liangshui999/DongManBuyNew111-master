@@ -44,7 +44,7 @@ public class FindPassworByEmaildActivity extends Activity{
 
     private String userName;//用户名
 
-    private String findPasswordUrl="http://www.zmobuy.com/PHP/index.php?url=/user/getpasswordemail";
+    private String findPasswordUrl="http://www.zmobuy.com/PHP/?url=/user/getpasswordemail";
 
     private RequestQueue requestQueue;//消息队列
 
@@ -72,7 +72,6 @@ public class FindPassworByEmaildActivity extends Activity{
         nextStepButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                StringRequest stringRequest=null;
                 //进行邮箱的验证
                 final String email=inputEmailEditText.getText().toString();
                 if(email.equals("")||email.isEmpty()){
@@ -80,20 +79,20 @@ public class FindPassworByEmaildActivity extends Activity{
                 }else if(!CheckMobileAndEmail.checkEmail(email)){
                     Toast.makeText(FindPassworByEmaildActivity.this,"邮箱格式错误，@请用英文状态下的@",Toast.LENGTH_SHORT).show();
                 }else{
-                    stringRequest=new StringRequest(Request.Method.POST, findPasswordUrl, new Response.Listener<String>() {
+                    StringRequest stringRequest=new StringRequest(Request.Method.POST, findPasswordUrl, new Response.Listener<String>() {
                         @Override
                         public void onResponse(String s) {
                             MyLog.d(tag,"返回的数据："+s);
                             try {
                                 JSONObject jsonObject=new JSONObject(s);
                                 JSONObject jsonObject1=jsonObject.getJSONObject("data");
-                                String password=jsonObject1.getString("pwd");
-                                if(password.equals("")||password.isEmpty()){
-
-                                }else{
+                                String succeed=jsonObject1.getString("succeed");
+                                if("1".equals(succeed)){
                                     Intent intent=new Intent(FindPassworByEmaildActivity.this,FindByEmailYanZhengMaActiity.class);
                                     intent.putExtra(EMAIL_KEY,email);
                                     startActivity(intent);
+                                }else{
+                                    Toast.makeText(FindPassworByEmaildActivity.this,"邮箱和用户名不匹配",Toast.LENGTH_SHORT).show();
                                 }
                             } catch (Exception e) {
                                 Toast.makeText(FindPassworByEmaildActivity.this,"邮箱和用户名不匹配",Toast.LENGTH_SHORT).show();
@@ -110,14 +109,14 @@ public class FindPassworByEmaildActivity extends Activity{
                         @Override
                         protected Map<String, String> getParams() throws AuthFailureError {
                             Map<String,String> map = new HashMap<String,String>();
-                            //map.put("username", userName);//不给对方输入用户名
-                            map.put("email", email);
-                            //MyLog.d(tag,MyMd5.md5encode(password));
+                            MyLog.d(tag,"email的值为："+email);
+                            String json="{\"username\":\"\",\"email\":\""+email+"\",\"email_code\":\"\",\"sms_code\":\"\",\"mobile\":\"\",\"new_password\":\"\"}";
+                            map.put("json",json);
                             return map;
                         }
                     };
+                    requestQueue.add(stringRequest);
                 }
-                requestQueue.add(stringRequest);
             }
         });
 

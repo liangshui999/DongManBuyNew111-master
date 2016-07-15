@@ -53,7 +53,7 @@ public class FindByEmailYanZhengMaActiity extends Activity {
                 if(yanZhengMa.equals("")||yanZhengMa.isEmpty()){
                     Toast.makeText(FindByEmailYanZhengMaActiity.this,"验证码为空",Toast.LENGTH_SHORT).show();
                 }else{
-                    Intent intent=new Intent(FindByEmailYanZhengMaActiity.this,ChangPasswordActivity.class);
+                    Intent intent=new Intent(FindByEmailYanZhengMaActiity.this,ChangPasswordConfirmActivity.class);
                     intent.putExtra(FindPassworByEmaildActivity.EMAIL_KEY,email);
                     intent.putExtra(YAN_ZHENG_MA_KEY,yanZhengMa);
                     startActivity(intent);

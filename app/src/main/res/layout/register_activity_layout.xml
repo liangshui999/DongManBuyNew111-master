@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white_my"
     >
 
     <LinearLayout
@@ -23,6 +24,11 @@
                 android:text="@string/phone_register"
                 android:textSize="@dimen/register_font_size"
                 android:layout_gravity="center"/>
+            <ImageView
+                android:id="@+id/img_phone_register_status"
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                android:src="@mipmap/register_selected"/>
 
         </LinearLayout>
 
@@ -40,6 +46,11 @@
                 android:text="@string/email_register"
                 android:textSize="@dimen/register_font_size"
                 android:layout_gravity="center"/>
+            <ImageView
+                android:id="@+id/img_email_register_status"
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                android:src="@mipmap/register_not_selected"/>
 
         </LinearLayout>
     </LinearLayout>
@@ -51,6 +62,18 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
     </FrameLayout>
+
+
+    <!--已注册直接登录-->
+    <TextView
+        android:id="@+id/text_zhi_jie_login"
+        android:clickable="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="5dp"
+        android:text="@string/have_registered_login"
+        android:layout_gravity="right"/>
 
 
 </LinearLayout>

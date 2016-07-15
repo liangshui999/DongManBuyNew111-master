@@ -2,6 +2,7 @@ package com.example.asus_cp.dongmanbuy.fragment.register_fragment;
 
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -75,7 +76,7 @@ public class PhoneRegisterFragment extends Fragment implements View.OnClickListe
                 Toast.makeText(context,"点击了注册按钮",Toast.LENGTH_SHORT).show();
                 break;
             case R.id.text_zhi_jie_login_phone_register://点击了直接登录
-                Toast.makeText(context,"点击了直接登录",Toast.LENGTH_SHORT).show();
+
                 break;
             case R.id.img_see_password_phone_register:
                 Toast.makeText(context,"点击了改变密码明码",Toast.LENGTH_SHORT).show();

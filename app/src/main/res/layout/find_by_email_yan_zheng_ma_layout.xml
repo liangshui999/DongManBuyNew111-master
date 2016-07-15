@@ -34,7 +34,7 @@
         android:text="@string/next_step"
         android:textSize="@dimen/find_by_email_yan_zhegn_ma_size"
         android:textColor="@color/white_my"
-        android:background="@color/bottom_lable_color"
+        android:background="@drawable/red_backgroud_yuan_jiao_button"
         android:layout_marginTop="10dp"/>
 
 </LinearLayout>

@@ -44,7 +44,6 @@ import com.example.asus_cp.dongmanbuy.activity.search.SearchActivity;
 import com.example.asus_cp.dongmanbuy.constant.MyConstant;
 import com.example.asus_cp.dongmanbuy.customview.MyListView;
 import com.example.asus_cp.dongmanbuy.customview.OnScrollListenerMySli;
-import com.example.asus_cp.dongmanbuy.customview.SlidingMenu;
 import com.example.asus_cp.dongmanbuy.fragment.CategoryFragment;
 import com.example.asus_cp.dongmanbuy.fragment.FindFragment;
 import com.example.asus_cp.dongmanbuy.fragment.HomeFragment;
@@ -60,6 +59,7 @@ import com.example.asus_cp.dongmanbuy.util.JsonHelper;
 import com.example.asus_cp.dongmanbuy.util.MyApplication;
 import com.example.asus_cp.dongmanbuy.util.MyLog;
 import com.google.zxing.client.android.CaptureActivity;
+import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -120,7 +120,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public static final int SHOP_STREET=3;
     public static final int SHOPPING_CAR=4;
 
-    private SlidingMenu slidingMenu;
+    private SlidingMenu menu;
 
     //侧滑菜单
     private de.hdodenhof.circleimageview.CircleImageView loginImage;//登录按钮
@@ -181,6 +181,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         initData();
         initView();
 
+        //开启服务
         Intent intent=new Intent(this,UidService.class);
         startService(intent);
 
@@ -312,7 +313,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         fragmentTransaction.commit();
 
 
-        //跳转到购物车碎片(从别的活动跳过来的时候)
+        //跳转到购物车碎片(从别的活动跳过来的时候,只有当活动在后台销毁的时候，这段代码才会调用)
         labelFlag=getIntent().getStringExtra(MyConstant.MAIN_ACTIVITY_LABLE_FALG_KEY);
         MyLog.d(tag, "labelFlag=" + labelFlag);
         if(MyConstant.SHOPPING_CAR_FLAG_KEY.equals(labelFlag)){
@@ -371,7 +372,35 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         });*/
 
-        slidingMenu= (SlidingMenu) findViewById(R.id.id_menu);
+        //slidingMenu= (SlidingMenu) findViewById(R.id.id_menu);
+
+
+        //使用侧滑菜单
+        menu = new SlidingMenu(this);
+        menu.setMode(SlidingMenu.LEFT);
+        menu.setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);
+        menu.setShadowWidthRes(R.dimen.shadow_width);//这个是调节阴影宽度的
+        menu.setShadowDrawable(R.drawable.shadow);
+        menu.setBehindOffsetRes(R.dimen.slidingmenu_offset);
+        menu.setFadeDegree(0.35f);
+        menu.attachToActivity(this, SlidingMenu.SLIDING_CONTENT);
+        menu.setMenu(R.layout.layout_menu);
+
+        //给侧滑菜单设置滚动的监听事件
+        menu.setOnOpenedListener(new SlidingMenu.OnOpenedListener() {
+            @Override
+            public void onOpened() {
+                String uid=sharedPreferences.getString(MyConstant.UID_KEY,null);
+                String sid=sharedPreferences.getString(MyConstant.SID_KEY,null);
+                if(uid!=null && !uid.isEmpty()){
+                    getDataFromIntenetAndSetNameAndEmailAndPic(uid,sid);
+                }else{
+                    nameTextView.setText("");
+                    emailTextView.setText("");
+                    loginImage.setImageResource(R.mipmap.yu_jia_zai);
+                }
+            }
+        });
 
 
         //-----------------------初始化侧滑菜单-----------------------------
@@ -397,8 +426,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         changPassWordTextView.setOnClickListener(this);
         setTingTextView.setOnClickListener(this);
 
-        //给侧滑菜单设置滚动的监听事件
-        slidingMenu.setOnScrollListnerMy(new OnScrollListenerMySli() {
+
+
+
+
+
+        //原来自己写的侧滑的监听事件
+        /*slidingMenu.setOnScrollListnerMy(new OnScrollListenerMySli() {
             @Override
             public void onScroll(View v) {
                 String uid=sharedPreferences.getString(MyConstant.UID_KEY,null);
@@ -411,7 +445,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     //loginImage.setImageResource(R.mipmap.ic_launcher);
                 }
             }
-        });
+        });*/
 
 
     }
@@ -471,7 +505,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         switch (v.getId()){
             case R.id.img_btn_login://登录按钮的点击事件
                 //Toast.makeText(this,"点击了登录按钮",Toast.LENGTH_SHORT).show();
-                slidingMenu.toggle();
+                //slidingMenu.toggle();
+                menu.toggle();
                 break;
             case R.id.img_btn_message://消息按钮的点击事件
                 if(messageAndSaoCount%2==0){
@@ -886,6 +921,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //        editor.remove(MyConstant.UID_KEY);
 //        editor.remove(MyConstant.SID_KEY);
 //        editor.apply();
+
+        if (menu.isMenuShowing()) {
+            menu.showContent();
+        } else {
+            super.onBackPressed();
+        }
         super.onBackPressed();
     }
 

@@ -57,16 +57,18 @@
         <activity android:name=".activity.login.RegisterActivity"/>
 
         <!--邮箱找回密码的actvity-->
-        <activity android:name=".activity.login.FindPassworByEmaildActivity"/>
+        <activity android:name=".activity.login.FindPassworByEmaildActivity"
+            android:launchMode="singleTask"/>
 
         <!--手机找回密码的actiity-->
-        <activity android:name=".activity.login.FindPassworByPhoneActivity"/>
+        <activity android:name=".activity.login.FindPassworByPhoneActivity"
+            android:launchMode="singleTask"/>
 
         <!--输验证码的activity-->
         <activity android:name=".activity.login.FindByEmailYanZhengMaActiity"/>
 
         <!--输新密码的activity-->
-        <activity android:name=".activity.login.ChangPasswordActivity"/>
+        <activity android:name=".activity.login.ChangPasswordConfirmActivity"/>
 
         <!--商品详情的activity-->
         <activity android:name=".activity.product_detail.ProductDetailActivity"/>

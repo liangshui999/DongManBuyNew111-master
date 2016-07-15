@@ -7,6 +7,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.view.Window;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.asus_cp.dongmanbuy.R;
@@ -20,6 +21,10 @@ import com.example.asus_cp.dongmanbuy.fragment.register_fragment.PhoneRegisterFr
 public class RegisterActivity extends FragmentActivity implements View.OnClickListener{
     private TextView phoneRegisterTextView;//手机注册
     private TextView emailRegisterTextView;//邮箱注册
+    private ImageView phoneRegisterImageView;
+    private ImageView emailRegisterImageView;
+    private TextView zhiJieLoginTextView;//已注册直接登陆
+
     private FrameLayout bufFrameLayout;//装载碎片的容器
 
     private FragmentManager fragmentManager;
@@ -33,12 +38,16 @@ public class RegisterActivity extends FragmentActivity implements View.OnClickLi
 
         phoneRegisterTextView= (TextView) findViewById(R.id.text_phone_register);
         emailRegisterTextView= (TextView) findViewById(R.id.text_email_register);
+        phoneRegisterImageView= (ImageView) findViewById(R.id.img_phone_register_status);
+        emailRegisterImageView= (ImageView) findViewById(R.id.img_email_register_status);
+        zhiJieLoginTextView= (TextView) findViewById(R.id.text_zhi_jie_login);
         bufFrameLayout= (FrameLayout) findViewById(R.id.frame_register_buf);
 
         phoneRegisterTextView.setTextColor(getResources().getColor(R.color.bottom_lable_color));
 
         phoneRegisterTextView.setOnClickListener(this);
         emailRegisterTextView.setOnClickListener(this);
+        zhiJieLoginTextView.setOnClickListener(this);//直接登陆
 
         phoneRegisterFragment=new PhoneRegisterFragment();
         emailRegisterFragment=new EmailRegisterFragment();
@@ -56,18 +65,23 @@ public class RegisterActivity extends FragmentActivity implements View.OnClickLi
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.text_phone_register://手机注册
-                resetFontColor();
+                reset();
                 FragmentTransaction transaction1=fragmentManager.beginTransaction();
                 transaction1.replace(R.id.frame_register_buf, phoneRegisterFragment);
                 transaction1.commit();
                 phoneRegisterTextView.setTextColor(getResources().getColor(R.color.bottom_lable_color));
+                phoneRegisterImageView.setImageResource(R.mipmap.register_selected);
                 break;
             case R.id.text_email_register://邮箱注册
-                resetFontColor();
+                reset();
                 FragmentTransaction transaction2=fragmentManager.beginTransaction();
                 transaction2.replace(R.id.frame_register_buf, emailRegisterFragment);
                 transaction2.commit();
                 emailRegisterTextView.setTextColor(getResources().getColor(R.color.bottom_lable_color));
+                emailRegisterImageView.setImageResource(R.mipmap.register_selected);
+                break;
+            case R.id.text_zhi_jie_login://已注册直接登陆
+                finish();
                 break;
         }
     }
@@ -75,8 +89,10 @@ public class RegisterActivity extends FragmentActivity implements View.OnClickLi
     /**
      * 重置字体颜色
      */
-    public void resetFontColor(){
+    public void reset(){
         phoneRegisterTextView.setTextColor(getResources().getColor(R.color.black));
         emailRegisterTextView.setTextColor(getResources().getColor(R.color.black));
+        phoneRegisterImageView.setImageResource(R.color.white_my);
+        emailRegisterImageView.setImageResource(R.color.white_my);
     }
 }

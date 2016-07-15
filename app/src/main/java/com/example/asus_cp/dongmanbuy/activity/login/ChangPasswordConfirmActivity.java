@@ -21,14 +21,9 @@ import com.example.asus_cp.dongmanbuy.R;
 import com.example.asus_cp.dongmanbuy.util.MyApplication;
 import com.example.asus_cp.dongmanbuy.util.MyLog;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.HashMap;
@@ -38,7 +33,7 @@ import java.util.Map;
  * 修改密码的确认界面
  * Created by asus-cp on 2016-05-30.
  */
-public class ChangPasswordActivity extends Activity implements View.OnClickListener{
+public class ChangPasswordConfirmActivity extends Activity implements View.OnClickListener{
     private EditText inputNewPasswordEditText;
     private Button confirmChangeButton;
     private ImageView seePasswordImagView;
@@ -49,9 +44,9 @@ public class ChangPasswordActivity extends Activity implements View.OnClickListe
 
     private RequestQueue requestQueue;
 
-    private String changUrl="http://www.zmobuy.com/PHP/index.php?url=/user/getpasswordemail";
+    private String changUrl="http://www.zmobuy.com/PHP/?url=/user/getpasswordemail";
 
-    private String tag="ChangPasswordPersonalCenterActivity";
+    private String tag="ChangPasswordConfirmActivity";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -88,11 +83,10 @@ public class ChangPasswordActivity extends Activity implements View.OnClickListe
                 passwordFlag++;
                 break;
             case R.id.btn_confirm_change://确认修改
-                final String newPassword=inputNewPasswordEditText.getText().toString();
+                final String newPassword=inputNewPasswordEditText.getText().toString().trim();
                 if(newPassword.equals("")||newPassword.isEmpty()){
-                    Toast.makeText(ChangPasswordActivity.this,"密码为空",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ChangPasswordConfirmActivity.this,"密码为空",Toast.LENGTH_SHORT).show();
                 }else{
-                    String ceShiUrl="http://192.168.1.104:2007";
                     StringRequest stringRequest=new StringRequest(Request.Method.POST, changUrl, new Response.Listener<String>() {
                         @Override
                         public void onResponse(String s) {
@@ -106,43 +100,19 @@ public class ChangPasswordActivity extends Activity implements View.OnClickListe
                     }){
                         @Override
                         protected Map<String, String> getParams() throws AuthFailureError {
-                            Map<String,String> map = new HashMap<String,String>();
-                            map.put("email", email);
-                            map.put("email_code", yanZhegnMa.trim());
-                            map.put("new_password",newPassword);
-
-//                            String json="{\"username\":\"\",\"email\":\""+email+"\",\"email_code\":"+yanZhegnMa.trim()+",\"sms_code\":\"\",\"mobile\":\"\",\"new_password\":"+newPassword+"}";
-//                            map.put("json", json);
-
-//                            String json="{" +
-//                                    "\"username\": \"\"," +
-//                                    "\"email\": \""+email+"\"," +
-//                                    "\"email_code\":\""+yanZhegnMa+"\"," +
-//                                    "\"sms_code\": \"\"," +
-//                                    "\"mobile\": \"\"," +
-//                                    "\"new_password\":\""+newPassword+"\"" +
-//                                    "}";
-//                            String json="{\"username\":\"\",\"email\":\"254304837@qq.com\",\"email_code\":\"641477\",\"sms_code\":\"\",\"mobile\":\"\",\"new_password\":\"1234567\"}";
-//                            map.put("json", json);
-//
-//                            try {
-//                                JSONObject jsonObject=new JSONObject(json);
-//                                MyLog.d(tag, jsonObject.getString("email")+"......"+jsonObject.getString("email_code")+"..........."+jsonObject.getString("new_password"));
-//                            } catch (JSONException e) {
-//                                e.printStackTrace();
-//                                MyLog.d(tag, e.toString());
-//                            }
-
                             MyLog.d(tag, "邮箱" + email);
                             MyLog.d(tag,"验证码"+yanZhegnMa.trim());
                             MyLog.d(tag,"新密码"+newPassword);
-//                            MyLog.d(tag,json);
+                            Map<String,String> map = new HashMap<String,String>();
+                            String json="{\"username\":\""+""+"\",\"email\":\""+email+"\",\"email_code\":\""+yanZhegnMa.trim()+"\",\"sms_code\":\"\",\"mobile\":\"\",\"new_password\":\""+newPassword+"\"}";
+                            map.put("json", json);
+                            MyLog.d(tag,json);
                             return map;
                         }
                     };
-//                    requestQueue.add(stringRequest);//添加到队列中去
+                   requestQueue.add(stringRequest);//添加到队列中去
                 }
-                shouDongPost(newPassword);
+
                 break;
         }
     }

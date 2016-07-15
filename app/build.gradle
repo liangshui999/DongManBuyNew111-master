@@ -31,4 +31,5 @@ dependencies {
     compile 'de.hdodenhof:circleimageview:2.0.0'
     compile project(':saoyisao')
     compile files('libs/weiboSDKCore_3.1.4.jar')
+    compile project(':slidingmenu')
 }
