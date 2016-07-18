@@ -20,7 +20,8 @@
                 <android.support.v4.view.ViewPager
                     android:id="@+id/viewpager_binner_first"
                     android:layout_width="match_parent"
-                    android:layout_height="205dp">
+                    android:layout_height="205dp"
+                    android:visibility="visible">
                 </android.support.v4.view.ViewPager>
 
                 <LinearLayout
@@ -243,14 +244,20 @@
                     android:layout_toRightOf="@id/xian_shi_biao_ti"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="10dp"/>
+
+                <ImageView
+                    android:id="@+id/xianshi"
+                    android:layout_width="15dp"
+                    android:layout_height="15dp"
+                    android:layout_alignParentRight="true"
+                    android:src="@mipmap/right"
+                    android:layout_centerVertical="true"/>
                 <TextView
                     android:id="@+id/text_xian_shi_more"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:drawableRight="@mipmap/more"
-                    android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
-                    android:layout_marginRight="5dp"
+                    android:layout_toLeftOf="@id/xianshi"
                     android:text="@string/more"
                     android:clickable="true"/>
             </RelativeLayout>
@@ -260,6 +267,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/white_my"
+                android:visibility="visible"
                 >
                 <LinearLayout
                     android:layout_width="0dp"
@@ -300,7 +308,8 @@
                 <android.support.v4.view.ViewPager
                     android:id="@+id/viewpager_binner_second"
                     android:layout_width="match_parent"
-                    android:layout_height="120dp">
+                    android:layout_height="120dp"
+                    android:visibility="visible">
                 </android.support.v4.view.ViewPager>
 
                 <LinearLayout
@@ -321,6 +330,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
+                android:padding="10dp"
                 android:background="@android:color/white">
                 <TextView
                     android:id="@+id/jing_ping_tui_jian_biao_ti"
@@ -329,29 +339,35 @@
                     android:text="@string/jing_pin_tui_jian"
                     android:layout_marginLeft="10dp"
                     android:textSize="18sp"
-                    android:paddingTop="10dp"
                     android:textStyle="bold"
-                    android:layout_centerVertical="true"/>
+                    android:layout_centerVertical="true"
+                    />
                 <TextView
                     android:layout_toRightOf="@id/jing_ping_tui_jian_biao_ti"
-                    android:layout_centerVertical="true"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/jing_ping_tui_jian_content"
                     android:layout_marginLeft="10dp"
-                    android:paddingTop="10dp"
+                    android:layout_centerVertical="true"
                     />
+
+                <ImageView
+                    android:id="@+id/jingping"
+                    android:layout_width="15dp"
+                    android:layout_height="15dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="5dp"
+                    android:src="@mipmap/right"
+                    android:layout_centerVertical="true"/>
                 <TextView
                     android:id="@+id/text_jing_pin_more"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:drawableRight="@mipmap/more"
-                    android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
-                    android:layout_marginRight="5dp"
-                    android:paddingTop="10dp"
+                    android:layout_toLeftOf="@id/jingping"
                     android:clickable="true"
-                    android:text="@string/more"/>
+                    android:text="@string/more"
+                    />
             </RelativeLayout>
 
             <!--精品推荐的列表展示-->
@@ -360,7 +376,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:background="@color/white_my">
+                android:background="@color/white_my"
+                >
                 <android.support.v4.view.ViewPager
                     android:id="@+id/viewpager_jing_pin"
                     android:layout_width="wrap_content"
@@ -444,17 +461,24 @@
                     android:text="@string/shop_street_content"
                     android:layout_marginTop="10dp"
                     android:layout_marginLeft="10dp"/>
+
+                <ImageView
+                    android:id="@+id/dianpu"
+                    android:layout_width="15dp"
+                    android:layout_height="15dp"
+                    android:layout_alignParentRight="true"
+                    android:src="@mipmap/right"
+                    android:layout_marginRight="5dp"
+                    android:layout_centerVertical="true"/>
                 <TextView
                     android:id="@+id/text_dian_pu_jie_more"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:drawableRight="@mipmap/more"
-                    android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
-                    android:layout_marginRight="5dp"
                     android:layout_marginTop="10dp"
                     android:clickable="true"
-                    android:text="@string/more"/>
+                    android:text="@string/more"
+                    android:layout_toLeftOf="@id/dianpu"/>
 
             </RelativeLayout>
 
@@ -468,7 +492,9 @@
                 <android.support.v4.view.ViewPager
                     android:id="@+id/viewpager_shop_street"
                     android:layout_width="wrap_content"
-                    android:layout_height="120dp">
+                    android:layout_height="150dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp">
                 </android.support.v4.view.ViewPager>
 
                 <LinearLayout
@@ -482,7 +508,7 @@
             </RelativeLayout>
 
             <!--猜你喜欢的标题-->
-            <LinearLayout
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
@@ -490,11 +516,11 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
+                    android:layout_centerInParent="true"
                     android:text="@string/cai_ni_xi_huan"
                     android:textSize="18sp"
                     android:layout_marginTop="10dp"/>
-            </LinearLayout>
+            </RelativeLayout>
 
             <!--猜你喜欢的内容-->
             <com.example.asus_cp.dongmanbuy.customview.MyGridViewA

@@ -24,10 +24,10 @@
 
 
     <!--自定义的全局样式，继承自appcompat-->
-    <style name="MyAppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="MyAppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorPrimary">@color/black</item>
+        <item name="colorPrimaryDark">@color/black</item>
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 

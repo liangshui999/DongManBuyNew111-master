@@ -33,6 +33,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.StringRequest;
 import com.example.asus_cp.dongmanbuy.R;
+import com.example.asus_cp.dongmanbuy.activity.MainActivity;
 import com.example.asus_cp.dongmanbuy.activity.dian_pu_jie.ShopHomeActivity;
 import com.example.asus_cp.dongmanbuy.activity.dian_pu_jie.ShopStreetCategoryActvity;
 import com.example.asus_cp.dongmanbuy.activity.gou_wu.DingDanListActivity;
@@ -154,6 +155,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
 
     private String userInfoUrl="http://www.zmobuy.com/PHP/?url=/user/info";//用户信息的接口
 
+    private MainActivity mainActivity;
+
 
 
 
@@ -245,6 +248,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         context=getActivity();
+        mainActivity= (MainActivity) getActivity();
         sharedPreferences=context.getSharedPreferences(MyConstant.USER_SHAREPREFRENCE_NAME,Context.MODE_APPEND);
         v=inflater.inflate(R.layout.home_fragment_layout, null);
         initView();
@@ -277,7 +281,9 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
         });
         requestQueue.add(binnerOneRequest);//加入到队列
         firstViewPager.addOnPageChangeListener(new MyPageChangeListener(firstImageViews, firstPointGroup));
-        firstViewPager.setOnTouchListener(new MyPageTouchListener(SCROLL__FIRST_BINNER,firstViewPager));
+        firstViewPager.setOnTouchListener(new MyPageTouchListener(SCROLL__FIRST_BINNER, firstViewPager));
+
+        mainActivity.menu.addIgnoredView(firstViewPager);
 
 
         //--------------第二个广告的初始化----------------------------------------------
@@ -298,7 +304,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
         });
         requestQueue.add(binnerSecondRequest);//加入到队列
         secondViewPager.addOnPageChangeListener(new MyPageChangeListener(secondImageViews, secondPointGroup));
-        secondViewPager.setOnTouchListener(new MyPageTouchListener(SCROLL__SECOND_BINNER,secondViewPager));
+        secondViewPager.setOnTouchListener(new MyPageTouchListener(SCROLL__SECOND_BINNER, secondViewPager));
+
 
 
         //---------------------------------第三个广告的初始化-------------------------------------
@@ -476,6 +483,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
                     gridViews.add(gridView);
                 }
                 jingPinViewPager.setAdapter(new MyPagerAdapter(gridViews));
+                mainActivity.menu.addIgnoredView(jingPinViewPager);
                 LinearLayout jingPinPointGroup= (LinearLayout) v.findViewById(R.id.ll_point_group_jing_pin);
                 initPoint(jingPinPointGroup,gridViews.size());
                 jingPinViewPager.addOnPageChangeListener(new MyPageChangeListener(gridViews,jingPinPointGroup));
@@ -487,6 +495,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
             }
         });
         requestQueue.add(jingPinStringRequest);
+
 
 
         //-----------------------精品推荐部分---------------------------------
@@ -558,6 +567,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
                     shopStreetGridViews.add(gridView);
                 }
                 shopStreetViewPager.setAdapter(new MyPagerAdapter(shopStreetGridViews));
+                mainActivity.menu.addIgnoredView(shopStreetViewPager);
                 LinearLayout shopStreetPointGroup= (LinearLayout) v.findViewById(R.id.ll_point_group_shop_street);
                 initPoint(shopStreetPointGroup,shopStreetGridViews.size());
                 shopStreetViewPager.addOnPageChangeListener(new MyPageChangeListener(shopStreetGridViews,shopStreetPointGroup));
@@ -577,6 +587,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
             }
         };
         requestQueue.add(shopStreetStringRequest);
+
 
 
 
@@ -625,7 +636,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
      *将json数据解析出来放到集合里面
      */
     private List<ShopModel> parseJsonShopStreet(String s) {
-        MyLog.d(tag, "书籍返回的数据是" + s);
+        MyLog.d(tag, "店铺街返回的数据是" + s);
         List<ShopModel> shopModels=new ArrayList<ShopModel>();
         try {
             JSONObject jsonObject=new JSONObject(s);
@@ -671,8 +682,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
                         good.setCommentsNumber(goodJsonObject.getString("comments_number"));
                         goods.add(good);
                     }
-                    shopModel.setGoods(goods);
                 }
+                shopModel.setGoods(goods);
                 shopModels.add(shopModel);
             }
             MyLog.d(tag, "集合的大小:" + shopModels.size());

@@ -16,10 +16,17 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.alipay.sdk.app.PayTask;
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
 import com.example.asus_cp.dongmanbuy.R;
 import com.example.asus_cp.dongmanbuy.constant.MyConstant;
 import com.example.asus_cp.dongmanbuy.model.Good;
 import com.example.asus_cp.dongmanbuy.util.FormatHelper;
+import com.example.asus_cp.dongmanbuy.util.MyApplication;
 import com.example.asus_cp.dongmanbuy.util.MyLog;
 import com.example.asus_cp.dongmanbuy.util.zhi_fu_bao_util.PayResult;
 import com.example.asus_cp.dongmanbuy.util.zhi_fu_bao_util.SignUtils;
@@ -27,7 +34,9 @@ import com.example.asus_cp.dongmanbuy.util.zhi_fu_bao_util.SignUtils;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 提交订单之后出现的页面
@@ -46,6 +55,10 @@ public class AfterTiJiaoDingDanActivity extends Activity implements View.OnClick
     private String dingDanId;//订单id
 
     private String tag="AfterTiJiaoDingDanActivity";
+
+
+    private String payUrl="http://www.zmobuy.com/appa/index.php";//支付宝url
+    private RequestQueue requestQueue;
 
 
 
@@ -126,6 +139,7 @@ public class AfterTiJiaoDingDanActivity extends Activity implements View.OnClick
         zhiFuBaoZhiFuButton= (Button) findViewById(R.id.btn_zhi_fu_bao_zhi_fu_after_ti_jiao_ding_dan);
         seeDingDanTextView= (TextView) findViewById(R.id.text_see_ding_dan_after_ti_jiao_ding_dan);
 
+        requestQueue= MyApplication.getRequestQueue();
         dingDanId=getIntent().getStringExtra(MyConstant.DING_DAN_ID_KEY);
         //设置付款金额
         price=getIntent().getStringExtra(MyConstant.SHI_FU_KUAN_KEY);
@@ -151,7 +165,8 @@ public class AfterTiJiaoDingDanActivity extends Activity implements View.OnClick
         switch (v.getId()){
             case R.id.btn_zhi_fu_bao_zhi_fu_after_ti_jiao_ding_dan://点击了支付宝支付
                 //Toast.makeText(this,"点击了支付宝支付",Toast.LENGTH_SHORT).show();
-                pay();//调用支付宝支付
+                //pay();//调用支付宝支付
+                zhiFuClickChuLi();
                 break;
             case R.id.text_see_ding_dan_after_ti_jiao_ding_dan://点击了查看订单
                 /*Intent seeIntent=new Intent(this,DingDanDetailActivity.class);
@@ -300,5 +315,33 @@ public class AfterTiJiaoDingDanActivity extends Activity implements View.OnClick
      */
     private String getSignType() {
         return "sign_type=\"RSA\"";
+    }
+
+
+    /**
+     * 支付的click处理
+     */
+    public void zhiFuClickChuLi(){
+        StringRequest zhiFuRequest=new StringRequest(Request.Method.POST, payUrl,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String s) {
+                        MyLog.d(tag,"返回的数据是："+s);
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+
+            }
+        }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String,String> map=new HashMap<String,String>();
+                String json="";
+                map.put("json",json);
+                return map;
+            }
+        };
+        requestQueue.add(zhiFuRequest);
     }
 }

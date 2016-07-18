@@ -189,10 +189,10 @@ public class AddShouHuoAddressActivity extends Activity implements View.OnClickL
 
     @Override
     public void onBackPressed() {
-        if(whoStartMe!=null){
+        //if(whoStartMe!=null){
             Intent intent=new Intent();
-            setResult(RESULT_OK,intent);
+            setResult(RESULT_CANCELED,intent);
             finish();
-        }
+       // }
     }
 }

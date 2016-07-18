@@ -23,6 +23,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.StringRequest;
 import com.example.asus_cp.dongmanbuy.R;
+import com.example.asus_cp.dongmanbuy.activity.MainActivity;
 import com.example.asus_cp.dongmanbuy.activity.dian_pu_jie.ShopHomeActivity;
 import com.example.asus_cp.dongmanbuy.activity.login.LoginActivity;
 import com.example.asus_cp.dongmanbuy.activity.product_detail.ProductDetailActivity;
@@ -58,8 +59,11 @@ public class ShopStreetShopListAdapter extends BaseAdapter {
 
     private RequestQueue requestQueue;
 
+    private MainActivity mainActivity;
+
     public ShopStreetShopListAdapter(Context context, List<ShopModel> shopModels) {
         this.context = context;
+        mainActivity= (MainActivity) context;
         this.shopModels = shopModels;
         inflater=LayoutInflater.from(context);
         helper=new ImageLoadHelper();
@@ -270,6 +274,7 @@ public class ShopStreetShopListAdapter extends BaseAdapter {
                     context.startActivity(intent);
                 }
             });
+            mainActivity.menu.addIgnoredView(viewHolder.shopContentRecyClView);
         }else{
             viewHolder.shopContentRecyClView.setVisibility(View.GONE);
         }

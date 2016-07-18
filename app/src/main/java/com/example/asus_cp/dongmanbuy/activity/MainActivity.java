@@ -1,5 +1,6 @@
 package com.example.asus_cp.dongmanbuy.activity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
@@ -8,6 +9,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
 import android.view.View;
@@ -120,7 +122,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public static final int SHOP_STREET=3;
     public static final int SHOPPING_CAR=4;
 
-    private SlidingMenu menu;
+    public SlidingMenu menu;
 
     //侧滑菜单
     private de.hdodenhof.circleimageview.CircleImageView loginImage;//登录按钮
@@ -180,12 +182,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
         initData();
         initView();
-
-        //开启服务
-        Intent intent=new Intent(this,UidService.class);
-        startService(intent);
-
-        MyLog.d(tag,"oncreate()执行了");
+        //MyLog.d(tag,"oncreate()执行了");
 
     }
 
@@ -925,9 +922,27 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (menu.isMenuShowing()) {
             menu.showContent();
         } else {
-            super.onBackPressed();
+            AlertDialog.Builder builder=new AlertDialog.Builder(this);
+            builder.setTitle("提示");
+            builder.setMessage("您确定要退出吗？");
+            builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    //android.os.Process.killProcess(android.os.Process.myPid());//把自己的进程杀掉
+                    Intent intent=new Intent();
+                    setResult(RESULT_OK,intent);
+                    finish();
+                }
+            });
+            builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+
+                }
+            });
+            builder.show();
         }
-        super.onBackPressed();
+        //super.onBackPressed();
     }
 
 

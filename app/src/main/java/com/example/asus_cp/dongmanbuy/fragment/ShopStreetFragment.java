@@ -18,6 +18,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.example.asus_cp.dongmanbuy.R;
+import com.example.asus_cp.dongmanbuy.activity.MainActivity;
 import com.example.asus_cp.dongmanbuy.adapter.ShopStreetShopListAdapter;
 import com.example.asus_cp.dongmanbuy.adapter.ShopStreetSpinnerAdapter;
 import com.example.asus_cp.dongmanbuy.model.Good;
@@ -102,6 +103,8 @@ public class ShopStreetFragment extends Fragment {
     private int count9=1;
 
     private int location;//用于上拉加载的判断
+
+    private MainActivity mainActivity;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -115,6 +118,7 @@ public class ShopStreetFragment extends Fragment {
      */
     private void init(View v) {
         context=getActivity();
+        mainActivity= (MainActivity) getActivity();
         requestQueue= MyApplication.getRequestQueue();
         paiLieShunXunSpinner= (Spinner) v.findViewById(R.id.spin_pai_lie_shun_xu);
         productCategorySpinner= (Spinner) v.findViewById(R.id.spin_product_category);
@@ -224,61 +228,61 @@ public class ShopStreetFragment extends Fragment {
                     case ALL:
                         allModles.clear();
                         allModles.addAll(parseJson(s));
-                        allAdapter=new ShopStreetShopListAdapter(context,allModles);
+                        allAdapter=new ShopStreetShopListAdapter(mainActivity,allModles);
                         shopListListView.setAdapter(allAdapter);
                         break;
                     case SHU_JI:
                         shuJiModles.clear();
                         shuJiModles.addAll(parseJson(s));
-                        shuJiAdapter=new ShopStreetShopListAdapter(context,shuJiModles);
+                        shuJiAdapter=new ShopStreetShopListAdapter(mainActivity,shuJiModles);
                         shopListListView.setAdapter(shuJiAdapter);
                         break;
                     case MO_WAN:
                         moWanModles.clear();
                         moWanModles.addAll(parseJson(s));
-                        moWanAdapter=new ShopStreetShopListAdapter(context,moWanModles);
+                        moWanAdapter=new ShopStreetShopListAdapter(mainActivity,moWanModles);
                         shopListListView.setAdapter(moWanAdapter);
                         break;
                     case DIY:
                         DIYModles.clear();
                         DIYModles.addAll(parseJson(s));
-                        DIYAdapter=new ShopStreetShopListAdapter(context,DIYModles);
+                        DIYAdapter=new ShopStreetShopListAdapter(mainActivity,DIYModles);
                         shopListListView.setAdapter(DIYAdapter);
                         break;
                     case SHANG_ZHUANG:
                         shangZhuangModles.clear();
                         shangZhuangModles.addAll(parseJson(s));
-                        shangZhuangAdapter=new ShopStreetShopListAdapter(context,shangZhuangModles);
+                        shangZhuangAdapter=new ShopStreetShopListAdapter(mainActivity,shangZhuangModles);
                         shopListListView.setAdapter(shuJiAdapter);
                         break;
                     case XIA_ZHUANG:
                         xiaZhuangModles.clear();
                         xiaZhuangModles.addAll(parseJson(s));
-                        xiaZhuangAdapter=new ShopStreetShopListAdapter(context,xiaZhuangModles);
+                        xiaZhuangAdapter=new ShopStreetShopListAdapter(mainActivity,xiaZhuangModles);
                         shopListListView.setAdapter(xiaZhuangAdapter);
                         break;
                     case XIANG_BAO:
                         xiangBaoModles.clear();
                         xiangBaoModles.addAll(parseJson(s));
-                        xiangBaoAdapter=new ShopStreetShopListAdapter(context,xiangBaoModles);
+                        xiangBaoAdapter=new ShopStreetShopListAdapter(mainActivity,xiangBaoModles);
                         shopListListView.setAdapter(xiangBaoAdapter);
                         break;
                     case ZHAI_PIN:
                         zhaiPinModles.clear();
                         zhaiPinModles.addAll(parseJson(s));
-                        zhaiPinAdapter=new ShopStreetShopListAdapter(context,zhaiPinModles);
+                        zhaiPinAdapter=new ShopStreetShopListAdapter(mainActivity,zhaiPinModles);
                         shopListListView.setAdapter(zhaiPinAdapter);
                         break;
                     case MAO_RONG:
                         maoRongModles.clear();
                         maoRongModles.addAll(parseJson(s));
-                        maoRongAdapter=new ShopStreetShopListAdapter(context,maoRongModles);
+                        maoRongAdapter=new ShopStreetShopListAdapter(mainActivity,maoRongModles);
                         shopListListView.setAdapter(maoRongAdapter);
                         break;
                     case PEI_SHI:
                         peiShiModles.clear();
                         peiShiModles.addAll(parseJson(s));
-                        peiShiAdapter=new ShopStreetShopListAdapter(context,peiShiModles);
+                        peiShiAdapter=new ShopStreetShopListAdapter(mainActivity,peiShiModles);
                         shopListListView.setAdapter(peiShiAdapter);
                         break;
                 }

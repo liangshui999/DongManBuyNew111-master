@@ -38,184 +38,247 @@
         android:label="动漫buy"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity
-            android:name=".activity.MainActivity"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:windowSoftInputMode="adjustPan|stateHidden"
-            android:launchMode="singleTask">
+
+        <!--启动界面的activity-->
+        <activity android:name=".activity.StartActivity"
+            android:icon="@mipmap/logo"
+            android:label="动漫buy"
+            android:theme="@style/AppTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
+        <!--主界面的activity-->
+        <activity
+            android:name=".activity.MainActivity"
+            android:theme="@style/MyAppTheme"
+            android:windowSoftInputMode="adjustPan|stateHidden"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait">
+        </activity>
+
         <!--登录activity-->
-        <activity android:name=".activity.login.LoginActivity"/>
+        <activity android:name=".activity.login.LoginActivity"
+            android:screenOrientation="portrait"/>
 
         <!--注册activity-->
-        <activity android:name=".activity.login.RegisterActivity"/>
+        <activity android:name=".activity.login.RegisterActivity"
+            android:screenOrientation="portrait"/>
 
         <!--邮箱找回密码的actvity-->
         <activity android:name=".activity.login.FindPassworByEmaildActivity"
-            android:launchMode="singleTask"/>
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"/>
 
         <!--手机找回密码的actiity-->
         <activity android:name=".activity.login.FindPassworByPhoneActivity"
-            android:launchMode="singleTask"/>
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"/>
 
         <!--输验证码的activity-->
-        <activity android:name=".activity.login.FindByEmailYanZhengMaActiity"/>
+        <activity android:name=".activity.login.FindByEmailYanZhengMaActiity"
+            android:screenOrientation="portrait"/>
 
         <!--输新密码的activity-->
-        <activity android:name=".activity.login.ChangPasswordConfirmActivity"/>
+        <activity android:name=".activity.login.ChangPasswordConfirmActivity"
+            android:screenOrientation="portrait"/>
 
         <!--商品详情的activity-->
-        <activity android:name=".activity.product_detail.ProductDetailActivity"/>
+        <activity android:name=".activity.product_detail.ProductDetailActivity"
+            android:screenOrientation="portrait"/>
 
         <!--商品详情规格-->
-        <activity android:name=".activity.product_detail.ProductPicAndGuiGeActivity"/>
+        <activity android:name=".activity.product_detail.ProductPicAndGuiGeActivity"
+            android:screenOrientation="portrait"/>
 
         <!--用户评价的activity-->
-        <activity android:name=".activity.product_detail.CommetnActivity"/>
+        <activity android:name=".activity.product_detail.CommetnActivity"
+            android:screenOrientation="portrait"/>
 
        <!-- 地区列表的activity-->
-        <activity android:name=".activity.product_detail.AreaActivity"/>
+        <activity android:name=".activity.product_detail.AreaActivity"
+            android:screenOrientation="portrait"/>
 
         <!--缺货登记的activity-->
-        <activity android:name=".activity.product_detail.QueHuoDengJiActivity"/>
+        <activity android:name=".activity.product_detail.QueHuoDengJiActivity"
+            android:screenOrientation="portrait"/>
 
         <!--有货时的activity-->
-        <activity android:name=".activity.gou_wu.ShoppingCarActivity"/>
+        <activity android:name=".activity.gou_wu.ShoppingCarActivity"
+            android:screenOrientation="portrait"/>
 
         <!--店铺街的activity-->
-        <activity android:name=".activity.dian_pu_jie.ShopStreetCategoryActvity"/>
+        <activity android:name=".activity.dian_pu_jie.ShopStreetCategoryActvity"
+            android:screenOrientation="portrait"/>
 
         <!--店铺主页的activity-->
-        <activity android:name=".activity.dian_pu_jie.ShopHomeActivity"/>
+        <activity android:name=".activity.dian_pu_jie.ShopHomeActivity"
+            android:screenOrientation="portrait"/>
 
         <!--店铺详情的activity-->
-        <activity android:name=".activity.dian_pu_jie.ShopDetailActivity"/>
+        <activity android:name=".activity.dian_pu_jie.ShopDetailActivity"
+            android:screenOrientation="portrait"/>
 
         <!--店铺排序的activity-->
         <activity android:name=".activity.dian_pu_jie.ShopProdcutSortActivity"
-            android:launchMode="singleTask"/>
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"/>
 
         <!--店铺搜索的搜索界面-->
         <activity android:name=".activity.dian_pu_jie.ShopSearchActivity"
-            android:launchMode="singleTask"/>
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"/>
 
         <!--订单的activity-->
-        <activity android:name=".activity.gou_wu.DingDanActivity"/>
+        <activity android:name=".activity.gou_wu.DingDanActivity"
+            android:screenOrientation="portrait"/>
 
         <!--收货人信息的activity-->
-        <activity android:name=".activity.gou_wu.ShouHuoRenXinXiListActivity"/>
+        <activity android:name=".activity.gou_wu.ShouHuoRenXinXiListActivity"
+            android:screenOrientation="portrait"/>
 
         <!--添加收货人信息的activity-->
-        <activity android:name=".activity.gou_wu.AddShouHuoAddressActivity"/>
+        <activity android:name=".activity.gou_wu.AddShouHuoAddressActivity"
+            android:screenOrientation="portrait"/>
 
         <!--自提地点的activity-->
-        <activity android:name=".activity.gou_wu.ZiTiAreaActivity"/>
+        <activity android:name=".activity.gou_wu.ZiTiAreaActivity"
+            android:screenOrientation="portrait"/>
 
         <!--发票的activity-->
-        <activity android:name=".activity.gou_wu.FaPiaoActiity"/>
+        <activity android:name=".activity.gou_wu.FaPiaoActiity"
+            android:screenOrientation="portrait"/>
 
         <!--优惠券的activity-->
-        <activity android:name=".activity.gou_wu.YouHuiQuanActivity"/>
+        <activity android:name=".activity.gou_wu.YouHuiQuanActivity"
+            android:screenOrientation="portrait"/>
 
         <!--提交订单之后的activity-->
-        <activity android:name=".activity.gou_wu.AfterTiJiaoDingDanActivity"/>
+        <activity android:name=".activity.gou_wu.AfterTiJiaoDingDanActivity"
+            android:screenOrientation="portrait"/>
 
         <!--余额支付成功之后的acitivity-->
-        <activity android:name=".activity.gou_wu.YuEZhiFuSuccessedActivity"/>
+        <activity android:name=".activity.gou_wu.YuEZhiFuSuccessedActivity"
+            android:screenOrientation="portrait"/>
 
         <!--订单列表的activity-->
-        <activity android:name=".activity.gou_wu.DingDanListActivity"/>
+        <activity android:name=".activity.gou_wu.DingDanListActivity"
+            android:screenOrientation="portrait"/>
 
         <!--订单详情的activity-->
-        <activity android:name=".activity.gou_wu.DingDanDetailActivity"/>
+        <activity android:name=".activity.gou_wu.DingDanDetailActivity"
+            android:screenOrientation="portrait"/>
 
         <!--个人中心的activity-->
-        <activity android:name=".activity.personal_center.PersonalCenterActivity"/>
+        <activity android:name=".activity.personal_center.PersonalCenterActivity"
+            android:screenOrientation="portrait"/>
 
         <!--资料设置的activity-->
-        <activity android:name=".activity.personal_center.data_set.DataSetActivity"/>
+        <activity android:name=".activity.personal_center.data_set.DataSetActivity"
+            android:screenOrientation="portrait"/>
 
         <!--性别选择的activity-->
-        <activity android:name=".activity.personal_center.data_set.SexSelectActivity"/>
+        <activity android:name=".activity.personal_center.data_set.SexSelectActivity"
+            android:screenOrientation="portrait"/>
 
         <!--修改邮箱的activity-->
-        <activity android:name=".activity.personal_center.data_set.ChangeEmailActivity"/>
+        <activity android:name=".activity.personal_center.data_set.ChangeEmailActivity"
+            android:screenOrientation="portrait"/>
 
         <!--修改手机的activity-->
-        <activity android:name=".activity.personal_center.data_set.ChangePhoneActivity"/>
+        <activity android:name=".activity.personal_center.data_set.ChangePhoneActivity"
+            android:screenOrientation="portrait"/>
 
         <!--个人中心修改密码的activity-->
-        <activity android:name=".activity.personal_center.data_set.ChangPasswordPersonalCenterActivity"/>
+        <activity android:name=".activity.personal_center.data_set.ChangPasswordPersonalCenterActivity"
+            android:screenOrientation="portrait"/>
 
         <!--编辑收获地址列表的activity-->
-        <activity android:name=".activity.personal_center.data_set.EditShipAddressActivity"/>
+        <activity android:name=".activity.personal_center.data_set.EditShipAddressActivity"
+            android:screenOrientation="portrait"/>
 
         <!--更新收货地址的activity-->
-        <activity android:name=".activity.personal_center.data_set.UpdateShipAddressActivity"/>
+        <activity android:name=".activity.personal_center.data_set.UpdateShipAddressActivity"
+            android:screenOrientation="portrait"/>
 
         <!--收藏列表的activity-->
-        <activity android:name=".activity.personal_center.ShouCangListActivity"/>
+        <activity android:name=".activity.personal_center.ShouCangListActivity"
+            android:screenOrientation="portrait"/>
 
         <!--关注列表的activity-->
-        <activity android:name=".activity.personal_center.GuanZhuListActivity"/>
+        <activity android:name=".activity.personal_center.GuanZhuListActivity"
+            android:screenOrientation="portrait"/>
 
         <!--资金管理的activity-->
-        <activity android:name=".activity.personal_center.fund_manager.FundManagerActivity"/>
+        <activity android:name=".activity.personal_center.fund_manager.FundManagerActivity"
+            android:screenOrientation="portrait"/>
 
         <!--充值的activity-->
-        <activity android:name=".activity.personal_center.fund_manager.ChongZhiActivity"/>
+        <activity android:name=".activity.personal_center.fund_manager.ChongZhiActivity"
+            android:screenOrientation="portrait"/>
 
         <!--提现的activity-->
-        <activity android:name=".activity.personal_center.fund_manager.TiXianActivity"/>
+        <activity android:name=".activity.personal_center.fund_manager.TiXianActivity"
+            android:screenOrientation="portrait"/>
 
         <!--红包列表的activity-->
-        <activity android:name=".activity.personal_center.fund_manager.HongBaoListActivity"/>
+        <activity android:name=".activity.personal_center.fund_manager.HongBaoListActivity"
+            android:screenOrientation="portrait"/>
 
         <!--添加红包的activity-->
-        <activity android:name=".activity.personal_center.fund_manager.AddHongBaoActivity"/>
+        <activity android:name=".activity.personal_center.fund_manager.AddHongBaoActivity"
+            android:screenOrientation="portrait"/>
 
         <!--银行卡列表的activity-->
-        <activity android:name=".activity.personal_center.fund_manager.BankCardListActivity"/>
+        <activity android:name=".activity.personal_center.fund_manager.BankCardListActivity"
+            android:screenOrientation="portrait"/>
 
         <!--添加银行卡的activity-->
-        <activity android:name=".activity.personal_center.fund_manager.AddBankCardActivity"/>
+        <activity android:name=".activity.personal_center.fund_manager.AddBankCardActivity"
+            android:screenOrientation="portrait"/>
 
         <!--账户明细的activity-->
-        <activity android:name=".activity.personal_center.fund_manager.AccountDetailActivity"/>
+        <activity android:name=".activity.personal_center.fund_manager.AccountDetailActivity"
+            android:screenOrientation="portrait"/>
 
         <!--申请记录的activity-->
-        <activity android:name=".activity.personal_center.fund_manager.ShenQingJiLuActivity"/>
+        <activity android:name=".activity.personal_center.fund_manager.ShenQingJiLuActivity"
+            android:screenOrientation="portrait"/>
 
         <!--申请记录详情的activity-->
-        <activity android:name=".activity.personal_center.fund_manager.ShenQingJiLuDetailActivity"/>
+        <activity android:name=".activity.personal_center.fund_manager.ShenQingJiLuDetailActivity"
+            android:screenOrientation="portrait"/>
 
         <!--搜索的actiity-->
         <activity android:name=".activity.search.SearchActivity"
-            android:launchMode="singleTask"/>
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"/>
 
         <!--商品搜索结果展示的activity-->
-        <activity android:name=".activity.search.GoodSearchResultActivity"/>
+        <activity android:name=".activity.search.GoodSearchResultActivity"
+            android:screenOrientation="portrait"/>
 
         <!--店铺搜索结果的展示页-->
-        <activity android:name=".activity.search.ShopSearchResultActivity"/>
+        <activity android:name=".activity.search.ShopSearchResultActivity"
+            android:screenOrientation="portrait"/>
 
         <!--限时秒杀更多的activity-->
-        <activity android:name=".activity.more.XianShiMiaoShaMoreActivity"/>
+        <activity android:name=".activity.more.XianShiMiaoShaMoreActivity"
+            android:screenOrientation="portrait"/>
 
         <!--精品推荐的activity-->
-        <activity android:name=".activity.more.JingPinTuiJianMoreActivity"/>
+        <activity android:name=".activity.more.JingPinTuiJianMoreActivity"
+            android:screenOrientation="portrait"/>
 
         <!--扫描结果的activity-->
-        <activity android:name=".activity.sao_maio.SaoMiaoResultActivity"/>
+        <activity android:name=".activity.sao_maio.SaoMiaoResultActivity"
+            android:screenOrientation="portrait"/>
 
         <!--扫描页所在的activity-->
-        <activity android:name=".activity.MipcaActivityCapture"/>
+        <activity android:name=".activity.MipcaActivityCapture"
+            android:screenOrientation="portrait"/>
 
 
 
