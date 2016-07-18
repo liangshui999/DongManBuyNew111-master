@@ -1,5 +1,6 @@
 package com.example.asus_cp.dongmanbuy.adapter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -63,7 +64,6 @@ public class ShopStreetShopListAdapter extends BaseAdapter {
 
     public ShopStreetShopListAdapter(Context context, List<ShopModel> shopModels) {
         this.context = context;
-        mainActivity= (MainActivity) context;
         this.shopModels = shopModels;
         inflater=LayoutInflater.from(context);
         helper=new ImageLoadHelper();
@@ -274,7 +274,7 @@ public class ShopStreetShopListAdapter extends BaseAdapter {
                     context.startActivity(intent);
                 }
             });
-            mainActivity.menu.addIgnoredView(viewHolder.shopContentRecyClView);
+            //mainActivity.menu.addIgnoredView(viewHolder.shopContentRecyClView);
         }else{
             viewHolder.shopContentRecyClView.setVisibility(View.GONE);
         }

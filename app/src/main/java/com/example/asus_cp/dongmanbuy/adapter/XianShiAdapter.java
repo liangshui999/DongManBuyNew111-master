@@ -64,8 +64,8 @@ public class XianShiAdapter extends BaseAdapter{
         }else{
             viewHolder= (ViewHolder) v.getTag();
         }
-        ImageLoader.ImageListener imageListener=ImageLoader.getImageListener(viewHolder.imageView,R.mipmap.ic_launcher,
-                R.mipmap.ic_launcher);
+        ImageLoader.ImageListener imageListener=ImageLoader.getImageListener(viewHolder.imageView,R.mipmap.yu_jia_zai,
+                R.mipmap.yu_jia_zai);
         imageLoader.get(goods.get(position).getGoodsThumb(), imageListener, 320, 320);
         viewHolder.nameTextView.setText(goods.get(position).getGoodName());
         viewHolder.shopPriceTextView.setText(goods.get(position).getShopPrice());

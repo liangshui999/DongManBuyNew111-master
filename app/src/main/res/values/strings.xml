@@ -218,8 +218,8 @@
     <string name="yu_e_zhi_fu_successed">余额支付成功</string>
     <string name="all_ding_dan">全部订单</string>
     <string name="dai_fu_kuan">待付款</string>
-    <string name="dai_shou_huo">代收货</string>
-    <string name="dai_ping_jia">代评价</string>
+    <string name="dai_shou_huo">待收货</string>
+    <string name="dai_ping_jia">待评价</string>
     <string name="zhou_mo_zi_ying">周末自营</string>
     <string name="product_jin_e">商品金额</string>
     <string name="product_you_hui">商品优惠</string>

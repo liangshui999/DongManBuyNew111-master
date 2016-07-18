@@ -86,7 +86,6 @@ public class XianShiMiaoShaMoreActivity extends Activity implements View.OnClick
     public static final int BIG_LIST_VIEW_FLAG = 4;
     public static final int SMALL_LIST_VIEW_FLAG = 5;
 
-    private List<Good> goods;//
     private String shopId;//店铺id
 
     private int zongHeFlag;//综合标签点击次数的标记
@@ -157,10 +156,31 @@ public class XianShiMiaoShaMoreActivity extends Activity implements View.OnClick
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 //Toast.makeText(ShopProdcutSortActivity.this,"点击了"+position,Toast.LENGTH_SHORT).show();
                 Intent gridIntent = new Intent(XianShiMiaoShaMoreActivity.this, ProductDetailActivity.class);
-                gridIntent.putExtra(MyConstant.GOOD_KEY, goods.get(position));
+                gridIntent.putExtra(MyConstant.GOOD_KEY, gridGoods.get(position));
                 startActivity(gridIntent);
             }
         });
+
+        productListViewSmall.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                //Toast.makeText(XianShiMiaoShaMoreActivity.this,"点击了"+position,Toast.LENGTH_SHORT).show();
+                Intent smallIntent = new Intent(XianShiMiaoShaMoreActivity.this, ProductDetailActivity.class);
+                smallIntent.putExtra(MyConstant.GOOD_KEY, smallListGoods.get(position-1));
+                startActivity(smallIntent);
+            }
+        });
+
+        productListViewBig.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                //Toast.makeText(XianShiMiaoShaMoreActivity.this,"点击了"+position,Toast.LENGTH_SHORT).show();
+                Intent bigIntent = new Intent(XianShiMiaoShaMoreActivity.this, ProductDetailActivity.class);
+                bigIntent.putExtra(MyConstant.GOOD_KEY, bigListGoods.get(position-1));
+                startActivity(bigIntent);
+            }
+        });
+
 
         //初始化界面的显示,由于接口，只能初始化的时候，显示限时秒杀的商品,之后再跳转就是全部的商品了
         //getDataFromIntenet(GRID_VIEW_FLAG, searchContent, "id_asc", "1", LOAD_COUNT_ONCE_STR);
@@ -285,15 +305,6 @@ public class XianShiMiaoShaMoreActivity extends Activity implements View.OnClick
                                     productGridView.onRefreshComplete();
                                 }
 
-                                productGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                                    @Override
-                                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                                        //Toast.makeText(ShopProdcutSortActivity.this,"点击了"+position,Toast.LENGTH_SHORT).show();
-                                        Intent gridIntent = new Intent(XianShiMiaoShaMoreActivity.this, ProductDetailActivity.class);
-                                        gridIntent.putExtra(MyConstant.GOOD_KEY, gridGoods.get(position));
-                                        startActivity(gridIntent);
-                                    }
-                                });
                                 break;
                             case SMALL_LIST_VIEW_FLAG:
                                 MyLog.d(tag, "小列表");
@@ -305,16 +316,6 @@ public class XianShiMiaoShaMoreActivity extends Activity implements View.OnClick
                                     Toast.makeText(XianShiMiaoShaMoreActivity.this,"已经是最后一项了",Toast.LENGTH_SHORT).show();
                                     productListViewSmall.onRefreshComplete();
                                 }
-
-                                productListViewSmall.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                                    @Override
-                                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                                        //Toast.makeText(ShopProdcutSortActivity.this,"点击了"+position,Toast.LENGTH_SHORT).show();
-                                        Intent smallIntent = new Intent(XianShiMiaoShaMoreActivity.this, ProductDetailActivity.class);
-                                        smallIntent.putExtra(MyConstant.GOOD_KEY, smallListGoods.get(position));
-                                        startActivity(smallIntent);
-                                    }
-                                });
                                 break;
                             case BIG_LIST_VIEW_FLAG:
                                 MyLog.d(tag, "大列表");
@@ -326,16 +327,6 @@ public class XianShiMiaoShaMoreActivity extends Activity implements View.OnClick
                                     Toast.makeText(XianShiMiaoShaMoreActivity.this,"已经是最后一项了",Toast.LENGTH_SHORT).show();
                                     productListViewBig.onRefreshComplete();
                                 }
-
-                                productListViewBig.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                                    @Override
-                                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                                        //Toast.makeText(ShopProdcutSortActivity.this,"点击了"+position,Toast.LENGTH_SHORT).show();
-                                        Intent bigIntent = new Intent(XianShiMiaoShaMoreActivity.this, ProductDetailActivity.class);
-                                        bigIntent.putExtra(MyConstant.GOOD_KEY, bigListGoods.get(position));
-                                        startActivity(bigIntent);
-                                    }
-                                });
                                 break;
                         }
                     }
