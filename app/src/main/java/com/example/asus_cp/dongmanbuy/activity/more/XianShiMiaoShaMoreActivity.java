@@ -22,6 +22,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.example.asus_cp.dongmanbuy.R;
 import com.example.asus_cp.dongmanbuy.activity.product_detail.ProductDetailActivity;
+import com.example.asus_cp.dongmanbuy.activity.search.SearchActivity;
 import com.example.asus_cp.dongmanbuy.adapter.ShopProductBigListAdapter;
 import com.example.asus_cp.dongmanbuy.adapter.ShopProductGridAdapter;
 import com.example.asus_cp.dongmanbuy.adapter.ShopProductSmallListAdapter;
@@ -392,7 +393,8 @@ public class XianShiMiaoShaMoreActivity extends Activity implements View.OnClick
                 finish();
                 break;
             case R.id.img_search_xian_shi_miao_sha_more://搜索按钮
-                Toast.makeText(this, "点击了按钮", Toast.LENGTH_SHORT).show();
+                Intent searchIntent=new Intent(this, SearchActivity.class);
+                startActivity(searchIntent);
                 break;
             case R.id.ll_zong_he_sort_xian_shi_miao_sha_more://综合
                 zongHeClickChuLi();

@@ -51,6 +51,7 @@ public interface MyConstant {
     public static final String YU_MING="http://www.zmobuy.com";//网站的域名
     public static final String MAIN_ACTIVITY_LABLE_FALG_KEY="MAINactivityflag";//决定mainactivity切换到那个界面的标记
     public static final String SHOPPING_CAR_FLAG_KEY="shoppingCarFlagKey";//购物车的标记
+    public static final String SHOPPING_STRRET_FLAG_KEY="shoppingStrret";//店铺街的标记
     public static final String USER_NAME="userName";//用户名
     public static final String PASS_WORD="password";//密码
     public static final String GOOD_TYPE_KEY="goodTypeKey";//商品类型

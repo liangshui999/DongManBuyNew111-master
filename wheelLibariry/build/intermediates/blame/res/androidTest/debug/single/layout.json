@@ -40,11 +40,11 @@
         "source": "D:\\Android\\DongManBuyNew111-master\\DongManBuyNew-master\\wheelLibariry\\build\\intermediates\\bundles\\debug\\res\\layout\\wheel_text_item.xml"
     },
     {
-        "merged": "D:\\Android\\DongManBuyNew111-master\\DongManBuyNew-master\\wheelLibariry\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout\\time2_day.xml",
-        "source": "D:\\Android\\DongManBuyNew111-master\\DongManBuyNew-master\\wheelLibariry\\build\\intermediates\\bundles\\debug\\res\\layout\\time2_day.xml"
-    },
-    {
         "merged": "D:\\Android\\DongManBuyNew111-master\\DongManBuyNew-master\\wheelLibariry\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout\\speed1_layout.xml",
         "source": "D:\\Android\\DongManBuyNew111-master\\DongManBuyNew-master\\wheelLibariry\\build\\intermediates\\bundles\\debug\\res\\layout\\speed1_layout.xml"
+    },
+    {
+        "merged": "D:\\Android\\DongManBuyNew111-master\\DongManBuyNew-master\\wheelLibariry\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout\\time2_day.xml",
+        "source": "D:\\Android\\DongManBuyNew111-master\\DongManBuyNew-master\\wheelLibariry\\build\\intermediates\\bundles\\debug\\res\\layout\\time2_day.xml"
     }
 ]

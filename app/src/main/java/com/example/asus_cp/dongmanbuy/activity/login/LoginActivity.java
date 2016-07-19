@@ -193,6 +193,8 @@ public class LoginActivity extends Activity implements View.OnClickListener{
                             writeToSharePreferences(zhangHao, MyConstant.USER_NAME);
                             writeToSharePreferences(password, MyConstant.PASS_WORD);
                             if(whoStartMe.equals("shouCang")){//说明是从收藏跳转过来的
+                                Intent shouCangIntent=new Intent();
+                                setResult(RESULT_OK,shouCangIntent);
                                 finish();
                             }else if("queHuo".equals(whoStartMe)){//因为缺货从加入购物车跳转过来的
                                 Intent intent=new Intent(LoginActivity.this, QueHuoDengJiActivity.class);

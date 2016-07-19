@@ -11,6 +11,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -35,9 +36,11 @@ import com.example.asus_cp.dongmanbuy.util.JsonHelper;
 import com.example.asus_cp.dongmanbuy.util.MyApplication;
 import com.example.asus_cp.dongmanbuy.util.MyLog;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -58,12 +61,15 @@ public class ShopStreetShopListAdapter extends BaseAdapter {
 
     private String guanZhuUrl="http://www.zmobuy.com/PHP/?url=/store/addcollect";//关注的接口
 
+    private String guanZhuListUrl="http://www.zmobuy.com/PHP/?url=/user/storelist";//获取关注列表的数据
+
     private RequestQueue requestQueue;
 
     private MainActivity mainActivity;
 
-    public ShopStreetShopListAdapter(Context context, List<ShopModel> shopModels) {
+    public ShopStreetShopListAdapter(Activity context, List<ShopModel> shopModels) {
         this.context = context;
+        mainActivity= (MainActivity) context;
         this.shopModels = shopModels;
         inflater=LayoutInflater.from(context);
         helper=new ImageLoadHelper();
@@ -160,7 +166,68 @@ public class ShopStreetShopListAdapter extends BaseAdapter {
         };
         requestQueue.add(stringRequest);
 
+        //给关注textview设置初始颜色和背景
+        setGuanZhuTextViewFirstValue(viewHolder.guanZhuTextView,shopModel);
 
+        //关注的点击事件
+        guanZhuClickChuLi(viewHolder, shopModel, finalViewHolder);
+
+        viewHolder.shopNameTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //Toast.makeText(context, "点击了店铺名称", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(context, ShopHomeActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent.putExtra(MyConstant.SHOP_USER_ID_KEY, shopModel.getUserId());
+                context.startActivity(intent);
+            }
+        });
+        viewHolder.logoImagView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //Toast.makeText(context, "点击了店铺logo", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(context, ShopHomeActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent.putExtra(MyConstant.SHOP_USER_ID_KEY, shopModel.getUserId());
+                context.startActivity(intent);
+            }
+        });
+
+        if(shopModel.getGoods()!=null){
+            viewHolder.shopContentRecyClView.setVisibility(View.VISIBLE);
+            //店铺的商品内容展示
+            ShopStreetShopContentAdapter adapter=new ShopStreetShopContentAdapter(context,shopModel.getGoods());
+            //设置布局管理器
+            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context);
+            linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+            viewHolder.shopContentRecyClView.setLayoutManager(linearLayoutManager);
+            //设置适配器
+            viewHolder.shopContentRecyClView.setAdapter(adapter);
+            adapter.setOnItemClickLitener(new ShopStreetShopContentAdapter.OnItemClickLitener() {
+                @Override
+                public void onItemClick(View view, int position) {
+                    //Toast.makeText(context,"点击的位置是"+position,Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(context, ProductDetailActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    intent.putExtra(MyConstant.GOOD_KEY, shopModel.getGoods().get(position));
+                    context.startActivity(intent);
+                }
+            });
+            mainActivity.menu.addIgnoredView(viewHolder.shopContentRecyClView);
+        }else{
+            viewHolder.shopContentRecyClView.setVisibility(View.GONE);
+        }
+        return v;
+    }
+
+
+    /**
+     * 关注的点击事件处理
+     * @param viewHolder
+     * @param shopModel
+     * @param finalViewHolder
+     */
+    private void guanZhuClickChuLi(ViewHolder viewHolder, final ShopModel shopModel, final ViewHolder finalViewHolder) {
         //关注的点击事件
         viewHolder.guanZhuTextView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -175,19 +242,23 @@ public class ShopStreetShopListAdapter extends BaseAdapter {
                             new Response.Listener<String>() {
                                 @Override
                                 public void onResponse(String s) {
-                                    MyLog.d(tag,"关注接口返回的数据"+s);
+                                    MyLog.d(tag, "关注接口返回的数据" + s);
                                     try {
                                         JSONObject jsonObject=new JSONObject(s);
                                         JSONObject jsonObject1=jsonObject.getJSONObject("data");
                                         String erroeDesc= JsonHelper.decodeUnicode(jsonObject1.getString("error_desc"));
                                         if("已关注".equals(erroeDesc)){
-                                            Toast.makeText(context,"关注成功",Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(context, "关注成功", Toast.LENGTH_SHORT).show();
                                             finalViewHolder.guanZhuTextView.setTextColor(context.getResources().getColor(R.color.white_my));
                                             finalViewHolder.guanZhuTextView.setBackgroundResource(R.drawable.guan_zhu_successed_background);
+                                            int guanZhuRenShu=Integer.parseInt(shopModel.getGazeNumber());
+                                            finalViewHolder.guanZhuRenShuTextView.setText("已经有"+(1+guanZhuRenShu)+"人关注");
                                         }else if("已取消关注".equals(erroeDesc)){
                                             Toast.makeText(context,"取消关注成功",Toast.LENGTH_SHORT).show();
                                             finalViewHolder.guanZhuTextView.setTextColor(context.getResources().getColor(R.color.bottom_lable_color));
                                             finalViewHolder.guanZhuTextView.setBackgroundResource(R.drawable.guan_zhu_background);
+                                            int guanZhuRenShu=Integer.parseInt(shopModel.getGazeNumber());
+                                            finalViewHolder.guanZhuRenShuTextView.setText( "已经有"+(guanZhuRenShu-1) + "人关注");
                                         }
                                     } catch (JSONException e) {
                                         e.printStackTrace();
@@ -230,55 +301,104 @@ public class ShopStreetShopListAdapter extends BaseAdapter {
                     loginDialog=builder.show();
                     loginDialog.show();
                 }
+            }
+        });
+    }
 
-            }
-        });
-        viewHolder.shopNameTextView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //Toast.makeText(context, "点击了店铺名称", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(context, ShopHomeActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                intent.putExtra(MyConstant.SHOP_USER_ID_KEY, shopModel.getUserId());
-                context.startActivity(intent);
-            }
-        });
-        viewHolder.logoImagView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //Toast.makeText(context, "点击了店铺logo", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(context, ShopHomeActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                intent.putExtra(MyConstant.SHOP_USER_ID_KEY, shopModel.getUserId());
-                context.startActivity(intent);
-            }
-        });
 
-        if(shopModel.getGoods()!=null){
-            viewHolder.shopContentRecyClView.setVisibility(View.VISIBLE);
-            //店铺的商品内容展示
-            ShopStreetShopContentAdapter adapter=new ShopStreetShopContentAdapter(context,shopModel.getGoods());
-            //设置布局管理器
-            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context);
-            linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
-            viewHolder.shopContentRecyClView.setLayoutManager(linearLayoutManager);
-            //设置适配器
-            viewHolder.shopContentRecyClView.setAdapter(adapter);
-            adapter.setOnItemClickLitener(new ShopStreetShopContentAdapter.OnItemClickLitener() {
+    /**
+     * 给关注textview设置初始颜色和背景
+     * @param guanZhuTextView
+     */
+    private void setGuanZhuTextViewFirstValue(final TextView guanZhuTextView, final ShopModel shopModel) {
+        SharedPreferences sharedPreferences=context.getSharedPreferences(MyConstant.USER_SHAREPREFRENCE_NAME, Context.MODE_APPEND);
+        final String uid=sharedPreferences.getString(MyConstant.UID_KEY, null);
+        final String sid=sharedPreferences.getString(MyConstant.SID_KEY,null);
+        if(uid!=null && !uid.isEmpty()){
+            StringRequest getGuanZhuListRequest=new StringRequest(Request.Method.POST, guanZhuListUrl,
+                    new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String s) {
+                            MyLog.d(tag, "返回的数据是：" + s);
+                            try {
+                                JSONObject jsonObject=new JSONObject(s);
+                                JSONObject jsonObject1=jsonObject.getJSONObject("data");
+                                JSONArray jsonArray=jsonObject1.getJSONArray("store_list");
+                                if(jsonArray.length()==0){  //关注列表的长度为空，说明没有关注
+                                    guanZhuTextView.setTextColor(context.getResources().getColor(R.color.bottom_lable_color));
+                                    guanZhuTextView.setBackgroundResource(R.drawable.guan_zhu_background);
+                                }else{
+                                    int count=0;
+                                    for(int i=0;i<jsonArray.length();i++){
+                                        JSONObject ziJsObj=jsonArray.getJSONObject(i);
+                                        String shopId=ziJsObj.getString("shop_id");
+                                        if(shopId.equals(shopModel.getUserId())){   //店铺在店铺列表里面，说明已经关注过了
+                                            guanZhuTextView.setTextColor(context.getResources().getColor(R.color.white_my));
+                                            guanZhuTextView.setBackgroundResource(R.drawable.guan_zhu_successed_background);
+                                            break;
+                                        }
+                                        count++;
+                                    }
+                                    if(count==jsonArray.length()){  //店铺不在店铺列表里面
+                                        guanZhuTextView.setTextColor(context.getResources().getColor(R.color.bottom_lable_color));
+                                        guanZhuTextView.setBackgroundResource(R.drawable.guan_zhu_background);
+                                    }
+                                }
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }, new Response.ErrorListener() {
                 @Override
-                public void onItemClick(View view, int position) {
-                    //Toast.makeText(context,"点击的位置是"+position,Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(context, ProductDetailActivity.class);
-                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    intent.putExtra(MyConstant.GOOD_KEY, shopModel.getGoods().get(position));
-                    context.startActivity(intent);
+                public void onErrorResponse(VolleyError volleyError) {
+
                 }
-            });
-            //mainActivity.menu.addIgnoredView(viewHolder.shopContentRecyClView);
-        }else{
-            viewHolder.shopContentRecyClView.setVisibility(View.GONE);
+            }){
+                @Override
+                protected Map<String, String> getParams() throws AuthFailureError {
+                    Map<String,String> map=new HashMap<String,String>();
+                    String json="{\"session\":{\"uid\":\""+uid+"\",\"sid\":\""+sid+"\"},\"page\":\""+"1"+"\"}";
+                    map.put("json",json);
+                    return map;
+                }
+            };
+            requestQueue.add(getGuanZhuListRequest);
+        }else { //用户没有登陆
+            guanZhuTextView.setTextColor(context.getResources().getColor(R.color.bottom_lable_color));
+            guanZhuTextView.setBackgroundResource(R.drawable.guan_zhu_background);
         }
-        return v;
+
+    }
+
+
+    /**
+     * 解析json数据
+     * @param s
+     * @return
+     */
+    private List<ShopModel> parseJson(String s) {
+        MyLog.d(tag, "返回的数据是：" + s);
+        List<ShopModel> shopModels=new ArrayList<ShopModel>();
+        try {
+            JSONObject jsonObject=new JSONObject(s);
+            JSONObject jsonObject1=jsonObject.getJSONObject("data");
+            JSONArray jsonArray=jsonObject1.getJSONArray("store_list");
+            for(int i=0;i<jsonArray.length();i++){
+                JSONObject ziJsObj=jsonArray.getJSONObject(i);
+                ShopModel shopModel=new ShopModel();
+                shopModel.setUserId(ziJsObj.getString("shop_id"));
+                shopModel.setShopName(JsonHelper.decodeUnicode(ziJsObj.getString("store_name")));
+                shopModel.setShopLogo(ziJsObj.getString("shop_logo"));
+                shopModel.setGazeNumber(ziJsObj.getString("count_store"));
+                shopModel.setBrandThumb(ziJsObj.getString("brand_thumb"));
+                shopModels.add(shopModel);
+            }
+
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return shopModels;
     }
 
     class ViewHolder{

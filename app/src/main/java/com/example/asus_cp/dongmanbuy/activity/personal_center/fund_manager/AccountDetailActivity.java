@@ -3,7 +3,9 @@ package com.example.asus_cp.dongmanbuy.activity.personal_center.fund_manager;
 import android.app.Activity;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.View;
 import android.view.Window;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import com.android.volley.AuthFailureError;
@@ -38,6 +40,7 @@ public class AccountDetailActivity extends Activity{
     private String tag="AccountDetailActivity";
 
     private ListView listView;
+    private LinearLayout noContentLinearLayout;
 
     private String accountDetailUrl="http://www.zmobuy.com/PHP/?url=/user/account_detail";//账户明细的接口
 
@@ -64,14 +67,23 @@ public class AccountDetailActivity extends Activity{
         sid=sharedPreferences.getString(MyConstant.SID_KEY,null);
 
         listView= (ListView) findViewById(R.id.list_view_account_detail);
+        noContentLinearLayout= (LinearLayout) findViewById(R.id.ll_no_content_account_detail);
 
         StringRequest accontDetailRequest=new StringRequest(Request.Method.POST, accountDetailUrl,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String s) {
                         List<DingDanModel> models=parseJson(s);
-                        AccountDetailListAdapter adapter=new AccountDetailListAdapter(AccountDetailActivity.this,models);
-                        listView.setAdapter(adapter);
+                        if(models.size()>0){
+                            noContentLinearLayout.setVisibility(View.GONE);
+                            listView.setVisibility(View.VISIBLE);
+                            AccountDetailListAdapter adapter=new AccountDetailListAdapter(AccountDetailActivity.this,models);
+                            listView.setAdapter(adapter);
+                        }else{
+                            noContentLinearLayout.setVisibility(View.VISIBLE);
+                            listView.setVisibility(View.GONE);
+                        }
+
                     }
                 }, new Response.ErrorListener() {
             @Override

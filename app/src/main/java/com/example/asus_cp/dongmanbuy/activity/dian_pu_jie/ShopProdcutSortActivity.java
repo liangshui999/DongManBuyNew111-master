@@ -170,6 +170,7 @@ public class ShopProdcutSortActivity extends Activity implements View.OnClickLis
 
         zongHeTextView.setTextColor(getResources().getColor(R.color.bottom_lable_color));
         zongHeDownImageView.setImageResource(R.mipmap.down_red_sort);
+        zongHeFlag=1;
 
         productGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -186,7 +187,7 @@ public class ShopProdcutSortActivity extends Activity implements View.OnClickLis
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 //Toast.makeText(ShopProdcutSortActivity.this, "点击了" + position, Toast.LENGTH_SHORT).show();
                 Intent smallIntent = new Intent(ShopProdcutSortActivity.this, ProductDetailActivity.class);
-                smallIntent.putExtra(MyConstant.GOOD_KEY, smallListGoods.get(position));
+                smallIntent.putExtra(MyConstant.GOOD_KEY, smallListGoods.get(position-1));
                 startActivity(smallIntent);
             }
         });
@@ -196,7 +197,7 @@ public class ShopProdcutSortActivity extends Activity implements View.OnClickLis
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 //Toast.makeText(ShopProdcutSortActivity.this, "点击了" + position, Toast.LENGTH_SHORT).show();
                 Intent bigIntent = new Intent(ShopProdcutSortActivity.this, ProductDetailActivity.class);
-                bigIntent.putExtra(MyConstant.GOOD_KEY, bigListGoods.get(position));
+                bigIntent.putExtra(MyConstant.GOOD_KEY, bigListGoods.get(position-1));
                 startActivity(bigIntent);
             }
         });
@@ -246,7 +247,7 @@ public class ShopProdcutSortActivity extends Activity implements View.OnClickLis
                         List<Good> goods = parseJson(s);
                         temp.clear();
                         MyLog.d(tag, "商品数量是：" + goods.size());
-                        if(goods.size()<=0 && loadCount==2){
+                        if(goods.size()<=0 && loadCount==2){    //没有商品的情况
                             productGridView.setVisibility(View.GONE);
                             productListViewBig.setVisibility(View.GONE);
                             productListViewSmall.setVisibility(View.GONE);
@@ -258,6 +259,9 @@ public class ShopProdcutSortActivity extends Activity implements View.OnClickLis
                             noContentLinearLayout.setVisibility(View.GONE);
                             switch (flag) {
                                 case GRID_VIEW_FLAG:
+                                    productGridView.setVisibility(View.VISIBLE);
+                                    productListViewBig.setVisibility(View.GONE);
+                                    productListViewSmall.setVisibility(View.GONE);
                                     MyLog.d(tag, "网格");
                                     int gridCount=0;
                                     if(gridGoods.size()>0){
@@ -278,7 +282,7 @@ public class ShopProdcutSortActivity extends Activity implements View.OnClickLis
                                         gridGoods.addAll(temp);
                                         gridAdapter.notifyDataSetChanged();
                                         productGridView.onRefreshComplete();
-                                    }else{
+                                    }else{  //说明是第一次添加
                                         gridGoods.addAll(goods);
                                         gridAdapter.notifyDataSetChanged();
                                         productGridView.onRefreshComplete();
@@ -286,6 +290,9 @@ public class ShopProdcutSortActivity extends Activity implements View.OnClickLis
 
                                     break;
                                 case SMALL_LIST_VIEW_FLAG:
+                                    productGridView.setVisibility(View.GONE);
+                                    productListViewBig.setVisibility(View.GONE);
+                                    productListViewSmall.setVisibility(View.VISIBLE);
                                     MyLog.d(tag, "小列表");
                                     int smallCount=0;
                                     if(smallListGoods.size()>0){
@@ -303,6 +310,7 @@ public class ShopProdcutSortActivity extends Activity implements View.OnClickLis
                                                 temp.add(goods.get(i));
                                             }
                                         }
+                                        MyLog.d(tag,"商品列表的数量是："+smallListGoods.size());
                                         smallListGoods.addAll(temp);
                                         smallListAdapter.notifyDataSetChanged();
                                         productListViewSmall.onRefreshComplete();
@@ -314,6 +322,9 @@ public class ShopProdcutSortActivity extends Activity implements View.OnClickLis
 
                                     break;
                                 case BIG_LIST_VIEW_FLAG:
+                                    productGridView.setVisibility(View.GONE);
+                                    productListViewBig.setVisibility(View.VISIBLE);
+                                    productListViewSmall.setVisibility(View.GONE);
                                     MyLog.d(tag, "大列表");
                                     int bigCount=0;
                                     if(bigListGoods.size()>0){
@@ -385,8 +396,8 @@ public class ShopProdcutSortActivity extends Activity implements View.OnClickLis
                 good.setMarket_price(JsonHelper.decodeUnicode(ziJsonObj.getString("market_price")));
                 good.setShopPrice(JsonHelper.decodeUnicode(ziJsonObj.getString("shop_price")));
                 good.setGoodsThumb(ziJsonObj.getString("goods_thumb"));
-                good.setGoodsImg(ziJsonObj.getString("original_img"));
-                good.setGoodsSmallImag(ziJsonObj.getString("goods_img"));
+                good.setGoodsImg(ziJsonObj.getString("goods_img"));
+                good.setGoodsSmallImag(ziJsonObj.getString("original_img"));
                 goods.add(good);
             }
         } catch (JSONException e) {
@@ -463,7 +474,8 @@ public class ShopProdcutSortActivity extends Activity implements View.OnClickLis
             productListViewBig.setVisibility(View.GONE);
             productGridView.setVisibility(View.VISIBLE);
 
-            if (zongHeTextView.getCurrentTextColor() == getResources().getColor(R.color.bottom_lable_color)//综合红色向下
+            gridAdapter.notifyDataSetChanged();
+            /*if (zongHeTextView.getCurrentTextColor() == getResources().getColor(R.color.bottom_lable_color)//综合红色向下
                     && zongHeFlag % 2 == 0) {
                 gridAdapter.notifyDataSetChanged();
 
@@ -488,7 +500,7 @@ public class ShopProdcutSortActivity extends Activity implements View.OnClickLis
             } else if (xiaoLiangTextView.getCurrentTextColor() == getResources().getColor(R.color.bottom_lable_color)) {//销量红色
 
                 gridAdapter.notifyDataSetChanged();
-            }
+            }*/
 
 
         } else if (count % 3 == LIST_SMALL) {
@@ -497,7 +509,11 @@ public class ShopProdcutSortActivity extends Activity implements View.OnClickLis
             productListViewBig.setVisibility(View.GONE);
             productListViewSmall.setVisibility(View.VISIBLE);
 
-            if (zongHeTextView.getCurrentTextColor() == getResources().getColor(R.color.bottom_lable_color)//综合红色向下
+            smallListGoods.clear();
+            smallListGoods.addAll(gridGoods);
+            smallListAdapter.notifyDataSetChanged();
+
+            /*if (zongHeTextView.getCurrentTextColor() == getResources().getColor(R.color.bottom_lable_color)//综合红色向下
                     && zongHeFlag % 2 == 0) {
                 smallListGoods.clear();
                 smallListGoods.addAll(gridGoods);
@@ -530,7 +546,7 @@ public class ShopProdcutSortActivity extends Activity implements View.OnClickLis
                 smallListGoods.clear();
                 smallListGoods.addAll(gridGoods);
                 smallListAdapter.notifyDataSetChanged();
-            }
+            }*/
 
 
         } else if (count % 3 == LIST_BIG) {
@@ -539,7 +555,11 @@ public class ShopProdcutSortActivity extends Activity implements View.OnClickLis
             productListViewSmall.setVisibility(View.GONE);
             productListViewBig.setVisibility(View.VISIBLE);
 
-            if (zongHeTextView.getCurrentTextColor() == getResources().getColor(R.color.bottom_lable_color)//综合红色向下
+            bigListGoods.clear();
+            bigListGoods.addAll(gridGoods);
+            bigListAdapter.notifyDataSetChanged();
+
+            /*if (zongHeTextView.getCurrentTextColor() == getResources().getColor(R.color.bottom_lable_color)//综合红色向下
                     && zongHeFlag % 2 == 0) {
                 bigListGoods.clear();
                 bigListGoods.addAll(gridGoods);
@@ -572,7 +592,7 @@ public class ShopProdcutSortActivity extends Activity implements View.OnClickLis
                 bigListGoods.clear();
                 bigListGoods.addAll(gridGoods);
                 bigListAdapter.notifyDataSetChanged();
-            }
+            }*/
 
         }
     }
@@ -582,6 +602,7 @@ public class ShopProdcutSortActivity extends Activity implements View.OnClickLis
      * 价格的点击事件处理
      */
     private void priceClickChuLi() {
+        zongHeFlag=0;
         reset();
         priceTextView.setTextColor(getResources().getColor(R.color.bottom_lable_color));
         if (priceFlag % 2 == 0) {
@@ -618,6 +639,8 @@ public class ShopProdcutSortActivity extends Activity implements View.OnClickLis
      */
     private void xiaoLiangClickChuLi() {
         reset();
+        zongHeFlag=0;
+        priceFlag=0;
         xiaoLiangTextView.setTextColor(getResources().getColor(R.color.bottom_lable_color));
         if (count % 3 == KA_PIAN) {
             gridGoods.clear();
@@ -637,6 +660,8 @@ public class ShopProdcutSortActivity extends Activity implements View.OnClickLis
      */
     private void XinPinClickChuLi() {
         reset();
+        zongHeFlag=0;
+        priceFlag=0;
         xinPinTextView.setTextColor(getResources().getColor(R.color.bottom_lable_color));
         if (count % 3 == KA_PIAN) {
             gridGoods.clear();
@@ -656,6 +681,7 @@ public class ShopProdcutSortActivity extends Activity implements View.OnClickLis
      */
     private void zongHeClickChuLi() {
         reset();
+        priceFlag=0;
         zongHeTextView.setTextColor(getResources().getColor(R.color.bottom_lable_color));
         if (zongHeFlag % 2 == 0) {
             zongHeDownImageView.setImageResource(R.mipmap.down_red_sort);
@@ -727,10 +753,12 @@ public class ShopProdcutSortActivity extends Activity implements View.OnClickLis
                 refreshView.getLoadingLayoutProxy().setPullLabel("上拉可以加载");
                 refreshView.getLoadingLayoutProxy().setReleaseLabel("释放刷新");
 
+                MyLog.d(tag,"count="+count);
                 if (count % 3 == KA_PIAN) {
                     if (zongHeTextView.getCurrentTextColor() == getResources().getColor(R.color.bottom_lable_color)//综合红色向下
                             && zongHeFlag % 2 == 1) {
                         getDataFromIntenet(GRID_VIEW_FLAG, searchContent, GOOD_ID_DESC, loadCount + "", LOAD_COUNT_ONCE_STR);
+                        MyLog.d(tag,"执行了卡片");
 
                     } else if (zongHeTextView.getCurrentTextColor() == getResources().getColor(R.color.bottom_lable_color)//综合红色向上
                             && zongHeFlag % 2 == 0) {
@@ -749,6 +777,7 @@ public class ShopProdcutSortActivity extends Activity implements View.OnClickLis
                 } else if (count % 3 == LIST_SMALL) {
                     if (zongHeTextView.getCurrentTextColor() == getResources().getColor(R.color.bottom_lable_color)//综合红色向下
                             && zongHeFlag % 2 == 1) {
+                        MyLog.d(tag,"执行了small");
                         getDataFromIntenet(SMALL_LIST_VIEW_FLAG, searchContent, GOOD_ID_DESC, loadCount  + "",LOAD_COUNT_ONCE_STR);
 
                     } else if (zongHeTextView.getCurrentTextColor() == getResources().getColor(R.color.bottom_lable_color)//综合红色向上
@@ -768,6 +797,7 @@ public class ShopProdcutSortActivity extends Activity implements View.OnClickLis
                 } else if (count % 3 == LIST_BIG) {
                     if (zongHeTextView.getCurrentTextColor() == getResources().getColor(R.color.bottom_lable_color)//综合红色向下
                             && zongHeFlag % 2 == 1) {
+                        MyLog.d(tag,"执行了big");
                         getDataFromIntenet(BIG_LIST_VIEW_FLAG, searchContent, GOOD_ID_DESC, loadCount+ "", LOAD_COUNT_ONCE_STR);
 
                     } else if (zongHeTextView.getCurrentTextColor() == getResources().getColor(R.color.bottom_lable_color)//综合红色向上

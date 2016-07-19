@@ -42,7 +42,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * 店铺街分类的activity
+ * 店铺街分类的activity,此类作废，被店铺街碎片代替
  * Created by asus-cp on 2016-06-06.
  */
 public class ShopStreetCategoryActvity extends FragmentActivity {
@@ -221,7 +221,7 @@ public class ShopStreetCategoryActvity extends FragmentActivity {
      * @param category 类别的代号，比如书籍是1625
      */
     private void tongYongClickChuLi(final String category, final int position) {
-        StringRequest moWanRequest=new StringRequest(Request.Method.POST, indexUrl, new Response.Listener<String>() {
+       /* StringRequest moWanRequest=new StringRequest(Request.Method.POST, indexUrl, new Response.Listener<String>() {
             @Override
             public void onResponse(String s) {
                 switch (position) {
@@ -301,7 +301,7 @@ public class ShopStreetCategoryActvity extends FragmentActivity {
                 return map;
             }
         };
-        requestQueue.add(moWanRequest);
+        requestQueue.add(moWanRequest);*/
     }
 
     /**

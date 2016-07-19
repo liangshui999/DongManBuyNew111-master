@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
 import android.widget.AdapterView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import com.android.volley.AuthFailureError;
@@ -41,6 +42,7 @@ public class ShenQingJiLuActivity extends Activity{
     private String tag="ShenQingJiLuActivity";
 
     private ListView listView;
+    private LinearLayout noContentLinearLayout;
 
     private String shenQingJiLuUrl="http://www.zmobuy.com/PHP/?url=/user/log";//申请记录列表的接口
 
@@ -69,6 +71,7 @@ public class ShenQingJiLuActivity extends Activity{
         sid=sharedPreferences.getString(MyConstant.SID_KEY,null);
 
         listView= (ListView) findViewById(R.id.list_view_shen_qing_ji_lu);
+        noContentLinearLayout= (LinearLayout) findViewById(R.id.ll_no_content_shen_qing_ji_lu);
         getDataFromIntenet();
 
 
@@ -84,8 +87,15 @@ public class ShenQingJiLuActivity extends Activity{
                     @Override
                     public void onResponse(String s) {
                         final List<ShenQingJiLuModel> models=parseJson(s);
-                        ShenQingJiLuListAdapter adapter=new ShenQingJiLuListAdapter(ShenQingJiLuActivity.this,models);
-                        listView.setAdapter(adapter);
+                        if(models.size()>0){
+                            listView.setVisibility(View.VISIBLE);
+                            noContentLinearLayout.setVisibility(View.GONE);
+                            ShenQingJiLuListAdapter adapter=new ShenQingJiLuListAdapter(ShenQingJiLuActivity.this,models);
+                            listView.setAdapter(adapter);
+                        }else{
+                            listView.setVisibility(View.GONE);
+                            noContentLinearLayout.setVisibility(View.VISIBLE);
+                        }
 
                         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                             @Override

@@ -277,22 +277,17 @@ public class ShopHomeActivity extends Activity implements View.OnClickListener {
                 guanZhuClickChuLi();
                 break;
             case R.id.ll_all_product://全部商品
-                //Toast.makeText(this, "点击了全部商品", Toast.LENGTH_SHORT).show();
-                Intent allIntent=new Intent(this,ShopProdcutSortActivity.class);
-                ArrayList<Good> allgoods= (ArrayList<Good>) shopModel.getGoods();
-                allIntent.putExtra(MyConstant.FROM_SHOP_HOME_TO_SHOP_PRODUCT_SORT_KEY,
-                        allgoods);
-                startActivity(allIntent);
+                toSortActivity("");
                 break;
             case R.id.ll_new_product://新商品
-                Toast.makeText(this, "点击了新商品", Toast.LENGTH_SHORT).show();
+                toSortActivity("is_new");
                 break;
             case R.id.ll_tui_jian_product://推荐商品
-                Toast.makeText(this, "点击了推荐商品", Toast.LENGTH_SHORT).show();
+                toSortActivity("is_promote");
                 break;
             case R.id.text_see_more://查看更多
                 //Toast.makeText(this, "点击了查看更多", Toast.LENGTH_SHORT).show();
-                toSortActivity();
+                toSortActivity("");
                 break;
             case R.id.text_shop_detail://点击了店铺详情
                 //Toast.makeText(this, "点击了店铺详情", Toast.LENGTH_SHORT).show();
@@ -314,11 +309,12 @@ public class ShopHomeActivity extends Activity implements View.OnClickListener {
     /**
      * 跳转到店铺搜索界面
      */
-    public void toSortActivity(){
+    public void toSortActivity(String type){
         Intent toSortActivityIntent=new Intent(this,ShopProdcutSortActivity.class);
         toSortActivityIntent.putExtra(MyConstant.SHOP_USER_ID_KEY,
                 shopModel.getUserId());
         toSortActivityIntent.putExtra(MyConstant.SEARCH_CONTENT_KEY,"");
+        toSortActivityIntent.putExtra(MyConstant.GOOD_TYPE_KEY,type);
         startActivity(toSortActivityIntent);
     }
 

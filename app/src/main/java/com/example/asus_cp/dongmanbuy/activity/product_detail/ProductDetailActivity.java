@@ -37,7 +37,6 @@ import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.StringRequest;
 import com.example.asus_cp.dongmanbuy.R;
 import com.example.asus_cp.dongmanbuy.activity.MainActivity;
-import com.example.asus_cp.dongmanbuy.activity.gou_wu.ShoppingCarActivity;
 import com.example.asus_cp.dongmanbuy.activity.login.LoginActivity;
 import com.example.asus_cp.dongmanbuy.adapter.ProductDetailYouHuiQuanListAdapter;
 import com.example.asus_cp.dongmanbuy.constant.MyConstant;
@@ -156,8 +155,8 @@ public class ProductDetailActivity extends Activity implements View.OnClickListe
 
 
     public static final int REQUEST_CODE_FOR_AREA_ACTIVTY=1;
-    public static final int REQUEST_LOGIN_ACTIVITY=2;//登陆login活动时的返回码
-    private static final int REQUEST_CODE_LOGIN = 3;
+    public static final int REQUEST_SHOU_CANG_LOGIN_ACTIVITY =2;//登陆login活动时的返回码
+    private static final int REQUEST_CODE_SHOPPING_CAR_LOGIN = 3;
 
     private int shouCangYanSeFlag=0;//收藏的颜色的标记，点击一次后变红，再点击变灰
 
@@ -372,6 +371,9 @@ public class ProductDetailActivity extends Activity implements View.OnClickListe
 
         //设置商品库存
         kuCunTextView.setText(good.getGoodsNumber());
+
+        //给收藏按钮设置初值，包括字体的颜色和图形的颜色
+        setFirstValueToShouCang();
     }
 
 
@@ -455,6 +457,73 @@ public class ProductDetailActivity extends Activity implements View.OnClickListe
         addToShoppingCarButton = (Button) findViewById(R.id.btn_add_to_shopping_car);
         buyAtOnceButton = (Button) findViewById(R.id.btn_buy_at_once);
         shoppingCarCountTextView= (TextView) findViewById(R.id.text_gou_wu_che_count);
+
+    }
+
+
+    /**
+     * 给收藏设置初值
+     */
+    public void setFirstValueToShouCang(){
+        SharedPreferences sharedPreferences=getSharedPreferences(MyConstant.USER_SHAREPREFRENCE_NAME,
+                MODE_APPEND);
+        final String uid=sharedPreferences.getString(MyConstant.UID_KEY, null);
+        final String sid=sharedPreferences.getString(MyConstant.SID_KEY,null);
+        if(uid!=null && !uid.isEmpty()){//有值
+            //获取收藏列表
+            StringRequest getListRequest = new StringRequest(Request.Method.POST, getShouCangListUrl,
+                    new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String s) {
+                            MyLog.d(tag, "收藏列表的数据" + s);
+                            try {
+                                String recId = null;
+                                JSONObject jsonObject = new JSONObject(s);
+                                JSONArray  jsonArray = jsonObject.getJSONArray("data");
+                                if(jsonArray.length()==0){
+                                    shouCangImageView.setImageResource(R.mipmap.like);
+                                    shouCangTextView.setTextColor(getResources().getColor(R.color.black));
+                                }else{
+                                    int count=0;
+                                    for (int i = 0; i < jsonArray.length(); i++) {
+                                        JSONObject ziJsonObj = jsonArray.getJSONObject(i);
+                                        String goodIdJ = ziJsonObj.getString("goods_id");
+                                        if (goodIdJ.equals(good.getGoodId())) {   //说明已经收藏
+                                            shouCangImageView.setImageResource(R.mipmap.like_selected);
+                                            shouCangTextView.setTextColor(getResources().getColor(R.color.bottom_lable_color));
+                                            break;
+                                        }
+                                        count++;
+                                    }
+                                    if(count==jsonArray.length()){  //说明没有收藏
+                                        shouCangImageView.setImageResource(R.mipmap.like);
+                                        shouCangTextView.setTextColor(getResources().getColor(R.color.black));
+                                    }
+                                }
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+
+                        }
+                    }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError volleyError) {
+
+                }
+            }) {
+                @Override
+                protected Map<String, String> getParams() throws AuthFailureError {
+                    Map<String, String> map = new HashMap<String, String>();
+                    String json = "{\"session\":{\"uid\":\"" + uid + "\",\"sid\":\"" + sid + "\"},\"pagination\":{\"page\":\"1\",\"count\":\"100\"}}";
+                    map.put("json", json);
+                    return map;
+                }
+            };
+            requestQueue.add(getListRequest);
+        }else{  //没有登陆
+            shouCangImageView.setImageResource(R.mipmap.like);
+            shouCangTextView.setTextColor(getResources().getColor(R.color.black));
+        }
     }
 
     @Override
@@ -596,7 +665,7 @@ public class ProductDetailActivity extends Activity implements View.OnClickListe
         }else {
             Intent toLoginIntent=new Intent(this,LoginActivity.class);
             toLoginIntent.putExtra(MyConstant.START_LOGIN_ACTIVITY_FLAG_KEY,"productDetail");
-            startActivityForResult(toLoginIntent, REQUEST_CODE_LOGIN);
+            startActivityForResult(toLoginIntent, REQUEST_CODE_SHOPPING_CAR_LOGIN);
         }
 
     }
@@ -927,96 +996,55 @@ public class ProductDetailActivity extends Activity implements View.OnClickListe
         final String uid=sharedPreferences.getString(MyConstant.UID_KEY, null);
         final String sid=sharedPreferences.getString(MyConstant.SID_KEY,null);
         if(uid!=null && !uid.isEmpty()){//有值
-            if(shouCangYanSeFlag%2==1){//注意这里为什么是1，因为这里加了2次，本来点就要加一次，登陆之后又加一次
-                shouCangImageView.setImageResource(R.mipmap.like_selected);
-                shouCangTextView.setTextColor(getResources().getColor(R.color.bottom_lable_color));
-                StringRequest addToShouCangRequest=new StringRequest(Request.Method.POST, addToShouCangUrl,
-                        new Response.Listener<String>() {
-                            @Override
-                            public void onResponse(String s) {
-                                MyLog.d(tag, "添加到收藏返回的数据" + s);
-                            }
-                        }, new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError volleyError) {
-
-                    }
-                }){
-                    @Override
-                    protected Map<String, String> getParams() throws AuthFailureError {
-                        Map<String,String> map=new HashMap<String,String>();
-                        String json="{\"session\":{\"uid\":\""+uid+"\",\"sid\":\""+sid+"\"},\"goods_id\":\""+good.getGoodId()+"\"}";
-                        map.put("json",json);
-                        return map;
-                    }
-                };
-                requestQueue.add(addToShouCangRequest);
-            }else{
-                shouCangImageView.setImageResource(R.mipmap.like);
-                shouCangTextView.setTextColor(getResources().getColor(R.color.black));
-
-                //获取收藏列表
-                StringRequest getListRequest=new StringRequest(Request.Method.POST, getShouCangListUrl,
-                        new Response.Listener<String>() {
-                            @Override
-                            public void onResponse(String s) {
-                                MyLog.d(tag,"收藏列表的数据"+s);
-                                try {
-                                    String recId=null;
-                                    JSONObject jsonObject=new JSONObject(s);
-                                    JSONArray jsonArray=jsonObject.getJSONArray("data");
-                                    for(int i=0;i<jsonArray.length();i++){
-                                        JSONObject ziJsonObj=jsonArray.getJSONObject(i);
-                                        String goodIdJ=ziJsonObj.getString("goods_id");
-                                        if(goodIdJ.equals(good.getGoodId())){
-                                            recId=ziJsonObj.getString("rec_id");
+            //获取收藏列表
+            StringRequest getListRequest = new StringRequest(Request.Method.POST, getShouCangListUrl,
+                    new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String s) {
+                            MyLog.d(tag, "收藏列表的数据" + s);
+                            try {
+                                String recId = null;
+                                JSONObject jsonObject = new JSONObject(s);
+                                JSONArray  jsonArray = jsonObject.getJSONArray("data");
+                                if(jsonArray.length()==0){
+                                    addToShouCang(uid, sid);//添加收藏
+                                }else{
+                                    int count=0;
+                                    for (int i = 0; i < jsonArray.length(); i++) {
+                                        JSONObject ziJsonObj = jsonArray.getJSONObject(i);
+                                        String goodIdJ = ziJsonObj.getString("goods_id");
+                                        if (goodIdJ.equals(good.getGoodId())) {   //说明已经收藏了，就取消收藏
+                                            recId = ziJsonObj.getString("rec_id");
+                                            cancelShouCang(recId, uid, sid);
                                             break;
                                         }
+                                        count++;
                                     }
-                                    //取消收藏,取消收藏之前必须先获取列表
-                                    final String finalRecId = recId;
-                                    StringRequest quXiaoShouCangRequest=new StringRequest(Request.Method.POST, quXiaoShouCangUrl,
-                                            new Response.Listener<String>() {
-                                                @Override
-                                                public void onResponse(String s) {
-                                                    MyLog.d(tag,"取消收藏返回的数据"+s);
-                                                }
-                                            }, new Response.ErrorListener() {
-                                        @Override
-                                        public void onErrorResponse(VolleyError volleyError) {
-                                        }
-                                    }){
-                                        @Override
-                                        protected Map<String, String> getParams() throws AuthFailureError {
-                                            Map<String,String> map=new HashMap<String,String>();
-                                            String json="{\"session\":{\"uid\":\""+uid+"\",\"sid\":\""+sid+"\"},\"rec_id\":\""+ finalRecId +"\"}";
-                                            map.put("json",json);
-                                            return map;
-                                        }
-                                    };
-                                    requestQueue.add(quXiaoShouCangRequest);
-
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
+                                    if(count==jsonArray.length()){  //说明没有收藏，应该添加收藏
+                                        addToShouCang(uid, sid);//添加收藏
+                                    }
                                 }
-
+                            } catch (JSONException e) {
+                                e.printStackTrace();
                             }
-                        }, new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError volleyError) {
 
-                    }
-                }){
-                    @Override
-                    protected Map<String, String> getParams() throws AuthFailureError {
-                        Map<String,String> map=new HashMap<String,String>();
-                        String json="{\"session\":{\"uid\":\""+uid+"\",\"sid\":\""+sid+"\"},\"pagination\":{\"page\":\"1\",\"count\":\"100\"}}";
-                        map.put("json",json);
-                        return map;
-                    }
-                };
-                requestQueue.add(getListRequest);
-            }
+                        }
+                    }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError volleyError) {
+
+                }
+            }) {
+                @Override
+                protected Map<String, String> getParams() throws AuthFailureError {
+                    Map<String, String> map = new HashMap<String, String>();
+                    String json = "{\"session\":{\"uid\":\"" + uid + "\",\"sid\":\"" + sid + "\"},\"pagination\":{\"page\":\"1\",\"count\":\"100\"}}";
+                    map.put("json", json);
+                    return map;
+                }
+            };
+            requestQueue.add(getListRequest);
+
         }else{
             AlertDialog.Builder builder=new AlertDialog.Builder(this);
             builder.setTitle(R.string.please_login_shou_cang);
@@ -1025,7 +1053,7 @@ public class ProductDetailActivity extends Activity implements View.OnClickListe
                 public void onClick(DialogInterface dialog, int which) {
                     Intent toLoginActivity=new Intent(ProductDetailActivity.this, LoginActivity.class);
                     toLoginActivity.putExtra(MyConstant.START_LOGIN_ACTIVITY_FLAG_KEY, "shouCang");
-                    startActivityForResult(toLoginActivity, REQUEST_LOGIN_ACTIVITY);
+                    startActivityForResult(toLoginActivity, REQUEST_SHOU_CANG_LOGIN_ACTIVITY);
                 }
             });
             builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
@@ -1039,6 +1067,92 @@ public class ProductDetailActivity extends Activity implements View.OnClickListe
         }
         shouCangYanSeFlag++;
     }
+
+
+    /**
+     * 添加到收藏
+     * @param uid
+     * @param sid
+     */
+    private void addToShouCang(final String uid, final String sid) {
+        StringRequest addToShouCangRequest=new StringRequest(Request.Method.POST, addToShouCangUrl,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String s) {
+                        MyLog.d(tag, "添加到收藏返回的数据" + s);
+                        try {
+                            JSONObject jsonObject=new JSONObject(s);
+                            JSONObject jsonObject1=jsonObject.getJSONObject("status");
+                            String succeed=jsonObject1.getString("succeed");
+                            if("1".equals(succeed)){
+                                shouCangImageView.setImageResource(R.mipmap.like_selected);
+                                shouCangTextView.setTextColor(getResources().getColor(R.color.bottom_lable_color));
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+
+            }
+        }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String,String> map=new HashMap<String,String>();
+                String json="{\"session\":{\"uid\":\""+uid+"\",\"sid\":\""+sid+"\"},\"goods_id\":\""+good.getGoodId()+"\"}";
+                map.put("json",json);
+                return map;
+            }
+        };
+        requestQueue.add(addToShouCangRequest);
+    }
+
+
+    /**
+     * 取消收藏
+     * @param recId
+     * @param uid
+     * @param sid
+     */
+    private void cancelShouCang(String recId, final String uid, final String sid) {
+        //取消收藏,取消收藏之前必须先获取列表
+        final String finalRecId = recId;
+        StringRequest quXiaoShouCangRequest=new StringRequest(Request.Method.POST, quXiaoShouCangUrl,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String s) {
+                        MyLog.d(tag, "取消收藏返回的数据" + s);
+                        try {
+                            JSONObject jsonObject=new JSONObject(s);
+                            JSONObject jsonObject1=jsonObject.getJSONObject("status");
+                            String succeed=jsonObject1.getString("succeed");
+                            if("1".equals(succeed)){
+                                shouCangImageView.setImageResource(R.mipmap.like);
+                                shouCangTextView.setTextColor(getResources().getColor(R.color.black));
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+            }
+        }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String,String> map=new HashMap<String,String>();
+                String json="{\"session\":{\"uid\":\""+uid+"\",\"sid\":\""+sid+"\"},\"rec_id\":\""+ finalRecId +"\"}";
+                map.put("json",json);
+                return map;
+            }
+        };
+        requestQueue.add(quXiaoShouCangRequest);
+    }
+
+
 
     /**
      * 服务的事件处理
@@ -1244,38 +1358,12 @@ public class ProductDetailActivity extends Activity implements View.OnClickListe
                     suoZaiDiQuTextView.setText(shiMing+" "+xianMing);
                 }
                 break;
-            case REQUEST_LOGIN_ACTIVITY://登陆活动返回的数据
-                SharedPreferences sharedPreferences=getSharedPreferences(MyConstant.USER_SHAREPREFRENCE_NAME,
-                        MODE_APPEND);
-                final String uid=sharedPreferences.getString(MyConstant.UID_KEY, null);
-                final String sid=sharedPreferences.getString(MyConstant.SID_KEY,null);
-                shouCangImageView.setImageResource(R.mipmap.like_selected);
-                shouCangTextView.setTextColor(getResources().getColor(R.color.bottom_lable_color));
-                shouCangYanSeFlag++;
-
-                    StringRequest addToShouCangRequest=new StringRequest(Request.Method.POST, addToShouCangUrl,
-                            new Response.Listener<String>() {
-                                @Override
-                                public void onResponse(String s) {
-                                    MyLog.d(tag,"登陆到收藏返回的数据"+s);
-                                }
-                            }, new Response.ErrorListener() {
-                        @Override
-                        public void onErrorResponse(VolleyError volleyError) {
-
-                        }
-                    }){
-                        @Override
-                        protected Map<String, String> getParams() throws AuthFailureError {
-                            Map<String,String> map=new HashMap<String,String>();
-                            String json="{\"session\":{\"uid\":\""+uid+"\",\"sid\":\""+sid+"\"},\"goods_id\":\""+good.getGoodId()+"\"}";
-                            map.put("json",json);
-                            return map;
-                        }
-                    };
-                    requestQueue.add(addToShouCangRequest);
+            case REQUEST_SHOU_CANG_LOGIN_ACTIVITY://登陆活动返回的数据
+                if(resultCode==RESULT_OK){
+                    setFirstValueToShouCang();
+                }
                 break;
-            case REQUEST_CODE_LOGIN://从登陆界面返回的数据
+            case REQUEST_CODE_SHOPPING_CAR_LOGIN://从登陆界面返回的数据
                 if(resultCode==RESULT_OK){
                     toShoppingCarList();
                 }

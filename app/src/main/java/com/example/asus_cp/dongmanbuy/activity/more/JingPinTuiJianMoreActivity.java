@@ -21,6 +21,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.example.asus_cp.dongmanbuy.R;
 import com.example.asus_cp.dongmanbuy.activity.product_detail.ProductDetailActivity;
+import com.example.asus_cp.dongmanbuy.activity.search.SearchActivity;
 import com.example.asus_cp.dongmanbuy.adapter.JingPinAdapter;
 import com.example.asus_cp.dongmanbuy.adapter.ShopProductBigListAdapter;
 import com.example.asus_cp.dongmanbuy.adapter.ShopProductGridAdapter;
@@ -409,13 +410,13 @@ public class JingPinTuiJianMoreActivity extends Activity implements View.OnClick
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.img_dao_hang_jing_pin_tui_jian_more://导航
-                //Toast.makeText(this,"点击了导航",Toast.LENGTH_SHORT).show();
                 Intent intent=new Intent();
                 setResult(RESULT_OK,intent);
                 finish();
                 break;
             case R.id.img_search_jing_pin_tui_jian_more://搜索按钮
-                Toast.makeText(this, "点击了按钮", Toast.LENGTH_SHORT).show();
+                Intent searchIntent=new Intent(this, SearchActivity.class);
+                startActivity(searchIntent);
                 break;
             case R.id.ll_zong_he_sort_jing_pin_tui_jian_more://综合
                 zongHeClickChuLi();

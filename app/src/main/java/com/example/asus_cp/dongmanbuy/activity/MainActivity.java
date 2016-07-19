@@ -321,6 +321,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             resetLabel();
             shoppingCarImg.setImageResource(R.mipmap.home_selected);
             shoppingCarText.setTextColor(getResources().getColor(R.color.bottom_lable_color));
+        }else if(MyConstant.SHOPPING_STRRET_FLAG_KEY.equals(labelFlag)){
+            FragmentTransaction shopStreetTransaction=fragmentManager.beginTransaction();
+            shopStreetTransaction.replace(R.id.frame_layout_main,shopStreetFragment);
+            shopStreetTransaction.commit();
+            resetLabel();
+            shopStreetImg.setImageResource(R.mipmap.shopstreet_selected);
+            shopStreetText.setTextColor(getResources().getColor(R.color.bottom_lable_color));
         }
 
 
@@ -494,6 +501,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             resetLabel();
             shoppingCarImg.setImageResource(R.mipmap.home_selected);
             shoppingCarText.setTextColor(getResources().getColor(R.color.bottom_lable_color));
+        }else if(MyConstant.SHOPPING_STRRET_FLAG_KEY.equals(labelFlag)){
+            FragmentTransaction shopStreetTransaction=fragmentManager.beginTransaction();
+            shopStreetTransaction.replace(R.id.frame_layout_main,shopStreetFragment);
+            shopStreetTransaction.commit();
+            resetLabel();
+            shopStreetImg.setImageResource(R.mipmap.shopstreet_selected);
+            shopStreetText.setTextColor(getResources().getColor(R.color.bottom_lable_color));
         }
     }
 
@@ -1042,7 +1056,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case REQUEST_CODE_TO_SETTING://从设置界面回来的
                 if(resultCode==RESULT_OK){
-                    loginImage.setImageResource(R.mipmap.ic_launcher);
+                    loginImage.setImageResource(R.mipmap.yu_jia_zai);
                     nameTextView.setText("");
                     emailTextView.setText("");
                 }

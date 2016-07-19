@@ -872,7 +872,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
                 break;
             case R.id.text_dian_pu_jie_more://店铺街的更多按钮
                 //Toast.makeText(context, "点击了店铺街更多", Toast.LENGTH_SHORT).show();
-                Intent toDianPuJieIntent=new Intent(context, ShopStreetCategoryActvity.class);
+                Intent toDianPuJieIntent=new Intent(context, MainActivity.class);
+                toDianPuJieIntent.putExtra(MyConstant.MAIN_ACTIVITY_LABLE_FALG_KEY,MyConstant.SHOPPING_STRRET_FLAG_KEY);
                 startActivity(toDianPuJieIntent);
                 break;
         }

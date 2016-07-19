@@ -151,6 +151,7 @@ public class GoodSearchResultActivity extends Activity implements View.OnClickLi
 
         zongHeTextView.setTextColor(getResources().getColor(R.color.bottom_lable_color));
         zongHeDownImageView.setImageResource(R.mipmap.down_red_sort);
+        zongHeFlag=1;
 //        ShopProductGridAdapter shopProductGridAdapter=new ShopProductGridAdapter(this,goods);
 //        productGridView.setAdapter(shopProductGridAdapter);
         productGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -166,9 +167,9 @@ public class GoodSearchResultActivity extends Activity implements View.OnClickLi
         productListViewSmall.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(GoodSearchResultActivity.this,"点击了"+position,Toast.LENGTH_SHORT).show();
+                //Toast.makeText(GoodSearchResultActivity.this,"点击了"+position,Toast.LENGTH_SHORT).show();
                 Intent smallIntent = new Intent(GoodSearchResultActivity.this, ProductDetailActivity.class);
-                smallIntent.putExtra(MyConstant.GOOD_KEY, smallListGoods.get(position));
+                smallIntent.putExtra(MyConstant.GOOD_KEY, smallListGoods.get(position-1));
                 startActivity(smallIntent);
             }
         });
@@ -176,9 +177,9 @@ public class GoodSearchResultActivity extends Activity implements View.OnClickLi
         productListViewBig.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(GoodSearchResultActivity.this,"点击了"+position,Toast.LENGTH_SHORT).show();
+                //Toast.makeText(GoodSearchResultActivity.this,"点击了"+position,Toast.LENGTH_SHORT).show();
                 Intent bigIntent = new Intent(GoodSearchResultActivity.this, ProductDetailActivity.class);
-                bigIntent.putExtra(MyConstant.GOOD_KEY, bigListGoods.get(position));
+                bigIntent.putExtra(MyConstant.GOOD_KEY, bigListGoods.get(position-1));
                 startActivity(bigIntent);
             }
         });
@@ -433,8 +434,9 @@ public class GoodSearchResultActivity extends Activity implements View.OnClickLi
             productListViewSmall.setVisibility(View.GONE);
             productListViewBig.setVisibility(View.GONE);
             productGridView.setVisibility(View.VISIBLE);
+            gridAdapter.notifyDataSetChanged();
 
-            if (zongHeTextView.getCurrentTextColor() == getResources().getColor(R.color.bottom_lable_color)//综合红色向下
+            /*if (zongHeTextView.getCurrentTextColor() == getResources().getColor(R.color.bottom_lable_color)//综合红色向下
                     && zongHeFlag % 2 == 0) {
                 gridAdapter.notifyDataSetChanged();
 
@@ -459,7 +461,7 @@ public class GoodSearchResultActivity extends Activity implements View.OnClickLi
             } else if (xiaoLiangTextView.getCurrentTextColor() == getResources().getColor(R.color.bottom_lable_color)) {//销量红色
 
                 gridAdapter.notifyDataSetChanged();
-            }
+            }*/
 
 
         } else if (count % 3 == LIST_SMALL) {
@@ -467,8 +469,11 @@ public class GoodSearchResultActivity extends Activity implements View.OnClickLi
             productGridView.setVisibility(View.GONE);
             productListViewBig.setVisibility(View.GONE);
             productListViewSmall.setVisibility(View.VISIBLE);
+            smallListGoods.clear();
+            smallListGoods.addAll(gridGoods);
+            smallListAdapter.notifyDataSetChanged();
 
-            if (zongHeTextView.getCurrentTextColor() == getResources().getColor(R.color.bottom_lable_color)//综合红色向下
+            /*if (zongHeTextView.getCurrentTextColor() == getResources().getColor(R.color.bottom_lable_color)//综合红色向下
                     && zongHeFlag % 2 == 0) {
                 smallListGoods.clear();
                 smallListGoods.addAll(gridGoods);
@@ -501,7 +506,7 @@ public class GoodSearchResultActivity extends Activity implements View.OnClickLi
                 smallListGoods.clear();
                 smallListGoods.addAll(gridGoods);
                 smallListAdapter.notifyDataSetChanged();
-            }
+            }*/
 
 
         } else if (count % 3 == LIST_BIG) {
@@ -509,8 +514,11 @@ public class GoodSearchResultActivity extends Activity implements View.OnClickLi
             productGridView.setVisibility(View.GONE);
             productListViewSmall.setVisibility(View.GONE);
             productListViewBig.setVisibility(View.VISIBLE);
+            bigListGoods.clear();
+            bigListGoods.addAll(gridGoods);
+            bigListAdapter.notifyDataSetChanged();
 
-            if (zongHeTextView.getCurrentTextColor() == getResources().getColor(R.color.bottom_lable_color)//综合红色向下
+           /* if (zongHeTextView.getCurrentTextColor() == getResources().getColor(R.color.bottom_lable_color)//综合红色向下
                     && zongHeFlag % 2 == 0) {
                 bigListGoods.clear();
                 bigListGoods.addAll(gridGoods);
@@ -543,7 +551,7 @@ public class GoodSearchResultActivity extends Activity implements View.OnClickLi
                 bigListGoods.clear();
                 bigListGoods.addAll(gridGoods);
                 bigListAdapter.notifyDataSetChanged();
-            }
+            }*/
 
         }
     }
@@ -554,6 +562,7 @@ public class GoodSearchResultActivity extends Activity implements View.OnClickLi
      */
     private void priceClickChuLi() {
         reset();
+        zongHeFlag=0;
         priceTextView.setTextColor(getResources().getColor(R.color.bottom_lable_color));
         if (priceFlag % 2 == 0) {
             priceDownImageView.setImageResource(R.mipmap.down_red_sort);
@@ -589,6 +598,8 @@ public class GoodSearchResultActivity extends Activity implements View.OnClickLi
      */
     private void xiaoLiangClickChuLi() {
         reset();
+        zongHeFlag=0;
+        priceFlag=0;
         xiaoLiangTextView.setTextColor(getResources().getColor(R.color.bottom_lable_color));
         if (count % 3 == KA_PIAN) {
             gridGoods.clear();
@@ -608,6 +619,8 @@ public class GoodSearchResultActivity extends Activity implements View.OnClickLi
      */
     private void XinPinClickChuLi() {
         reset();
+        zongHeFlag=0;
+        priceFlag=0;
         xinPinTextView.setTextColor(getResources().getColor(R.color.bottom_lable_color));
         if (count % 3 == KA_PIAN) {
             gridGoods.clear();
@@ -627,6 +640,7 @@ public class GoodSearchResultActivity extends Activity implements View.OnClickLi
      */
     private void zongHeClickChuLi() {
         reset();
+        priceFlag=0;
         zongHeTextView.setTextColor(getResources().getColor(R.color.bottom_lable_color));
         if (zongHeFlag % 2 == 0) {
             zongHeDownImageView.setImageResource(R.mipmap.down_red_sort);
