@@ -213,7 +213,7 @@ public class ShopStreetShopListAdapter extends BaseAdapter {
                     context.startActivity(intent);
                 }
             });
-            mainActivity.menu.addIgnoredView(viewHolder.shopContentRecyClView);
+            //mainActivity.menu.addIgnoredView(viewHolder.shopContentRecyClView);
         }else{
             viewHolder.shopContentRecyClView.setVisibility(View.GONE);
         }

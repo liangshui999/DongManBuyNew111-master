@@ -283,7 +283,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
         firstViewPager.addOnPageChangeListener(new MyPageChangeListener(firstImageViews, firstPointGroup));
         firstViewPager.setOnTouchListener(new MyPageTouchListener(SCROLL__FIRST_BINNER, firstViewPager));
 
-        mainActivity.menu.addIgnoredView(firstViewPager);
+        //mainActivity.menu.addIgnoredView(firstViewPager);
 
 
         //--------------第二个广告的初始化----------------------------------------------

@@ -5,12 +5,12 @@ import android.util.Base64;
 import java.security.MessageDigest;
 
 /**
- * 主要对密码进行加密，采用md5加密
+ * 主要对密码进行加密，采用md5加密,对md5加密的结果再用base64加密
  * Created by asus-cp on 2016-05-29.
  */
 public class MyMd5 {
     public static String md5encode(String s){
-        switch (s.length()){
+        /*switch (s.length()){
             case 1:
                 s="az1568612"+s;
                 break;
@@ -71,7 +71,7 @@ public class MyMd5 {
             case 20:
                 s="d1546"+s+"sdd84f6s3";
                 break;
-        }
+        }*/
         byte[] digestedValue =null;
         String result=null;
         try{

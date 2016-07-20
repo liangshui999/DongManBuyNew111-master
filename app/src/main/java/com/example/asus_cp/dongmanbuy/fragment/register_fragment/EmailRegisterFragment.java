@@ -31,6 +31,8 @@ import com.example.asus_cp.dongmanbuy.constant.MyConstant;
 import com.example.asus_cp.dongmanbuy.util.CheckMobileAndEmail;
 import com.example.asus_cp.dongmanbuy.util.MyApplication;
 import com.example.asus_cp.dongmanbuy.util.MyLog;
+import com.example.asus_cp.dongmanbuy.util.MyMd5;
+import com.example.asuscp.dongmanbuy.util.JieKouHelper;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -67,7 +69,9 @@ public class EmailRegisterFragment extends Fragment implements View.OnClickListe
     private int passwordFlag;//判断password的点击状态
     private int againPasswordFlag;//判断againpassword的状态
 
-    private String requestUrl="http://www.zmobuy.com/PHP/index.php?url=/user/signup";
+    private String requestUrl;
+
+    private JieKouHelper jieKouHelper;
 
     @Nullable
     @Override
@@ -80,6 +84,9 @@ public class EmailRegisterFragment extends Fragment implements View.OnClickListe
     private void init(View v) {
         context=getActivity();
         requestQueue= MyApplication.getRequestQueue();
+        jieKouHelper=new JieKouHelper();
+        requestUrl=jieKouHelper.getRegisterUrl();
+
         userNameEditText = (EditText) v.findViewById(R.id.edit_user_name);
         inputEmailEditText = (EditText) v.findViewById(R.id.edit_input_email);
 
@@ -110,6 +117,7 @@ public class EmailRegisterFragment extends Fragment implements View.OnClickListe
                 final String email=inputEmailEditText.getText().toString();
                 final String passWord=inputPasswordEditText.getText().toString();
                 String aginPassWord=inputAgainPasswordEditText.getText().toString();
+                final String jiaMiPassWord= MyMd5.md5encode(passWord);//对password进行md5加密
                 if(userName.equals("")||userName.isEmpty()){
                     Toast.makeText(context,"用户名为空",Toast.LENGTH_SHORT).show();
                 }else if(!CheckMobileAndEmail.checkEmail(email)){
@@ -137,7 +145,7 @@ public class EmailRegisterFragment extends Fragment implements View.OnClickListe
                                     writeToSharePreferences(uid, MyConstant.UID_KEY);
                                     writeToSharePreferences(sid, MyConstant.SID_KEY);
                                     writeToSharePreferences(userName, MyConstant.USER_NAME);
-                                    writeToSharePreferences(password, MyConstant.PASS_WORD);
+                                    writeToSharePreferences(jiaMiPassWord, MyConstant.PASS_WORD);//将加密后的密码保存
                                     //跳转到个人中心
                                     Intent intent=new Intent(context, PersonalCenterActivity.class);
                                     startActivity(intent);
@@ -159,7 +167,8 @@ public class EmailRegisterFragment extends Fragment implements View.OnClickListe
                             Map<String,String> map = new HashMap<String,String>();
                             map.put("name", userName);
                             map.put("email", email);
-                            map.put("password", passWord);
+                            map.put("password", jiaMiPassWord);//将加密后的密码进行上传
+                            MyLog.d(tag,jiaMiPassWord);
                             return map;
                         }
                     };

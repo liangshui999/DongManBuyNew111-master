@@ -28,7 +28,9 @@ import com.example.asus_cp.dongmanbuy.constant.MyConstant;
 import com.example.asus_cp.dongmanbuy.constant.SinaConstants;
 import com.example.asus_cp.dongmanbuy.util.MyApplication;
 import com.example.asus_cp.dongmanbuy.util.MyLog;
+import com.example.asus_cp.dongmanbuy.util.MyMd5;
 import com.example.asus_cp.dongmanbuy.util.SinaAccessTokenKeeper;
+import com.example.asuscp.dongmanbuy.util.JieKouHelper;
 import com.sina.weibo.sdk.auth.AuthInfo;
 import com.sina.weibo.sdk.auth.Oauth2AccessToken;
 import com.sina.weibo.sdk.auth.WeiboAuthListener;
@@ -48,7 +50,7 @@ import java.util.Map;
 public class LoginActivity extends Activity implements View.OnClickListener{
 
     private RequestQueue requestQueue;
-    private String loginUrl="http://www.zmobuy.com/PHP/index.php?url=/user/signin";
+    private String loginUrl;
     private String tag="LoginActivity";
 
     private int passwordFlag;//改变密码明码的标记
@@ -66,6 +68,8 @@ public class LoginActivity extends Activity implements View.OnClickListener{
     private String whoStartMe;//谁开启的我
 
     public static final String USER_NAME_KEY="userName";//向下一个activity传递username时的键
+
+    private JieKouHelper jieKouHelper;
 
     private AuthInfo mAuthInfo;
 
@@ -85,6 +89,10 @@ public class LoginActivity extends Activity implements View.OnClickListener{
 
         requestQueue= MyApplication.getRequestQueue();
         whoStartMe=getIntent().getStringExtra(MyConstant.START_LOGIN_ACTIVITY_FLAG_KEY);//谁开启了我
+        jieKouHelper=new JieKouHelper();
+        loginUrl=jieKouHelper.getLoginUrl();//返回加密的登陆接口
+        MyLog.d(tag, "登陆的接口数据是" + jieKouHelper.getLoginUrl());
+        MyLog.d(tag,"注册接口返回的数据是："+jieKouHelper.getRegisterUrl());
 
         initView();
 
@@ -170,6 +178,7 @@ public class LoginActivity extends Activity implements View.OnClickListener{
     private void loginClickChuLi() {
         final String zhangHao=zhangHaoEditText.getText().toString();
         final String password=passWordEdtiText.getText().toString();
+        final String jiaMiPassword= MyMd5.md5encode(password);
         if(zhangHao.equals("")||zhangHao.isEmpty()){
             Toast.makeText(this, "账号为空", Toast.LENGTH_SHORT).show();
         }else if(password.equals("")||password.isEmpty()){
@@ -191,7 +200,7 @@ public class LoginActivity extends Activity implements View.OnClickListener{
                             writeToSharePreferences(uid, MyConstant.UID_KEY);
                             writeToSharePreferences(sid, MyConstant.SID_KEY);
                             writeToSharePreferences(zhangHao, MyConstant.USER_NAME);
-                            writeToSharePreferences(password, MyConstant.PASS_WORD);
+                            writeToSharePreferences(jiaMiPassword, MyConstant.PASS_WORD);
                             if(whoStartMe.equals("shouCang")){//说明是从收藏跳转过来的
                                 Intent shouCangIntent=new Intent();
                                 setResult(RESULT_OK,shouCangIntent);
@@ -240,8 +249,8 @@ public class LoginActivity extends Activity implements View.OnClickListener{
                 protected Map<String, String> getParams() throws AuthFailureError {
                     Map<String,String> map = new HashMap<String,String>();
                     map.put("name", zhangHao);
-                    map.put("password", password);
-                    //MyLog.d(tag,MyMd5.md5encode(password));
+                    map.put("password", jiaMiPassword);
+                    MyLog.d(tag,jiaMiPassword);
                     return map;
                 }
             };
