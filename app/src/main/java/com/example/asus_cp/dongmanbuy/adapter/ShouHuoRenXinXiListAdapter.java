@@ -50,7 +50,7 @@ public class ShouHuoRenXinXiListAdapter extends BaseAdapter{
      * @return
      */
     public  void allBuXuanZhong(){
-        for(int i=0;i<users.size();i++){
+        for(int i=0;i<checks.size();i++){
             checks.set(i, false);
         }
     }
@@ -107,10 +107,12 @@ public class ShouHuoRenXinXiListAdapter extends BaseAdapter{
         UserModel userModel=users.get(position);
         viewHolder.nameTextView.setText(userModel.getUserName());
         viewHolder.phoneTextView.setText(userModel.getUserPhone());
-        viewHolder.areaTextView.setText(userModel.getCountryName()+userModel.getProvinceName()
-                +userModel.getCityName()+userModel.getDistrictName()+" "+userModel.getShouHuoArea());
-        viewHolder.checkBox.setChecked(checks.get(position));
-        MyLog.d(tag,"check的值："+checks.get(position));
+        viewHolder.areaTextView.setText(userModel.getCountryName() + userModel.getProvinceName()
+                + userModel.getCityName() + userModel.getDistrictName() + " " + userModel.getShouHuoArea());
+        if(checks.size()>0){
+            viewHolder.checkBox.setChecked(checks.get(position));
+            MyLog.d(tag,"check的值："+checks.get(position));
+        }
         return v;
     }
 

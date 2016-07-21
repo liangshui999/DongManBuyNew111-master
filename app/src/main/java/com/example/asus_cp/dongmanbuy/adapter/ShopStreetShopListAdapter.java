@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -65,11 +66,11 @@ public class ShopStreetShopListAdapter extends BaseAdapter {
 
     private RequestQueue requestQueue;
 
-    private MainActivity mainActivity;
+    //private MainActivity mainActivity;
 
     public ShopStreetShopListAdapter(Activity context, List<ShopModel> shopModels) {
         this.context = context;
-        mainActivity= (MainActivity) context;
+       // mainActivity= (MainActivity) context;
         this.shopModels = shopModels;
         inflater=LayoutInflater.from(context);
         helper=new ImageLoadHelper();
@@ -99,6 +100,7 @@ public class ShopStreetShopListAdapter extends BaseAdapter {
             v=inflater.inflate(R.layout.shop_list_item_layout,null);
             viewHolder=new ViewHolder();
             viewHolder.logoImagView= (ImageView) v.findViewById(R.id.img_shop_logo);
+            viewHolder.nameAndGuanZhuLinearLayout= (LinearLayout) v.findViewById(R.id.ll_name_and_guan_zhu_shu);
             viewHolder.shopNameTextView= (TextView) v.findViewById(R.id.text_shop_name);
             viewHolder.guanZhuRenShuTextView= (TextView) v.findViewById(R.id.text_guan_zhu_ren_shu);
             viewHolder.guanZhuTextView= (TextView) v.findViewById(R.id.text_guan_zhu);
@@ -167,12 +169,21 @@ public class ShopStreetShopListAdapter extends BaseAdapter {
         requestQueue.add(stringRequest);
 
         //给关注textview设置初始颜色和背景
-        setGuanZhuTextViewFirstValue(viewHolder.guanZhuTextView,shopModel);
+        setGuanZhuTextViewFirstValue(viewHolder.guanZhuTextView, shopModel);
 
         //关注的点击事件
         guanZhuClickChuLi(viewHolder, shopModel, finalViewHolder);
 
-        viewHolder.shopNameTextView.setOnClickListener(new View.OnClickListener() {
+        viewHolder.nameAndGuanZhuLinearLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, ShopHomeActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent.putExtra(MyConstant.SHOP_USER_ID_KEY, shopModel.getUserId());
+                context.startActivity(intent);
+            }
+        });
+        /*viewHolder.shopNameTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //Toast.makeText(context, "点击了店铺名称", Toast.LENGTH_SHORT).show();
@@ -181,7 +192,7 @@ public class ShopStreetShopListAdapter extends BaseAdapter {
                 intent.putExtra(MyConstant.SHOP_USER_ID_KEY, shopModel.getUserId());
                 context.startActivity(intent);
             }
-        });
+        });*/
         viewHolder.logoImagView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -403,6 +414,7 @@ public class ShopStreetShopListAdapter extends BaseAdapter {
 
     class ViewHolder{
         ImageView logoImagView;//logo
+        LinearLayout nameAndGuanZhuLinearLayout;
         TextView shopNameTextView;//店铺名称
         TextView guanZhuRenShuTextView;//关注人数
         TextView guanZhuTextView;//关注按钮

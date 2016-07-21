@@ -255,6 +255,22 @@ public class DingDanActivity extends Activity implements View.OnClickListener{
                         UserModel userModel=parseJson(s);
                         peopleNameTextView.setText(userModel.getUserName());
                         phoneTextView.setText(userModel.getUserPhone());
+                        MyLog.d(tag,"countryName="+userModel.getCountryName());
+                        if(userModel.getCountryName()==null || userModel.getCountryName().isEmpty()){
+                            userModel.setCountryName("");
+                        }
+                        if(userModel.getProvinceName()==null || userModel.getProvinceName().isEmpty()){
+                            userModel.setProvinceName("");
+                        }
+                        if(userModel.getCityName()==null || userModel.getCityName().isEmpty()){
+                            userModel.setCityName("");
+                        }
+                        if(userModel.getDistrictName()==null || userModel.getDistrictName().isEmpty()){
+                            userModel.setDistrictName("");
+                        }
+                        if(userModel.getShouHuoArea()==null || userModel.getShouHuoArea().isEmpty()){
+                            userModel.setShouHuoArea("");
+                        }
                         addressTextView.setText(userModel.getCountryName()+userModel.getProvinceName()
                                 +userModel.getCityName()+userModel.getDistrictName()+" "+userModel.getShouHuoArea());
                     }

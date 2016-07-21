@@ -38,6 +38,7 @@ import com.example.asus_cp.dongmanbuy.activity.dian_pu_jie.ShopHomeActivity;
 import com.example.asus_cp.dongmanbuy.activity.dian_pu_jie.ShopStreetCategoryActvity;
 import com.example.asus_cp.dongmanbuy.activity.gou_wu.DingDanListActivity;
 import com.example.asus_cp.dongmanbuy.activity.login.LoginActivity;
+import com.example.asus_cp.dongmanbuy.activity.main_activity_xiang_guan.LiuLanJiLuListActivity;
 import com.example.asus_cp.dongmanbuy.activity.more.JingPinTuiJianMoreActivity;
 import com.example.asus_cp.dongmanbuy.activity.more.XianShiMiaoShaMoreActivity;
 import com.example.asus_cp.dongmanbuy.activity.personal_center.data_set.EditShipAddressActivity;
@@ -145,13 +146,13 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
 
     private SharedPreferences sharedPreferences;
 
-    public static final int REQUEST_CODE_LOGIN_WALLET=1;//从钱包跳转到登陆界面的请求码
+    public static final int REQUEST_CODE_LOGIN_WALLET=13;//从钱包跳转到登陆界面的请求码
 
-    public static final int REQUEST_CODE_LOGIN_ORDER=2;//从订单跳转到登陆界面的请求码
+    public static final int REQUEST_CODE_LOGIN_ORDER=14;//从订单跳转到登陆界面的请求码
 
-    public static final int REQUEST_CODE_LOGIN_LIU_LAN_JI_LU=3;//从浏览记录跳转到登陆界面的请求码
+    public static final int REQUEST_CODE_LOGIN_LIU_LAN_JI_LU=15;//从浏览记录跳转到登陆界面的请求码
 
-    public static final int REQUEST_CODE_LOGIN_SHIP_ADDRESS=4;//从收货地址跳转到登陆界面的请求码
+    public static final int REQUEST_CODE_LOGIN_SHIP_ADDRESS=16;//从收货地址跳转到登陆界面的请求码
 
     private String userInfoUrl="http://www.zmobuy.com/PHP/?url=/user/info";//用户信息的接口
 
@@ -483,7 +484,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
                     gridViews.add(gridView);
                 }
                 jingPinViewPager.setAdapter(new MyPagerAdapter(gridViews));
-                mainActivity.menu.addIgnoredView(jingPinViewPager);
+                //mainActivity.menu.addIgnoredView(jingPinViewPager);
                 LinearLayout jingPinPointGroup= (LinearLayout) v.findViewById(R.id.ll_point_group_jing_pin);
                 initPoint(jingPinPointGroup,gridViews.size());
                 jingPinViewPager.addOnPageChangeListener(new MyPageChangeListener(gridViews,jingPinPointGroup));
@@ -567,7 +568,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
                     shopStreetGridViews.add(gridView);
                 }
                 shopStreetViewPager.setAdapter(new MyPagerAdapter(shopStreetGridViews));
-                mainActivity.menu.addIgnoredView(shopStreetViewPager);
+                //mainActivity.menu.addIgnoredView(shopStreetViewPager);
                 LinearLayout shopStreetPointGroup= (LinearLayout) v.findViewById(R.id.ll_point_group_shop_street);
                 initPoint(shopStreetPointGroup,shopStreetGridViews.size());
                 shopStreetViewPager.addOnPageChangeListener(new MyPageChangeListener(shopStreetGridViews,shopStreetPointGroup));
@@ -843,7 +844,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
                 MyOrderClickChuLi();
                 break;
             case R.id.ll_browse_history:
-                Toast.makeText(context, "点击了浏览记录", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(context, "点击了浏览记录", Toast.LENGTH_SHORT).show();
+                liuLanJiLuClickChuLi();
                 break;
             case R.id.ll_ship_address://点击了收货地址
                 shipAddressClickChuLi();
@@ -876,6 +878,24 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
                 toDianPuJieIntent.putExtra(MyConstant.MAIN_ACTIVITY_LABLE_FALG_KEY,MyConstant.SHOPPING_STRRET_FLAG_KEY);
                 startActivity(toDianPuJieIntent);
                 break;
+        }
+    }
+
+
+    /**
+     * 浏览记录的点击事件处理
+     */
+    private void liuLanJiLuClickChuLi() {
+        String uid=sharedPreferences.getString(MyConstant.UID_KEY,null);
+        String sid=null;
+        if(uid==null || uid.isEmpty()){
+            Intent toLoginIntent=new Intent(context,LoginActivity.class);
+            toLoginIntent.putExtra(MyConstant.START_LOGIN_ACTIVITY_FLAG_KEY,"homeFragment");
+            startActivityForResult(toLoginIntent, REQUEST_CODE_LOGIN_LIU_LAN_JI_LU);
+        }else {
+            Intent intent=new Intent(context, LiuLanJiLuListActivity.class);
+            startActivity(intent);
+            //MyLog.d(tag,"浏览记录内部的执行了吗？");
         }
     }
 
@@ -1238,7 +1258,10 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
                 Intent toShipAddressIntent=new Intent(context, EditShipAddressActivity.class);
                 startActivity(toShipAddressIntent);
                 break;
-
+            case REQUEST_CODE_LOGIN_LIU_LAN_JI_LU://从浏览记录跳过去的
+                liuLanJiLuClickChuLi();
+                MyLog.d(tag,"浏览记录回来了吗");
+                break;
         }
     }
 }

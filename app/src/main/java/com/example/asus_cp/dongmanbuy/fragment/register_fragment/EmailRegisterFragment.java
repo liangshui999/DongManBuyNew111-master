@@ -149,11 +149,13 @@ public class EmailRegisterFragment extends Fragment implements View.OnClickListe
                                     //跳转到个人中心
                                     Intent intent=new Intent(context, PersonalCenterActivity.class);
                                     startActivity(intent);
+
                                 }else{
                                     Toast.makeText(context,"注册失败",Toast.LENGTH_SHORT).show();
                                 }
                             } catch (JSONException e) {
                                 e.printStackTrace();
+                                Toast.makeText(context,"注册失败，账号或者邮箱已经注册过了",Toast.LENGTH_SHORT).show();
                             }
                         }
                     }, new Response.ErrorListener() {

@@ -731,7 +731,8 @@ public class ProductDetailActivity extends Activity implements View.OnClickListe
                 }
 
             }else{
-                AlertDialog.Builder builder=new AlertDialog.Builder(this);
+                Toast.makeText(ProductDetailActivity.this,"库存不足",Toast.LENGTH_SHORT).show();
+                /*AlertDialog.Builder builder=new AlertDialog.Builder(this);
                 builder.setTitle("");
                 builder.setMessage("对不起，该商品已经库存不足暂停销售。你现在要进行缺货登记来预定该商品吗？");
                 builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
@@ -754,7 +755,7 @@ public class ProductDetailActivity extends Activity implements View.OnClickListe
                     }
                 });
                 AlertDialog alertDialog=builder.show();
-                alertDialog.show();
+                alertDialog.show();*/
             }
         }else{//用户未登录，跳转到登陆界面
             Intent intent=new Intent(this,LoginActivity.class);
@@ -1351,11 +1352,12 @@ public class ProductDetailActivity extends Activity implements View.OnClickListe
         switch (requestCode){
             case REQUEST_CODE_FOR_AREA_ACTIVTY://地址活动返回的数据
                 if(resultCode==RESULT_OK){
+                    String shengMing=data.getStringExtra(AreaActivity.SHENG_MING_KEY);
                     String shiMing=data.getStringExtra(AreaActivity.SHI_MING_KEY);
                     String xianMing=data.getStringExtra(AreaActivity.XIAN_MING_KEY);
                     MyLog.d(tag,"市民"+shiMing);
                     MyLog.d(tag,"县名"+xianMing);
-                    suoZaiDiQuTextView.setText(shiMing+" "+xianMing);
+                    suoZaiDiQuTextView.setText(shengMing+""+shiMing+" "+xianMing);
                 }
                 break;
             case REQUEST_SHOU_CANG_LOGIN_ACTIVITY://登陆活动返回的数据

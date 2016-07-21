@@ -117,6 +117,7 @@ public class AreaActivity extends Activity {
                 //-------------市和县的初始化------------------------------------
                 AreaModel shengShiTi=shengShiTis.get(11);
                 final String shengId=shengShiTi.getId();
+                final String shengMing=shengShiTi.getName();
                 StringRequest thisShengDuiYingShi=new StringRequest(Request.Method.POST, adrressUrl,
                         new Response.Listener<String>() {
                             @Override
@@ -149,6 +150,7 @@ public class AreaActivity extends Activity {
                                                     String shiMing = shiMings.get(groupPosition);
                                                     String xianMing = shiMingAndXianMings.get(shiMing).get(childPosition);
                                                     Intent intent = new Intent();
+                                                    intent.putExtra(SHENG_MING_KEY,shengMing);
                                                     intent.putExtra(SHI_MING_KEY, shiMing);
                                                     intent.putExtra(XIAN_MING_KEY, xianMing);
                                                     setResult(RESULT_OK, intent);//向商品详情返回数据

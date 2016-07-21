@@ -56,6 +56,10 @@ public class ShouHuoRenXinXiListActivity extends Activity{
 
     private ShouHuoRenXinXiListAdapter adapter;
 
+    private  List<UserModel> userModels;
+
+    public static final int REQUEST_CODE_ADD_SHOU_HUO_ADDRESS=1;//跳转到添加收获人地址的界面
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -82,38 +86,53 @@ public class ShouHuoRenXinXiListActivity extends Activity{
             public void onClick(View v) {
                 //Toast.makeText(ShouHuoRenXinXiListActivity.this,"新增收货人信息",Toast.LENGTH_SHORT).show();
                 Intent intent=new Intent(ShouHuoRenXinXiListActivity.this,AddShouHuoAddressActivity.class);
-                startActivity(intent);
+                intent.putExtra(MyConstant.START_ADD_SHOU_HUO_ADDRESS_ACTIVTIY_KEY,"shouhuorenxinxilist");
+                startActivityForResult(intent, REQUEST_CODE_ADD_SHOU_HUO_ADDRESS);
             }
         });
 
+        userModels=new ArrayList<UserModel>();
+        adapter=new ShouHuoRenXinXiListAdapter(ShouHuoRenXinXiListActivity.this,
+                userModels);
+        listView.setAdapter(adapter);
+        checks=adapter.getChecks();
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                adapter.allBuXuanZhong();
+                checks.set(position, true);
+                adapter.notifyDataSetChanged();
+                Intent intent = new Intent();
+                intent.putExtra(MyConstant.USER_MODLE_KEY, userModels.get(position));
+                setResult(RESULT_OK, intent);
+                finish();
+                //Toast.makeText(ShouHuoRenXinXiListActivity.this,"点击的位置"+checks.get(position),Toast.LENGTH_SHORT).show();
+            }
+        });
+        getShouHuoDiZhiFromIntenet();
+    }
 
+
+    /**
+     * 从网络获取收获地址列表并刷新数据
+     */
+    private void getShouHuoDiZhiFromIntenet() {
         //获取收货地址列表
         StringRequest shouHuoAddressListRequset=new StringRequest(Request.Method.POST, shouHuoAddressListUrl,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String s) {
-                        final List<UserModel> userModels=parseJson(s);
+                        List<UserModel> models=parseJson(s);
+                        userModels.clear();
+                        userModels.addAll(models);
+                        adapter=new ShouHuoRenXinXiListAdapter(ShouHuoRenXinXiListActivity.this,
+                                userModels);
+                        listView.setAdapter(adapter);
+                        checks=adapter.getChecks();
+                        /*checks=adapter.getChecks();
                         if (userModels.size()>0){
-                            adapter=new ShouHuoRenXinXiListAdapter(ShouHuoRenXinXiListActivity.this,
-                                    userModels);
-                            listView.setAdapter(adapter);
-
-                            checks=adapter.getChecks();
-
-                            listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                                @Override
-                                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                                    adapter.allBuXuanZhong();
-                                    checks.set(position, true);
-                                    adapter.notifyDataSetChanged();
-                                    Intent intent=new Intent();
-                                    intent.putExtra(MyConstant.USER_MODLE_KEY,userModels.get(position));
-                                    setResult(RESULT_OK,intent);
-                                    finish();
-                                    //Toast.makeText(ShouHuoRenXinXiListActivity.this,"点击的位置"+checks.get(position),Toast.LENGTH_SHORT).show();
-                                }
-                            });
-                        }
+                            adapter.notifyDataSetChanged();
+                        }*/
                     }
                 }, new Response.ErrorListener() {
             @Override
@@ -170,5 +189,17 @@ public class ShouHuoRenXinXiListActivity extends Activity{
             e.printStackTrace();
         }
         return userModels;
+    }
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch (requestCode){
+            case REQUEST_CODE_ADD_SHOU_HUO_ADDRESS://跳转到收获地址界面
+                if(resultCode==RESULT_OK){
+                    getShouHuoDiZhiFromIntenet();
+                }
+                break;
+        }
     }
 }

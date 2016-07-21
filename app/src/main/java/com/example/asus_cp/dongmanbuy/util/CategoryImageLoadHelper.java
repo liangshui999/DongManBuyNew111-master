@@ -88,8 +88,10 @@ public class CategoryImageLoadHelper {
 
                     String categoryId = null;
                     for (CategoryModel model : categoryModels) {
-                        if (cateGory.equals(model.getCategoryName())) {
+                        if (cateGory.equals(model.getCategoryName())) { //如果有了的话，就直接退出，不用再循环了
                             categoryId = model.getCategoryId();
+                            MyLog.d(tag,"小类别"+model.getCategoryName());
+                            break;
                         }
                     }
                     //再发送一次post请求

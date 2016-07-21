@@ -108,13 +108,14 @@
                 <com.example.asus_cp.dongmanbuy.customview.MyGridViewA
                     android:id="@+id/grid_view_t_xue"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="200dp"
                     android:columnWidth="70dp"
                     android:numColumns="auto_fit"
                     android:verticalSpacing="10dp"
                     android:horizontalSpacing="10dp"
                     android:stretchMode="columnWidth"
                     android:gravity="center"
+                    android:visibility="visible"
                     >
                 </com.example.asus_cp.dongmanbuy.customview.MyGridViewA>
             </LinearLayout>

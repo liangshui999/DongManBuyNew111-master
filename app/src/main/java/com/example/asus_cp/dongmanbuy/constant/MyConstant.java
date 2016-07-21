@@ -55,4 +55,6 @@ public interface MyConstant {
     public static final String USER_NAME="userName";//用户名
     public static final String PASS_WORD="password";//密码
     public static final String GOOD_TYPE_KEY="goodTypeKey";//商品类型
+    public static final String DATA_SET_ACTIVITY_LABLE_FLAG_KEY="dataSetActivity";//跳转到资料设置界面传递的key
+    public static final String SHENG_MING_KEY="shengMing";//省名key
 }

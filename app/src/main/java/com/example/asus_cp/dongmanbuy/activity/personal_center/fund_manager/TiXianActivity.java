@@ -133,7 +133,10 @@ public class TiXianActivity extends Activity implements View.OnClickListener{
      */
     private void tiJiaoShenQingClickChuLi() {
         final String tiXianJinE=tiXianJinEEditText.getText().toString();
-        double tiXianDouble=Double.parseDouble(tiXianJinE);
+        double tiXianDouble=0.00;
+        if(!tiXianJinE.isEmpty()){
+            tiXianDouble=Double.parseDouble(tiXianJinE);
+        }
         final String beiZhu=beiZhuEditText.getText().toString();
         final String kaHao=tiXianFangShiKaHaoTextView.getText().toString();
 

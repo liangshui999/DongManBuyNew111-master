@@ -280,6 +280,10 @@
         <activity android:name=".activity.MipcaActivityCapture"
             android:screenOrientation="portrait"/>
 
+        <!--浏览记录的activity-->
+        <activity android:name=".activity.main_activity_xiang_guan.LiuLanJiLuListActivity"
+            android:screenOrientation="portrait"/>
+
 
 
         <!--搜索的activity,因为必须按照ui做，此类作废-->

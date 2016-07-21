@@ -68,14 +68,14 @@ public class ProductDetailFragment extends Fragment{
                     for(int i=0;i<jsonArray.length();i++){
                         String url=jsonArray.getString(i);
                         ImageView imageView=new ImageView(context);
-                        LinearLayout.LayoutParams layoutParams=new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
+                        LinearLayout.LayoutParams layoutParams=new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                                 ViewGroup.LayoutParams.WRAP_CONTENT);
                         layoutParams.gravity= Gravity.CENTER;
 
                         imageView.setLayoutParams(layoutParams);
                         ImageLoader.ImageListener imageListener=imageLoader.getImageListener(imageView,R.mipmap.yu_jia_zai,
                                 R.mipmap.yu_jia_zai);
-                        imageLoader.get(url,imageListener,500,500);
+                        imageLoader.get(url,imageListener,600,600);
                         bufLinearLayout.addView(imageView);
                     }
                 } catch (JSONException e) {

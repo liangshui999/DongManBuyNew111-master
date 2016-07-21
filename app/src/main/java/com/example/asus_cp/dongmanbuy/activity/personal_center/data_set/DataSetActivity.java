@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.android.volley.toolbox.ImageLoader;
 import com.example.asus_cp.dongmanbuy.R;
+import com.example.asus_cp.dongmanbuy.activity.MainActivity;
 import com.example.asus_cp.dongmanbuy.constant.MyConstant;
 import com.example.asus_cp.dongmanbuy.model.User;
 import com.example.asus_cp.dongmanbuy.service.UidService;
@@ -46,6 +47,8 @@ public class DataSetActivity extends Activity implements View.OnClickListener{
     public static final int REQUEST_CODE_PHONE=2;
     public static final int REQUEST_CODE_EMAIL=3;
 
+    private String whoStartMe;//谁开启了我
+
 
 
 
@@ -64,6 +67,7 @@ public class DataSetActivity extends Activity implements View.OnClickListener{
 
         user=getIntent().getParcelableExtra(MyConstant.USER_KEY);
         helper=new ImageLoadHelper();
+        whoStartMe=getIntent().getStringExtra(MyConstant.DATA_SET_ACTIVITY_LABLE_FLAG_KEY);//谁开启了我
 
         touXiangImageView= (CircleImageView) findViewById(R.id.img_tou_xiang_data_set);
         nameTextView= (TextView) findViewById(R.id.text_name_data_set);
@@ -130,8 +134,16 @@ public class DataSetActivity extends Activity implements View.OnClickListener{
                 Intent serviceIntent=new Intent(this, UidService.class);
                 stopService(serviceIntent);
                 Intent backIntent=new Intent();
-                setResult(RESULT_OK,backIntent);
-                finish();
+                setResult(RESULT_OK, backIntent);
+
+                if(whoStartMe!=null){   //说明从个人中心跳转过来的
+                    Intent toMainActivity=new Intent(this, MainActivity.class);
+                    startActivity(toMainActivity);
+                    finish();
+                }else{  //说明从主页跳转过来的
+                    finish();
+                }
+
                 break;
         }
     }

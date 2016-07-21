@@ -439,6 +439,7 @@ public class PersonalCenterActivity extends Activity implements View.OnClickList
     private void toDataSetActivity() {
         Intent intent=new Intent(this,DataSetActivity.class);
         intent.putExtra(MyConstant.USER_KEY,passUser);
+        intent.putExtra(MyConstant.DATA_SET_ACTIVITY_LABLE_FLAG_KEY,"fromPersonalCenter");
         startActivityForResult(intent, REQUEST_DATA_SET_KEY);
     }
 
