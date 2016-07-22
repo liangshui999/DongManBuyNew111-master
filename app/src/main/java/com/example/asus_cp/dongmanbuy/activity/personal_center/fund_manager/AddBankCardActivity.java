@@ -18,6 +18,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.example.asus_cp.dongmanbuy.R;
 import com.example.asus_cp.dongmanbuy.constant.MyConstant;
+import com.example.asus_cp.dongmanbuy.util.CheckHelper;
 import com.example.asus_cp.dongmanbuy.util.MyApplication;
 import com.example.asus_cp.dongmanbuy.util.MyLog;
 
@@ -86,6 +87,8 @@ public class AddBankCardActivity extends Activity{
                     Toast.makeText(AddBankCardActivity.this,"开户行为空",Toast.LENGTH_SHORT).show();
                 }else if("".equals(bankName) || bankName.isEmpty()){
                     Toast.makeText(AddBankCardActivity.this,"银行为空",Toast.LENGTH_SHORT).show();
+                }else if(!CheckHelper.checkBankCard(kaHao)){
+                    Toast.makeText(AddBankCardActivity.this,"银行卡格式错误",Toast.LENGTH_SHORT).show();
                 }else{
                     getDataFromIntenet(kaHao, chiKaRen, kaiHuHang, bankName);
                 }

@@ -30,6 +30,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.example.asus_cp.dongmanbuy.R;
 import com.example.asus_cp.dongmanbuy.adapter.TiXianTanChuListAdapter;
 import com.example.asus_cp.dongmanbuy.constant.MyConstant;
+import com.example.asus_cp.dongmanbuy.customview.FocuesableListView;
 import com.example.asus_cp.dongmanbuy.model.CardModel;
 import com.example.asus_cp.dongmanbuy.model.User;
 import com.example.asus_cp.dongmanbuy.util.JsonHelper;
@@ -192,7 +193,7 @@ public class TiXianActivity extends Activity implements View.OnClickListener{
     private void tiXianFangShiClickChuLi() {
         View tiXianFangShiView= LayoutInflater.from(this).inflate(R.layout.ti_xian_fang_shi_tan_chu_layout, null);
         ImageView closeTiXianFangShiImageView= (ImageView) tiXianFangShiView.findViewById(R.id.img_close_ti_xian_tan_chu);
-        final ListView cardList= (ListView) tiXianFangShiView.findViewById(R.id.list_view_ti_xian_tan_chu);
+        final FocuesableListView cardList= (FocuesableListView) tiXianFangShiView.findViewById(R.id.list_view_ti_xian_tan_chu);
 
         StringRequest getCardListRequest=new StringRequest(Request.Method.POST, cardListUrl,
                 new Response.Listener<String>() {
@@ -207,6 +208,7 @@ public class TiXianActivity extends Activity implements View.OnClickListener{
                             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                                 tiXianFangShiBankNameTextView.setText(models.get(position).getBankName());
                                 tiXianFangShiKaHaoTextView.setText(models.get(position).getKaHao());
+                                tiXianFangShiWindow.dismiss();
                             }
                         });
                     }
@@ -233,6 +235,7 @@ public class TiXianActivity extends Activity implements View.OnClickListener{
         //外部点击时可以消失
         tiXianFangShiWindow.setBackgroundDrawable(new ColorDrawable());
         tiXianFangShiWindow.setOutsideTouchable(true);
+        tiXianFangShiWindow.setFocusable(true);
         tiXianFangShiWindow.showAtLocation(parentView, Gravity.BOTTOM, 0, 0);//最后才是show,顺序很重要
         setBackgroundAlpha(0.5f);
         tiXianFangShiWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {

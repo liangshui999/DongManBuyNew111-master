@@ -28,10 +28,9 @@ import com.example.asus_cp.dongmanbuy.R;
 import com.example.asus_cp.dongmanbuy.activity.login.LoginActivity;
 import com.example.asus_cp.dongmanbuy.activity.personal_center.PersonalCenterActivity;
 import com.example.asus_cp.dongmanbuy.constant.MyConstant;
-import com.example.asus_cp.dongmanbuy.util.CheckMobileAndEmail;
+import com.example.asus_cp.dongmanbuy.util.CheckHelper;
 import com.example.asus_cp.dongmanbuy.util.MyApplication;
 import com.example.asus_cp.dongmanbuy.util.MyLog;
-import com.example.asus_cp.dongmanbuy.util.MyMd5;
 import com.example.asuscp.dongmanbuy.util.JieKouHelper;
 
 import org.json.JSONException;
@@ -117,10 +116,10 @@ public class EmailRegisterFragment extends Fragment implements View.OnClickListe
                 final String email=inputEmailEditText.getText().toString();
                 final String passWord=inputPasswordEditText.getText().toString();
                 String aginPassWord=inputAgainPasswordEditText.getText().toString();
-                final String jiaMiPassWord= MyMd5.md5encode(passWord);//对password进行md5加密
+                //final String jiaMiPassWord= MyMd5.md5encode(passWord);//对password进行md5加密
                 if(userName.equals("")||userName.isEmpty()){
                     Toast.makeText(context,"用户名为空",Toast.LENGTH_SHORT).show();
-                }else if(!CheckMobileAndEmail.checkEmail(email)){
+                }else if(!CheckHelper.checkEmail(email)){
                     Toast.makeText(context,"邮箱格式错误,输入@时请用英文状态下的@",Toast.LENGTH_SHORT).show();
                 }else if(passWord.equals("")||passWord.isEmpty()){
                     Toast.makeText(context,"密码为空",Toast.LENGTH_SHORT).show();
@@ -145,7 +144,7 @@ public class EmailRegisterFragment extends Fragment implements View.OnClickListe
                                     writeToSharePreferences(uid, MyConstant.UID_KEY);
                                     writeToSharePreferences(sid, MyConstant.SID_KEY);
                                     writeToSharePreferences(userName, MyConstant.USER_NAME);
-                                    writeToSharePreferences(jiaMiPassWord, MyConstant.PASS_WORD);//将加密后的密码保存
+                                    writeToSharePreferences(passWord, MyConstant.PASS_WORD);//将加密后的密码保存
                                     //跳转到个人中心
                                     Intent intent=new Intent(context, PersonalCenterActivity.class);
                                     startActivity(intent);
@@ -169,8 +168,8 @@ public class EmailRegisterFragment extends Fragment implements View.OnClickListe
                             Map<String,String> map = new HashMap<String,String>();
                             map.put("name", userName);
                             map.put("email", email);
-                            map.put("password", jiaMiPassWord);//将加密后的密码进行上传
-                            MyLog.d(tag,jiaMiPassWord);
+                            map.put("password", passWord);//将加密后的密码进行上传
+                            //MyLog.d(tag,jiaMiPassWord);
                             return map;
                         }
                     };

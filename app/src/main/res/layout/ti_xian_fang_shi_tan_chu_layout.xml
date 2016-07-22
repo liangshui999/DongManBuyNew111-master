@@ -23,7 +23,7 @@
     </RelativeLayout>
 
 
-    <ListView
+    <com.example.asus_cp.dongmanbuy.customview.FocuesableListView
         android:id="@+id/list_view_ti_xian_tan_chu"
         android:layout_width="match_parent"
         android:layout_height="200dp"
@@ -32,6 +32,6 @@
         android:dividerHeight="1dp"
         android:divider="@color/gray">
 
-    </ListView>
+    </com.example.asus_cp.dongmanbuy.customview.FocuesableListView>
 
 </LinearLayout>

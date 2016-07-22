@@ -178,7 +178,8 @@ public class LoginActivity extends Activity implements View.OnClickListener{
     private void loginClickChuLi() {
         final String zhangHao=zhangHaoEditText.getText().toString();
         final String password=passWordEdtiText.getText().toString();
-        final String jiaMiPassword= MyMd5.md5encode(password);
+        //final String jiaMiPassword= MyMd5.md5encode(password);
+        //MyLog.d(tag,"加密后的密码为："+jiaMiPassword);
         if(zhangHao.equals("")||zhangHao.isEmpty()){
             Toast.makeText(this, "账号为空", Toast.LENGTH_SHORT).show();
         }else if(password.equals("")||password.isEmpty()){
@@ -200,7 +201,7 @@ public class LoginActivity extends Activity implements View.OnClickListener{
                             writeToSharePreferences(uid, MyConstant.UID_KEY);
                             writeToSharePreferences(sid, MyConstant.SID_KEY);
                             writeToSharePreferences(zhangHao, MyConstant.USER_NAME);
-                            writeToSharePreferences(jiaMiPassword, MyConstant.PASS_WORD);
+                            writeToSharePreferences(password, MyConstant.PASS_WORD);
                             if(whoStartMe.equals("shouCang")){//说明是从收藏跳转过来的
                                 Intent shouCangIntent=new Intent();
                                 setResult(RESULT_OK,shouCangIntent);
@@ -249,8 +250,8 @@ public class LoginActivity extends Activity implements View.OnClickListener{
                 protected Map<String, String> getParams() throws AuthFailureError {
                     Map<String,String> map = new HashMap<String,String>();
                     map.put("name", zhangHao);
-                    map.put("password", jiaMiPassword);
-                    MyLog.d(tag,jiaMiPassword);
+                    map.put("password", password);
+                    //MyLog.d(tag,jiaMiPassword);
                     return map;
                 }
             };

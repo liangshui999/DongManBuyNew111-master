@@ -24,7 +24,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.example.asus_cp.dongmanbuy.R;
-import com.example.asus_cp.dongmanbuy.util.CheckMobileAndEmail;
+import com.example.asus_cp.dongmanbuy.util.CheckHelper;
 import com.example.asus_cp.dongmanbuy.util.MyApplication;
 import com.example.asus_cp.dongmanbuy.util.MyLog;
 
@@ -76,7 +76,7 @@ public class FindPassworByEmaildActivity extends Activity{
                 final String email=inputEmailEditText.getText().toString();
                 if(email.equals("")||email.isEmpty()){
                     Toast.makeText(FindPassworByEmaildActivity.this, "邮箱为空", Toast.LENGTH_SHORT).show();
-                }else if(!CheckMobileAndEmail.checkEmail(email)){
+                }else if(!CheckHelper.checkEmail(email)){
                     Toast.makeText(FindPassworByEmaildActivity.this,"邮箱格式错误，@请用英文状态下的@",Toast.LENGTH_SHORT).show();
                 }else{
                     StringRequest stringRequest=new StringRequest(Request.Method.POST, findPasswordUrl, new Response.Listener<String>() {

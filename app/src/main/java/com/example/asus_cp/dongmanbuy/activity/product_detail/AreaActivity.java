@@ -149,10 +149,15 @@ public class AreaActivity extends Activity {
                                                 public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
                                                     String shiMing = shiMings.get(groupPosition);
                                                     String xianMing = shiMingAndXianMings.get(shiMing).get(childPosition);
+                                                    String shiId=shiShiTis.get(groupPosition).getId();
+                                                    String xianId=shiAndXianShiTi.get(shiMing).get(childPosition).getId();
                                                     Intent intent = new Intent();
                                                     intent.putExtra(SHENG_MING_KEY,shengMing);
                                                     intent.putExtra(SHI_MING_KEY, shiMing);
                                                     intent.putExtra(XIAN_MING_KEY, xianMing);
+                                                    intent.putExtra(SHENG_BIAN_MA_KEY,shengId);
+                                                    intent.putExtra(SHI_BIAN_MA_KEY,shiId);
+                                                    intent.putExtra(XIAN_BIAN_MA_KEY,xianId);
                                                     setResult(RESULT_OK, intent);//向商品详情返回数据
                                                     finish();
                                                     return false;

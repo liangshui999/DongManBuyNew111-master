@@ -12,7 +12,7 @@
         android:clickable="true"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/bottom_lable_color"
+        android:background="@drawable/red_backgroud_yuan_jiao_button"
         android:textColor="@color/white_my"
         android:text="@string/xin_zeng_shou_huo_ren_xin_xi"
         android:gravity="center"

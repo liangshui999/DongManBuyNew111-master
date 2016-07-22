@@ -390,6 +390,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         menu.attachToActivity(this, SlidingMenu.SLIDING_CONTENT);
         menu.setMenu(R.layout.layout_menu);
 
+
         //给侧滑菜单设置滚动的监听事件
         menu.setOnOpenedListener(new SlidingMenu.OnOpenedListener() {
             @Override
@@ -982,6 +983,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode){
             case REQUEST_CODE_LOGIN_WALLET://从登陆界面返回的数据,我的钱包跳过去的
                 if(resultCode==RESULT_OK){

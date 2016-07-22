@@ -1,16 +1,19 @@
 package com.example.asus_cp.dongmanbuy.activity.main_activity_xiang_guan;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import com.example.asus_cp.dongmanbuy.R;
+import com.example.asus_cp.dongmanbuy.activity.product_detail.ProductDetailActivity;
 import com.example.asus_cp.dongmanbuy.adapter.LiuLanJiLuMainActivityAdapter;
 import com.example.asus_cp.dongmanbuy.constant.DBConstant;
 import com.example.asus_cp.dongmanbuy.constant.MyConstant;
@@ -74,6 +77,14 @@ public class LiuLanJiLuListActivity extends Activity implements View.OnClickList
         });
         adapter=new LiuLanJiLuMainActivityAdapter(this,goods);
         listView.setAdapter(adapter);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent=new Intent(LiuLanJiLuListActivity.this, ProductDetailActivity.class);
+                intent.putExtra(MyConstant.GOOD_KEY,goods.get(position));
+                startActivity(intent);
+            }
+        });
     }
 
 

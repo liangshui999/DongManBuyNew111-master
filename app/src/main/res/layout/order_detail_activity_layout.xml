@@ -98,15 +98,20 @@
 
                 </RelativeLayout>
 
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="20dp"
+                    android:src="@mipmap/shopping_car_cai_tiao"
+                    android:background="@color/white_my"/>
+
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="周末自营"
                     android:paddingLeft="10dp"
-                    android:layout_marginTop="5dp"
                     android:background="@color/white_my"
                     android:textSize="16sp"
-                    android:paddingTop="10dp"
                     android:paddingBottom="10dp"/>
 
 

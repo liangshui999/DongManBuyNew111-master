@@ -104,7 +104,7 @@ public class ChangPasswordConfirmActivity extends Activity implements View.OnCli
                             MyLog.d(tag,"验证码"+yanZhegnMa.trim());
                             MyLog.d(tag,"新密码"+newPassword);
                             Map<String,String> map = new HashMap<String,String>();
-                            String json="{\"username\":\""+""+"\",\"email\":\""+email+"\",\"email_code\":\""+yanZhegnMa.trim()+"\",\"sms_code\":\"\",\"mobile\":\"\",\"new_password\":\""+newPassword+"\"}";
+                            String json="{\"username\":\"\",\"email\":\""+email+"\",\"email_code\":\""+yanZhegnMa+"\",\"sms_code\":\"\",\"mobile\":\"\",\"new_password\":\""+newPassword+"\"}";
                             map.put("json", json);
                             MyLog.d(tag,json);
                             return map;

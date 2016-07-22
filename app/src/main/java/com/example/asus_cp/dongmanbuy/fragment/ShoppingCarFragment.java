@@ -91,7 +91,8 @@ public class ShoppingCarFragment extends Fragment implements View.OnClickListene
 
     private SharedPreferences sharedPreferences;
 
-    public static final int REQUEST_CODE_TO_LOGIN_ACTIVITY=12;
+    public static final int REQUEST_CODE_TO_Ding_Dan_Activity=12;
+
 
 
     private View parentView;//所有popu的父布局
@@ -193,60 +194,65 @@ public class ShoppingCarFragment extends Fragment implements View.OnClickListene
      * 主要用于解析json数据
      */
     private void parseJson(String s) {
+        goods.clear();
         try {
             JSONObject jsonObject=new JSONObject(s);
             JSONObject jsonObject1=jsonObject.getJSONObject("data");
             JSONArray jsonArray=jsonObject1.getJSONArray("goods_list");
-            for(int i=0;i<jsonArray.length();i++){
-                final Good good=new Good();
-                JSONObject ziJsonObj=jsonArray.getJSONObject(i);
-                good.setRecId(ziJsonObj.getString("rec_id"));
-                good.setGoodId(ziJsonObj.getString("goods_id"));
-                good.setGoodName(JsonHelper.decodeUnicode(ziJsonObj.getString("goods_name")));
-                good.setMarket_price(JsonHelper.decodeUnicode(ziJsonObj.getString("market_price")));
-                good.setShopPrice(JsonHelper.decodeUnicode(ziJsonObj.getString("goods_price")));
-                good.setShoppingCarNumber(ziJsonObj.getString("goods_number"));
-                JSONObject imgJson=ziJsonObj.getJSONObject("img");
-                good.setGoodsImg(imgJson.getString("url"));
-                good.setGoodsThumb(imgJson.getString("thumb"));
-                good.setGoodsSmallImag(imgJson.getString("small"));
+            if(jsonArray.length()==0){
+                adapter=new ShoppingCarListAdapter(context,
+                        goods);
+                myListView.setAdapter(adapter);
+            }else{
+                for(int i=0;i<jsonArray.length();i++){
+                    final Good good=new Good();
+                    JSONObject ziJsonObj=jsonArray.getJSONObject(i);
+                    good.setRecId(ziJsonObj.getString("rec_id"));
+                    good.setGoodId(ziJsonObj.getString("goods_id"));
+                    good.setGoodName(JsonHelper.decodeUnicode(ziJsonObj.getString("goods_name")));
+                    good.setMarket_price(JsonHelper.decodeUnicode(ziJsonObj.getString("market_price")));
+                    good.setShopPrice(JsonHelper.decodeUnicode(ziJsonObj.getString("goods_price")));
+                    good.setShoppingCarNumber(ziJsonObj.getString("goods_number"));
+                    JSONObject imgJson=ziJsonObj.getJSONObject("img");
+                    good.setGoodsImg(imgJson.getString("url"));
+                    good.setGoodsThumb(imgJson.getString("thumb"));
+                    good.setGoodsSmallImag(imgJson.getString("small"));
 
-                StringRequest kuCunRequest=new StringRequest(Request.Method.POST, gooDescUrl, new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String s) {
-                        MyLog.d(tag,"请求库存返回的数据"+s);
-                        try {
-                            JSONObject kuCunJs=new JSONObject(s);
-                            JSONObject ku=kuCunJs.getJSONObject("data");
-                            good.setGoodsNumber(ku.getString("goods_number"));
-                            goods.add(good);
+                    StringRequest kuCunRequest=new StringRequest(Request.Method.POST, gooDescUrl, new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String s) {
+                            MyLog.d(tag,"请求库存返回的数据"+s);
+                            try {
+                                JSONObject kuCunJs=new JSONObject(s);
+                                JSONObject ku=kuCunJs.getJSONObject("data");
+                                good.setGoodsNumber(ku.getString("goods_number"));
+                                goods.add(good);
 
-                            adapter=new ShoppingCarListAdapter(context,
-                                    goods);
-                            myListView.setAdapter(adapter);
-                        } catch (JSONException e) {
-                            e.printStackTrace();
+                                adapter=new ShoppingCarListAdapter(context,
+                                        goods);
+                                myListView.setAdapter(adapter);
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+
                         }
+                    }, new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError volleyError) {
 
-                    }
-                }, new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError volleyError) {
-
-                    }
-                }){
-                    @Override
-                    protected Map<String, String> getParams() throws AuthFailureError {
-                        Map<String,String> map=new HashMap<String,String>();
-                        String json="{\"goods_id\":\""+good.getGoodId()+"\",\"session\":{\"uid\":\""+uid+"\",\"sid\":\""+sid+"\"}}";
-                        map.put("json",json);
-                        return map;
-                    }
-                };
-                requestQueue.add(kuCunRequest);
-
+                        }
+                    }){
+                        @Override
+                        protected Map<String, String> getParams() throws AuthFailureError {
+                            Map<String,String> map=new HashMap<String,String>();
+                            String json="{\"goods_id\":\""+good.getGoodId()+"\",\"session\":{\"uid\":\""+uid+"\",\"sid\":\""+sid+"\"}}";
+                            map.put("json",json);
+                            return map;
+                        }
+                    };
+                    requestQueue.add(kuCunRequest);
+                }
             }
-
 
         } catch (JSONException e) {
             e.printStackTrace();
@@ -328,7 +334,7 @@ public class ShoppingCarFragment extends Fragment implements View.OnClickListene
                     intent.putExtra(MyConstant.ITEM_PRODUCT_COUNT_KEY,passItemProductCount);
                     intent.putExtra(MyConstant.PRODUCT_PRICE_SUM_KEY,priceTextView.getText().toString());
                     intent.putExtra(MyConstant.PRODUCT_SHU_MU_SUM_KEY,jieSuanShuMuTextView.getText().toString());
-                    startActivity(intent);
+                    startActivityForResult(intent, REQUEST_CODE_TO_Ding_Dan_Activity);
                 }else{
                     Toast.makeText(context,"请至少选择一个商品",Toast.LENGTH_SHORT).show();
                 }
@@ -393,8 +399,19 @@ public class ShoppingCarFragment extends Fragment implements View.OnClickListene
     }
 
 
-
-
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        MyLog.d(tag, "onActivityResult");
+        switch (requestCode){
+            case REQUEST_CODE_TO_Ding_Dan_Activity: //从订单界面返回的数据
+                getShoppingCarListFromIntetnt();
+                priceTextView.setText(0.00+"");
+                jieSuanShuMuTextView.setText("("+"0"+")");
+                MyLog.d(tag,"onActivityResult内部执行了吗");
+                break;
+        }
+    }
 
     /**
      * 购物车列表的适配器

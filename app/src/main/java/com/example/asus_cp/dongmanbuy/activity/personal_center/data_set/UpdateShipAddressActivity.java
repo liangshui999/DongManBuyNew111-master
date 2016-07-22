@@ -22,7 +22,7 @@ import com.example.asus_cp.dongmanbuy.R;
 import com.example.asus_cp.dongmanbuy.activity.product_detail.AreaActivity;
 import com.example.asus_cp.dongmanbuy.constant.MyConstant;
 import com.example.asus_cp.dongmanbuy.model.UserModel;
-import com.example.asus_cp.dongmanbuy.util.CheckMobileAndEmail;
+import com.example.asus_cp.dongmanbuy.util.CheckHelper;
 import com.example.asus_cp.dongmanbuy.util.MyApplication;
 import com.example.asus_cp.dongmanbuy.util.MyLog;
 
@@ -136,7 +136,7 @@ public class UpdateShipAddressActivity extends Activity implements View.OnClickL
             Toast.makeText(this, "收货人名为空", Toast.LENGTH_SHORT).show();
         }else if("".equals(shouHuoRenPhone) || shouHuoRenPhone.isEmpty()){
             Toast.makeText(this,"收货人电话为空",Toast.LENGTH_SHORT).show();
-        }else if(!CheckMobileAndEmail.isMobileNO(shouHuoRenPhone)){
+        }else if(!CheckHelper.isMobileNO(shouHuoRenPhone)){
             Toast.makeText(this,"电话格式错误",Toast.LENGTH_SHORT).show();
         }
         else if("请选择".equals(suoZaiDiQu)){

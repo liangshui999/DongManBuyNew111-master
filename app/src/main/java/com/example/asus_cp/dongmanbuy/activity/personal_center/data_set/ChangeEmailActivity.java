@@ -18,7 +18,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.example.asus_cp.dongmanbuy.R;
 import com.example.asus_cp.dongmanbuy.constant.MyConstant;
-import com.example.asus_cp.dongmanbuy.util.CheckMobileAndEmail;
+import com.example.asus_cp.dongmanbuy.util.CheckHelper;
 import com.example.asus_cp.dongmanbuy.util.MyApplication;
 import com.example.asus_cp.dongmanbuy.util.MyLog;
 
@@ -73,7 +73,7 @@ public class ChangeEmailActivity extends Activity{
                 String s = editText.getText().toString();
                 if ("".equals(s) || s.isEmpty()) {
                     Toast.makeText(ChangeEmailActivity.this, "邮箱不能为空", Toast.LENGTH_SHORT).show();
-                } else if (!CheckMobileAndEmail.checkEmail(s)) {
+                } else if (!CheckHelper.checkEmail(s)) {
                     Toast.makeText(ChangeEmailActivity.this, "邮箱格式错误", Toast.LENGTH_SHORT).show();
                 } else {
                     conirmClickChuLi(s);

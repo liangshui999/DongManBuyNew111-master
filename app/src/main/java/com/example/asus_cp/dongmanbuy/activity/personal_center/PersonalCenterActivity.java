@@ -156,6 +156,7 @@ public class PersonalCenterActivity extends Activity implements View.OnClickList
                         ImageLoader.ImageListener listener=imageLoader.getImageListener(touXiangImageView,
                                 R.mipmap.yu_jia_zai,R.mipmap.yu_jia_zai);
                         imageLoader.get(MyConstant.YU_MING + user.getPic(), listener, 200, 200);
+                        MyLog.d(tag,"用户头像的数据："+MyConstant.YU_MING + user.getPic());
                         nameTextView.setText(user.getName());
                         dengJiTextView.setText(user.getRankName());
 
@@ -165,7 +166,7 @@ public class PersonalCenterActivity extends Activity implements View.OnClickList
                         setTextViewValue(daiShouHuoShuTextView,user.getAwaitShip());
                         setTextViewValue(daiPingJiaShuTextView,user.getAwaitComment());
                         setTextViewValue(yuEShuTextView,user.getMoney());
-                        setTextViewValue(youHuiQuanShuTextView,user.getYouHuiQuanShu());
+                        setTextViewValue(youHuiQuanShuTextView,user.getHongBao());
                         setTextViewValue(jiFenShuTextView,user.getJiFen());
                     }
                 }, new Response.ErrorListener() {

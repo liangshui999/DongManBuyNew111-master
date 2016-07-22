@@ -79,24 +79,25 @@ public class AddHongBaoActivity extends Activity{
                             new Response.Listener<String>() {
                                 @Override
                                 public void onResponse(String s) {
-                                    MyLog.d(tag,"返回的数据是："+s);
+                                    MyLog.d(tag, "返回的数据是：" + s);
                                     try {
-                                        JSONObject jsonObject=new JSONObject(s.substring(4));//这里返回的json数据有问题，前面有数字，所以需要先把数字踢掉
+                                        JSONObject jsonObject=new JSONObject(s);//这里返回的json数据有问题，前面有数字，所以需要先把数字踢掉
                                         JSONObject jsonObject1=jsonObject.getJSONObject("data");
                                         JSONObject jsonObject2=jsonObject1.getJSONObject("status");
                                         String suceed=jsonObject2.getString("succeed");
                                         String errorDesc=jsonObject2.getString("error_desc");
                                         if("1".equals(suceed)){
                                             Toast.makeText(AddHongBaoActivity.this,"添加成功",Toast.LENGTH_LONG).show();
+                                            Intent intent=new Intent();
+                                            setResult(RESULT_OK,intent);
+                                            finish();
                                         }else if("0".equals(suceed)){
-                                            Toast.makeText(AddHongBaoActivity.this,errorDesc,Toast.LENGTH_LONG).show();
+                                            Toast.makeText(AddHongBaoActivity.this,"添加失败（红包可能已经使用）",Toast.LENGTH_LONG).show();
                                         }
                                     } catch (JSONException e) {
                                         e.printStackTrace();
                                     }
-                                    Intent intent=new Intent();
-                                    setResult(RESULT_OK,intent);
-                                    finish();
+
                                 }
                             }, new Response.ErrorListener() {
                         @Override
@@ -107,7 +108,7 @@ public class AddHongBaoActivity extends Activity{
                         @Override
                         protected Map<String, String> getParams() throws AuthFailureError {
                             Map<String,String> map=new HashMap<String, String>();
-                            String json="{\"session\":{\"uid\":\""+uid+"\",\"sid\":\""+sid+"\"},\"bonus_sn\":\""+1000450997+"\",\"bonus_password\":\""+"RCU6{14]VM"+"\"}";
+                            String json="{\"session\":{\"uid\":\""+uid+"\",\"sid\":\""+sid+"\"},\"bonus_sn\":\""+kouLing+"\",\"bonus_password\":\""+password+"\"}";
                             map.put("json",json);
                             MyLog.d(tag,"uid="+uid+"..............."+"sid="+sid);
                             return map;

@@ -18,7 +18,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.example.asus_cp.dongmanbuy.R;
 import com.example.asus_cp.dongmanbuy.constant.MyConstant;
-import com.example.asus_cp.dongmanbuy.util.CheckMobileAndEmail;
+import com.example.asus_cp.dongmanbuy.util.CheckHelper;
 import com.example.asus_cp.dongmanbuy.util.MyApplication;
 import com.example.asus_cp.dongmanbuy.util.MyLog;
 
@@ -74,7 +74,7 @@ public class ChangePhoneActivity extends Activity{
                 String s = editText.getText().toString();
                 if ("".equals(s) || s.isEmpty()) {
                     Toast.makeText(ChangePhoneActivity.this, "手机号不能为空", Toast.LENGTH_SHORT).show();
-                } else if (!CheckMobileAndEmail.isMobileNO(s)) {
+                } else if (!CheckHelper.isMobileNO(s)) {
                     Toast.makeText(ChangePhoneActivity.this, "手机号格式错误", Toast.LENGTH_SHORT).show();
                 } else {
                     //conirmClickChuLi(s);

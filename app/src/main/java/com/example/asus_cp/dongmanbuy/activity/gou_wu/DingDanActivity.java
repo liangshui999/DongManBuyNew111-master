@@ -257,7 +257,7 @@ public class DingDanActivity extends Activity implements View.OnClickListener{
                         phoneTextView.setText(userModel.getUserPhone());
                         MyLog.d(tag,"countryName="+userModel.getCountryName());
                         if(userModel.getCountryName()==null || userModel.getCountryName().isEmpty()){
-                            userModel.setCountryName("");
+                            userModel.setCountryName("中国");
                         }
                         if(userModel.getProvinceName()==null || userModel.getProvinceName().isEmpty()){
                             userModel.setProvinceName("");
@@ -719,6 +719,12 @@ public class DingDanActivity extends Activity implements View.OnClickListener{
     }
 
 
+    @Override
+    public void onBackPressed() {
+        Intent intent=new Intent();
+        setResult(RESULT_OK,intent);
+        finish();
+    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
