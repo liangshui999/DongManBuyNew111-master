@@ -594,8 +594,9 @@ public class DingDanActivity extends Activity implements View.OnClickListener{
         yuEZhiFuRelaytiveLayout.setOnClickListener(this);
         zhiFuFangShiWindow=new PopupWindow(zhiFuFangShiView, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         //外部点击时可以消失
-        zhiFuFangShiWindow.setBackgroundDrawable(new ColorDrawable());
-        zhiFuFangShiWindow.setOutsideTouchable(true);
+        //zhiFuFangShiWindow.setBackgroundDrawable(new ColorDrawable());
+        zhiFuFangShiWindow.setFocusable(true);
+        zhiFuFangShiWindow.setOutsideTouchable(false);
         zhiFuFangShiWindow.showAtLocation(parentView, Gravity.BOTTOM, 0, 0);//最后才是show,顺序很重要
         setBackgroundAlpha(0.5f);
         zhiFuFangShiWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
@@ -694,8 +695,9 @@ public class DingDanActivity extends Activity implements View.OnClickListener{
         menDianZitIRelaytiveLayout.setOnClickListener(this);
         peiSongFangShiWindow=new PopupWindow(peiSongFangShiView, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         //外部点击时可以消失
-        peiSongFangShiWindow.setBackgroundDrawable(new ColorDrawable());
-        peiSongFangShiWindow.setOutsideTouchable(true);
+        //peiSongFangShiWindow.setBackgroundDrawable(new ColorDrawable());
+        peiSongFangShiWindow.setFocusable(true);
+        peiSongFangShiWindow.setOutsideTouchable(false);
         peiSongFangShiWindow.showAtLocation(parentView, Gravity.BOTTOM, 0, 0);//最后才是show,顺序很重要
         setBackgroundAlpha(0.5f);
         peiSongFangShiWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {

@@ -26,6 +26,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.example.asus_cp.dongmanbuy.R;
 import com.example.asus_cp.dongmanbuy.activity.MipcaActivityCapture;
 import com.example.asus_cp.dongmanbuy.activity.login.LoginActivity;
+import com.example.asus_cp.dongmanbuy.activity.map_activity_my.ShopStreerMapActivity;
 import com.example.asus_cp.dongmanbuy.activity.product_detail.ProductDetailActivity;
 import com.example.asus_cp.dongmanbuy.constant.MyConstant;
 import com.example.asus_cp.dongmanbuy.model.Good;
@@ -76,6 +77,7 @@ public class ShopDetailActivity extends Activity implements View.OnClickListener
     private TextView gongSiNameTextView;//公司名字
     private TextView kaiDianTimeTextView;//开店时间
     private TextView suoZaiAreaTextView;//所在地区
+    private RelativeLayout suoZaiDiQuRelativeLayout;//所在地区
 
     private ShopModel shopModel;
 
@@ -129,6 +131,7 @@ public class ShopDetailActivity extends Activity implements View.OnClickListener
         gongSiNameTextView= (TextView) findViewById(R.id.text_gong_si_name);
         kaiDianTimeTextView= (TextView) findViewById(R.id.text_kai_dian_time);
         suoZaiAreaTextView= (TextView) findViewById(R.id.text_suo_zai_di_qu_shop_detail);
+        suoZaiDiQuRelativeLayout= (RelativeLayout) findViewById(R.id.re_layout_suo_zai_di_qu_map);
 
         shopModel=getIntent().getParcelableExtra(MyConstant.SHOP_MODEL_KEY);
         if(shopModel!=null){
@@ -169,6 +172,7 @@ public class ShopDetailActivity extends Activity implements View.OnClickListener
             keFuRelalltiveLayout.setOnClickListener(this);
             erWeiMaRelativeLayout.setOnClickListener(this);
             shangJiaPhoneRelativeLayout.setOnClickListener(this);
+            suoZaiDiQuRelativeLayout.setOnClickListener(this);
         }
     }
 
@@ -204,6 +208,10 @@ public class ShopDetailActivity extends Activity implements View.OnClickListener
                 Intent callIntent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:"+
                     shangJiaPhoneTextView.getText().toString()));
                 startActivity(callIntent);
+                break;
+            case R.id.re_layout_suo_zai_di_qu_map://点击了所在地区
+                Intent mapIntent=new Intent(this, ShopStreerMapActivity.class);
+                startActivity(mapIntent);
                 break;
         }
     }

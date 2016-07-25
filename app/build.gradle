@@ -32,4 +32,11 @@ dependencies {
     compile project(':saoyisao')
     compile files('libs/weiboSDKCore_3.1.4.jar')
     compile project(':slidingmenu')
+    compile files('libs/baidumapapi_base_v4_0_0.jar')
+    compile files('libs/baidumapapi_cloud_v4_0_0.jar')
+    compile files('libs/baidumapapi_map_v4_0_0.jar')
+    compile files('libs/baidumapapi_radar_v4_0_0.jar')
+    compile files('libs/baidumapapi_search_v4_0_0.jar')
+    compile files('libs/baidumapapi_util_v4_0_0.jar')
+    compile files('libs/BaiduLBS_Android.jar')
 }

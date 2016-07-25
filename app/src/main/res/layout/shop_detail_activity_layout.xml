@@ -388,6 +388,7 @@
                 </RelativeLayout>
 
                 <RelativeLayout
+                    android:id="@+id/re_layout_suo_zai_di_qu_map"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingTop="10dp"

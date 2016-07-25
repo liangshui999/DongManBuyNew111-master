@@ -70,7 +70,7 @@ public class ShopStreetShopListAdapter extends BaseAdapter {
 
     public ShopStreetShopListAdapter(Activity context, List<ShopModel> shopModels) {
         this.context = context;
-       // mainActivity= (MainActivity) context;
+        //mainActivity= (MainActivity) context;
         this.shopModels = shopModels;
         inflater=LayoutInflater.from(context);
         helper=new ImageLoadHelper();
@@ -224,7 +224,7 @@ public class ShopStreetShopListAdapter extends BaseAdapter {
                     context.startActivity(intent);
                 }
             });
-            //mainActivity.menu.addIgnoredView(viewHolder.shopContentRecyClView);
+            //mainActivity.menu.setEnabled(false);
         }else{
             viewHolder.shopContentRecyClView.setVisibility(View.GONE);
         }

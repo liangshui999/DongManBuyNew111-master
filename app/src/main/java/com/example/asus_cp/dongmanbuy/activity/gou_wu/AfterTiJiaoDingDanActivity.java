@@ -57,7 +57,7 @@ public class AfterTiJiaoDingDanActivity extends Activity implements View.OnClick
     private String tag="AfterTiJiaoDingDanActivity";
 
 
-    private String payUrl="http://www.zmobuy.com/appa/index.php";//支付宝url
+    private String payUrl="http://api.zmobuy.com/JK/alipay/alipayapi.php";//支付宝url
     private RequestQueue requestQueue;
 
 

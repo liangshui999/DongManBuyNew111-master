@@ -1165,8 +1165,9 @@ public class ProductDetailActivity extends Activity implements View.OnClickListe
         closeFuwu.setOnClickListener(this);
         fuWuWindow=new PopupWindow(fuWuView, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         //外部点击时可以消失
-        fuWuWindow.setBackgroundDrawable(new ColorDrawable());
-        fuWuWindow.setOutsideTouchable(true);
+        //fuWuWindow.setBackgroundDrawable(new ColorDrawable());
+        fuWuWindow.setFocusable(true);
+        fuWuWindow.setOutsideTouchable(false);
         fuWuWindow.showAtLocation(parentView, Gravity.BOTTOM, 0, 0);//最后才是show,顺序很重要
         setBackgroundAlpha(0.5f);
         fuWuWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
@@ -1227,8 +1228,9 @@ public class ProductDetailActivity extends Activity implements View.OnClickListe
 
         yiXuanWindow = new PopupWindow(yiXuanView, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         //外部点击时可以消失
-        yiXuanWindow.setBackgroundDrawable(new ColorDrawable());
-        yiXuanWindow.setOutsideTouchable(true);
+        //yiXuanWindow.setBackgroundDrawable(new ColorDrawable());
+        yiXuanWindow.setFocusable(true);
+        yiXuanWindow.setOutsideTouchable(false);
         yiXuanWindow.showAtLocation(parentView, Gravity.BOTTOM, 0, 0);//最后才是show,顺序很重要
         setBackgroundAlpha(0.5f);
         yiXuanWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
@@ -1262,8 +1264,9 @@ public class ProductDetailActivity extends Activity implements View.OnClickListe
         youHuiQuanWindow = new PopupWindow(youHuiQuanView,
                 ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         //外部点击时可以消失
-        youHuiQuanWindow.setBackgroundDrawable(new ColorDrawable());
-        youHuiQuanWindow.setOutsideTouchable(true);
+        //youHuiQuanWindow.setBackgroundDrawable(new ColorDrawable());
+        youHuiQuanWindow.setFocusable(true);
+        youHuiQuanWindow.setOutsideTouchable(false);
         youHuiQuanWindow.showAtLocation(parentView, Gravity.BOTTOM, 0, 0);//最后才是show,顺序很重要
         setBackgroundAlpha(0.5f);
         youHuiQuanWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
