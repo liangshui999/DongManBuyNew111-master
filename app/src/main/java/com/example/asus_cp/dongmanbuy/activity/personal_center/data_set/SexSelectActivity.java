@@ -38,7 +38,7 @@ public class SexSelectActivity extends Activity implements View.OnClickListener{
     private String tag="SexSelectActivity";
 
     private LinearLayout nanLinearLayout;//男
-    private LinearLayout nvLinearLayout;//男
+    private LinearLayout nvLinearLayout;//女
     private ImageView nanImageView;
     private ImageView nvImageView;
     private TextView nanTextView;

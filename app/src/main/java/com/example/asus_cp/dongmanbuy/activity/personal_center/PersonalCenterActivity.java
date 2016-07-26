@@ -101,6 +101,7 @@ public class PersonalCenterActivity extends Activity implements View.OnClickList
     public static final int REQUEST_CODE_LOGIN_KEY=0;//跳转到登陆界面用
     public static final int REQUEST_CODE_SHOU_CANG_KEY=1;//跳转到收藏界面
     public static final int REQUEST_DATA_SET_KEY=2;//跳转到资料设置界面
+    public static final int REQUESTCODE_DING_DAN_LIST_KEY=3;//跳转到订单界面
 
     private User passUser;//传递到设置资料界面
 
@@ -300,7 +301,7 @@ public class PersonalCenterActivity extends Activity implements View.OnClickList
        liuLanJiLuAdapter.setOnItemClickLitener(new LiuLanJiLuAdapter.OnItemClickLitener() {
            @Override
            public void onItemClick(View view, int position) {
-               Toast.makeText(PersonalCenterActivity.this, "点击的位置是" + position, Toast.LENGTH_SHORT).show();
+               //Toast.makeText(PersonalCenterActivity.this, "点击的位置是" + position, Toast.LENGTH_SHORT).show();
                Intent intent = new Intent(PersonalCenterActivity.this, ProductDetailActivity.class);
                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                intent.putExtra(MyConstant.GOOD_KEY, goods.get(position));
@@ -430,7 +431,7 @@ public class PersonalCenterActivity extends Activity implements View.OnClickList
     private void toDingDanListAcitivy(String str) {
         Intent allDingDanIntent=new Intent(this, DingDanListActivity.class);
         allDingDanIntent.putExtra(MyConstant.TO_DING_DAN_LIST_KEY,str);
-        startActivity(allDingDanIntent);
+        startActivityForResult(allDingDanIntent, REQUESTCODE_DING_DAN_LIST_KEY);
     }
 
 
@@ -454,6 +455,9 @@ public class PersonalCenterActivity extends Activity implements View.OnClickList
                 getDataFromIntenetAndSetView();
                 break;
             case REQUEST_DATA_SET_KEY://从资料设置返回
+                getDataFromIntenetAndSetView();
+                break;
+            case REQUESTCODE_DING_DAN_LIST_KEY://从订单列表返回的
                 getDataFromIntenetAndSetView();
                 break;
         }

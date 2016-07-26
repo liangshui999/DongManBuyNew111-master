@@ -211,6 +211,7 @@ public class ShopDetailActivity extends Activity implements View.OnClickListener
                 break;
             case R.id.re_layout_suo_zai_di_qu_map://点击了所在地区
                 Intent mapIntent=new Intent(this, ShopStreerMapActivity.class);
+                mapIntent.putExtra(MyConstant.SHOP_MODEL_KEY,shopModel);
                 startActivity(mapIntent);
                 break;
         }

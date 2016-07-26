@@ -914,6 +914,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if(uid!=null && !uid.isEmpty()){
             Intent toPersonalCenterIntent=new Intent(this, PersonalCenterActivity.class);
             startActivity(toPersonalCenterIntent);
+            if(menu.isMenuShowing()){
+                menu.toggle();
+            }
         }else{
             Intent toLoginIntent=new Intent(this,LoginActivity.class);
             toLoginIntent.putExtra(MyConstant.START_LOGIN_ACTIVITY_FLAG_KEY,"homeFragment");

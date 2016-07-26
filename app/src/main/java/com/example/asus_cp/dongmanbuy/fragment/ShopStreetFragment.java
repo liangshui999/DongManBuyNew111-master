@@ -126,6 +126,8 @@ public class ShopStreetFragment extends Fragment {
         shopListListView= (PullToRefreshListView) v.findViewById(R.id.list_view_shop_list);
         shopListListView.setMode(PullToRefreshBase.Mode.PULL_FROM_END);//设置模式是上拉加载
         shopListListView.setOnRefreshListener(new MyOnrefreshListener());
+
+        mainActivity.menu.addIgnoredView(shopListListView);//将listview添加到忽略里面
         List<String> paiLies=new ArrayList<String>();
         paiLies.add("排列顺序");
         List<String> shopPostions=new ArrayList<String>();
@@ -512,5 +514,6 @@ public class ShopStreetFragment extends Fragment {
     @Override
     public void onStop() {
         super.onStop();
+        mainActivity.menu.removeIgnoredView(shopListListView);
     }
 }

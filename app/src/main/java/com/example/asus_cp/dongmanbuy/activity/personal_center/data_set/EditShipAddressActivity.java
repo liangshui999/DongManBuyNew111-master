@@ -136,7 +136,7 @@ public class EditShipAddressActivity extends Activity{
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        MyLog.d(tag,"从其他活动返回的数据是："+data.getStringExtra(MyConstant.ADAPTER_KEY));
+//        MyLog.d(tag,"从其他活动返回的数据是："+data.getStringExtra(MyConstant.ADAPTER_KEY));
         getShipAddressList();
     }
 

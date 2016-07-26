@@ -3,10 +3,82 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.baidu.mapapi.map.MapView
-        android:id="@+id/bmapView"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:clickable="true" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp">
+        <ImageView
+            android:id="@+id/img_dao_hang_map"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@mipmap/left"
+            android:layout_centerVertical="true"/>
+        <TextView
+            android:id="@+id/text_dian_pu_name_up_map"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="武汉市周末互动有限公是"
+            android:layout_centerInParent="true"/>
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+        <com.baidu.mapapi.map.MapView
+            android:id="@+id/bmapView"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:clickable="true" />
+    </LinearLayout>
+
+
+
+    <TextView
+    android:id="@+id/text_dian_pu_name_down_map"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:text="武汉市周末互动有限公是"
+    android:padding="5dp"/>
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@color/gray"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="5dp"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/map_di_zhi"/>
+        <TextView
+            android:id="@+id/text_dian_pu_detail_di_zhi_map"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="武汉市武昌区武昌火车站"/>
+    </LinearLayout>
+
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@color/gray"/>
+
+
+    <TextView
+        android:id="@+id/text_gong_jiao_xian_lu_map"
+        android:clickable="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/gong_jiao_xian_lu"
+        android:gravity="center"
+        android:padding="5dp"/>
+
+
+
 
 </LinearLayout>

@@ -103,6 +103,11 @@ public class UpdateShipAddressActivity extends Activity implements View.OnClickL
         suoZaiDiQuTextView.setText(userModel.getProvinceName()+userModel.getCityName()+userModel.getDistrictName());
         xiangXiDiZhiEditText.setText(userModel.getShouHuoArea());
 
+        //设置省id市id县id的初始值
+        shengId=13+"";
+        shiId=180+"";
+        xianId=1545+"";
+
         //设置点击事件
         suoZaiDiQuRelaytiveLayout.setOnClickListener(this);
         saveButton.setOnClickListener(this);
@@ -139,7 +144,7 @@ public class UpdateShipAddressActivity extends Activity implements View.OnClickL
         }else if(!CheckHelper.isMobileNO(shouHuoRenPhone)){
             Toast.makeText(this,"电话格式错误",Toast.LENGTH_SHORT).show();
         }
-        else if("请选择".equals(suoZaiDiQu)){
+        else if("".equals(suoZaiDiQu)){
             Toast.makeText(this,"请选择地区",Toast.LENGTH_SHORT).show();
         }else if("".equals(xiangXiDiZhi) || xiangXiDiZhi.isEmpty()){
             Toast.makeText(this,"请填写详细地址",Toast.LENGTH_SHORT).show();
@@ -204,5 +209,15 @@ public class UpdateShipAddressActivity extends Activity implements View.OnClickL
                 }
                 break;
         }
+    }
+
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent intent=new Intent();
+        intent.putExtra(MyConstant.ADAPTER_KEY,"haha");
+        setResult(RESULT_OK,intent);
+        finish();
     }
 }

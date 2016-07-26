@@ -256,8 +256,9 @@ public class DingDanActivity extends Activity implements View.OnClickListener{
                         peopleNameTextView.setText(userModel.getUserName());
                         phoneTextView.setText(userModel.getUserPhone());
                         MyLog.d(tag,"countryName="+userModel.getCountryName());
-                        if(userModel.getCountryName()==null || userModel.getCountryName().isEmpty()){
+                        if(userModel.getCountryName()==null || userModel.getCountryName().isEmpty() || userModel.getCountryName().equals("null")){
                             userModel.setCountryName("中国");
+                            MyLog.d(tag, "countryName=" + userModel.getCountryName());
                         }
                         if(userModel.getProvinceName()==null || userModel.getProvinceName().isEmpty()){
                             userModel.setProvinceName("");

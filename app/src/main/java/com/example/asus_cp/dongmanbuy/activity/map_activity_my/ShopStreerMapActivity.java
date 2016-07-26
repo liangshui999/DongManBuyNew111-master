@@ -1,8 +1,17 @@
 package com.example.asus_cp.dongmanbuy.activity.map_activity_my;
 
 import android.app.Activity;
+import android.app.Dialog;
+import android.content.Context;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
+import android.view.View;
 import android.view.Window;
+import android.widget.AdapterView;
+import android.widget.ImageView;
+import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;
@@ -22,12 +31,31 @@ import com.baidu.mapapi.map.MyLocationData;
 import com.baidu.mapapi.map.OverlayOptions;
 import com.baidu.mapapi.map.TextOptions;
 import com.baidu.mapapi.model.LatLng;
+import com.baidu.mapapi.overlayutil.BikingRouteOverlay;
+import com.baidu.mapapi.overlayutil.DrivingRouteOverlay;
+import com.baidu.mapapi.overlayutil.OverlayManager;
+import com.baidu.mapapi.overlayutil.TransitRouteOverlay;
+import com.baidu.mapapi.overlayutil.WalkingRouteOverlay;
+import com.baidu.mapapi.search.core.PoiInfo;
+import com.baidu.mapapi.search.core.RouteLine;
+import com.baidu.mapapi.search.core.SearchResult;
 import com.baidu.mapapi.search.geocode.GeoCodeOption;
 import com.baidu.mapapi.search.geocode.GeoCodeResult;
 import com.baidu.mapapi.search.geocode.GeoCoder;
 import com.baidu.mapapi.search.geocode.OnGetGeoCoderResultListener;
 import com.baidu.mapapi.search.geocode.ReverseGeoCodeResult;
+import com.baidu.mapapi.search.route.BikingRouteResult;
+import com.baidu.mapapi.search.route.DrivingRouteResult;
+import com.baidu.mapapi.search.route.OnGetRoutePlanResultListener;
+import com.baidu.mapapi.search.route.PlanNode;
+import com.baidu.mapapi.search.route.RoutePlanSearch;
+import com.baidu.mapapi.search.route.TransitRoutePlanOption;
+import com.baidu.mapapi.search.route.TransitRouteResult;
+import com.baidu.mapapi.search.route.WalkingRouteResult;
 import com.example.asus_cp.dongmanbuy.R;
+import com.example.asus_cp.dongmanbuy.adapter.baidu_adapter.RouteLineAdapter;
+import com.example.asus_cp.dongmanbuy.constant.MyConstant;
+import com.example.asus_cp.dongmanbuy.model.ShopModel;
 import com.example.asus_cp.dongmanbuy.util.MyLog;
 
 import java.util.List;
@@ -36,7 +64,7 @@ import java.util.List;
  * 展示店铺地址的界面，主要是放一幅地图
  * Created by asus-cp on 2016-07-25.
  */
-public class ShopStreerMapActivity extends Activity{
+public class ShopStreerMapActivity extends Activity implements View.OnClickListener{
 
     private String tag="ShopStreerMapActivity";
 
@@ -44,6 +72,22 @@ public class ShopStreerMapActivity extends Activity{
     public LocationClient mLocationClient = null;
     public BDLocationListener myListener = new MyLocationListener();
     private BaiduMap baiduMap;//百度地图的控制器
+    private int densityDpi;//屏幕像素密度
+    private ShopModel shopModel;
+    boolean useDefaultIcon = false;
+    int nodeIndex = -1; // 节点索引,供浏览节点时使用
+    TransitRouteResult nowResult = null;
+    RouteLine route = null;
+    OverlayManager routeOverlay = null;
+    private LatLng myPosition;//我的位置
+    private LatLng dianPuPosition;//店铺的位置
+
+    private ImageView daoHangImageView;//导航
+    private TextView dianPuNameUpTextView;//店铺上名称
+    private TextView dianPuNameDownTextView;//店铺下名称
+    private TextView dianPuDetailAddressTextView;//店铺地址
+    private TextView gongJiaoXianLuTextView;//公交线路
+
 
 
 
@@ -52,12 +96,38 @@ public class ShopStreerMapActivity extends Activity{
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.shop_street_map_activity_layout);
+
+        shopModel=getIntent().getParcelableExtra(MyConstant.SHOP_MODEL_KEY);
+
+        //获取屏幕像素密度
+        DisplayMetrics metric = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(metric);
+        densityDpi = metric.densityDpi;  // 屏幕密度DPI（120 / 160 / 240）
+
         mMapView = (MapView) findViewById(R.id.bmapView);
         baiduMap=mMapView.getMap();//获取控制器
         mLocationClient = new LocationClient(getApplicationContext());     //声明LocationClient类
         initLocation();
-        mLocationClient.registerLocationListener( myListener );    //注册监听函数
-        mLocationClient.start();
+        mLocationClient.registerLocationListener(myListener);    //注册监听函数
+        mLocationClient.start();//开始定位
+
+        //
+        daoHangImageView= (ImageView) findViewById(R.id.img_dao_hang_map);
+        dianPuNameUpTextView= (TextView) findViewById(R.id.text_dian_pu_name_up_map);
+        dianPuNameDownTextView= (TextView) findViewById(R.id.text_dian_pu_name_down_map);
+        dianPuDetailAddressTextView= (TextView) findViewById(R.id.text_dian_pu_detail_di_zhi_map);
+        gongJiaoXianLuTextView= (TextView) findViewById(R.id.text_gong_jiao_xian_lu_map);
+
+
+        //给view设置初值
+        dianPuNameUpTextView.setText(shopModel.getShopName());
+        dianPuNameDownTextView.setText(shopModel.getShopName());
+        dianPuDetailAddressTextView.setText(shopModel.getShopAddress());
+
+        //给view设置点击事件
+        daoHangImageView.setOnClickListener(this);
+        gongJiaoXianLuTextView.setOnClickListener(this);
+
     }
 
     @Override
@@ -107,6 +177,254 @@ public class ShopStreerMapActivity extends Activity{
     }
 
 
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.img_dao_hang_map:
+                finish();
+                break;
+            case R.id.text_gong_jiao_xian_lu_map:
+                Toast.makeText(this,"点击了公交线路",Toast.LENGTH_SHORT ).show();
+                gongJiaoXianLuClickChuLi();
+                break;
+        }
+    }
+
+
+    /**
+     * 公交线路的点击事件处理
+     */
+    private void gongJiaoXianLuClickChuLi() {
+        //创建公交线路规划检索实例
+        RoutePlanSearch mSearch = RoutePlanSearch.newInstance();
+
+        //创建公交线路规划检索监听者
+        OnGetRoutePlanResultListener listener = new OnGetRoutePlanResultListener() {
+            public void onGetWalkingRouteResult(WalkingRouteResult result) {
+                //
+            }
+            public void onGetTransitRouteResult(TransitRouteResult result) {
+                //返回整个路段的详细信息
+                for(int i=0;i<result.getRouteLines().size();i++){
+                    for(int j=0;j<result.getRouteLines().get(i).getAllStep().size();j++){
+                        MyLog.d(tag,"查询的信息是："+result.getRouteLines().get(i).getAllStep().get(j).getInstructions());
+                    }
+                    MyLog.d(tag,"查询的信息是："+result.getRouteLines().get(0).getAllStep().get(0).getInstructions());
+                }
+                MyLog.d(tag,"查询的信息是："+result.getRouteLines().get(0).getAllStep().get(0).getInstructions());
+                if (result == null || result.error != SearchResult.ERRORNO.NO_ERROR) {
+                    Toast.makeText(ShopStreerMapActivity.this, "抱歉，未找到结果", Toast.LENGTH_SHORT).show();
+                }
+                if (result.error == SearchResult.ERRORNO.AMBIGUOUS_ROURE_ADDR) {
+                    //起终点或途经点地址有岐义，通过以下接口获取建议查询信息
+                    //result.getSuggestAddrInfo()
+                    return;
+                }
+                if (result.error == SearchResult.ERRORNO.NO_ERROR) {
+                    if (result.getRouteLines().size() > 1 ) {
+                        nowResult = result;
+
+                        MyTransitDlg myTransitDlg = new MyTransitDlg(ShopStreerMapActivity.this,
+                                result.getRouteLines(),
+                                RouteLineAdapter.Type.TRANSIT_ROUTE);
+                        myTransitDlg.setOnItemInDlgClickLinster(new OnItemInDlgClickListener() {
+                            public void onItemClick(int position) {
+                                route = nowResult.getRouteLines().get(position);
+                                TransitRouteOverlay overlay = new MyTransitRouteOverlay(baiduMap);
+                                baiduMap.setOnMarkerClickListener(overlay);
+                                routeOverlay = overlay;
+                                overlay.setData(nowResult.getRouteLines().get(position));
+                                overlay.addToMap();
+                                overlay.zoomToSpan();
+                            }
+
+                        });
+                        myTransitDlg.show();
+
+                    } else if ( result.getRouteLines().size() == 1 ) {
+                        // 直接显示
+                        route = result.getRouteLines().get(0);
+                        TransitRouteOverlay overlay = new MyTransitRouteOverlay(baiduMap);
+                        baiduMap.setOnMarkerClickListener(overlay);
+                        routeOverlay = overlay;
+                        overlay.setData(result.getRouteLines().get(0));
+                        overlay.addToMap();
+                        overlay.zoomToSpan();
+
+                    } else {
+                        MyLog.d("transitresult", "结果数<0" );
+                        return;
+                    }
+                }
+            }
+            public void onGetDrivingRouteResult(DrivingRouteResult result) {
+                //
+            }
+
+            @Override
+            public void onGetBikingRouteResult(BikingRouteResult bikingRouteResult) {
+
+            }
+        };
+
+        //设置公交线路规划检索监听者
+        mSearch.setOnGetRoutePlanResultListener(listener);
+
+        //准备检索起、终点信息
+        PlanNode stNode = PlanNode.withLocation(myPosition);
+        PlanNode enNode = PlanNode.withLocation(dianPuPosition);
+
+        //发起公交线路规划检索
+        mSearch.transitSearch((new TransitRoutePlanOption())
+                .from(stNode)
+                .city("武汉")
+                .to(enNode));
+
+        //释放检索实例
+        //mSearch.destroy();
+
+    }
+
+
+
+    // 响应DLg中的List item 点击
+    interface OnItemInDlgClickListener {
+        public void onItemClick( int position);
+    }
+
+    // 供路线选择的Dialog
+    class MyTransitDlg extends Dialog {
+
+        private List<? extends RouteLine> mtransitRouteLines;
+        private ListView transitRouteList;
+        private RouteLineAdapter mTransitAdapter;
+
+        OnItemInDlgClickListener onItemInDlgClickListener;
+
+        public MyTransitDlg(Context context, int theme) {
+            super(context, theme);
+        }
+
+        public MyTransitDlg(Context context, List< ? extends RouteLine> transitRouteLines,  RouteLineAdapter.Type
+                type) {
+            this( context, 0);
+            mtransitRouteLines = transitRouteLines;
+            mTransitAdapter = new  RouteLineAdapter( context, mtransitRouteLines , type);
+            requestWindowFeature(Window.FEATURE_NO_TITLE);
+        }
+
+        @Override
+        protected void onCreate(Bundle savedInstanceState) {
+            super.onCreate(savedInstanceState);
+            setContentView(R.layout.activity_transit_dialog);
+
+            transitRouteList = (ListView) findViewById(R.id.transitList);
+            transitRouteList.setAdapter(mTransitAdapter);
+
+            transitRouteList.setOnItemClickListener( new AdapterView.OnItemClickListener() {
+
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    onItemInDlgClickListener.onItemClick( position);
+//                    mBtnPre.setVisibility(View.VISIBLE);
+//                    mBtnNext.setVisibility(View.VISIBLE);
+                    dismiss();
+
+                }
+            });
+        }
+
+        public void setOnItemInDlgClickLinster( OnItemInDlgClickListener itemListener) {
+            onItemInDlgClickListener = itemListener;
+        }
+
+    }
+
+
+
+
+    // 定制RouteOverly
+    private class MyDrivingRouteOverlay extends DrivingRouteOverlay {
+
+        public MyDrivingRouteOverlay(BaiduMap baiduMap) {
+            super(baiduMap);
+        }
+
+        @Override
+        public BitmapDescriptor getStartMarker() {
+            return BitmapDescriptorFactory.fromResource(R.mipmap.map);
+        }
+
+        @Override
+        public BitmapDescriptor getTerminalMarker() {
+            return BitmapDescriptorFactory.fromResource(R.mipmap.map);
+        }
+    }
+
+    private class MyWalkingRouteOverlay extends WalkingRouteOverlay {
+
+        public MyWalkingRouteOverlay(BaiduMap baiduMap) {
+            super(baiduMap);
+        }
+
+        @Override
+        public BitmapDescriptor getStartMarker() {
+            return BitmapDescriptorFactory.fromResource(R.mipmap.map);
+        }
+
+        @Override
+        public BitmapDescriptor getTerminalMarker() {
+            return BitmapDescriptorFactory.fromResource(R.mipmap.map);
+        }
+    }
+
+    private class MyTransitRouteOverlay extends TransitRouteOverlay {
+
+        public MyTransitRouteOverlay(BaiduMap baiduMap) {
+            super(baiduMap);
+        }
+
+        @Override
+        public BitmapDescriptor getStartMarker() {
+            return BitmapDescriptorFactory.fromResource(R.mipmap.map);
+        }
+
+        @Override
+        public BitmapDescriptor getTerminalMarker() {
+            return BitmapDescriptorFactory.fromResource(R.mipmap.map);
+        }
+    }
+
+    private class MyBikingRouteOverlay extends BikingRouteOverlay {
+        public  MyBikingRouteOverlay(BaiduMap baiduMap) {
+            super(baiduMap);
+        }
+
+        @Override
+        public BitmapDescriptor getStartMarker() {
+            return BitmapDescriptorFactory.fromResource(R.mipmap.map);
+        }
+
+        @Override
+        public BitmapDescriptor getTerminalMarker() {
+            return BitmapDescriptorFactory.fromResource(R.mipmap.map);
+        }
+
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
     /**
      * 位置监听器
      */
@@ -128,32 +446,46 @@ public class ShopStreerMapActivity extends Activity{
 
             //我自己添加的内容
             // 构造定位数据
-            MyLocationData locData = new MyLocationData.Builder()
+            /*MyLocationData locData = new MyLocationData.Builder()
                     .accuracy(location.getRadius())//
                     .direction(location.getDirection())// 方向
                     .latitude(location.getLatitude())//
                     .longitude(location.getLongitude())//
                     .build();
             // 设置定位数据
-            baiduMap.setMyLocationData(locData);
+            baiduMap.setMyLocationData(locData);*/
 
             //设置定位的配置信息
             final BitmapDescriptor bitmapDescriptor= BitmapDescriptorFactory.fromResource(R.mipmap.map);
-            MyLocationConfiguration myLocationConfiguration=new MyLocationConfiguration(
+            /*MyLocationConfiguration myLocationConfiguration=new MyLocationConfiguration(
                     MyLocationConfiguration.LocationMode.NORMAL,true,bitmapDescriptor);
             baiduMap.setMyLocationEnabled(true);//必须设置这个，不设置这个，定位图标根本不会显示
             baiduMap.setMyLocationConfigeration(myLocationConfiguration);
+*/
+
+
+            // 定义marker坐标点
+            myPosition = new LatLng(location.getLatitude(), location.getLongitude());
+            // 构建markerOption，用于在地图上添加marker
+            OverlayOptions options = new MarkerOptions()//
+                    .position(myPosition)// 设置marker的位置
+                    .icon(bitmapDescriptor)// 设置marker的图标
+                    .zIndex(9)// 設置marker的所在層級
+                    .draggable(true);// 设置手势拖拽
+            // 在地图上添加marker，并显示
+            Marker marker = (Marker) baiduMap.addOverlay(options);
+
+
 
 
             //添加文字注释
-            LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
             TextOptions textOptions = new TextOptions();
             textOptions.bgColor(0xAAFFFF00)  //設置文字覆蓋物背景顏色
-                    .fontSize(28)  //设置字体大小
+                    .fontSize(20*densityDpi/160)  //设置字体大小
                     .fontColor(0xFFFF00FF)// 设置字体颜色
-                    .text("我在这里啊！！！！")  //文字内容
-                    .rotate(-30)  //设置文字的旋转角度
-                    .position(latLng);// 设置位置
+                    .text("我")  //文字内容
+                    .rotate(0)  //设置文字的旋转角度
+                    .position(myPosition);// 设置位置
             baiduMap.addOverlay(textOptions);
 
 
@@ -165,12 +497,12 @@ public class ShopStreerMapActivity extends Activity{
                     MyLog.d(tag,"地理编码的结果是："+geoCodeResult.getLocation().toString());
 
                     // 定义marker坐标点
-                    LatLng point = new LatLng(geoCodeResult.getLocation().latitude,
+                    dianPuPosition = new LatLng(geoCodeResult.getLocation().latitude,
                             geoCodeResult.getLocation().longitude);
 
                     // 构建markerOption，用于在地图上添加marker
                     OverlayOptions options = new MarkerOptions()//
-                            .position(point)// 设置marker的位置
+                            .position(dianPuPosition)// 设置marker的位置
                             .icon(bitmapDescriptor)// 设置marker的图标
                             .zIndex(9)// 設置marker的所在層級
                             .draggable(true);// 设置手势拖拽
@@ -180,15 +512,13 @@ public class ShopStreerMapActivity extends Activity{
 
 
                     //添加文字注释
-                    LatLng latLng = new LatLng(geoCodeResult.getLocation().latitude,
-                            geoCodeResult.getLocation().longitude );
                     TextOptions textOptions = new TextOptions();
                     textOptions.bgColor(0xAAFFFF00)  //設置文字覆蓋物背景顏色
-                            .fontSize(28)  //设置字体大小
+                            .fontSize(20*densityDpi/160)  //设置字体大小
                             .fontColor(0xFFFF00FF)// 设置字体颜色
-                            .text("店铺在这里")  //文字内容
-                            .rotate(-30)  //设置文字的旋转角度
-                            .position(latLng);// 设置位置
+                            .text("店铺")  //文字内容
+                            .rotate(0)  //设置文字的旋转角度
+                            .position(dianPuPosition);// 设置位置
                     baiduMap.addOverlay(textOptions);
                 }
 
@@ -200,7 +530,7 @@ public class ShopStreerMapActivity extends Activity{
 
             GeoCodeOption geoCodeOption=new GeoCodeOption();
             geoCodeOption.city("武汉市");
-            geoCodeOption.address("汉口北小商品城");
+            geoCodeOption.address(shopModel.getShopAddress());
             geoCoder.geocode(geoCodeOption);
 
 
@@ -210,10 +540,8 @@ public class ShopStreerMapActivity extends Activity{
             MapStatusUpdate msu = MapStatusUpdateFactory.newLatLng(ll);
             baiduMap.animateMapStatus(msu);
 
-
-
-
-
+            //释放地理编码对象
+            //geoCoder.destroy();
 
 
             if (location.getLocType() == BDLocation.TypeGpsLocation) {// GPS定位结果

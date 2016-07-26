@@ -30,6 +30,7 @@ import com.example.asus_cp.dongmanbuy.util.MyApplication;
 import com.example.asus_cp.dongmanbuy.util.MyLog;
 import com.example.asus_cp.dongmanbuy.util.zhi_fu_bao_util.PayResult;
 import com.example.asus_cp.dongmanbuy.util.zhi_fu_bao_util.SignUtils;
+import com.example.asuscp.dongmanbuy.util.ZhiFuBaoHelper;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -60,11 +61,16 @@ public class AfterTiJiaoDingDanActivity extends Activity implements View.OnClick
     private String payUrl="http://api.zmobuy.com/JK/alipay/alipayapi.php";//支付宝url
     private RequestQueue requestQueue;
 
+    private ZhiFuBaoHelper zhiFuBaoHelper;
+
+
+    public static  String PARTNER;
+    public static  String SELLER;
+    public static  String RSA_PRIVATE;
 
 
 
-
-    // 商户PID
+   /* // 商户PID
     public static final String PARTNER = "2088121021289716";
     // 商户收款账号
     public static final String SELLER = "postmaster@zmobuy.com";
@@ -82,9 +88,9 @@ public class AfterTiJiaoDingDanActivity extends Activity implements View.OnClick
             "2QNGl+roAuu60mmx6p1cqccSgUf7AkBhWZz+7fYYIK1MZ5ZDP1KTNhvuwBjrKsZg" +
             "mljwjUk8ZsKvKnyH6EjMM8ofHjDrt0HThOgK0pVI1ixMYGfNjed1AkEA5IOsn7jP" +
             "Ef3uJnorl15rhzY8uEopIWwdWasBk14RkoYwgsJxR4cOU5KLbNgm5EPXekA5C1SE" +
-            "tLTyJx7aWI6SLw==";
+            "tLTyJx7aWI6SLw==";*/
     // 支付宝公钥
-    public static final String RSA_PUBLIC = "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCnxj/9qwVfgoUh/y2W89L6BkRAFljhNhgPdyPuBV64bfQNN1PjbCzkIM6qRdKBoLPXmKKMiFYnkd6rAoprih3/PrQEB/VsW8OoM8fxn67UDYuyBTqA23MML9q1+ilIZwBC2AQ2UBVOrFXfFl75p6/B5KsiNG9zpgmLCUYuLkxpLQIDAQAB";
+    //public static final String RSA_PUBLIC = "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCnxj/9qwVfgoUh/y2W89L6BkRAFljhNhgPdyPuBV64bfQNN1PjbCzkIM6qRdKBoLPXmKKMiFYnkd6rAoprih3/PrQEB/VsW8OoM8fxn67UDYuyBTqA23MML9q1+ilIZwBC2AQ2UBVOrFXfFl75p6/B5KsiNG9zpgmLCUYuLkxpLQIDAQAB";
     private static final int SDK_PAY_FLAG = 1;
 
 
@@ -139,6 +145,11 @@ public class AfterTiJiaoDingDanActivity extends Activity implements View.OnClick
         zhiFuBaoZhiFuButton= (Button) findViewById(R.id.btn_zhi_fu_bao_zhi_fu_after_ti_jiao_ding_dan);
         seeDingDanTextView= (TextView) findViewById(R.id.text_see_ding_dan_after_ti_jiao_ding_dan);
 
+        zhiFuBaoHelper=new ZhiFuBaoHelper();
+        PARTNER=zhiFuBaoHelper.getPid();
+        SELLER=zhiFuBaoHelper.getSeller();
+        RSA_PRIVATE=zhiFuBaoHelper.getPrivateYao();
+
         requestQueue= MyApplication.getRequestQueue();
         dingDanId=getIntent().getStringExtra(MyConstant.DING_DAN_ID_KEY);
         //设置付款金额
@@ -164,9 +175,9 @@ public class AfterTiJiaoDingDanActivity extends Activity implements View.OnClick
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.btn_zhi_fu_bao_zhi_fu_after_ti_jiao_ding_dan://点击了支付宝支付
-                //Toast.makeText(this,"点击了支付宝支付",Toast.LENGTH_SHORT).show();
-                //pay();//调用支付宝支付
-                zhiFuClickChuLi();
+                Toast.makeText(this,"点击了支付宝支付",Toast.LENGTH_SHORT).show();
+                pay();//调用支付宝支付
+                //zhiFuClickChuLi();
                 break;
             case R.id.text_see_ding_dan_after_ti_jiao_ding_dan://点击了查看订单
                 /*Intent seeIntent=new Intent(this,DingDanDetailActivity.class);
@@ -215,6 +226,8 @@ public class AfterTiJiaoDingDanActivity extends Activity implements View.OnClick
          * 完整的符合支付宝参数规范的订单信息
          */
         final String payInfo = orderInfo + "&sign=\"" + sign + "\"&" + getSignType();
+
+        MyLog.d(tag,"签名之后的结果"+payInfo);
 
         Runnable payRunnable = new Runnable() {
 
@@ -325,23 +338,41 @@ public class AfterTiJiaoDingDanActivity extends Activity implements View.OnClick
         StringRequest zhiFuRequest=new StringRequest(Request.Method.POST, payUrl,
                 new Response.Listener<String>() {
                     @Override
-                    public void onResponse(String s) {
+                    public void onResponse(final String s) {
                         MyLog.d(tag,"返回的数据是："+s);
+                        new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                MyLog.d(tag,"返回的数据是："+s);
+                                PayTask alipay = new PayTask(AfterTiJiaoDingDanActivity.this);
+                                String sign = null;
+                                try {
+                                    sign = URLEncoder.encode(s, "UTF-8");
+                                } catch (UnsupportedEncodingException e) {
+                                    e.printStackTrace();
+                                }
+                                alipay.pay(s, true);
+                            }
+                        }).start();
+
                     }
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
-
+                MyLog.d(tag,volleyError.toString());
             }
         }){
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String,String> map=new HashMap<String,String>();
-                String json="";
-                map.put("json",json);
+                map.put("out_trade_no",bianHao);
+                map.put("subject",subject);
+                map.put("total_fee",FormatHelper.getNumberFromRenMingBi(price));
+                map.put("body",desc);
                 return map;
             }
         };
         requestQueue.add(zhiFuRequest);
+
     }
 }

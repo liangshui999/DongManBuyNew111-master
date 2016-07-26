@@ -236,4 +236,12 @@ public class DingDanListActivity extends Activity implements View.OnClickListene
         daiFuKuanDingDanTextView.setTextColor(getResources().getColor(R.color.black));
         daiShouHuoDingDanTextView.setTextColor(getResources().getColor(R.color.black));
     }
+
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent intent=new Intent();
+        setResult(RESULT_OK,intent);
+    }
 }
