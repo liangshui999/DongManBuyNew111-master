@@ -3,6 +3,7 @@ package com.example.asus_cp.dongmanbuy.activity.map_activity_my;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.View;
@@ -49,6 +50,7 @@ import com.baidu.mapapi.search.route.DrivingRouteResult;
 import com.baidu.mapapi.search.route.OnGetRoutePlanResultListener;
 import com.baidu.mapapi.search.route.PlanNode;
 import com.baidu.mapapi.search.route.RoutePlanSearch;
+import com.baidu.mapapi.search.route.TransitRouteLine;
 import com.baidu.mapapi.search.route.TransitRoutePlanOption;
 import com.baidu.mapapi.search.route.TransitRouteResult;
 import com.baidu.mapapi.search.route.WalkingRouteResult;
@@ -81,6 +83,8 @@ public class ShopStreerMapActivity extends Activity implements View.OnClickListe
     OverlayManager routeOverlay = null;
     private LatLng myPosition;//我的位置
     private LatLng dianPuPosition;//店铺的位置
+
+    public static final int REQUEST_SEARCH_KEY=1;//跳转到查询
 
     private ImageView daoHangImageView;//导航
     private TextView dianPuNameUpTextView;//店铺上名称
@@ -184,8 +188,13 @@ public class ShopStreerMapActivity extends Activity implements View.OnClickListe
                 finish();
                 break;
             case R.id.text_gong_jiao_xian_lu_map:
-                Toast.makeText(this,"点击了公交线路",Toast.LENGTH_SHORT ).show();
-                gongJiaoXianLuClickChuLi();
+                //Toast.makeText(this,"点击了公交线路",Toast.LENGTH_SHORT ).show();
+                //gongJiaoXianLuClickChuLi();
+                Intent searchIntent=new Intent(this,SearchWayActivity.class);
+                searchIntent.putExtra(MyConstant.MY_LOCATION_KEY,myPosition);
+                searchIntent.putExtra(MyConstant.DIAN_PU_LOCATION_KEY,dianPuPosition);
+                searchIntent.putExtra(MyConstant.SHOP_MODEL_KEY,shopModel);
+                startActivityForResult(searchIntent, REQUEST_SEARCH_KEY);
                 break;
         }
     }
@@ -282,8 +291,34 @@ public class ShopStreerMapActivity extends Activity implements View.OnClickListe
 
         //释放检索实例
         //mSearch.destroy();
+    }
+
+
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode){
+            case REQUEST_SEARCH_KEY:    //从搜索界面回来的数据
+                if(resultCode==RESULT_OK){
+                    baiduMap.clear();
+                    RouteLine routeLine=data.getParcelableExtra(MyConstant.ROUTE_LINE_KEY);
+                    route = routeLine;
+                    TransitRouteOverlay overlay = new MyTransitRouteOverlay(baiduMap);
+                    baiduMap.setOnMarkerClickListener(overlay);
+                    routeOverlay = overlay;
+                    overlay.setData((TransitRouteLine) routeLine);
+                    overlay.addToMap();
+                    overlay.zoomToSpan();
+                }
+                break;
+        }
 
     }
+
+
+
 
 
 

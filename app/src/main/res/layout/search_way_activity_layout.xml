@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+
+
+    <!--选择方式的横条-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+        <LinearLayout
+            android:id="@+id/ll_gong_jiao_search_way"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:padding="10dp"
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/text_gong_jiao_search_way"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/gong_jiao"
+                android:layout_gravity="center"
+                android:textSize="@dimen/search_way_base_font"/>
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:id="@+id/ll_jia_che_search_way"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:padding="10dp"
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/text_jia_che_search_way"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/jia_che"
+                android:layout_gravity="center"
+                android:textSize="@dimen/search_way_base_font"/>
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:id="@+id/ll_bu_xing_search_way"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:padding="10dp"
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/text_bu_xing_search_way"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/bu_xing"
+                android:layout_gravity="center"
+                android:textSize="@dimen/search_way_base_font"/>
+
+        </LinearLayout>
+    </LinearLayout>
+
+
+
+    <!--从我的位置-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:focusable="true"
+        android:focusableInTouchMode="true">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/cong"
+            android:layout_gravity="center"/>
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+            <EditText
+                android:id="@+id/edit_cong_search_way"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/my_location"
+                android:hint="@string/search_hint"/>
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+
+    <!--到的位置-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:focusable="true"
+        android:focusableInTouchMode="true">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/dao"
+            android:layout_gravity="center"/>
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+            <EditText
+                android:id="@+id/edit_dao_search_way"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/search_hint"/>
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+    <!--查询的按钮-->
+    <Button
+        android:id="@+id/btn_search_search_way"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:background="@drawable/red_backgroud_yuan_jiao_button"
+        android:text="@string/cha_xun"
+        android:textColor="@color/white_my"
+        />
+
+
+    <!--查询结果展示-->
+    <ListView
+        android:id="@+id/list_search_result_search_way"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    </ListView>
+
+
+
+
+
+
+
+
+
+
+
+
+
+</LinearLayout>

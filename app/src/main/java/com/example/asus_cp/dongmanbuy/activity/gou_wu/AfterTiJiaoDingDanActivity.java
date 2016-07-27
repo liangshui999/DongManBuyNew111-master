@@ -176,8 +176,8 @@ public class AfterTiJiaoDingDanActivity extends Activity implements View.OnClick
         switch (v.getId()){
             case R.id.btn_zhi_fu_bao_zhi_fu_after_ti_jiao_ding_dan://点击了支付宝支付
                 Toast.makeText(this,"点击了支付宝支付",Toast.LENGTH_SHORT).show();
-                pay();//调用支付宝支付
-                //zhiFuClickChuLi();
+                //pay();//调用支付宝支付
+                zhiFuClickChuLi();
                 break;
             case R.id.text_see_ding_dan_after_ti_jiao_ding_dan://点击了查看订单
                 /*Intent seeIntent=new Intent(this,DingDanDetailActivity.class);
@@ -339,11 +339,11 @@ public class AfterTiJiaoDingDanActivity extends Activity implements View.OnClick
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(final String s) {
-                        MyLog.d(tag,"返回的数据是："+s);
+                        MyLog.d(tag,"支付处理返回的数据是："+s);
                         new Thread(new Runnable() {
                             @Override
                             public void run() {
-                                MyLog.d(tag,"返回的数据是："+s);
+                                MyLog.d(tag,"支付处理返回的数据是："+s);
                                 PayTask alipay = new PayTask(AfterTiJiaoDingDanActivity.this);
                                 String sign = null;
                                 try {
@@ -369,6 +369,7 @@ public class AfterTiJiaoDingDanActivity extends Activity implements View.OnClick
                 map.put("subject",subject);
                 map.put("total_fee",FormatHelper.getNumberFromRenMingBi(price));
                 map.put("body",desc);
+                MyLog.d(tag,"编号="+bianHao);
                 return map;
             }
         };

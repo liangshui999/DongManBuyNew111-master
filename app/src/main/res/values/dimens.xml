@@ -27,4 +27,5 @@
     <dimen name="product_detail_margin">2dp</dimen>
     <dimen name="slidingmenu_offset">60dp</dimen>
     <dimen name="shadow_width">5dp</dimen>
+    <dimen name="search_way_base_font">16sp</dimen>
 </resources>

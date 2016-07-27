@@ -38,7 +38,7 @@
     android:id="@+id/text_dian_pu_name_down_map"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:text="武汉市周末互动有限公是"
+    android:text="武汉市周末互动有限公司"
     android:padding="5dp"/>
 
     <ImageView

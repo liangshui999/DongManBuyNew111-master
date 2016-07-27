@@ -57,4 +57,7 @@ public interface MyConstant {
     public static final String GOOD_TYPE_KEY="goodTypeKey";//商品类型
     public static final String DATA_SET_ACTIVITY_LABLE_FLAG_KEY="dataSetActivity";//跳转到资料设置界面传递的key
     public static final String SHENG_MING_KEY="shengMing";//省名key
+    public static final String MY_LOCATION_KEY="myLocation";//我的位置的key
+    public static final String DIAN_PU_LOCATION_KEY="dianPuLocation";//店铺位置的key
+    public static final String ROUTE_LINE_KEY="routeLineKey";//传递线路规划的线路的key
 }

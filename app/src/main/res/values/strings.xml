@@ -289,7 +289,14 @@
     <string name="input_hong_bao_kou_ling">请输入红包口令</string>
     <string name="input_hong_bao_password">请输入红包密码</string>
     <string name="map_di_zhi">地址：</string>
-    <string name="gong_jiao_xian_lu">公交线路</string>
+    <string name="gong_jiao_xian_lu">到这儿去</string>
+    <string name="gong_jiao">公交</string>
+    <string name="jia_che">驾车</string>
+    <string name="bu_xing">步行</string>
+    <string name="cong">从</string>
+    <string name="dao">到</string>
+    <string name="cha_xun">查询</string>
+    <string name="my_location">我的位置</string>
 
 
 </resources>

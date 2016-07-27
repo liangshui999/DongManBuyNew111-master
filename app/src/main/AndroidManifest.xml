@@ -328,6 +328,9 @@
         <!--店铺地址的地图的activity-->
         <activity android:name=".activity.map_activity_my.ShopStreerMapActivity"/>
 
+        <!--线路规划的activity-->
+        <activity android:name=".activity.map_activity_my.SearchWayActivity"/>
+
 
 
         <!--搜索的activity,因为必须按照ui做，此类作废-->
