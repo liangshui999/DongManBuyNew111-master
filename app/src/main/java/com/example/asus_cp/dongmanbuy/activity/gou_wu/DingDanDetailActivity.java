@@ -41,6 +41,7 @@ import com.example.asus_cp.dongmanbuy.util.MyApplication;
 import com.example.asus_cp.dongmanbuy.util.MyLog;
 import com.example.asus_cp.dongmanbuy.util.zhi_fu_bao_util.PayResult;
 import com.example.asus_cp.dongmanbuy.util.zhi_fu_bao_util.SignUtils;
+import com.example.asuscp.dongmanbuy.util.ZhiFuBaoHelper;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -111,8 +112,16 @@ public class DingDanDetailActivity extends Activity implements View.OnClickListe
     private String desc;//订单描述
     private String price;//订单价格
 
+    private String payUrl="http://api.zmobuy.com/JK/alipay/alipayapi.php";//支付宝url
+    private ZhiFuBaoHelper zhiFuBaoHelper;
 
-    // 商户PID
+
+    public static  String PARTNER;
+    public static  String SELLER;
+    public static  String RSA_PRIVATE;
+
+
+    /*// 商户PID
     public static final String PARTNER = "2088121021289716";
     // 商户收款账号
     public static final String SELLER = "postmaster@zmobuy.com";
@@ -130,9 +139,9 @@ public class DingDanDetailActivity extends Activity implements View.OnClickListe
             "2QNGl+roAuu60mmx6p1cqccSgUf7AkBhWZz+7fYYIK1MZ5ZDP1KTNhvuwBjrKsZg" +
             "mljwjUk8ZsKvKnyH6EjMM8ofHjDrt0HThOgK0pVI1ixMYGfNjed1AkEA5IOsn7jP" +
             "Ef3uJnorl15rhzY8uEopIWwdWasBk14RkoYwgsJxR4cOU5KLbNgm5EPXekA5C1SE" +
-            "tLTyJx7aWI6SLw==";
+            "tLTyJx7aWI6SLw==";*/
     // 支付宝公钥
-    public static final String RSA_PUBLIC = "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCnxj/9qwVfgoUh/y2W89L6BkRAFljhNhgPdyPuBV64bfQNN1PjbCzkIM6qRdKBoLPXmKKMiFYnkd6rAoprih3/PrQEB/VsW8OoM8fxn67UDYuyBTqA23MML9q1+ilIZwBC2AQ2UBVOrFXfFl75p6/B5KsiNG9zpgmLCUYuLkxpLQIDAQAB";
+    //public static final String RSA_PUBLIC = "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCnxj/9qwVfgoUh/y2W89L6BkRAFljhNhgPdyPuBV64bfQNN1PjbCzkIM6qRdKBoLPXmKKMiFYnkd6rAoprih3/PrQEB/VsW8OoM8fxn67UDYuyBTqA23MML9q1+ilIZwBC2AQ2UBVOrFXfFl75p6/B5KsiNG9zpgmLCUYuLkxpLQIDAQAB";
     private static final int SDK_PAY_FLAG = 1;
 
 
@@ -201,7 +210,12 @@ public class DingDanDetailActivity extends Activity implements View.OnClickListe
         requestQueue= MyApplication.getRequestQueue();
         SharedPreferences sharedPreferences = getSharedPreferences(MyConstant.USER_SHAREPREFRENCE_NAME, Context.MODE_APPEND);
         uid=sharedPreferences.getString(MyConstant.UID_KEY, null);
-        sid=sharedPreferences.getString(MyConstant.SID_KEY,null);
+        sid=sharedPreferences.getString(MyConstant.SID_KEY, null);
+
+        zhiFuBaoHelper=new ZhiFuBaoHelper();
+        PARTNER=zhiFuBaoHelper.getPid();
+        SELLER=zhiFuBaoHelper.getSeller();
+        RSA_PRIVATE=zhiFuBaoHelper.getPrivateYao();
         initView();
 
     }
@@ -334,9 +348,11 @@ public class DingDanDetailActivity extends Activity implements View.OnClickListe
         detailAddressTextView.setText(dingDanModel.getDetailAddress());
         dingDanHaoTextView.setText(dingDanModel.getOrderBianHao());
         dingDanTimeTextView.setText(dingDanModel.getOrderTime());
-        MyLog.d(tag,"总价="+dingDanModel.getSumPrice());
+        MyLog.d(tag, "总价=" + dingDanModel.getSumPrice());
         productSumPriceTextView.setText(FormatHelper.getMoneyFormat(dingDanModel.getSumPrice()));
         yingFuZongETextView.setText(FormatHelper.getMoneyFormat(dingDanModel.getSumPrice()));
+
+
 
         goods=dingDanModel.getGoods();
         if(goods.size()==1){
@@ -371,6 +387,11 @@ public class DingDanDetailActivity extends Activity implements View.OnClickListe
                     R.mipmap.yu_jia_zai);
             imageLoader3.get(goods.get(2).getGoodsImg(),listener3,400,400);
         }
+
+
+        price=dingDanModel.getSumPrice();//设置传递给支付宝的价格
+        subject=goods.get(0).getGoodName();//设置传递给支付宝的标题
+        desc=goods.get(0).getGoodName();//设置传递给支付宝的内容描述
 
 
         //计算总共有多少件商品
@@ -462,10 +483,59 @@ public class DingDanDetailActivity extends Activity implements View.OnClickListe
                 dialog.show();
                 break;
             case R.id.btn_zhi_fu_bao_zhi_fu_order_detail://点击了支付宝支付
-                zhiFuBaoZhiFuClickChuLi();
+                //zhiFuBaoZhiFuClickChuLi();
+                jieKouZhiFuClickChuLi();
                 break;
 
         }
+    }
+
+
+    /**
+     * 接口支付的click处理
+     */
+    public void jieKouZhiFuClickChuLi(){
+        StringRequest zhiFuRequest=new StringRequest(Request.Method.POST, payUrl,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(final String s) {
+                        MyLog.d(tag,"支付处理返回的数据是："+s);
+                        new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                MyLog.d(tag,"支付处理返回的数据是："+s);
+                                PayTask alipay = new PayTask(DingDanDetailActivity.this);
+                                String sign = null;
+                                try {
+                                    sign = URLEncoder.encode(s, "UTF-8");
+                                } catch (UnsupportedEncodingException e) {
+                                    e.printStackTrace();
+                                }
+                                alipay.pay(s, true);
+                            }
+                        }).start();
+
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+                MyLog.d(tag,volleyError.toString());
+                volleyError.printStackTrace();
+            }
+        }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String,String> map=new HashMap<String,String>();
+                MyLog.d(tag,"价格="+price);
+                map.put("out_trade_no",bianHao);
+                map.put("subject",subject);
+                map.put("total_fee",FormatHelper.getNumberFromRenMingBi(price));
+                map.put("body",desc);
+                MyLog.d(tag,"编号="+bianHao);
+                return map;
+            }
+        };
+        requestQueue.add(zhiFuRequest);
     }
 
 

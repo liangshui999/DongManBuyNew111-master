@@ -60,4 +60,8 @@ public interface MyConstant {
     public static final String MY_LOCATION_KEY="myLocation";//我的位置的key
     public static final String DIAN_PU_LOCATION_KEY="dianPuLocation";//店铺位置的key
     public static final String ROUTE_LINE_KEY="routeLineKey";//传递线路规划的线路的key
+    public static final String JIAO_TONG_KEY="jiaoTongKey";//交通方式的key
+    public static final String GONG_JIAO_JIAO_TONG="gongjiao";//公交
+    public static final String JIA_CHE_JIAO_TONG="jiaChe";//驾车
+    public static final String BU_XING_JIAO_TONG="buXing";//步行
 }

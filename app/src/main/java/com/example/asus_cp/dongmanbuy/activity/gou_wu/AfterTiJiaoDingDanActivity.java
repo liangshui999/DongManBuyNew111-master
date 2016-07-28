@@ -374,6 +374,5 @@ public class AfterTiJiaoDingDanActivity extends Activity implements View.OnClick
             }
         };
         requestQueue.add(zhiFuRequest);
-
     }
 }

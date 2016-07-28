@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.android.volley.toolbox.ImageLoader;
 import com.example.asus_cp.dongmanbuy.R;
 import com.example.asus_cp.dongmanbuy.model.Good;
+import com.example.asus_cp.dongmanbuy.util.FormatHelper;
 import com.example.asus_cp.dongmanbuy.util.ImageLoadHelper;
 
 import java.util.List;
@@ -65,7 +66,7 @@ public class JingPinAdapter extends BaseAdapter{
                 R.mipmap.yu_jia_zai);
         imageLoader.get(goods.get(position).getGoodsImg(), imageListener,400,400);
         viewHolder.nameTextView.setText(goods.get(position).getGoodName());
-        viewHolder.shopPriceTextView.setText(goods.get(position).getShopPrice());
+        viewHolder.shopPriceTextView.setText(FormatHelper.getMoneyFormat(goods.get(position).getShopPrice()));
         return v;
     }
 

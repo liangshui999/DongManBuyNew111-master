@@ -48,7 +48,8 @@ public class SearchWayActivity extends Activity implements View.OnClickListener{
     private EditText myLocationEditText;//我的位置
     private EditText dianPuLocationEditText;//店铺位置
     private Button searchButton;//查询按钮
-    private ListView resultListView;//搜索结果展示
+    private ListView gongJiaoResultListView;//公交搜索结果展示
+    private ListView jiaCheResultListView;//公交搜索结果展示
 
     private LatLng myPosition;//我的位置
     private LatLng dianPuPosition;//店铺的位置
@@ -77,7 +78,8 @@ public class SearchWayActivity extends Activity implements View.OnClickListener{
         dianPuLocationEditText= (EditText) findViewById(R.id.edit_dao_search_way);
         myLocationEditText= (EditText) findViewById(R.id.edit_cong_search_way);
         searchButton= (Button) findViewById(R.id.btn_search_search_way);
-        resultListView= (ListView) findViewById(R.id.list_search_result_search_way);
+        gongJiaoResultListView = (ListView) findViewById(R.id.list_gong_jiao_search_result_search_way);
+        jiaCheResultListView= (ListView) findViewById(R.id.list_jia_che_search_result_search_way);
 
         //获取到我的位置和店铺的位置
         myPosition=getIntent().getParcelableExtra(MyConstant.MY_LOCATION_KEY);
@@ -117,14 +119,18 @@ public class SearchWayActivity extends Activity implements View.OnClickListener{
                 break;
             case R.id.btn_search_search_way:
                 if(gongJiaoTextView.getCurrentTextColor()==getResources().getColor(R.color.white_my)){  //点击了公交
-                    resultListView.setVisibility(View.VISIBLE);
+                    gongJiaoResultListView.setVisibility(View.VISIBLE);
+                    jiaCheResultListView.setVisibility(View.GONE);
                     gongJiaoXianLuClickChuLi();
                 }else if(jiaCheTextView.getCurrentTextColor()==getResources().getColor(R.color.white_my)){  //点击了驾车
-                    resultListView.setVisibility(View.VISIBLE);
+                    jiaCheResultListView.setVisibility(View.VISIBLE);
+                    gongJiaoResultListView.setVisibility(View.GONE);
                     jiaCheXianLuClickChuLi();
                 }else if(buXingTextView.getCurrentTextColor()==getResources().getColor(R.color.white_my)){  //点击了步行
-                    //Toast.makeText(this,"点击了步行",Toast.LENGTH_SHORT).show();
-                    resultListView.setVisibility(View.GONE);
+                    Toast.makeText(this,"此功能暂时不支持",Toast.LENGTH_SHORT).show();
+                    gongJiaoResultListView.setVisibility(View.GONE);
+                    jiaCheResultListView.setVisibility(View.GONE);
+                    //buXingXianLuClickChuLi();
                 }
                 break;
         }
@@ -156,13 +162,14 @@ public class SearchWayActivity extends Activity implements View.OnClickListener{
                 if (result.error == SearchResult.ERRORNO.NO_ERROR) {    //说明没有错误
                     if (result.getRouteLines().size() > 0 ) {
                         GongJiaoLuXianGuiHuaAdapter adapter=new GongJiaoLuXianGuiHuaAdapter(SearchWayActivity.this,result.getRouteLines());
-                        resultListView.setAdapter(adapter);
-                        resultListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                        gongJiaoResultListView.setAdapter(adapter);
+                        gongJiaoResultListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                             @Override
                             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                                Intent intent=new Intent();
-                                intent.putExtra(MyConstant.ROUTE_LINE_KEY,result.getRouteLines().get(position));
-                                setResult(RESULT_OK,intent);
+                                Intent intent = new Intent();
+                                intent.putExtra(MyConstant.ROUTE_LINE_KEY, result.getRouteLines().get(position));
+                                intent.putExtra(MyConstant.JIAO_TONG_KEY,MyConstant.GONG_JIAO_JIAO_TONG);
+                                setResult(RESULT_OK, intent);
                                 finish();
                             }
                         });
@@ -220,15 +227,7 @@ public class SearchWayActivity extends Activity implements View.OnClickListener{
             public void onGetTransitRouteResult(TransitRouteResult result) {
 
             }
-            public void onGetDrivingRouteResult(DrivingRouteResult result) {
-                //返回整个路段的详细信息
-                for(int i=0;i<result.getRouteLines().size();i++){
-                    for(int j=0;j<result.getRouteLines().get(i).getAllStep().size();j++){
-                        MyLog.d(tag,"查询的信息是："+result.getRouteLines().get(i).getAllStep().get(j).getInstructions());
-                    }
-                    MyLog.d(tag,"查询的信息是："+result.getRouteLines().get(0).getAllStep().get(0).getInstructions());
-                }
-                MyLog.d(tag,"查询的信息是："+result.getRouteLines().get(0).getAllStep().get(0).getInstructions());
+            public void onGetDrivingRouteResult(final DrivingRouteResult result) {
                 if (result == null || result.error != SearchResult.ERRORNO.NO_ERROR) {
                     Toast.makeText(SearchWayActivity.this, "抱歉，未找到结果", Toast.LENGTH_SHORT).show();
                 }
@@ -240,7 +239,17 @@ public class SearchWayActivity extends Activity implements View.OnClickListener{
                 if (result.error == SearchResult.ERRORNO.NO_ERROR) {    //说明没有错误
                     if (result.getRouteLines().size() > 0 ) {
                         JiaCheLuXianGuiHuaAdapter adapter=new JiaCheLuXianGuiHuaAdapter(SearchWayActivity.this,result.getRouteLines());
-                        resultListView.setAdapter(adapter);
+                        jiaCheResultListView.setAdapter(adapter);
+                        jiaCheResultListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                            @Override
+                            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                                Intent intent = new Intent();
+                                intent.putExtra(MyConstant.ROUTE_LINE_KEY, result.getRouteLines().get(position));
+                                intent.putExtra(MyConstant.JIAO_TONG_KEY,MyConstant.JIA_CHE_JIAO_TONG);
+                                setResult(RESULT_OK, intent);
+                                finish();
+                            }
+                        });
                     } else {
                         MyLog.d("transitresult", "结果数<0" );
                         Toast.makeText(SearchWayActivity.this, "抱歉，未找到结果", Toast.LENGTH_SHORT).show();
@@ -269,7 +278,74 @@ public class SearchWayActivity extends Activity implements View.OnClickListener{
 
         //释放检索实例
         //mSearch.destroy();
+    }
 
+
+
+    /**
+     * 步行的点击事件处理
+     */
+    private void buXingXianLuClickChuLi() {
+        //创建步行线路规划检索实例
+        RoutePlanSearch mSearch = RoutePlanSearch.newInstance();
+
+        //创建步行线路规划检索监听者
+        OnGetRoutePlanResultListener listener = new OnGetRoutePlanResultListener() {
+            public void onGetWalkingRouteResult(WalkingRouteResult result) {
+                MyLog.d(tag,"步行的执行了吗？");
+                MyLog.d(tag,"结果的路线条数是:"+result.getRouteLines().size());
+                //MyLog.d(tag,"结过是:"+result.getRouteLines().get(0));
+
+                if (result == null || result.error != SearchResult.ERRORNO.NO_ERROR) {
+                    Toast.makeText(SearchWayActivity.this, "抱歉，未找到结果", Toast.LENGTH_SHORT).show();
+                }
+                if (result.error == SearchResult.ERRORNO.AMBIGUOUS_ROURE_ADDR) {
+                    //起终点或途经点地址有岐义，通过以下接口获取建议查询信息
+                    //result.getSuggestAddrInfo()
+                    return;
+                }
+                if (result.error == SearchResult.ERRORNO.NO_ERROR) {    //说明没有错误
+                    if (result.getRouteLines().size() > 0 ) {
+                        MyLog.d(tag,"结果的路线条数是:"+result.getRouteLines().size());
+                        Intent intent = new Intent();
+                        intent.putExtra(MyConstant.ROUTE_LINE_KEY, result.getRouteLines().get(0));
+                        intent.putExtra(MyConstant.JIAO_TONG_KEY,MyConstant.BU_XING_JIAO_TONG);
+                        setResult(RESULT_OK, intent);
+                        finish();
+                    } else {
+                        MyLog.d("transitresult", "结果数<0" );
+                        Toast.makeText(SearchWayActivity.this, "抱歉，未找到结果", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                }
+            }
+            public void onGetTransitRouteResult(TransitRouteResult result) {
+
+            }
+            public void onGetDrivingRouteResult(final DrivingRouteResult result) {
+
+            }
+
+            @Override
+            public void onGetBikingRouteResult(BikingRouteResult bikingRouteResult) {
+
+            }
+        };
+
+        //设置驾车线路规划检索监听者
+        mSearch.setOnGetRoutePlanResultListener(listener);
+
+        //准备检索起、终点信息
+        PlanNode stNode = PlanNode.withLocation(myPosition);
+        PlanNode enNode = PlanNode.withLocation(dianPuPosition);
+
+        //发起驾车线路规划检索
+        mSearch.drivingSearch((new DrivingRoutePlanOption())
+                .from(stNode)
+                .to(enNode));
+
+        //释放检索实例
+        //mSearch.destroy();
     }
 
 

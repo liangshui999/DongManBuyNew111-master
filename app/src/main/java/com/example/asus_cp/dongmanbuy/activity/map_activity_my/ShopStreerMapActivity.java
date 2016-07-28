@@ -46,6 +46,7 @@ import com.baidu.mapapi.search.geocode.GeoCoder;
 import com.baidu.mapapi.search.geocode.OnGetGeoCoderResultListener;
 import com.baidu.mapapi.search.geocode.ReverseGeoCodeResult;
 import com.baidu.mapapi.search.route.BikingRouteResult;
+import com.baidu.mapapi.search.route.DrivingRouteLine;
 import com.baidu.mapapi.search.route.DrivingRouteResult;
 import com.baidu.mapapi.search.route.OnGetRoutePlanResultListener;
 import com.baidu.mapapi.search.route.PlanNode;
@@ -53,11 +54,13 @@ import com.baidu.mapapi.search.route.RoutePlanSearch;
 import com.baidu.mapapi.search.route.TransitRouteLine;
 import com.baidu.mapapi.search.route.TransitRoutePlanOption;
 import com.baidu.mapapi.search.route.TransitRouteResult;
+import com.baidu.mapapi.search.route.WalkingRouteLine;
 import com.baidu.mapapi.search.route.WalkingRouteResult;
 import com.example.asus_cp.dongmanbuy.R;
 import com.example.asus_cp.dongmanbuy.adapter.baidu_adapter.RouteLineAdapter;
 import com.example.asus_cp.dongmanbuy.constant.MyConstant;
 import com.example.asus_cp.dongmanbuy.model.ShopModel;
+import com.example.asus_cp.dongmanbuy.util.MyGongJiaoUtil;
 import com.example.asus_cp.dongmanbuy.util.MyLog;
 
 import java.util.List;
@@ -302,15 +305,77 @@ public class ShopStreerMapActivity extends Activity implements View.OnClickListe
         switch (requestCode){
             case REQUEST_SEARCH_KEY:    //从搜索界面回来的数据
                 if(resultCode==RESULT_OK){
-                    baiduMap.clear();
+                    baiduMap.clear();//清除其他覆盖图层
                     RouteLine routeLine=data.getParcelableExtra(MyConstant.ROUTE_LINE_KEY);
-                    route = routeLine;
-                    TransitRouteOverlay overlay = new MyTransitRouteOverlay(baiduMap);
-                    baiduMap.setOnMarkerClickListener(overlay);
-                    routeOverlay = overlay;
-                    overlay.setData((TransitRouteLine) routeLine);
-                    overlay.addToMap();
-                    overlay.zoomToSpan();
+                    String jiaoTongKey=data.getStringExtra(MyConstant.JIAO_TONG_KEY);
+                    if(MyConstant.GONG_JIAO_JIAO_TONG.equals(jiaoTongKey)){ //说明是画公交
+                        //画线路
+                        TransitRouteOverlay overlay = new MyTransitRouteOverlay(baiduMap);
+                        baiduMap.setOnMarkerClickListener(overlay);
+                        overlay.setData((TransitRouteLine) routeLine);
+                        overlay.addToMap();
+                        overlay.zoomToSpan();
+
+                        //画每一段线路的起始点的公交名称
+                        List<TransitRouteLine.TransitStep> steps=routeLine.getAllStep();
+                        for(int i=0;i<steps.size();i++){
+                            TransitRouteLine.TransitStep step=steps.get(i);
+                            LatLng positon=step.getEntrance().getLocation();
+
+                            //添加转乘路线的文字注释
+                            if(MyGongJiaoUtil.getGongJiaoName(step.getInstructions())!=null
+                                    && !MyGongJiaoUtil.getGongJiaoName(step.getInstructions()).isEmpty()){
+                                TextOptions textOptions = new TextOptions();
+                                textOptions.bgColor(0xAAFFFF00)  //設置文字覆蓋物背景顏色
+                                        .fontSize(16*densityDpi/160)  //设置字体大小
+                                        .fontColor(0xFFFF00FF)// 设置字体颜色
+                                        .text(MyGongJiaoUtil.getGongJiaoName(step.getInstructions()))  //文字内容
+                                        .rotate(0)  //设置文字的旋转角度
+                                        .position(positon)
+                                        .align(TextOptions.ALIGN_RIGHT,TextOptions.ALIGN_TOP);// 设置位置
+                                baiduMap.addOverlay(textOptions);
+                            }
+                        }
+                    }else if(MyConstant.JIA_CHE_JIAO_TONG.equals(jiaoTongKey)){ //说明是画驾车
+                        //画线路
+                        DrivingRouteOverlay overlay = new MyDrivingRouteOverlay(baiduMap);
+                        baiduMap.setOnMarkerClickListener(overlay);
+                        overlay.setData((DrivingRouteLine) routeLine);
+                        overlay.addToMap();
+                        overlay.zoomToSpan();
+                    }else{  //说明是画步行
+                        //画线路
+                        WalkingRouteOverlay overlay = new MyWalkingRouteOverlay(baiduMap);
+                        baiduMap.setOnMarkerClickListener(overlay);
+                        overlay.setData((WalkingRouteLine) routeLine);
+                        overlay.addToMap();
+                        overlay.zoomToSpan();
+
+                    }
+
+
+
+                    //添加我的位置
+                    TextOptions myTextOptions = new TextOptions();
+                    myTextOptions.bgColor(0xAAFFFF00)  //設置文字覆蓋物背景顏色
+                            .fontSize(16*densityDpi/160)  //设置字体大小
+                            .fontColor(0xFFFF00FF)// 设置字体颜色
+                            .text("我")  //文字内容
+                            .rotate(0)  //设置文字的旋转角度
+                            .position(myPosition)
+                            .align(TextOptions.ALIGN_RIGHT,TextOptions.ALIGN_BOTTOM);// 设置位置
+                    baiduMap.addOverlay(myTextOptions);
+
+                    //添加店铺的位置
+                    TextOptions dianPutextOptions = new TextOptions();
+                    dianPutextOptions.bgColor(0xAAFFFF00)  //設置文字覆蓋物背景顏色
+                            .fontSize(16*densityDpi/160)  //设置字体大小
+                            .fontColor(0xFFFF00FF)// 设置字体颜色
+                            .text("店铺")  //文字内容
+                            .rotate(0)  //设置文字的旋转角度
+                            .position(dianPuPosition)
+                            .align(TextOptions.ALIGN_RIGHT,TextOptions.ALIGN_BOTTOM);// 设置位置
+                    baiduMap.addOverlay(dianPutextOptions);
                 }
                 break;
         }

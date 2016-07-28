@@ -130,13 +130,20 @@
         />
 
 
-    <!--查询结果展示-->
+    <!--公交查询结果展示-->
     <ListView
-        android:id="@+id/list_search_result_search_way"
+        android:id="@+id/list_gong_jiao_search_result_search_way"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-
     </ListView>
+
+    <!--驾车查询结果展示-->
+    <ListView
+        android:id="@+id/list_jia_che_search_result_search_way"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    </ListView>
+
 
 
 

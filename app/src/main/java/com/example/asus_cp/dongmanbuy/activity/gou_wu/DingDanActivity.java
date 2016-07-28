@@ -562,7 +562,7 @@ public class DingDanActivity extends Activity implements View.OnClickListener{
                 @Override
                 protected Map<String, String> getParams() throws AuthFailureError {
                     Map<String,String> map=new HashMap<String,String>();
-                    String json="{\"session\":{\"uid\":\""+uid+"\",\"sid\":\""+sid+"\"},\"pay_id\":\""+"9"+"\",\"shipping_id\":\""+"9"+"\",\"bonus\":\"\",\"integral\":\"\",\"inv_type\":\""+"4"+"\",\"inv_content\":\""+"00"+"\",\"inv_payee\":\"\"}";
+                    String json="{\"session\":{\"uid\":\""+uid+"\",\"sid\":\""+sid+"\"},\"pay_id\":\""+"9"+"\",\"shipping_id\":\""+"2"+"\",\"bonus\":\"\",\"integral\":\"\",\"inv_type\":\""+"4"+"\",\"inv_content\":\""+"00"+"\",\"inv_payee\":\"\"}";
                     map.put("json",json);
                     return map;
                 }
@@ -758,9 +758,9 @@ public class DingDanActivity extends Activity implements View.OnClickListener{
                         youHuiQuanDiKouTextView.setText("-"+FormatHelper.getMoneyFormat(model.getJinE()));
                         youHuiQuanShuMuTextView.setText(shuMu);
                     }else{
-                        youHuiQuanTextView.setText(FormatHelper.getMoneyFormat(0+""));
-                        youHuiQuanDiKouTextView.setText("-"+FormatHelper.getMoneyFormat(0+""));
-                        youHuiQuanShuMuTextView.setText(0+"");
+                        youHuiQuanTextView.setText(FormatHelper.getMoneyFormat(0.00+""));
+                        youHuiQuanDiKouTextView.setText("-"+FormatHelper.getMoneyFormat(0.00+""));
+                        youHuiQuanShuMuTextView.setText(0.00+"");
                     }
                     setShiFuKuan();//设置实付款
                 }

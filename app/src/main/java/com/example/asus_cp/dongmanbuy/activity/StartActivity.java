@@ -36,7 +36,7 @@ public class StartActivity extends Activity{
     private String tag="StartActivity";
 
     private RequestQueue requestQueue;
-    private String regionUrl="http://www.zmobuy.com/JK/base/model.php";
+    private String regionUrl="http://api.zmobuy.com/JK/base/model.php";
 
     private ImageView imageView;
     @Override
@@ -83,14 +83,14 @@ public class StartActivity extends Activity{
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String,String> map=new HashMap<String,String>();
-                map.put("region_id",11+"");
-                map.put("service","region");
+                map.put("service","goods");
+                map.put("goods_id","1233");
                 return map;
             }
         };
         requestQueue.add(request);
 
-        shouDongPost();//手动post
+        //shouDongPost();//手动post
     }
 
     @Override

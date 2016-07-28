@@ -190,7 +190,8 @@ public class ProductDetailActivity extends Activity implements View.OnClickListe
         parentView = inflater.inflate(R.layout.prodcut_detail_layout, null);
         initView();
         if(good.getGoodsNumber()==null || good.getGoodsNumber().equals("") || good.getGoodsNumber().isEmpty()
-                || good.getSalesVolume()==null || good.getSalesVolume().equals("") || good.getSalesVolume().isEmpty()){//没有库存数据才需要联网获取
+                || good.getSalesVolume()==null || good.getSalesVolume().equals("") || good.getSalesVolume().isEmpty()
+                || good.getPromotePrice()==null || good.getPromotePrice().equals("") || good.getPromotePrice().isEmpty()){//没有库存数据才需要联网获取
             getGoodInfoFromIntenet();
         }else{
             setValueToView();
@@ -236,6 +237,7 @@ public class ProductDetailActivity extends Activity implements View.OnClickListe
                             good1.setGoodName(JsonHelper.decodeUnicode(jsonObject1.getString("goods_name")));
                             good1.setMarket_price(JsonHelper.decodeUnicode(jsonObject1.getString("market_price")));
                             good1.setShopPrice(JsonHelper.decodeUnicode(jsonObject1.getString("shop_price")));
+                            good1.setPromotePrice(JsonHelper.decodeUnicode(jsonObject1.getString("promote_price")));
                             good1.setGoodsNumber(jsonObject1.getString("goods_number"));
                             JSONObject picJson=jsonObject1.getJSONObject("img");
                             good1.setGoodsThumb(picJson.getString("thumb"));
@@ -352,19 +354,32 @@ public class ProductDetailActivity extends Activity implements View.OnClickListe
         productNameTextView.setText(good.getGoodName());
 
         //设置商品店铺价格,不带人民币符号
-        MyLog.d(tag, "店铺价格为：" + good.getShopPrice());
-        benDianJiaGeTextView.setText(FormatHelper.getMoneyFormat(good.getShopPrice()));
+        String zheKouPrice = FormatHelper.getNumberFromRenMingBi(good.getPromotePrice());
+        if (zheKouPrice==null || "0.00".equals(zheKouPrice)) {
+            MyLog.d(tag, "店铺价格为：" + good.getShopPrice());
+            benDianJiaGeTextView.setText(FormatHelper.getMoneyFormat(good.getShopPrice()));
+            double shopPrice = Double.parseDouble(FormatHelper.getNumberFromRenMingBi(good.getShopPrice()));
+            double marketPrice = Double.parseDouble(FormatHelper.getNumberFromRenMingBi(good.getMarket_price()));
+            double zheKou = shopPrice / marketPrice * 10;
+            //设置商品折扣
+            zheKouTextView.setText(FormatHelper.getOneXiaoShuFormat("" + zheKou) + "折");
+        } else {
+            benDianJiaGeTextView.setText(FormatHelper.getMoneyFormat(good.getPromotePrice()));
+            MyLog.d(tag, "折扣价:" + good.getPromotePrice());
+            double promotPrice = Double.parseDouble(FormatHelper.getNumberFromRenMingBi(good.getPromotePrice()));
+            double marketPrice = Double.parseDouble(FormatHelper.getNumberFromRenMingBi(good.getMarket_price()));
+            double zheKou = promotPrice / marketPrice * 10;
+            //设置商品折扣
+            zheKouTextView.setText(FormatHelper.getOneXiaoShuFormat("" + zheKou) + "折");
+        }
+
+
 
         //设置商品市场价格,带人民币符号
         marketPriceTextView.setText(FormatHelper.getMoneyFormat(good.getMarket_price()));
         marketPriceTextView.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG | Paint.ANTI_ALIAS_FLAG);
 
-        double shopPrice = Double.parseDouble(FormatHelper.getNumberFromRenMingBi(good.getShopPrice()));
-        double marketPrice = Double.parseDouble(FormatHelper.getNumberFromRenMingBi(good.getMarket_price()));
-        double zheKou = shopPrice / marketPrice * 10;
 
-        //设置商品折扣
-        zheKouTextView.setText(FormatHelper.getOneXiaoShuFormat("" + zheKou) + "折");
 
         //设置商品销量
         xiaoLiangTextView.setText(good.getSalesVolume());
@@ -1215,7 +1230,7 @@ public class ProductDetailActivity extends Activity implements View.OnClickListe
         yiXuanImageLoader.get(good.getGoodsImg(), yiXuanListener);
 
         yiXuanProductname.setText(good.getGoodName());
-        yiXuanPrice.setText(good.getShopPrice());
+        yiXuanPrice.setText(FormatHelper.getMoneyFormat(good.getShopPrice()));
         yiXuanKuCun.setText(good.getGoodsNumber());
         yiXuanProductCountTextView.setText(yiXuanProdutCount+"");
 

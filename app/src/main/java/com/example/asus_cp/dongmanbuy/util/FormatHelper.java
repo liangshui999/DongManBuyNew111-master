@@ -7,6 +7,8 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * 格式化的帮助类
@@ -17,29 +19,55 @@ public class FormatHelper {
      * 将数字保留2位小数，且以人民币开头
      */
     public static String getMoneyFormat(String str){
-        if(isHaveRenMingBi(str)){
+        if(getNumberFromRenMingBi(str)!=null){
+            double d=Double.parseDouble(getNumberFromRenMingBi(str));
+            DecimalFormat a = new DecimalFormat("¥.##");
+            return a.format(d);
+        }else{
+            return null;
+        }
+        /*if(isHaveRenMingBi(str)){
             return str;
         }else{
             double d=Double.parseDouble(str);
             DecimalFormat a = new DecimalFormat("¥.##");
             return a.format(d);
-        }
+        }*/
     }
 
     /**
      * 将数字保留1位小数
      */
     public static String getOneXiaoShuFormat(String str){
-        double d=Double.parseDouble(str);
+        if(getNumberFromRenMingBi(str)!=null){
+            double d=Double.parseDouble(getNumberFromRenMingBi(str));
+            DecimalFormat a = new DecimalFormat(".#");
+            return a.format(d);
+        }else{
+            return null;
+        }
+
+        /*double d=Double.parseDouble(str);
         DecimalFormat a = new DecimalFormat(".#");
-        return a.format(d);
+        return a.format(d);*/
     }
 
     /**
      * 从人民币中取出数字
      */
     public static String getNumberFromRenMingBi(String s){
-        if(isHaveFuHao(s)){
+        String result=null;
+        String regex="[0-9][0-9]*\\.[0-9]*";
+        Pattern pattern=Pattern.compile(regex);
+        Matcher matcher=pattern.matcher(s);
+        if(matcher.find()){
+            result=matcher.group();
+        }
+        return result;
+
+
+
+       /* if(isHaveFuHao(s)){
             String str1=s.substring(2);
             return str1;
         }else{
@@ -49,7 +77,7 @@ public class FormatHelper {
             }else{
                 return s;
             }
-        }
+        }*/
     }
 
     /**

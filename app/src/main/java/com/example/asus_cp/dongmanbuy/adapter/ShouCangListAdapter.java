@@ -22,6 +22,7 @@ import com.example.asus_cp.dongmanbuy.R;
 import com.example.asus_cp.dongmanbuy.activity.product_detail.ProductDetailActivity;
 import com.example.asus_cp.dongmanbuy.constant.MyConstant;
 import com.example.asus_cp.dongmanbuy.model.Good;
+import com.example.asus_cp.dongmanbuy.util.FormatHelper;
 import com.example.asus_cp.dongmanbuy.util.ImageLoadHelper;
 import com.example.asus_cp.dongmanbuy.util.MyApplication;
 import com.example.asus_cp.dongmanbuy.util.MyLog;
@@ -104,7 +105,7 @@ public class ShouCangListAdapter extends BaseAdapter{
 
         viewHolder.nameTextView.setText(good.getGoodName());
         viewHolder.kuCunTextView.setText(good.getGoodsNumber());
-        viewHolder.priceTextView.setText(good.getShopPrice());
+        viewHolder.priceTextView.setText(FormatHelper.getMoneyFormat(good.getShopPrice()));
 
         //设置图片点击事件
         viewHolder.picImageView.setOnClickListener(new View.OnClickListener() {

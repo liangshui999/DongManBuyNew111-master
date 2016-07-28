@@ -501,7 +501,7 @@
                         android:id="@+id/text_you_hui_quan_ding_dan"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="不使用优惠券"
+                        android:text="0.00"
                         android:layout_toLeftOf="@id/you_hui_quan_right"
                         android:textSize="@dimen/ding_dan_layout_base_font"
                         android:textColor="@color/bottom_lable_color"/>

@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.baidu.mapapi.search.route.TransitRouteLine;
 import com.example.asus_cp.dongmanbuy.R;
+import com.example.asus_cp.dongmanbuy.util.MyGongJiaoUtil;
 import com.example.asus_cp.dongmanbuy.util.MyLog;
 
 import java.util.List;
@@ -72,7 +73,7 @@ public class GongJiaoLuXianGuiHuaAdapter extends BaseAdapter{
         for(int i=0;i<steps.size();i++){
             MyLog.d(tag,"入口信息的标题：   "+steps.get(i).getEntrance().getTitle());
             MyLog.d(tag,"出口信息的标题：   "+steps.get(i).getExit().getTitle());
-            MyLog.d(tag,"该路段的描述:    "+steps.get(i).getInstructions());
+            MyLog.d(tag,"该路段的描述:    "+ MyGongJiaoUtil.getGongJiaoName(steps.get(i).getInstructions()));
             sb.append(j + "," + steps.get(i).getInstructions() + "\n");
             j++;
         }

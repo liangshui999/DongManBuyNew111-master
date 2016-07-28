@@ -68,7 +68,7 @@ public class XianShiAdapter extends BaseAdapter{
                 R.mipmap.yu_jia_zai);
         imageLoader.get(goods.get(position).getGoodsThumb(), imageListener, 320, 320);
         viewHolder.nameTextView.setText(goods.get(position).getGoodName());
-        viewHolder.shopPriceTextView.setText(goods.get(position).getShopPrice());
+        viewHolder.shopPriceTextView.setText(FormatHelper.getMoneyFormat(goods.get(position).getShopPrice()));
         viewHolder.marketPriceTextView.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG | Paint.ANTI_ALIAS_FLAG);  // 设置中划线并加清晰
         viewHolder.marketPriceTextView.setText(FormatHelper.getMoneyFormat(goods.get(position).getMarket_price()));
         return v;
