@@ -10,6 +10,7 @@ import android.widget.TextView;
 import com.example.asus_cp.dongmanbuy.R;
 import com.example.asus_cp.dongmanbuy.constant.MyConstant;
 import com.example.asus_cp.dongmanbuy.model.ShenQingJiLuModel;
+import com.example.asus_cp.dongmanbuy.util.FormatHelper;
 
 /**
  * 申请记录详情界面
@@ -55,9 +56,9 @@ public class ShenQingJiLuDetailActivity extends Activity{
         //给view设置值
         typeTextView.setText(model.getType());
         timeTextView.setText(model.getTime());
-        moneyTextView.setText(model.getJinE());
+        moneyTextView.setText(FormatHelper.getMoneyFormat(model.getJinE()));
         statusTextView.setText(model.getStatus());
-        shouXuFeiTextView.setText(model.getShouXuFei());
+        shouXuFeiTextView.setText(FormatHelper.getMoneyFormat(model.getShouXuFei()));
         managerNoteTextView.setText(model.getManagerNote());
 
         cancelButton.setOnClickListener(new View.OnClickListener() {

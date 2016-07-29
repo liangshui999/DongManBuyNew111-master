@@ -345,13 +345,11 @@ public class AfterTiJiaoDingDanActivity extends Activity implements View.OnClick
                             public void run() {
                                 MyLog.d(tag,"支付处理返回的数据是："+s);
                                 PayTask alipay = new PayTask(AfterTiJiaoDingDanActivity.this);
-                                String sign = null;
-                                try {
-                                    sign = URLEncoder.encode(s, "UTF-8");
-                                } catch (UnsupportedEncodingException e) {
-                                    e.printStackTrace();
-                                }
-                                alipay.pay(s, true);
+                                String result=alipay.pay(s, true);
+                                Message msg = new Message();
+                                msg.what = SDK_PAY_FLAG;
+                                msg.obj = result;
+                                mHandler.sendMessage(msg);
                             }
                         }).start();
 

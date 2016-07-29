@@ -24,7 +24,10 @@
             android:layout_marginRight="10dp"/>
     </RelativeLayout>
 
+
+    <!--货到付款-->
     <LinearLayout
+        android:id="@+id/ll_huo_dao_fu_kuan"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
@@ -51,7 +54,10 @@
     </LinearLayout>
 
 
+
+    <!--七天退货-->
     <LinearLayout
+        android:id="@+id/ll_qi_tian_tui_huo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
@@ -79,7 +85,9 @@
     </LinearLayout>
 
 
+    <!--极速达-->
     <LinearLayout
+        android:id="@+id/ll_ji_su_da"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"

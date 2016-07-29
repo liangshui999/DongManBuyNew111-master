@@ -57,7 +57,7 @@ public class FormatHelper {
      */
     public static String getNumberFromRenMingBi(String s){
         String result=null;
-        String regex="[0-9][0-9]*\\.[0-9]*";
+        String regex="[0-9][0-9]*\\.*[0-9]*";
         Pattern pattern=Pattern.compile(regex);
         Matcher matcher=pattern.matcher(s);
         if(matcher.find()){

@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.example.asus_cp.dongmanbuy.R;
 import com.example.asus_cp.dongmanbuy.model.ShenQingJiLuModel;
+import com.example.asus_cp.dongmanbuy.util.FormatHelper;
 
 import java.util.List;
 
@@ -62,7 +63,7 @@ public class ShenQingJiLuListAdapter extends BaseAdapter{
         ShenQingJiLuModel model=models.get(position);
         viewHolder.typeTextView.setText(model.getType());
         viewHolder.timeTextView.setText(model.getTime());
-        viewHolder.moneyTextView.setText(model.getJinE());
+        viewHolder.moneyTextView.setText(FormatHelper.getMoneyFormat(model.getJinE()));
         viewHolder.statusTextView.setText(model.getStatus());
 
         return v;

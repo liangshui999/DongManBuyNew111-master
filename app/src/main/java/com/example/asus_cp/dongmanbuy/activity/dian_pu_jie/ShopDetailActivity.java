@@ -5,13 +5,19 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -24,7 +30,6 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.StringRequest;
 import com.example.asus_cp.dongmanbuy.R;
-import com.example.asus_cp.dongmanbuy.activity.MipcaActivityCapture;
 import com.example.asus_cp.dongmanbuy.activity.login.LoginActivity;
 import com.example.asus_cp.dongmanbuy.activity.map_activity_my.ShopStreerMapActivity;
 import com.example.asus_cp.dongmanbuy.activity.product_detail.ProductDetailActivity;
@@ -40,7 +45,6 @@ import com.example.asus_cp.dongmanbuy.util.MyLog;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -85,8 +89,17 @@ public class ShopDetailActivity extends Activity implements View.OnClickListener
 
 
     private String guanZhuUrl="http://www.zmobuy.com/PHP/?url=/store/addcollect";//关注的接口
+    private String erWeiMaUrl ="http://api.zmobuy.com/JK/base/model.php";//二维码的接口
 
     private RequestQueue requestQueue;
+
+    private ImageLoadHelper imageLoadHelper;
+
+    private LayoutInflater inflater;
+    private View erWeiMaView;
+    private ImageView erWeiMaImageView;
+    private PopupWindow erWeiMaWindow;
+    private View parentView;
 
     private AlertDialog loginDialog;//登陆的对话框
 
@@ -106,6 +119,8 @@ public class ShopDetailActivity extends Activity implements View.OnClickListener
     private void init() {
 
         requestQueue= MyApplication.getRequestQueue();
+        imageLoadHelper=new ImageLoadHelper();
+        inflater=LayoutInflater.from(this);
 
         logoImageView= (ImageView) findViewById(R.id.img_shop_logo_shop_detail);
         shopNameTextView= (TextView) findViewById(R.id.text_shop_name_shop_detail);
@@ -173,6 +188,12 @@ public class ShopDetailActivity extends Activity implements View.OnClickListener
             erWeiMaRelativeLayout.setOnClickListener(this);
             shangJiaPhoneRelativeLayout.setOnClickListener(this);
             suoZaiDiQuRelativeLayout.setOnClickListener(this);
+
+
+            //初始化二维码弹出窗口的view
+            erWeiMaView=inflater.inflate(R.layout.er_wei_ma_tan_chu,null);
+            erWeiMaImageView= (ImageView) erWeiMaView.findViewById(R.id.img_er_wei_ma);
+            parentView=inflater.inflate(R.layout.shop_detail_activity_layout,null);
         }
     }
 
@@ -201,8 +222,9 @@ public class ShopDetailActivity extends Activity implements View.OnClickListener
                 Toast.makeText(this,"点击了在线客服",Toast.LENGTH_SHORT).show();
                 break;
             case R.id.re_layout_shop_er_wei_ma://点击了二维码
-                Intent saoYiSaoIntent = new Intent(ShopDetailActivity.this, MipcaActivityCapture.class);
-                startActivityForResult(saoYiSaoIntent, SCAN_CODE);
+                /*Intent saoYiSaoIntent = new Intent(ShopDetailActivity.this, MipcaActivityCapture.class);
+                startActivityForResult(saoYiSaoIntent, SCAN_CODE);*/
+                erWeiMaClickChuLi();
                 break;
             case R.id.re_layout_shang_jia_phone://点击了商家电话
                 Intent callIntent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:"+
@@ -215,6 +237,70 @@ public class ShopDetailActivity extends Activity implements View.OnClickListener
                 startActivity(mapIntent);
                 break;
         }
+    }
+
+
+    /**
+     * 二维码点击事件处理
+     */
+    private void erWeiMaClickChuLi() {
+        StringRequest erWeiRequest=new StringRequest(Request.Method.POST, erWeiMaUrl,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String s) {
+                        MyLog.d(tag,"二维码返回的数据是："+s);
+                        //String temp=s.replace("  "," ");
+                        ImageLoader imageLoader=imageLoadHelper.getImageLoader();
+                        ImageLoader.ImageListener listener=imageLoader.getImageListener(erWeiMaImageView,
+                                R.mipmap.yu_jia_zai,R.mipmap.yu_jia_zai);
+                        imageLoader.get(s, listener);
+
+                        erWeiMaWindow = new PopupWindow(erWeiMaView,
+                                ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                        //外部点击时可以消失
+                        erWeiMaWindow.setBackgroundDrawable(new ColorDrawable());
+                        //erWeiMaWindow.setFocusable(true);
+                        erWeiMaWindow.setOutsideTouchable(true);
+                        erWeiMaWindow.showAtLocation(parentView, Gravity.CENTER, 0, 0);//最后才是show,顺序很重要
+                        setBackgroundAlpha(0.5f);
+                        erWeiMaWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+                            @Override
+                            public void onDismiss() {
+                                setBackgroundAlpha(1f);
+                            }
+                        });
+
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+
+            }
+        }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                /*service	code
+                ru_id	4150*/
+                MyLog.d(tag,"ruId="+shopModel.getUserId());
+                 Map<String,String> map=new HashMap<String,String>();
+                map.put("service","code");
+                map.put("ru_id",shopModel.getUserId());
+                return map;
+            }
+        };
+        requestQueue.add(erWeiRequest);
+    }
+
+
+    /**
+     * 设置添加屏幕的背景透明度
+     *
+     * @param bgAlpha
+     */
+    public void setBackgroundAlpha(float bgAlpha) {
+        WindowManager.LayoutParams lp = getWindow().getAttributes();
+        lp.alpha = bgAlpha; //0.0-1.0
+        getWindow().setAttributes(lp);
     }
 
 

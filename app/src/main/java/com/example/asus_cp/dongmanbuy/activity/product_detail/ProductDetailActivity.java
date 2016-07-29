@@ -71,6 +71,7 @@ public class ProductDetailActivity extends Activity implements View.OnClickListe
     private ImageView productBigPicImageView;//商品的大图
     private TextView productPicCountsTextView;//商品的图片数量
     private TextView isZiYingTextView;//自营还是他营
+    private LinearLayout isZiYingLinearLayout;//自营
     private TextView productNameTextView;//商品名称
     private LinearLayout shouCangLinearLayout;//收藏
     private ImageView shouCangImageView;//收藏的按钮
@@ -90,6 +91,12 @@ public class ProductDetailActivity extends Activity implements View.OnClickListe
     private RelativeLayout yiXuanRelaytiveLayout;//已选
     private TextView yiXuanProductTextView;//已选商品
     private LinearLayout fuWuLineatLayout;//服务
+    private LinearLayout huoDaoFuKuanOutLinearLayout;//货到付款
+    private LinearLayout qiTianTuiHuoOutLinearLayout;//七天退货
+    private LinearLayout jiSuDaOutLinearLayout;//极速达
+    private LinearLayout huoDaoFuKuanInLinearLayout;//服务弹出窗口内部的
+    private LinearLayout qiTianTuiHuoInLinearLayout;
+    private LinearLayout jiSuDaInLinearLayout;
     private RelativeLayout seeProductDetailReLativeLayout;//查看商品详情
     private RelativeLayout userCommentReLativeLayout;//用户评论
     private TextView haoPingLvTextView;//好评率
@@ -130,6 +137,8 @@ public class ProductDetailActivity extends Activity implements View.OnClickListe
     private String deleteShoppingCarUrl="http://www.zmobuy.com/PHP/index.php?url=/cart/delete";//删除购物车
 
     private String goodInfoUrl="http://www.zmobuy.com/PHP/?url=/goods";//商品详情的接口
+    private String suoShuDianPuUrl="http://api.zmobuy.com/JK/base/model.php";//判断所属店铺的接口（自营还是他营）
+    private String fuWuUrl="http://api.zmobuy.com/JK/base/model.php";//该商品所能提供的服务
 
     private Good good;//其他活动传进来的商品
 
@@ -146,6 +155,9 @@ public class ProductDetailActivity extends Activity implements View.OnClickListe
     private PopupWindow yiXuanWindow;//已选的弹出窗口
 
     private PopupWindow fuWuWindow;//服务的弹出窗口
+
+    private View fuWuView;//服务弹出窗口的view
+    private ImageView closeFuwu;//关闭服务窗口
 
     private ImageLoadHelper helper;
 
@@ -164,6 +176,9 @@ public class ProductDetailActivity extends Activity implements View.OnClickListe
     private int shoppingCarClickCount;//购物车的点击次数
 
     private BookDBOperateHelper dbHelper;//数据库操作的帮助类
+
+    private String categoryId;//所属类别的id
+    private List<String> yiFuCategoies;//包含所有的衣服，在该集合内部说明是衣服，否则不是
 
 
 
@@ -191,7 +206,8 @@ public class ProductDetailActivity extends Activity implements View.OnClickListe
         initView();
         if(good.getGoodsNumber()==null || good.getGoodsNumber().equals("") || good.getGoodsNumber().isEmpty()
                 || good.getSalesVolume()==null || good.getSalesVolume().equals("") || good.getSalesVolume().isEmpty()
-                || good.getPromotePrice()==null || good.getPromotePrice().equals("") || good.getPromotePrice().isEmpty()){//没有库存数据才需要联网获取
+                || good.getPromotePrice()==null || good.getPromotePrice().equals("") || good.getPromotePrice().isEmpty()
+                ){//没有库存数据才需要联网获取
             getGoodInfoFromIntenet();
         }else{
             setValueToView();
@@ -215,8 +231,55 @@ public class ProductDetailActivity extends Activity implements View.OnClickListe
         shoppingCarLinearLayout.setOnClickListener(this);
         addToShoppingCarButton.setOnClickListener(this);
         buyAtOnceButton.setOnClickListener(this);
-
         liuLanJiLu();//向数据库中插入数据，做浏览记录
+
+
+
+    }
+
+    /**
+     * 给服务设置初值
+     */
+    private void setFirstValueToFuWu() {
+        StringRequest fuWuRequest=new StringRequest(Request.Method.POST, fuWuUrl,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String s) {
+                        MyLog.d(tag, "服务返回的数据是：" + s);
+                        try {
+                            JSONArray jsonArray=new JSONArray(s);
+                            JSONObject jsonObject=jsonArray.getJSONObject(0);
+                            String isReality=jsonObject.getString("is_reality");
+                            String isReturn=jsonObject.getString("is_return");
+                            String isFast=jsonObject.getString("is_fast");
+                            if ("0".equals(isReality)) {
+                                huoDaoFuKuanOutLinearLayout.setVisibility(View.GONE);
+                            }
+                            if ("0".equals(isReturn)) {
+                                qiTianTuiHuoOutLinearLayout.setVisibility(View.GONE);
+                            }
+                            if ("0".equals(isFast)) {
+                                jiSuDaOutLinearLayout.setVisibility(View.GONE);
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+
+            }
+        }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String,String> map=new HashMap<String,String>();
+                map.put("service","goods_extend");
+                map.put("goods_id",good.getGoodId());
+                return map;
+            }
+        };
+        requestQueue.add(fuWuRequest);
     }
 
 
@@ -234,6 +297,7 @@ public class ProductDetailActivity extends Activity implements View.OnClickListe
                             JSONObject jsonObject=new JSONObject(s);
                             JSONObject jsonObject1=jsonObject.getJSONObject("data");
                             good1.setGoodId(jsonObject1.getString("id"));
+                            good1.setCategoryId("cat_id");
                             good1.setGoodName(JsonHelper.decodeUnicode(jsonObject1.getString("goods_name")));
                             good1.setMarket_price(JsonHelper.decodeUnicode(jsonObject1.getString("market_price")));
                             good1.setShopPrice(JsonHelper.decodeUnicode(jsonObject1.getString("shop_price")));
@@ -389,6 +453,51 @@ public class ProductDetailActivity extends Activity implements View.OnClickListe
 
         //给收藏按钮设置初值，包括字体的颜色和图形的颜色
         setFirstValueToShouCang();
+
+        //设置自营还是他营的
+        setSuoShuDianPuToZiYingTextView();
+
+        //类别的值
+        MyLog.d(tag,"商品所属类别："+good.getCategoryId());
+
+        //给服务设置初值
+        setFirstValueToFuWu();
+    }
+
+
+    /**
+     * 给自营的textview设置值
+     */
+    private void setSuoShuDianPuToZiYingTextView() {
+        StringRequest ziYingRequest=new StringRequest(Request.Method.POST, suoShuDianPuUrl,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String s) {
+                        MyLog.d(tag,"自营返回的数据是："+s);
+                        if("周末自营".equals(s)){
+                            isZiYingLinearLayout.setVisibility(View.VISIBLE);
+                            isZiYingTextView.setVisibility(View.VISIBLE);
+                            isZiYingTextView.setText("自营");
+                        }else{
+                            isZiYingLinearLayout.setVisibility(View.GONE);
+                            isZiYingTextView.setVisibility(View.GONE);
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+
+            }
+        }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String,String> map=new HashMap<String,String>();
+                map.put("service","ziyin");
+                map.put("goods_id",good.getGoodId());
+                return map;
+            }
+        };
+        requestQueue.add(ziYingRequest);
     }
 
 
@@ -430,6 +539,7 @@ public class ProductDetailActivity extends Activity implements View.OnClickListe
         productBigPicImageView = (ImageView) findViewById(R.id.img_product_big_pic);
         productPicCountsTextView = (TextView) findViewById(R.id.text_product_pic_counts);
         isZiYingTextView = (TextView) findViewById(R.id.text_is_zi_ying);
+        isZiYingLinearLayout= (LinearLayout) findViewById(R.id.ll_is_zi_ying);
         productNameTextView = (TextView) findViewById(R.id.text_product_name);
         shouCangLinearLayout = (LinearLayout) findViewById(R.id.ll_shou_cang);
         shouCangImageView= (ImageView) findViewById(R.id.img_shou_cang);
@@ -449,6 +559,9 @@ public class ProductDetailActivity extends Activity implements View.OnClickListe
         yiXuanRelaytiveLayout = (RelativeLayout) findViewById(R.id.re_layout_yi_xuan);
         yiXuanProductTextView = (TextView) findViewById(R.id.text_yi_xuan_product);
         fuWuLineatLayout = (LinearLayout) findViewById(R.id.ll_fu_wu);
+        huoDaoFuKuanOutLinearLayout= (LinearLayout) findViewById(R.id.ll_huo_dao_fu_kuan_product_detail);
+        qiTianTuiHuoOutLinearLayout= (LinearLayout) findViewById(R.id.ll_qi);
+        jiSuDaOutLinearLayout= (LinearLayout) findViewById(R.id.ll_ji_su_da_product_detail);
         seeProductDetailReLativeLayout = (RelativeLayout) findViewById(R.id.re_layout_product_detail);
         userCommentReLativeLayout = (RelativeLayout) findViewById(R.id.re_layout_user_commet);
         haoPingLvTextView = (TextView) findViewById(R.id.text_hao_ping_lv);
@@ -472,6 +585,14 @@ public class ProductDetailActivity extends Activity implements View.OnClickListe
         addToShoppingCarButton = (Button) findViewById(R.id.btn_add_to_shopping_car);
         buyAtOnceButton = (Button) findViewById(R.id.btn_buy_at_once);
         shoppingCarCountTextView= (TextView) findViewById(R.id.text_gou_wu_che_count);
+
+
+        //对服务弹出窗口进行初始化
+        fuWuView=inflater.inflate(R.layout.fu_wu_layout,null);
+        closeFuwu= (ImageView) fuWuView.findViewById(R.id.img_fu_wu_close);
+        huoDaoFuKuanInLinearLayout= (LinearLayout) fuWuView.findViewById(R.id.ll_huo_dao_fu_kuan);
+        qiTianTuiHuoInLinearLayout= (LinearLayout) fuWuView.findViewById(R.id.ll_qi_tian_tui_huo);
+        jiSuDaInLinearLayout= (LinearLayout) fuWuView.findViewById(R.id.ll_ji_su_da);
 
     }
 
@@ -545,6 +666,7 @@ public class ProductDetailActivity extends Activity implements View.OnClickListe
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.img_dao_hang_product_detail:
+                resetFuWu();
                 finish();
                 break;
             case R.id.ll_shou_cang://收藏
@@ -662,6 +784,20 @@ public class ProductDetailActivity extends Activity implements View.OnClickListe
                 fuWuWindow.dismiss();
                 break;
         }
+    }
+
+
+    /**
+     * 让所有服务的view都能显示出来
+     */
+    private void resetFuWu() {
+        // 显示所有的服务view
+        huoDaoFuKuanInLinearLayout.setVisibility(View.VISIBLE);
+        qiTianTuiHuoInLinearLayout.setVisibility(View.VISIBLE);
+        jiSuDaInLinearLayout.setVisibility(View.VISIBLE);
+        huoDaoFuKuanOutLinearLayout.setVisibility(View.VISIBLE);
+        qiTianTuiHuoOutLinearLayout.setVisibility(View.VISIBLE);
+        jiSuDaOutLinearLayout.setVisibility(View.VISIBLE);
     }
 
 
@@ -1175,22 +1311,74 @@ public class ProductDetailActivity extends Activity implements View.OnClickListe
      */
     private void fuWuClickChuLi() {
         //Toast.makeText(this, "服务", Toast.LENGTH_SHORT).show();
-        View fuWuView=inflater.inflate(R.layout.fu_wu_layout,null);
-        ImageView closeFuwu= (ImageView) fuWuView.findViewById(R.id.img_fu_wu_close);
+        //初始化放在了initview（）方法里面了
         closeFuwu.setOnClickListener(this);
         fuWuWindow=new PopupWindow(fuWuView, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         //外部点击时可以消失
         //fuWuWindow.setBackgroundDrawable(new ColorDrawable());
         fuWuWindow.setFocusable(true);
         fuWuWindow.setOutsideTouchable(false);
-        fuWuWindow.showAtLocation(parentView, Gravity.BOTTOM, 0, 0);//最后才是show,顺序很重要
-        setBackgroundAlpha(0.5f);
+
         fuWuWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
             @Override
             public void onDismiss() {
                 setBackgroundAlpha(1f);
             }
         });
+        setValueToFuWuWhenClick();
+
+    }
+
+    /**
+     * 当点击的时候给服务设置值
+     */
+    private void setValueToFuWuWhenClick() {
+        StringRequest fuWuRequest=new StringRequest(Request.Method.POST, fuWuUrl,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String s) {
+                        MyLog.d(tag, "服务返回的数据是：" + s);
+                        try {
+                            JSONArray jsonArray=new JSONArray(s);
+                            JSONObject jsonObject=jsonArray.getJSONObject(0);
+                            String isReality=jsonObject.getString("is_reality");
+                            String isReturn=jsonObject.getString("is_return");
+                            String isFast=jsonObject.getString("is_fast");
+                            if("0".equals(isReality) && "0".equals(isReturn) && "0".equals(isFast)){
+
+                            }else{
+                                fuWuWindow.showAtLocation(parentView, Gravity.BOTTOM, 0, 0);//最后才是show,顺序很重要
+                                setBackgroundAlpha(0.5f);
+                            }
+                            if ("0".equals(isReality)) {
+                                huoDaoFuKuanInLinearLayout.setVisibility(View.GONE);
+                            }
+                            if ("0".equals(isReturn)) {
+                                qiTianTuiHuoInLinearLayout.setVisibility(View.GONE);
+                            }
+                            if ("0".equals(isFast)) {
+                                jiSuDaInLinearLayout.setVisibility(View.GONE);
+                            }
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+
+            }
+        }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String,String> map=new HashMap<String,String>();
+                map.put("service","goods_extend");
+                map.put("goods_id",good.getGoodId());
+                return map;
+            }
+        };
+        requestQueue.add(fuWuRequest);
     }
 
 
@@ -1389,5 +1577,13 @@ public class ProductDetailActivity extends Activity implements View.OnClickListe
                 }
                 break;
         }
+    }
+
+
+    @Override
+    public void onBackPressed() {
+        //super.onBackPressed();
+        resetFuWu();
+        finish();
     }
 }

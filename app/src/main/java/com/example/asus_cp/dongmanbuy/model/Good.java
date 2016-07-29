@@ -9,6 +9,7 @@ import android.os.Parcelable;
  */
 public class Good implements Parcelable{
     private String goodId;
+    private String categoryId;//类别的id
     private String userId;
     private String recId;
     private String goodName;
@@ -44,6 +45,7 @@ public class Good implements Parcelable{
     public Good(){}
     protected Good(Parcel in) {
         goodId = in.readString();
+        categoryId=in.readString();
         userId = in.readString();
         recId=in.readString();
         goodName = in.readString();
@@ -95,6 +97,14 @@ public class Good implements Parcelable{
 
     public void setGoodId(String goodId) {
         this.goodId = goodId;
+    }
+
+    public String getCategoryId() {
+        return categoryId;
+    }
+
+    public void setCategoryId(String categoryId) {
+        this.categoryId = categoryId;
     }
 
     public String getUserId() {
@@ -353,6 +363,7 @@ public class Good implements Parcelable{
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(goodId);
+        dest.writeString(categoryId);
         dest.writeString(userId);
         dest.writeString(recId);
         dest.writeString(goodName);
