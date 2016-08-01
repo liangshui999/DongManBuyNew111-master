@@ -245,10 +245,14 @@ public class ProductDetailActivity extends Activity implements View.OnClickListe
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String s) {
-                        MyLog.d(tag, "服务返回的数据是：" + s);
+                        MyLog.d(tag, "服务返回的数据是：" + s+"");
+                        s=FormatHelper.removeBom(s);
                         try {
-                            JSONArray jsonArray=new JSONArray(s);
-                            JSONObject jsonObject=jsonArray.getJSONObject(0);
+                            String temp=s.substring(1,s.length()-1);
+                            MyLog.d(tag,"temp="+temp);
+                            JSONObject jsonObject=new JSONObject(temp);
+//                            JSONArray jsonArray=new JSONArray(s);
+//                            JSONObject jsonObject=jsonArray.getJSONObject(0);
                             String isReality=jsonObject.getString("is_reality");
                             String isReturn=jsonObject.getString("is_return");
                             String isFast=jsonObject.getString("is_fast");
@@ -419,7 +423,7 @@ public class ProductDetailActivity extends Activity implements View.OnClickListe
 
         //设置商品店铺价格,不带人民币符号
         String zheKouPrice = FormatHelper.getNumberFromRenMingBi(good.getPromotePrice());
-        if (zheKouPrice==null || "0.00".equals(zheKouPrice)) {
+        if (zheKouPrice==null || "0.00".equals(zheKouPrice) || "0".equals(zheKouPrice)) {
             MyLog.d(tag, "店铺价格为：" + good.getShopPrice());
             benDianJiaGeTextView.setText(FormatHelper.getMoneyFormat(good.getShopPrice()));
             double shopPrice = Double.parseDouble(FormatHelper.getNumberFromRenMingBi(good.getShopPrice()));
@@ -474,10 +478,12 @@ public class ProductDetailActivity extends Activity implements View.OnClickListe
                     @Override
                     public void onResponse(String s) {
                         MyLog.d(tag,"自营返回的数据是："+s);
+                        s=FormatHelper.removeBom(s);
                         if("周末自营".equals(s)){
                             isZiYingLinearLayout.setVisibility(View.VISIBLE);
                             isZiYingTextView.setVisibility(View.VISIBLE);
                             isZiYingTextView.setText("自营");
+                            MyLog.d(tag,"自营内部执行了吗？");
                         }else{
                             isZiYingLinearLayout.setVisibility(View.GONE);
                             isZiYingTextView.setVisibility(View.GONE);
@@ -1338,9 +1344,12 @@ public class ProductDetailActivity extends Activity implements View.OnClickListe
                     @Override
                     public void onResponse(String s) {
                         MyLog.d(tag, "服务返回的数据是：" + s);
+                        s=FormatHelper.removeBom(s);
                         try {
-                            JSONArray jsonArray=new JSONArray(s);
-                            JSONObject jsonObject=jsonArray.getJSONObject(0);
+                            String temp=s.substring(1,s.length()-1);
+                            JSONObject jsonObject=new JSONObject(temp);
+//                            JSONArray jsonArray=new JSONArray(s);
+//                            JSONObject jsonObject=jsonArray.getJSONObject(0);
                             String isReality=jsonObject.getString("is_reality");
                             String isReturn=jsonObject.getString("is_return");
                             String isFast=jsonObject.getString("is_fast");

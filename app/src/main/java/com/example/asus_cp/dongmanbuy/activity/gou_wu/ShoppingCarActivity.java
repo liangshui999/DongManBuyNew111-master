@@ -107,14 +107,14 @@ public class ShoppingCarActivity extends Activity implements View.OnClickListene
     private void init() {
         parentView=LayoutInflater.from(this).inflate(R.layout.shopping_car_activity_layout,null);
         daoHangImageView= (ImageView) findViewById(R.id.img_shoping_car_activity_dao_hang);
-        ziYingCheckBox= (CheckBox) findViewById(R.id.check_box_zi_ying_dian);
-        lingQuanTextView= (TextView) findViewById(R.id.text_ling_quan);
+//        ziYingCheckBox= (CheckBox) findViewById(R.id.check_box_zi_ying_dian);
+//        lingQuanTextView= (TextView) findViewById(R.id.text_ling_quan);
         quanXuanCheckBox= (CheckBox) findViewById(R.id.check_box_quan_xuan);
         priceTextView= (TextView) findViewById(R.id.text_he_ji_price);
         editLinearLayout= (LinearLayout) findViewById(R.id.ll_edit);
         jieSuanLinearLayout= (LinearLayout) findViewById(R.id.ll_jie_suan);
         jieSuanShuMuTextView = (TextView) findViewById(R.id.text_jie_suan_su_mu);
-        myListView= (MyListView) findViewById(R.id.my_list_view_shopping_car_list);
+        myListView= (MyListView) findViewById(R.id.my_list_view_shopping_car_list_out);
         tuiJianProductGridView= (MyGridViewA) findViewById(R.id.my_grid_view_tui_jian_product);
 
         //设置点击事件
@@ -152,7 +152,7 @@ public class ShoppingCarActivity extends Activity implements View.OnClickListene
                     public void onResponse(String s) {
                         MyLog.d(tag,"返回的数据是"+s);
                         parseJson(s);
-//                        adapter=new ShoppingCarListAdapter(ShoppingCarActivity.this,
+//                        adapter=new ShoppingCarListAdapterIn(ShoppingCarActivity.this,
 //                                goods);
 //                        myListView.setAdapter(adapter);
                     }
@@ -254,7 +254,7 @@ public class ShoppingCarActivity extends Activity implements View.OnClickListene
     @Override
     public void onClick(View v) {
         switch (v.getId()){
-            case R.id.check_box_zi_ying_dian://自营店
+            /*case R.id.check_box_zi_ying_dian://自营店
                 if(goods.size()>0){
                     if(ziYingCount%2==0){
                         adapter.allXuanZhong();
@@ -267,7 +267,7 @@ public class ShoppingCarActivity extends Activity implements View.OnClickListene
                     }
                     ziYingCount++;
                 }
-                break;
+                break;*/
             case R.id.check_box_quan_xuan://全选
                 if(goods.size()>0){
                     if(quanXuanCount%2==0){
@@ -286,10 +286,10 @@ public class ShoppingCarActivity extends Activity implements View.OnClickListene
             case R.id.img_shoping_car_activity_dao_hang://导航
                 finish();
                 break;
-            case R.id.text_ling_quan://领券
+            /*case R.id.text_ling_quan://领券
                 //Toast.makeText(this,"领券",Toast.LENGTH_SHORT).show();
                 youHuiQuanClickChuLi();
-                break;
+                break;*/
             case R.id.ll_edit://编辑
                 Toast.makeText(this,"编辑",Toast.LENGTH_SHORT).show();
                 break;
@@ -386,7 +386,7 @@ public class ShoppingCarActivity extends Activity implements View.OnClickListene
      * Created by asus-cp on 2016-06-13.
      */
     public class ShoppingCarListAdapter extends BaseAdapter implements View.OnClickListener{
-        private String tag="ShoppingCarListAdapter";
+        private String tag="ShoppingCarListAdapterIn";
         private Context context;
         private List<Good> goods;
         private LayoutInflater inflater;
@@ -473,7 +473,7 @@ public class ShoppingCarActivity extends Activity implements View.OnClickListene
             View v=convertView;
             ViewHolder viewHolder=null;
             if(v==null){
-                v=inflater.inflate(R.layout.shopping_car_list_item_layout,null);
+                v=inflater.inflate(R.layout.shopping_car_list_item_layout_in,null);
                 viewHolder=new ViewHolder();
                 viewHolder.checkBox= (CheckBox) v.findViewById(R.id.check_box_shopping_car_list_item);
                 viewHolder.picImageView= (ImageView) v.findViewById(R.id.img_pic_shopping_car_list);

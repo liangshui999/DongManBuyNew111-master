@@ -25,7 +25,7 @@ import java.util.List;
  * Created by asus-cp on 2016-06-13.
  */
 public class ShoppingCarListAdapter extends BaseAdapter implements View.OnClickListener{
-    private String tag="ShoppingCarListAdapter";
+    private String tag="ShoppingCarListAdapterIn";
     private Context context;
     private List<Good> goods;
     private LayoutInflater inflater;
@@ -107,7 +107,7 @@ public class ShoppingCarListAdapter extends BaseAdapter implements View.OnClickL
         View v=convertView;
         ViewHolder viewHolder=null;
         if(v==null){
-            v=inflater.inflate(R.layout.shopping_car_list_item_layout,null);
+            v=inflater.inflate(R.layout.shopping_car_list_item_layout_in,null);
             viewHolder=new ViewHolder();
             viewHolder.checkBox= (CheckBox) v.findViewById(R.id.check_box_shopping_car_list_item);
             viewHolder.picImageView= (ImageView) v.findViewById(R.id.img_pic_shopping_car_list);

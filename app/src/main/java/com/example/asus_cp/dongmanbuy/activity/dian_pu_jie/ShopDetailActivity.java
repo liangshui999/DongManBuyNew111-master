@@ -249,11 +249,12 @@ public class ShopDetailActivity extends Activity implements View.OnClickListener
                     @Override
                     public void onResponse(String s) {
                         MyLog.d(tag,"二维码返回的数据是："+s);
-                        //String temp=s.replace("  "," ");
+                        s=FormatHelper.removeBom(s);
+                        String temp=s.replace(" ","");
                         ImageLoader imageLoader=imageLoadHelper.getImageLoader();
                         ImageLoader.ImageListener listener=imageLoader.getImageListener(erWeiMaImageView,
                                 R.mipmap.yu_jia_zai,R.mipmap.yu_jia_zai);
-                        imageLoader.get(s, listener);
+                        imageLoader.get(temp, listener,300,300);
 
                         erWeiMaWindow = new PopupWindow(erWeiMaView,
                                 ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);

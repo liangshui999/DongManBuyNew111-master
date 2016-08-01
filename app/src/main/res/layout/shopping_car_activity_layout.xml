@@ -34,7 +34,7 @@
                     android:textColor="@color/white_my"/>
             </RelativeLayout>
 
-            <!--自营店和领券-->
+           <!-- &lt;!&ndash;自营店和领券&ndash;&gt;
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -64,11 +64,16 @@
                     android:layout_alignParentRight="true"
                     android:layout_marginRight="10dp"
                     android:textColor="@color/bottom_lable_color"/>
-            </RelativeLayout>
+            </RelativeLayout>-->
+
+
+
+
+
 
             <!--购物车列表-->
             <com.example.asus_cp.dongmanbuy.customview.MyListView
-                android:id="@+id/my_list_view_shopping_car_list"
+                android:id="@+id/my_list_view_shopping_car_list_out"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
             </com.example.asus_cp.dongmanbuy.customview.MyListView>

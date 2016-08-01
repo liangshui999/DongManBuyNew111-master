@@ -193,4 +193,14 @@ public class FormatHelper {
         }
         return result;
     }
+
+
+    /**
+     * 去除字符串里面的\uFEFF
+     */
+    public static String removeBom(String s){
+
+        return s.replaceAll("\uFEFF","");
+
+    }
 }

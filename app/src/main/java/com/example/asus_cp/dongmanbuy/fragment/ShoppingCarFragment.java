@@ -7,7 +7,6 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,7 +14,6 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
-import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -34,13 +32,14 @@ import com.android.volley.toolbox.StringRequest;
 import com.example.asus_cp.dongmanbuy.R;
 import com.example.asus_cp.dongmanbuy.activity.MainActivity;
 import com.example.asus_cp.dongmanbuy.activity.gou_wu.DingDanActivity;
-import com.example.asus_cp.dongmanbuy.activity.login.LoginActivity;
 import com.example.asus_cp.dongmanbuy.activity.product_detail.ProductDetailActivity;
 import com.example.asus_cp.dongmanbuy.adapter.ProductDetailYouHuiQuanListAdapter;
+import com.example.asus_cp.dongmanbuy.adapter.ShopHomeHotProductAdapter;
 import com.example.asus_cp.dongmanbuy.constant.MyConstant;
 import com.example.asus_cp.dongmanbuy.customview.MyGridViewA;
 import com.example.asus_cp.dongmanbuy.customview.MyListView;
 import com.example.asus_cp.dongmanbuy.model.Good;
+import com.example.asus_cp.dongmanbuy.model.ShopModel;
 import com.example.asus_cp.dongmanbuy.model.YouHuiQuanModel;
 import com.example.asus_cp.dongmanbuy.util.FormatHelper;
 import com.example.asus_cp.dongmanbuy.util.ImageLoadHelper;
@@ -63,20 +62,18 @@ import java.util.Map;
  */
 public class ShoppingCarFragment extends Fragment implements View.OnClickListener{
     private Context context;
-    private String tag="ShoppingCarActivity";
+    private String tag="ShoppingCarFragment";
 
     private ImageView daoHangImageView;//导航
-    public CheckBox ziYingCheckBox;//自营店的chekcbox
-    private TextView lingQuanTextView;//领券
     public CheckBox quanXuanCheckBox;//全选
     public TextView priceTextView;//总结算价格
     private LinearLayout editLinearLayout;//编辑按钮
     private LinearLayout jieSuanLinearLayout;//结算的按钮
     public TextView jieSuanShuMuTextView;//结算的数目
-    private MyListView myListView;//购物车列表
+    private MyListView myListViewOut;//购物车列表
     private MyGridViewA tuiJianProductGridView;//推荐商品列表
 
-    private ShoppingCarListAdapter adapter;
+    private ShoppingCarListAdapterIn adapter;
     private int ziYingCount;//自营店的选中状态
     private int quanXuanCount;
 
@@ -84,6 +81,7 @@ public class ShoppingCarFragment extends Fragment implements View.OnClickListene
     private String shoppingCarListUrl="http://www.zmobuy.com/PHP/index.php?url=/cart/list";//购物车列表
     private String deleteShoppingCarUrl="http://www.zmobuy.com/PHP/index.php?url=/cart/delete";//删除购物车
     private String gooDescUrl="http://www.zmobuy.com/PHP/?url=/goods";//商品详情的接口
+    private String shopInfoUrl = "http://www.zmobuy.com/PHP/?url=/store/shopinfo";//店铺详细信息的接口
     private RequestQueue requestQueue;
 
     private String uid;
@@ -122,31 +120,19 @@ public class ShoppingCarFragment extends Fragment implements View.OnClickListene
 
         parentView=LayoutInflater.from(context).inflate(R.layout.shopping_car_activity_layout, null);
         daoHangImageView= (ImageView) v.findViewById(R.id.img_shoping_car_activity_dao_hang);
-        ziYingCheckBox= (CheckBox) v.findViewById(R.id.check_box_zi_ying_dian);
-        lingQuanTextView= (TextView) v.findViewById(R.id.text_ling_quan);
         quanXuanCheckBox= (CheckBox) v.findViewById(R.id.check_box_quan_xuan);
         priceTextView= (TextView) v.findViewById(R.id.text_he_ji_price);
         editLinearLayout= (LinearLayout) v.findViewById(R.id.ll_edit);
         jieSuanLinearLayout= (LinearLayout) v.findViewById(R.id.ll_jie_suan);
         jieSuanShuMuTextView = (TextView) v.findViewById(R.id.text_jie_suan_su_mu);
-        myListView= (MyListView) v.findViewById(R.id.my_list_view_shopping_car_list);
+        myListViewOut = (MyListView) v.findViewById(R.id.my_list_view_shopping_car_list_out);
         tuiJianProductGridView= (MyGridViewA) v.findViewById(R.id.my_grid_view_tui_jian_product);
 
         //设置点击事件
         daoHangImageView.setOnClickListener(this);
-        ziYingCheckBox.setOnClickListener(this);
         quanXuanCheckBox.setOnClickListener(this);
-        lingQuanTextView.setOnClickListener(this);
         editLinearLayout.setOnClickListener(this);
         jieSuanLinearLayout.setOnClickListener(this);
-        myListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent=new Intent(context, ProductDetailActivity.class);
-                intent.putExtra(MyConstant.GOOD_KEY,goods.get(position));
-                startActivity(intent);
-            }
-        });
 
 
 
@@ -159,7 +145,7 @@ public class ShoppingCarFragment extends Fragment implements View.OnClickListene
     }
 
     /**
-     * 从网络请求购物车列表的数据
+     * 从网络请求购物车列表的数据，给外层的listview设置适配器
      */
     public void getShoppingCarListFromIntetnt() {
         StringRequest shoppingCarListRequest=new StringRequest(Request.Method.POST, shoppingCarListUrl,
@@ -167,10 +153,9 @@ public class ShoppingCarFragment extends Fragment implements View.OnClickListene
                     @Override
                     public void onResponse(String s) {
                         MyLog.d(tag, "返回的数据是" + s);
-                        parseJson(s);
-//                        adapter=new ShoppingCarListAdapter(ShoppingCarActivity.this,
-//                                goods);
-//                        myListView.setAdapter(adapter);
+                        List<ShopModel> shopModels=parseJson(s);
+                        ShoppingCarListAdapterOut adapterOut=new ShoppingCarListAdapterOut(context,shopModels);
+                        myListViewOut.setAdapter(adapterOut);
                     }
                 }, new Response.ErrorListener() {
             @Override
@@ -193,70 +178,60 @@ public class ShoppingCarFragment extends Fragment implements View.OnClickListene
     /**
      * 主要用于解析json数据
      */
-    private void parseJson(String s) {
-        goods.clear();
+    private List<ShopModel> parseJson(String s) {
+        List<ShopModel> shopModels=new ArrayList<ShopModel>();
+
         try {
             JSONObject jsonObject=new JSONObject(s);
             JSONObject jsonObject1=jsonObject.getJSONObject("data");
             JSONArray jsonArray=jsonObject1.getJSONArray("goods_list");
-            if(jsonArray.length()==0){
-                adapter=new ShoppingCarListAdapter(context,
-                        goods);
-                myListView.setAdapter(adapter);
-            }else{
-                for(int i=0;i<jsonArray.length();i++){
-                    final Good good=new Good();
-                    JSONObject ziJsonObj=jsonArray.getJSONObject(i);
-                    good.setRecId(ziJsonObj.getString("rec_id"));
-                    good.setGoodId(ziJsonObj.getString("goods_id"));
-                    good.setGoodName(JsonHelper.decodeUnicode(ziJsonObj.getString("goods_name")));
-                    good.setMarket_price(JsonHelper.decodeUnicode(ziJsonObj.getString("market_price")));
-                    good.setShopPrice(JsonHelper.decodeUnicode(ziJsonObj.getString("goods_price")));
-                    good.setShoppingCarNumber(ziJsonObj.getString("goods_number"));
-                    JSONObject imgJson=ziJsonObj.getJSONObject("img");
-                    good.setGoodsImg(imgJson.getString("url"));
-                    good.setGoodsThumb(imgJson.getString("thumb"));
-                    good.setGoodsSmallImag(imgJson.getString("small"));
 
-                    StringRequest kuCunRequest=new StringRequest(Request.Method.POST, gooDescUrl, new Response.Listener<String>() {
-                        @Override
-                        public void onResponse(String s) {
-                            MyLog.d(tag,"请求库存返回的数据"+s);
-                            try {
-                                JSONObject kuCunJs=new JSONObject(s);
-                                JSONObject ku=kuCunJs.getJSONObject("data");
-                                good.setGoodsNumber(ku.getString("goods_number"));
-                                goods.add(good);
+            for (int i = 0; i < jsonArray.length(); i++) {
+                final Good good = new Good();
+                JSONObject ziJsonObj = jsonArray.getJSONObject(i);
+                good.setRecId(ziJsonObj.getString("rec_id"));
+                good.setGoodId(ziJsonObj.getString("goods_id"));
+                good.setGoodName(JsonHelper.decodeUnicode(ziJsonObj.getString("goods_name")));
+                good.setMarket_price(JsonHelper.decodeUnicode(ziJsonObj.getString("market_price")));
+                good.setShopPrice(JsonHelper.decodeUnicode(ziJsonObj.getString("goods_price")));
+                good.setShoppingCarNumber(ziJsonObj.getString("goods_number"));
+                JSONObject imgJson = ziJsonObj.getJSONObject("img");
+                good.setGoodsImg(imgJson.getString("url"));
+                good.setGoodsThumb(imgJson.getString("thumb"));
+                good.setGoodsSmallImag(imgJson.getString("small"));
 
-                                adapter=new ShoppingCarListAdapter(context,
-                                        goods);
-                                myListView.setAdapter(adapter);
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
-
+                String ruId=ziJsonObj.getString("ru_id");
+                if(shopModels.size()==0){
+                    ShopModel shopModel=new ShopModel();
+                    List<Good> goods=new ArrayList<Good>();
+                    shopModel.setGoods(goods);
+                    shopModel.getGoods().add(good);
+                    shopModel.setUserId(ruId);
+                    shopModels.add(shopModel);
+                }else{
+                    int count=0;
+                    for(int j=0;j<shopModels.size();j++){
+                        if(ruId.equals(shopModels.get(j).getUserId())){
+                            shopModels.get(j).getGoods().add(good);
+                            break;
                         }
-                    }, new Response.ErrorListener() {
-                        @Override
-                        public void onErrorResponse(VolleyError volleyError) {
-
-                        }
-                    }){
-                        @Override
-                        protected Map<String, String> getParams() throws AuthFailureError {
-                            Map<String,String> map=new HashMap<String,String>();
-                            String json="{\"goods_id\":\""+good.getGoodId()+"\",\"session\":{\"uid\":\""+uid+"\",\"sid\":\""+sid+"\"}}";
-                            map.put("json",json);
-                            return map;
-                        }
-                    };
-                    requestQueue.add(kuCunRequest);
+                        count++;
+                    }
+                    if(count==shopModels.size()){
+                        ShopModel shopModel=new ShopModel();
+                        List<Good> goods=new ArrayList<Good>();
+                        shopModel.setGoods(goods);
+                        shopModel.getGoods().add(good);
+                        shopModel.setUserId(ruId);
+                        shopModels.add(shopModel);
+                    }
                 }
-            }
+                }
 
         } catch (JSONException e) {
             e.printStackTrace();
         }
+        return shopModels;
     }
 
 
@@ -275,7 +250,7 @@ public class ShoppingCarFragment extends Fragment implements View.OnClickListene
     @Override
     public void onClick(View v) {
         switch (v.getId()){
-            case R.id.check_box_zi_ying_dian://自营店
+            /*case R.id.check_box_zi_ying_dian://自营店
                 if(goods.size()>0){
                     if(ziYingCount%2==0){
                         adapter.allXuanZhong();
@@ -288,18 +263,18 @@ public class ShoppingCarFragment extends Fragment implements View.OnClickListene
                     }
                     ziYingCount++;
                 }
-                break;
+                break;*/
             case R.id.check_box_quan_xuan://全选
                 if(goods.size()>0){
                     if(quanXuanCount%2==0){
                         adapter.allXuanZhong();
                         adapter.notifyDataSetChanged();
-                        ziYingCheckBox.setChecked(true);
+                        //ziYingCheckBox.setChecked(true);
 
                     }else{
                         adapter.allBuXuanZhong();
                         adapter.notifyDataSetChanged();
-                        ziYingCheckBox.setChecked(false);
+                        //ziYingCheckBox.setChecked(false);
                     }
                     quanXuanCount++;
                 }
@@ -307,10 +282,10 @@ public class ShoppingCarFragment extends Fragment implements View.OnClickListene
             case R.id.img_shoping_car_activity_dao_hang://导航
                 mainActivity.finish();
                 break;
-            case R.id.text_ling_quan://领券
+           /* case R.id.text_ling_quan://领券
                 //Toast.makeText(this,"领券",Toast.LENGTH_SHORT).show();
                 youHuiQuanClickChuLi();
-                break;
+                break;*/
             case R.id.ll_edit://编辑
                 Toast.makeText(context,"编辑",Toast.LENGTH_SHORT).show();
                 break;
@@ -406,19 +381,133 @@ public class ShoppingCarFragment extends Fragment implements View.OnClickListene
         switch (requestCode){
             case REQUEST_CODE_TO_Ding_Dan_Activity: //从订单界面返回的数据
                 getShoppingCarListFromIntetnt();
-                priceTextView.setText(0.00+"");
+                priceTextView.setText(0.00 + "");
                 jieSuanShuMuTextView.setText("("+"0"+")");
-                MyLog.d(tag,"onActivityResult内部执行了吗");
+                MyLog.d(tag, "onActivityResult内部执行了吗");
                 break;
         }
     }
 
+
     /**
-     * 购物车列表的适配器
+     * 外部listview的适配器
+     */
+    public class ShoppingCarListAdapterOut extends BaseAdapter{
+
+        private Context context;
+        private List<ShopModel> shopModels;
+        private LayoutInflater inflater;
+
+        public ShoppingCarListAdapterOut(Context context, List<ShopModel> shopModels) {
+            this.context = context;
+            this.shopModels = shopModels;
+            inflater=LayoutInflater.from(context);
+        }
+
+        @Override
+        public int getCount() {
+            return shopModels.size();
+        }
+
+        @Override
+        public Object getItem(int position) {
+            return shopModels.get(position);
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return position;
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            View v=convertView;
+            ViewHolder viewHolder=null;
+            if(v==null){
+                v=inflater.inflate(R.layout.shopping_car_list_item_layout_out,null);
+                viewHolder=new ViewHolder();
+                viewHolder.myListView= (MyListView) v.findViewById(R.id.list_shopping_car_item_out);
+                viewHolder.checkBox= (CheckBox) v.findViewById(R.id.check_box_head);
+                viewHolder.nameTextView= (TextView) v.findViewById(R.id.text_shop_name_head);
+                v.setTag(viewHolder);
+            }else{
+                viewHolder= (ViewHolder) v.getTag();
+            }
+
+            //给内部的listview设置适配器
+            final ShopModel shopModel=shopModels.get(position);
+            ShoppingCarListAdapterIn adapterIn=new ShoppingCarListAdapterIn(context,shopModel.getGoods());
+            viewHolder.myListView.setAdapter(adapterIn);
+
+                final ViewHolder finalViewHolder = viewHolder;
+                StringRequest getShopInfoRequest = new StringRequest(Request.Method.POST, shopInfoUrl, new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String s) {
+                        MyLog.d(tag, "求取店铺名称返回的数据是：" + s);
+                        JSONObject jsonObject = null;
+                        try {
+                            jsonObject = new JSONObject(s);
+                            JSONObject jsonObject1 = jsonObject.getJSONObject("data");
+                            String shopName=jsonObject1.getString("shop_name");
+                            String ruId=jsonObject1.getString("ru_id");
+                            MyLog.d(tag,"ruid="+ruId);
+                            if("0".equals(shopModel.getUserId())){
+                                finalViewHolder.nameTextView.setText("周末自营");
+                                MyLog.d(tag,"周末自营执行了吗");
+                            }else{
+                                //给textview设置店铺名称
+                                finalViewHolder.nameTextView.setText(shopName);
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                        if("0".equals(shopModel.getUserId())){
+                            finalViewHolder.nameTextView.setText("周末自营");
+                            MyLog.d(tag,"周末自营执行了吗");
+                        }
+                    }
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError volleyError) {
+
+                    }
+                }) {
+                    @Override
+                    protected Map<String, String> getParams() throws AuthFailureError {
+                        Map<String, String> map = new HashMap<String, String>();
+                        String json = "{\"id\":\"" + shopModel.getUserId() + "\"}";
+                        map.put("json", json);
+                        return map;
+                    }
+                };
+                requestQueue.add(getShopInfoRequest);
+
+            if(shopModel.getUserId().equals("0")){
+                viewHolder.nameTextView.setText("周末自营");
+            }
+
+            return v;
+        }
+
+        class ViewHolder{
+            MyListView myListView;
+            CheckBox checkBox;
+            TextView nameTextView;
+        }
+    }
+
+
+
+
+
+
+    /**
+     * 购物车列表的适配器(内部listview的适配器)
      * Created by asus-cp on 2016-06-13.
      */
-    public class ShoppingCarListAdapter extends BaseAdapter implements View.OnClickListener{
-        private String tag="ShoppingCarListAdapter";
+    public class ShoppingCarListAdapterIn extends BaseAdapter implements View.OnClickListener{
+        private String tag="ShoppingCarListAdapterIn";
         private Context context;
         private List<Good> goods;
         private LayoutInflater inflater;
@@ -430,7 +519,7 @@ public class ShoppingCarFragment extends Fragment implements View.OnClickListene
 
         private List<Integer> itemProductCounts;//记录每一个item在购物车中的数量
 
-        public ShoppingCarListAdapter(Context context, List<Good> goods
+        public ShoppingCarListAdapterIn(Context context, List<Good> goods
         ) {
             this.context = context;
             this.goods = goods;
@@ -505,7 +594,7 @@ public class ShoppingCarFragment extends Fragment implements View.OnClickListene
             View v=convertView;
             ViewHolder viewHolder=null;
             if(v==null){
-                v=inflater.inflate(R.layout.shopping_car_list_item_layout,null);
+                v=inflater.inflate(R.layout.shopping_car_list_item_layout_in,null);
                 viewHolder=new ViewHolder();
                 viewHolder.checkBox= (CheckBox) v.findViewById(R.id.check_box_shopping_car_list_item);
                 viewHolder.picImageView= (ImageView) v.findViewById(R.id.img_pic_shopping_car_list);
@@ -556,14 +645,14 @@ public class ShoppingCarFragment extends Fragment implements View.OnClickListene
             final ViewHolder finalViewHolder=viewHolder;
 
             //加号的点击事件
-            viewHolder.jiaHaoImageView.setOnClickListener(new View.OnClickListener() {
+            /*viewHolder.jiaHaoImageView.setOnClickListener(new View.OnClickListener() {
 
                 private int kuCun=Integer.parseInt(good.getGoodsNumber());;
                 @Override
                 public void onClick(View v) {
                     prodcutCount[0]++;
                     if(prodcutCount[0] <= kuCun){
-                        //Toast.makeText(context,"库存数量:"+kuCun,Toast.LENGTH_SHORT).show();
+                        Toast.makeText(context,"库存数量:"+kuCun,Toast.LENGTH_SHORT).show();
                         finalViewHolder.productCountTextView.setText(prodcutCount[0] +"");
                     }else{
                         Toast.makeText(context,"超过了库存数量",Toast.LENGTH_SHORT).show();
@@ -574,7 +663,7 @@ public class ShoppingCarFragment extends Fragment implements View.OnClickListene
                     getCheckStateAndSetTextView();
                     updateShoppingCar(good,prodcutCount[0]+"");
                 }
-            });
+            });*/
 
 
             //减号的点击事件
@@ -743,10 +832,10 @@ public class ShoppingCarFragment extends Fragment implements View.OnClickListene
             jieSuanShuMuTextView.setText("("+jieSuan + ")");
 
             if(count==checks.size()){
-                ziYingCheckBox.setChecked(true);
+                //ziYingCheckBox.setChecked(true);
                 quanXuanCheckBox.setChecked(true);
             }else {
-                ziYingCheckBox.setChecked(false);
+                //ziYingCheckBox.setChecked(false);
                 quanXuanCheckBox.setChecked(false);
             }
         }
