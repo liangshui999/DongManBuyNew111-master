@@ -129,7 +129,7 @@ public class ShouHuoRenXinXiListActivity extends Activity{
                                 userModels);
                         listView.setAdapter(adapter);
                         checks=adapter.getChecks();
-                        /*checks=adapter.getChecks();
+                        /*checks=adapter.getChecksIn();
                         if (userModels.size()>0){
                             adapter.notifyDataSetChanged();
                         }*/

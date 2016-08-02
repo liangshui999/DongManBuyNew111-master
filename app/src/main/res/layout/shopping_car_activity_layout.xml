@@ -1,22 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="fill_parent">
 
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        >
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
             <!--购物车标题的布局-->
             <RelativeLayout
+                android:id="@+id/biao_ti"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/bottom_lable_color">
+                android:layout_height="50dp"
+                android:background="@color/bottom_lable_color"
+                android:layout_alignParentTop="true">
                 <ImageView
                     android:id="@+id/img_shoping_car_activity_dao_hang"
                     android:layout_width="26dp"
@@ -72,16 +65,20 @@
 
 
             <!--购物车列表-->
-            <com.example.asus_cp.dongmanbuy.customview.MyListView
+            <ListView
                 android:id="@+id/my_list_view_shopping_car_list_out"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-            </com.example.asus_cp.dongmanbuy.customview.MyListView>
+                android:layout_height="400dp"
+                android:layout_below="@id/biao_ti"
+                android:visibility="visible">
+            </ListView>
 
             <!--推荐商品-->
             <TextView
+                android:id="@+id/tui"
+                android:layout_below="@id/my_list_view_shopping_car_list_out"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="40dp"
                 android:text="@string/tui_jian_shang_ping"
                 android:gravity="center"
                 android:paddingTop="10dp"
@@ -91,22 +88,30 @@
             <com.example.asus_cp.dongmanbuy.customview.MyGridViewA
                 android:id="@+id/my_grid_view_tui_jian_product"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="match_parent"
+                android:visibility="gone">
             </com.example.asus_cp.dongmanbuy.customview.MyGridViewA>
 
-        </LinearLayout>
-    </ScrollView>
+    <!--把下面的挤出来-->
+    <ImageView
+        android:layout_below="@id/tui"
+        android:layout_width="match_parent"
+        android:layout_height="120dp"
+        android:background="@color/white_my"/>
+
+
 
 
     <!--固定栏-->
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="60dp"
         android:paddingTop="10dp"
         android:paddingLeft="5dp"
         android:paddingBottom="10dp"
         android:paddingRight="10dp"
         android:background="@color/white_my"
+        android:layout_alignParentBottom="true"
         >
         <CheckBox
             android:id="@+id/check_box_quan_xuan"
@@ -211,4 +216,4 @@
                 />
         </LinearLayout>
     </RelativeLayout>
-</LinearLayout>
+</RelativeLayout>

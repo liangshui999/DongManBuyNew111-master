@@ -174,6 +174,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private String labelFlag;//跳转到哪个标签的标记
 
+    private int densty;//屏幕像素密度
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -217,8 +219,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         };
         new CategoryImageLoadHelper(getXiangSuMiDu());
+
+        //获取屏幕像素密度
+        DisplayMetrics metric = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(metric);
+        densty = metric.densityDpi;  // 屏幕密度DPI（120 / 160 / 240）
+
     }
 
+    public int getDensty(){
+        return densty;
+    }
 
 
     /**
