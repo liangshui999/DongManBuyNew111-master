@@ -64,4 +64,6 @@ public interface MyConstant {
     public static final String GONG_JIAO_JIAO_TONG="gongjiao";//公交
     public static final String JIA_CHE_JIAO_TONG="jiaChe";//驾车
     public static final String BU_XING_JIAO_TONG="buXing";//步行
+    public static final String XUAN_ZHONG_COUNT_KEY="xuanzhongcount";//从购物车向订单列表传递数据时，传递每个商品选中数据的集合
+    public static final String SHOP_MODE_LIST_KEY="shopmodellistkey";//传递shopmodle集合时用
 }

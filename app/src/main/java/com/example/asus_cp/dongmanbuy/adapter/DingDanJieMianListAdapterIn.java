@@ -20,14 +20,14 @@ import java.util.List;
  * 订单界面的listview的适配器
  * Created by asus-cp on 2016-06-16.
  */
-public class DingDanJieMianListAdapter extends BaseAdapter{
+public class DingDanJieMianListAdapterIn extends BaseAdapter{
     private Context context;
     private List<Good> goods;
     private List<Integer> itemProductCount;//小项的商品数目
     private LayoutInflater inflater;
     private ImageLoadHelper helper;
 
-    public DingDanJieMianListAdapter(Context context, List<Good> goods, List<Integer> itemProductCount) {
+    public DingDanJieMianListAdapterIn(Context context, List<Good> goods, List<Integer> itemProductCount) {
         this.context = context;
         this.goods = goods;
         this.itemProductCount = itemProductCount;
@@ -55,7 +55,7 @@ public class DingDanJieMianListAdapter extends BaseAdapter{
         View v=convertView;
         ViewHolder viewHolder=null;
         if(v==null){
-            v=inflater.inflate(R.layout.ding_dan_list_view_item_layout,null);
+            v=inflater.inflate(R.layout.ding_dan_list_view_item_in_layout,null);
             viewHolder=new ViewHolder();
             viewHolder.picImageView= (ImageView) v.findViewById(R.id.img_pic_ding_dan_list_item);
             viewHolder.nameTextView= (TextView) v.findViewById(R.id.text_product_name_ding_dan_list_item);

@@ -13,10 +13,8 @@ import android.text.TextUtils;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,7 +27,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.StringRequest;
 import com.example.asus_cp.dongmanbuy.R;
-import com.example.asus_cp.dongmanbuy.adapter.DingDanJieMianListAdapter;
+import com.example.asus_cp.dongmanbuy.adapter.DingDanJieMianListAdapterIn;
 import com.example.asus_cp.dongmanbuy.constant.MyConstant;
 import com.example.asus_cp.dongmanbuy.customview.MyListView;
 import com.example.asus_cp.dongmanbuy.model.DingDanModel;
@@ -456,7 +454,7 @@ public class DingDanDetailActivity extends Activity implements View.OnClickListe
                 //Toast.makeText(this,"展示商品列表",Toast.LENGTH_SHORT).show();
                 productDisplayLinearLayoutOrignal.setVisibility(View.GONE);
                 productListLinearLayoutZhanKai.setVisibility(View.VISIBLE);
-                DingDanJieMianListAdapter adapter=new DingDanJieMianListAdapter(this,goods,itemProductCount);
+                DingDanJieMianListAdapterIn adapter=new DingDanJieMianListAdapterIn(this,goods,itemProductCount);
                 listView.setAdapter(adapter);
                 break;
             case R.id.img_down_ding_dan_order_detail://点击了收起商品列表

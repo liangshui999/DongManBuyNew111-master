@@ -31,6 +31,7 @@ import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.StringRequest;
 import com.example.asus_cp.dongmanbuy.R;
 import com.example.asus_cp.dongmanbuy.activity.MainActivity;
+import com.example.asus_cp.dongmanbuy.activity.gou_wu.DingDanActivity;
 import com.example.asus_cp.dongmanbuy.activity.product_detail.ProductDetailActivity;
 import com.example.asus_cp.dongmanbuy.adapter.ProductDetailYouHuiQuanListAdapter;
 import com.example.asus_cp.dongmanbuy.constant.MyConstant;
@@ -48,6 +49,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -300,7 +302,6 @@ public class ShoppingCarFragment extends Fragment implements View.OnClickListene
                 break;
             case R.id.ll_jie_suan://结算
                 /*//Toast.makeText(this,"结算...",Toast.LENGTH_SHORT).show();
-
                 List<Boolean> checks=adapter.getChecksIn();
                 ArrayList<Integer> itemProductCounts= (ArrayList<Integer>) adapter.getItemProductCountsIn();//返回小项的商品数目
                 ArrayList<Good> passGoods=new ArrayList<Good>();//需要传递给订单界面的
@@ -311,7 +312,6 @@ public class ShoppingCarFragment extends Fragment implements View.OnClickListene
                         passItemProductCount.add(itemProductCounts.get(i));
                     }
                 }
-
                 if(passGoods.size()>0){
                     Intent intent=new Intent(context,DingDanActivity.class);
                     intent.putExtra(MyConstant.GOOD_LIST_KEY,passGoods);
@@ -322,6 +322,45 @@ public class ShoppingCarFragment extends Fragment implements View.OnClickListene
                 }else{
                     Toast.makeText(context,"请至少选择一个商品",Toast.LENGTH_SHORT).show();
                 }*/
+
+                ArrayList<List<Integer>> passItemGoodCount=new ArrayList<List<Integer>>();//需要传递给订单界面的
+                List<ShopModel> passShopModel=new ArrayList<ShopModel>();//需要传递给订单界面的
+
+                ArrayList<List<Boolean>> checksOut=adapterOut.getChecksOut();
+                ArrayList<List<Integer>> itemGoodsCountOut=adapterOut.getItemGoodsCountOut();
+                for(int i=0;i<shopModels.size();i++){
+                    List<Boolean> tempCheck=checksOut.get(i);
+                    List<Integer> tempItemGoods=itemGoodsCountOut.get(i);
+                    ShopModel shopModel=shopModels.get(i);
+
+                    List<Integer> zhongZhuanItemGoods=new ArrayList<Integer>();//中转用的，会将她们添加到pass里面,相当于pass里面的小项
+                    ShopModel zhongZhuanShopModel=new ShopModel();
+                    List<Good> zhongZhuanGoods=new ArrayList<Good>();
+                    for(int j=0;j<tempCheck.size();j++){
+                        if(tempCheck.get(j)){
+                            zhongZhuanItemGoods.add(tempItemGoods.get(j));
+                            zhongZhuanGoods.add(shopModel.getGoods().get(j));
+                        }
+                    }
+                    if(zhongZhuanItemGoods.size()>0){   //说明小项里面有选中的
+                        zhongZhuanShopModel.setGoods(zhongZhuanGoods);
+                        zhongZhuanShopModel.setUserId(shopModel.getUserId());
+                        zhongZhuanShopModel.setShopName(shopModel.getShopName());
+                        passItemGoodCount.add(zhongZhuanItemGoods);
+                        passShopModel.add(zhongZhuanShopModel);
+                    }
+                }
+
+                if(passShopModel.size()>0){
+                    Intent intent=new Intent(context, DingDanActivity.class);
+                    intent.putExtra(MyConstant.SHOP_MODE_LIST_KEY, (Serializable) passShopModel);
+                    intent.putExtra(MyConstant.XUAN_ZHONG_COUNT_KEY,passItemGoodCount);
+                    intent.putExtra(MyConstant.PRODUCT_PRICE_SUM_KEY,priceTextView.getText().toString());
+                    intent.putExtra(MyConstant.PRODUCT_SHU_MU_SUM_KEY,jieSuanShuMuTextView.getText().toString());
+                    startActivityForResult(intent, REQUEST_CODE_TO_Ding_Dan_Activity);
+                }else{
+                    Toast.makeText(context,"请至少选择一个商品",Toast.LENGTH_SHORT).show();
+                }
                 break;
 
 
@@ -392,6 +431,8 @@ public class ShoppingCarFragment extends Fragment implements View.OnClickListene
                 getShoppingCarListFromIntetnt();
                 priceTextView.setText(0.00 + "");
                 jieSuanShuMuTextView.setText("("+"0"+")");
+                quanXuanCheckBox.setChecked(false);
+                quanXuanCount=0;
                 MyLog.d(tag, "onActivityResult内部执行了吗");
                 break;
         }
@@ -464,6 +505,13 @@ public class ShoppingCarFragment extends Fragment implements View.OnClickListene
             }
         }
 
+        public ArrayList<List<Boolean>> getChecksOut() {
+            return checksOut;
+        }
+
+        public ArrayList<List<Integer>> getItemGoodsCountOut() {
+            return itemGoodsCountOut;
+        }
 
         @Override
         public int getCount() {
@@ -552,10 +600,12 @@ public class ShoppingCarFragment extends Fragment implements View.OnClickListene
                         MyLog.d(tag, "ruid=" + ruId);
                         if ("0".equals(shopModel.getUserId())) {
                             finalViewHolderOut.nameTextView.setText("周末自营");
+                            shopModel.setShopName("周末自营");
                             //MyLog.d(tag, "周末自营执行了吗");
                         } else {
                             //给textview设置店铺名称
                             finalViewHolderOut.nameTextView.setText(shopName);
+                            shopModel.setShopName(shopName);
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -564,6 +614,7 @@ public class ShoppingCarFragment extends Fragment implements View.OnClickListene
                     //这个地方的设置才是关键
                     if ("0".equals(shopModel.getUserId())) {
                         finalViewHolderOut.nameTextView.setText("周末自营");
+                        shopModel.setShopName("周末自营");
                         //MyLog.d(tag, "周末自营执行了吗");
                     }
                 }
@@ -736,17 +787,16 @@ public class ShoppingCarFragment extends Fragment implements View.OnClickListene
 
                 //给checkBox设置点击事件
                 viewHolderIn.checkBox.setOnClickListener(new View.OnClickListener() {
-                    private int count;//点击选择框的次数,不是同一个checkbox时，count的计数是不一样的
+                   // private int count;//点击选择框的次数,不是同一个checkbox时，count的计数是不一样的
                     @Override
                     public void onClick(View v) {
                         //MyLog.d(tag,"checkbox的点击事件执行了吗?");
-                        if (count % 2 == 0) {
+                        if (!checksIn.get(position)) {  //非选中状态，就让他选中
                             checksIn.set(position, true);
                         } else {
                             checksIn.set(position, false);
                         }
                         getCheckStateAndSetSumPriceAndJieSuanShuMu();
-                        count++;
                         //MyLog.d(tag,"checkbox中的count"+count);
                     }
                 });

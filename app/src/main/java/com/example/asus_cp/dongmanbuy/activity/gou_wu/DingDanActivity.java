@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,6 +19,7 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -31,17 +33,22 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.StringRequest;
 import com.example.asus_cp.dongmanbuy.R;
-import com.example.asus_cp.dongmanbuy.adapter.DingDanJieMianListAdapter;
+import com.example.asus_cp.dongmanbuy.adapter.DingDanJieMianListAdapterIn;
+import com.example.asus_cp.dongmanbuy.adapter.DingDanJieMianListAdapterOut;
 import com.example.asus_cp.dongmanbuy.constant.MyConstant;
 import com.example.asus_cp.dongmanbuy.customview.MyListView;
 import com.example.asus_cp.dongmanbuy.model.Good;
+import com.example.asus_cp.dongmanbuy.model.ShopModel;
 import com.example.asus_cp.dongmanbuy.model.UserModel;
 import com.example.asus_cp.dongmanbuy.model.YouHuiQuanModel;
+import com.example.asus_cp.dongmanbuy.model.my_json_model.DingDanModleJson;
+import com.example.asus_cp.dongmanbuy.model.my_json_model.ShopModelJson;
 import com.example.asus_cp.dongmanbuy.util.FormatHelper;
 import com.example.asus_cp.dongmanbuy.util.ImageLoadHelper;
 import com.example.asus_cp.dongmanbuy.util.JsonHelper;
 import com.example.asus_cp.dongmanbuy.util.MyApplication;
 import com.example.asus_cp.dongmanbuy.util.MyLog;
+import com.google.gson.Gson;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -69,25 +76,7 @@ public class DingDanActivity extends Activity implements View.OnClickListener{
     private TextView peopleNameTextView;//人名
     private TextView phoneTextView;//电话
     private TextView addressTextView;//收货地址
-    private LinearLayout productDisplayLinearLayoutOrignal;//商品的展示区
-    private ImageView firstPicImageView;//第一个商品的图片
-    private ImageView secondPicImageView;//第二个商品的图片
-    private ImageView threePicImageView;//第三个商品的图片
-    private LinearLayout displayAllProductLineatLayout;//展示所有商品
-    private TextView gongJiJianTextView;//共几件商品
-    private LinearLayout productListLinearLayoutZhanKai;//包含商品列表的容器
-    private MyListView listView;//展示商品列表
-    private ImageView downImageView;//向下的箭头
-    private RelativeLayout peiSongFangShiRelaytiveLayout;//配送方式
-    private TextView peiSongFangShiTextView;//配送方式
-    private RelativeLayout ziTiShiJianRelativeLayout;//自提时间
-    private TextView ziTiRiQiTextView;//自提日期
-    private TextView ziTiHourTextView;//自提小时
-    private RelativeLayout ziTiAreaRelativeLayout;//自提地点
-    private TextView ziTiAreaTextView;//自提地点
-    private EditText maiJiaLiuYanEditeText;//买家留言
-    private TextView productSumTextView;//商品总数
-    private TextView productSumPriceTextView;//商品总价格
+    private MyListView listviewOut;//展示各个店铺的listview
     private RelativeLayout zhiFuFangShiRelativeLayout;//支付方式
     private TextView zhiFuFangShiTextView;//支付方式
     private TextView shouXuFeiTextView;//手续费
@@ -117,9 +106,10 @@ public class DingDanActivity extends Activity implements View.OnClickListener{
 
     private RequestQueue requestQueue;
 
-    private List<Good> goods;//从购物车传递过来的商品列表
+    //private List<Good> goods;//从购物车传递过来的商品列表
 
-    private List<Integer> itemProductCount;//从购物车传递过来的每个小项的商品数目
+    private ArrayList<List<Integer>> itemGoodCounts;//从购物车传递过来的数据
+    private List<ShopModel> shopModels;//从购物车传递过来的数据
 
     private ImageLoadHelper helper;
 
@@ -155,6 +145,9 @@ public class DingDanActivity extends Activity implements View.OnClickListener{
     private String productSumPrice;//总价格
     private String productSumCount;//总数
 
+    //屏幕像素密度
+    private int densty;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -167,6 +160,11 @@ public class DingDanActivity extends Activity implements View.OnClickListener{
      * 初始化的方法
      */
     private void init() {
+        //获取屏幕像素密度
+        DisplayMetrics metric = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(metric);
+        densty = metric.densityDpi;  // 屏幕密度DPI（120 / 160 / 240）
+
         requestQueue= MyApplication.getRequestQueue();
         helper=new ImageLoadHelper();
         inflater=LayoutInflater.from(this);
@@ -179,57 +177,54 @@ public class DingDanActivity extends Activity implements View.OnClickListener{
         getShouHuoAddressList();
 
         //获取购物车页面传递过来的商品列表
+        shopModels= (List<ShopModel>) getIntent().getSerializableExtra(MyConstant.SHOP_MODE_LIST_KEY);
+        itemGoodCounts= (ArrayList<List<Integer>>) getIntent().getSerializableExtra(MyConstant.XUAN_ZHONG_COUNT_KEY);
+
+
+        /**
+         * 测试gson的效果如何
+         */
+        List<ShopModelJson> shopModelJsons=new ArrayList<ShopModelJson>();
+        for(int i=0;i<shopModels.size();i++){
+            ShopModel shopModel=shopModels.get(i);
+            ShopModelJson shopModelJson=new ShopModelJson();
+            shopModelJson.setShipping_id("11");
+            List<String> goodIds=new ArrayList<String>();
+            List<Good> tempGoods=shopModel.getGoods();
+            for(int j=0;j<tempGoods.size();j++){
+                goodIds.add(tempGoods.get(j).getGoodId());
+            }
+            shopModelJson.setGoods_id(goodIds);
+            shopModelJsons.add(shopModelJson);
+        }
+
+        DingDanModleJson dingDanModleJson=new DingDanModleJson();
+        dingDanModleJson.setShipping_fee("10.00");
+        dingDanModleJson.setGoods_amount("270.00");
+        dingDanModleJson.setPostscript("快点发货");
+        dingDanModleJson.setAll_goods(shopModelJsons);
+
+        Gson gson = new Gson();
+        MyLog.d(tag,gson.toJson(dingDanModleJson));//将上述设置的代码转为json
+
+
+        MyLog.d(tag,"shopModels的个数："+shopModels.size());
+        //MyLog.d(tag,"第二个商店的商品数量是："+itemGoodCounts.get(1).size());
         productSumPrice=getIntent().getStringExtra(MyConstant.PRODUCT_PRICE_SUM_KEY);
         productSumCount=getIntent().getStringExtra(MyConstant.PRODUCT_SHU_MU_SUM_KEY);
-        goods= (List<Good>) getIntent().getSerializableExtra(MyConstant.GOOD_LIST_KEY);//注意这儿接收的时候不要接收错了,不是parceable
-        if(goods.size()==1){
-            ImageLoader imageLoader1=helper.getImageLoader();
-            ImageLoader.ImageListener listener1=imageLoader1.getImageListener(firstPicImageView,R.mipmap.yu_jia_zai,
-                    R.mipmap.yu_jia_zai);
-            imageLoader1.get(goods.get(0).getGoodsImg(),listener1,200,200);
-        }else if(goods.size()==2){
-            ImageLoader imageLoader1=helper.getImageLoader();
-            ImageLoader.ImageListener listener1=imageLoader1.getImageListener(firstPicImageView,R.mipmap.yu_jia_zai,
-                    R.mipmap.yu_jia_zai);
-            imageLoader1.get(goods.get(0).getGoodsImg(),listener1,200,200);
 
-            ImageLoader imageLoader2=helper.getImageLoader();
-            ImageLoader.ImageListener listener2=imageLoader2.getImageListener(secondPicImageView,R.mipmap.yu_jia_zai,
-                    R.mipmap.yu_jia_zai);
-            imageLoader2.get(goods.get(1).getGoodsImg(), listener2, 200, 200);
+        //给外部的listview设置适配器
+        DingDanJieMianListAdapterOut adapterOut=new DingDanJieMianListAdapterOut(this,shopModels,itemGoodCounts);
 
-        }else if(goods.size()>=3){
-            ImageLoader imageLoader1=helper.getImageLoader();
-            ImageLoader.ImageListener listener1=imageLoader1.getImageListener(firstPicImageView,R.mipmap.yu_jia_zai,
-                    R.mipmap.yu_jia_zai);
-            imageLoader1.get(goods.get(0).getGoodsImg(),listener1,200,200);
-
-            ImageLoader imageLoader2=helper.getImageLoader();
-            ImageLoader.ImageListener listener2=imageLoader2.getImageListener(secondPicImageView, R.mipmap.yu_jia_zai,
-                    R.mipmap.yu_jia_zai);
-            imageLoader2.get(goods.get(1).getGoodsImg(),listener2,200,200);
-
-            ImageLoader imageLoader3=helper.getImageLoader();
-            ImageLoader.ImageListener listener3=imageLoader3.getImageListener(threePicImageView,R.mipmap.yu_jia_zai,
-                    R.mipmap.yu_jia_zai);
-            imageLoader3.get(goods.get(2).getGoodsImg(),listener3,200,200);
-        }
-
-        //从购物车列表获取记录每个小项商品数目的集合
-        itemProductCount= (List<Integer>) getIntent().getSerializableExtra(MyConstant.ITEM_PRODUCT_COUNT_KEY);//主要是展开界面的时候需要用到该项
+        //动态设置listview的高度，这个很重要，关于为什么是150的解释，因为我自己设置的小项的高度就是150
+//        LinearLayout.LayoutParams params=new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+//                600*densty/160*shopModels.size());
+//        listviewOut.setLayoutParams(params);
+        listviewOut.setAdapter(adapterOut);
 
         //设置商品总价，总数目，结算价格
-        productSumTextView.setText(productSumCount);
-        productSumPriceTextView.setText(productSumPrice);
         productSumPriceTextBottomView.setText(productSumPrice);
         setShiFuKuan();
-
-        //设置共几件商品
-        int sum=0;
-        for(int i=0;i<itemProductCount.size();i++){
-            sum=sum+itemProductCount.get(i);
-        }
-        gongJiJianTextView.setText("共"+sum+"件");
 
     }
 
@@ -242,6 +237,13 @@ public class DingDanActivity extends Activity implements View.OnClickListener{
         shiFuKuanTextView.setText(FormatHelper.getMoneyFormat(shiFuKuan + ""));
     }
 
+    /**
+     * 获取屏幕像素密度
+     * @return
+     */
+    public int getDensty() {
+        return densty;
+    }
 
     /**
      * 获取商品地址列表
@@ -345,25 +347,7 @@ public class DingDanActivity extends Activity implements View.OnClickListener{
         peopleNameTextView= (TextView) findViewById(R.id.text_shou_huo_ren_name_ding_dan);
         phoneTextView= (TextView) findViewById(R.id.text_shou_huo_ren_phone_ding_dan);
         addressTextView= (TextView) findViewById(R.id.text_shou_huo_address_ding_dan);
-        productDisplayLinearLayoutOrignal = (LinearLayout) findViewById(R.id.ll_product_display_area);
-        firstPicImageView= (ImageView) findViewById(R.id.img_one_ding_dan);
-        secondPicImageView= (ImageView) findViewById(R.id.img_two_ding_dan);
-        threePicImageView= (ImageView) findViewById(R.id.img_three_ding_dan);
-        displayAllProductLineatLayout= (LinearLayout) findViewById(R.id.ll_dispaly_all_product_ding_dan);
-        gongJiJianTextView= (TextView) findViewById(R.id.text_product_sum_ding_dan);
-        productListLinearLayoutZhanKai = (LinearLayout) findViewById(R.id.ll_list_view_ding_dan);
-        downImageView= (ImageView) findViewById(R.id.img_down_ding_dan);
-        listView= (MyListView) findViewById(R.id.my_list_view_ding_dan);
-        peiSongFangShiRelaytiveLayout= (RelativeLayout) findViewById(R.id.re_layout_pei_song_fang_shi_ding_dan);
-        peiSongFangShiTextView= (TextView) findViewById(R.id.text_pei_song_fang_shi_ding_dan);
-        ziTiShiJianRelativeLayout= (RelativeLayout) findViewById(R.id.re_layout_zi_ti_shi_jian_ding_dan);
-        ziTiRiQiTextView= (TextView) findViewById(R.id.text_zi_ti_time_day_ding_dan);
-        ziTiHourTextView = (TextView) findViewById(R.id.text_zi_ti_time_hour_ding_dan);
-        ziTiAreaRelativeLayout= (RelativeLayout) findViewById(R.id.re_layout_zi_ti_area_ding_dan);
-        ziTiAreaTextView= (TextView) findViewById(R.id.text_zi_ti_area_ding_dan);
-        maiJiaLiuYanEditeText= (EditText) findViewById(R.id.edit_mai_jia_liu_yan_ding_dan);
-        productSumTextView= (TextView) findViewById(R.id.text_product_sum_he_ji_ding_dan);
-        productSumPriceTextView= (TextView) findViewById(R.id.text_he_ji_price_ding_dan);
+        listviewOut= (MyListView) findViewById(R.id.list_shop_list_ding_dan);
         zhiFuFangShiRelativeLayout= (RelativeLayout) findViewById(R.id.re_layout_zhi_fu_fang_shi_ding_dan);
         zhiFuFangShiTextView= (TextView) findViewById(R.id.text_zhi_fu_fang_shi_ding_dan);
         shouXuFeiTextView= (TextView) findViewById(R.id.text_shou_xu_fei_ding_dan);
@@ -382,17 +366,8 @@ public class DingDanActivity extends Activity implements View.OnClickListener{
         tiJiaoDingDanButton= (Button) findViewById(R.id.btn_ti_jiao_ding_dan);
 
 
-        maiJiaLiuYanEditeText.clearFocus();//让买家留言取消聚焦
-        //给view设置点击事件
+        //设置点击事件
         shouHuoAddressRelativeLayout.setOnClickListener(this);
-        firstPicImageView.setOnClickListener(this);
-        secondPicImageView.setOnClickListener(this);
-        threePicImageView.setOnClickListener(this);
-        displayAllProductLineatLayout.setOnClickListener(this);
-        downImageView.setOnClickListener(this);
-        peiSongFangShiRelaytiveLayout.setOnClickListener(this);
-        ziTiShiJianRelativeLayout.setOnClickListener(this);
-        ziTiAreaRelativeLayout.setOnClickListener(this);
         zhiFuFangShiRelativeLayout.setOnClickListener(this);
         faPiaoXinXiRelativeLayout.setOnClickListener(this);
         youHuiQuanRelativeLayout.setOnClickListener(this);
@@ -405,31 +380,9 @@ public class DingDanActivity extends Activity implements View.OnClickListener{
     @Override
     public void onClick(View v) {
         switch (v.getId()){
-            case R.id.re_layout_shou_huo_address_ding_dan://收获地址
+            case R.id.re_layout_shou_huo_address_ding_dan://收货地址
                 Intent addresListIntent=new Intent(this,ShouHuoRenXinXiListActivity.class);
                 startActivityForResult(addresListIntent, SHOU_HUO_REN_XIN_XI_REQUEST_KEY);
-                break;
-            case R.id.img_one_ding_dan://点击了第一个商品图片
-                Toast.makeText(this,"点击了第一个商品图片",Toast.LENGTH_SHORT).show();
-                break;
-            case R.id.img_two_ding_dan://点击了第二个商品图片
-                Toast.makeText(this,"点击了第二个商品图片",Toast.LENGTH_SHORT).show();
-                break;
-            case R.id.img_three_ding_dan://点击了第三个商品图片
-                Toast.makeText(this,"点击了第三个商品图片",Toast.LENGTH_SHORT).show();
-                break;
-            case R.id.ll_dispaly_all_product_ding_dan://点击了展示所有图片
-                productDisplayLinearLayoutOrignal.setVisibility(View.GONE);
-                productListLinearLayoutZhanKai.setVisibility(View.VISIBLE);
-                DingDanJieMianListAdapter adapter=new DingDanJieMianListAdapter(this,goods,itemProductCount);
-                listView.setAdapter(adapter);
-                break;
-            case R.id.img_down_ding_dan://点击了下拉,收起
-                productDisplayLinearLayoutOrignal.setVisibility(View.VISIBLE);
-                productListLinearLayoutZhanKai.setVisibility(View.GONE);
-                break;
-            case R.id.re_layout_pei_song_fang_shi_ding_dan://点击了配送方式
-                peiSongFangShiClickChuLi();
                 break;
             case R.id.re_layout_zi_ti_shi_jian_ding_dan://点击了自提时间
                 ziTiShiJianClickChuLi();
@@ -462,33 +415,11 @@ public class DingDanActivity extends Activity implements View.OnClickListener{
             case R.id.img_close_pei_song_fang_shi://点击了关闭配送方式
                 peiSongFangShiWindow.dismiss();
                 break;
-            case R.id.re_layout_shang_jia_pei_song://点击了商家配送
-                shangJiaPeiSongCheckBox.setChecked(true);
-                menDianZiTiChcekBox.setChecked(false);
-                //peiSongFangShiWindow.dismiss();
-                peiSongFangShiTextView.setText("商家配送");
-                ziTiShiJianRelativeLayout.setVisibility(View.GONE);
-                ziTiAreaRelativeLayout.setVisibility(View.GONE);
-                break;
-            case R.id.re_layout_men_dian_zi_ti://点击了门店自提
-                shangJiaPeiSongCheckBox.setChecked(false);
-                menDianZiTiChcekBox.setChecked(true);
-                //peiSongFangShiWindow.dismiss();
-                peiSongFangShiTextView.setText("门店自提");
-                ziTiShiJianRelativeLayout.setVisibility(View.VISIBLE);
-                ziTiAreaRelativeLayout.setVisibility(View.VISIBLE);
-                break;
 
 
             //-----------自提时间的弹出窗口------------------------------------------
             case R.id.text_cancel_date_picker://取消
                 //Toast.makeText(this,"点击了取消",Toast.LENGTH_SHORT).show();
-                ziTiShiJianWindow.dismiss();
-                break;
-            case R.id.text_confirm_date_picker://确定
-                //Toast.makeText(this,"点击了确定",Toast.LENGTH_SHORT).show();
-                ziTiRiQiTextView.setText(day);
-                ziTiHourTextView.setText(hour);
                 ziTiShiJianWindow.dismiss();
                 break;
 
@@ -739,6 +670,8 @@ public class DingDanActivity extends Activity implements View.OnClickListener{
                     phoneTextView.setText(userModel.getUserPhone());
                     addressTextView.setText(userModel.getProvinceName()+KONG_GE+userModel.getCityName()
                     +KONG_GE+userModel.getDistrictName()+KONG_GE+userModel.getShouHuoArea());
+
+                    String addressId=userModel.getId();//需要上传到服务器的接口里面
                 }
                 break;
             case FA_PIAO_REQUEST_KEY://从发票活动返回的数据
