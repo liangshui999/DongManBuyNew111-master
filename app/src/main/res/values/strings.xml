@@ -297,6 +297,7 @@
     <string name="dao">到</string>
     <string name="cha_xun">查询</string>
     <string name="my_location">我的位置</string>
+    <string name="select_pei_song_fang_shi">配送方式</string>
 
 
 </resources>

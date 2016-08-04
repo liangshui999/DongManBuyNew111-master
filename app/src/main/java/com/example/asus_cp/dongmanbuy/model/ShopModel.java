@@ -37,6 +37,9 @@ public class ShopModel implements Parcelable{
     private String shopWangWang;
     private String shopQQ;
     private String shopTel;
+    private String maiJiaLiuYan;//买家留言
+    private String shippingId;//配送的id
+    private String sumPrice;//该店铺所有商品的总价格
 
     public ShopModel(){}
 
@@ -69,6 +72,9 @@ public class ShopModel implements Parcelable{
         shopWangWang = in.readString();
         shopQQ = in.readString();
         shopTel = in.readString();
+        maiJiaLiuYan=in.readString();
+        shippingId=in.readString();
+        sumPrice=in.readString();
     }
 
     public static final Creator<ShopModel> CREATOR = new Creator<ShopModel>() {
@@ -117,6 +123,9 @@ public class ShopModel implements Parcelable{
         dest.writeString(shopWangWang);
         dest.writeString(shopQQ);
         dest.writeString(shopTel);
+        dest.writeString(maiJiaLiuYan);
+        dest.writeString(shippingId);
+        dest.writeString(sumPrice);
     }
 
     public String getShopId() {
@@ -333,5 +342,29 @@ public class ShopModel implements Parcelable{
 
     public void setShopTel(String shopTel) {
         this.shopTel = shopTel;
+    }
+
+    public String getMaiJiaLiuYan() {
+        return maiJiaLiuYan;
+    }
+
+    public void setMaiJiaLiuYan(String maiJiaLiuYan) {
+        this.maiJiaLiuYan = maiJiaLiuYan;
+    }
+
+    public String getShippingId() {
+        return shippingId;
+    }
+
+    public void setShippingId(String shippingId) {
+        this.shippingId = shippingId;
+    }
+
+    public String getSumPrice() {
+        return sumPrice;
+    }
+
+    public void setSumPrice(String sumPrice) {
+        this.sumPrice = sumPrice;
     }
 }

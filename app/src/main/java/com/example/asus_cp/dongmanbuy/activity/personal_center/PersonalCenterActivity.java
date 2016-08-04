@@ -88,6 +88,7 @@ public class PersonalCenterActivity extends Activity implements View.OnClickList
     private RecyclerView recyclerView;
 
     private String userInfoUrl="http://www.zmobuy.com/PHP/?url=/user/info";//用户信息的接口
+    private String guanZhuShuUrl="http://api.zmobuy.com/JK/base/model.php";//关注数的接口
     private RequestQueue requestQueue;
 
     private ImageLoadHelper helper;
@@ -102,6 +103,7 @@ public class PersonalCenterActivity extends Activity implements View.OnClickList
     public static final int REQUEST_CODE_SHOU_CANG_KEY=1;//跳转到收藏界面
     public static final int REQUEST_DATA_SET_KEY=2;//跳转到资料设置界面
     public static final int REQUESTCODE_DING_DAN_LIST_KEY=3;//跳转到订单界面
+    public static final int REQUEST_GUAN_ZHU_LIST_KEY=4;//跳转到关注列表界面
 
     private User passUser;//传递到设置资料界面
 
@@ -135,9 +137,39 @@ public class PersonalCenterActivity extends Activity implements View.OnClickList
             startActivityForResult(loginIntent, REQUEST_CODE_LOGIN_KEY);
         }else{
             getDataFromIntenetAndSetView();
+            setValueToGuanZhuText();//设置关注数
         }
 
+    }
 
+
+    /**
+     * 给关注textview设置值
+     */
+    private void setValueToGuanZhuText() {
+        StringRequest guanZhuRequest=new StringRequest(Request.Method.POST, guanZhuShuUrl, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String s) {
+                MyLog.d(tag, "关注接口返回的数据：" + s);
+                setTextViewValue(guanZhuShuTextView,s);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+
+            }
+        }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+               /* service	collect_store
+                user_id	4789*/
+                Map<String,String> map=new HashMap<>();
+                map.put("service","collect_store");
+                map.put("user_id",uid);
+                return map;
+            }
+        };
+        requestQueue.add(guanZhuRequest);
     }
 
 
@@ -157,12 +189,12 @@ public class PersonalCenterActivity extends Activity implements View.OnClickList
                         ImageLoader.ImageListener listener=imageLoader.getImageListener(touXiangImageView,
                                 R.mipmap.yu_jia_zai,R.mipmap.yu_jia_zai);
                         imageLoader.get(MyConstant.YU_MING + user.getPic(), listener, 200, 200);
-                        MyLog.d(tag,"用户头像的数据："+MyConstant.YU_MING + user.getPic());
+                        MyLog.d(tag, "用户头像的数据：" + MyConstant.YU_MING + user.getPic());
                         nameTextView.setText(user.getName());
                         dengJiTextView.setText(user.getRankName());
 
                         setTextViewValue(shouCangShuTextView, user.getShouCangShu());
-                        setTextViewValue(guanZhuShuTextView,user.getGuanZhuShu());
+                        //setTextViewValue(guanZhuShuTextView,user.getGuanZhuShu());
                         setTextViewValue(daiFuKuanShuTextView, user.getAwaitPay());
                         setTextViewValue(daiShouHuoShuTextView,user.getAwaitShip());
                         setTextViewValue(daiPingJiaShuTextView,user.getAwaitComment());
@@ -355,7 +387,7 @@ public class PersonalCenterActivity extends Activity implements View.OnClickList
                 break;
             case R.id.ll_guan_zhu_personal_center://点击了关注
                 Intent toGuanZhuIntent=new Intent(this,GuanZhuListActivity.class);
-                startActivity(toGuanZhuIntent);
+                startActivityForResult(toGuanZhuIntent, REQUEST_GUAN_ZHU_LIST_KEY);
                 break;
             case R.id.re_layout_my_order_personal_center://点击了我的订单
                 toDingDanListAcitivy(MyConstant.ALL_DING_DAN);
@@ -450,6 +482,7 @@ public class PersonalCenterActivity extends Activity implements View.OnClickList
         switch (requestCode){
             case REQUEST_CODE_LOGIN_KEY://从登陆界面返回的
                 getDataFromIntenetAndSetView();
+                setValueToGuanZhuText();
                 break;
             case REQUEST_CODE_SHOU_CANG_KEY://从收藏界面返回的
                 getDataFromIntenetAndSetView();
@@ -459,6 +492,10 @@ public class PersonalCenterActivity extends Activity implements View.OnClickList
                 break;
             case REQUESTCODE_DING_DAN_LIST_KEY://从订单列表返回的
                 getDataFromIntenetAndSetView();
+                break;
+            case REQUEST_GUAN_ZHU_LIST_KEY://从关注列表返回的
+                getDataFromIntenetAndSetView();
+                setValueToGuanZhuText();
                 break;
         }
     }

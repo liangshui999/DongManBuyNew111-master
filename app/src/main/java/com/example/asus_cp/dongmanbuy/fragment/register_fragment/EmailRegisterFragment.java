@@ -112,74 +112,11 @@ public class EmailRegisterFragment extends Fragment implements View.OnClickListe
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.btn_email_register://点击了注册按钮
-                final String userName=userNameEditText.getText().toString();
-                final String email=inputEmailEditText.getText().toString();
-                final String passWord=inputPasswordEditText.getText().toString();
-                String aginPassWord=inputAgainPasswordEditText.getText().toString();
-                //final String jiaMiPassWord= MyMd5.md5encode(passWord);//对password进行md5加密
-                if(userName.equals("")||userName.isEmpty()){
-                    Toast.makeText(context,"用户名为空",Toast.LENGTH_SHORT).show();
-                }else if(!CheckHelper.checkEmail(email)){
-                    Toast.makeText(context,"邮箱格式错误,输入@时请用英文状态下的@",Toast.LENGTH_SHORT).show();
-                }else if(passWord.equals("")||passWord.isEmpty()){
-                    Toast.makeText(context,"密码为空",Toast.LENGTH_SHORT).show();
-                }else if(aginPassWord.equals("")||aginPassWord.isEmpty()){
-                    Toast.makeText(context,"再次输入密码为空",Toast.LENGTH_SHORT).show();
-                }else if(!passWord.equals(aginPassWord)){
-                    Toast.makeText(context,"2次密码不相等",Toast.LENGTH_SHORT).show();
-                }else{
-                    StringRequest registerRequest=new StringRequest(Request.Method.POST, requestUrl, new Response.Listener<String>() {
-                        @Override
-                        public void onResponse(String s) {
-                            MyLog.d(tag, "返回的数据是：" + s);
-                            try {
-                                JSONObject jsonObject=new JSONObject(s);
-                                JSONObject jsonObject1=jsonObject.getJSONObject("data");
-                                JSONObject jsonObject2=jsonObject1.getJSONObject("session");
-                                String sid=jsonObject2.getString("sid");
-                                String uid=jsonObject2.getString("uid");
-                                if(!sid.isEmpty() && !"".equals(sid)){
-                                    Toast.makeText(context,"注册成功",Toast.LENGTH_SHORT).show();
-                                    clearSharePerefrences();//清空之前保存的数据
-                                    writeToSharePreferences(uid, MyConstant.UID_KEY);
-                                    writeToSharePreferences(sid, MyConstant.SID_KEY);
-                                    writeToSharePreferences(userName, MyConstant.USER_NAME);
-                                    writeToSharePreferences(passWord, MyConstant.PASS_WORD);//将加密后的密码保存
-                                    //跳转到个人中心
-                                    Intent intent=new Intent(context, PersonalCenterActivity.class);
-                                    startActivity(intent);
-
-                                }else{
-                                    Toast.makeText(context,"注册失败",Toast.LENGTH_SHORT).show();
-                                }
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                                Toast.makeText(context,"注册失败，账号或者邮箱已经注册过了",Toast.LENGTH_SHORT).show();
-                            }
-                        }
-                    }, new Response.ErrorListener() {
-                        @Override
-                        public void onErrorResponse(VolleyError volleyError) {
-
-                        }
-                    }){
-                        @Override
-                        protected Map<String, String> getParams() throws AuthFailureError {
-                            Map<String,String> map = new HashMap<String,String>();
-                            map.put("name", userName);
-                            map.put("email", email);
-                            map.put("password", passWord);//将加密后的密码进行上传
-                            //MyLog.d(tag,jiaMiPassWord);
-                            return map;
-                        }
-                    };
-                    requestQueue.add(registerRequest);
-                }
+                zhuCeClickChuLi();
                 break;
             case R.id.text_zhi_jie_login_email_register://点击了直接登录
                 Intent intent=new Intent(context, LoginActivity.class);
                 startActivity(intent);
-
                 break;
             case R.id.img_see_password_email_register://点击了改变密码明码
                 if(passwordFlag%2==0){
@@ -204,6 +141,79 @@ public class EmailRegisterFragment extends Fragment implements View.OnClickListe
                 break;
         }
     }
+
+
+    /**
+     * 注册按钮的点击事件处理
+     */
+    private void zhuCeClickChuLi() {
+        final String userName=userNameEditText.getText().toString();
+        final String email=inputEmailEditText.getText().toString();
+        final String passWord=inputPasswordEditText.getText().toString();
+        String aginPassWord=inputAgainPasswordEditText.getText().toString();
+        //final String jiaMiPassWord= MyMd5.md5encode(passWord);//对password进行md5加密
+        if(userName.equals("")||userName.isEmpty()){
+            Toast.makeText(context, "用户名为空", Toast.LENGTH_SHORT).show();
+        }else if(!CheckHelper.checkEmail(email)){
+            Toast.makeText(context,"邮箱格式错误,输入@时请用英文状态下的@",Toast.LENGTH_SHORT).show();
+        }else if(passWord.equals("")||passWord.isEmpty()){
+            Toast.makeText(context,"密码为空",Toast.LENGTH_SHORT).show();
+        }else if(aginPassWord.equals("")||aginPassWord.isEmpty()){
+            Toast.makeText(context,"再次输入密码为空",Toast.LENGTH_SHORT).show();
+        }else if(!passWord.equals(aginPassWord)){
+            Toast.makeText(context,"2次密码不相等",Toast.LENGTH_SHORT).show();
+        }else{
+            StringRequest registerRequest=new StringRequest(Request.Method.POST, requestUrl, new Response.Listener<String>() {
+                @Override
+                public void onResponse(String s) {
+                    MyLog.d(tag, "返回的数据是：" + s);
+                    try {
+                        JSONObject jsonObject=new JSONObject(s);
+                        JSONObject jsonObject1=jsonObject.getJSONObject("data");
+                        JSONObject jsonObject2=jsonObject1.getJSONObject("session");
+                        String sid=jsonObject2.getString("sid");
+                        String uid=jsonObject2.getString("uid");
+                        if(!sid.isEmpty() && !"".equals(sid)){
+                            Toast.makeText(context,"注册成功",Toast.LENGTH_SHORT).show();
+                            clearSharePerefrences();//清空之前保存的数据
+                            writeToSharePreferences(uid, MyConstant.UID_KEY);
+                            writeToSharePreferences(sid, MyConstant.SID_KEY);
+                            writeToSharePreferences(userName, MyConstant.USER_NAME);
+                            writeToSharePreferences(passWord, MyConstant.PASS_WORD);//将加密后的密码保存
+                            //跳转到个人中心
+                            Intent intent=new Intent(context, PersonalCenterActivity.class);
+                            startActivity(intent);
+
+                        }else{
+                            Toast.makeText(context,"注册失败",Toast.LENGTH_SHORT).show();
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                        Toast.makeText(context,"注册失败，账号或者邮箱已经注册过了",Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError volleyError) {
+
+                }
+            }){
+                @Override
+                protected Map<String, String> getParams() throws AuthFailureError {
+                    Map<String,String> map = new HashMap<String,String>();
+                    map.put("name", userName);
+                    map.put("email", email);
+                    map.put("password", passWord);//将加密后的密码进行上传
+                    //MyLog.d(tag,jiaMiPassWord);
+                    return map;
+                }
+            };
+            requestQueue.add(registerRequest);
+        }
+    }
+
+
+
 
 
     /**

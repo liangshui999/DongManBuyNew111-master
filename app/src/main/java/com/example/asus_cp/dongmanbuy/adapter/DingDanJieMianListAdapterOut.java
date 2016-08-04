@@ -1,11 +1,15 @@
 package com.example.asus_cp.dongmanbuy.adapter;
 
 import android.content.Context;
+import android.graphics.drawable.ColorDrawable;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -16,19 +20,35 @@ import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
+import com.android.volley.toolbox.StringRequest;
 import com.example.asus_cp.dongmanbuy.R;
 import com.example.asus_cp.dongmanbuy.activity.gou_wu.DingDanActivity;
 import com.example.asus_cp.dongmanbuy.activity.gou_wu.DingDanDetailActivity;
+import com.example.asus_cp.dongmanbuy.customview.FocuesableListView;
 import com.example.asus_cp.dongmanbuy.customview.MyListView;
+import com.example.asus_cp.dongmanbuy.model.CardModel;
 import com.example.asus_cp.dongmanbuy.model.Good;
+import com.example.asus_cp.dongmanbuy.model.KuaiDiModel;
 import com.example.asus_cp.dongmanbuy.model.ShopModel;
 import com.example.asus_cp.dongmanbuy.util.FormatHelper;
 import com.example.asus_cp.dongmanbuy.util.ImageLoadHelper;
+import com.example.asus_cp.dongmanbuy.util.MyApplication;
 import com.example.asus_cp.dongmanbuy.util.MyLog;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 订单界面外部的适配器，展示各个店铺列表的
@@ -51,6 +71,9 @@ public class DingDanJieMianListAdapterOut extends BaseAdapter implements View.On
     private DingDanActivity dingDanActivity;
     private int densty;
 
+    private String shipIdUrl="http://api.zmobuy.com/JK/base/model.php";
+    private RequestQueue requestQueue;
+
     public DingDanJieMianListAdapterOut(Context context, List<ShopModel> shopModles,
                                         ArrayList<List<Integer>> itemGoodCounts) {
         this.context = context;
@@ -61,6 +84,7 @@ public class DingDanJieMianListAdapterOut extends BaseAdapter implements View.On
         helper=new ImageLoadHelper();
         parentView= LayoutInflater.from(context).inflate(R.layout.ding_dan_activity_layout,null);
         densty=dingDanActivity.getDensty();
+        requestQueue= MyApplication.getRequestQueue();
     }
 
     @Override
@@ -93,6 +117,7 @@ public class DingDanJieMianListAdapterOut extends BaseAdapter implements View.On
             viewHolder.dispalyAllLinearLayout= (LinearLayout) v.findViewById(R.id.ll_dispaly_all_product_list_item_out);
             viewHolder.goodNumberTextView= (TextView) v.findViewById(R.id.text_good_sum_count_list_item_out);
             viewHolder.peiSongFangShiRelativeLayout= (RelativeLayout) v.findViewById(R.id.re_layout_pei_song_fang_shi_list_item_out);
+            viewHolder.peiSongFangShiTextView= (TextView) v.findViewById(R.id.text_pei_song_fang_shi_ding_dan);
             viewHolder.maiJiaLiuYanEditText= (EditText) v.findViewById(R.id.edit_mai_jia_liu_yan_list_item_out);
             viewHolder.goodNumberDownTextView= (TextView) v.findViewById(R.id.text_product_sum_he_ji_list_item_out);
             viewHolder.sumPriceTextView= (TextView) v.findViewById(R.id.text_he_ji_price_list_item_out);
@@ -105,7 +130,7 @@ public class DingDanJieMianListAdapterOut extends BaseAdapter implements View.On
             viewHolder= (ViewHolder) v.getTag();
         }
 
-        ShopModel shopModel=shopModles.get(position);
+        final ShopModel shopModel=shopModles.get(position);
 
         //给view设置值
         viewHolder.shopNameTextView.setText(shopModel.getShopName());
@@ -141,6 +166,7 @@ public class DingDanJieMianListAdapterOut extends BaseAdapter implements View.On
             sumPrice=sumPrice+tempCount*singlePrice;
         }
         viewHolder.sumPriceTextView.setText(FormatHelper.getOneXiaoShuFormat(""+sumPrice));
+        shopModel.setSumPrice(FormatHelper.getOneXiaoShuFormat(""+sumPrice));//主要是为了上传用的
 
         //设置点击事件
         final ViewHolder finalViewHolder = viewHolder;
@@ -160,7 +186,7 @@ public class DingDanJieMianListAdapterOut extends BaseAdapter implements View.On
         viewHolder.peiSongFangShiRelativeLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                peiSongFangShiClickChuLi();
+                peiSongFangShiClickChuLi(shopModel,finalViewHolder);
             }
         });
         viewHolder.hideImageView.setOnClickListener(new View.OnClickListener() {
@@ -168,6 +194,25 @@ public class DingDanJieMianListAdapterOut extends BaseAdapter implements View.On
             public void onClick(View v) {
                 finalViewHolder.productDisplayLinearLayoutOrignal.setVisibility(View.VISIBLE);
                 finalViewHolder.productListLinearLayoutZhanKai.setVisibility(View.GONE);
+            }
+        });
+
+        //给edittext设置监听事件
+        viewHolder.maiJiaLiuYanEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                MyLog.d(tag,"输入的内容是："+s);
+                shopModel.setMaiJiaLiuYan(s.toString());
             }
         });
 
@@ -186,24 +231,70 @@ public class DingDanJieMianListAdapterOut extends BaseAdapter implements View.On
     }
 
 
+
     /**
-     * 配送方式的点击处理
+     * 配送方式的点击事件处理
      */
-    private void peiSongFangShiClickChuLi() {
-        View peiSongFangShiView=inflater.inflate(R.layout.pei_song_fang_shi_layout,null);
-        ImageView closePeiSongFangShi= (ImageView) peiSongFangShiView.findViewById(R.id.img_close_pei_song_fang_shi);
-        RelativeLayout shangJiaPeiSongRelativeLayout= (RelativeLayout) peiSongFangShiView.findViewById(R.id.re_layout_shang_jia_pei_song);
-        RelativeLayout menDianZitIRelaytiveLayout= (RelativeLayout) peiSongFangShiView.findViewById(R.id.re_layout_men_dian_zi_ti);
-        shangJiaPeiSongCheckBox= (CheckBox) peiSongFangShiView.findViewById(R.id.check_box_shang_jia_pei_song);
-        menDianZiTiChcekBox= (CheckBox) peiSongFangShiView.findViewById(R.id.check_box_men_dian_zi_ti);
-        closePeiSongFangShi.setOnClickListener(this);
-        shangJiaPeiSongRelativeLayout.setOnClickListener(this);
-        menDianZitIRelaytiveLayout.setOnClickListener(this);
-        peiSongFangShiWindow=new PopupWindow(peiSongFangShiView, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+    private void peiSongFangShiClickChuLi(final ShopModel shopModel, final ViewHolder viewHolder) {
+        View tiXianFangShiView= inflater.inflate(R.layout.pei_song_fang_shi_tan_chu_layout, null);
+        ImageView closeTiXianFangShiImageView= (ImageView) tiXianFangShiView.findViewById(R.id.img_close_ti_xian_tan_chu);
+        final FocuesableListView peiSongListView= (FocuesableListView) tiXianFangShiView.findViewById(R.id.list_view_ti_xian_tan_chu);
+
+        StringRequest getCardListRequest=new StringRequest(Request.Method.POST, shipIdUrl,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String s) {
+                        MyLog.d(tag,"配送方式返回的数据："+s);
+                        final List <KuaiDiModel> peiSongFangShis=new ArrayList<KuaiDiModel>();
+                        s=FormatHelper.removeBom(s);
+                        try {
+                            JSONArray jsonArray=new JSONArray(s);
+                            for(int i=0;i<jsonArray.length();i++){
+                                JSONObject jsonObject=jsonArray.getJSONObject(i);
+                                KuaiDiModel kuaiDiModel=new KuaiDiModel();
+                                kuaiDiModel.setName(jsonObject.getString("shipping_name"));//快递名称必须通过json返回，而不是直接设置
+                                kuaiDiModel.setId(jsonObject.getString("shipping_id"));
+                                peiSongFangShis.add(kuaiDiModel);
+                            }
+                            PeiSongTanChuListAdapter adapter=new PeiSongTanChuListAdapter(context,peiSongFangShis);
+                            peiSongListView.setAdapter(adapter);
+                            peiSongListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                                @Override
+                                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                                    shopModel.setShippingId(peiSongFangShis.get(position).getId());
+                                    viewHolder.peiSongFangShiTextView.setText(peiSongFangShis.get(position).getName());
+                                    peiSongFangShiWindow.dismiss();
+                                }
+                            });
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+
+            }
+        }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                /*service	get_shipping_id
+                ru_id	4150*/
+                Map<String,String> map=new HashMap<String,String>();
+                map.put("service","get_shipping_id");
+                map.put("ru_id",shopModel.getUserId());
+                return map;
+            }
+        };
+        requestQueue.add(getCardListRequest);
+
+        closeTiXianFangShiImageView.setOnClickListener(this);
+
+        peiSongFangShiWindow=new PopupWindow(tiXianFangShiView, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         //外部点击时可以消失
-        //peiSongFangShiWindow.setBackgroundDrawable(new ColorDrawable());
+        peiSongFangShiWindow.setBackgroundDrawable(new ColorDrawable());
+        peiSongFangShiWindow.setOutsideTouchable(true);
         peiSongFangShiWindow.setFocusable(true);
-        peiSongFangShiWindow.setOutsideTouchable(false);
         peiSongFangShiWindow.showAtLocation(parentView, Gravity.BOTTOM, 0, 0);//最后才是show,顺序很重要
         setBackgroundAlpha(0.5f);
         peiSongFangShiWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
@@ -213,6 +304,7 @@ public class DingDanJieMianListAdapterOut extends BaseAdapter implements View.On
             }
         });
     }
+
 
     /**
      * 设置添加屏幕的背景透明度
@@ -229,18 +321,8 @@ public class DingDanJieMianListAdapterOut extends BaseAdapter implements View.On
     public void onClick(View v) {
         switch (v.getId()){
             //-----------------------配送方式窗口的点击事件-----------------------------------------
-            case R.id.img_close_pei_song_fang_shi://点击了关闭配送方式
+            case R.id.img_close_ti_xian_tan_chu://点击了关闭配送方式
                 peiSongFangShiWindow.dismiss();
-                break;
-            case R.id.re_layout_shang_jia_pei_song://点击了商家配送
-                shangJiaPeiSongCheckBox.setChecked(true);
-                menDianZiTiChcekBox.setChecked(false);
-                //peiSongFangShiWindow.dismiss();
-                break;
-            case R.id.re_layout_men_dian_zi_ti://点击了门店自提
-                shangJiaPeiSongCheckBox.setChecked(false);
-                menDianZiTiChcekBox.setChecked(true);
-                //peiSongFangShiWindow.dismiss();
                 break;
         }
     }
@@ -254,6 +336,7 @@ public class DingDanJieMianListAdapterOut extends BaseAdapter implements View.On
         LinearLayout dispalyAllLinearLayout;//点击之后展示所有的商品
         TextView goodNumberTextView;//商品数量
         RelativeLayout peiSongFangShiRelativeLayout;//配送方式
+        TextView peiSongFangShiTextView;//
         EditText maiJiaLiuYanEditText;
         TextView goodNumberDownTextView;//商品数量下面
         TextView sumPriceTextView;//总价格

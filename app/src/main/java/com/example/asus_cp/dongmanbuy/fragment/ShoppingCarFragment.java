@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 import android.widget.ImageView;
@@ -34,6 +35,7 @@ import com.example.asus_cp.dongmanbuy.activity.MainActivity;
 import com.example.asus_cp.dongmanbuy.activity.gou_wu.DingDanActivity;
 import com.example.asus_cp.dongmanbuy.activity.product_detail.ProductDetailActivity;
 import com.example.asus_cp.dongmanbuy.adapter.ProductDetailYouHuiQuanListAdapter;
+import com.example.asus_cp.dongmanbuy.adapter.TuiJianGoodAdapter;
 import com.example.asus_cp.dongmanbuy.constant.MyConstant;
 import com.example.asus_cp.dongmanbuy.customview.MyGridViewA;
 import com.example.asus_cp.dongmanbuy.model.Good;
@@ -81,6 +83,8 @@ public class ShoppingCarFragment extends Fragment implements View.OnClickListene
     private String deleteShoppingCarUrl="http://www.zmobuy.com/PHP/index.php?url=/cart/delete";//删除购物车
     private String gooDescUrl="http://www.zmobuy.com/PHP/?url=/goods";//商品详情的接口
     private String shopInfoUrl = "http://www.zmobuy.com/PHP/?url=/store/shopinfo";//店铺详细信息的接口
+
+    private String tuiJianUrl="http://api.zmobuy.com/JK/base/model.php";//推荐商品列表的接口
     private RequestQueue requestQueue;
 
     private String uid;
@@ -96,8 +100,9 @@ public class ShoppingCarFragment extends Fragment implements View.OnClickListene
 
     private PopupWindow youHuiQuanWindow;//优惠券的弹出窗口
 
-
     private List<ShopModel> shopModels;
+
+    private List<Good> tuiJianGoods;//推荐商品列表
 
     private MainActivity mainActivity;
 
@@ -135,15 +140,86 @@ public class ShoppingCarFragment extends Fragment implements View.OnClickListene
         quanXuanCheckBox.setOnClickListener(this);
         editLinearLayout.setOnClickListener(this);
         jieSuanLinearLayout.setOnClickListener(this);
-
-
+        tuiJianProductGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                //Toast.makeText(context,"点击的位置是："+position,Toast.LENGTH_SHORT).show();
+                Intent intent=new Intent(context,ProductDetailActivity.class);
+                intent.putExtra(MyConstant.GOOD_KEY,tuiJianGoods.get(position));
+                startActivity(intent);
+            }
+        });
 
         requestQueue= MyApplication.getRequestQueue();
         sharedPreferences=context.getSharedPreferences(MyConstant.USER_SHAREPREFRENCE_NAME, Context.MODE_APPEND);
         uid=sharedPreferences.getString(MyConstant.UID_KEY,null);
         sid = sharedPreferences.getString(MyConstant.SID_KEY, null);
+
+
+        //获取购物车列表
         getShoppingCarListFromIntetnt();
 
+        //获取推荐商品列表
+        getTuiJianGoodList();
+
+    }
+
+
+    /**
+     * 获取推荐商品列表
+     */
+    private void getTuiJianGoodList() {
+        StringRequest tuiJianRequest=new StringRequest(Request.Method.POST, tuiJianUrl, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String s) {
+                tuiJianGoods=parseJsonTuiJian(s);
+                TuiJianGoodAdapter adapter=new TuiJianGoodAdapter(context,tuiJianGoods);
+                tuiJianProductGridView.setAdapter(adapter);
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+
+            }
+        }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                /*service	want*/
+                Map<String,String> map=new HashMap<String,String>();
+                map.put("service","want");
+                return map;
+            }
+        };
+        requestQueue.add(tuiJianRequest);
+    }
+
+
+    /**
+     * 解析推荐商品接口返回的数据
+     * @param s
+     */
+    private List<Good> parseJsonTuiJian(String s) {
+        MyLog.d(tag, "推荐商品列表返回的数据是：" + s);
+        List<Good> goods=new ArrayList<Good>();
+        s= FormatHelper.removeBom(s);
+        try {
+            JSONArray jsonArray=new JSONArray(s);
+            for(int i=0;i<jsonArray.length();i++){
+                JSONObject jsonObject=jsonArray.getJSONObject(i);
+                Good good=new Good();
+                good.setGoodId(jsonObject.getString("goods_id"));
+                good.setGoodName(jsonObject.getString("goods_name"));
+                good.setShopPrice(jsonObject.getString("shop_price"));
+                good.setGoodsThumb(jsonObject.getString("goods_thumb"));
+                good.setGoodsImg(jsonObject.getString("goods_img"));
+                good.setGoodsSmallImag(jsonObject.getString("original_img"));
+                goods.add(good);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return goods;
     }
 
     /**
@@ -160,12 +236,13 @@ public class ShoppingCarFragment extends Fragment implements View.OnClickListene
                         for(int i=0;i<shopModels.size();i++){
                             ShopModel shopModel=shopModels.get(i);
                             List<Good> goods=shopModel.getGoods();
-                            len=len+goods.size()*150*densty/160+50;
+                            len=len+goods.size()*150*densty/160+40*densty/160;//主要是店铺名称所在的布局要占40，所以给他设置成40
                         }
-//                        //动态设置外部listview的高度
-//                        RelativeLayout.LayoutParams params=new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
-//                                len);
-//                        myListViewOut.setLayoutParams(params);
+                        MyLog.d(tag,"计算出的外部listview的高度是"+len);
+                        //动态设置外部listview的高度
+                        LinearLayout.LayoutParams params=new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                                len);
+                        myListViewOut.setLayoutParams(params);
                         adapterOut=new ShoppingCarListAdapterOut(context,shopModels);
                         myListViewOut.setAdapter(adapterOut);
                     }

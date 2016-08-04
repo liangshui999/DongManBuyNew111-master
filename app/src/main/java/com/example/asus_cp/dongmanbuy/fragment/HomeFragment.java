@@ -56,6 +56,7 @@ import com.example.asus_cp.dongmanbuy.model.Binner;
 import com.example.asus_cp.dongmanbuy.model.Good;
 import com.example.asus_cp.dongmanbuy.model.ShopModel;
 import com.example.asus_cp.dongmanbuy.model.User;
+import com.example.asus_cp.dongmanbuy.util.FormatHelper;
 import com.example.asus_cp.dongmanbuy.util.ImageLoadHelper;
 import com.example.asus_cp.dongmanbuy.util.JsonHelper;
 import com.example.asus_cp.dongmanbuy.util.MyApplication;
@@ -132,6 +133,12 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
 
     //猜你喜欢的gridview
     private MyGridViewA caiNiXiHuanGridView;
+
+    //精品推荐的viewpager
+    private ViewPager jingPinViewPager;
+
+    //店铺街的viewpager
+    private ViewPager shopStreetViewPager;
 
     //更多按钮
     private TextView xianShiMoreTextView;
@@ -268,8 +275,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
         //-----------------第一个广告的初始化动作-----------------------------------
         firstViewPager = (ViewPager) v.findViewById(R.id.viewpager_binner_first);
         firstImageViews =new ArrayList<View>();
-        String binnerUrl="http://www.zmobuy.com/PHP/index.php?url=/home/data";
-        StringRequest binnerOneRequest=new StringRequest(Request.Method.GET, binnerUrl, new Response.Listener<String>() {
+        String binnerUrl="http://api.zmobuy.com/JK/base/model.php";
+        StringRequest binnerOneRequest=new StringRequest(Request.Method.POST, binnerUrl, new Response.Listener<String>() {
             @Override
             public void onResponse(String s) {
                 getBinnerImageFromIntenet(s,FIRST_BINNER_FLAG,firstImageViews,REFRESH_FIRST_BINNER,SCROLL__FIRST_BINNER);
@@ -279,7 +286,17 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
             public void onErrorResponse(VolleyError volleyError) {
 
             }
-        });
+        }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                /*service	ads
+                position_id	256*/
+                Map<String,String> map=new HashMap<String,String>();
+                map.put("service","ads");
+                map.put("position_id","256");
+                return map;
+            }
+        };
         requestQueue.add(binnerOneRequest);//加入到队列
         firstViewPager.addOnPageChangeListener(new MyPageChangeListener(firstImageViews, firstPointGroup));
         firstViewPager.setOnTouchListener(new MyPageTouchListener(SCROLL__FIRST_BINNER, firstViewPager));
@@ -291,8 +308,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
 
         secondViewPager = (ViewPager) v.findViewById(R.id.viewpager_binner_second);
         secondImageViews =new ArrayList<View>();
-        String secondBinnerUrl="http://www.zmobuy.com/PHP/index.php?url=/home/data";
-        StringRequest binnerSecondRequest=new StringRequest(Request.Method.GET, binnerUrl, new Response.Listener<String>() {
+        String secondBinnerUrl="http://api.zmobuy.com/JK/base/model.php";
+        StringRequest binnerSecondRequest=new StringRequest(Request.Method.POST, secondBinnerUrl, new Response.Listener<String>() {
             @Override
             public void onResponse(String s) {
                 getBinnerImageFromIntenet(s,SECOND_BINNER_FLAG,secondImageViews,REFRESH_SECOND_BINNER,SCROLL__SECOND_BINNER);
@@ -302,7 +319,15 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
             public void onErrorResponse(VolleyError volleyError) {
 
             }
-        });
+        }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String,String> map=new HashMap<String,String>();
+                map.put("service","ads");
+                map.put("position_id","257");
+                return map;
+            }
+        };
         requestQueue.add(binnerSecondRequest);//加入到队列
         secondViewPager.addOnPageChangeListener(new MyPageChangeListener(secondImageViews, secondPointGroup));
         secondViewPager.setOnTouchListener(new MyPageTouchListener(SCROLL__SECOND_BINNER, secondViewPager));
@@ -312,8 +337,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
         //---------------------------------第三个广告的初始化-------------------------------------
         threeViewPager = (ViewPager) v.findViewById(R.id.viewpager_binner_three);
         threeImageViews =new ArrayList<View>();
-        String threebinnerUrl="http://www.zmobuy.com/PHP/index.php?url=/home/data";
-        StringRequest binnerThreeRequest=new StringRequest(Request.Method.GET, binnerUrl, new Response.Listener<String>() {
+        String threebinnerUrl="http://api.zmobuy.com/JK/base/model.php";
+        StringRequest binnerThreeRequest=new StringRequest(Request.Method.POST, threebinnerUrl, new Response.Listener<String>() {
             @Override
             public void onResponse(String s) {
                 getBinnerImageFromIntenet(s,THREE_BINNER_FLAG,threeImageViews,REFRESH_THREE_BINNER,SCROLL__THREE_BINNER);
@@ -323,7 +348,15 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
             public void onErrorResponse(VolleyError volleyError) {
 
             }
-        });
+        }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String,String> map=new HashMap<String,String>();
+                map.put("service","ads");
+                map.put("position_id","258");
+                return map;
+            }
+        };
         requestQueue.add(binnerThreeRequest);//加入到队列
         threeViewPager.addOnPageChangeListener(new MyPageChangeListener(threeImageViews,threePointGroup));
         threeViewPager.setOnTouchListener(new MyPageTouchListener(SCROLL__THREE_BINNER,threeViewPager));
@@ -395,28 +428,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
                     ImageLoader.ImageListener listener=imageLoader.getImageListener(xianShiMiaoShaImagView,R.mipmap.yu_jia_zai,
                             R.mipmap.yu_jia_zai);
                     imageLoader.get(urlString,listener);
-                    /*new Thread(new Runnable() {
-                        @Override
-                        public void run() {
-                            HttpURLConnection conn=null;
-                            try {
-                                URL url=new URL(urlString);
-                                conn= (HttpURLConnection) url.openConnection();
-                                InputStream in=conn.getInputStream();
-                                Bitmap bitmap=BitmapFactory.decodeStream(in);
-                                Message message=handler.obtainMessage(REFRESH_XIAN_SHI_MIAO_SHA);
-                                message.obj=bitmap;
-                                handler.sendMessage(message);
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                            }finally {
-                                if(conn!=null){
-                                    conn.disconnect();
-                                }
-                            }
-
-                        }
-                    }).start();*/
 
                     //限时秒杀的gridview
                     xianShiMiaoShaGridView = (MyGridView) v.findViewById(R.id.grid_view_xian_shi_miao_sha);
@@ -440,7 +451,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
 
 
         //----------------------用viewpager做的精品推荐部分-----------------------
-        final ViewPager jingPinViewPager= (ViewPager) v.findViewById(R.id.viewpager_jing_pin);
+        jingPinViewPager= (ViewPager) v.findViewById(R.id.viewpager_jing_pin);
         final List<View> gridViews=new ArrayList<View>();
         String jingPinRequestUrl="http://www.zmobuy.com/PHP/index.php?url=/home/bestgoods";
         StringRequest jingPinStringRequest=new StringRequest(Request.Method.GET, jingPinRequestUrl, new Response.Listener<String>() {
@@ -525,7 +536,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
 
         //----------------------店铺街部分-----------------------------------
         String indexUrl="http://www.zmobuy.com/PHP/?url=/store/index";//店铺分类的url
-        final ViewPager shopStreetViewPager= (ViewPager) v.findViewById(R.id.viewpager_shop_street);
+        shopStreetViewPager= (ViewPager) v.findViewById(R.id.viewpager_shop_street);
         final List<View> shopStreetGridViews=new ArrayList<View>();
         StringRequest shopStreetStringRequest=new StringRequest(Request.Method.POST, indexUrl, new Response.Listener<String>() {
             @Override
@@ -622,6 +633,14 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
             }
         });
         requestQueue.add(caiNiXiHuanRequest);
+
+
+        //将各个viewpager添加到忽视的区域
+        mainActivity.menu.addIgnoredView(firstViewPager);
+        mainActivity.menu.addIgnoredView(secondViewPager);
+        mainActivity.menu.addIgnoredView(threeViewPager);
+        mainActivity.menu.addIgnoredView(jingPinViewPager);
+        mainActivity.menu.addIgnoredView(shopStreetViewPager);
 
         //3个更多按钮的初始化和点击事件
         xianShiMoreTextView= (TextView) v.findViewById(R.id.text_xian_shi_more);
@@ -758,15 +777,16 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
      */
     private void getBinnerImageFromIntenet(String s,int binnerPositionFlag, final List<View> imageViews, final int refreshFlag, final int scrollFlag) {
         MyLog.d(tag, "广告位的:" + s);
+        s= FormatHelper.removeBom(s);
         final List<Binner> binners=new ArrayList<Binner>();
         try {
-            JSONObject jsonObject1=new JSONObject(s);
-            JSONObject jsonObject2=jsonObject1.getJSONObject("data");
-            JSONArray jsonArray=jsonObject2.getJSONArray("player");
+            JSONArray jsonArray=new JSONArray(s);
             for(int i=0;i<jsonArray.length();i++){
                 JSONObject jsonObject=jsonArray.getJSONObject(i);
-                Binner binner=new Binner(jsonObject.getString("id"),jsonObject.getString("photo"));
-                switch (binnerPositionFlag){
+                Binner binner=new Binner();
+                binner.setImg(jsonObject.getString("ad_code"));
+                binners.add(binner);
+                /*switch (binnerPositionFlag){
                     case FIRST_BINNER_FLAG:
                         if(!("2".equals(binner.getId())||"16".equals(binner.getId())||"15".equals(binner.getId()))){
                             binners.add(binner);
@@ -782,7 +802,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
                             binners.add(binner);
                         }
                         break;
-                }
+                }*/
 
             }
             final ImageLoadHelper imageLoadHelper=new ImageLoadHelper();
@@ -796,26 +816,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
             }
             handler.sendEmptyMessage(refreshFlag);
             handler.sendEmptyMessage(scrollFlag);
-           /* new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        for(final Binner binner:binners){
-                            ImageView imageView=new ImageView(context);
-                            URL url= null;
-                            try {
-                                url = new URL(binner.getImg());
-                                HttpURLConnection conn= (HttpURLConnection) url.openConnection();
-                                Bitmap bitmap= BitmapFactory.decodeStream(conn.getInputStream());
-                                imageView.setImageBitmap(bitmap);
-                                imageViews.add(imageView);
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                            }
-                        }
-                        handler.sendEmptyMessage(refreshFlag);
-                        handler.sendEmptyMessage(scrollFlag);
-                    }
-                }).start();*/
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -1035,6 +1035,14 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
     public void onStop() {
         super.onStop();
         handler.removeMessages(SCROLL__FIRST_BINNER);
+
+        //移除忽视的view，否则容易产生内存溢出
+        mainActivity.menu.removeIgnoredView(firstViewPager);
+        mainActivity.menu.removeIgnoredView(secondViewPager);
+        mainActivity.menu.removeIgnoredView(threeViewPager);
+        mainActivity.menu.removeIgnoredView(jingPinViewPager);
+        mainActivity.menu.removeIgnoredView(shopStreetViewPager);
+
     }
 
 

@@ -102,7 +102,7 @@ public class DingDanActivity extends Activity implements View.OnClickListener{
 
     private String shouHuoAddressListUrl="http://www.zmobuy.com/PHP/index.php?url=/address/list";//收货地址列表的接口
 
-    private String tiJiaoDingDanUrl="http://www.zmobuy.com/PHP/?url=/flow/done";//提交订单的接口
+    private String tiJiaoDingDanUrl="http://api.zmobuy.com/JK/base/model.php";//提交订单的接口
 
     private RequestQueue requestQueue;
 
@@ -148,6 +148,9 @@ public class DingDanActivity extends Activity implements View.OnClickListener{
     //屏幕像素密度
     private int densty;
 
+    //收货地址id
+    private String addressId;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -180,32 +183,6 @@ public class DingDanActivity extends Activity implements View.OnClickListener{
         shopModels= (List<ShopModel>) getIntent().getSerializableExtra(MyConstant.SHOP_MODE_LIST_KEY);
         itemGoodCounts= (ArrayList<List<Integer>>) getIntent().getSerializableExtra(MyConstant.XUAN_ZHONG_COUNT_KEY);
 
-
-        /**
-         * 测试gson的效果如何
-         */
-        List<ShopModelJson> shopModelJsons=new ArrayList<ShopModelJson>();
-        for(int i=0;i<shopModels.size();i++){
-            ShopModel shopModel=shopModels.get(i);
-            ShopModelJson shopModelJson=new ShopModelJson();
-            shopModelJson.setShipping_id("11");
-            List<String> goodIds=new ArrayList<String>();
-            List<Good> tempGoods=shopModel.getGoods();
-            for(int j=0;j<tempGoods.size();j++){
-                goodIds.add(tempGoods.get(j).getGoodId());
-            }
-            shopModelJson.setGoods_id(goodIds);
-            shopModelJsons.add(shopModelJson);
-        }
-
-        DingDanModleJson dingDanModleJson=new DingDanModleJson();
-        dingDanModleJson.setShipping_fee("10.00");
-        dingDanModleJson.setGoods_amount("270.00");
-        dingDanModleJson.setPostscript("快点发货");
-        dingDanModleJson.setAll_goods(shopModelJsons);
-
-        Gson gson = new Gson();
-        MyLog.d(tag,gson.toJson(dingDanModleJson));//将上述设置的代码转为json
 
 
         MyLog.d(tag,"shopModels的个数："+shopModels.size());
@@ -447,65 +424,102 @@ public class DingDanActivity extends Activity implements View.OnClickListener{
      * 提交订单的点击事件处理
      */
     private void tiJiaoDingDanClickChuLi() {
+        final String shopValue=getJsonFromShopModels();//上传到服务器的shop键所对应的值
+        MyLog.d(tag,"shopValue的值是："+shopValue);
         String zhiFuFangShi=zhiFuFangShiTextView.getText().toString();
         if("支付宝【手续费】".equals(zhiFuFangShi)){
-            StringRequest tiJiaoDingDanRequest=new StringRequest(Request.Method.POST, tiJiaoDingDanUrl,
-                    new Response.Listener<String>() {
-                        @Override
-                        public void onResponse(String s) {
-                            MyLog.d(tag,"提交订单的返回数据:"+s);
-//                            Intent toAfterIntent=new Intent(DingDanActivity.this,AfterTiJiaoDingDanActivity.class);
-//                            toAfterIntent.putExtra(MyConstant.SHI_FU_KUAN_KEY,shiFuKuanTextView.getText().toString());
-//                            toAfterIntent.putExtra(MyConstant.DING_DAN_BIAN_HAO_KEY, "20166666666666666");
-//                            startActivity(toAfterIntent);
-                            try {
-                                JSONObject jsonObject=new JSONObject(s);
-                                JSONObject jsonObject1=jsonObject.getJSONObject("data");
-                                String bianHao=jsonObject1.getString("order_sn");
-                                String id=jsonObject1.getString("order_id");
-                                JSONObject orderJs=jsonObject1.getJSONObject("order_info");
-                                String subject=JsonHelper.decodeUnicode(orderJs.getString("subject"));
-                                String desc=JsonHelper.decodeUnicode(orderJs.getString("desc"));
-//                            if("支付宝【手续费】".equals(zhiFuFangShi)){
-                                Intent toAfterIntent=new Intent(DingDanActivity.this,AfterTiJiaoDingDanActivity.class);
-                                toAfterIntent.putExtra(MyConstant.SHI_FU_KUAN_KEY,shiFuKuanTextView.getText().toString());
-                                toAfterIntent.putExtra(MyConstant.DING_DAN_BIAN_HAO_KEY,bianHao);
-                                toAfterIntent.putExtra(MyConstant.DING_DAN_SUBJECT_KEY,subject);
-                                toAfterIntent.putExtra(MyConstant.DING_DAN_DESC_KEY,desc);
-                                toAfterIntent.putExtra(MyConstant.DING_DAN_ID_KEY,id);
-                                startActivity(toAfterIntent);
-//                            }else if("余额支付【手续费】".equals(zhiFuFangShi)){
-//                                Intent toYuEIntent=new Intent(DingDanActivity.this,YuEZhiFuSuccessedActivity.class);
-//                                toYuEIntent.putExtra(MyConstant.DING_DAN_BIAN_HAO_KEY,bianHao);
-//                                startActivity(toYuEIntent);
-//                            }
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                                Toast.makeText(DingDanActivity.this,"提交订单失败",Toast.LENGTH_SHORT).show();
-                            }
-                        }
-                    }, new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError volleyError) {
-
-                }
-            }){
-                @Override
-                protected Map<String, String> getParams() throws AuthFailureError {
-                    Map<String,String> map=new HashMap<String,String>();
-                    String json="{\"session\":{\"uid\":\""+uid+"\",\"sid\":\""+sid+"\"},\"pay_id\":\""+"9"+"\",\"shipping_id\":\""+"2"+"\",\"bonus\":\"\",\"integral\":\"\",\"inv_type\":\""+"4"+"\",\"inv_content\":\""+"00"+"\",\"inv_payee\":\"\"}";
-                    map.put("json",json);
-                    return map;
-                }
-            };
-            requestQueue.add(tiJiaoDingDanRequest);
-
+            tiJiaoDingDanIntenetRequest(shopValue,"12");
         }else if("余额支付【手续费】".equals(zhiFuFangShi)){
-
+            tiJiaoDingDanIntenetRequest(shopValue,"11");
         }
 
+    }
 
 
+    /**
+     * 提交订单的网络请求
+     * @param shopValue
+     */
+    private void tiJiaoDingDanIntenetRequest(final String shopValue, final String zhiFuType) {
+        StringRequest dingDanRequest=new StringRequest(Request.Method.POST, tiJiaoDingDanUrl,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String s) {
+                        MyLog.d(tag, "提交订单返回的数据是：" + s);
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+
+            }
+        }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                /*service	post_order
+                user_id	4159
+                sid	333333333333
+                address_id	19
+                pay_id	11
+                real_pay	199.00
+                inv_payee	鎶ご
+                inv_content	鍐呭
+                shops	*/
+                MyLog.d(tag,"addressId="+addressId);
+                MyLog.d(tag,"zhiFuType="+zhiFuType);
+                MyLog.d(tag,"实际付款："+FormatHelper.getOneXiaoShuFormat(shiFuKuanTextView.getText().toString()));
+                MyLog.d(tag,"抬头："+faPiaoTaiTouTextView.getText().toString());
+                MyLog.d(tag,"内容"+faPiaocontentTextView.getText().toString());
+                MyLog.d(tag,"店铺内容json是："+shopValue);
+
+                Map<String,String> map=new HashMap<String,String>();
+                map.put("service","post_order");
+                map.put("user_id",uid);
+                map.put("sid",sid);
+                map.put("address_id",addressId);
+                map.put("pay_id",zhiFuType);
+                map.put("real_pay", FormatHelper.getOneXiaoShuFormat(shiFuKuanTextView.getText().toString()));
+                map.put("inv_payee",faPiaoTaiTouTextView.getText().toString());
+                map.put("inv_content",faPiaocontentTextView.getText().toString());
+                map.put("shops",shopValue);
+                return map;
+            }
+        };
+        requestQueue.add(dingDanRequest);
+    }
+
+
+    /**
+     * 从shopmodel里面获取json数据
+     */
+    private String getJsonFromShopModels() {
+        String result=null;
+        List<ShopModelJson> shopModelJsons=new ArrayList<ShopModelJson>();
+        for(int i=0;i<shopModels.size();i++){
+            ShopModel shopModel=shopModels.get(i);
+            ShopModelJson shopModelJson=new ShopModelJson();
+            shopModelJson.setShipping_id(shopModel.getShippingId());//设置快递方式
+            shopModelJson.setPostscript(shopModel.getMaiJiaLiuYan());//设置买家留言
+            shopModelJson.setGoods_amount(shopModel.getSumPrice());//设置该店铺所有商品的总价格
+            shopModelJson.setShipping_fee("10.00");//这个是暂时的
+            List<String> goodIds=new ArrayList<String>();
+            List<Good> tempGoods=shopModel.getGoods();
+            for(int j=0;j<tempGoods.size();j++){
+                goodIds.add(tempGoods.get(j).getGoodId());
+            }
+            shopModelJson.setGoods_id(goodIds);
+            shopModelJsons.add(shopModelJson);
+        }
+
+        //没有必要再建下面这样的实体
+        //DingDanModleJson dingDanModleJson=new DingDanModleJson();
+        //dingDanModleJson.setShipping_fee("10.00");
+        //dingDanModleJson.setGoods_amount(FormatHelper.getOneXiaoShuFormat(productSumPriceTextBottomView.getText().toString()));
+        //dingDanModleJson.setAll_goods(shopModelJsons);
+
+        Gson gson = new Gson();
+        MyLog.d(tag, gson.toJson(shopModelJsons));//将上述设置的代码转为json
+        result=gson.toJson(shopModelJsons);
+        return result;
     }
 
 
@@ -671,7 +685,7 @@ public class DingDanActivity extends Activity implements View.OnClickListener{
                     addressTextView.setText(userModel.getProvinceName()+KONG_GE+userModel.getCityName()
                     +KONG_GE+userModel.getDistrictName()+KONG_GE+userModel.getShouHuoArea());
 
-                    String addressId=userModel.getId();//需要上传到服务器的接口里面
+                    addressId=userModel.getId();//需要上传到服务器的接口里面
                 }
                 break;
             case FA_PIAO_REQUEST_KEY://从发票活动返回的数据
