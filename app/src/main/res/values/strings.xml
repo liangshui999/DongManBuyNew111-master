@@ -21,7 +21,7 @@
     <string name="xian_shi_miao_sha">限时秒杀</string>
     <string name="miao_sha_time">1天1时1分1秒</string>
     <string name="jing_pin_tui_jian">精品推荐</string>
-    <string name="jing_ping_tui_jian_content">精品商品尽收眼底赶快行动吧</string>
+    <string name="jing_ping_tui_jian_content">精品商品尽收眼底</string>
     <string name="more">更多</string>
     <string name="email">00000000@qq.com</string>
     <string name="zhou_mou_buy">ZHOUMOBUY周末</string>
@@ -205,8 +205,8 @@
     <string name="pei_song_shi_jian">配送时间</string>
     <string name="cancel">取消</string>
     <string name="confirm">确定</string>
-    <string name="zhi_fu_bao">支付宝【手续费】</string>
-    <string name="yu_e_zhi_fu">余额支付【手续费】</string>
+    <string name="zhi_fu_bao">支付宝</string>
+    <string name="yu_e_zhi_fu">余额支付</string>
     <string name="fa_piao_tai_tou">发票抬头</string>
     <string name="fa_piao_content">发票内容</string>
     <string name="ming_xi">明细</string>

@@ -2,74 +2,169 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="fill_parent">
+
+    <!--购物车标题的布局,标题不用滚动-->
+    <RelativeLayout
+        android:id="@+id/biao_ti"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/bottom_lable_color"
+        android:layout_alignParentTop="true">
+        <ImageView
+            android:id="@+id/img_shoping_car_activity_dao_hang"
+            android:layout_width="26dp"
+            android:layout_height="26dp"
+            android:layout_alignParentLeft="true"
+            android:layout_margin="10dp"
+            android:src="@mipmap/leftdaohang"
+            android:layout_centerVertical="true"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/shopping_car"
+            android:layout_centerInParent="true"
+            android:textSize="20sp"
+            android:textColor="@color/white_my"/>
+    </RelativeLayout>
+
+
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/biao_ti">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <!--购物车标题的布局-->
-            <RelativeLayout
-                android:id="@+id/biao_ti"
+            <!--购物车里面有内容的时候显示这个linearlayout里面的内容-->
+            <LinearLayout
+                android:id="@+id/ll_when_has_content"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:background="@color/bottom_lable_color"
-                android:layout_alignParentTop="true">
-                <ImageView
-                    android:id="@+id/img_shoping_car_activity_dao_hang"
-                    android:layout_width="26dp"
-                    android:layout_height="26dp"
-                    android:layout_alignParentLeft="true"
-                    android:layout_margin="10dp"
-                    android:src="@mipmap/leftdaohang"
-                    android:layout_centerVertical="true"/>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/shopping_car"
-                    android:layout_centerInParent="true"
-                    android:textSize="20sp"
-                    android:textColor="@color/white_my"/>
-            </RelativeLayout>
-            <!--购物车列表-->
-            <ListView
-                android:id="@+id/my_list_view_shopping_car_list_out"
-                android:layout_width="match_parent"
-                android:layout_height="400dp"
-                android:layout_below="@id/biao_ti"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
                 android:visibility="visible">
-            </ListView>
 
-            <!--推荐商品-->
-            <TextView
-                android:id="@+id/tui"
-                android:layout_below="@id/my_list_view_shopping_car_list_out"
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:text="@string/tui_jian_shang_ping"
-                android:gravity="center"
-                android:paddingTop="10dp"
-                android:paddingBottom="10dp"/>
+                <!--购物车列表-->
+                <ListView
+                    android:id="@+id/my_list_view_shopping_car_list_out"
+                    android:layout_width="match_parent"
+                    android:layout_height="400dp"
+                    android:layout_below="@id/biao_ti"
+                    android:visibility="visible">
+                </ListView>
 
-            <!--推荐商品的列表-->
-            <com.example.asus_cp.dongmanbuy.customview.MyGridViewA
-                android:layout_below="@id/tui"
-                android:id="@+id/my_grid_view_tui_jian_product"
+                <!--推荐商品-->
+                <TextView
+                    android:id="@+id/tui"
+                    android:layout_below="@id/my_list_view_shopping_car_list_out"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:text="@string/tui_jian_shang_ping"
+                    android:gravity="center"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="10dp"/>
+
+                <!--推荐商品的列表-->
+                <com.example.asus_cp.dongmanbuy.customview.MyGridViewA
+                    android:layout_below="@id/tui"
+                    android:id="@+id/my_grid_view_tui_jian_product"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:numColumns="2"
+                    android:visibility="visible"
+                    android:background="@color/white_my">
+                </com.example.asus_cp.dongmanbuy.customview.MyGridViewA>
+
+                <!--把下面的挤出来,为什么是90，固定栏60加上标签的30，总共是90-->
+                <ImageView
+                    android:layout_below="@id/tui"
+                    android:layout_width="match_parent"
+                    android:layout_height="90dp"
+                    android:background="@color/white_my"
+                    android:visibility="visible"/>
+
+            </LinearLayout>
+
+
+
+            <!--当购物车里面没有商品的时候才会显示下面的linearlayout里面的内容-->
+            <LinearLayout
+                android:id="@+id/ll_has_no_content"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:numColumns="2"
-                android:visibility="visible">
-            </com.example.asus_cp.dongmanbuy.customview.MyGridViewA>
+                android:orientation="vertical">
 
-            <!--把下面的挤出来-->
-            <ImageView
-                android:layout_below="@id/tui"
-                android:layout_width="match_parent"
-                android:layout_height="130dp"
-                android:background="@color/white_my"
-                android:visibility="gone"/>
+                <!--购物车内容的布局-->
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="450dp"
+                    android:background="@color/home_fragment_background">
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:orientation="vertical">
+                        <ImageView
+                            android:layout_width="100dp"
+                            android:layout_height="100dp"
+                            android:layout_gravity="center"
+                            android:src="@mipmap/shopping_car_no_content"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/nothing"
+                            android:layout_gravity="center"
+                            android:textSize="18sp"
+                            android:layout_marginTop="20dp"/>
+                        <Button
+                            android:id="@+id/btn_qu_guang_guang"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:gravity="center"
+                            android:layout_marginTop="20dp"
+                            android:background="@color/white_my"
+                            android:text="@string/qu_guang_guang"/>
+                    </LinearLayout>
+                </RelativeLayout>
+
+
+                <!--你可能想要的布局-->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    >
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left"
+                        android:text="@string/may_be_you_want"
+                        android:textSize="18sp"
+                        android:layout_marginTop="20dp"
+                        android:layout_marginLeft="10dp"/>
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/recycle_view_may_be_you_want"
+                        android:layout_height="200dp"
+                        android:layout_width="wrap_content"
+                        android:scrollbars="none"
+                        android:layout_marginTop="10dp"
+                        android:background="@color/white_my"
+                        >
+                    </android.support.v7.widget.RecyclerView>
+                </LinearLayout>
+
+                <!--把下面的挤出来-->
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="90dp"
+                    android:background="@color/white_my"
+                    android:visibility="visible"/>
+            </LinearLayout>
+
+
+
         </LinearLayout>
     </ScrollView>
 

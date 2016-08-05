@@ -22,6 +22,7 @@ import com.example.asus_cp.dongmanbuy.constant.MyConstant;
 import com.example.asus_cp.dongmanbuy.db.SearchRecordDBOperateHelper;
 import com.example.asus_cp.dongmanbuy.model.Good;
 import com.example.asus_cp.dongmanbuy.model.ShopModel;
+import com.example.asus_cp.dongmanbuy.util.DialogHelper;
 import com.example.asus_cp.dongmanbuy.util.JsonHelper;
 import com.example.asus_cp.dongmanbuy.util.MyApplication;
 import com.example.asus_cp.dongmanbuy.util.MyLog;
@@ -176,46 +177,55 @@ public class ShopSearchResultActivity  extends Activity{
 //                        count0 = 1;//将count设为初始值
                         break;
                     case SHU_JI:
+                        DialogHelper.showDialog(ShopSearchResultActivity.this);
                         tongYongClickChuLi(1625 + "", SHU_JI);
                         location = position;
                         count1 = 1;
                         break;
                     case MO_WAN:
+                        DialogHelper.showDialog(ShopSearchResultActivity.this);
                         tongYongClickChuLi(1661 + "", MO_WAN);
                         location = position;
                         count2 = 1;
                         break;
                     case DIY:
+                        DialogHelper.showDialog(ShopSearchResultActivity.this);
                         tongYongClickChuLi(1647 + "", DIY);
                         location = position;
                         count3 = 1;
                         break;
                     case SHANG_ZHUANG:
+                        DialogHelper.showDialog(ShopSearchResultActivity.this);
                         tongYongClickChuLi(1464 + "", SHANG_ZHUANG);
                         location = position;
                         count4 = 1;
                         break;
                     case XIA_ZHUANG:
+                        DialogHelper.showDialog(ShopSearchResultActivity.this);
                         tongYongClickChuLi(1479 + "", XIA_ZHUANG);
                         location = position;
                         count5 = 1;
                         break;
                     case XIANG_BAO:
+                        DialogHelper.showDialog(ShopSearchResultActivity.this);
                         tongYongClickChuLi(1486 + "", XIANG_BAO);
                         location = position;
                         count6 = 1;
                         break;
                     case ZHAI_PIN:
+                        DialogHelper.showDialog(ShopSearchResultActivity.this);
                         tongYongClickChuLi(1492 + "", ZHAI_PIN);
                         location = position;
                         count7 = 1;
                         break;
                     case MAO_RONG:
+                        DialogHelper.showDialog(ShopSearchResultActivity.this);
                         tongYongClickChuLi(1501 + "", MAO_RONG);
                         location = position;
                         count8 = 1;
                         break;
                     case PEI_SHI:
+                        DialogHelper.showDialog(ShopSearchResultActivity.this);
                         tongYongClickChuLi(1506 + "", PEI_SHI);
                         location = position;
                         count9 = 1;
@@ -230,6 +240,8 @@ public class ShopSearchResultActivity  extends Activity{
         });
 
         //tongYongClickChuLi("",ALL);//初始状态
+
+        DialogHelper.showDialog(ShopSearchResultActivity.this);
         searchResultDisplay();
     }
 
@@ -243,6 +255,7 @@ public class ShopSearchResultActivity  extends Activity{
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String s) {
+                        DialogHelper.dissmisDialog();
                         searchResultModels.clear();
                         searchResultModels.addAll(parseJson(s));
                         searchResultAdapter=new ShopStreetShopListAdapter(ShopSearchResultActivity.this,searchResultModels);
@@ -313,60 +326,70 @@ public class ShopSearchResultActivity  extends Activity{
             public void onResponse(String s) {
                 switch (position) {
                     case ALL:
+                        DialogHelper.dissmisDialog();
                         allModles.clear();
                         allModles.addAll(parseJson(s));
                         allAdapter=new ShopStreetShopListAdapter(ShopSearchResultActivity.this,allModles);
                         shopListListView.setAdapter(allAdapter);
                         break;
                     case SHU_JI:
+                        DialogHelper.dissmisDialog();
                         shuJiModles.clear();
                         shuJiModles.addAll(parseJson(s));
                         shuJiAdapter=new ShopStreetShopListAdapter(ShopSearchResultActivity.this,shuJiModles);
                         shopListListView.setAdapter(shuJiAdapter);
                         break;
                     case MO_WAN:
+                        DialogHelper.dissmisDialog();
                         moWanModles.clear();
                         moWanModles.addAll(parseJson(s));
                         moWanAdapter=new ShopStreetShopListAdapter(ShopSearchResultActivity.this,moWanModles);
                         shopListListView.setAdapter(moWanAdapter);
                         break;
                     case DIY:
+                        DialogHelper.dissmisDialog();
                         DIYModles.clear();
                         DIYModles.addAll(parseJson(s));
                         DIYAdapter=new ShopStreetShopListAdapter(ShopSearchResultActivity.this,DIYModles);
                         shopListListView.setAdapter(DIYAdapter);
                         break;
                     case SHANG_ZHUANG:
+                        DialogHelper.dissmisDialog();
                         shangZhuangModles.clear();
                         shangZhuangModles.addAll(parseJson(s));
                         shangZhuangAdapter=new ShopStreetShopListAdapter(ShopSearchResultActivity.this,shangZhuangModles);
                         shopListListView.setAdapter(shuJiAdapter);
                         break;
                     case XIA_ZHUANG:
+                        DialogHelper.dissmisDialog();
                         xiaZhuangModles.clear();
                         xiaZhuangModles.addAll(parseJson(s));
                         xiaZhuangAdapter=new ShopStreetShopListAdapter(ShopSearchResultActivity.this,xiaZhuangModles);
                         shopListListView.setAdapter(xiaZhuangAdapter);
                         break;
                     case XIANG_BAO:
+                        DialogHelper.dissmisDialog();
                         xiangBaoModles.clear();
                         xiangBaoModles.addAll(parseJson(s));
                         xiangBaoAdapter=new ShopStreetShopListAdapter(ShopSearchResultActivity.this,xiangBaoModles);
                         shopListListView.setAdapter(xiangBaoAdapter);
                         break;
                     case ZHAI_PIN:
+                        DialogHelper.dissmisDialog();
                         zhaiPinModles.clear();
                         zhaiPinModles.addAll(parseJson(s));
                         zhaiPinAdapter=new ShopStreetShopListAdapter(ShopSearchResultActivity.this,zhaiPinModles);
                         shopListListView.setAdapter(zhaiPinAdapter);
                         break;
                     case MAO_RONG:
+                        DialogHelper.dissmisDialog();
                         maoRongModles.clear();
                         maoRongModles.addAll(parseJson(s));
                         maoRongAdapter=new ShopStreetShopListAdapter(ShopSearchResultActivity.this,maoRongModles);
                         shopListListView.setAdapter(maoRongAdapter);
                         break;
                     case PEI_SHI:
+                        DialogHelper.dissmisDialog();
                         peiShiModles.clear();
                         peiShiModles.addAll(parseJson(s));
                         peiShiAdapter=new ShopStreetShopListAdapter(ShopSearchResultActivity.this,peiShiModles);

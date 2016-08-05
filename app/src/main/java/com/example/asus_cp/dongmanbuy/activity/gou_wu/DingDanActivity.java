@@ -407,14 +407,14 @@ public class DingDanActivity extends Activity implements View.OnClickListener{
             case R.id.re_layout_zhi_fu_bao://点击了支付宝支付
                 zhiFuBaoCheckBox.setChecked(true);
                 yuEZhiFuCheckBox.setChecked(false);
-                zhiFuFangShiTextView.setText("支付宝【手续费】");
+                zhiFuFangShiTextView.setText("支付宝");
                 //shouXuFeiTextView.setText("0.00");
 
                 break;
             case R.id.re_layout_yu_e_zhi_fu://点击了余额支付
                 zhiFuBaoCheckBox.setChecked(false);
                 yuEZhiFuCheckBox.setChecked(true);
-                zhiFuFangShiTextView.setText("余额支付【手续费】");
+                zhiFuFangShiTextView.setText("余额支付");
                 break;
         }
     }
@@ -427,9 +427,9 @@ public class DingDanActivity extends Activity implements View.OnClickListener{
         final String shopValue=getJsonFromShopModels();//上传到服务器的shop键所对应的值
         MyLog.d(tag,"shopValue的值是："+shopValue);
         String zhiFuFangShi=zhiFuFangShiTextView.getText().toString();
-        if("支付宝【手续费】".equals(zhiFuFangShi)){
+        if("支付宝".equals(zhiFuFangShi)){
             tiJiaoDingDanIntenetRequest(shopValue,"12");
-        }else if("余额支付【手续费】".equals(zhiFuFangShi)){
+        }else if("余额支付".equals(zhiFuFangShi)){
             tiJiaoDingDanIntenetRequest(shopValue,"11");
         }
 
@@ -455,28 +455,30 @@ public class DingDanActivity extends Activity implements View.OnClickListener{
         }){
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
-                /*service	post_order
-                user_id	4159
+                /*service	create_order_info
+                user_id	4189
                 sid	333333333333
-                address_id	19
-                pay_id	11
-                real_pay	199.00
-                inv_payee	鎶ご
-                inv_content	鍐呭
-                shops	*/
+                address_id	14
+                pay_id	12
+                goods_amount	399.00
+                order_amount	398.00
+                inv_payee
+                inv_content*/
                 MyLog.d(tag,"addressId="+addressId);
                 MyLog.d(tag,"zhiFuType="+zhiFuType);
                 MyLog.d(tag,"实际付款："+FormatHelper.getOneXiaoShuFormat(shiFuKuanTextView.getText().toString()));
+                MyLog.d(tag,"总金额:"+FormatHelper.getOneXiaoShuFormat(productSumPriceTextBottomView.getText().toString()));
                 MyLog.d(tag,"抬头："+faPiaoTaiTouTextView.getText().toString());
-                MyLog.d(tag,"内容"+faPiaocontentTextView.getText().toString());
-                MyLog.d(tag,"店铺内容json是："+shopValue);
+                MyLog.d(tag, "内容" + faPiaocontentTextView.getText().toString());
+                MyLog.d(tag, "店铺内容json是：" + shopValue);
 
                 Map<String,String> map=new HashMap<String,String>();
-                map.put("service","post_order");
+                map.put("service","create_order_info");
                 map.put("user_id",uid);
                 map.put("sid",sid);
                 map.put("address_id",addressId);
                 map.put("pay_id",zhiFuType);
+                map.put("goods_amount",FormatHelper.getOneXiaoShuFormat(productSumPriceTextBottomView.getText().toString()));
                 map.put("real_pay", FormatHelper.getOneXiaoShuFormat(shiFuKuanTextView.getText().toString()));
                 map.put("inv_payee",faPiaoTaiTouTextView.getText().toString());
                 map.put("inv_content",faPiaocontentTextView.getText().toString());

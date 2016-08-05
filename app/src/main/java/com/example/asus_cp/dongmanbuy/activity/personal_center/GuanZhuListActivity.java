@@ -21,6 +21,7 @@ import com.example.asus_cp.dongmanbuy.activity.dian_pu_jie.ShopHomeActivity;
 import com.example.asus_cp.dongmanbuy.adapter.GuanZhuListAdapter;
 import com.example.asus_cp.dongmanbuy.constant.MyConstant;
 import com.example.asus_cp.dongmanbuy.model.ShopModel;
+import com.example.asus_cp.dongmanbuy.util.DialogHelper;
 import com.example.asus_cp.dongmanbuy.util.JsonHelper;
 import com.example.asus_cp.dongmanbuy.util.MyApplication;
 import com.example.asus_cp.dongmanbuy.util.MyLog;
@@ -72,10 +73,14 @@ public class GuanZhuListActivity extends Activity{
         listView= (ListView) findViewById(R.id.list_guan_zhu);
         noContentLinearLayout= (LinearLayout) findViewById(R.id.ll_no_content_guan_zhu);
 
+        //弹出正在加载的对话框
+        DialogHelper.showDialog(this);
+
         StringRequest getGuanZhuListRequest=new StringRequest(Request.Method.POST, guanZhuListUrl,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String s) {
+                        DialogHelper.dissmisDialog();
                         final List<ShopModel> shopModels=parseJson(s);
                         if(shopModels.size()>0){
                             listView.setVisibility(View.VISIBLE);

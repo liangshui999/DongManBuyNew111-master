@@ -121,15 +121,18 @@
                         android:text="0.00"
                         android:textColor="@color/bottom_lable_color"
                         android:layout_toLeftOf="@id/time_right_ding_dan"
-                        android:textSize="@dimen/ding_dan_layout_base_font"/>
+                        android:textSize="@dimen/ding_dan_layout_base_font"
+                        android:visibility="gone"/>
                     <TextView
                         android:id="@+id/text_zhi_fu_fang_shi_ding_dan"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="支付宝【手续费】"
+                        android:text="支付宝"
+                        android:textColor="@color/bottom_lable_color"
                         android:textSize="@dimen/ding_dan_layout_base_font"
                         android:layout_toLeftOf="@id/text_shou_xu_fei_ding_dan"
-                        android:layout_marginRight="10dp"/>
+                        android:layout_marginRight="1dp"
+                        android:visibility="visible"/>
 
                 </RelativeLayout>
 

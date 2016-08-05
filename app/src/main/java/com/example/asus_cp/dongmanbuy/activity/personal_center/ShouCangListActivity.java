@@ -21,6 +21,7 @@ import com.example.asus_cp.dongmanbuy.activity.product_detail.ProductDetailActiv
 import com.example.asus_cp.dongmanbuy.adapter.ShouCangListAdapter;
 import com.example.asus_cp.dongmanbuy.constant.MyConstant;
 import com.example.asus_cp.dongmanbuy.model.Good;
+import com.example.asus_cp.dongmanbuy.util.DialogHelper;
 import com.example.asus_cp.dongmanbuy.util.JsonHelper;
 import com.example.asus_cp.dongmanbuy.util.MyApplication;
 import com.example.asus_cp.dongmanbuy.util.MyLog;
@@ -70,11 +71,15 @@ public class ShouCangListActivity extends Activity{
         listView= (ListView) findViewById(R.id.list_shou_cang);
         noContentLinearLayout= (LinearLayout) findViewById(R.id.ll_no_content_shou_cang);
 
+        //弹出正在加载的对话框
+        DialogHelper.showDialog(this);
+
         //获取收藏列表
         StringRequest getShouCangListRequest=new StringRequest(Request.Method.POST, shouCangListUrl,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String s) {
+                        DialogHelper.dissmisDialog();//关闭正在加载的对话框
                         final List<Good> goods=parseJson(s);
                         if(goods.size()>0){
                             noContentLinearLayout.setVisibility(View.GONE);

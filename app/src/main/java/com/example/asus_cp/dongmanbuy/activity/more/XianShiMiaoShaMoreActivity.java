@@ -31,6 +31,7 @@ import com.example.asus_cp.dongmanbuy.constant.MyConstant;
 import com.example.asus_cp.dongmanbuy.customview.MyGridView;
 import com.example.asus_cp.dongmanbuy.db.SearchRecordDBOperateHelper;
 import com.example.asus_cp.dongmanbuy.model.Good;
+import com.example.asus_cp.dongmanbuy.util.DialogHelper;
 import com.example.asus_cp.dongmanbuy.util.ImageLoadHelper;
 import com.example.asus_cp.dongmanbuy.util.JsonHelper;
 import com.example.asus_cp.dongmanbuy.util.MyApplication;
@@ -182,6 +183,8 @@ public class XianShiMiaoShaMoreActivity extends Activity implements View.OnClick
             }
         });
 
+        //弹出正在加载的对话框
+        DialogHelper.showDialog(this);
 
         //初始化界面的显示,由于接口，只能初始化的时候，显示限时秒杀的商品,之后再跳转就是全部的商品了
         //getDataFromIntenet(GRID_VIEW_FLAG, searchContent, "id_asc", "1", LOAD_COUNT_ONCE_STR);
@@ -216,6 +219,7 @@ public class XianShiMiaoShaMoreActivity extends Activity implements View.OnClick
         StringRequest xianShiStringRequest=new StringRequest(Request.Method.GET, xianShiMiaoShaUrl, new Response.Listener<String>() {
             @Override
             public void onResponse(String s) {
+                DialogHelper.dissmisDialog();
                 MyLog.d(tag, "限时秒杀返回的数据：" + s);
                 final List<Good> goods = new ArrayList<Good>();
                 try {

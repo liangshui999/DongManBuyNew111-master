@@ -1,5 +1,6 @@
 package com.example.asus_cp.dongmanbuy.fragment;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -7,6 +8,8 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +17,7 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -34,6 +38,7 @@ import com.example.asus_cp.dongmanbuy.R;
 import com.example.asus_cp.dongmanbuy.activity.MainActivity;
 import com.example.asus_cp.dongmanbuy.activity.gou_wu.DingDanActivity;
 import com.example.asus_cp.dongmanbuy.activity.product_detail.ProductDetailActivity;
+import com.example.asus_cp.dongmanbuy.adapter.MayBeYouWantAdapter;
 import com.example.asus_cp.dongmanbuy.adapter.ProductDetailYouHuiQuanListAdapter;
 import com.example.asus_cp.dongmanbuy.adapter.TuiJianGoodAdapter;
 import com.example.asus_cp.dongmanbuy.constant.MyConstant;
@@ -41,6 +46,7 @@ import com.example.asus_cp.dongmanbuy.customview.MyGridViewA;
 import com.example.asus_cp.dongmanbuy.model.Good;
 import com.example.asus_cp.dongmanbuy.model.ShopModel;
 import com.example.asus_cp.dongmanbuy.model.YouHuiQuanModel;
+import com.example.asus_cp.dongmanbuy.util.DialogHelper;
 import com.example.asus_cp.dongmanbuy.util.FormatHelper;
 import com.example.asus_cp.dongmanbuy.util.ImageLoadHelper;
 import com.example.asus_cp.dongmanbuy.util.JsonHelper;
@@ -94,8 +100,6 @@ public class ShoppingCarFragment extends Fragment implements View.OnClickListene
 
     public static final int REQUEST_CODE_TO_Ding_Dan_Activity=12;
 
-
-
     private View parentView;//所有popu的父布局
 
     private PopupWindow youHuiQuanWindow;//优惠券的弹出窗口
@@ -107,6 +111,14 @@ public class ShoppingCarFragment extends Fragment implements View.OnClickListene
     private MainActivity mainActivity;
 
     private int densty;//屏幕像素密度
+
+    private ProgressDialog progressDialog;
+
+    //和购物车有内容和无内容相关的控件
+    private LinearLayout hasContentLinearLayout;
+    private LinearLayout hasNoContentLinearLayout;
+    private Button quGuangGuangButton;//去逛一逛
+    private RecyclerView mayBeYouWantRecycler;//你可能想要
 
     @Nullable
     @Override
@@ -134,28 +146,36 @@ public class ShoppingCarFragment extends Fragment implements View.OnClickListene
         jieSuanShuMuTextView = (TextView) v.findViewById(R.id.text_jie_suan_su_mu);
         myListViewOut = (ListView) v.findViewById(R.id.my_list_view_shopping_car_list_out);
         tuiJianProductGridView= (MyGridViewA) v.findViewById(R.id.my_grid_view_tui_jian_product);
+        hasContentLinearLayout= (LinearLayout) v.findViewById(R.id.ll_when_has_content);
+        hasNoContentLinearLayout= (LinearLayout) v.findViewById(R.id.ll_has_no_content);
+        quGuangGuangButton= (Button) v.findViewById(R.id.btn_qu_guang_guang);
+        mayBeYouWantRecycler= (RecyclerView) v.findViewById(R.id.recycle_view_may_be_you_want);
 
         //设置点击事件
         daoHangImageView.setOnClickListener(this);
         quanXuanCheckBox.setOnClickListener(this);
         editLinearLayout.setOnClickListener(this);
         jieSuanLinearLayout.setOnClickListener(this);
+        quGuangGuangButton.setOnClickListener(this);
         tuiJianProductGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 //Toast.makeText(context,"点击的位置是："+position,Toast.LENGTH_SHORT).show();
-                Intent intent=new Intent(context,ProductDetailActivity.class);
-                intent.putExtra(MyConstant.GOOD_KEY,tuiJianGoods.get(position));
+                Intent intent = new Intent(context, ProductDetailActivity.class);
+                intent.putExtra(MyConstant.GOOD_KEY, tuiJianGoods.get(position));
                 startActivity(intent);
             }
         });
 
         requestQueue= MyApplication.getRequestQueue();
         sharedPreferences=context.getSharedPreferences(MyConstant.USER_SHAREPREFRENCE_NAME, Context.MODE_APPEND);
-        uid=sharedPreferences.getString(MyConstant.UID_KEY,null);
+        uid=sharedPreferences.getString(MyConstant.UID_KEY, null);
         sid = sharedPreferences.getString(MyConstant.SID_KEY, null);
 
 
+
+        //显示进度框
+        DialogHelper.showDialog(context);
         //获取购物车列表
         getShoppingCarListFromIntetnt();
 
@@ -175,6 +195,24 @@ public class ShoppingCarFragment extends Fragment implements View.OnClickListene
                 tuiJianGoods=parseJsonTuiJian(s);
                 TuiJianGoodAdapter adapter=new TuiJianGoodAdapter(context,tuiJianGoods);
                 tuiJianProductGridView.setAdapter(adapter);
+
+                //设置布局管理器(recyleview必须设置布局管理器，不然是显示不出来的)
+                LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context);
+                linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+                mayBeYouWantRecycler.setLayoutManager(linearLayoutManager);
+                MayBeYouWantAdapter adapter1=new MayBeYouWantAdapter(context,tuiJianGoods);
+                mayBeYouWantRecycler.setAdapter(adapter1);
+
+                //将recyclview添加到忽略里面
+                mainActivity.menu.addIgnoredView(mayBeYouWantRecycler);
+                adapter1.setOnItemClickLitener(new MayBeYouWantAdapter.OnItemClickLitener() {
+                    @Override
+                    public void onItemClick(View view, int position) {
+                        Intent intent=new Intent(context,ProductDetailActivity.class);
+                        intent.putExtra(MyConstant.GOOD_KEY,tuiJianGoods.get(position));
+                        startActivity(intent);
+                    }
+                });
 
             }
         }, new Response.ErrorListener() {
@@ -230,21 +268,30 @@ public class ShoppingCarFragment extends Fragment implements View.OnClickListene
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String s) {
+                        DialogHelper.dissmisDialog();//加载完成之后将进度条关掉
                         MyLog.d(tag, "返回的数据是" + s);
                         shopModels=parseJson(s);
-                        int len=0;
-                        for(int i=0;i<shopModels.size();i++){
-                            ShopModel shopModel=shopModels.get(i);
-                            List<Good> goods=shopModel.getGoods();
-                            len=len+goods.size()*150*densty/160+40*densty/160;//主要是店铺名称所在的布局要占40，所以给他设置成40
+                        if(shopModels.size()>0){    //说明购物车里面有内容
+                            hasContentLinearLayout.setVisibility(View.VISIBLE);
+                            hasNoContentLinearLayout.setVisibility(View.GONE);
+                            int len=0;
+                            for(int i=0;i<shopModels.size();i++){
+                                ShopModel shopModel=shopModels.get(i);
+                                List<Good> goods=shopModel.getGoods();
+                                len=len+goods.size()*150*densty/160+40*densty/160;//主要是店铺名称所在的布局要占40，所以给他设置成40
+                            }
+                            MyLog.d(tag,"计算出的外部listview的高度是"+len);
+                            //动态设置外部listview的高度
+                            LinearLayout.LayoutParams params=new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                                    len);
+                            myListViewOut.setLayoutParams(params);
+                            adapterOut=new ShoppingCarListAdapterOut(context,shopModels);
+                            myListViewOut.setAdapter(adapterOut);
+                        }else{
+                            hasContentLinearLayout.setVisibility(View.GONE);
+                            hasNoContentLinearLayout.setVisibility(View.VISIBLE);
                         }
-                        MyLog.d(tag,"计算出的外部listview的高度是"+len);
-                        //动态设置外部listview的高度
-                        LinearLayout.LayoutParams params=new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
-                                len);
-                        myListViewOut.setLayoutParams(params);
-                        adapterOut=new ShoppingCarListAdapterOut(context,shopModels);
-                        myListViewOut.setAdapter(adapterOut);
+
                     }
                 }, new Response.ErrorListener() {
             @Override
@@ -446,6 +493,13 @@ public class ShoppingCarFragment extends Fragment implements View.OnClickListene
                 //Toast.makeText(this,"关闭优惠券",Toast.LENGTH_SHORT).show();
                 youHuiQuanWindow.dismiss();
                 break;
+            //----------------------去逛一逛的点击事件-----------------------
+            case R.id.btn_qu_guang_guang://去逛一逛的点击事件
+                //Toast.makeText(context,"点击了去逛一逛",Toast.LENGTH_SHORT).show();
+                Intent toMainActivityIntent=new Intent(context,MainActivity.class);
+                toMainActivityIntent.putExtra(MyConstant.MAIN_ACTIVITY_LABLE_FALG_KEY,MyConstant.HOME_FLAG_KEY);
+                startActivity(toMainActivityIntent);
+                break;
         }
     }
 
@@ -515,6 +569,12 @@ public class ShoppingCarFragment extends Fragment implements View.OnClickListene
         }
     }
 
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        mainActivity.menu.removeIgnoredView(mayBeYouWantRecycler);
+    }
 
     /**
      * 外部listview的适配器

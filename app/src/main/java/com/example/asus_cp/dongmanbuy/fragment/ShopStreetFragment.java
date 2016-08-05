@@ -23,6 +23,7 @@ import com.example.asus_cp.dongmanbuy.adapter.ShopStreetShopListAdapter;
 import com.example.asus_cp.dongmanbuy.adapter.ShopStreetSpinnerAdapter;
 import com.example.asus_cp.dongmanbuy.model.Good;
 import com.example.asus_cp.dongmanbuy.model.ShopModel;
+import com.example.asus_cp.dongmanbuy.util.DialogHelper;
 import com.example.asus_cp.dongmanbuy.util.JsonHelper;
 import com.example.asus_cp.dongmanbuy.util.MyApplication;
 import com.example.asus_cp.dongmanbuy.util.MyLog;
@@ -157,54 +158,64 @@ public class ShopStreetFragment extends Fragment {
                 MyLog.d(tag, "点击了：" + productCategories.get(position));
                 switch (position) {
                     case ALL:
-                        tongYongClickChuLi("",ALL);
-                        location=position;
-                        count0=1;//将count设为初始值
+                        DialogHelper.showDialog(context);
+                        tongYongClickChuLi("", ALL);
+                        location = position;
+                        count0 = 1;//将count设为初始值
                         break;
                     case SHU_JI:
-                        tongYongClickChuLi(1625 + "",SHU_JI);
-                        location=position;
-                        count1=1;
+                        DialogHelper.showDialog(context);
+                        tongYongClickChuLi(1625 + "", SHU_JI);
+                        location = position;
+                        count1 = 1;
                         break;
                     case MO_WAN:
-                        tongYongClickChuLi(1661 + "",MO_WAN);
-                        location=position;
-                        count2=1;
+                        DialogHelper.showDialog(context);
+                        tongYongClickChuLi(1661 + "", MO_WAN);
+                        location = position;
+                        count2 = 1;
                         break;
                     case DIY:
-                        tongYongClickChuLi(1647 + "",DIY);
-                        location=position;
-                        count3=1;
+                        DialogHelper.showDialog(context);
+                        tongYongClickChuLi(1647 + "", DIY);
+                        location = position;
+                        count3 = 1;
                         break;
                     case SHANG_ZHUANG:
-                        tongYongClickChuLi(1464 + "",SHANG_ZHUANG);
-                        location=position;
-                        count4=1;
+                        DialogHelper.showDialog(context);
+                        tongYongClickChuLi(1464 + "", SHANG_ZHUANG);
+                        location = position;
+                        count4 = 1;
                         break;
                     case XIA_ZHUANG:
-                        tongYongClickChuLi(1479 + "",XIA_ZHUANG);
-                        location=position;
-                        count5=1;
+                        DialogHelper.showDialog(context);
+                        tongYongClickChuLi(1479 + "", XIA_ZHUANG);
+                        location = position;
+                        count5 = 1;
                         break;
                     case XIANG_BAO:
-                        tongYongClickChuLi(1486 + "",XIANG_BAO);
-                        location=position;
-                        count6=1;
+                        DialogHelper.showDialog(context);
+                        tongYongClickChuLi(1486 + "", XIANG_BAO);
+                        location = position;
+                        count6 = 1;
                         break;
                     case ZHAI_PIN:
-                        tongYongClickChuLi(1492 + "",ZHAI_PIN);
-                        location=position;
-                        count7=1;
+                        DialogHelper.showDialog(context);
+                        tongYongClickChuLi(1492 + "", ZHAI_PIN);
+                        location = position;
+                        count7 = 1;
                         break;
                     case MAO_RONG:
-                        tongYongClickChuLi(1501 + "",MAO_RONG);
-                        location=position;
-                        count8=1;
+                        DialogHelper.showDialog(context);
+                        tongYongClickChuLi(1501 + "", MAO_RONG);
+                        location = position;
+                        count8 = 1;
                         break;
                     case PEI_SHI:
-                        tongYongClickChuLi(1506 + "",PEI_SHI);
-                        location=position;
-                        count9=1;
+                        DialogHelper.showDialog(context);
+                        tongYongClickChuLi(1506 + "", PEI_SHI);
+                        location = position;
+                        count9 = 1;
                         break;
                 }
             }
@@ -215,7 +226,8 @@ public class ShopStreetFragment extends Fragment {
             }
         });
 
-        tongYongClickChuLi("",ALL);//初始状态
+       // DialogHelper.showDialog(context);
+        tongYongClickChuLi("", ALL);//初始状态
     }
 
     /**
@@ -228,60 +240,70 @@ public class ShopStreetFragment extends Fragment {
             public void onResponse(String s) {
                 switch (position) {
                     case ALL:
+                        DialogHelper.dissmisDialog();
                         allModles.clear();
                         allModles.addAll(parseJson(s));
                         allAdapter=new ShopStreetShopListAdapter(mainActivity,allModles);
                         shopListListView.setAdapter(allAdapter);
                         break;
                     case SHU_JI:
+                        DialogHelper.dissmisDialog();
                         shuJiModles.clear();
                         shuJiModles.addAll(parseJson(s));
                         shuJiAdapter=new ShopStreetShopListAdapter(mainActivity,shuJiModles);
                         shopListListView.setAdapter(shuJiAdapter);
                         break;
                     case MO_WAN:
+                        DialogHelper.dissmisDialog();
                         moWanModles.clear();
                         moWanModles.addAll(parseJson(s));
                         moWanAdapter=new ShopStreetShopListAdapter(mainActivity,moWanModles);
                         shopListListView.setAdapter(moWanAdapter);
                         break;
                     case DIY:
+                        DialogHelper.dissmisDialog();
                         DIYModles.clear();
                         DIYModles.addAll(parseJson(s));
                         DIYAdapter=new ShopStreetShopListAdapter(mainActivity,DIYModles);
                         shopListListView.setAdapter(DIYAdapter);
                         break;
                     case SHANG_ZHUANG:
+                        DialogHelper.dissmisDialog();
                         shangZhuangModles.clear();
                         shangZhuangModles.addAll(parseJson(s));
                         shangZhuangAdapter=new ShopStreetShopListAdapter(mainActivity,shangZhuangModles);
                         shopListListView.setAdapter(shuJiAdapter);
                         break;
                     case XIA_ZHUANG:
+                        DialogHelper.dissmisDialog();
                         xiaZhuangModles.clear();
                         xiaZhuangModles.addAll(parseJson(s));
                         xiaZhuangAdapter=new ShopStreetShopListAdapter(mainActivity,xiaZhuangModles);
                         shopListListView.setAdapter(xiaZhuangAdapter);
                         break;
                     case XIANG_BAO:
+                        DialogHelper.dissmisDialog();
                         xiangBaoModles.clear();
                         xiangBaoModles.addAll(parseJson(s));
                         xiangBaoAdapter=new ShopStreetShopListAdapter(mainActivity,xiangBaoModles);
                         shopListListView.setAdapter(xiangBaoAdapter);
                         break;
                     case ZHAI_PIN:
+                        DialogHelper.dissmisDialog();
                         zhaiPinModles.clear();
                         zhaiPinModles.addAll(parseJson(s));
                         zhaiPinAdapter=new ShopStreetShopListAdapter(mainActivity,zhaiPinModles);
                         shopListListView.setAdapter(zhaiPinAdapter);
                         break;
                     case MAO_RONG:
+                        DialogHelper.dissmisDialog();
                         maoRongModles.clear();
                         maoRongModles.addAll(parseJson(s));
                         maoRongAdapter=new ShopStreetShopListAdapter(mainActivity,maoRongModles);
                         shopListListView.setAdapter(maoRongAdapter);
                         break;
                     case PEI_SHI:
+                        DialogHelper.dissmisDialog();
                         peiShiModles.clear();
                         peiShiModles.addAll(parseJson(s));
                         peiShiAdapter=new ShopStreetShopListAdapter(mainActivity,peiShiModles);

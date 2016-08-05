@@ -1,5 +1,6 @@
 package com.example.asus_cp.dongmanbuy.util;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.view.View;
@@ -71,7 +72,6 @@ public class CategoryImageLoadHelper {
     public void asynLoadCatgory(final MyGridViewA gridView, final String cateGory, final String length, final int yuJiaZaiPic) {
         StringRequest allRequest = new StringRequest(Request.Method.GET, getAllCategoryUrl, new Response.Listener<String>() {
             private ArrayList<CategoryModel> categoryModels = new ArrayList<CategoryModel>();
-
             @Override
             public void onResponse(String s) {
                  MyLog.d(tag,"类别的数据是："+s);

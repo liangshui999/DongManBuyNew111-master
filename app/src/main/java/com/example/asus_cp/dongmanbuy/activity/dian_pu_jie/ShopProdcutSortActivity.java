@@ -28,6 +28,7 @@ import com.example.asus_cp.dongmanbuy.adapter.ShopProductSmallListAdapter;
 import com.example.asus_cp.dongmanbuy.constant.MyConstant;
 import com.example.asus_cp.dongmanbuy.db.SearchRecordDBOperateHelper;
 import com.example.asus_cp.dongmanbuy.model.Good;
+import com.example.asus_cp.dongmanbuy.util.DialogHelper;
 import com.example.asus_cp.dongmanbuy.util.ImageLoadHelper;
 import com.example.asus_cp.dongmanbuy.util.JsonHelper;
 import com.example.asus_cp.dongmanbuy.util.MyApplication;
@@ -202,7 +203,8 @@ public class ShopProdcutSortActivity extends Activity implements View.OnClickLis
             }
         });
 
-
+        //弹出正在加载的对话框
+        DialogHelper.showDialog(this);
         getDataFromIntenet(GRID_VIEW_FLAG, searchContent, GOOD_ID_DESC, "1", LOAD_COUNT_ONCE_STR);
 
         //给gridview设置上拉加载的监听事件
@@ -244,6 +246,7 @@ public class ShopProdcutSortActivity extends Activity implements View.OnClickLis
                     List<Good> temp=new ArrayList<Good>();
                     @Override
                     public void onResponse(String s) {
+                        DialogHelper.dissmisDialog();//隐藏对话框
                         List<Good> goods = parseJson(s);
                         temp.clear();
                         MyLog.d(tag, "商品数量是：" + goods.size());

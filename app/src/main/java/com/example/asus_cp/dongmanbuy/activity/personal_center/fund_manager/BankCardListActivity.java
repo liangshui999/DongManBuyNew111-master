@@ -20,6 +20,7 @@ import com.example.asus_cp.dongmanbuy.R;
 import com.example.asus_cp.dongmanbuy.adapter.BankCardListAdapter;
 import com.example.asus_cp.dongmanbuy.constant.MyConstant;
 import com.example.asus_cp.dongmanbuy.model.CardModel;
+import com.example.asus_cp.dongmanbuy.util.DialogHelper;
 import com.example.asus_cp.dongmanbuy.util.JsonHelper;
 import com.example.asus_cp.dongmanbuy.util.MyApplication;
 import com.example.asus_cp.dongmanbuy.util.MyLog;
@@ -76,11 +77,14 @@ public class BankCardListActivity extends Activity{
         addCardButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(BankCardListActivity.this,AddBankCardActivity.class);
-                startActivityForResult(intent,REQUEST_CODE_ADD_BANK_CARD);
+                Intent intent = new Intent(BankCardListActivity.this, AddBankCardActivity.class);
+                startActivityForResult(intent, REQUEST_CODE_ADD_BANK_CARD);
             }
         });
         listView.addFooterView(v);
+
+        //弹出正在加载的对话框
+        DialogHelper.showDialog(this);
 
         getDataFromIntenet();
     }
@@ -94,6 +98,7 @@ public class BankCardListActivity extends Activity{
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String s) {
+                        DialogHelper.dissmisDialog();
                         List<CardModel> models=parseJson(s);
                         BankCardListAdapter adapter=new BankCardListAdapter(BankCardListActivity.this,models);
                         listView.setAdapter(adapter);

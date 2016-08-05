@@ -22,6 +22,7 @@ import com.example.asus_cp.dongmanbuy.adapter.DingDanListAdapter;
 import com.example.asus_cp.dongmanbuy.constant.MyConstant;
 import com.example.asus_cp.dongmanbuy.model.DingDanModel;
 import com.example.asus_cp.dongmanbuy.model.Good;
+import com.example.asus_cp.dongmanbuy.util.DialogHelper;
 import com.example.asus_cp.dongmanbuy.util.JsonHelper;
 import com.example.asus_cp.dongmanbuy.util.MyApplication;
 import com.example.asus_cp.dongmanbuy.util.MyLog;
@@ -90,16 +91,23 @@ public class DingDanListActivity extends Activity implements View.OnClickListene
         daiFuKuanDingDanTextView= (TextView) findViewById(R.id.text_dai_fu_kuan_ding_dan);
         daiShouHuoDingDanTextView= (TextView) findViewById(R.id.text_dai_shou_huo_ding_dan);
 
+
         switch (whoStartMe){
             case MyConstant.ALL_DING_DAN:
+                //弹出正在加载的对话框
+                DialogHelper.showDialog(this);
                 allDingDanTextView.setTextColor(getResources().getColor(R.color.bottom_lable_color));
                 getOrderList("");//获取所有的订单数据
                 break;
             case MyConstant.DAI_FU_KUAN_DING_DAN:
+                //弹出正在加载的对话框
+                DialogHelper.showDialog(this);
                 getOrderList("await_pay");//获取待付款的订单数据
                 daiFuKuanDingDanTextView.setTextColor(getResources().getColor(R.color.bottom_lable_color));
                 break;
             case MyConstant.DAI_SHOU_HUO_DING_DAN:
+                //弹出正在加载的对话框
+                DialogHelper.showDialog(this);
                 getOrderList("await_ship");//获取代收货的订单数据
                 daiShouHuoDingDanTextView.setTextColor(getResources().getColor(R.color.bottom_lable_color));
                 break;
@@ -129,6 +137,7 @@ public class DingDanListActivity extends Activity implements View.OnClickListene
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String s) {
+                        DialogHelper.dissmisDialog();
                         MyLog.d(tag, "返回的数据是" + s);
 //                        MyLog.d(tag,"uid="+uid);
 //                        MyLog.d(tag,"sid="+sid);

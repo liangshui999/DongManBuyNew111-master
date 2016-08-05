@@ -18,6 +18,7 @@ import com.example.asus_cp.dongmanbuy.R;
 import com.example.asus_cp.dongmanbuy.adapter.AccountDetailListAdapter;
 import com.example.asus_cp.dongmanbuy.constant.MyConstant;
 import com.example.asus_cp.dongmanbuy.model.DingDanModel;
+import com.example.asus_cp.dongmanbuy.util.DialogHelper;
 import com.example.asus_cp.dongmanbuy.util.JsonHelper;
 import com.example.asus_cp.dongmanbuy.util.MyApplication;
 import com.example.asus_cp.dongmanbuy.util.MyLog;
@@ -69,10 +70,14 @@ public class AccountDetailActivity extends Activity{
         listView= (ListView) findViewById(R.id.list_view_account_detail);
         noContentLinearLayout= (LinearLayout) findViewById(R.id.ll_no_content_account_detail);
 
+        //弹出正在加载的对话框
+        DialogHelper.showDialog(this);
+
         StringRequest accontDetailRequest=new StringRequest(Request.Method.POST, accountDetailUrl,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String s) {
+                        DialogHelper.dissmisDialog();
                         List<DingDanModel> models=parseJson(s);
                         if(models.size()>0){
                             noContentLinearLayout.setVisibility(View.GONE);

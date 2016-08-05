@@ -68,7 +68,7 @@ public class TuiJianGoodAdapter extends BaseAdapter{
         viewHolder.shopPriceTextView.setText(FormatHelper.getMoneyFormat(goods.get(position).getShopPrice()));
         ImageLoader.ImageListener imageListener=imageLoader.getImageListener(viewHolder.imageView, R.mipmap.yu_jia_zai_cai_ni_xi_huan,
                 R.mipmap.yu_jia_zai_cai_ni_xi_huan);
-        imageLoader.get(goods.get(position).getGoodsImg(), imageListener,500,500);
+        imageLoader.get(goods.get(position).getGoodsThumb(), imageListener,500,500);
         //设置点击事件
         viewHolder.shoppingCarImageView.setOnClickListener(new View.OnClickListener() {
             @Override

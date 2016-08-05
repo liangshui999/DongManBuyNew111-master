@@ -22,6 +22,7 @@ import com.example.asus_cp.dongmanbuy.R;
 import com.example.asus_cp.dongmanbuy.adapter.HongBaoListAdapter;
 import com.example.asus_cp.dongmanbuy.constant.MyConstant;
 import com.example.asus_cp.dongmanbuy.model.YouHuiQuanModel;
+import com.example.asus_cp.dongmanbuy.util.DialogHelper;
 import com.example.asus_cp.dongmanbuy.util.JsonHelper;
 import com.example.asus_cp.dongmanbuy.util.MyApplication;
 import com.example.asus_cp.dongmanbuy.util.MyLog;
@@ -87,6 +88,9 @@ public class HongBaoListActivity extends Activity implements View.OnClickListene
         uid=sharedPreferences.getString(MyConstant.UID_KEY,null);
         sid=sharedPreferences.getString(MyConstant.SID_KEY,null);
         initView();
+
+        //弹出正在加载的对话框
+        DialogHelper.showDialog(this);
         getDataFromIntet("未使用", false);
 
     }
@@ -100,6 +104,7 @@ public class HongBaoListActivity extends Activity implements View.OnClickListene
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String s) {
+                        DialogHelper.dissmisDialog();
                         List<YouHuiQuanModel> models=parseJson(s,category);
                         HongBaoListAdapter adapter=new HongBaoListAdapter(HongBaoListActivity.this,models,isGray);
                         listView.setAdapter(adapter);

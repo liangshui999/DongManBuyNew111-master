@@ -339,6 +339,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             resetLabel();
             shopStreetImg.setImageResource(R.mipmap.shopstreet_selected);
             shopStreetText.setTextColor(getResources().getColor(R.color.bottom_lable_color));
+        }else if(MyConstant.HOME_FLAG_KEY.equals(labelFlag)){
+            FragmentTransaction homeTransaction=fragmentManager.beginTransaction();
+            homeTransaction.replace(R.id.frame_layout_main,homeFragment);
+            homeTransaction.commit();
+            resetLabel();
+            homeImg.setImageResource(R.mipmap.home_selected);
+            homeText.setTextColor(getResources().getColor(R.color.bottom_lable_color));
         }
 
 
@@ -520,6 +527,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             resetLabel();
             shopStreetImg.setImageResource(R.mipmap.shopstreet_selected);
             shopStreetText.setTextColor(getResources().getColor(R.color.bottom_lable_color));
+        }else if(MyConstant.HOME_FLAG_KEY.equals(labelFlag)){
+            FragmentTransaction homeTransaction=fragmentManager.beginTransaction();
+            homeTransaction.replace(R.id.frame_layout_main,homeFragment);
+            homeTransaction.commit();
+            resetLabel();
+            homeImg.setImageResource(R.mipmap.home_selected);
+            homeText.setTextColor(getResources().getColor(R.color.bottom_lable_color));
         }
     }
 

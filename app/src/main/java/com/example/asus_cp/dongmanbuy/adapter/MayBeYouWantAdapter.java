@@ -12,23 +12,35 @@ import com.android.volley.toolbox.ImageLoader;
 import com.example.asus_cp.dongmanbuy.R;
 import com.example.asus_cp.dongmanbuy.model.Good;
 import com.example.asus_cp.dongmanbuy.util.ImageLoadHelper;
+import com.example.asus_cp.dongmanbuy.util.MyLog;
 
 import java.util.List;
 
 /**
+ * 购物车为空时，你可能想要的适配器
  * Created by asus-cp on 2016-05-27.
  */
 public class MayBeYouWantAdapter extends RecyclerView.Adapter {
+
+    private String tag="MayBeYouWantAdapter";
+
     private Context context;
     private List<Good> goods;
     private LayoutInflater inflater;
     private ImageLoadHelper helper;
+
+    private OnItemClickLitener mOnItemClickLitener;
 
     public MayBeYouWantAdapter(Context context, List<Good> goods) {
         this.context = context;
         this.goods = goods;
         inflater=LayoutInflater.from(context);
         helper=new ImageLoadHelper();
+        MyLog.d(tag,"商品数量是："+goods.size());
+    }
+
+    public void setOnItemClickLitener(OnItemClickLitener mOnItemClickLitener) {
+        this.mOnItemClickLitener = mOnItemClickLitener;
     }
 
     @Override
@@ -43,14 +55,25 @@ public class MayBeYouWantAdapter extends RecyclerView.Adapter {
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        MyViewHolder mViewHolder= (MyViewHolder) holder;//这里需要进行强制类型转换
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
+        final MyViewHolder mViewHolder= (MyViewHolder) holder;//这里需要进行强制类型转换
         ImageLoader imageLoader=helper.getImageLoader();
         ImageLoader.ImageListener listener=ImageLoader.getImageListener(mViewHolder.imageView,
-                R.mipmap.ic_launcher,R.mipmap.ic_launcher);
-        imageLoader.get(goods.get(position).getGoodsImg(),listener,200,200);
+                R.mipmap.yu_jia_zai,R.mipmap.yu_jia_zai);
+        imageLoader.get(goods.get(position).getGoodsThumb(),listener,300,300);
         mViewHolder.nameTextView.setText(goods.get(position).getGoodName());
         mViewHolder.shopPriceTextView.setText(goods.get(position).getShopPrice());
+        MyLog.d(tag,"onBindViewHolder");
+
+        //如果设置了回调，则设置点击事件
+        if (mOnItemClickLitener != null) {
+            mViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mOnItemClickLitener.onItemClick(mViewHolder.itemView, position);
+                }
+            });
+        }
     }
 
     @Override
@@ -69,5 +92,16 @@ public class MayBeYouWantAdapter extends RecyclerView.Adapter {
         public MyViewHolder(View itemView) {
             super(itemView);
         }
+    }
+
+
+    /**
+     * ItemClick的回调接口
+     * @author zhy
+     *
+     */
+    public interface OnItemClickLitener
+    {
+        void onItemClick(View view, int position);
     }
 }
