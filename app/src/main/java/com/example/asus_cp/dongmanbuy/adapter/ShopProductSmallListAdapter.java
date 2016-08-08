@@ -111,7 +111,7 @@ public class ShopProductSmallListAdapter  extends BaseAdapter{
         viewHolder.kuCunTextView.setText(good.getGoodsNumber());
         viewHolder.xiaoLiangTextView.setText(good.getSalesVolume());
         viewHolder.shopPriceTextView.setText(FormatHelper.getMoneyFormat(good.getShopPrice()));
-        viewHolder.marketPriceTextView.setText(good.getMarket_price());
+        viewHolder.marketPriceTextView.setText(FormatHelper.getMoneyFormat(good.getMarket_price()));
         viewHolder.marketPriceTextView.getPaint().setFlags(Paint. STRIKE_THRU_TEXT_FLAG| Paint.ANTI_ALIAS_FLAG);
 
         //设置点击事件

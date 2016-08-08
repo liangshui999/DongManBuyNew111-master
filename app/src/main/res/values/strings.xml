@@ -92,6 +92,7 @@
     <string name="ku_cun">当前库存</string>
     <string name="suo_zai_di_qu">所在地区</string>
     <string name="yun_fei">运费信息</string>
+    <string name="yun_fei_price">运费</string>
     <string name="yi_xuan">已选</string>
     <string name="fu_wu">服务</string>
     <string name="zi_ying_fa_huo">由周末自营发货并提供售后服务</string>
@@ -126,6 +127,8 @@
     <string name="tui_huo_content">自实际收货日期的次日起的7天内，商品完好，可进行无理由退换货</string>
     <string name="ji_su_da_content">上午下单，下午送达</string>
     <string name="product_gui_ge">规格参数</string>
+    <string name="gui_ge">规格</string>
+    <string name="comment">评价</string>
     <string name="all_comment">全部评价</string>
     <string name="hao_comment">好评</string>
     <string name="zhong_comment">中评</string>
@@ -298,6 +301,8 @@
     <string name="cha_xun">查询</string>
     <string name="my_location">我的位置</string>
     <string name="select_pei_song_fang_shi">配送方式</string>
+    <string name="personal_center">个人中心</string>
+    <string name="data_set">资料设置</string>
 
 
 </resources>

@@ -78,12 +78,15 @@ public class DingDanDetailActivity extends Activity implements View.OnClickListe
     private MyListView listView;//展示商品列表
     private ImageView downImageView;//向下的箭头
     private TextView peiSongFangShiTextView;//配送方式
+    private TextView yunFeiTextView;//配送方式旁边的运费
+    private TextView maiJiaLiuYanTextView;//买家留言
     private TextView zhiFuFangShiTextView;//支付方式
     private TextView shouXuFeiTextView;//手续费
     private TextView faPiaoTaiTouTextView;//发票抬头
     private TextView faPiaocontentTextView;//发票内容
     private TextView productSumPriceTextView;//商品金额
     private TextView youHuiQuanDiKouTextView;//商品优惠
+    private TextView yunFeiBottomTextView;//运费
     private TextView yingFuZongETextView;//应付总额
     private Button cancelOrderButton;//取消订单
     private Button zhiFuBaoZhiFuButton;//支付宝支付
@@ -240,13 +243,18 @@ public class DingDanDetailActivity extends Activity implements View.OnClickListe
         downImageView= (ImageView) findViewById(R.id.img_down_ding_dan_order_detail);
         listView= (MyListView) findViewById(R.id.my_list_view_ding_dan_order_detail);
         peiSongFangShiTextView= (TextView) findViewById(R.id.text_pei_song_fang_shi_order_detail);
+        yunFeiTextView= (TextView) findViewById(R.id.text_yun_fei_order_detail);
+        maiJiaLiuYanTextView= (TextView) findViewById(R.id.text_mai_jia_liu_yan_order_detail);//买家留言
         zhiFuFangShiTextView= (TextView) findViewById(R.id.text_zhi_fu_fang_shi_order_detail);
         shouXuFeiTextView= (TextView) findViewById(R.id.text_shou_xu_fei_order_detail);
         productSumPriceTextView= (TextView) findViewById(R.id.text_product_sum_price_order_detail);
         youHuiQuanDiKouTextView= (TextView) findViewById(R.id.text_you_hui_quan_di_kou_order_detail);
+        yunFeiBottomTextView= (TextView) findViewById(R.id.text_yun_fei_bottom_order_detail);//最底下的运费
         yingFuZongETextView= (TextView) findViewById(R.id.text_ying_fu_price_order_detail);
         cancelOrderButton= (Button) findViewById(R.id.btn_cancel_order_order_detail);
         zhiFuBaoZhiFuButton= (Button) findViewById(R.id.btn_zhi_fu_bao_zhi_fu_order_detail);
+        faPiaoTaiTouTextView= (TextView) findViewById(R.id.text_fa_piao_tai_tou_order_detail);
+        faPiaocontentTextView= (TextView) findViewById(R.id.text_fa_piao_content_order_detail);
 
         StringRequest orderInfoRequest = new StringRequest(Request.Method.POST, orderInfoUrl,
                 new Response.Listener<String>() {
@@ -304,10 +312,15 @@ public class DingDanDetailActivity extends Activity implements View.OnClickListe
             dingDanModel.setXian(jsonObject2.getString("district"));
             dingDanModel.setDetailAddress(JsonHelper.decodeUnicode(jsonObject2.getString("address")));
             dingDanModel.setPhone(jsonObject2.getString("tel"));
-            dingDanModel.setShipName(JsonHelper.decodeUnicode(jsonObject2.getString("shipping_name")));
+            dingDanModel.setShipName(JsonHelper.decodeUnicode(jsonObject2.getString("shipping_name")));//配送方式
             dingDanModel.setShouXuFei(jsonObject2.getString("pay_fee"));
             dingDanModel.setSumPrice(jsonObject2.getString("total_fee"));
             dingDanModel.setOrderTime(jsonObject2.getString("formated_add_time"));
+            dingDanModel.setZhiFuFangShi(FormatHelper.getStrFromHtmlBiaoQian(jsonObject2.getString("pay_name")));
+            dingDanModel.setFaPiaoTaiTou(JsonHelper.decodeUnicode(jsonObject2.getString("inv_payee")));
+            dingDanModel.setFaPiaoContent(JsonHelper.decodeUnicode(jsonObject2.getString("inv_content")));
+            dingDanModel.setGoodsSumPrice(jsonObject2.getString("goods_amount"));
+            dingDanModel.setShipFee(jsonObject2.getString("shipping_fee"));
 
             List<Good> goods=new ArrayList<Good>();
             JSONArray jsonArray=jsonObject1.getJSONArray("goods_list");
@@ -347,8 +360,16 @@ public class DingDanDetailActivity extends Activity implements View.OnClickListe
         dingDanHaoTextView.setText(dingDanModel.getOrderBianHao());
         dingDanTimeTextView.setText(dingDanModel.getOrderTime());
         MyLog.d(tag, "总价=" + dingDanModel.getSumPrice());
-        productSumPriceTextView.setText(FormatHelper.getMoneyFormat(dingDanModel.getSumPrice()));
+        productSumPriceTextView.setText(FormatHelper.getMoneyFormat(dingDanModel.getGoodsSumPrice()));//设置商品金额
         yingFuZongETextView.setText(FormatHelper.getMoneyFormat(dingDanModel.getSumPrice()));
+        peiSongFangShiTextView.setText(dingDanModel.getShipName());//设置配送方式
+        yunFeiTextView.setText(dingDanModel.getShipFee());
+        yunFeiBottomTextView.setText(dingDanModel.getShipFee());
+        maiJiaLiuYanTextView.setText(dingDanModel.getMaiJiaLiuYan());//设置买家留言
+        zhiFuFangShiTextView.setText(dingDanModel.getZhiFuFangShi());
+        faPiaoTaiTouTextView.setText(dingDanModel.getFaPiaoTaiTou());
+        faPiaocontentTextView.setText(dingDanModel.getFaPiaoContent());
+
 
 
 

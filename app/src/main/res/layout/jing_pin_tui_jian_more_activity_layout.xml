@@ -169,6 +169,7 @@
         android:layout_weight="1"
         android:orientation="vertical"
         android:visibility="visible">
+
         <!--内容展示的区域-->
         <com.handmark.pulltorefresh.library.PullToRefreshGridView
             android:id="@+id/grid_view_product_sort_jing_pin_tui_jian_more"
@@ -176,23 +177,28 @@
             android:layout_height="match_parent"
             android:numColumns="2"
             android:visibility="visible"
-            android:background="@color/white_my"
-            android:horizontalSpacing="5dp"
-            android:verticalSpacing="5dp">
+            android:background="@color/gray"
+            android:horizontalSpacing="10dp"
+            android:verticalSpacing="10dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:scrollbars="none">
         </com.handmark.pulltorefresh.library.PullToRefreshGridView>
 
         <com.handmark.pulltorefresh.library.PullToRefreshListView
             android:id="@+id/list_view_product_sort_small_jing_pin_tui_jian_more"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:visibility="visible">
+            android:visibility="visible"
+            android:scrollbars="none">
         </com.handmark.pulltorefresh.library.PullToRefreshListView>
 
         <com.handmark.pulltorefresh.library.PullToRefreshListView
             android:id="@+id/list_view_product_sort_big_jing_pin_tui_jian_more"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:visibility="visible">
+            android:visibility="visible"
+            android:scrollbars="none">
         </com.handmark.pulltorefresh.library.PullToRefreshListView>
 
     </LinearLayout>

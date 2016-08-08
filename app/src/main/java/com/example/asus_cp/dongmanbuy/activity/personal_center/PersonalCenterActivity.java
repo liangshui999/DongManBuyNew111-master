@@ -59,6 +59,7 @@ public class PersonalCenterActivity extends Activity implements View.OnClickList
 
     private String tag="PersonalCenterActivity";
 
+    private ImageView daoHangImageView;//导航
     private de.hdodenhof.circleimageview.CircleImageView touXiangImageView;//头像
     private TextView nameTextView;//名字
     private TextView dengJiTextView;//等级
@@ -270,6 +271,7 @@ public class PersonalCenterActivity extends Activity implements View.OnClickList
      * 初始化view
      */
     private void initView() {
+        daoHangImageView= (ImageView) findViewById(R.id.img_dao_hang_personal_center);
         touXiangImageView= (CircleImageView) findViewById(R.id.img_tou_xiang_personal_center);
         nameTextView= (TextView) findViewById(R.id.text_name_personal_center);
         dengJiTextView= (TextView) findViewById(R.id.text_deng_ji_personal_center);
@@ -345,6 +347,7 @@ public class PersonalCenterActivity extends Activity implements View.OnClickList
 
 
         //设置点击事件
+        daoHangImageView.setOnClickListener(this);
         nameLinearLayout.setOnClickListener(this);
         touXiangImageView.setOnClickListener(this);
         xinFengImageView.setOnClickListener(this);
@@ -369,6 +372,9 @@ public class PersonalCenterActivity extends Activity implements View.OnClickList
     @Override
     public void onClick(View v) {
         switch (v.getId()){
+            case R.id.img_dao_hang_personal_center://个人中心的导航
+                finish();
+                break;
             case R.id.img_tou_xiang_personal_center://点击了头像
                 toDataSetActivity();
                 break;

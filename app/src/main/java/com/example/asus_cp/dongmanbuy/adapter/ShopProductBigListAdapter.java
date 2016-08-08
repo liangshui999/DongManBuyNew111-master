@@ -74,7 +74,7 @@ public class ShopProductBigListAdapter extends BaseAdapter{
 
         viewHolder.nameTextView.setText(good.getGoodName());
         viewHolder.shopPriceTextView.setText(FormatHelper.getMoneyFormat(good.getShopPrice()));
-        viewHolder.marketPriceTextView.setText(good.getMarket_price());
+        viewHolder.marketPriceTextView.setText(FormatHelper.getMoneyFormat(good.getMarket_price()));
         viewHolder.marketPriceTextView.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG | Paint.ANTI_ALIAS_FLAG);
 
         viewHolder.shoppingCarImageView.setOnClickListener(new View.OnClickListener() {

@@ -478,16 +478,23 @@ public class ProductDetailActivity extends Activity implements View.OnClickListe
                     @Override
                     public void onResponse(String s) {
                         MyLog.d(tag,"自营返回的数据是："+s);
-                        s=FormatHelper.removeBom(s);
-                        if("周末自营".equals(s)){
-                            isZiYingLinearLayout.setVisibility(View.VISIBLE);
-                            isZiYingTextView.setVisibility(View.VISIBLE);
-                            isZiYingTextView.setText("自营");
-                            MyLog.d(tag,"自营内部执行了吗？");
-                        }else{
-                            isZiYingLinearLayout.setVisibility(View.GONE);
-                            isZiYingTextView.setVisibility(View.GONE);
+                        try {
+                            JSONArray jsonArray=new JSONArray(s);
+                            JSONObject jsonObject=jsonArray.getJSONObject(0);
+                            String shopId=FormatHelper.removeBom(jsonObject.getString("ru_id"));
+                            if("0".equals(shopId)){
+                                isZiYingLinearLayout.setVisibility(View.VISIBLE);
+                                isZiYingTextView.setVisibility(View.VISIBLE);
+                                isZiYingTextView.setText("自营");
+                                MyLog.d(tag,"自营内部执行了吗？");
+                            }else{
+                                isZiYingLinearLayout.setVisibility(View.GONE);
+                                isZiYingTextView.setVisibility(View.GONE);
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
                         }
+
                     }
                 }, new Response.ErrorListener() {
             @Override

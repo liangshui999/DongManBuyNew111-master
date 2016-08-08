@@ -27,6 +27,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
  */
 public class DataSetActivity extends Activity implements View.OnClickListener{
 
+    private ImageView daoHangImageView;//导航
     private de.hdodenhof.circleimageview.CircleImageView touXiangImageView;//头像
     private TextView nameTextView;//姓名
     private RelativeLayout sexRelativeLayout;//性别
@@ -69,6 +70,7 @@ public class DataSetActivity extends Activity implements View.OnClickListener{
         helper=new ImageLoadHelper();
         whoStartMe=getIntent().getStringExtra(MyConstant.DATA_SET_ACTIVITY_LABLE_FLAG_KEY);//谁开启了我
 
+        daoHangImageView= (ImageView) findViewById(R.id.img_dao_hang_data_set);
         touXiangImageView= (CircleImageView) findViewById(R.id.img_tou_xiang_data_set);
         nameTextView= (TextView) findViewById(R.id.text_name_data_set);
         sexRelativeLayout= (RelativeLayout) findViewById(R.id.re_layout_sex_data_set);
@@ -85,7 +87,7 @@ public class DataSetActivity extends Activity implements View.OnClickListener{
         ImageLoader imageLoader=helper.getImageLoader();
         ImageLoader.ImageListener listener=imageLoader.getImageListener(touXiangImageView,
                 R.mipmap.yu_jia_zai,R.mipmap.yu_jia_zai);
-        imageLoader.get(MyConstant.YU_MING+user.getPic(),listener,200,200);
+        imageLoader.get(MyConstant.YU_MING + user.getPic(), listener, 200, 200);
 
         nameTextView.setText(user.getName());
         sexTextView.setText(user.getSex());
@@ -94,6 +96,7 @@ public class DataSetActivity extends Activity implements View.OnClickListener{
 
 
         //设置点击事件
+        daoHangImageView.setOnClickListener(this);
         sexRelativeLayout.setOnClickListener(this);
         phoneRelativeLayout.setOnClickListener(this);
         emailRelativeLayout.setOnClickListener(this);
@@ -105,6 +108,9 @@ public class DataSetActivity extends Activity implements View.OnClickListener{
     @Override
     public void onClick(View v) {
         switch (v.getId()){
+            case R.id.img_dao_hang_data_set://导航
+                finish();
+                break;
             case R.id.re_layout_sex_data_set://点击了性别
                 Intent toSexIntent=new Intent(this,SexSelectActivity.class);
                 startActivityForResult(toSexIntent,REQUEST_CODE_SEX);

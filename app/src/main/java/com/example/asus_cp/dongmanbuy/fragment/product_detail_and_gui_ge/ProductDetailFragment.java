@@ -22,6 +22,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.example.asus_cp.dongmanbuy.R;
 import com.example.asus_cp.dongmanbuy.activity.product_detail.ProductPicAndGuiGeActivity;
 import com.example.asus_cp.dongmanbuy.model.Good;
+import com.example.asus_cp.dongmanbuy.util.DialogHelper;
 import com.example.asus_cp.dongmanbuy.util.ImageLoadHelper;
 import com.example.asus_cp.dongmanbuy.util.MyApplication;
 import com.example.asus_cp.dongmanbuy.util.MyLog;
@@ -58,9 +59,13 @@ public class ProductDetailFragment extends Fragment{
         ProductPicAndGuiGeActivity productPicAndGuiGeActivity= (ProductPicAndGuiGeActivity) getActivity();
         good=productPicAndGuiGeActivity.getGood();
         MyLog.d(tag,"商品id"+good.getGoodId());
+
+        //弹出正在加载的对话框
+        DialogHelper.showDialog(context);
         StringRequest stringRequest=new StringRequest(Request.Method.POST, productUrl, new Response.Listener<String>() {
             @Override
             public void onResponse(String s) {
+                DialogHelper.dissmisDialog();//关闭正在加载的对话框
                 MyLog.d(tag,"返回的数据为："+s);
                 try {
                     JSONObject jsonObject=new JSONObject(s);

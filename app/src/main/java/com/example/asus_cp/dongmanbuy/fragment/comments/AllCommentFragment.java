@@ -21,6 +21,7 @@ import com.example.asus_cp.dongmanbuy.activity.product_detail.CommetnActivity;
 import com.example.asus_cp.dongmanbuy.adapter.CommentAdapter;
 import com.example.asus_cp.dongmanbuy.model.Comment;
 import com.example.asus_cp.dongmanbuy.model.Good;
+import com.example.asus_cp.dongmanbuy.util.DialogHelper;
 import com.example.asus_cp.dongmanbuy.util.FormatHelper;
 import com.example.asus_cp.dongmanbuy.util.MyApplication;
 import com.example.asus_cp.dongmanbuy.util.MyLog;
@@ -58,9 +59,13 @@ public class AllCommentFragment extends Fragment {
         good=commetnActivity.getGood();
         comments=new ArrayList<Comment>();
         requestQueue= MyApplication.getRequestQueue();
+        //弹出正在加载的对话框
+        DialogHelper.showDialog(context);
         StringRequest stringRequest=new StringRequest(Request.Method.POST, userCommentUrl, new Response.Listener<String>() {
             @Override
             public void onResponse(String s) {
+                //关闭正在加载的对话框
+                DialogHelper.dissmisDialog();
                 MyLog.d(tag, "返回的数据是" + s);
                 try {
                     JSONObject jsonObject = new JSONObject(s);

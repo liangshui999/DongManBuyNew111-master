@@ -31,7 +31,8 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/biao_ti">
+        android:layout_below="@+id/biao_ti"
+        android:scrollbars="none">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -73,7 +74,10 @@
                     android:layout_height="wrap_content"
                     android:numColumns="2"
                     android:visibility="visible"
-                    android:background="@color/white_my">
+                    android:background="@color/gray"
+                    android:horizontalSpacing="10dp"
+                    android:verticalSpacing="10dp"
+                    android:padding="10dp">
                 </com.example.asus_cp.dongmanbuy.customview.MyGridViewA>
 
                 <!--把下面的挤出来,为什么是90，固定栏60加上标签的30，总共是90-->

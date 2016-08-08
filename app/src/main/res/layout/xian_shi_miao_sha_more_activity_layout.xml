@@ -177,7 +177,12 @@
             android:layout_height="match_parent"
             android:numColumns="2"
             android:visibility="visible"
-            android:background="@color/white_my"
+            android:background="@color/gray"
+            android:horizontalSpacing="10dp"
+            android:verticalSpacing="10dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:scrollbars="none"
             >
         </com.handmark.pulltorefresh.library.PullToRefreshGridView>
 
@@ -185,14 +190,16 @@
             android:id="@+id/list_view_product_sort_small_xian_shi_miao_sha_more"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:visibility="visible">
+            android:visibility="visible"
+            android:scrollbars="none">
         </com.handmark.pulltorefresh.library.PullToRefreshListView>
 
         <com.handmark.pulltorefresh.library.PullToRefreshListView
             android:id="@+id/list_view_product_sort_big_xian_shi_miao_sha_more"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:visibility="visible">
+            android:visibility="visible"
+            android:scrollbars="none">
         </com.handmark.pulltorefresh.library.PullToRefreshListView>
 
     </LinearLayout>

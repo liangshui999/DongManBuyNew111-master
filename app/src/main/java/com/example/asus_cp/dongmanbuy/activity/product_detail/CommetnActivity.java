@@ -8,6 +8,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.view.Window;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -42,6 +43,8 @@ import java.util.Map;
  * Created by asus-cp on 2016-06-02.
  */
 public class CommetnActivity extends FragmentActivity implements View.OnClickListener{
+
+    private ImageView daoHangImageView;//导航
     private LinearLayout allCommentLinearLayout;//全部评价
     private LinearLayout haoCommentLinearLayout;//好评
     private LinearLayout zhongCommentLinearLayout;//中评
@@ -95,12 +98,15 @@ public class CommetnActivity extends FragmentActivity implements View.OnClickLis
         requestQueue= MyApplication.getRequestQueue();
         good=getIntent().getParcelableExtra(HomeFragment.GOOD_KEY);
         youTu=getIntent().getStringExtra(MyConstant.YOU_TU_PING_JIA_KEY);
+
+        daoHangImageView= (ImageView) findViewById(R.id.img_dao_hang_comment);
         allCommentLinearLayout= (LinearLayout) findViewById(R.id.ll_all_comment);
         haoCommentLinearLayout= (LinearLayout) findViewById(R.id.ll_hao_comment);
         zhongCommentLinearLayout= (LinearLayout) findViewById(R.id.ll_zhong_comment);
         chaCommentLinearLayout= (LinearLayout) findViewById(R.id.ll_cha_comment);
         youTuCommentLinearLayout= (LinearLayout) findViewById(R.id.ll_you_tu_comment);
 
+        daoHangImageView.setOnClickListener(this);
         allCommentLinearLayout.setOnClickListener(this);
         haoCommentLinearLayout.setOnClickListener(this);
         zhongCommentLinearLayout.setOnClickListener(this);
@@ -219,6 +225,9 @@ public class CommetnActivity extends FragmentActivity implements View.OnClickLis
     public void onClick(View v) {
         reset();
         switch (v.getId()){
+            case R.id.img_dao_hang_comment://导航
+                finish();
+                break;
             case R.id.ll_all_comment:
                 allCommentTextView.setTextColor(getResources().getColor(R.color.bottom_lable_color));
                 allCommentCountTextView.setTextColor(getResources().getColor(R.color.bottom_lable_color));

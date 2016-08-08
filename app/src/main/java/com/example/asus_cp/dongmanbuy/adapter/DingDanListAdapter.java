@@ -23,6 +23,7 @@ import com.example.asus_cp.dongmanbuy.activity.gou_wu.DingDanDetailActivity;
 import com.example.asus_cp.dongmanbuy.constant.MyConstant;
 import com.example.asus_cp.dongmanbuy.customview.MyGridViewA;
 import com.example.asus_cp.dongmanbuy.model.DingDanModel;
+import com.example.asus_cp.dongmanbuy.model.Good;
 import com.example.asus_cp.dongmanbuy.util.FormatHelper;
 import com.example.asus_cp.dongmanbuy.util.MyApplication;
 import com.example.asus_cp.dongmanbuy.util.MyLog;
@@ -105,8 +106,16 @@ public class DingDanListAdapter extends BaseAdapter{
         final DingDanModel dingDanModel=models.get(position);
         viewHolder.dingDanHaoTextView.setText(dingDanModel.getOrderBianHao());
         viewHolder.dingDanTimeTextView.setText(FormatHelper.getDate(dingDanModel.getOrderTime()));
-        viewHolder.productCountTextView.setText("共" + dingDanModel.getGoods().size() + "款");
+        //viewHolder.productCountTextView.setText("共" + dingDanModel.getGoods().size() + "款");
         viewHolder.heJiTextView.setText(FormatHelper.getMoneyFormat(dingDanModel.getSumPrice()));
+
+        //设置商品数量，这个需要进行计算
+        List<Good> tempGoods=dingDanModel.getGoods();
+        int sumCount=0;
+        for(int i=0;i<tempGoods.size();i++){
+            sumCount=sumCount+Integer.parseInt(tempGoods.get(i).getDingDanNumber());
+        }
+        viewHolder.productCountTextView.setText("共" + sumCount + "款");
 
         DingDanListGridAdapter adapter=new DingDanListGridAdapter(context,dingDanModel.getGoods());
         viewHolder.picGridView.setAdapter(adapter);

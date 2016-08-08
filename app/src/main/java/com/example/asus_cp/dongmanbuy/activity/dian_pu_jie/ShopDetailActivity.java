@@ -57,6 +57,7 @@ public class ShopDetailActivity extends Activity implements View.OnClickListener
     private static final int SCAN_CODE = 1;
     private String tag="ShopDetailActivity";
 
+    private ImageView daoHangImagView;//导航
     private ImageView logoImageView;//logo
     private TextView shopNameTextView;//店铺名字
     private TextView guanZhuRenShuTextView;//关注人数
@@ -122,6 +123,7 @@ public class ShopDetailActivity extends Activity implements View.OnClickListener
         imageLoadHelper=new ImageLoadHelper();
         inflater=LayoutInflater.from(this);
 
+        daoHangImagView= (ImageView) findViewById(R.id.img_dao_hang_shop_detail);
         logoImageView= (ImageView) findViewById(R.id.img_shop_logo_shop_detail);
         shopNameTextView= (TextView) findViewById(R.id.text_shop_name_shop_detail);
         guanZhuRenShuTextView= (TextView) findViewById(R.id.text_guan_zhu_ren_shu_shop_detail);
@@ -178,6 +180,7 @@ public class ShopDetailActivity extends Activity implements View.OnClickListener
 
 
             //给控件设置点击事件
+            daoHangImagView.setOnClickListener(this);
             logoImageView.setOnClickListener(this);
             shopNameTextView.setOnClickListener(this);
             guanZhuTextView.setOnClickListener(this);
@@ -200,6 +203,9 @@ public class ShopDetailActivity extends Activity implements View.OnClickListener
     @Override
     public void onClick(View v) {
         switch (v.getId()){
+            case R.id.img_dao_hang_shop_detail://点击了导航按钮
+                finish();
+                break;
             case R.id.img_shop_logo_shop_detail://点击了店铺logo
                 toShopHomeActivity();
                 break;

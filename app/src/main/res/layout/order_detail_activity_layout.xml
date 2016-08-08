@@ -24,7 +24,8 @@
                     android:paddingLeft="10dp"
                     android:paddingBottom="10dp"
                     android:paddingTop="10dp"
-                    android:background="@color/white_my">
+                    android:background="@color/white_my"
+                    android:visibility="visible">
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -39,13 +40,13 @@
                                 android:id="@+id/text_shou_huo_ren_name_order_detail"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="朱熹"
+                                android:text="收货人"
                                 android:textSize="16sp"/>
                             <TextView
                                 android:id="@+id/text_shou_huo_ren_phone_order_detail"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="1882586954"
+                                android:text="18888888888"
                                 android:textSize="16sp"
                                 android:layout_marginLeft="10dp"/>
                         </LinearLayout>
@@ -59,27 +60,27 @@
                                 android:id="@+id/text_shou_huo_address_sheng_order_detail"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="湖北"
+                                android:text="省"
                                 android:textSize="@dimen/ding_dan_layout_base_font"/>
                             <TextView
                                 android:id="@+id/text_shou_huo_address_shi_order_detail"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="武汉"
+                                android:text="市"
                                 android:textSize="@dimen/ding_dan_layout_base_font"
                                 android:layout_marginLeft="5dp"/>
                             <TextView
                                 android:id="@+id/text_shou_huo_address_xian_order_detail"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="汉阳区"
+                                android:text="区"
                                 android:textSize="@dimen/ding_dan_layout_base_font"
                                 android:layout_marginLeft="5dp"/>
                             <TextView
                                 android:id="@+id/text_shou_huo_address_order_detail"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="海宁皮革城"
+                                android:text="详细地址"
                                 android:textSize="@dimen/ding_dan_layout_base_font"
                                 android:layout_marginLeft="5dp"/>
                         </LinearLayout>
@@ -94,7 +95,8 @@
                         android:background="@mipmap/right"
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
-                        android:layout_marginRight="10dp"/>
+                        android:layout_marginRight="10dp"
+                        android:visibility="gone"/>
 
                 </RelativeLayout>
 
@@ -108,11 +110,12 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="周末自营"
+                    android:text="店铺名称"
                     android:paddingLeft="10dp"
                     android:background="@color/white_my"
                     android:textSize="16sp"
-                    android:paddingBottom="10dp"/>
+                    android:paddingBottom="10dp"
+                    android:visibility="visible"/>
 
 
                 <!--订单号和订单时间-->
@@ -122,7 +125,8 @@
                     android:paddingTop="10dp"
                     android:paddingLeft="10dp"
                     android:background="@color/white_my"
-                    android:layout_marginTop="2dp">
+                    android:layout_marginTop="2dp"
+                    android:visibility="visible">
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -132,7 +136,7 @@
                         android:id="@+id/text_ding_dan_hao_ding_dan_order_detail"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="2013325553322555"
+                        android:text="2013333333333333333"
                         android:layout_marginLeft="10dp"/>
                 </LinearLayout>
 
@@ -142,7 +146,7 @@
                     android:layout_height="wrap_content"
                     android:paddingBottom="10dp"
                     android:paddingLeft="10dp"
-                    android:text="2015-06-20 14:00:00"
+                    android:text="2028-06-20 14:00:00"
                     android:textSize="12sp"
                     android:background="@color/white_my"/>
 
@@ -155,7 +159,8 @@
                     android:layout_marginTop="2dp"
                     android:background="@color/white_my"
                     android:paddingTop="10dp"
-                    android:paddingBottom="10dp">
+                    android:paddingBottom="10dp"
+                    android:visibility="visible">
                     <LinearLayout
                         android:layout_width="0dp"
                         android:layout_weight="1"
@@ -202,7 +207,8 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             android:gravity="center_vertical"
-                            android:text="共6件" />
+                            android:text="共6件"
+                            android:paddingRight="10dp"/>
 
                         <ImageView
                             android:layout_width="20dp"
@@ -210,7 +216,8 @@
                             android:layout_gravity="center_vertical"
                             android:layout_marginLeft="10dp"
                             android:layout_marginRight="10dp"
-                            android:background="@mipmap/right" />
+                            android:background="@mipmap/right"
+                            android:visibility="gone"/>
                     </LinearLayout>
                 </LinearLayout>
 
@@ -260,16 +267,55 @@
                         android:layout_height="20dp"
                         android:background="@mipmap/right"
                         android:layout_alignParentRight="true"
-                        android:layout_marginRight="10dp"/>
+                        android:layout_marginRight="10dp"
+                        android:visibility="gone"/>
+                    <TextView
+                        android:id="@+id/text_yun_fei_order_detail"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="0.00"
+                        android:textColor="@color/bottom_lable_color"
+                        android:layout_alignParentRight="true"
+                        android:paddingRight="10dp"/>
                     <TextView
                         android:id="@+id/text_pei_song_fang_shi_order_detail"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="圆通速递"
-                        android:layout_toLeftOf="@id/pei_song_right"
+                        android:text="配送方式"
+                        android:layout_toLeftOf="@id/text_yun_fei_order_detail"
                         android:textSize="@dimen/ding_dan_layout_base_font"/>
 
                 </RelativeLayout>
+
+
+
+                <!--买家留言-->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="10dp"
+                    android:paddingLeft="10dp"
+                    android:background="@color/white_my"
+                    android:orientation="vertical"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/mai_jia_liu_yan"
+                        android:textSize="@dimen/ding_dan_layout_base_font"/>
+                    <TextView
+                        android:id="@+id/text_mai_jia_liu_yan_order_detail"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingTop="5dp"
+                        android:text="留言"
+                        android:textSize="14sp"
+
+                        />
+                </LinearLayout>
 
 
                 <!-- 时间-->
@@ -373,7 +419,8 @@
                         android:layout_height="20dp"
                         android:background="@mipmap/right"
                         android:layout_alignParentRight="true"
-                        android:layout_marginRight="10dp"/>
+                        android:layout_marginRight="10dp"
+                        android:visibility="gone"/>
                     <TextView
                         android:id="@+id/text_shou_xu_fei_order_detail"
                         android:layout_width="wrap_content"
@@ -381,15 +428,17 @@
                         android:text="0.00"
                         android:textColor="@color/bottom_lable_color"
                         android:layout_toLeftOf="@id/time_right_ding_dan"
-                        android:textSize="@dimen/ding_dan_layout_base_font"/>
+                        android:textSize="@dimen/ding_dan_layout_base_font"
+                        android:visibility="gone"/>
                     <TextView
                         android:id="@+id/text_zhi_fu_fang_shi_order_detail"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="支付宝【手续费】"
+                        android:text="支付宝"
                         android:textSize="@dimen/ding_dan_layout_base_font"
-                        android:layout_toLeftOf="@id/text_shou_xu_fei_order_detail"
-                        android:layout_marginRight="10dp"/>
+                        android:layout_alignParentRight="true"
+                        android:layout_marginRight="10dp"
+                        android:textColor="@color/bottom_lable_color"/>
 
                 </RelativeLayout>
 
@@ -418,12 +467,14 @@
                         android:background="@mipmap/right"
                         android:layout_alignParentRight="true"
                         android:layout_marginRight="10dp"
-                        android:layout_centerVertical="true"/>
+                        android:layout_centerVertical="true"
+                        android:visibility="gone"/>
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
-                        android:layout_toLeftOf="@id/fa_piao_right">
+                        android:layout_alignParentRight="true"
+                        android:paddingRight="10dp">
                         <TextView
                             android:id="@+id/text_fa_piao_tai_tou_order_detail"
                             android:layout_width="wrap_content"
@@ -465,7 +516,7 @@
                         android:id="@+id/text_product_sum_price_order_detail"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="2017.00"
+                        android:text="0.00"
                         android:textColor="@color/bottom_lable_color"
                         android:layout_alignParentRight="true"
                         android:layout_marginRight="10dp"
@@ -501,6 +552,38 @@
                 </RelativeLayout>
 
 
+
+                <!--运费-->
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:background="@color/white_my"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="10dp"
+                    android:paddingLeft="10dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/yun_fei_price"
+                        android:textSize="@dimen/ding_dan_layout_base_font"
+                        android:layout_centerVertical="true"/>
+                    <TextView
+                        android:id="@+id/text_yun_fei_bottom_order_detail"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="0.00"
+                        android:textColor="@color/bottom_lable_color"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginRight="10dp"
+                        android:layout_centerVertical="true"/>
+                </RelativeLayout>
+
+
+
+
+
                 <!--应付总额-->
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -512,7 +595,7 @@
                         android:id="@+id/text_ying_fu_price_order_detail"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="20.00"
+                        android:text="0.00"
                         android:textColor="@color/bottom_lable_color"
                         android:layout_alignParentRight="true"
                         />

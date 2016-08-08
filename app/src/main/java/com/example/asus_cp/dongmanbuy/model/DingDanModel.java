@@ -30,8 +30,14 @@ public class DingDanModel implements Parcelable{
     private String shippingStatus;
     private String payStatus;
     private String shipName;//快递方式
+    private String zhiFuFangShi;//支付方式
+    private String faPiaoTaiTou;//发票抬头
+    private String faPiaoContent;//发票内容
+    private String goodsSumPrice;//goods总价,不包含运费
+    private String maiJiaLiuYan;//买家留言
 
     public DingDanModel(){}
+
 
     protected DingDanModel(Parcel in) {
         orderId = in.readString();
@@ -53,7 +59,12 @@ public class DingDanModel implements Parcelable{
         orderStatus = in.readString();
         shippingStatus = in.readString();
         payStatus = in.readString();
-        shipName=in.readString();
+        shipName = in.readString();
+        zhiFuFangShi = in.readString();
+        faPiaoTaiTou = in.readString();
+        faPiaoContent = in.readString();
+        goodsSumPrice = in.readString();
+        maiJiaLiuYan = in.readString();
     }
 
     public static final Creator<DingDanModel> CREATOR = new Creator<DingDanModel>() {
@@ -67,6 +78,40 @@ public class DingDanModel implements Parcelable{
             return new DingDanModel[size];
         }
     };
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(orderId);
+        dest.writeString(orderBianHao);
+        dest.writeString(orderTime);
+        dest.writeString(sumPrice);
+        dest.writeTypedList(goods);
+        dest.writeString(shipFee);
+        dest.writeString(hongBao);
+        dest.writeString(shouXuFei);
+        dest.writeString(payCode);
+        dest.writeString(dingDanDesc);
+        dest.writeString(shouHuoRenName);
+        dest.writeString(phone);
+        dest.writeString(sheng);
+        dest.writeString(shi);
+        dest.writeString(xian);
+        dest.writeString(detailAddress);
+        dest.writeString(orderStatus);
+        dest.writeString(shippingStatus);
+        dest.writeString(payStatus);
+        dest.writeString(shipName);
+        dest.writeString(zhiFuFangShi);
+        dest.writeString(faPiaoTaiTou);
+        dest.writeString(faPiaoContent);
+        dest.writeString(goodsSumPrice);
+        dest.writeString(maiJiaLiuYan);
+    }
 
     public String getOrderId() {
         return orderId;
@@ -228,32 +273,43 @@ public class DingDanModel implements Parcelable{
         this.shipName = shipName;
     }
 
-    @Override
-    public int describeContents() {
-        return 0;
+    public String getZhiFuFangShi() {
+        return zhiFuFangShi;
     }
 
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(orderId);
-        dest.writeString(orderBianHao);
-        dest.writeString(orderTime);
-        dest.writeString(sumPrice);
-        dest.writeTypedList(goods);
-        dest.writeString(shipFee);
-        dest.writeString(hongBao);
-        dest.writeString(shouXuFei);
-        dest.writeString(payCode);
-        dest.writeString(dingDanDesc);
-        dest.writeString(shouHuoRenName);
-        dest.writeString(phone);
-        dest.writeString(sheng);
-        dest.writeString(shi);
-        dest.writeString(xian);
-        dest.writeString(detailAddress);
-        dest.writeString(orderStatus);
-        dest.writeString(shippingStatus);
-        dest.writeString(payStatus);
-        dest.writeString(shipName);
+    public void setZhiFuFangShi(String zhiFuFangShi) {
+        this.zhiFuFangShi = zhiFuFangShi;
+    }
+
+    public String getFaPiaoTaiTou() {
+        return faPiaoTaiTou;
+    }
+
+    public void setFaPiaoTaiTou(String faPiaoTaiTou) {
+        this.faPiaoTaiTou = faPiaoTaiTou;
+    }
+
+    public String getFaPiaoContent() {
+        return faPiaoContent;
+    }
+
+    public void setFaPiaoContent(String faPiaoContent) {
+        this.faPiaoContent = faPiaoContent;
+    }
+
+    public String getGoodsSumPrice() {
+        return goodsSumPrice;
+    }
+
+    public void setGoodsSumPrice(String goodsSumPrice) {
+        this.goodsSumPrice = goodsSumPrice;
+    }
+
+    public String getMaiJiaLiuYan() {
+        return maiJiaLiuYan;
+    }
+
+    public void setMaiJiaLiuYan(String maiJiaLiuYan) {
+        this.maiJiaLiuYan = maiJiaLiuYan;
     }
 }

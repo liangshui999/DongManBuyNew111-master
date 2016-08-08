@@ -15,6 +15,9 @@ import java.util.regex.Pattern;
  * Created by asus-cp on 2016-05-21.
  */
 public class FormatHelper {
+
+    private static String tag="FormatHelper";
+
     /**
      * 将数字保留2位小数，且以人民币开头
      */
@@ -201,6 +204,23 @@ public class FormatHelper {
     public static String removeBom(String s){
 
         return s.replaceAll("\uFEFF","");
+    }
 
+
+    /**
+     * 从网页标签中取出内容
+     */
+    public static String getStrFromHtmlBiaoQian(String s){
+        String result=null;
+        MyLog.d(tag,s);
+        String regex=">.*?<";
+        Pattern pattern=Pattern.compile(regex);
+        Matcher matcher=pattern.matcher(s);
+        MyLog.d(tag,matcher.find()+"....."+matcher.group());
+        if(matcher.find()){
+            String temp=matcher.group();
+            result=temp.substring(1,temp.length()-1);
+        }
+        return result;
     }
 }

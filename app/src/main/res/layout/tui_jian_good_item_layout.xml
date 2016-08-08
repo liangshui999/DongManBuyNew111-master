@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="230dp"
+    android:background="@color/white_my"
     >
     <ImageView
         android:id="@+id/img_cai_ni_xi_huan"
