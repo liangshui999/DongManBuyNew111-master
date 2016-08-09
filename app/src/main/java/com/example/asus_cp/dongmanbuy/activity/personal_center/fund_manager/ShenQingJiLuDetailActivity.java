@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.asus_cp.dongmanbuy.R;
@@ -18,6 +19,7 @@ import com.example.asus_cp.dongmanbuy.util.FormatHelper;
  */
 public class ShenQingJiLuDetailActivity extends Activity{
 
+    private ImageView daoHangImageView;
     private TextView typeTextView;//交易类型
     private TextView timeTextView;//交易时间
     private TextView moneyTextView;//交易资金
@@ -45,6 +47,7 @@ public class ShenQingJiLuDetailActivity extends Activity{
 
         model=getIntent().getParcelableExtra(MyConstant.SHEN_QING_JI_LU_MODEL_KEY);
 
+        daoHangImageView= (ImageView) findViewById(R.id.img_dao_hang_shen_qing_ji_lu_detail);
         typeTextView= (TextView) findViewById(R.id.text_jiao_yi_fang_shi_shen_qing_ji_lu_detail);
         timeTextView= (TextView) findViewById(R.id.text_time_shen_qing_ji_lu_detail);
         moneyTextView= (TextView) findViewById(R.id.text_jin_e_shen_qing_ji_lu_detail);
@@ -62,6 +65,12 @@ public class ShenQingJiLuDetailActivity extends Activity{
         managerNoteTextView.setText(model.getManagerNote());
 
         cancelButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+        daoHangImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 finish();

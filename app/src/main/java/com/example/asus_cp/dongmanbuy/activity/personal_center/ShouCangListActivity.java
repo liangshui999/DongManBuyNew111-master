@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 
@@ -50,6 +51,7 @@ public class ShouCangListActivity extends Activity{
     private String uid;
     private String sid;
 
+    private ImageView daoHangImageView;
     private ListView listView;
 
     private LinearLayout noContentLinearLayout;
@@ -68,8 +70,17 @@ public class ShouCangListActivity extends Activity{
         uid=sharedPreferences.getString(MyConstant.UID_KEY,null);
         sid=sharedPreferences.getString(MyConstant.SID_KEY,null);
 
+        daoHangImageView= (ImageView) findViewById(R.id.img_dao_hang_shou_cang_list);
         listView= (ListView) findViewById(R.id.list_shou_cang);
         noContentLinearLayout= (LinearLayout) findViewById(R.id.ll_no_content_shou_cang);
+
+        //设置点击事件
+        daoHangImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
         //弹出正在加载的对话框
         DialogHelper.showDialog(this);

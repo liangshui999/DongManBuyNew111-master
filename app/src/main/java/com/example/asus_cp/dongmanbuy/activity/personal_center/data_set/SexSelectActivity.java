@@ -37,6 +37,8 @@ public class SexSelectActivity extends Activity implements View.OnClickListener{
 
     private String tag="SexSelectActivity";
 
+    private ImageView daoHangImageView;
+
     private LinearLayout nanLinearLayout;//男
     private LinearLayout nvLinearLayout;//女
     private ImageView nanImageView;
@@ -73,6 +75,7 @@ public class SexSelectActivity extends Activity implements View.OnClickListener{
         uid=sharedPreferences.getString(MyConstant.UID_KEY,null);
         sid=sharedPreferences.getString(MyConstant.SID_KEY,null);
 
+        daoHangImageView= (ImageView) findViewById(R.id.img_dao_hang_sex);
         nanLinearLayout= (LinearLayout) findViewById(R.id.ll_nan_sex_select);
         nvLinearLayout= (LinearLayout) findViewById(R.id.ll_nv_sex_select);
         nanImageView= (ImageView) findViewById(R.id.img_nan_sex_select);
@@ -82,6 +85,7 @@ public class SexSelectActivity extends Activity implements View.OnClickListener{
         confirmButton= (Button) findViewById(R.id.btn_confirm_sex_select);
 
         //设置点击事件
+        daoHangImageView.setOnClickListener(this);
         nanLinearLayout.setOnClickListener(this);
         nvLinearLayout.setOnClickListener(this);
         confirmButton.setOnClickListener(this);
@@ -90,6 +94,9 @@ public class SexSelectActivity extends Activity implements View.OnClickListener{
     @Override
     public void onClick(View v) {
         switch (v.getId()){
+            case R.id.img_dao_hang_sex://导航
+                finish();
+                break;
             case R.id.ll_nan_sex_select:
                 reset();
                 nanTextView.setTextColor(getResources().getColor(R.color.man_backgroud));

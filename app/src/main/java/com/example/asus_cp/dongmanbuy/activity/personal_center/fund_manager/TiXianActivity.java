@@ -54,6 +54,7 @@ public class TiXianActivity extends Activity implements View.OnClickListener{
 
     private String tag="TiXianActivity";
 
+    private ImageView daoHangImageView;
     private EditText tiXianJinEEditText;//提现金额
     private EditText beiZhuEditText;//备注
     private TextView tiXianFangShiBankNameTextView;//银行名
@@ -92,11 +93,12 @@ public class TiXianActivity extends Activity implements View.OnClickListener{
         requestQueue= MyApplication.getRequestQueue();
         SharedPreferences sharedPreferences=getSharedPreferences(MyConstant.USER_SHAREPREFRENCE_NAME,MODE_APPEND);
         uid=sharedPreferences.getString(MyConstant.UID_KEY,null);
-        sid=sharedPreferences.getString(MyConstant.SID_KEY,null);
+        sid=sharedPreferences.getString(MyConstant.SID_KEY, null);
 
         user=getIntent().getParcelableExtra(MyConstant.USER_KEY);
         parentView=LayoutInflater.from(this).inflate(R.layout.ti_xian_activity_layout, null);
 
+        daoHangImageView= (ImageView) findViewById(R.id.img_dao_hang_ti_xian);
         tiXianJinEEditText= (EditText) findViewById(R.id.edit_ti_xian_jin_e_ti_xian);
         beiZhuEditText= (EditText) findViewById(R.id.edit_bei_zhu_ti_xian);
         tiXianFangShiBankNameTextView = (TextView) findViewById(R.id.text_ti_xian_fang_shi_bank_name_ti_xian);
@@ -108,6 +110,7 @@ public class TiXianActivity extends Activity implements View.OnClickListener{
         tiXianJinEEditText.setHint("本次最大提现金额¥" + user.getMoney());
 
         //设置点击事件
+        daoHangImageView.setOnClickListener(this);
         tiXianFangShiRelativeLayout.setOnClickListener(this);
         tiJiaoShenQingButton.setOnClickListener(this);
     }
@@ -116,6 +119,9 @@ public class TiXianActivity extends Activity implements View.OnClickListener{
     @Override
     public void onClick(View v) {
         switch (v.getId()){
+            case R.id.img_dao_hang_ti_xian://导航
+                finish();
+                break;
             case R.id.re_layout_ti_xian_fang_shi_ti_xian://点击了提现方式
                 tiXianFangShiClickChuLi();
                 break;

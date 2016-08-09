@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ListView;
 
 import com.android.volley.AuthFailureError;
@@ -42,6 +43,7 @@ public class BankCardListActivity extends Activity{
 
     private String tag="BankCardListActivity";
 
+    private ImageView daoHangImageView;
     private ListView listView;
 
     private String cardListUrl="http://www.zmobuy.com/PHP/?url=/user/card_list";//所有银行卡列表的接口
@@ -71,9 +73,10 @@ public class BankCardListActivity extends Activity{
         uid=sharedPreferences.getString(MyConstant.UID_KEY,null);
         sid=sharedPreferences.getString(MyConstant.SID_KEY,null);
 
+        daoHangImageView= (ImageView) findViewById(R.id.img_dao_hang_bank_list);
         listView= (ListView) findViewById(R.id.list_view_bank_card_list);
-        View v= LayoutInflater.from(this).inflate(R.layout.bank_card_list_foot_view_layout,null);
-        Button addCardButton= (Button) v.findViewById(R.id.btn_add_bank_card);
+        //View v= LayoutInflater.from(this).inflate(R.layout.bank_card_list_foot_view_layout,null);
+        Button addCardButton= (Button) findViewById(R.id.btn_add_bank_card);
         addCardButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -81,7 +84,14 @@ public class BankCardListActivity extends Activity{
                 startActivityForResult(intent, REQUEST_CODE_ADD_BANK_CARD);
             }
         });
-        listView.addFooterView(v);
+        //listView.addFooterView(v);
+
+        daoHangImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
         //弹出正在加载的对话框
         DialogHelper.showDialog(this);

@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -36,6 +37,7 @@ public class ChangeEmailActivity extends Activity{
 
     private String tag="ChangeEmailActivity";
 
+    private ImageView changeEmailImageView;
     private EditText editText;
     private Button confirmButton;
 
@@ -65,6 +67,7 @@ public class ChangeEmailActivity extends Activity{
         uid=sharedPreferences.getString(MyConstant.UID_KEY,null);
         sid=sharedPreferences.getString(MyConstant.SID_KEY,null);
 
+        changeEmailImageView= (ImageView) findViewById(R.id.img_dao_hang_chang_email);
         editText= (EditText) findViewById(R.id.edit_change_email);
         confirmButton= (Button) findViewById(R.id.btn_confirm_change_email);
         confirmButton.setOnClickListener(new View.OnClickListener() {
@@ -78,6 +81,13 @@ public class ChangeEmailActivity extends Activity{
                 } else {
                     conirmClickChuLi(s);
                 }
+            }
+        });
+
+        changeEmailImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
             }
         });
     }

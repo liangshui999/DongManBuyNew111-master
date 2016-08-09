@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 
@@ -50,6 +51,7 @@ public class GuanZhuListActivity extends Activity{
     private String uid;
     private String sid;
 
+    private ImageView daoHangImageView;
     private ListView listView;
     private LinearLayout noContentLinearLayout;
 
@@ -70,11 +72,20 @@ public class GuanZhuListActivity extends Activity{
         uid=sharedPreferences.getString(MyConstant.UID_KEY,null);
         sid=sharedPreferences.getString(MyConstant.SID_KEY,null);
 
+        daoHangImageView= (ImageView) findViewById(R.id.img_dao_hang_guan_zhu_list);
         listView= (ListView) findViewById(R.id.list_guan_zhu);
         noContentLinearLayout= (LinearLayout) findViewById(R.id.ll_no_content_guan_zhu);
 
         //弹出正在加载的对话框
         DialogHelper.showDialog(this);
+
+        //点击事件
+        daoHangImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
         StringRequest getGuanZhuListRequest=new StringRequest(Request.Method.POST, guanZhuListUrl,
                 new Response.Listener<String>() {

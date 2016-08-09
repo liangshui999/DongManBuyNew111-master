@@ -196,6 +196,10 @@
         <activity android:name=".activity.gou_wu.YouHuiQuanActivity"
             android:screenOrientation="portrait"/>
 
+        <!--展示订单里面商品的activity-->
+        <activity android:name=".activity.gou_wu.DingDanGoodDispalyListActivity"
+            android:screenOrientation="portrait"/>
+
         <!--提交订单之后的activity-->
         <activity android:name=".activity.gou_wu.AfterTiJiaoDingDanActivity"
             android:screenOrientation="portrait"/>

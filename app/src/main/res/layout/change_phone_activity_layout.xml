@@ -2,13 +2,38 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
+
+    <!--头部-->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white_my"
+        android:layout_marginBottom="2dp">
+        <ImageView
+            android:id="@+id/img_dao_hang_change_phone"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_centerVertical="true"
+            android:src="@mipmap/leftdaohang"
+            android:layout_marginLeft="5dp"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/chang_phone"
+            android:gravity="center"
+            android:layout_centerInParent="true"
+            android:padding="5dp"
+            android:textSize="@dimen/dao_hang_base_font"
+            />
+    </RelativeLayout>
+
     <EditText
         android:id="@+id/edit_change_phone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/please_input_shou_ji_hao"
         android:textSize="14sp"
-        android:padding="10dp"
+        android:padding="5dp"
         android:layout_marginTop="20dp"
         android:layout_marginBottom="10dp"/>
     <Button

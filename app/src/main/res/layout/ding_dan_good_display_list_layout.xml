@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.example.asus_cp.dongmanbuy.customview.MyListView
+        android:id="@+id/my_list_view_ding_dan_good_display"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+    </com.example.asus_cp.dongmanbuy.customview.MyListView>
+
+</LinearLayout>

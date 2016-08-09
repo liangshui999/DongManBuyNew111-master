@@ -60,6 +60,7 @@ public class DingDanDetailActivity extends Activity implements View.OnClickListe
 
     private String tag="DingDanDetailActivity";
 
+    private ImageView daoHangImageView;//导航
     private TextView peopleNameTextView;//人名
     private TextView phoneTextView;//电话
     private TextView shengAddressTextView;//收货地址
@@ -225,6 +226,7 @@ public class DingDanDetailActivity extends Activity implements View.OnClickListe
      * 初始化view
      */
     private void initView() {
+        daoHangImageView= (ImageView) findViewById(R.id.img_dao_hang_order_detail);
         peopleNameTextView= (TextView) findViewById(R.id.text_shou_huo_ren_name_order_detail);
         phoneTextView= (TextView) findViewById(R.id.text_shou_huo_ren_phone_order_detail);
         shengAddressTextView= (TextView) findViewById(R.id.text_shou_huo_address_sheng_order_detail);
@@ -283,6 +285,7 @@ public class DingDanDetailActivity extends Activity implements View.OnClickListe
 
 
         //设置点击事件
+        daoHangImageView.setOnClickListener(this);
         displayAllProductLineatLayout.setOnClickListener(this);
         downImageView.setOnClickListener(this);
         cancelOrderButton.setOnClickListener(this);
@@ -321,6 +324,8 @@ public class DingDanDetailActivity extends Activity implements View.OnClickListe
             dingDanModel.setFaPiaoContent(JsonHelper.decodeUnicode(jsonObject2.getString("inv_content")));
             dingDanModel.setGoodsSumPrice(jsonObject2.getString("goods_amount"));
             dingDanModel.setShipFee(jsonObject2.getString("shipping_fee"));
+            MyLog.d(tag,"转换前支付方式："+jsonObject2.getString("pay_name"));
+            MyLog.d(tag,"转换后支付方式"+FormatHelper.getStrFromHtmlBiaoQian(jsonObject2.getString("pay_name")));
 
             List<Good> goods=new ArrayList<Good>();
             JSONArray jsonArray=jsonObject1.getJSONArray("goods_list");
@@ -369,6 +374,8 @@ public class DingDanDetailActivity extends Activity implements View.OnClickListe
         zhiFuFangShiTextView.setText(dingDanModel.getZhiFuFangShi());
         faPiaoTaiTouTextView.setText(dingDanModel.getFaPiaoTaiTou());
         faPiaocontentTextView.setText(dingDanModel.getFaPiaoContent());
+
+        MyLog.d(tag, "支付方式是：" + dingDanModel.getZhiFuFangShi());
 
 
 
@@ -471,6 +478,9 @@ public class DingDanDetailActivity extends Activity implements View.OnClickListe
     @Override
     public void onClick(View v) {
         switch (v.getId()){
+            case R.id.img_dao_hang_order_detail://导航
+                finish();
+                break;
             case R.id.ll_dispaly_all_product_ding_dan_order_detail://展示商品列表
                 //Toast.makeText(this,"展示商品列表",Toast.LENGTH_SHORT).show();
                 productDisplayLinearLayoutOrignal.setVisibility(View.GONE);

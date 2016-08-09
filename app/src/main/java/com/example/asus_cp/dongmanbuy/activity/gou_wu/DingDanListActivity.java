@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -44,6 +45,7 @@ public class DingDanListActivity extends Activity implements View.OnClickListene
 
     private String tag="DingDanListActivity";
 
+    private ImageView daoHangImageView;
     private LinearLayout allDingDanLinearLayout;//所有订单
     private LinearLayout daiFuKuanDingDanLinearLayout;//待付款订单
     private LinearLayout daiShouHuoDingDanLinearLayout;//待收货订单
@@ -83,6 +85,7 @@ public class DingDanListActivity extends Activity implements View.OnClickListene
         uid=sharedPreferences.getString(MyConstant.UID_KEY,null);
         sid=sharedPreferences.getString(MyConstant.SID_KEY,null);
 
+        daoHangImageView= (ImageView) findViewById(R.id.img_dao_hang_order_list);
         allDingDanLinearLayout= (LinearLayout) findViewById(R.id.ll_all_ding_dan);
         daiFuKuanDingDanLinearLayout= (LinearLayout) findViewById(R.id.ll_dai_fu_kuan_ding_dan);
         daiShouHuoDingDanLinearLayout= (LinearLayout) findViewById(R.id.ll_dai_shou_huo_ding_dan);
@@ -118,6 +121,7 @@ public class DingDanListActivity extends Activity implements View.OnClickListene
 
 
         //设置点击事件
+        daoHangImageView.setOnClickListener(this);
         allDingDanLinearLayout.setOnClickListener(this);
         daiFuKuanDingDanLinearLayout.setOnClickListener(this);
         daiShouHuoDingDanLinearLayout.setOnClickListener(this);
@@ -219,6 +223,9 @@ public class DingDanListActivity extends Activity implements View.OnClickListene
     @Override
     public void onClick(View v) {
         switch (v.getId()){
+            case R.id.img_dao_hang_order_list:
+                finish();
+                break;
             case R.id.ll_all_ding_dan://点击了所有订单
                 getOrderList("");//获取所有的订单数据
                 reset();

@@ -3,62 +3,79 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <RelativeLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/gray">
+        android:layout_height="wrap_content">
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:orientation="vertical"
-            android:padding="20dp">
-            <ImageView
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:background="@mipmap/ic_launcher"
-                android:layout_gravity="center"/>
-            <TextView
-                android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <RelativeLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/yu_e_zhi_fu_successed"
-                android:layout_marginTop="5dp"
-                android:layout_marginBottom="5dp"
-                android:layout_gravity="center"/>
+                android:background="@color/gray">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:orientation="vertical"
+                    android:padding="20dp">
+                    <ImageView
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:background="@mipmap/ic_launcher"
+                        android:layout_gravity="center"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/yu_e_zhi_fu_successed"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginBottom="5dp"
+                        android:layout_gravity="center"/>
+
+                </LinearLayout>
+            </RelativeLayout>
+
+
+            <!--订单号列表-->
+            <com.example.asus_cp.dongmanbuy.customview.MyListView
+                android:id="@+id/my_list_ding_dan_hao_list_yu_e"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            </com.example.asus_cp.dongmanbuy.customview.MyListView>
+            <!--<RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:background="@color/white_my">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/ding_dan_hao"/>
+                <TextView
+                    android:id="@+id/text_ding_dan_hao_yu_e_zhi_fu"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="2013546685523221"
+                    android:layout_alignParentRight="true"/>
+            </RelativeLayout>-->
+
+
+
+            <TextView
+                android:id="@+id/text_see_ding_dan_yu_e_zhi_fu"
+                android:clickable="true"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:text="@string/hui_yuan_zhong_xin"
+                android:gravity="center"/>
 
         </LinearLayout>
-    </RelativeLayout>
+    </ScrollView>
 
 
-    <!--订单号-->
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="10dp"
-        android:background="@color/white_my">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/ding_dan_hao"/>
-        <TextView
-            android:id="@+id/text_ding_dan_hao_yu_e_zhi_fu"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="2013546685523221"
-            android:layout_alignParentRight="true"/>
-    </RelativeLayout>
-
-
-
-
-    <TextView
-        android:id="@+id/text_see_ding_dan_yu_e_zhi_fu"
-        android:clickable="true"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="10dp"
-        android:text="@string/see_ding_dan"
-        android:gravity="center"/>
 
 
 </LinearLayout>

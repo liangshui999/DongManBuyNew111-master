@@ -39,6 +39,7 @@ public class ChangPasswordPersonalCenterActivity extends Activity implements Vie
 
     private String tag="ChangPasswordPersonalCenterActivity";
 
+    private ImageView daoHangImageView;
     private EditText oldPasswordEditText;
     private EditText newPasswordEditText;
     private EditText newPasswordAgainEditText;
@@ -75,6 +76,7 @@ public class ChangPasswordPersonalCenterActivity extends Activity implements Vie
         uid=sharedPreferences.getString(MyConstant.UID_KEY,null);
         sid=sharedPreferences.getString(MyConstant.SID_KEY,null);
 
+        daoHangImageView= (ImageView) findViewById(R.id.img_dao_hang_change_password);
         oldPasswordEditText= (EditText) findViewById(R.id.edit_input_old_password);
         newPasswordEditText= (EditText) findViewById(R.id.edit_input_new_password);
         newPasswordAgainEditText= (EditText) findViewById(R.id.edit_input_new_password_again);
@@ -84,6 +86,7 @@ public class ChangPasswordPersonalCenterActivity extends Activity implements Vie
         confirmButton= (Button) findViewById(R.id.btn_confirm_change_password);
 
         //设置点击事件
+        daoHangImageView.setOnClickListener(this);
         oldPasswordImageView.setOnClickListener(this);
         newPasswordImageView.setOnClickListener(this);
         newPasswordAgainImageView.setOnClickListener(this);
@@ -93,6 +96,9 @@ public class ChangPasswordPersonalCenterActivity extends Activity implements Vie
     @Override
     public void onClick(View v) {
         switch (v.getId()){
+            case R.id.img_dao_hang_change_password://导航
+                finish();
+                break;
             case R.id.img_see_input_old_password://点击了旧密码旁边的是否可见
                 if(oldPasswordFlag%2==0){
                     oldPasswordImageView.setBackgroundResource(R.drawable.see_password_selected);

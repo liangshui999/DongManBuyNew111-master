@@ -3,73 +3,92 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <RelativeLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:background="@color/gray">
+        android:layout_height="wrap_content">
         <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:orientation="vertical"
-            android:padding="20dp">
-            <ImageView
-                android:layout_width="80dp"
-                android:layout_height="80dp"
-                android:background="@mipmap/money_order"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/fu_kuan_jin_e"
-                android:layout_marginTop="5dp"
-                android:layout_marginBottom="5dp"
-                android:layout_gravity="center"/>
-            <TextView
-                android:id="@+id/text_fu_kuan_jin_e_after_ti_jiao_ding_dan"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="256.00"
-                android:layout_gravity="center"/>
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:background="@color/gray">
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:orientation="vertical"
+                    android:padding="20dp">
+                    <ImageView
+                        android:layout_width="80dp"
+                        android:layout_height="80dp"
+                        android:background="@mipmap/money_order"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/fu_kuan_jin_e"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginBottom="5dp"
+                        android:layout_gravity="center"/>
+                    <TextView
+                        android:id="@+id/text_fu_kuan_jin_e_after_ti_jiao_ding_dan"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="256.00"
+                        android:layout_gravity="center"/>
 
+                </LinearLayout>
+            </RelativeLayout>
+
+
+            <!--订单号列表-->
+            <com.example.asus_cp.dongmanbuy.customview.MyListView
+                android:id="@+id/my_list_ding_dan_hao_list"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            </com.example.asus_cp.dongmanbuy.customview.MyListView>
+
+            <!-- <RelativeLayout
+                 android:layout_width="match_parent"
+                 android:layout_height="wrap_content"
+                 android:padding="10dp"
+                 android:background="@color/white_my"
+                 android:visibility="gone">
+                 <TextView
+                     android:layout_width="wrap_content"
+                     android:layout_height="wrap_content"
+                     android:text="@string/ding_dan_hao"/>
+                 <TextView
+                     android:id="@+id/text_ding_dan_hao_after_ti_jiao_ding_dan"
+                     android:layout_width="wrap_content"
+                     android:layout_height="wrap_content"
+                     android:text="2013546685523221"
+                     android:layout_alignParentRight="true"/>
+             </RelativeLayout>-->
+
+
+            <Button
+                android:id="@+id/btn_zhi_fu_bao_zhi_fu_after_ti_jiao_ding_dan"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:background="@drawable/red_backgroud_yuan_jiao_button"
+                android:textColor="@color/white_my"
+                android:text="@string/zhi_fu_bao_zhi_fu"/>
+
+            <TextView
+                android:id="@+id/text_see_ding_dan_after_ti_jiao_ding_dan"
+                android:clickable="true"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:text="@string/hui_yuan_zhong_xin"
+                android:gravity="center"/>
         </LinearLayout>
-    </RelativeLayout>
+    </ScrollView>
 
 
-    <!--订单号-->
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="10dp"
-        android:background="@color/white_my">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/ding_dan_hao"/>
-        <TextView
-            android:id="@+id/text_ding_dan_hao_after_ti_jiao_ding_dan"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="2013546685523221"
-            android:layout_alignParentRight="true"/>
-    </RelativeLayout>
-
-
-    <Button
-        android:id="@+id/btn_zhi_fu_bao_zhi_fu_after_ti_jiao_ding_dan"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:background="@drawable/red_backgroud_yuan_jiao_button"
-        android:textColor="@color/white_my"
-        android:text="@string/zhi_fu_bao_zhi_fu"/>
-
-    <TextView
-        android:id="@+id/text_see_ding_dan_after_ti_jiao_ding_dan"
-        android:clickable="true"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="10dp"
-        android:text="@string/see_ding_dan"
-        android:gravity="center"/>
 
 </LinearLayout>

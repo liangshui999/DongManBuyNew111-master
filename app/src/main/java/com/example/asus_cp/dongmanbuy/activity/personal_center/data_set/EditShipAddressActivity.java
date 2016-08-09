@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ListView;
 
 import com.android.volley.AuthFailureError;
@@ -41,6 +42,7 @@ public class EditShipAddressActivity extends Activity{
 
     private String tag="EditShipAddressActivity";
 
+    private ImageView daoHangImageView;
     private ListView listView;
     private Button addShouHuoRenXinXiButton;
 
@@ -76,7 +78,7 @@ public class EditShipAddressActivity extends Activity{
         uid=sharedPreferences.getString(MyConstant.UID_KEY,null);
         sid=sharedPreferences.getString(MyConstant.SID_KEY, null);
 
-
+        daoHangImageView= (ImageView) findViewById(R.id.img_dao_hang_ship_address_list);
         listView= (ListView) findViewById(R.id.list_ship_address_personal_center);
         addShouHuoRenXinXiButton= (Button) findViewById(R.id.btn_add_ship_address_personal_center);
 
@@ -91,6 +93,13 @@ public class EditShipAddressActivity extends Activity{
 
         //获取收货地址列表
         getShipAddressList();
+
+        daoHangImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
     }
 
 

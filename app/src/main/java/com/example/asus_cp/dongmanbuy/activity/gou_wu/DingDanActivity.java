@@ -54,6 +54,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -72,11 +73,12 @@ import kankan.wheel.widget.adapters.NumericWheelAdapter;
 public class DingDanActivity extends Activity implements View.OnClickListener{
 
     private String tag="DingDanActivity";
+    private ImageView daoHangImageView;//导航
     private RelativeLayout shouHuoAddressRelativeLayout;//收货地址
     private TextView peopleNameTextView;//人名
     private TextView phoneTextView;//电话
     private TextView addressTextView;//收货地址
-    private MyListView listviewOut;//展示各个店铺的listview
+    private ListView listviewOut;//展示各个店铺的listview
     private RelativeLayout zhiFuFangShiRelativeLayout;//支付方式
     private TextView zhiFuFangShiTextView;//支付方式
     private TextView shouXuFeiTextView;//手续费
@@ -103,6 +105,8 @@ public class DingDanActivity extends Activity implements View.OnClickListener{
     private String shouHuoAddressListUrl="http://www.zmobuy.com/PHP/index.php?url=/address/list";//收货地址列表的接口
 
     private String tiJiaoDingDanUrl="http://api.zmobuy.com/JK/base/model.php";//提交订单的接口
+
+    private String yuEZhiFuUrl="http://api.zmobuy.com/JK/base/model.php";//余额支付的接口
 
     private RequestQueue requestQueue;
 
@@ -193,10 +197,10 @@ public class DingDanActivity extends Activity implements View.OnClickListener{
         //给外部的listview设置适配器
         DingDanJieMianListAdapterOut adapterOut=new DingDanJieMianListAdapterOut(this,shopModels,itemGoodCounts);
 
-        //动态设置listview的高度，这个很重要，关于为什么是150的解释，因为我自己设置的小项的高度就是150
-//        LinearLayout.LayoutParams params=new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
-//                600*densty/160*shopModels.size());
-//        listviewOut.setLayoutParams(params);
+        //动态设置listview的高度，这个很重要，关于为什么是320的解释，因为我自己设置的小项的高度就是320
+        LinearLayout.LayoutParams params=new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                320*densty/160*shopModels.size());
+        listviewOut.setLayoutParams(params);
         listviewOut.setAdapter(adapterOut);
 
         //设置商品总价，总数目，结算价格
@@ -232,6 +236,7 @@ public class DingDanActivity extends Activity implements View.OnClickListener{
                     @Override
                     public void onResponse(String s) {
                         UserModel userModel=parseJson(s);
+                        addressId=userModel.getId();//默认地址的id
                         peopleNameTextView.setText(userModel.getUserName());
                         phoneTextView.setText(userModel.getUserPhone());
                         MyLog.d(tag,"countryName="+userModel.getCountryName());
@@ -292,7 +297,7 @@ public class DingDanActivity extends Activity implements View.OnClickListener{
             if(jsonArray!=null && jsonArray.length()>0){
                 for(int i=0;i<jsonArray.length();i++){
                     JSONObject ziJsObj=jsonArray.getJSONObject(i);
-                    String moRenString=ziJsObj.getString("default_address");
+                    String moRenString=ziJsObj.getString("default_address");//默认地址
                     if("1".equals(moRenString)){
                         userModel.setId(ziJsObj.getString("id"));
                         userModel.setUserName(JsonHelper.decodeUnicode(ziJsObj.getString("consignee")));
@@ -320,11 +325,12 @@ public class DingDanActivity extends Activity implements View.OnClickListener{
 
         parentView= LayoutInflater.from(this).inflate(R.layout.ding_dan_activity_layout,null);
 
+        daoHangImageView= (ImageView) findViewById(R.id.img_dao_hang_order);
         shouHuoAddressRelativeLayout= (RelativeLayout) findViewById(R.id.re_layout_shou_huo_address_ding_dan);
         peopleNameTextView= (TextView) findViewById(R.id.text_shou_huo_ren_name_ding_dan);
         phoneTextView= (TextView) findViewById(R.id.text_shou_huo_ren_phone_ding_dan);
         addressTextView= (TextView) findViewById(R.id.text_shou_huo_address_ding_dan);
-        listviewOut= (MyListView) findViewById(R.id.list_shop_list_ding_dan);
+        listviewOut= (ListView) findViewById(R.id.list_shop_list_ding_dan);
         zhiFuFangShiRelativeLayout= (RelativeLayout) findViewById(R.id.re_layout_zhi_fu_fang_shi_ding_dan);
         zhiFuFangShiTextView= (TextView) findViewById(R.id.text_zhi_fu_fang_shi_ding_dan);
         shouXuFeiTextView= (TextView) findViewById(R.id.text_shou_xu_fei_ding_dan);
@@ -344,6 +350,7 @@ public class DingDanActivity extends Activity implements View.OnClickListener{
 
 
         //设置点击事件
+        daoHangImageView.setOnClickListener(this);
         shouHuoAddressRelativeLayout.setOnClickListener(this);
         zhiFuFangShiRelativeLayout.setOnClickListener(this);
         faPiaoXinXiRelativeLayout.setOnClickListener(this);
@@ -357,6 +364,9 @@ public class DingDanActivity extends Activity implements View.OnClickListener{
     @Override
     public void onClick(View v) {
         switch (v.getId()){
+            case R.id.img_dao_hang_order://导航
+                finish();
+                break;
             case R.id.re_layout_shou_huo_address_ding_dan://收货地址
                 Intent addresListIntent=new Intent(this,ShouHuoRenXinXiListActivity.class);
                 startActivityForResult(addresListIntent, SHOU_HUO_REN_XIN_XI_REQUEST_KEY);
@@ -425,7 +435,7 @@ public class DingDanActivity extends Activity implements View.OnClickListener{
      */
     private void tiJiaoDingDanClickChuLi() {
         final String shopValue=getJsonFromShopModels();//上传到服务器的shop键所对应的值
-        MyLog.d(tag,"shopValue的值是："+shopValue);
+        MyLog.d(tag, "shopValue的值是：" + shopValue);
         String zhiFuFangShi=zhiFuFangShiTextView.getText().toString();
         if("支付宝".equals(zhiFuFangShi)){
             tiJiaoDingDanIntenetRequest(shopValue,"12");
@@ -446,6 +456,27 @@ public class DingDanActivity extends Activity implements View.OnClickListener{
                     @Override
                     public void onResponse(String s) {
                         MyLog.d(tag, "提交订单返回的数据是：" + s);
+                        try {
+                            List<String> dingDans=new ArrayList<String>();
+                            JSONArray jsonArray=new JSONArray(s);
+                            for(int i=0;i<jsonArray.length();i++){
+                                dingDans.add(jsonArray.getString(i));
+                            }
+                            if("12".equals(zhiFuType)){ //支付宝
+                                Intent intent=new Intent(DingDanActivity.this,AfterTiJiaoDingDanActivity.class);
+                                intent.putExtra(MyConstant.DING_DAN_BIAN_HAO_LIST_KEY, (Serializable) dingDans);
+                                intent.putExtra(MyConstant.SHI_FU_KUAN_KEY,FormatHelper.getNumberFromRenMingBi(shiFuKuanTextView.getText().toString()));
+                                intent.putExtra(MyConstant.DING_DAN_SUBJECT_KEY,shopModels.get(0).getGoods().get(0).getGoodName());
+                                intent.putExtra(MyConstant.DING_DAN_DESC_KEY,shopModels.get(0).getGoods().get(0).getGoodName());
+                                startActivity(intent);
+                            }else if("11".equals(zhiFuType)){  //余额
+                                yuEZhiFuJieKouChuLi(dingDans);
+                            }
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                            Toast.makeText(DingDanActivity.this,"提交订单失败",Toast.LENGTH_SHORT).show();
+                        }
                     }
                 }, new Response.ErrorListener() {
             @Override
@@ -487,6 +518,40 @@ public class DingDanActivity extends Activity implements View.OnClickListener{
             }
         };
         requestQueue.add(dingDanRequest);
+    }
+
+
+    /**
+     * 余额支付接口处理
+     */
+    private void yuEZhiFuJieKouChuLi(final List<String> dingDans) {
+        StringRequest yuERequest=new StringRequest(Request.Method.POST, yuEZhiFuUrl, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String s) {
+                MyLog.d(tag,"余额支付返回的数据是："+s);
+                Intent intent=new Intent(DingDanActivity.this,YuEZhiFuSuccessedActivity.class);
+                intent.putExtra(MyConstant.DING_DAN_BIAN_HAO_LIST_KEY, (Serializable) dingDans);
+                startActivity(intent);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+
+            }
+        }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                /*service	userMoneyPay
+                user_id	1523
+                goods_price	19.0*/
+                Map<String,String> map=new HashMap<String,String>();
+                map.put("service","userMoneyPay");
+                map.put("user_id",uid);
+                map.put("goods_price",FormatHelper.getNumberFromRenMingBi(shiFuKuanTextView.getText().toString()));
+                return map;
+            }
+        };
+        requestQueue.add(yuERequest);
     }
 
 

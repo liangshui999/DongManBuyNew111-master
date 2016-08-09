@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -36,6 +37,7 @@ public class AddBankCardActivity extends Activity{
 
     private String tag="AddBankCardActivity";
 
+    private ImageView daoHangImageView;
     private EditText kaHaoEdtiText;//卡号
     private EditText chiKaRenEdtiText;//持卡人
     private EditText kaiHuHangEdtiText;//开户行
@@ -66,11 +68,19 @@ public class AddBankCardActivity extends Activity{
         uid=sharedPreferences.getString(MyConstant.UID_KEY,null);
         sid=sharedPreferences.getString(MyConstant.SID_KEY,null);
 
+        daoHangImageView= (ImageView) findViewById(R.id.img_dao_hang_add_card);
         kaHaoEdtiText= (EditText) findViewById(R.id.edit_ka_hao_add_bank_card);
         chiKaRenEdtiText= (EditText) findViewById(R.id.edit_chi_ka_ren_add_bank_card);
         kaiHuHangEdtiText= (EditText) findViewById(R.id.edit_kai_hu_hang_add_bank_card);
         bankEdtiText= (EditText) findViewById(R.id.edit_bank_add_bank_card);
         tiJiaoButton= (Button) findViewById(R.id.btn_ti_jiao_add_bank_card);
+
+        daoHangImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
         tiJiaoButton.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -8,6 +8,7 @@ import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,6 +25,7 @@ import java.util.List;
  * Created by asus-cp on 2016-06-17.
  */
 public class FaPiaoActiity extends Activity{
+    private ImageView daoHangImageView;
     private EditText faPiaoNeiRongEditText;
     private MyListView listView;
     private Button confirmButton;
@@ -44,9 +46,17 @@ public class FaPiaoActiity extends Activity{
      * 初始化的方法
      */
     private void init() {
+        daoHangImageView= (ImageView) findViewById(R.id.img_dao_hang_fa_piao);
         faPiaoNeiRongEditText= (EditText) findViewById(R.id.edit_fa_piao_tai_tou);
         listView= (MyListView) findViewById(R.id.my_list_view_fa_piao_list);
         confirmButton= (Button) findViewById(R.id.btn_confirm_fa_piao);
+
+        daoHangImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
         confirmButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -91,4 +101,5 @@ public class FaPiaoActiity extends Activity{
             }
         });
     }
+
 }

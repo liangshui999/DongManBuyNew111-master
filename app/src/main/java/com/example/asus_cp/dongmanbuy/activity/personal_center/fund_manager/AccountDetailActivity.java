@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 
@@ -40,6 +41,7 @@ public class AccountDetailActivity extends Activity{
 
     private String tag="AccountDetailActivity";
 
+    private ImageView daoHangImageView;
     private ListView listView;
     private LinearLayout noContentLinearLayout;
 
@@ -67,8 +69,16 @@ public class AccountDetailActivity extends Activity{
         uid=sharedPreferences.getString(MyConstant.UID_KEY,null);
         sid=sharedPreferences.getString(MyConstant.SID_KEY,null);
 
+        daoHangImageView= (ImageView) findViewById(R.id.img_dao_hang_zhang_hu_ming_xi);
         listView= (ListView) findViewById(R.id.list_view_account_detail);
         noContentLinearLayout= (LinearLayout) findViewById(R.id.ll_no_content_account_detail);
+
+        daoHangImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
         //弹出正在加载的对话框
         DialogHelper.showDialog(this);

@@ -1144,6 +1144,9 @@ public class ShoppingCarFragment extends Fragment implements View.OnClickListene
                         count++;
                     }
                 }
+
+                int allItemCount=0;//所有小项的数目之和
+                int checkedItemCount=0;//选中的小项数目之和
                 for(int i=0;i<checksOut.size();i++){
                     List<Boolean> tempCheck=checksOut.get(i);
                     List<Integer> tempGoodsCount=itemGoodsCountOut.get(i);
@@ -1153,8 +1156,11 @@ public class ShoppingCarFragment extends Fragment implements View.OnClickListene
                             int productCount= tempGoodsCount.get(j);
                             heJi=heJi+Double.parseDouble(FormatHelper.getNumberFromRenMingBi(tempGoods.get(j).getShopPrice()))*productCount;
                             jieSuan = jieSuan+productCount;
+
+                            checkedItemCount++;
                         }
                     }
+                    allItemCount=allItemCount+tempCheck.size();//计算所有小项的数目之和
                 }
                 priceTextView.setText(FormatHelper.getMoneyFormat(heJi + ""));
                 jieSuanShuMuTextView.setText("(" + jieSuan + ")");
@@ -1162,6 +1168,7 @@ public class ShoppingCarFragment extends Fragment implements View.OnClickListene
                 MyLog.d(tag, "checksIn的大小:" + checksIn.size());
                 MyLog.d(tag,"count="+count);
 
+                //设置每一个店铺的checkbox
                 if(count== checksIn.size()){
                     //ziYingCheckBox.setChecked(true);
                     //quanXuanCheckBox.setChecked(true);
@@ -1170,6 +1177,13 @@ public class ShoppingCarFragment extends Fragment implements View.OnClickListene
                     //ziYingCheckBox.setChecked(false);
                     //quanXuanCheckBox.setChecked(false);
                     checkBoxOut.setChecked(false);
+                }
+
+                //设置最外面的全选checkbox
+                if(allItemCount==checkedItemCount){
+                    quanXuanCheckBox.setChecked(true);
+                }else{
+                    quanXuanCheckBox.setChecked(false);
                 }
             }
 

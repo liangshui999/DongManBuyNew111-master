@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -35,6 +36,8 @@ import java.util.Map;
 public class ChangePhoneActivity extends Activity{
 
     private String tag="ChangePhoneActivity";
+
+    private ImageView changePhoneImageView;
 
     private EditText editText;
     private Button confirmButton;
@@ -66,6 +69,7 @@ public class ChangePhoneActivity extends Activity{
         uid=sharedPreferences.getString(MyConstant.UID_KEY,null);
         sid=sharedPreferences.getString(MyConstant.SID_KEY,null);
 
+        changePhoneImageView= (ImageView) findViewById(R.id.img_dao_hang_change_phone);
         editText= (EditText) findViewById(R.id.edit_change_phone);
         confirmButton= (Button) findViewById(R.id.btn_confirm_change_phone);
         confirmButton.setOnClickListener(new View.OnClickListener() {
@@ -84,6 +88,13 @@ public class ChangePhoneActivity extends Activity{
                     setResult(RESULT_OK, intent);
                     finish();
                 }
+            }
+        });
+
+        changePhoneImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
             }
         });
     }

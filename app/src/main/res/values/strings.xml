@@ -12,6 +12,9 @@
     <string name="shopping_car">购物车</string>
     <string name="my_wallet">我的钱包</string>
     <string name="my_order">我的订单</string>
+    <string name="order">订单</string>
+    <string name="order_list">订单列表</string>
+    <string name="order_detail">订单详情</string>
     <string name="browse_history">浏览记录</string>
     <string name="ship_address">收货地址</string>
     <string name="xian_shi_te_you">限时特优</string>
@@ -303,6 +306,19 @@
     <string name="select_pei_song_fang_shi">配送方式</string>
     <string name="personal_center">个人中心</string>
     <string name="data_set">资料设置</string>
-
+    <string name="sex">性别</string>
+    <string name="chang_phone">修改手机号</string>
+    <string name="change_email">修改邮箱</string>
+    <string name="ship_address_list">收货地址列表</string>
+    <string name="edit_ship_address">编辑收货地址</string>
+    <string name="shou_cang_list">收藏列表</string>
+    <string name="guan_zhu_list">关注列表</string>
+    <string name="fa_piao">发票</string>
+    <string name="you_hui_quan_list">优惠券列表</string>
+    <string name="shou_huo_ren_list">收货人列表</string>
+    <string name="bank_list">银行卡列表</string>
+    <string name="shen_qing_ji_lu_detail">申请记录明细</string>
+    <string name="add_card">添加银行卡</string>
+    <string name="hui_yuan_zhong_xin">会员中心</string>
 
 </resources>

@@ -264,12 +264,14 @@ public class ShopStreetShopListAdapter extends BaseAdapter {
                                             finalViewHolder.guanZhuTextView.setBackgroundResource(R.drawable.guan_zhu_successed_background);
                                             int guanZhuRenShu=Integer.parseInt(shopModel.getGazeNumber());
                                             finalViewHolder.guanZhuRenShuTextView.setText("已经有"+(1+guanZhuRenShu)+"人关注");
+                                            shopModel.setGazeNumber(""+(1+guanZhuRenShu));
                                         }else if("已取消关注".equals(erroeDesc)){
                                             Toast.makeText(context,"取消关注成功",Toast.LENGTH_SHORT).show();
                                             finalViewHolder.guanZhuTextView.setTextColor(context.getResources().getColor(R.color.bottom_lable_color));
                                             finalViewHolder.guanZhuTextView.setBackgroundResource(R.drawable.guan_zhu_background);
                                             int guanZhuRenShu=Integer.parseInt(shopModel.getGazeNumber());
                                             finalViewHolder.guanZhuRenShuTextView.setText( "已经有"+(guanZhuRenShu-1) + "人关注");
+                                            shopModel.setGazeNumber(""+(guanZhuRenShu-1));
                                         }
                                     } catch (JSONException e) {
                                         e.printStackTrace();

@@ -1,13 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
+
+    <!--头部-->
+    <RelativeLayout
+        android:id="@+id/head"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white_my"
+        android:layout_marginBottom="2dp">
+        <ImageView
+            android:id="@+id/img_dao_hang_bank_list"
+            android:layout_width="@dimen/dao_hang_img_base_font"
+            android:layout_height="@dimen/dao_hang_img_base_font"
+            android:layout_centerVertical="true"
+            android:src="@mipmap/leftdaohang"
+            android:layout_marginLeft="5dp"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/bank_list"
+            android:gravity="center"
+            android:layout_centerInParent="true"
+            android:padding="5dp"
+            android:textSize="@dimen/dao_hang_base_font"
+            />
+    </RelativeLayout>
 
     <ListView
         android:id="@+id/list_view_bank_card_list"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_below="@id/head">
 
     </ListView>
 
-</LinearLayout>
+    <Button
+        android:id="@+id/btn_add_bank_card"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:background="@drawable/red_backgroud_yuan_jiao_button"
+        android:textColor="@color/white_my"
+        android:text="@string/add_bank_card"
+        android:layout_alignParentBottom="true"/>
+
+</RelativeLayout>

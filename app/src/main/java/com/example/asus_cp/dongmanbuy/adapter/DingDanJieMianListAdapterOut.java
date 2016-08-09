@@ -1,6 +1,7 @@
 package com.example.asus_cp.dongmanbuy.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -28,8 +29,11 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.StringRequest;
 import com.example.asus_cp.dongmanbuy.R;
+import com.example.asus_cp.dongmanbuy.activity.StartActivity;
 import com.example.asus_cp.dongmanbuy.activity.gou_wu.DingDanActivity;
 import com.example.asus_cp.dongmanbuy.activity.gou_wu.DingDanDetailActivity;
+import com.example.asus_cp.dongmanbuy.activity.gou_wu.DingDanGoodDispalyListActivity;
+import com.example.asus_cp.dongmanbuy.constant.MyConstant;
 import com.example.asus_cp.dongmanbuy.customview.FocuesableListView;
 import com.example.asus_cp.dongmanbuy.customview.MyListView;
 import com.example.asus_cp.dongmanbuy.model.CardModel;
@@ -45,6 +49,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -121,7 +126,7 @@ public class DingDanJieMianListAdapterOut extends BaseAdapter implements View.On
             viewHolder.maiJiaLiuYanEditText= (EditText) v.findViewById(R.id.edit_mai_jia_liu_yan_list_item_out);
             viewHolder.goodNumberDownTextView= (TextView) v.findViewById(R.id.text_product_sum_he_ji_list_item_out);
             viewHolder.sumPriceTextView= (TextView) v.findViewById(R.id.text_he_ji_price_list_item_out);
-            viewHolder.listViewIn= (MyListView) v.findViewById(R.id.my_list_view_list_item_out);
+            //viewHolder.listViewIn= (MyListView) v.findViewById(R.id.my_list_view_list_item_out);
             viewHolder.productDisplayLinearLayoutOrignal= (LinearLayout) v.findViewById(R.id.ll_product_display_area_list_item_out);
             viewHolder.productListLinearLayoutZhanKai= (LinearLayout) v.findViewById(R.id.ll_list_view_hide_list_item_out);
             viewHolder.hideImageView= (ImageView) v.findViewById(R.id.img_down_ding_dan);
@@ -173,14 +178,15 @@ public class DingDanJieMianListAdapterOut extends BaseAdapter implements View.On
         viewHolder.dispalyAllLinearLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                finalViewHolder.productDisplayLinearLayoutOrignal.setVisibility(View.GONE);
+                Intent intent=new Intent(context, DingDanGoodDispalyListActivity.class);
+                intent.putExtra(MyConstant.GOOD_LIST_KEY, (Serializable) goods);
+                intent.putExtra(MyConstant.ITEM_PRODUCT_COUNT_KEY, (Serializable) itemGoodCounts.get(position));
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                context.startActivity(intent);
+                /*finalViewHolder.productDisplayLinearLayoutOrignal.setVisibility(View.GONE);
                 finalViewHolder.productListLinearLayoutZhanKai.setVisibility(View.VISIBLE);
                 DingDanJieMianListAdapterIn adapter=new DingDanJieMianListAdapterIn(context,goods,itemGoodCounts.get(position));
-                //动态设置listview的高度，这个很重要，关于为什么是150的解释，因为我自己设置的小项的高度就是150
-//                LinearLayout.LayoutParams params=new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
-//                        100*densty/160*goods.size());
-//                finalViewHolder.listViewIn.setLayoutParams(params);
-                finalViewHolder.listViewIn.setAdapter(adapter);
+                finalViewHolder.listViewIn.setAdapter(adapter);*/
             }
         });
         viewHolder.peiSongFangShiRelativeLayout.setOnClickListener(new View.OnClickListener() {

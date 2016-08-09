@@ -216,10 +216,11 @@ public class FormatHelper {
         String regex=">.*?<";
         Pattern pattern=Pattern.compile(regex);
         Matcher matcher=pattern.matcher(s);
-        MyLog.d(tag,matcher.find()+"....."+matcher.group());
+        //MyLog.d(tag,matcher.find()+"....."+matcher.group());
         if(matcher.find()){
             String temp=matcher.group();
             result=temp.substring(1,temp.length()-1);
+            MyLog.d(tag,"result="+result);
         }
         return result;
     }

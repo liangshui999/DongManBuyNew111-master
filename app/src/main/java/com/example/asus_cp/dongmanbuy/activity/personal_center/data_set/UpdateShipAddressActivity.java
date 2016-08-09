@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -56,6 +57,7 @@ public class UpdateShipAddressActivity extends Activity implements View.OnClickL
     private String xiangXiDiZhi;
     private String suoZaiDiQu;
 
+    private ImageView daoHangImageView;
     private EditText shouHuoRenNameEditText;//收货人姓名
     private EditText shouHuoRenPhoneEditText;//收货人电话
     private RelativeLayout suoZaiDiQuRelaytiveLayout;//所在地区
@@ -90,6 +92,7 @@ public class UpdateShipAddressActivity extends Activity implements View.OnClickL
         uid=sharedPreferences.getString(MyConstant.UID_KEY,null);
         sid=sharedPreferences.getString(MyConstant.SID_KEY, null);
 
+        daoHangImageView= (ImageView) findViewById(R.id.img_dao_hang_edit_ship_address);
         shouHuoRenNameEditText= (EditText) findViewById(R.id.edit_shou_huo_ren_name_update);
         shouHuoRenPhoneEditText= (EditText) findViewById(R.id.edit_shou_huo_ren_phone_update);
         suoZaiDiQuTextView= (TextView) findViewById(R.id.text_suo_zai_di_qu_add_xin_xi_update);
@@ -109,6 +112,7 @@ public class UpdateShipAddressActivity extends Activity implements View.OnClickL
         xianId=1545+"";
 
         //设置点击事件
+        daoHangImageView.setOnClickListener(this);
         suoZaiDiQuRelaytiveLayout.setOnClickListener(this);
         saveButton.setOnClickListener(this);
     }
@@ -116,6 +120,9 @@ public class UpdateShipAddressActivity extends Activity implements View.OnClickL
     @Override
     public void onClick(View v) {
         switch (v.getId()){
+            case R.id.img_dao_hang_edit_ship_address://导航
+                finish();
+                break;
             case R.id.re_layout_suo_zai_di_qu_add_shou_huo_ren_xin_xi_update://所在地区的点击事件
                 //Toast.makeText(this,"点击了所在地区",Toast.LENGTH_SHORT).show();
                 Intent areaIntent=new Intent(this,AreaActivity.class);

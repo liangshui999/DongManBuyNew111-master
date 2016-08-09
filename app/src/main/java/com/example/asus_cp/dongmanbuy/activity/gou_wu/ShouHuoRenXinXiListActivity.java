@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -41,6 +42,7 @@ import java.util.Map;
 public class ShouHuoRenXinXiListActivity extends Activity{
 
     private String tag="ShouHuoRenXinXiListActivity";
+    private ImageView daoHangImageView;//导航
     private ListView listView;
     private TextView addShouHuoRenTextView;//新增收货人
 
@@ -78,6 +80,14 @@ public class ShouHuoRenXinXiListActivity extends Activity{
         SharedPreferences sharedPreferences=getSharedPreferences(MyConstant.USER_SHAREPREFRENCE_NAME,MODE_APPEND);
         uid=sharedPreferences.getString(MyConstant.UID_KEY,null);
         sid=sharedPreferences.getString(MyConstant.SID_KEY,null);
+
+        daoHangImageView= (ImageView) findViewById(R.id.img_dao_hang_shou_huo_ren_list);
+        daoHangImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
         listView= (ListView) findViewById(R.id.list_view_shou_huo_ren_xin_xi);
         addShouHuoRenTextView= (TextView) findViewById(R.id.text_xin_zeng_shou_huo_ren_xin_xi);

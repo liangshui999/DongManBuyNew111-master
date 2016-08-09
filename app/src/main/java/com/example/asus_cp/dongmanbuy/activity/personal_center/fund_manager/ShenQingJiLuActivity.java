@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 
@@ -42,6 +43,7 @@ public class ShenQingJiLuActivity extends Activity{
 
     private String tag="ShenQingJiLuActivity";
 
+    private ImageView daoHangImageView;
     private ListView listView;
     private LinearLayout noContentLinearLayout;
 
@@ -71,8 +73,16 @@ public class ShenQingJiLuActivity extends Activity{
         uid=sharedPreferences.getString(MyConstant.UID_KEY,null);
         sid=sharedPreferences.getString(MyConstant.SID_KEY,null);
 
+        daoHangImageView= (ImageView) findViewById(R.id.img_dao_hang_shen_qing_ji_lu);
         listView= (ListView) findViewById(R.id.list_view_shen_qing_ji_lu);
         noContentLinearLayout= (LinearLayout) findViewById(R.id.ll_no_content_shen_qing_ji_lu);
+
+        daoHangImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
         //弹出正在加载的对话框
         DialogHelper.showDialog(this);

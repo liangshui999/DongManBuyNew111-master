@@ -23,8 +23,10 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.example.asus_cp.dongmanbuy.R;
+import com.example.asus_cp.dongmanbuy.activity.personal_center.PersonalCenterActivity;
+import com.example.asus_cp.dongmanbuy.adapter.DingDanHaoListAdapter;
 import com.example.asus_cp.dongmanbuy.constant.MyConstant;
-import com.example.asus_cp.dongmanbuy.model.Good;
+import com.example.asus_cp.dongmanbuy.customview.MyListView;
 import com.example.asus_cp.dongmanbuy.util.FormatHelper;
 import com.example.asus_cp.dongmanbuy.util.MyApplication;
 import com.example.asus_cp.dongmanbuy.util.MyLog;
@@ -34,7 +36,6 @@ import com.example.asuscp.dongmanbuy.util.ZhiFuBaoHelper;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -45,12 +46,13 @@ import java.util.Map;
  */
 public class AfterTiJiaoDingDanActivity extends Activity implements View.OnClickListener{
     private TextView priceTextView;
-    private TextView dingDanHaoTextView;
+    private MyListView listView;
     private Button zhiFuBaoZhiFuButton;
-    private TextView seeDingDanTextView;
+    private TextView huiYuanZhongXinTextView;
 
     private String price;//付款金额
-    private String bianHao;//订单编号
+    private List<String> bianHaos;//订单编号
+    private String bianHao;
     private String subject;//订单标题
     private String desc;//订单描述
     private String dingDanId;//订单id
@@ -141,9 +143,9 @@ public class AfterTiJiaoDingDanActivity extends Activity implements View.OnClick
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.after_ti_jiao_order_activity_layout);
         priceTextView= (TextView) findViewById(R.id.text_fu_kuan_jin_e_after_ti_jiao_ding_dan);
-        dingDanHaoTextView= (TextView) findViewById(R.id.text_ding_dan_hao_after_ti_jiao_ding_dan);
+        listView= (MyListView) findViewById(R.id.my_list_ding_dan_hao_list);
         zhiFuBaoZhiFuButton= (Button) findViewById(R.id.btn_zhi_fu_bao_zhi_fu_after_ti_jiao_ding_dan);
-        seeDingDanTextView= (TextView) findViewById(R.id.text_see_ding_dan_after_ti_jiao_ding_dan);
+        huiYuanZhongXinTextView = (TextView) findViewById(R.id.text_see_ding_dan_after_ti_jiao_ding_dan);
 
         zhiFuBaoHelper=new ZhiFuBaoHelper();
         PARTNER=zhiFuBaoHelper.getPid();
@@ -157,8 +159,11 @@ public class AfterTiJiaoDingDanActivity extends Activity implements View.OnClick
         priceTextView.setText(price);
 
         //设置订单编号
-        bianHao=getIntent().getStringExtra(MyConstant.DING_DAN_BIAN_HAO_KEY);
-        dingDanHaoTextView.setText(bianHao);
+        bianHaos= (List<String>) getIntent().getSerializableExtra(MyConstant.DING_DAN_BIAN_HAO_LIST_KEY);
+        bianHao=bianHaos.get(0);
+        DingDanHaoListAdapter adapter=new DingDanHaoListAdapter(this,bianHaos);
+        listView.setAdapter(adapter);
+        //dingDanHaoTextView.setText(bianHao);
 
         subject=getIntent().getStringExtra(MyConstant.DING_DAN_SUBJECT_KEY);
         desc=getIntent().getStringExtra(MyConstant.DING_DAN_DESC_KEY);
@@ -168,7 +173,7 @@ public class AfterTiJiaoDingDanActivity extends Activity implements View.OnClick
 
         //设置点击事件
         zhiFuBaoZhiFuButton.setOnClickListener(this);
-        seeDingDanTextView.setOnClickListener(this);
+        huiYuanZhongXinTextView.setOnClickListener(this);
     }
 
     @Override
@@ -180,12 +185,7 @@ public class AfterTiJiaoDingDanActivity extends Activity implements View.OnClick
                 zhiFuClickChuLi();
                 break;
             case R.id.text_see_ding_dan_after_ti_jiao_ding_dan://点击了查看订单
-                /*Intent seeIntent=new Intent(this,DingDanDetailActivity.class);
-                seeIntent.putExtra(MyConstant.TO_DING_DAN_LIST_KEY,MyConstant.ALL_DING_DAN);
-                startActivity(seeIntent);*/
-                Intent intent=new Intent(AfterTiJiaoDingDanActivity.this,DingDanDetailActivity.class);
-                intent.putExtra(MyConstant.DING_DAN_BIAN_HAO_KEY,bianHao);
-                intent.putExtra(MyConstant.DING_DAN_ID_KEY,dingDanId);
+                Intent intent=new Intent(AfterTiJiaoDingDanActivity.this,PersonalCenterActivity.class);
                 startActivity(intent);
                 break;
         }

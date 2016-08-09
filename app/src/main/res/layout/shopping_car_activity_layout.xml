@@ -7,13 +7,13 @@
     <RelativeLayout
         android:id="@+id/biao_ti"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="40dp"
         android:background="@color/bottom_lable_color"
         android:layout_alignParentTop="true">
         <ImageView
             android:id="@+id/img_shoping_car_activity_dao_hang"
-            android:layout_width="26dp"
-            android:layout_height="26dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
             android:layout_alignParentLeft="true"
             android:layout_margin="10dp"
             android:src="@mipmap/leftdaohang"

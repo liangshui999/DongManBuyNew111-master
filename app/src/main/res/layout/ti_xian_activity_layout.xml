@@ -3,6 +3,30 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <!--头部-->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white_my"
+        android:layout_marginBottom="2dp">
+        <ImageView
+            android:id="@+id/img_dao_hang_ti_xian"
+            android:layout_width="@dimen/dao_hang_img_base_font"
+            android:layout_height="@dimen/dao_hang_img_base_font"
+            android:layout_centerVertical="true"
+            android:src="@mipmap/leftdaohang"
+            android:layout_marginLeft="5dp"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/ti_xian"
+            android:gravity="center"
+            android:layout_centerInParent="true"
+            android:padding="5dp"
+            android:textSize="@dimen/dao_hang_base_font"
+            />
+    </RelativeLayout>
+
     <!--充值金额-->
     <LinearLayout
         android:layout_width="match_parent"

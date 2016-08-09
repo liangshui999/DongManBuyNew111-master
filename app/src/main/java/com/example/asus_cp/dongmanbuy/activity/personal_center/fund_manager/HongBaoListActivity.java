@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -44,6 +45,8 @@ public class HongBaoListActivity extends Activity implements View.OnClickListene
 
     private static final int REQUEST_CODE_ADD_HONG_BAO =1 ;
     private String tag="HongBaoListActivity";
+
+    private ImageView daoHangImageView;
 
     private LinearLayout weiShiYongLinearLayout;//未使用
     private LinearLayout yiShiYongLinearLayout;//已使用
@@ -169,6 +172,8 @@ public class HongBaoListActivity extends Activity implements View.OnClickListene
      * 初始化view
      */
     private void initView() {
+
+        daoHangImageView= (ImageView) findViewById(R.id.img_dao_hang_hong_bao);
         weiShiYongLinearLayout= (LinearLayout) findViewById(R.id.ll_wei_shi_yong);
         yiShiYongLinearLayout= (LinearLayout) findViewById(R.id.ll_yi_shi_yong);
         yiGuoQiLinearLayout= (LinearLayout) findViewById(R.id.ll_yi_guo_qi);
@@ -189,6 +194,7 @@ public class HongBaoListActivity extends Activity implements View.OnClickListene
         weiShiYongShuTextView.setTextColor(getResources().getColor(R.color.bottom_lable_color));
 
         //设置点击事件
+        daoHangImageView.setOnClickListener(this);
         weiShiYongLinearLayout.setOnClickListener(this);
         yiShiYongLinearLayout.setOnClickListener(this);
         yiGuoQiLinearLayout.setOnClickListener(this);
@@ -198,6 +204,9 @@ public class HongBaoListActivity extends Activity implements View.OnClickListene
     @Override
     public void onClick(View v) {
         switch (v.getId()){
+            case R.id.img_dao_hang_hong_bao:
+                finish();
+                break;
             case R.id.ll_wei_shi_yong://点击了未使用
                 reset();
                 weiShiYongTextView.setTextColor(getResources().getColor(R.color.bottom_lable_color));

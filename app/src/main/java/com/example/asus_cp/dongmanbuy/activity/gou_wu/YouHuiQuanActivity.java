@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ListView;
 
 import com.example.asus_cp.dongmanbuy.R;
@@ -22,6 +23,7 @@ import java.util.List;
  * Created by asus-cp on 2016-06-17.
  */
 public class YouHuiQuanActivity extends Activity{
+    private ImageView daoHangImageView;
     private ListView listView;
     private Button confirmButton;
     private List<YouHuiQuanModel> models;
@@ -40,9 +42,16 @@ public class YouHuiQuanActivity extends Activity{
      * 初始化的方法
      */
     private void init() {
+        daoHangImageView= (ImageView) findViewById(R.id.img_dao_hang_you_hui_quan_list);
         listView= (ListView) findViewById(R.id.list_you_hui_quan_list);
         confirmButton= (Button) findViewById(R.id.btn_confirm_you_hui_quan);
 
+        daoHangImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
         confirmButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
