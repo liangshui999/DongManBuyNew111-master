@@ -16,4 +16,7 @@
     <color name="shi_xiao_ping_fen">#FF00FF</color>
     <color name="deep_gray">#9D9D9D</color>
     <color name="man_backgroud">#46A3FF</color>
+    <color name="guide_one">#9bd66c</color>
+    <color name="guide_two">#2c9be2</color>
+    <color name="guide_three">#88cfc1</color>
 </resources>

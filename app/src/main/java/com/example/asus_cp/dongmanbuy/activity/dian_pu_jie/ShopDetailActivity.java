@@ -42,6 +42,7 @@ import com.example.asus_cp.dongmanbuy.util.JsonHelper;
 import com.example.asus_cp.dongmanbuy.util.MyApplication;
 import com.example.asus_cp.dongmanbuy.util.MyLog;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -91,6 +92,7 @@ public class ShopDetailActivity extends Activity implements View.OnClickListener
 
     private String guanZhuUrl="http://www.zmobuy.com/PHP/?url=/store/addcollect";//关注的接口
     private String erWeiMaUrl ="http://api.zmobuy.com/JK/base/model.php";//二维码的接口
+    private String guanZhuListUrl="http://www.zmobuy.com/PHP/?url=/user/storelist";//获取关注列表的数据
 
     private RequestQueue requestQueue;
 
@@ -177,6 +179,9 @@ public class ShopDetailActivity extends Activity implements View.OnClickListener
             gongSiNameTextView.setText(shopModel.getShopName());
             kaiDianTimeTextView.setText(shopModel.getShopStartTime());
             suoZaiAreaTextView.setText(shopModel.getShopAddress());
+
+            //给关注textview设置颜色和值
+            setGuanZhuTextViewFirstValue(guanZhuTextView,shopModel);
 
 
             //给控件设置点击事件
@@ -356,10 +361,16 @@ public class ShopDetailActivity extends Activity implements View.OnClickListener
                                     Toast.makeText(ShopDetailActivity.this,"关注成功",Toast.LENGTH_SHORT).show();
                                     guanZhuTextView.setTextColor(getResources().getColor(R.color.white_my));
                                     guanZhuTextView.setBackgroundResource(R.drawable.guan_zhu_successed_background);
+                                    int guanZhuRenShu=Integer.parseInt(shopModel.getGazeNumber());
+                                    guanZhuRenShuTextView.setText("已经有" + (1 + guanZhuRenShu) + "人关注");
+                                    shopModel.setGazeNumber("" + (1 + guanZhuRenShu));
                                 }else if("已取消关注".equals(erroeDesc)){
                                     Toast.makeText(ShopDetailActivity.this,"取消关注成功",Toast.LENGTH_SHORT).show();
                                     guanZhuTextView.setTextColor(getResources().getColor(R.color.bottom_lable_color));
                                     guanZhuTextView.setBackgroundResource(R.drawable.guan_zhu_background);
+                                    int guanZhuRenShu=Integer.parseInt(shopModel.getGazeNumber());
+                                    guanZhuRenShuTextView.setText("已经有" + (guanZhuRenShu - 1) + "人关注");
+                                    shopModel.setGazeNumber("" + (guanZhuRenShu - 1));
                                 }
                             } catch (JSONException e) {
                                 e.printStackTrace();
@@ -434,4 +445,70 @@ public class ShopDetailActivity extends Activity implements View.OnClickListener
                 break;
         }
     }
+
+
+
+    /**
+     * 给关注textview设置初始颜色和背景
+     * @param guanZhuTextView
+     */
+    private void setGuanZhuTextViewFirstValue(final TextView guanZhuTextView, final ShopModel shopModel) {
+        SharedPreferences sharedPreferences=getSharedPreferences(MyConstant.USER_SHAREPREFRENCE_NAME, Context.MODE_APPEND);
+        final String uid=sharedPreferences.getString(MyConstant.UID_KEY, null);
+        final String sid=sharedPreferences.getString(MyConstant.SID_KEY,null);
+        if(uid!=null && !uid.isEmpty()){
+            StringRequest getGuanZhuListRequest=new StringRequest(Request.Method.POST, guanZhuListUrl,
+                    new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String s) {
+                            MyLog.d(tag, "返回的数据是：" + s);
+                            try {
+                                JSONObject jsonObject=new JSONObject(s);
+                                JSONObject jsonObject1=jsonObject.getJSONObject("data");
+                                JSONArray jsonArray=jsonObject1.getJSONArray("store_list");
+                                if(jsonArray.length()==0){  //关注列表的长度为空，说明没有关注
+                                    guanZhuTextView.setTextColor(getResources().getColor(R.color.bottom_lable_color));
+                                    guanZhuTextView.setBackgroundResource(R.drawable.guan_zhu_background);
+                                }else{
+                                    int count=0;
+                                    for(int i=0;i<jsonArray.length();i++){
+                                        JSONObject ziJsObj=jsonArray.getJSONObject(i);
+                                        String shopId=ziJsObj.getString("shop_id");
+                                        if(shopId.equals(shopModel.getUserId())){   //店铺在店铺列表里面，说明已经关注过了
+                                            guanZhuTextView.setTextColor(getResources().getColor(R.color.white_my));
+                                            guanZhuTextView.setBackgroundResource(R.drawable.guan_zhu_successed_background);
+                                            break;
+                                        }
+                                        count++;
+                                    }
+                                    if(count==jsonArray.length()){  //店铺不在店铺列表里面
+                                        guanZhuTextView.setTextColor(getResources().getColor(R.color.bottom_lable_color));
+                                        guanZhuTextView.setBackgroundResource(R.drawable.guan_zhu_background);
+                                    }
+                                }
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError volleyError) {
+
+                }
+            }){
+                @Override
+                protected Map<String, String> getParams() throws AuthFailureError {
+                    Map<String,String> map=new HashMap<String,String>();
+                    String json="{\"session\":{\"uid\":\""+uid+"\",\"sid\":\""+sid+"\"},\"page\":\""+"1"+"\"}";
+                    map.put("json",json);
+                    return map;
+                }
+            };
+            requestQueue.add(getGuanZhuListRequest);
+        }else { //用户没有登陆
+            guanZhuTextView.setTextColor(getResources().getColor(R.color.bottom_lable_color));
+            guanZhuTextView.setBackgroundResource(R.drawable.guan_zhu_background);
+        }
+    }
+
 }

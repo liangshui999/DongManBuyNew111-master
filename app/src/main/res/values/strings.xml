@@ -320,5 +320,7 @@
     <string name="shen_qing_ji_lu_detail">申请记录明细</string>
     <string name="add_card">添加银行卡</string>
     <string name="hui_yuan_zhong_xin">会员中心</string>
+    <string name="in">立即进入</string>
+    <string name="tiao_guo">跳过</string>
 
 </resources>

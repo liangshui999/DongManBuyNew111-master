@@ -518,7 +518,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             shoppingTransaction.replace(R.id.frame_layout_main, shoppingCarFragment);
             shoppingTransaction.commit();
             resetLabel();
-            shoppingCarImg.setImageResource(R.mipmap.home_selected);
+            shoppingCarImg.setImageResource(R.mipmap.shoppingcar_selected);
             shoppingCarText.setTextColor(getResources().getColor(R.color.bottom_lable_color));
         }else if(MyConstant.SHOPPING_STRRET_FLAG_KEY.equals(labelFlag)){
             FragmentTransaction shopStreetTransaction=fragmentManager.beginTransaction();
@@ -655,7 +655,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             shoppingTransaction.replace(R.id.frame_layout_main, shoppingCarFragment);
             shoppingTransaction.commitAllowingStateLoss();
             resetLabel();
-            shoppingCarImg.setImageResource(R.mipmap.home_selected);
+            shoppingCarImg.setImageResource(R.mipmap.shoppingcar_selected);
             shoppingCarText.setTextColor(getResources().getColor(R.color.bottom_lable_color));
         }
 

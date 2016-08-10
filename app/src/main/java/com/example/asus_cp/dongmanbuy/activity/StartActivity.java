@@ -2,6 +2,7 @@ package com.example.asus_cp.dongmanbuy.activity;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Window;
 import android.view.animation.Animation;
@@ -15,6 +16,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.example.asus_cp.dongmanbuy.R;
+import com.example.asus_cp.dongmanbuy.constant.MyConstant;
 import com.example.asus_cp.dongmanbuy.service.UidService;
 import com.example.asus_cp.dongmanbuy.util.MyApplication;
 import com.example.asus_cp.dongmanbuy.util.MyLog;
@@ -56,8 +58,22 @@ public class StartActivity extends Activity{
 
             @Override
             public void onAnimationEnd(Animation animation) {
-                Intent intent = new Intent(StartActivity.this, MainActivity.class);
-                startActivityForResult(intent, 1);
+                SharedPreferences sharedPreferences=getSharedPreferences(MyConstant.GUIDE_SHAREPRENCE_NAME,MODE_PRIVATE);
+                boolean isFirst=sharedPreferences.getBoolean(MyConstant.IS_FIRST_KEY,true);
+                if(!isFirst){
+                    Intent intent = new Intent(StartActivity.this, MainActivity.class);
+                    startActivity(intent);
+                    finish();
+                }else{
+                    Intent intent = new Intent(StartActivity.this, GuideActivity.class);
+                    startActivity(intent);
+                    SharedPreferences.Editor editor=sharedPreferences.edit();
+                    editor.putBoolean(MyConstant.IS_FIRST_KEY,false);
+                    editor.commit();
+                    finish();
+                }
+
+
             }
 
             @Override
@@ -68,35 +84,14 @@ public class StartActivity extends Activity{
         imageView.startAnimation(animation);
 
         requestQueue= MyApplication.getRequestQueue();
-        StringRequest request=new StringRequest(Request.Method.POST, regionUrl,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String s) {
-                        MyLog.d(tag,"返回的数据是："+s);
-                    }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError volleyError) {
-
-            }
-        }){
-            @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-                Map<String,String> map=new HashMap<String,String>();
-                map.put("service","goods");
-                map.put("goods_id","1233");
-                return map;
-            }
-        };
-        requestQueue.add(request);
-
-        //shouDongPost();//手动post
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         switch (requestCode){
             case 1:
+                finish();
+            case 2:
                 finish();
             break;
         }

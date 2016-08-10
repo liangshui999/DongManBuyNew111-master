@@ -335,6 +335,9 @@
         <!--线路规划的activity-->
         <activity android:name=".activity.map_activity_my.SearchWayActivity"/>
 
+        <!--引导页的activity-->
+        <activity android:name=".activity.GuideActivity"/>
+
 
 
         <!--搜索的activity,因为必须按照ui做，此类作废-->

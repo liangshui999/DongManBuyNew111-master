@@ -1,5 +1,6 @@
 package com.example.asus_cp.dongmanbuy.fragment;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -1255,20 +1256,28 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         switch (requestCode){
             case REQUEST_CODE_LOGIN_WALLET://从登陆界面返回的数据,我的钱包跳过去的
-                String uid=sharedPreferences.getString(MyConstant.UID_KEY,null);
-                String sid=sharedPreferences.getString(MyConstant.SID_KEY,null);
-                getDataFromIntenetAndSetView(uid,sid);
+                if(resultCode== Activity.RESULT_OK){
+                    String uid=sharedPreferences.getString(MyConstant.UID_KEY,null);
+                    String sid=sharedPreferences.getString(MyConstant.SID_KEY,null);
+                    getDataFromIntenetAndSetView(uid,sid);
+                }
                 break;
             case REQUEST_CODE_LOGIN_ORDER://从订单跳过去的
-                toDingDanListAcitivy(MyConstant.ALL_DING_DAN);
+                if(resultCode== Activity.RESULT_OK){
+                    toDingDanListAcitivy(MyConstant.ALL_DING_DAN);
+                }
                 break;
             case REQUEST_CODE_LOGIN_SHIP_ADDRESS://从收获地址跳过去的
-                Intent toShipAddressIntent=new Intent(context, EditShipAddressActivity.class);
-                startActivity(toShipAddressIntent);
+                if(resultCode== Activity.RESULT_OK){
+                    Intent toShipAddressIntent=new Intent(context, EditShipAddressActivity.class);
+                    startActivity(toShipAddressIntent);
+                }
                 break;
             case REQUEST_CODE_LOGIN_LIU_LAN_JI_LU://从浏览记录跳过去的
-                liuLanJiLuClickChuLi();
-                MyLog.d(tag,"浏览记录回来了吗");
+                if(resultCode== Activity.RESULT_OK){
+                    liuLanJiLuClickChuLi();
+                    MyLog.d(tag,"浏览记录回来了吗");
+                }
                 break;
         }
     }

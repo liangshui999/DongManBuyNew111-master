@@ -213,15 +213,16 @@ public class FormatHelper {
     public static String getStrFromHtmlBiaoQian(String s){
         String result=null;
         MyLog.d(tag,s);
-        String regex=">.*?<";
+        String regex="[\\u4e00-\\u9fa5]+";//匹配中文的正则表达式
         Pattern pattern=Pattern.compile(regex);
         Matcher matcher=pattern.matcher(s);
         //MyLog.d(tag,matcher.find()+"....."+matcher.group());
         if(matcher.find()){
-            String temp=matcher.group();
-            result=temp.substring(1,temp.length()-1);
-            MyLog.d(tag,"result="+result);
+            result=matcher.group();
+            /*result=temp.substring(1,temp.length()-1);
+            MyLog.d(tag,"result="+result);*/
         }
+        MyLog.d(tag,"result="+result);
         return result;
     }
 }

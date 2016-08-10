@@ -114,6 +114,8 @@ public class ShoppingCarFragment extends Fragment implements View.OnClickListene
 
     private ProgressDialog progressDialog;
 
+    private String kuCun;
+
     //和购物车有内容和无内容相关的控件
     private LinearLayout hasContentLinearLayout;
     private LinearLayout hasNoContentLinearLayout;
@@ -946,7 +948,7 @@ public class ShoppingCarFragment extends Fragment implements View.OnClickListene
                 //private int kuCun=Integer.parseInt(good.getGoodsNumber());;
                 @Override
                 public void onClick(View v) {
-                    prodcutCount[0]++;
+                   // prodcutCount[0]++;
                     /*if(prodcutCount[0] <= kuCun){
                         Toast.makeText(context,"库存数量:"+kuCun,Toast.LENGTH_SHORT).show();
                         finalViewHolderIn.productCountTextView.setText(prodcutCount[0] +"");
@@ -957,7 +959,89 @@ public class ShoppingCarFragment extends Fragment implements View.OnClickListene
                     }*/
 //                    itemProductCountsIn.set(position,prodcutCount[0]);
 //                    getCheckStateAndSetSumPriceAndJieSuanShuMu();
-                    updateShoppingCar(good,prodcutCount[0]+"",finalViewHolderIn.productCountTextView,position);
+                    //updateShoppingCar(good, prodcutCount[0] + "", finalViewHolderIn.productCountTextView, position);
+                    //finalViewHolderIn.productCountTextView.setText(prodcutCount[0] + "");
+                    //获取购物车的商品数量
+                    StringRequest getProductListRequest=new StringRequest(Request.Method.POST, shoppingCarListUrl,
+                            new Response.Listener<String>() {
+                                @Override
+                                public void onResponse(String s) {
+                                    MyLog.d(tag,"购物车列表的数据:"+s);
+                                    String recId=null;
+                                    try {
+                                        JSONObject jsonObject=new JSONObject(s);
+                                        JSONObject jsonObject1=jsonObject.getJSONObject("data");
+                                        JSONArray jsonArray=jsonObject1.getJSONArray("goods_list");
+                                        for(int i=0;i<jsonArray.length();i++){
+                                            JSONObject ziJsObj=jsonArray.getJSONObject(i);
+                                            String goodId=ziJsObj.getString("goods_id");
+                                            if(good.getGoodId().equals(goodId)){
+                                                recId=ziJsObj.getString("rec_id");
+                                                break;
+                                            }
+                                        }
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
+                                    //更改商品数量
+                                    final String finalRecId = recId;
+                                    StringRequest upDateShoppingCarCountRequest=new StringRequest(Request.Method.POST, updateShoppingCarUrl,
+                                            new Response.Listener<String>() {
+                                                @Override
+                                                public void onResponse(String s) {
+                                                    MyLog.d(tag,"更改商品数量返回的数据："+s);
+                                                    try {
+                                                        JSONObject jsonObject=new JSONObject(s);
+                                                        JSONObject jsonObject1=jsonObject.getJSONObject("status");
+                                                        String succed=jsonObject1.getString("succeed");
+                                                        if("1".equals(succed)){ //说明添加成功了
+                                                            itemProductCountsIn.set(position,Integer.parseInt(prodcutCount[0] + ""));
+                                                            getCheckStateAndSetSumPriceAndJieSuanShuMu();
+                                                            finalViewHolderIn.productCountTextView.setText(prodcutCount[0] + "");
+                                                            //prodcutCount[0]++;
+                                                        }else if("0".equals(succed)){
+                                                            String error=JsonHelper.decodeUnicode(jsonObject1.getString("error_desc"));
+                                                            Toast.makeText(context,error,Toast.LENGTH_SHORT).show();
+//                                                        itemProductCountsIn.set(position, Integer.parseInt(shoppingCarCount) - 1);
+//                                                        getCheckStateAndSetSumPriceAndJieSuanShuMu();
+//                                                        textView.setText((Integer.parseInt(shoppingCarCount) - 1)+"");
+                                                        }
+
+                                                    } catch (JSONException e) {
+                                                        e.printStackTrace();
+                                                    }
+                                                }
+                                            }, new Response.ErrorListener() {
+                                        @Override
+                                        public void onErrorResponse(VolleyError volleyError) {
+
+                                        }
+                                    }){
+                                        @Override
+                                        protected Map<String, String> getParams() throws AuthFailureError {
+                                            Map<String,String> map=new HashMap<String,String>();
+                                            String json="{\"session\":{\"uid\":\""+uid+"\",\"sid\":\""+sid+"\"},\"rec_id\":\""+ finalRecId +"\",\"new_number\":\""+(++prodcutCount[0]) + ""+"\"}";
+                                            map.put("json",json);
+                                            return map;
+                                        }
+                                    };
+                                    requestQueue.add(upDateShoppingCarCountRequest);
+                                }
+                            }, new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError volleyError) {
+
+                        }
+                    }){
+                        @Override
+                        protected Map<String, String> getParams() throws AuthFailureError {
+                            Map<String,String> map=new HashMap<String,String>();
+                            String json="{\"session\":{\"uid\":\""+uid+"\",\"sid\":\""+sid+"\"}}";
+                            map.put("json",json);
+                            return map;
+                        }
+                    };
+                    requestQueue.add(getProductListRequest);
                 }
             });
 
@@ -976,8 +1060,8 @@ public class ShoppingCarFragment extends Fragment implements View.OnClickListene
                             finalViewHolderIn.productCountTextView.setText("1");
                             prodcutCount[0]=1;
                         }
-                        itemProductCountsIn.set(position, prodcutCount[0]);
-                        getCheckStateAndSetSumPriceAndJieSuanShuMu();
+//                        itemProductCountsIn.set(position, prodcutCount[0]);
+//                        getCheckStateAndSetSumPriceAndJieSuanShuMu();
                         updateShoppingCar(good, prodcutCount[0] + "",finalViewHolderIn.productCountTextView,position);
                     }
                 });
@@ -1169,22 +1253,32 @@ public class ShoppingCarFragment extends Fragment implements View.OnClickListene
                 MyLog.d(tag,"count="+count);
 
                 //设置每一个店铺的checkbox
-                if(count== checksIn.size()){
-                    //ziYingCheckBox.setChecked(true);
-                    //quanXuanCheckBox.setChecked(true);
-                    checkBoxOut.setChecked(true);
-                }else {
-                    //ziYingCheckBox.setChecked(false);
-                    //quanXuanCheckBox.setChecked(false);
+                if(checksIn.size()>0){
+                    if(count== checksIn.size()){
+                        //ziYingCheckBox.setChecked(true);
+                        //quanXuanCheckBox.setChecked(true);
+                        checkBoxOut.setChecked(true);
+                    }else {
+                        //ziYingCheckBox.setChecked(false);
+                        //quanXuanCheckBox.setChecked(false);
+                        checkBoxOut.setChecked(false);
+                    }
+                }else{
                     checkBoxOut.setChecked(false);
                 }
 
+
                 //设置最外面的全选checkbox
-                if(allItemCount==checkedItemCount){
-                    quanXuanCheckBox.setChecked(true);
+                if (allItemCount>0){
+                    if(allItemCount==checkedItemCount){
+                        quanXuanCheckBox.setChecked(true);
+                    }else{
+                        quanXuanCheckBox.setChecked(false);
+                    }
                 }else{
                     quanXuanCheckBox.setChecked(false);
                 }
+
             }
 
 
