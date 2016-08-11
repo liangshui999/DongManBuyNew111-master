@@ -782,4 +782,16 @@ public class GoodSearchResultActivity extends Activity implements View.OnClickLi
         setResult(RESULT_OK,intent);
         finish();
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);//这个不要乱删除
+        /*switch (requestCode){
+            case ShopProductSmallListAdapter.REQUEST_CODE_GOOD_SEARCH_SMALL_LIST_KEY:
+                if(resultCode==RESULT_OK){
+
+                }
+                break;
+        }*/
+    }
 }

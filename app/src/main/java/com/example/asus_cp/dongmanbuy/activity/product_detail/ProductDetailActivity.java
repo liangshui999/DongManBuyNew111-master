@@ -831,7 +831,6 @@ public class ProductDetailActivity extends Activity implements View.OnClickListe
             toLoginIntent.putExtra(MyConstant.START_LOGIN_ACTIVITY_FLAG_KEY,"productDetail");
             startActivityForResult(toLoginIntent, REQUEST_CODE_SHOPPING_CAR_LOGIN);
         }
-
     }
 
     /**

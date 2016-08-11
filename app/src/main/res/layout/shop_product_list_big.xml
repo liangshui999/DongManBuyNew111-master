@@ -5,7 +5,8 @@
     android:layout_marginTop="5dp"
     android:layout_marginBottom="5dp"
     android:paddingTop="5dp"
-    android:paddingBottom="5dp">
+    android:paddingBottom="5dp"
+    android:background="@color/white_my">
 
     <ImageView
         android:id="@+id/img_shop_product_pic_big_list"
@@ -31,6 +32,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="left"
             android:textSize="18sp"
+            android:layout_centerVertical="true"
             android:textColor="@color/bottom_lable_color"
             android:layout_marginLeft="10dp"
             android:text="24.00"/>
@@ -48,8 +50,8 @@
 
         <ImageView
             android:id="@+id/img_shopping_car_big_list"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
             android:background="@mipmap/shoppingcar_hong"
             android:layout_alignParentRight="true"
             android:layout_marginRight="10dp"/>

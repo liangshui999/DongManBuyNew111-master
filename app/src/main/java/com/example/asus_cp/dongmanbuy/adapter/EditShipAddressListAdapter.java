@@ -78,7 +78,11 @@ public class EditShipAddressListAdapter extends BaseAdapter{
     private void initChecks() {
         checks=new ArrayList<Boolean>();
         for(int i=0;i<userModels.size();i++){
-            checks.add(false);
+            if("1".equals(userModels.get(i).getDefaultAddress())){
+                checks.add(true);
+            }else{
+                checks.add(false);
+            }
         }
     }
 

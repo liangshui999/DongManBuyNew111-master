@@ -30,4 +30,5 @@
     <dimen name="search_way_base_font">16sp</dimen>
     <dimen name="dao_hang_base_font">16sp</dimen>
     <dimen name="dao_hang_img_base_font">30dp</dimen>
+    <dimen name="check_box_size">26dp</dimen>
 </resources>

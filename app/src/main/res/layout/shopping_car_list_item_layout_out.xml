@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="fill_parent">
+    android:layout_height="wrap_content">
 
 
     <!--自营店和领券-->
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="40dp"
+        android:layout_height="50dp"
         android:paddingTop="10dp"
         android:paddingBottom="10dp"
-        android:paddingLeft="5dp">
+        android:paddingLeft="10dp">
         <CheckBox
             android:id="@+id/check_box_head"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
+            android:layout_width="@dimen/check_box_size"
+            android:layout_height="@dimen/check_box_size"
             android:checked="false"
             android:button="@null"
             android:background="@drawable/mycheckbox"
@@ -24,6 +24,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toRightOf="@id/check_box_head"
+            android:layout_centerVertical="true"
             android:text="@string/zi_ying_dian"
             android:layout_marginLeft="10dp"/>
         <!--<TextView
@@ -40,7 +41,7 @@
     <ListView
         android:id="@+id/list_shopping_car_item_out"
         android:layout_width="match_parent"
-        android:layout_height="420dp">
+        android:layout_height="400dp">
 
     </ListView>
 

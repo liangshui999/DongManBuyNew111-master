@@ -84,6 +84,7 @@ public class ShoppingCarFragment extends Fragment implements View.OnClickListene
     private int ziYingCount;//自营店的选中状态
     private int quanXuanCount;
 
+    private String addToShoppingCarUrl="http://www.zmobuy.com/PHP/index.php?url=/cart/create";//加入购物车
     private String updateShoppingCarUrl="http://www.zmobuy.com/PHP/index.php?url=/cart/update";//更改购物车的商品数量
     private String shoppingCarListUrl="http://www.zmobuy.com/PHP/index.php?url=/cart/list";//购物车列表
     private String deleteShoppingCarUrl="http://www.zmobuy.com/PHP/index.php?url=/cart/delete";//删除购物车
@@ -280,7 +281,7 @@ public class ShoppingCarFragment extends Fragment implements View.OnClickListene
                             for(int i=0;i<shopModels.size();i++){
                                 ShopModel shopModel=shopModels.get(i);
                                 List<Good> goods=shopModel.getGoods();
-                                len=len+goods.size()*150*densty/160+40*densty/160;//主要是店铺名称所在的布局要占40，所以给他设置成40
+                                len=len+goods.size()*150*densty/160+50*densty/160;//主要是店铺名称所在的布局要占40，所以给他设置成40
                             }
                             MyLog.d(tag,"计算出的外部listview的高度是"+len);
                             //动态设置外部listview的高度
@@ -891,6 +892,7 @@ public class ShoppingCarFragment extends Fragment implements View.OnClickListene
                 if(v==null){
                     v=inflater.inflate(R.layout.shopping_car_list_item_layout_in,null);
                     viewHolderIn =new ViewHolderIn();
+                    viewHolderIn.checkLinearLayout= (LinearLayout) v.findViewById(R.id.ll_check_box_shopping_car_list_item);
                     viewHolderIn.checkBox= (CheckBox) v.findViewById(R.id.check_box_shopping_car_list_item);
                     viewHolderIn.picImageView= (ImageView) v.findViewById(R.id.img_pic_shopping_car_list);
                     viewHolderIn.nameTextView= (TextView) v.findViewById(R.id.text_product_name_shopping_car_list);
@@ -929,13 +931,13 @@ public class ShoppingCarFragment extends Fragment implements View.OnClickListene
                    // private int count;//点击选择框的次数,不是同一个checkbox时，count的计数是不一样的
                     @Override
                     public void onClick(View v) {
-                        //MyLog.d(tag,"checkbox的点击事件执行了吗?");
+                        MyLog.d(tag,"checkbox的点击事件执行了吗?");
                         if (!checksIn.get(position)) {  //非选中状态，就让他选中
                             checksIn.set(position, true);
                         } else {
                             checksIn.set(position, false);
                         }
-                        getCheckStateAndSetSumPriceAndJieSuanShuMu();
+                        getCheckStateAndSetSumPriceAndJieSuanShuMu();//刷新数据
                         //MyLog.d(tag,"checkbox中的count"+count);
                     }
                 });
@@ -948,35 +950,23 @@ public class ShoppingCarFragment extends Fragment implements View.OnClickListene
                 //private int kuCun=Integer.parseInt(good.getGoodsNumber());;
                 @Override
                 public void onClick(View v) {
-                   // prodcutCount[0]++;
-                    /*if(prodcutCount[0] <= kuCun){
-                        Toast.makeText(context,"库存数量:"+kuCun,Toast.LENGTH_SHORT).show();
-                        finalViewHolderIn.productCountTextView.setText(prodcutCount[0] +"");
-                    }else{
-                        Toast.makeText(context,"超过了库存数量",Toast.LENGTH_SHORT).show();
-                        prodcutCount[0]=kuCun;
-                        finalViewHolderIn.productCountTextView.setText(kuCun + "");
-                    }*/
-//                    itemProductCountsIn.set(position,prodcutCount[0]);
-//                    getCheckStateAndSetSumPriceAndJieSuanShuMu();
-                    //updateShoppingCar(good, prodcutCount[0] + "", finalViewHolderIn.productCountTextView, position);
-                    //finalViewHolderIn.productCountTextView.setText(prodcutCount[0] + "");
+
                     //获取购物车的商品数量
-                    StringRequest getProductListRequest=new StringRequest(Request.Method.POST, shoppingCarListUrl,
+                    StringRequest getProductListRequest = new StringRequest(Request.Method.POST, shoppingCarListUrl,
                             new Response.Listener<String>() {
                                 @Override
                                 public void onResponse(String s) {
-                                    MyLog.d(tag,"购物车列表的数据:"+s);
-                                    String recId=null;
+                                    MyLog.d(tag, "购物车列表的数据:" + s);
+                                    String recId = null;
                                     try {
-                                        JSONObject jsonObject=new JSONObject(s);
-                                        JSONObject jsonObject1=jsonObject.getJSONObject("data");
-                                        JSONArray jsonArray=jsonObject1.getJSONArray("goods_list");
-                                        for(int i=0;i<jsonArray.length();i++){
-                                            JSONObject ziJsObj=jsonArray.getJSONObject(i);
-                                            String goodId=ziJsObj.getString("goods_id");
-                                            if(good.getGoodId().equals(goodId)){
-                                                recId=ziJsObj.getString("rec_id");
+                                        JSONObject jsonObject = new JSONObject(s);
+                                        JSONObject jsonObject1 = jsonObject.getJSONObject("data");
+                                        JSONArray jsonArray = jsonObject1.getJSONArray("goods_list");
+                                        for (int i = 0; i < jsonArray.length(); i++) {
+                                            JSONObject ziJsObj = jsonArray.getJSONObject(i);
+                                            String goodId = ziJsObj.getString("goods_id");
+                                            if (good.getGoodId().equals(goodId)) {
+                                                recId = ziJsObj.getString("rec_id");
                                                 break;
                                             }
                                         }
@@ -985,23 +975,23 @@ public class ShoppingCarFragment extends Fragment implements View.OnClickListene
                                     }
                                     //更改商品数量
                                     final String finalRecId = recId;
-                                    StringRequest upDateShoppingCarCountRequest=new StringRequest(Request.Method.POST, updateShoppingCarUrl,
+                                    StringRequest upDateShoppingCarCountRequest = new StringRequest(Request.Method.POST, updateShoppingCarUrl,
                                             new Response.Listener<String>() {
                                                 @Override
                                                 public void onResponse(String s) {
-                                                    MyLog.d(tag,"更改商品数量返回的数据："+s);
+                                                    MyLog.d(tag, "更改商品数量返回的数据：" + s);
                                                     try {
-                                                        JSONObject jsonObject=new JSONObject(s);
-                                                        JSONObject jsonObject1=jsonObject.getJSONObject("status");
-                                                        String succed=jsonObject1.getString("succeed");
-                                                        if("1".equals(succed)){ //说明添加成功了
-                                                            itemProductCountsIn.set(position,Integer.parseInt(prodcutCount[0] + ""));
+                                                        JSONObject jsonObject = new JSONObject(s);
+                                                        JSONObject jsonObject1 = jsonObject.getJSONObject("status");
+                                                        String succed = jsonObject1.getString("succeed");
+                                                        if ("1".equals(succed)) { //说明添加成功了
+                                                            itemProductCountsIn.set(position, Integer.parseInt(prodcutCount[0] + ""));
                                                             getCheckStateAndSetSumPriceAndJieSuanShuMu();
                                                             finalViewHolderIn.productCountTextView.setText(prodcutCount[0] + "");
                                                             //prodcutCount[0]++;
-                                                        }else if("0".equals(succed)){
-                                                            String error=JsonHelper.decodeUnicode(jsonObject1.getString("error_desc"));
-                                                            Toast.makeText(context,error,Toast.LENGTH_SHORT).show();
+                                                        } else if ("0".equals(succed)) {
+                                                            String error = JsonHelper.decodeUnicode(jsonObject1.getString("error_desc"));
+                                                            Toast.makeText(context, error, Toast.LENGTH_SHORT).show();
 //                                                        itemProductCountsIn.set(position, Integer.parseInt(shoppingCarCount) - 1);
 //                                                        getCheckStateAndSetSumPriceAndJieSuanShuMu();
 //                                                        textView.setText((Integer.parseInt(shoppingCarCount) - 1)+"");
@@ -1016,12 +1006,12 @@ public class ShoppingCarFragment extends Fragment implements View.OnClickListene
                                         public void onErrorResponse(VolleyError volleyError) {
 
                                         }
-                                    }){
+                                    }) {
                                         @Override
                                         protected Map<String, String> getParams() throws AuthFailureError {
-                                            Map<String,String> map=new HashMap<String,String>();
-                                            String json="{\"session\":{\"uid\":\""+uid+"\",\"sid\":\""+sid+"\"},\"rec_id\":\""+ finalRecId +"\",\"new_number\":\""+(++prodcutCount[0]) + ""+"\"}";
-                                            map.put("json",json);
+                                            Map<String, String> map = new HashMap<String, String>();
+                                            String json = "{\"session\":{\"uid\":\"" + uid + "\",\"sid\":\"" + sid + "\"},\"rec_id\":\"" + finalRecId + "\",\"new_number\":\"" + (++prodcutCount[0]) + "" + "\"}";
+                                            map.put("json", json);
                                             return map;
                                         }
                                     };
@@ -1032,12 +1022,12 @@ public class ShoppingCarFragment extends Fragment implements View.OnClickListene
                         public void onErrorResponse(VolleyError volleyError) {
 
                         }
-                    }){
+                    }) {
                         @Override
                         protected Map<String, String> getParams() throws AuthFailureError {
-                            Map<String,String> map=new HashMap<String,String>();
-                            String json="{\"session\":{\"uid\":\""+uid+"\",\"sid\":\""+sid+"\"}}";
-                            map.put("json",json);
+                            Map<String, String> map = new HashMap<String, String>();
+                            String json = "{\"session\":{\"uid\":\"" + uid + "\",\"sid\":\"" + sid + "\"}}";
+                            map.put("json", json);
                             return map;
                         }
                     };
@@ -1052,17 +1042,17 @@ public class ShoppingCarFragment extends Fragment implements View.OnClickListene
                     @Override
                     public void onClick(View v) {
                         prodcutCount[0]--;
-                        if(prodcutCount[0]>= 1){
+                        if (prodcutCount[0] >= 1) {
                             //Toast.makeText(context,"商品数量:"+prodcutCount[0],Toast.LENGTH_SHORT).show();
-                            finalViewHolderIn.productCountTextView.setText(prodcutCount[0]+"");
-                        }else{
-                            Toast.makeText(context,"不能比1小",Toast.LENGTH_SHORT).show();
+                            finalViewHolderIn.productCountTextView.setText(prodcutCount[0] + "");
+                        } else {
+                            Toast.makeText(context, "不能比1小", Toast.LENGTH_SHORT).show();
                             finalViewHolderIn.productCountTextView.setText("1");
-                            prodcutCount[0]=1;
+                            prodcutCount[0] = 1;
                         }
 //                        itemProductCountsIn.set(position, prodcutCount[0]);
 //                        getCheckStateAndSetSumPriceAndJieSuanShuMu();
-                        updateShoppingCar(good, prodcutCount[0] + "",finalViewHolderIn.productCountTextView,position);
+                        updateShoppingCar(good, prodcutCount[0] + "", finalViewHolderIn.productCountTextView, position);
                     }
                 });
 
@@ -1124,6 +1114,38 @@ public class ShoppingCarFragment extends Fragment implements View.OnClickListene
                 });
 
                 return v;
+            }
+
+
+            /**
+             * 联网加入购物车，加入购物车用，不是给立即购买用的
+             * @param uid
+             * @param sid
+             */
+            private void addToShoppingCarToIntenetAddToShoppingCar(final String uid, final String sid, final Good good) {
+                StringRequest addToShoppingCarRequest=new StringRequest(Request.Method.POST
+                        , addToShoppingCarUrl, new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String s) {
+                        //{"data":[],"status":{"succeed":1}}
+                        MyLog.d(tag, "加入购物车返回的数据:" + s);
+
+                    }
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError volleyError) {
+                        MyLog.d(tag,volleyError.toString());
+                    }
+                }){
+                    @Override
+                    protected Map<String, String> getParams() throws AuthFailureError {
+                        Map<String,String> map=new HashMap<String,String>();
+                        String json="{\"session\":{\"uid\":\""+uid+"\",\"sid\":\""+sid+"\"},\"goods_id\":\""+good.getGoodId()+"\",\"number\":\""+ 1 +"\",\"spec\":\"\"}";
+                        map.put("json",json);
+                        return map;
+                    }
+                };
+                requestQueue.add(addToShoppingCarRequest);
             }
 
 
@@ -1334,6 +1356,7 @@ public class ShoppingCarFragment extends Fragment implements View.OnClickListene
             }
 
             class ViewHolderIn {
+                LinearLayout checkLinearLayout;
                 CheckBox checkBox;
                 ImageView picImageView;
                 TextView nameTextView;

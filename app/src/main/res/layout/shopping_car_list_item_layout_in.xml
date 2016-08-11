@@ -12,16 +12,20 @@
 
         <!--checkbox所在的布局-->
         <LinearLayout
+            android:id="@+id/ll_check_box_shopping_car_list_item"
             android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content">
+            android:layout_weight="1.5"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            >
             <CheckBox
                 android:id="@+id/check_box_shopping_car_list_item"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
+                android:layout_width="@dimen/check_box_size"
+                android:layout_height="@dimen/check_box_size"
                 android:button="@null"
                 android:background="@drawable/mycheckbox"
-                android:layout_margin="5dp"/>
+
+                android:layout_gravity="center_horizontal"/>
         </LinearLayout>
 
         <!--衣服图片所在的布局-->

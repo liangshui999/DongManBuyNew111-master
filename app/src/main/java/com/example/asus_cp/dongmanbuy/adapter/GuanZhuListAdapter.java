@@ -170,11 +170,7 @@ public class GuanZhuListAdapter extends BaseAdapter {
                                         JSONObject jsonObject = new JSONObject(s);
                                         JSONObject jsonObject1 = jsonObject.getJSONObject("data");
                                         String erroeDesc = JsonHelper.decodeUnicode(jsonObject1.getString("error_desc"));
-                                        if ("已关注".equals(erroeDesc)) {
-                                            Toast.makeText(context, "关注成功", Toast.LENGTH_SHORT).show();
-                                            finalViewHolder.quXiaoGuanZhuTextView.setTextColor(context.getResources().getColor(R.color.white_my));
-                                            finalViewHolder.quXiaoGuanZhuTextView.setBackgroundResource(R.color.bottom_lable_color);
-                                        } else if ("已取消关注".equals(erroeDesc)) {
+                                        if ("已取消关注".equals(erroeDesc)) {
                                             Toast.makeText(context, "取消关注成功", Toast.LENGTH_SHORT).show();
                                             shopModels.remove(position);
                                             notifyDataSetChanged();

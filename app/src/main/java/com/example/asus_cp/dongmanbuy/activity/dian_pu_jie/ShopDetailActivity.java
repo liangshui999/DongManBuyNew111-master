@@ -29,6 +29,16 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.StringRequest;
+import com.baidu.mapapi.map.Marker;
+import com.baidu.mapapi.map.MarkerOptions;
+import com.baidu.mapapi.map.OverlayOptions;
+import com.baidu.mapapi.map.TextOptions;
+import com.baidu.mapapi.model.LatLng;
+import com.baidu.mapapi.search.geocode.GeoCodeOption;
+import com.baidu.mapapi.search.geocode.GeoCodeResult;
+import com.baidu.mapapi.search.geocode.GeoCoder;
+import com.baidu.mapapi.search.geocode.OnGetGeoCoderResultListener;
+import com.baidu.mapapi.search.geocode.ReverseGeoCodeResult;
 import com.example.asus_cp.dongmanbuy.R;
 import com.example.asus_cp.dongmanbuy.activity.login.LoginActivity;
 import com.example.asus_cp.dongmanbuy.activity.map_activity_my.ShopStreerMapActivity;
@@ -46,6 +56,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
+import java.net.URISyntaxException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -243,11 +255,85 @@ public class ShopDetailActivity extends Activity implements View.OnClickListener
                 startActivity(callIntent);
                 break;
             case R.id.re_layout_suo_zai_di_qu_map://点击了所在地区
-                Intent mapIntent=new Intent(this, ShopStreerMapActivity.class);
+                /*Intent mapIntent=new Intent(this, ShopStreerMapActivity.class);
                 mapIntent.putExtra(MyConstant.SHOP_MODEL_KEY,shopModel);
-                startActivity(mapIntent);
+                startActivity(mapIntent);*/
+
+                //移动APP调起Android百度地图方式举例
+                //百度地图地理编码，根据具体地址获取经纬度（百度坐标）
+                GeoCoder geoCoder = GeoCoder.newInstance();
+                geoCoder.setOnGetGeoCodeResultListener(new OnGetGeoCoderResultListener() {
+                    @Override
+                    public void onGetGeoCodeResult(GeoCodeResult geoCodeResult) {   //地理编码返回的结果
+                        MyLog.d(tag, "地理编码的结果是：" + geoCodeResult.getLocation().toString());
+
+                        String weiDu=geoCodeResult.getLocation().latitude+"";
+                        String jingDu=geoCodeResult.getLocation().longitude+"";
+
+                        if(isInstallByread("com.baidu.BaiduMap")){
+                            startBaiDuDiTu(weiDu,jingDu);
+                        }else if(isInstallByread("com.autonavi.minimap")){
+                            startGaoDeDiTu(weiDu,jingDu);
+                        }else{
+                            Toast.makeText(ShopDetailActivity.this,"您的手机上没有安装地图应用,请先下载一个地图应用",Toast.LENGTH_SHORT).show();
+                        }
+
+                    }
+
+                    @Override
+                    public void onGetReverseGeoCodeResult(ReverseGeoCodeResult reverseGeoCodeResult) {
+
+                    }
+                });
+
+                GeoCodeOption geoCodeOption=new GeoCodeOption();
+                geoCodeOption.city("武汉市");
+                geoCodeOption.address(shopModel.getShopAddress());
+                geoCoder.geocode(geoCodeOption);
                 break;
         }
+    }
+
+
+    /**
+     * 开启百度地图
+     * @param weiDu
+     * @param jingDu
+     */
+    private void startBaiDuDiTu(String weiDu, String jingDu) {
+        Intent intent = null;
+        try {
+            intent = Intent.getIntent("intent://map/marker?location="+weiDu+","+jingDu+"&title="+shopModel.getShopName()+"&content="+shopModel.getShopAddress()+"&src=thirdapp.marker.yourCompanyName.yourAppName#Intent;scheme=bdapp;package=com.baidu.BaiduMap;end");
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        }
+        startActivity(intent); //启动调用
+    }
+
+
+
+    /**
+     * 开启高德地图
+     * @param weiDu
+     * @param jingDu
+     */
+    private void startGaoDeDiTu(String weiDu, String jingDu) {
+        Intent intent = new Intent("android.intent.action.VIEW",
+                android.net.Uri.parse("androidamap://viewMap?sourceApplication=zmobuy&poiname="+shopModel.getShopName()+"&lat="+weiDu+"&lon="+jingDu+"&dev=0"));
+        intent.setPackage("com.autonavi.minimap");
+        startActivity(intent);
+        startActivity(intent); //启动调用
+    }
+
+
+
+
+
+    /**
+     * 检测手机中是否安装了其他安装包
+     */
+    private boolean isInstallByread(String packageName) {
+        return new File("/data/data/" + packageName).exists();
     }
 
 

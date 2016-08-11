@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/white_my">
 
     <!--...................商品图像，名称，价格，库存...................-->
     <LinearLayout
@@ -85,6 +86,7 @@
                   android:layout_height="wrap_content"
                   android:text="24.00"
                   android:textSize="18sp"
+                  android:layout_centerVertical="true"
                   android:textColor="@color/bottom_lable_color"/>
               <TextView
                   android:id="@+id/text_market_price_small_list"
@@ -99,8 +101,8 @@
 
               <ImageView
                   android:id="@+id/img_shopping_car_small_list"
-                  android:layout_width="20dp"
-                  android:layout_height="20dp"
+                  android:layout_width="30dp"
+                  android:layout_height="30dp"
                   android:background="@mipmap/shoppingcar_hong"
                   android:layout_alignParentRight="true"
                   android:layout_marginRight="10dp"/>
