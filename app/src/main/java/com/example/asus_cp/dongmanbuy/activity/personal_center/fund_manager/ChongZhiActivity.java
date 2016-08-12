@@ -39,8 +39,6 @@ import com.example.asus_cp.dongmanbuy.util.MyApplication;
 import com.example.asus_cp.dongmanbuy.util.MyLog;
 import com.example.asus_cp.dongmanbuy.util.zhi_fu_bao_util.PayResult;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Map;
 

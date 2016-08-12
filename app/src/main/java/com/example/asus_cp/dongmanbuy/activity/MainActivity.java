@@ -31,7 +31,6 @@ import com.android.volley.toolbox.StringRequest;
 import com.example.asus_cp.dongmanbuy.R;
 import com.example.asus_cp.dongmanbuy.activity.dian_pu_jie.ShopHomeActivity;
 import com.example.asus_cp.dongmanbuy.activity.gou_wu.DingDanListActivity;
-import com.example.asus_cp.dongmanbuy.activity.gou_wu.ShoppingCarActivity;
 import com.example.asus_cp.dongmanbuy.activity.login.LoginActivity;
 import com.example.asus_cp.dongmanbuy.activity.personal_center.GuanZhuListActivity;
 import com.example.asus_cp.dongmanbuy.activity.personal_center.PersonalCenterActivity;
@@ -41,11 +40,8 @@ import com.example.asus_cp.dongmanbuy.activity.personal_center.data_set.DataSetA
 import com.example.asus_cp.dongmanbuy.activity.personal_center.data_set.EditShipAddressActivity;
 import com.example.asus_cp.dongmanbuy.activity.personal_center.fund_manager.FundManagerActivity;
 import com.example.asus_cp.dongmanbuy.activity.product_detail.ProductDetailActivity;
-import com.example.asus_cp.dongmanbuy.activity.sao_maio.SaoMiaoResultActivity;
 import com.example.asus_cp.dongmanbuy.activity.search.SearchActivity;
 import com.example.asus_cp.dongmanbuy.constant.MyConstant;
-import com.example.asus_cp.dongmanbuy.customview.MyListView;
-import com.example.asus_cp.dongmanbuy.customview.OnScrollListenerMySli;
 import com.example.asus_cp.dongmanbuy.fragment.CategoryFragment;
 import com.example.asus_cp.dongmanbuy.fragment.FindFragment;
 import com.example.asus_cp.dongmanbuy.fragment.HomeFragment;
@@ -53,17 +49,14 @@ import com.example.asus_cp.dongmanbuy.fragment.ShopStreetFragment;
 import com.example.asus_cp.dongmanbuy.fragment.ShoppingCarFragment;
 import com.example.asus_cp.dongmanbuy.model.Good;
 import com.example.asus_cp.dongmanbuy.model.User;
-import com.example.asus_cp.dongmanbuy.service.UidService;
 import com.example.asus_cp.dongmanbuy.util.CategoryImageLoadHelper;
 import com.example.asus_cp.dongmanbuy.util.FormatHelper;
 import com.example.asus_cp.dongmanbuy.util.ImageLoadHelper;
 import com.example.asus_cp.dongmanbuy.util.JsonHelper;
 import com.example.asus_cp.dongmanbuy.util.MyApplication;
 import com.example.asus_cp.dongmanbuy.util.MyLog;
-import com.google.zxing.client.android.CaptureActivity;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 

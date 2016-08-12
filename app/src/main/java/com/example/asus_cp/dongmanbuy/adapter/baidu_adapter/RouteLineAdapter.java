@@ -5,8 +5,7 @@ package com.example.asus_cp.dongmanbuy.adapter.baidu_adapter;
 
 import java.util.List;
 
-import com.baidu.mapapi.search.core.RouteLine;
-import com.baidu.mapapi.search.route.DrivingRouteLine;
+
 import com.example.asus_cp.dongmanbuy.R;
 
 
@@ -19,9 +18,9 @@ import android.widget.TextView;
 
 
 
-public class RouteLineAdapter extends BaseAdapter {
+public class RouteLineAdapter{
 
-    private List<? extends  RouteLine> routeLines;
+   /* private List<? extends  RouteLine> routeLines;
     private LayoutInflater layoutInflater;
     private Type mtype;
 
@@ -96,5 +95,5 @@ public class RouteLineAdapter extends BaseAdapter {
     public enum Type {
         TRANSIT_ROUTE, // 公交
         DRIVING_ROUTE // 驾车
-    }
+    }*/
 }

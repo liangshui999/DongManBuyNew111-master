@@ -13,7 +13,6 @@ import com.example.asus_cp.dongmanbuy.activity.personal_center.PersonalCenterAct
 import com.example.asus_cp.dongmanbuy.adapter.DingDanHaoListAdapter;
 import com.example.asus_cp.dongmanbuy.constant.MyConstant;
 
-import java.io.Serializable;
 import java.util.List;
 
 /**

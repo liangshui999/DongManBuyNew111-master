@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -36,12 +35,12 @@ import com.android.volley.toolbox.StringRequest;
 import com.example.asus_cp.dongmanbuy.R;
 import com.example.asus_cp.dongmanbuy.activity.MainActivity;
 import com.example.asus_cp.dongmanbuy.activity.dian_pu_jie.ShopHomeActivity;
-import com.example.asus_cp.dongmanbuy.activity.dian_pu_jie.ShopStreetCategoryActvity;
 import com.example.asus_cp.dongmanbuy.activity.gou_wu.DingDanListActivity;
 import com.example.asus_cp.dongmanbuy.activity.login.LoginActivity;
 import com.example.asus_cp.dongmanbuy.activity.main_activity_xiang_guan.LiuLanJiLuListActivity;
 import com.example.asus_cp.dongmanbuy.activity.more.JingPinTuiJianMoreActivity;
 import com.example.asus_cp.dongmanbuy.activity.more.XianShiMiaoShaMoreActivity;
+import com.example.asus_cp.dongmanbuy.activity.personal_center.GuanZhuListActivity;
 import com.example.asus_cp.dongmanbuy.activity.personal_center.data_set.EditShipAddressActivity;
 import com.example.asus_cp.dongmanbuy.activity.personal_center.fund_manager.FundManagerActivity;
 import com.example.asus_cp.dongmanbuy.activity.product_detail.ProductDetailActivity;
@@ -52,7 +51,6 @@ import com.example.asus_cp.dongmanbuy.adapter.XianShiAdapter;
 import com.example.asus_cp.dongmanbuy.constant.MyConstant;
 import com.example.asus_cp.dongmanbuy.customview.MyGridView;
 import com.example.asus_cp.dongmanbuy.customview.MyGridViewA;
-import com.example.asus_cp.dongmanbuy.db.DBCreateHelper;
 import com.example.asus_cp.dongmanbuy.model.Binner;
 import com.example.asus_cp.dongmanbuy.model.Good;
 import com.example.asus_cp.dongmanbuy.model.ShopModel;
@@ -67,9 +65,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -115,14 +110,14 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
 
 
     //我的钱包，我的订单等8个按钮
-    private LinearLayout myWalletll;
-    private LinearLayout myOrderll;
-    private LinearLayout browseHistoryll;
-    private LinearLayout shipAddressll;
-    private LinearLayout xianShiTeYoull;
-    private LinearLayout helpll;
-    private LinearLayout brandPagell;
+    private LinearLayout allDongManll;
+    private LinearLayout tuiJianZhuTill;
     private LinearLayout youHuiHuoDongll;
+    private LinearLayout tuanGoull;
+    private LinearLayout myGuanZhull;
+    private LinearLayout myOrderll;
+    private LinearLayout jiFenDuiHuanll;
+    private LinearLayout helpll;
 
     //限时秒杀的gridview
     private MyGridView xianShiMiaoShaGridView;
@@ -161,6 +156,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
     public static final int REQUEST_CODE_LOGIN_LIU_LAN_JI_LU=15;//从浏览记录跳转到登陆界面的请求码
 
     public static final int REQUEST_CODE_LOGIN_SHIP_ADDRESS=16;//从收货地址跳转到登陆界面的请求码
+
+    public static final int REQUEST_CODE_LOGIN_GUAN_ZHU=17;//从关注跳转到登陆界面的请求码
 
     private String userInfoUrl="http://www.zmobuy.com/PHP/?url=/user/info";//用户信息的接口
 
@@ -365,23 +362,23 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
 
 
         //-----------初始化我的钱包，我的按钮等8个组件-------------------
-        myWalletll= (LinearLayout) v.findViewById(R.id.ll_my_wallet);
-        myOrderll= (LinearLayout) v.findViewById(R.id.ll_my_order);
-        browseHistoryll= (LinearLayout) v.findViewById(R.id.ll_browse_history);
-        shipAddressll= (LinearLayout) v.findViewById(R.id.ll_ship_address);
-        xianShiTeYoull= (LinearLayout) v.findViewById(R.id.ll_xian_shi_te_you);
-        helpll= (LinearLayout) v.findViewById(R.id.ll_help);
-        brandPagell= (LinearLayout) v.findViewById(R.id.ll_brand_page);
-        youHuiHuoDongll= (LinearLayout) v.findViewById(R.id.ll_you_hui_huo_dong);
+        allDongManll = (LinearLayout) v.findViewById(R.id.ll_all_dong_man);
+        tuiJianZhuTill = (LinearLayout) v.findViewById(R.id.ll_tui_jian_zhu_ti);
+        youHuiHuoDongll = (LinearLayout) v.findViewById(R.id.ll_you_hui_huo_dong);
+        tuanGoull = (LinearLayout) v.findViewById(R.id.ll_ship_tuan_gou);
+        myGuanZhull = (LinearLayout) v.findViewById(R.id.ll_my_guan_zhu);
+        myOrderll = (LinearLayout) v.findViewById(R.id.ll_my_order);
+        jiFenDuiHuanll = (LinearLayout) v.findViewById(R.id.ll_ji_fen_dui_huan);
+        helpll = (LinearLayout) v.findViewById(R.id.ll_help_center);
 
-        myWalletll.setOnClickListener(this);
-        myOrderll.setOnClickListener(this);
-        browseHistoryll.setOnClickListener(this);
-        shipAddressll.setOnClickListener(this);
-        xianShiTeYoull.setOnClickListener(this);
-        helpll.setOnClickListener(this);
-        brandPagell.setOnClickListener(this);
+        allDongManll.setOnClickListener(this);
+        tuiJianZhuTill.setOnClickListener(this);
         youHuiHuoDongll.setOnClickListener(this);
+        tuanGoull.setOnClickListener(this);
+        myGuanZhull.setOnClickListener(this);
+        myOrderll.setOnClickListener(this);
+        jiFenDuiHuanll.setOnClickListener(this);
+        helpll.setOnClickListener(this);
 
         //接收json数据
         jsonHelper=new JsonHelper();
@@ -392,7 +389,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
         StringRequest xianShiStringRequest=new StringRequest(Request.Method.GET, shanShiUrl, new Response.Listener<String>() {
             @Override
             public void onResponse(String s) {
-                MyLog.d(tag,s);
+                MyLog.d(tag,"显示秒杀返回的数据是："+s);
                 final List<Good> goods = new ArrayList<Good>();
                 try {
                     JSONObject jsonObject = new JSONObject(s);
@@ -838,30 +835,29 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.ll_my_wallet://我的钱包
-                MyWalletClickChuLi();
+            case R.id.ll_all_dong_man://全部动漫
+                Toast.makeText(context, "点击了全部动漫", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.ll_tui_jian_zhu_ti://推荐主题
+                Toast.makeText(context, "点击了推荐主题", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.ll_you_hui_huo_dong://优惠活动
+                Toast.makeText(context, "点击了优惠活动", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.ll_ship_tuan_gou://团购
+                Toast.makeText(context, "点击了团购", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.ll_my_guan_zhu://我的关注
+                myGuanZhuClickChuLi();
                 break;
             case R.id.ll_my_order://我的订单
                 MyOrderClickChuLi();
                 break;
-            case R.id.ll_browse_history:
-                //Toast.makeText(context, "点击了浏览记录", Toast.LENGTH_SHORT).show();
-                liuLanJiLuClickChuLi();
+            case R.id.ll_ji_fen_dui_huan://积分兑换
+                Toast.makeText(context, "点击了积分兑换", Toast.LENGTH_SHORT).show();
                 break;
-            case R.id.ll_ship_address://点击了收货地址
-                shipAddressClickChuLi();
-                break;
-            case R.id.ll_xian_shi_te_you:
-                Toast.makeText(context, "点击了限时特优", Toast.LENGTH_SHORT).show();
-                break;
-            case R.id.ll_help:
+            case R.id.ll_help_center://帮助中心
                 Toast.makeText(context, "点击了帮助中心", Toast.LENGTH_SHORT).show();
-                break;
-            case R.id.ll_brand_page:
-                Toast.makeText(context, "点击了品牌页面", Toast.LENGTH_SHORT).show();
-                break;
-            case R.id.ll_you_hui_huo_dong:
-                Toast.makeText(context, "点击了优惠活动", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.text_xian_shi_more://限时秒杀的更多按钮
                 Intent toXianShiMiaoShaMore=new Intent(context, XianShiMiaoShaMoreActivity.class);
@@ -880,6 +876,30 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
                 startActivity(toDianPuJieIntent);
                 break;
         }
+    }
+
+
+    /**
+     * 我的关注点击事件处理
+     */
+    private void myGuanZhuClickChuLi() {
+        String uid=sharedPreferences.getString(MyConstant.UID_KEY,null);
+        String sid=null;
+        if(uid==null || uid.isEmpty()){
+            Intent toLoginIntent=new Intent(context,LoginActivity.class);
+            toLoginIntent.putExtra(MyConstant.START_LOGIN_ACTIVITY_FLAG_KEY,"homeFragment");
+            startActivityForResult(toLoginIntent, REQUEST_CODE_LOGIN_GUAN_ZHU);
+        }else {
+            toGuanZhuActivity();
+        }
+    }
+
+    /**
+     * 跳转到关注界面
+     */
+    private void toGuanZhuActivity() {
+        Intent intent=new Intent(context, GuanZhuListActivity.class);
+        startActivity(intent);
     }
 
 
@@ -1265,6 +1285,11 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
             case REQUEST_CODE_LOGIN_ORDER://从订单跳过去的
                 if(resultCode== Activity.RESULT_OK){
                     toDingDanListAcitivy(MyConstant.ALL_DING_DAN);
+                }
+                break;
+            case REQUEST_CODE_LOGIN_GUAN_ZHU://从关注跳过去的
+                if(resultCode== Activity.RESULT_OK){
+                    toGuanZhuActivity();
                 }
                 break;
             case REQUEST_CODE_LOGIN_SHIP_ADDRESS://从收获地址跳过去的

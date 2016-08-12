@@ -22,7 +22,6 @@ import com.example.asus_cp.dongmanbuy.adapter.CommentAdapter;
 import com.example.asus_cp.dongmanbuy.model.Comment;
 import com.example.asus_cp.dongmanbuy.model.Good;
 import com.example.asus_cp.dongmanbuy.util.DialogHelper;
-import com.example.asus_cp.dongmanbuy.util.FormatHelper;
 import com.example.asus_cp.dongmanbuy.util.MyApplication;
 import com.example.asus_cp.dongmanbuy.util.MyLog;
 

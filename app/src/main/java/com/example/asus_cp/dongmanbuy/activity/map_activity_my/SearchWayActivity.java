@@ -1,43 +1,16 @@
 package com.example.asus_cp.dongmanbuy.activity.map_activity_my;
 
 import android.app.Activity;
-import android.content.Intent;
-import android.os.Bundle;
-import android.view.View;
-import android.view.Window;
-import android.widget.AdapterView;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.LinearLayout;
-import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.Toast;
 
-import com.baidu.mapapi.model.LatLng;
-import com.baidu.mapapi.search.core.SearchResult;
-import com.baidu.mapapi.search.route.BikingRouteResult;
-import com.baidu.mapapi.search.route.DrivingRoutePlanOption;
-import com.baidu.mapapi.search.route.DrivingRouteResult;
-import com.baidu.mapapi.search.route.OnGetRoutePlanResultListener;
-import com.baidu.mapapi.search.route.PlanNode;
-import com.baidu.mapapi.search.route.RoutePlanSearch;
-import com.baidu.mapapi.search.route.TransitRoutePlanOption;
-import com.baidu.mapapi.search.route.TransitRouteResult;
-import com.baidu.mapapi.search.route.WalkingRouteResult;
 import com.example.asus_cp.dongmanbuy.R;
-import com.example.asus_cp.dongmanbuy.adapter.GongJiaoLuXianGuiHuaAdapter;
-import com.example.asus_cp.dongmanbuy.adapter.JiaCheLuXianGuiHuaAdapter;
-import com.example.asus_cp.dongmanbuy.constant.MyConstant;
-import com.example.asus_cp.dongmanbuy.model.ShopModel;
-import com.example.asus_cp.dongmanbuy.util.MyLog;
 
 /**
  * 线路规划的界面
  * Created by asus-cp on 2016-07-27.
  */
-public class SearchWayActivity extends Activity implements View.OnClickListener{
+public class SearchWayActivity extends Activity{
 
-    private String tag="SearchWayActivity";
+   /* private String tag="SearchWayActivity";
 
     private LinearLayout gongJiaoLinearLayout;//公交
     private LinearLayout jiaCheLinearLayout;//驾车
@@ -65,9 +38,9 @@ public class SearchWayActivity extends Activity implements View.OnClickListener{
     }
 
 
-    /**
+    *//**
      * 初始化的方法
-     */
+     *//*
     private void init() {
         gongJiaoLinearLayout= (LinearLayout) findViewById(R.id.ll_gong_jiao_search_way);
         jiaCheLinearLayout= (LinearLayout) findViewById(R.id.ll_jia_che_search_way);
@@ -138,9 +111,9 @@ public class SearchWayActivity extends Activity implements View.OnClickListener{
 
 
 
-    /**
+    *//**
      * 公交线路的点击事件处理
-     */
+     *//*
     private void gongJiaoXianLuClickChuLi() {
         //创建公交线路规划检索实例
         RoutePlanSearch mSearch = RoutePlanSearch.newInstance();
@@ -212,9 +185,9 @@ public class SearchWayActivity extends Activity implements View.OnClickListener{
 
 
 
-    /**
+    *//**
      * 驾车的点击事件处理
-     */
+     *//*
     private void jiaCheXianLuClickChuLi() {
         //创建驾车线路规划检索实例
         RoutePlanSearch mSearch = RoutePlanSearch.newInstance();
@@ -282,9 +255,9 @@ public class SearchWayActivity extends Activity implements View.OnClickListener{
 
 
 
-    /**
+    *//**
      * 步行的点击事件处理
-     */
+     *//*
     private void buXingXianLuClickChuLi() {
         //创建步行线路规划检索实例
         RoutePlanSearch mSearch = RoutePlanSearch.newInstance();
@@ -352,9 +325,9 @@ public class SearchWayActivity extends Activity implements View.OnClickListener{
 
 
 
-    /**
+    *//**
      * 重置view的背景
-     */
+     *//*
     private void reset() {
         gongJiaoLinearLayout.setBackgroundResource(R.color.white_my);
         jiaCheLinearLayout.setBackgroundResource(R.color.white_my);
@@ -363,6 +336,6 @@ public class SearchWayActivity extends Activity implements View.OnClickListener{
         jiaCheTextView.setTextColor(getResources().getColor(R.color.black));
         buXingTextView.setTextColor(getResources().getColor(R.color.black));
     }
-
+*/
 
 }

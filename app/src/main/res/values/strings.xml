@@ -322,5 +322,11 @@
     <string name="hui_yuan_zhong_xin">会员中心</string>
     <string name="in">立即进入</string>
     <string name="tiao_guo">跳过</string>
+    <string name="all_dong_man">全部动漫</string>
+    <string name="tui_jian_zhu_ti">推荐主题</string>
+    <string name="tuan_gou_huo_dong">团购活动</string>
+    <string name="my_guan_zhu">我的关注</string>
+    <string name="ji_fen_dui_huan">积分兑换</string>
+    <string name="help_center">帮助中心</string>
 
 </resources>

@@ -1,4 +1,4 @@
-include ':app', ':wheelLibariry', 'slidingmenu'
+include ':app', ':wheelLibariry', 'slidingmenu', 'alibaichuanSDK'
 
 include ':library'
 include ':saoyisao'

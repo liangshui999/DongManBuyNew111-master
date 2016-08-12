@@ -3,14 +3,11 @@ package com.example.asus_cp.dongmanbuy.activity.dian_pu_jie;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.widget.SearchView;
 import android.view.View;
 import android.view.Window;
 import android.widget.AdapterView;
-import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 

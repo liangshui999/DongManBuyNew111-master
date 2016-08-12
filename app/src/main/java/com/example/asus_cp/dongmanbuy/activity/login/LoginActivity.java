@@ -28,7 +28,6 @@ import com.example.asus_cp.dongmanbuy.constant.MyConstant;
 import com.example.asus_cp.dongmanbuy.constant.SinaConstants;
 import com.example.asus_cp.dongmanbuy.util.MyApplication;
 import com.example.asus_cp.dongmanbuy.util.MyLog;
-import com.example.asus_cp.dongmanbuy.util.MyMd5;
 import com.example.asus_cp.dongmanbuy.util.SinaAccessTokenKeeper;
 import com.example.asuscp.dongmanbuy.util.JieKouHelper;
 import com.sina.weibo.sdk.auth.AuthInfo;

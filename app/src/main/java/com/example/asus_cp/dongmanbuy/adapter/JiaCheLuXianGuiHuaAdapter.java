@@ -1,26 +1,14 @@
 package com.example.asus_cp.dongmanbuy.adapter;
 
-import android.content.Context;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.BaseAdapter;
-import android.widget.TextView;
-
-import com.baidu.mapapi.search.route.DrivingRouteLine;
-import com.baidu.mapapi.search.route.TransitRouteLine;
 import com.example.asus_cp.dongmanbuy.R;
-import com.example.asus_cp.dongmanbuy.util.MyLog;
-
-import java.util.List;
 
 /**
  * 驾车路线规划的适配器
  * Created by asus-cp on 2016-07-27.
  */
-public class JiaCheLuXianGuiHuaAdapter extends BaseAdapter{
+public class JiaCheLuXianGuiHuaAdapter{
 
-    private String tag="JiaCheLuXianGuiHuaAdapter";
+   /* private String tag="JiaCheLuXianGuiHuaAdapter";
 
     private Context context;
     private List<DrivingRouteLine> routeLines;
@@ -96,5 +84,5 @@ public class JiaCheLuXianGuiHuaAdapter extends BaseAdapter{
         TextView timeTextView;
         TextView distanceTextView;
         TextView luXianDescTextView;
-    }
+    }*/
 }

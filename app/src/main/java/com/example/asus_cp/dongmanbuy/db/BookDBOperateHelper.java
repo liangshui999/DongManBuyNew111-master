@@ -8,8 +8,6 @@ import com.example.asus_cp.dongmanbuy.constant.DBConstant;
 import com.example.asus_cp.dongmanbuy.model.Good;
 import com.example.asus_cp.dongmanbuy.util.MyLog;
 
-import java.util.List;
-
 /**
  * 数据库操作的帮助类
  * Created by asus-cp on 2016-06-28.

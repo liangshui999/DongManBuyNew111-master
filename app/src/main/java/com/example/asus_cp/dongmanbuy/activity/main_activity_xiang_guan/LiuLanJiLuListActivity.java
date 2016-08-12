@@ -2,7 +2,6 @@ package com.example.asus_cp.dongmanbuy.activity.main_activity_xiang_guan;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.view.View;

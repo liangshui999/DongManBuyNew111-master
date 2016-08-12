@@ -1,10 +1,8 @@
 package com.example.asus_cp.dongmanbuy.activity.gou_wu;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
@@ -16,7 +14,6 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -30,18 +27,14 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.StringRequest;
 import com.example.asus_cp.dongmanbuy.R;
-import com.example.asus_cp.dongmanbuy.adapter.DingDanJieMianListAdapterIn;
 import com.example.asus_cp.dongmanbuy.adapter.DingDanJieMianListAdapterOut;
 import com.example.asus_cp.dongmanbuy.constant.MyConstant;
-import com.example.asus_cp.dongmanbuy.customview.MyListView;
 import com.example.asus_cp.dongmanbuy.model.Good;
 import com.example.asus_cp.dongmanbuy.model.ShopModel;
 import com.example.asus_cp.dongmanbuy.model.UserModel;
 import com.example.asus_cp.dongmanbuy.model.YouHuiQuanModel;
-import com.example.asus_cp.dongmanbuy.model.my_json_model.DingDanModleJson;
 import com.example.asus_cp.dongmanbuy.model.my_json_model.ShopModelJson;
 import com.example.asus_cp.dongmanbuy.util.FormatHelper;
 import com.example.asus_cp.dongmanbuy.util.ImageLoadHelper;
@@ -61,10 +54,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import kankan.wheel.widget.OnWheelChangedListener;
-import kankan.wheel.widget.WheelView;
-import kankan.wheel.widget.adapters.ArrayWheelAdapter;
-import kankan.wheel.widget.adapters.NumericWheelAdapter;
 
 /**
  * 订单的界面
@@ -629,8 +618,8 @@ public class DingDanActivity extends Activity implements View.OnClickListener{
         View ziTiShiJianView=inflater.inflate(R.layout.date_picker_layout_tan_chu,null);
         TextView cancelTextView= (TextView) ziTiShiJianView.findViewById(R.id.text_cancel_date_picker);
         TextView confirmTextView= (TextView) ziTiShiJianView.findViewById(R.id.text_confirm_date_picker);
-        WheelView wheelViewDay= (WheelView) ziTiShiJianView.findViewById(R.id.whe_day);
-        WheelView wheelViewHour= (WheelView) ziTiShiJianView.findViewById(R.id.whe_hour);
+//        WheelView wheelViewDay= (WheelView) ziTiShiJianView.findViewById(R.id.whe_day);
+//        WheelView wheelViewHour= (WheelView) ziTiShiJianView.findViewById(R.id.whe_hour);
 
         //设置点击事件
         cancelTextView.setOnClickListener(this);
@@ -649,7 +638,7 @@ public class DingDanActivity extends Activity implements View.OnClickListener{
 
         final String[] hours={"9:00-12:00"};
 
-        OnWheelChangedListener listener=new OnWheelChangedListener() {
+       /* OnWheelChangedListener listener=new OnWheelChangedListener() {
             @Override
             public void onChanged(WheelView wheel, int oldValue, int newValue) {
                 switch (wheel.getId()){
@@ -663,10 +652,10 @@ public class DingDanActivity extends Activity implements View.OnClickListener{
                         break;
                 }
             }
-        };
+        };*/
 
 
-        wheelViewDay.setViewAdapter(new MyArrayAdapter(this, riQis));
+      /*  wheelViewDay.setViewAdapter(new MyArrayAdapter(this, riQis));
         wheelViewDay.setCurrentItem(0);
         wheelViewDay.setCyclic(false);//设置是否需要循环
         wheelViewDay.addChangingListener(listener);
@@ -674,7 +663,7 @@ public class DingDanActivity extends Activity implements View.OnClickListener{
         wheelViewHour.setViewAdapter(new MyArrayAdapter(this, hours));
         wheelViewHour.setCurrentItem(0);
         wheelViewHour.setCyclic(false);
-        wheelViewHour.addChangingListener(listener);
+        wheelViewHour.addChangingListener(listener);*/
 
 
 
@@ -783,17 +772,17 @@ public class DingDanActivity extends Activity implements View.OnClickListener{
     }
 
 
-    /**
+   /* *//**
      * wheelview的适配器，继承自numerricwheelapter，不需要往里面传入数组，只需要传最大值，最小值即可
-     */
+     *//*
     public class MyWheelAdapter extends NumericWheelAdapter {
 
-        /**
+        *//**
          * Constructor
          * @param minValue 传入的数字的最小值
          * @param maxValue 传入的数字的最大值
          *
-         */
+         *//*
         public MyWheelAdapter(Context context, int minValue, int maxValue) {
             super(context, minValue, maxValue);
             setTextSize(16);
@@ -808,14 +797,14 @@ public class DingDanActivity extends Activity implements View.OnClickListener{
     }
 
 
-    /**
+    *//**
      * Adapter for string based wheel. Highlights the current value.
      * 如果是非纯数字，就必须使用这种适配器，往里面传入数组
-     */
+     *//*
     private class MyArrayAdapter extends ArrayWheelAdapter<String> {
-        /**
+        *//**
          * Constructor
-         */
+         *//*
         public MyArrayAdapter(Context context, String[] items) {
             super(context, items);
             setTextSize(16);
@@ -831,6 +820,6 @@ public class DingDanActivity extends Activity implements View.OnClickListener{
         public View getItem(int index, View cachedView, ViewGroup parent) {
             return super.getItem(index, cachedView, parent);
         }
-    }
+    }*/
 
 }

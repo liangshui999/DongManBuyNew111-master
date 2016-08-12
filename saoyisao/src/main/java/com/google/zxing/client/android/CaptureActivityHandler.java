@@ -37,7 +37,6 @@ import android.util.Log;
 
 import java.util.Collection;
 import java.util.Map;
-import java.util.Vector;
 
 /**
  * This class handles all the messaging which comprises the state machine for capture.

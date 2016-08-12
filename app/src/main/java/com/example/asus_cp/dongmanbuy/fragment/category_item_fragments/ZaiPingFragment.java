@@ -23,7 +23,6 @@ import com.example.asus_cp.dongmanbuy.R;
 import com.example.asus_cp.dongmanbuy.activity.product_detail.ProductDetailActivity;
 import com.example.asus_cp.dongmanbuy.adapter.CategoryGridViewAdapter;
 import com.example.asus_cp.dongmanbuy.constant.MyConstant;
-import com.example.asus_cp.dongmanbuy.customview.MyGridView;
 import com.example.asus_cp.dongmanbuy.customview.MyGridViewA;
 import com.example.asus_cp.dongmanbuy.model.CategoryModel;
 import com.example.asus_cp.dongmanbuy.model.Good;

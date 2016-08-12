@@ -8,7 +8,6 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.example.asus_cp.dongmanbuy.R;
-import com.example.asus_cp.dongmanbuy.model.CardModel;
 import com.example.asus_cp.dongmanbuy.model.KuaiDiModel;
 
 import java.util.List;

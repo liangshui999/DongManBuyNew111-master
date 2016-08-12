@@ -1,6 +1,5 @@
 package com.example.asus_cp.dongmanbuy.util;
 
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.view.View;
@@ -8,7 +7,6 @@ import android.view.ViewGroup;
 import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.GridView;
-import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 
 import com.android.volley.AuthFailureError;
@@ -20,7 +18,6 @@ import com.android.volley.toolbox.StringRequest;
 import com.example.asus_cp.dongmanbuy.activity.product_detail.ProductDetailActivity;
 import com.example.asus_cp.dongmanbuy.adapter.CategoryGridViewAdapter;
 import com.example.asus_cp.dongmanbuy.constant.MyConstant;
-import com.example.asus_cp.dongmanbuy.customview.MyGridView;
 import com.example.asus_cp.dongmanbuy.customview.MyGridViewA;
 import com.example.asus_cp.dongmanbuy.model.CategoryModel;
 import com.example.asus_cp.dongmanbuy.model.Good;

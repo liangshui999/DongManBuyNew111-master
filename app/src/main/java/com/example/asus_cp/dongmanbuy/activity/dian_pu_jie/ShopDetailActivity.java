@@ -22,6 +22,11 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.alibaba.mobileim.IYWLoginService;
+import com.alibaba.mobileim.YWIMKit;
+import com.alibaba.mobileim.YWLoginParam;
+import com.alibaba.mobileim.channel.event.IWxCallback;
+import com.alibaba.mobileim.conversation.EServiceContact;
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -29,19 +34,8 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.StringRequest;
-import com.baidu.mapapi.map.Marker;
-import com.baidu.mapapi.map.MarkerOptions;
-import com.baidu.mapapi.map.OverlayOptions;
-import com.baidu.mapapi.map.TextOptions;
-import com.baidu.mapapi.model.LatLng;
-import com.baidu.mapapi.search.geocode.GeoCodeOption;
-import com.baidu.mapapi.search.geocode.GeoCodeResult;
-import com.baidu.mapapi.search.geocode.GeoCoder;
-import com.baidu.mapapi.search.geocode.OnGetGeoCoderResultListener;
-import com.baidu.mapapi.search.geocode.ReverseGeoCodeResult;
 import com.example.asus_cp.dongmanbuy.R;
 import com.example.asus_cp.dongmanbuy.activity.login.LoginActivity;
-import com.example.asus_cp.dongmanbuy.activity.map_activity_my.ShopStreerMapActivity;
 import com.example.asus_cp.dongmanbuy.activity.product_detail.ProductDetailActivity;
 import com.example.asus_cp.dongmanbuy.constant.MyConstant;
 import com.example.asus_cp.dongmanbuy.model.Good;
@@ -51,6 +45,7 @@ import com.example.asus_cp.dongmanbuy.util.ImageLoadHelper;
 import com.example.asus_cp.dongmanbuy.util.JsonHelper;
 import com.example.asus_cp.dongmanbuy.util.MyApplication;
 import com.example.asus_cp.dongmanbuy.util.MyLog;
+import com.example.asus_cp.dongmanbuy.util.MyYWIMKitHelper;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -219,7 +214,7 @@ public class ShopDetailActivity extends Activity implements View.OnClickListener
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.img_dao_hang_shop_detail://点击了导航按钮
                 finish();
                 break;
@@ -242,7 +237,8 @@ public class ShopDetailActivity extends Activity implements View.OnClickListener
                 toShopGoodSortActivity("is_promote");
                 break;
             case R.id.re_layout_ke_fu://点击了在线客服
-                Toast.makeText(this,"点击了在线客服",Toast.LENGTH_SHORT).show();
+                //Toast.makeText(this,"点击了在线客服",Toast.LENGTH_SHORT).show();
+                keFuClickChuLi();
                 break;
             case R.id.re_layout_shop_er_wei_ma://点击了二维码
                 /*Intent saoYiSaoIntent = new Intent(ShopDetailActivity.this, MipcaActivityCapture.class);
@@ -250,60 +246,68 @@ public class ShopDetailActivity extends Activity implements View.OnClickListener
                 erWeiMaClickChuLi();
                 break;
             case R.id.re_layout_shang_jia_phone://点击了商家电话
-                Intent callIntent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:"+
-                    shangJiaPhoneTextView.getText().toString()));
+                Intent callIntent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" +
+                        shangJiaPhoneTextView.getText().toString()));
                 startActivity(callIntent);
                 break;
             case R.id.re_layout_suo_zai_di_qu_map://点击了所在地区
-                /*Intent mapIntent=new Intent(this, ShopStreerMapActivity.class);
-                mapIntent.putExtra(MyConstant.SHOP_MODEL_KEY,shopModel);
-                startActivity(mapIntent);*/
+                if(isInstallByread("com.baidu.BaiduMap")){
+                    startBaiDuDiTu();
+                }else if(isInstallByread("com.autonavi.minimap")){
+                    startGaoDeDiTu();
+                }else{
+                    Toast.makeText(ShopDetailActivity.this,"您的手机上没有安装地图应用,请先下载一个地图应用",Toast.LENGTH_SHORT).show();
+                }
 
-                //移动APP调起Android百度地图方式举例
-                //百度地图地理编码，根据具体地址获取经纬度（百度坐标）
-                GeoCoder geoCoder = GeoCoder.newInstance();
-                geoCoder.setOnGetGeoCodeResultListener(new OnGetGeoCoderResultListener() {
-                    @Override
-                    public void onGetGeoCodeResult(GeoCodeResult geoCodeResult) {   //地理编码返回的结果
-                        MyLog.d(tag, "地理编码的结果是：" + geoCodeResult.getLocation().toString());
-
-                        String weiDu=geoCodeResult.getLocation().latitude+"";
-                        String jingDu=geoCodeResult.getLocation().longitude+"";
-
-                        if(isInstallByread("com.baidu.BaiduMap")){
-                            startBaiDuDiTu(weiDu,jingDu);
-                        }else if(isInstallByread("com.autonavi.minimap")){
-                            startGaoDeDiTu(weiDu,jingDu);
-                        }else{
-                            Toast.makeText(ShopDetailActivity.this,"您的手机上没有安装地图应用,请先下载一个地图应用",Toast.LENGTH_SHORT).show();
-                        }
-
-                    }
-
-                    @Override
-                    public void onGetReverseGeoCodeResult(ReverseGeoCodeResult reverseGeoCodeResult) {
-
-                    }
-                });
-
-                GeoCodeOption geoCodeOption=new GeoCodeOption();
-                geoCodeOption.city("武汉市");
-                geoCodeOption.address(shopModel.getShopAddress());
-                geoCoder.geocode(geoCodeOption);
-                break;
         }
     }
 
 
     /**
-     * 开启百度地图
-     * @param weiDu
-     * @param jingDu
+     * 客服的点击事件处理
      */
-    private void startBaiDuDiTu(String weiDu, String jingDu) {
+    private void keFuClickChuLi() {
+        //开始登录
+        String userid = "testpro1";
+        String password = "taobao1234";
+        final YWIMKit mIMKit= MyYWIMKitHelper.getYwimkit(userid);//需要userId才能得到这个
+        IYWLoginService loginService = mIMKit.getLoginService();
+        YWLoginParam loginParam = YWLoginParam.createLoginParam(userid, password);
+        loginService.login(loginParam, new IWxCallback() {
+            @Override
+            public void onSuccess(Object... arg0) {
+                MyLog.d(tag,"登陆成功了");
+                //userid是客服帐号，第一个参数是客服帐号，第二个是组ID，如果没有，传0
+                EServiceContact contact = new EServiceContact("userid", 0);
+                //如果需要发给指定的客服帐号，不需要Server进行分流(默认Server会分流)，请调用EServiceContact对象
+                //的setNeedByPass方法，参数为false。
+                //contact.setNeedByPass(false);
+                Intent intent = mIMKit.getChattingActivityIntent(contact);
+                startActivity(intent);
+            }
+
+            @Override
+            public void onProgress(int arg0) {
+                // TODO Auto-generated method stub
+            }
+
+            @Override
+            public void onError(int errCode, String description) {
+                //如果登录失败，errCode为错误码,description是错误的具体描述信息
+            }
+        });
+    }
+
+
+    /**
+     * 开启百度地图
+     */
+    private void startBaiDuDiTu() {
         Intent intent = null;
         try {
-            intent = Intent.getIntent("intent://map/marker?location="+weiDu+","+jingDu+"&title="+shopModel.getShopName()+"&content="+shopModel.getShopAddress()+"&src=thirdapp.marker.yourCompanyName.yourAppName#Intent;scheme=bdapp;package=com.baidu.BaiduMap;end");
+            intent = Intent.getIntent("intent://map/geocoder?address="+shopModel.getShopAddress()+"&src=thirdapp.geo.yourCompanyName.zmobuy#Intent;scheme=bdapp;package=com.baidu.BaiduMap;end");
+
+            //intent = Intent.getIntent("intent://map/marker?location="+weiDu+","+jingDu+"&title="+shopModel.getShopName()+"&content="+shopModel.getShopAddress()+"&src=thirdapp.marker.yourCompanyName.yourAppName#Intent;scheme=bdapp;package=com.baidu.BaiduMap;end");
         } catch (URISyntaxException e) {
             e.printStackTrace();
         }
@@ -314,12 +318,13 @@ public class ShopDetailActivity extends Activity implements View.OnClickListener
 
     /**
      * 开启高德地图
-     * @param weiDu
-     * @param jingDu
      */
-    private void startGaoDeDiTu(String weiDu, String jingDu) {
+    private void startGaoDeDiTu() {
+//        Intent intent = new Intent("android.intent.action.VIEW",
+//                android.net.Uri.parse("androidamap://viewMap?sourceApplication=zmobuy&poiname="+shopModel.getShopName()+"&lat="+weiDu+"&lon="+jingDu+"&dev=0"));
+
         Intent intent = new Intent("android.intent.action.VIEW",
-                android.net.Uri.parse("androidamap://viewMap?sourceApplication=zmobuy&poiname="+shopModel.getShopName()+"&lat="+weiDu+"&lon="+jingDu+"&dev=0"));
+                android.net.Uri.parse("androidamap://viewGeo?sourceApplication=zmobuy&addr="+shopModel.getShopAddress()+""));
         intent.setPackage("com.autonavi.minimap");
         startActivity(intent);
         startActivity(intent); //启动调用

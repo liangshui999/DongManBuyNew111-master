@@ -1,77 +1,17 @@
 package com.example.asus_cp.dongmanbuy.activity.map_activity_my;
 
 import android.app.Activity;
-import android.app.Dialog;
-import android.content.Context;
-import android.content.Intent;
-import android.os.Bundle;
-import android.util.DisplayMetrics;
-import android.view.View;
-import android.view.Window;
-import android.widget.AdapterView;
-import android.widget.ImageView;
-import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.Toast;
 
-import com.baidu.location.BDLocation;
-import com.baidu.location.BDLocationListener;
-import com.baidu.location.LocationClient;
-import com.baidu.location.LocationClientOption;
-import com.baidu.location.Poi;
-import com.baidu.mapapi.map.BaiduMap;
-import com.baidu.mapapi.map.BitmapDescriptor;
-import com.baidu.mapapi.map.BitmapDescriptorFactory;
-import com.baidu.mapapi.map.MapStatusUpdate;
-import com.baidu.mapapi.map.MapStatusUpdateFactory;
-import com.baidu.mapapi.map.MapView;
-import com.baidu.mapapi.map.Marker;
-import com.baidu.mapapi.map.MarkerOptions;
-import com.baidu.mapapi.map.MyLocationConfiguration;
-import com.baidu.mapapi.map.MyLocationData;
-import com.baidu.mapapi.map.OverlayOptions;
-import com.baidu.mapapi.map.TextOptions;
-import com.baidu.mapapi.model.LatLng;
-import com.baidu.mapapi.overlayutil.BikingRouteOverlay;
-import com.baidu.mapapi.overlayutil.DrivingRouteOverlay;
-import com.baidu.mapapi.overlayutil.OverlayManager;
-import com.baidu.mapapi.overlayutil.TransitRouteOverlay;
-import com.baidu.mapapi.overlayutil.WalkingRouteOverlay;
-import com.baidu.mapapi.search.core.PoiInfo;
-import com.baidu.mapapi.search.core.RouteLine;
-import com.baidu.mapapi.search.core.SearchResult;
-import com.baidu.mapapi.search.geocode.GeoCodeOption;
-import com.baidu.mapapi.search.geocode.GeoCodeResult;
-import com.baidu.mapapi.search.geocode.GeoCoder;
-import com.baidu.mapapi.search.geocode.OnGetGeoCoderResultListener;
-import com.baidu.mapapi.search.geocode.ReverseGeoCodeResult;
-import com.baidu.mapapi.search.route.BikingRouteResult;
-import com.baidu.mapapi.search.route.DrivingRouteLine;
-import com.baidu.mapapi.search.route.DrivingRouteResult;
-import com.baidu.mapapi.search.route.OnGetRoutePlanResultListener;
-import com.baidu.mapapi.search.route.PlanNode;
-import com.baidu.mapapi.search.route.RoutePlanSearch;
-import com.baidu.mapapi.search.route.TransitRouteLine;
-import com.baidu.mapapi.search.route.TransitRoutePlanOption;
-import com.baidu.mapapi.search.route.TransitRouteResult;
-import com.baidu.mapapi.search.route.WalkingRouteLine;
-import com.baidu.mapapi.search.route.WalkingRouteResult;
+
 import com.example.asus_cp.dongmanbuy.R;
-import com.example.asus_cp.dongmanbuy.adapter.baidu_adapter.RouteLineAdapter;
-import com.example.asus_cp.dongmanbuy.constant.MyConstant;
-import com.example.asus_cp.dongmanbuy.model.ShopModel;
-import com.example.asus_cp.dongmanbuy.util.MyGongJiaoUtil;
-import com.example.asus_cp.dongmanbuy.util.MyLog;
-
-import java.util.List;
 
 /**
  * 展示店铺地址的界面，主要是放一幅地图
  * Created by asus-cp on 2016-07-25.
  */
-public class ShopStreerMapActivity extends Activity implements View.OnClickListener{
+public class ShopStreerMapActivity extends Activity{
 
-    private String tag="ShopStreerMapActivity";
+    /*private String tag="ShopStreerMapActivity";
 
     private MapView mMapView;
     public LocationClient mLocationClient = null;
@@ -162,9 +102,9 @@ public class ShopStreerMapActivity extends Activity implements View.OnClickListe
     }
 
 
-    /**
+    *//**
      * 定位的初始化设置
-     */
+     *//*
     private void initLocation(){
         LocationClientOption option = new LocationClientOption();
         option.setLocationMode(LocationClientOption.LocationMode.Hight_Accuracy
@@ -203,9 +143,9 @@ public class ShopStreerMapActivity extends Activity implements View.OnClickListe
     }
 
 
-    /**
+    *//**
      * 公交线路的点击事件处理
-     */
+     *//*
     private void gongJiaoXianLuClickChuLi() {
         //创建公交线路规划检索实例
         RoutePlanSearch mSearch = RoutePlanSearch.newInstance();
@@ -525,9 +465,9 @@ public class ShopStreerMapActivity extends Activity implements View.OnClickListe
 
 
 
-    /**
+    *//**
      * 位置监听器
-     */
+     *//*
     class MyLocationListener implements BDLocationListener{
 
         @Override
@@ -546,22 +486,22 @@ public class ShopStreerMapActivity extends Activity implements View.OnClickListe
 
             //我自己添加的内容
             // 构造定位数据
-            /*MyLocationData locData = new MyLocationData.Builder()
+            *//*MyLocationData locData = new MyLocationData.Builder()
                     .accuracy(location.getRadius())//
                     .direction(location.getDirection())// 方向
                     .latitude(location.getLatitude())//
                     .longitude(location.getLongitude())//
                     .build();
             // 设置定位数据
-            baiduMap.setMyLocationData(locData);*/
+            baiduMap.setMyLocationData(locData);*//*
 
             //设置定位的配置信息
             final BitmapDescriptor bitmapDescriptor= BitmapDescriptorFactory.fromResource(R.mipmap.map);
-            /*MyLocationConfiguration myLocationConfiguration=new MyLocationConfiguration(
+            *//*MyLocationConfiguration myLocationConfiguration=new MyLocationConfiguration(
                     MyLocationConfiguration.LocationMode.NORMAL,true,bitmapDescriptor);
             baiduMap.setMyLocationEnabled(true);//必须设置这个，不设置这个，定位图标根本不会显示
             baiduMap.setMyLocationConfigeration(myLocationConfiguration);
-*/
+*//*
 
 
             // 定义marker坐标点
@@ -693,5 +633,5 @@ public class ShopStreerMapActivity extends Activity implements View.OnClickListe
             MyLog.d(tag, sb.toString());
 
         }
-    }
+    }*/
 }

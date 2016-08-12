@@ -14,8 +14,6 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.example.asus_cp.dongmanbuy.R;
-import com.example.asus_cp.dongmanbuy.activity.search.GoodSearchResultActivity;
-import com.example.asus_cp.dongmanbuy.activity.search.ShopSearchResultActivity;
 import com.example.asus_cp.dongmanbuy.adapter.ShopStreetSpinnerAdapter;
 import com.example.asus_cp.dongmanbuy.constant.DBConstant;
 import com.example.asus_cp.dongmanbuy.constant.MyConstant;
