@@ -426,6 +426,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     nameTextView.setText("");
                     emailTextView.setText("");
                     loginImage.setImageResource(R.mipmap.yu_jia_zai);
+                    loginButton.setImageResource(R.mipmap.yu_jia_zai);
                 }
             }
         });
@@ -1097,6 +1098,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     loginImage.setImageResource(R.mipmap.yu_jia_zai);
                     nameTextView.setText("");
                     emailTextView.setText("");
+                    loginButton.setImageResource(R.mipmap.yu_jia_zai);
                 }
                 break;
             case REQUEST_CODE_SHOPPING_CAR://跳转到购物车碎片

@@ -19,4 +19,9 @@
     <color name="guide_one">#9bd66c</color>
     <color name="guide_two">#2c9be2</color>
     <color name="guide_three">#88cfc1</color>
+
+    <!--zxing里面用到的-->
+    <color name="result_view">#b0000000</color>
+    <color name="viewfinder_mask">#60000000</color>
+    <color name="possible_result_points">#c0ffff00</color>
 </resources>

@@ -27,6 +27,15 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.alibaba.mobileim.IYWLoginService;
+import com.alibaba.mobileim.YWIMKit;
+import com.alibaba.mobileim.YWLoginParam;
+import com.alibaba.mobileim.channel.event.IWxCallback;
+import com.alibaba.mobileim.conversation.EServiceContact;
+import com.alibaba.mobileim.conversation.IYWConversationService;
+import com.alibaba.mobileim.conversation.YWConversation;
+import com.alibaba.mobileim.conversation.YWMessage;
+import com.alibaba.mobileim.conversation.YWMessageChannel;
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -50,6 +59,7 @@ import com.example.asus_cp.dongmanbuy.util.ImageLoadHelper;
 import com.example.asus_cp.dongmanbuy.util.JsonHelper;
 import com.example.asus_cp.dongmanbuy.util.MyApplication;
 import com.example.asus_cp.dongmanbuy.util.MyLog;
+import com.example.asus_cp.dongmanbuy.util.MyYWIMKitHelper;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -735,7 +745,8 @@ public class ProductDetailActivity extends Activity implements View.OnClickListe
                 Toast.makeText(this, "联系客服", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.ll_ke_fu://客服
-                Toast.makeText(this, "客服", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(this, "客服", Toast.LENGTH_SHORT).show();
+                keFuClickChuLi();
                 break;
             case R.id.ll_shopping_car_product_detail://购物车
                 //Toast.makeText(this, "购物车", Toast.LENGTH_SHORT).show();
@@ -796,6 +807,66 @@ public class ProductDetailActivity extends Activity implements View.OnClickListe
                 fuWuWindow.dismiss();
                 break;
         }
+    }
+
+
+    /**
+     * 客服的点击事件处理
+     */
+    private void keFuClickChuLi() {
+        //开始登录
+        String userid = "zmobuy1";
+        String password = "123456";
+        final YWIMKit mIMKit= MyYWIMKitHelper.getYwimkit(userid);//需要userId才能得到这个
+        IYWLoginService loginService = mIMKit.getLoginService();
+        YWLoginParam loginParam = YWLoginParam.createLoginParam(userid, password);
+        loginService.login(loginParam, new IWxCallback() {
+            @Override
+            public void onSuccess(Object... arg0) {
+                MyLog.d(tag, "登陆成功了");
+                //创建一条宝贝焦点消息, 参数为宝贝id
+                YWMessage message = YWMessageChannel.createGoodsFocusMessage(good.getGoodId());
+                message.setContent(good.getGoodName());
+                IYWConversationService conversationService = mIMKit.getConversationService();
+                final EServiceContact contact = new EServiceContact("动漫卡哇伊周小沫", 161017570);
+                //获取会话对象
+                YWConversation conversation = conversationService.getConversation(contact);
+                //发送宝贝焦点消息，其中TIMEOUT为超时时间，单位为秒
+                conversation.getMessageSender().sendMessage(message, 10, new IWxCallback() {
+                    @Override
+                    public void onSuccess(Object... arg0) {
+                        // 发送成功
+                        MyLog.d(tag, "发送到千牛的消息是：" + arg0.toString());
+                        Intent intent = mIMKit.getChattingActivityIntent(contact);
+                        startActivity(intent);
+
+                    }
+
+                    @Override
+                    public void onProgress(int arg0) {
+
+                    }
+
+                    @Override
+                    public void onError(int arg0, String arg1) {
+                        // 发送失败
+                    }
+                });
+
+
+            }
+
+            @Override
+            public void onProgress(int arg0) {
+                // TODO Auto-generated method stub
+            }
+
+            @Override
+            public void onError(int errCode, String description) {
+                //如果登录失败，errCode为错误码,description是错误的具体描述信息
+            }
+        });
+
     }
 
 
