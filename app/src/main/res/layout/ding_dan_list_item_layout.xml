@@ -73,6 +73,8 @@
                 android:background="@color/white_my"
                 android:clickable="false"
                 android:focusable="false"
+                android:horizontalSpacing="5dp"
+                android:verticalSpacing="5dp"
                 >
             </com.example.asus_cp.dongmanbuy.customview.MyGridViewA>
         </LinearLayout>

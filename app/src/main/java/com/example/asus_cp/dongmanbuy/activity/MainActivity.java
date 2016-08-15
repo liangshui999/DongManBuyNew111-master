@@ -75,7 +75,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private String shoppingCarListUrl="http://www.zmobuy.com/PHP/index.php?url=/cart/list";//购物车列表
     //private android.support.v7.widget.SearchView searchView;
     private ImageView searchImageView;//搜索的图片
-    private ImageButton loginButton;//登录按钮
+    private de.hdodenhof.circleimageview.CircleImageView loginButton;//登录按钮
     private ImageView messageButton;//消息按钮
     //private ViewPager viewPager;
     private FrameLayout frameLaout;//内容区域的容器
@@ -169,6 +169,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private int densty;//屏幕像素密度
 
+    private ImageLoadHelper imageLoaderhelper;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -218,6 +220,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         getWindowManager().getDefaultDisplay().getMetrics(metric);
         densty = metric.densityDpi;  // 屏幕密度DPI（120 / 160 / 240）
 
+        imageLoaderhelper=new ImageLoadHelper();
+        String uid=sharedPreferences.getString(MyConstant.UID_KEY,null);
+        String sid=null;
+        if(uid==null || uid.isEmpty()){
+
+        }else {
+            sid=sharedPreferences.getString(MyConstant.SID_KEY,null);
+            getDataFromIntenetAndSetNameAndEmailAndPic(uid,sid);
+        }
+
     }
 
     public int getDensty(){
@@ -259,7 +271,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }*/
 
         searchImageView= (ImageView) findViewById(R.id.img_search_main);
-        loginButton= (ImageButton) findViewById(R.id.img_btn_login);
+        loginButton= (CircleImageView) findViewById(R.id.img_btn_login);
         messageButton= (ImageView) findViewById(R.id.img_btn_message);
 
         loginButton.setOnClickListener(this);
@@ -787,11 +799,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         User user=parseJson(s);
                         nameTextView.setText(user.getName());
                         emailTextView.setText(user.getEmail());
-                        ImageLoadHelper helper=new ImageLoadHelper();
-                        ImageLoader imageLoader=helper.getImageLoader();
-                        ImageLoader.ImageListener listener=imageLoader.getImageListener(loginImage,R.mipmap.yu_jia_zai,
+                        ImageLoader imageLoader1=imageLoaderhelper.getImageLoader();
+                        ImageLoader.ImageListener listener=imageLoader1.getImageListener(loginImage,R.mipmap.yu_jia_zai,
                                 R.mipmap.yu_jia_zai);
-                        imageLoader.get(MyConstant.YU_MING + user.getPic(), listener, 200, 200);
+                        imageLoader1.get(MyConstant.YU_MING + user.getPic(), listener, 200, 200);
+                        ImageLoader imageLoader2=imageLoaderhelper.getImageLoader();
+                        ImageLoader.ImageListener listener1=imageLoader2.getImageListener(loginButton,R.mipmap.yu_jia_zai,
+                                R.mipmap.yu_jia_zai);
+                        imageLoader2.get(MyConstant.YU_MING + user.getPic(), listener1, 200, 200);
                     }
                 }, new Response.ErrorListener() {
             @Override

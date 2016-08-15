@@ -268,8 +268,8 @@ public class ShopDetailActivity extends Activity implements View.OnClickListener
      */
     private void keFuClickChuLi() {
         //开始登录
-        String userid = "testpro1";
-        String password = "taobao1234";
+        String userid = "zmobuy1";
+        String password = "123456";
         final YWIMKit mIMKit= MyYWIMKitHelper.getYwimkit(userid);//需要userId才能得到这个
         IYWLoginService loginService = mIMKit.getLoginService();
         YWLoginParam loginParam = YWLoginParam.createLoginParam(userid, password);
@@ -278,7 +278,7 @@ public class ShopDetailActivity extends Activity implements View.OnClickListener
             public void onSuccess(Object... arg0) {
                 MyLog.d(tag,"登陆成功了");
                 //userid是客服帐号，第一个参数是客服帐号，第二个是组ID，如果没有，传0
-                EServiceContact contact = new EServiceContact("userid", 0);
+                EServiceContact contact = new EServiceContact("动漫卡哇伊周小沫",161017570);
                 //如果需要发给指定的客服帐号，不需要Server进行分流(默认Server会分流)，请调用EServiceContact对象
                 //的setNeedByPass方法，参数为false。
                 //contact.setNeedByPass(false);

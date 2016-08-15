@@ -193,6 +193,8 @@
                             android:id="@+id/img_one_ding_dan_order_detail"
                             android:layout_width="wrap_content"
                             android:layout_height="120dp"
+                            android:layout_marginLeft="5dp"
+                            android:layout_marginRight="5dp"
                             />
 
                     </LinearLayout>
@@ -204,6 +206,8 @@
                             android:id="@+id/img_two_ding_dan_order_detail"
                             android:layout_width="wrap_content"
                             android:layout_height="120dp"
+                            android:layout_marginLeft="5dp"
+                            android:layout_marginRight="5dp"
                             />
 
                     </LinearLayout>
@@ -215,6 +219,8 @@
                             android:id="@+id/img_three_ding_dan_order_detail"
                             android:layout_width="wrap_content"
                             android:layout_height="120dp"
+                            android:layout_marginLeft="5dp"
+                            android:layout_marginRight="5dp"
                             />
 
                     </LinearLayout>

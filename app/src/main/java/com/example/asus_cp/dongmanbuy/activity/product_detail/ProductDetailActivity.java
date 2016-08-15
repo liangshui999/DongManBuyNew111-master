@@ -938,6 +938,7 @@ public class ProductDetailActivity extends Activity implements View.OnClickListe
             @Override
             public void onResponse(String s) {
                 MyLog.d(tag, "加入购物车返回的数据:" + s);
+                Toast.makeText(ProductDetailActivity.this,"加入购物车成功",Toast.LENGTH_SHORT).show();
             }
         }, new Response.ErrorListener() {
             @Override
@@ -971,6 +972,7 @@ public class ProductDetailActivity extends Activity implements View.OnClickListe
                     @Override
                     public void onResponse(String s) {
                         MyLog.d(tag, "更改商品数量返回的数据：" + s);
+                        Toast.makeText(ProductDetailActivity.this,"加入购物车成功",Toast.LENGTH_SHORT).show();
                     }
                 }, new Response.ErrorListener() {
             @Override

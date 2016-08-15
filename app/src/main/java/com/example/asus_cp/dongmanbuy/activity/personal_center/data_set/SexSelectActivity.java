@@ -120,9 +120,9 @@ public class SexSelectActivity extends Activity implements View.OnClickListener{
     private void conirmClickChuLi() {
         final String sex;
         if(nanTextView.getCurrentTextColor()==getResources().getColor(R.color.man_backgroud)){
-            sex="男";
+            sex="1";
         }else {
-            sex="女";
+            sex="2";
         }
         StringRequest changSexRequest=new StringRequest(Request.Method.POST, editInfoUrl,
                 new Response.Listener<String>() {
@@ -136,7 +136,12 @@ public class SexSelectActivity extends Activity implements View.OnClickListener{
                             if("1".equals(str)){
                                 Toast.makeText(SexSelectActivity.this, "修改成功", Toast.LENGTH_SHORT).show();
                                 Intent intent=new Intent();
-                                intent.putExtra(MyConstant.SEX_KEY, sex);
+                                if("1".equals(sex)){
+                                    intent.putExtra(MyConstant.SEX_KEY,"男");
+                                }else if("2".equals(sex)){
+                                    intent.putExtra(MyConstant.SEX_KEY,"女");
+                                }
+
                                 setResult(RESULT_OK, intent);
                             }else{
                                 Toast.makeText(SexSelectActivity.this,"修改失败",Toast.LENGTH_SHORT).show();
