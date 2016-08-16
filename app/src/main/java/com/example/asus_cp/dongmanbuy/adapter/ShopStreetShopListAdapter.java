@@ -175,10 +175,7 @@ public class ShopStreetShopListAdapter extends BaseAdapter {
         viewHolder.nameAndGuanZhuLinearLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(context, ShopHomeActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                intent.putExtra(MyConstant.SHOP_USER_ID_KEY, shopModel.getUserId());
-                context.startActivity(intent);
+                toShopHomeActivity(shopModel);
             }
         });
         /*viewHolder.shopNameTextView.setOnClickListener(new View.OnClickListener() {
@@ -195,10 +192,7 @@ public class ShopStreetShopListAdapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
                 //Toast.makeText(context, "点击了店铺logo", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(context, ShopHomeActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                intent.putExtra(MyConstant.SHOP_USER_ID_KEY, shopModel.getUserId());
-                context.startActivity(intent);
+                toShopHomeActivity(shopModel);
             }
         });
 
@@ -227,6 +221,19 @@ public class ShopStreetShopListAdapter extends BaseAdapter {
             viewHolder.shopContentRecyClView.setVisibility(View.GONE);
         }
         return v;
+    }
+
+    /**
+     * 跳转到店铺主页
+     * @param shopModel
+     */
+    private void toShopHomeActivity(ShopModel shopModel) {
+        Intent intent = new Intent(context, ShopHomeActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.putExtra(MyConstant.SHOP_USER_ID_KEY, shopModel.getUserId());
+        context.startActivity(intent);
+
+
     }
 
 

@@ -192,8 +192,11 @@ public class DingDanActivity extends Activity implements View.OnClickListener{
         listviewOut.setLayoutParams(params);
         listviewOut.setAdapter(adapterOut);
 
-        //设置商品总价，总数目，结算价格
+
+        //设置商品总价
         productSumPriceTextBottomView.setText(productSumPrice);
+
+        //设置实际付款
         setShiFuKuan();
 
     }
@@ -556,7 +559,7 @@ public class DingDanActivity extends Activity implements View.OnClickListener{
             shopModelJson.setShipping_id(shopModel.getShippingId());//设置快递方式
             shopModelJson.setPostscript(shopModel.getMaiJiaLiuYan());//设置买家留言
             shopModelJson.setGoods_amount(shopModel.getSumPrice());//设置该店铺所有商品的总价格
-            shopModelJson.setShipping_fee("10.00");//这个是暂时的
+            shopModelJson.setShipping_fee("0.00");//这个是暂时的
             List<String> goodIds=new ArrayList<String>();
             List<Good> tempGoods=shopModel.getGoods();
             for(int j=0;j<tempGoods.size();j++){

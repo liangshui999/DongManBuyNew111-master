@@ -143,13 +143,27 @@
             android:layout_marginRight="10dp"
             android:background="@mipmap/right" />
 
-        <TextView
-            android:id="@+id/text_pei_song_fang_shi_ding_dan"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toLeftOf="@id/pei_song_right"
-            android:text="商家配送"
-            android:textSize="@dimen/ding_dan_layout_base_font" />
+            android:layout_centerVertical="true">
+            <TextView
+                android:id="@+id/text_pei_song_fang_shi_ding_dan"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="商家配送"
+                android:textSize="@dimen/ding_dan_layout_base_font" />
+            <TextView
+                android:id="@+id/text_yun_fei_ding_dan_list"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0.00"
+                android:layout_marginLeft="5dp"
+                />
+        </LinearLayout>
+
+
 
     </RelativeLayout>
 

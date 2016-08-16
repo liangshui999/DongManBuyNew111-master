@@ -60,6 +60,7 @@ import com.example.asus_cp.dongmanbuy.util.ImageLoadHelper;
 import com.example.asus_cp.dongmanbuy.util.JsonHelper;
 import com.example.asus_cp.dongmanbuy.util.MyApplication;
 import com.example.asus_cp.dongmanbuy.util.MyLog;
+import com.example.asus_cp.dongmanbuy.util.MyTimeHelper;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -100,6 +101,9 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
     private static final int THREE_BINNER_FLAG =9 ;//第三幅广告的标记
     private List<View> threeImageViews;//装载imageview的集合
 
+    //限时秒杀
+    public static final int XIAN_SHI_TIME=11;//限时秒杀的消息标记
+
 
 
     private int[] imageIds={R.drawable.guanggao1,R.drawable.guanggao2,R.drawable.guanggao3};//装imagview图片id的数组
@@ -120,6 +124,9 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
     private LinearLayout helpll;
 
     //限时秒杀的gridview
+    private TextView hourTextView;
+    private TextView minuteTextView;
+    private TextView secondTextView;
     private MyGridView xianShiMiaoShaGridView;
     private ImageView xianShiMiaoShaImagView;
     public static final int REFRESH_XIAN_SHI_MIAO_SHA=10;
@@ -221,7 +228,10 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
                 case REFRESH_XIAN_SHI_MIAO_SHA://更新限时秒杀
                     Bitmap bitmap= (Bitmap) msg.obj;
                     xianShiMiaoShaImagView.setImageBitmap(bitmap);
-
+                    break;
+                case XIAN_SHI_TIME://限时秒杀
+                    setXianShiTime();
+                    handler.sendEmptyMessageDelayed(XIAN_SHI_TIME,1000);
                     break;
             }
         }
@@ -356,7 +366,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
             }
         };
         requestQueue.add(binnerThreeRequest);//加入到队列
-        threeViewPager.addOnPageChangeListener(new MyPageChangeListener(threeImageViews,threePointGroup));
+        threeViewPager.addOnPageChangeListener(new MyPageChangeListener(threeImageViews, threePointGroup));
         threeViewPager.setOnTouchListener(new MyPageTouchListener(SCROLL__THREE_BINNER,threeViewPager));
 
 
@@ -385,6 +395,12 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
 
 
         //-----------------------限时秒杀部分---------------------------------
+        hourTextView= (TextView) v.findViewById(R.id.text_hour_xian_shi_miao_sha);
+        minuteTextView= (TextView) v.findViewById(R.id.text_minute_xian_shi_miao_sha);
+        secondTextView= (TextView) v.findViewById(R.id.text_second_xian_shi_miao_sha);
+        //给限时秒杀的时间设置值
+        setXianShiTime();
+        handler.sendEmptyMessageDelayed(XIAN_SHI_TIME,1000);
         String shanShiUrl="http://www.zmobuy.com/PHP/index.php?url=/home/grab";
         StringRequest xianShiStringRequest=new StringRequest(Request.Method.GET, shanShiUrl, new Response.Listener<String>() {
             @Override
@@ -647,6 +663,16 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
         xianShiMoreTextView.setOnClickListener(this);
         jingPinMoreTextView.setOnClickListener(this);
         dianPuJieMoreTextView.setOnClickListener(this);
+    }
+
+    /**
+     * 给限时秒杀的时间设置值
+     */
+    private void setXianShiTime() {
+        Map<String,Long> map= MyTimeHelper.getTimeCha("");
+        hourTextView.setText(FormatHelper.convertStringToTwoString(""+map.get(MyConstant.HOUR_KEY)));
+        minuteTextView.setText(FormatHelper.convertStringToTwoString(""+map.get(MyConstant.MINUTE_KEY)));
+        secondTextView.setText(FormatHelper.convertStringToTwoString(""+map.get(MyConstant.SECOND_KEY)));
     }
 
 
@@ -1055,7 +1081,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
     @Override
     public void onStop() {
         super.onStop();
-        handler.removeMessages(SCROLL__FIRST_BINNER);
 
         //移除忽视的view，否则容易产生内存溢出
         mainActivity.menu.removeIgnoredView(firstViewPager);
@@ -1066,6 +1091,13 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
 
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        handler.removeMessages(SCROLL__FIRST_BINNER);
+        handler.removeMessages(XIAN_SHI_TIME);
+
+    }
 
     /**
      * 广告viewpager的滚动监听器

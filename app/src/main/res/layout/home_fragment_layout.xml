@@ -47,7 +47,8 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:background="@android:color/white"
-                android:paddingBottom="20dp">
+                android:paddingBottom="20dp"
+                android:visibility="visible">
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
@@ -238,13 +239,59 @@
                     android:textStyle="bold"
                     android:textColor="@color/bottom_lable_color"
                     android:layout_marginLeft="10dp"/>
-                <TextView
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/miao_sha_time"
-                    android:layout_toRightOf="@id/xian_shi_biao_ti"
                     android:layout_centerVertical="true"
-                    android:layout_marginLeft="10dp"/>
+                    android:layout_toRightOf="@id/xian_shi_biao_ti"
+                    >
+                    <TextView
+                        android:id="@+id/text_hour_xian_shi_miao_sha"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="13"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="10dp"
+                        android:textColor="@color/white_my"
+                        android:padding="2dp"
+                        android:background="@drawable/xian_shi_miao_sha_background"
+                        />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text=":"
+                        android:paddingLeft="5dp"
+                        android:paddingRight="2dp"/>
+                    <TextView
+                        android:id="@+id/text_minute_xian_shi_miao_sha"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="13"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="10dp"
+                        android:textColor="@color/white_my"
+                        android:padding="2dp"
+                        android:background="@drawable/xian_shi_miao_sha_background"
+                        />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text=":"
+                        android:paddingLeft="5dp"
+                        android:paddingRight="2dp"/>
+                    <TextView
+                        android:id="@+id/text_second_xian_shi_miao_sha"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="13"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="10dp"
+                        android:textColor="@color/white_my"
+                        android:padding="2dp"
+                        android:background="@drawable/xian_shi_miao_sha_background"
+                        />
+                </LinearLayout>
+
 
                 <ImageView
                     android:id="@+id/xianshi"

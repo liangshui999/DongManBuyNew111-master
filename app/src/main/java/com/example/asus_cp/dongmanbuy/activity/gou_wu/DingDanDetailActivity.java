@@ -15,6 +15,7 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -91,6 +92,8 @@ public class DingDanDetailActivity extends Activity implements View.OnClickListe
     private TextView yingFuZongETextView;//应付总额
     private Button cancelOrderButton;//取消订单
     private Button zhiFuBaoZhiFuButton;//支付宝支付
+    private RelativeLayout cancelAndPayRelativeLayout;//支付宝支付和取消订单
+    private RelativeLayout yiQueRenRelaytiveLayout;//已确认
 
     private DingDanModel dingDanModel;//其他活动传递过来的订单实体
     private List<Good> goods;
@@ -257,6 +260,8 @@ public class DingDanDetailActivity extends Activity implements View.OnClickListe
         zhiFuBaoZhiFuButton= (Button) findViewById(R.id.btn_zhi_fu_bao_zhi_fu_order_detail);
         faPiaoTaiTouTextView= (TextView) findViewById(R.id.text_fa_piao_tai_tou_order_detail);
         faPiaocontentTextView= (TextView) findViewById(R.id.text_fa_piao_content_order_detail);
+        cancelAndPayRelativeLayout= (RelativeLayout) findViewById(R.id.re_layout_cancel_and_pay_gu_ding);
+        yiQueRenRelaytiveLayout= (RelativeLayout) findViewById(R.id.re_layout_yi_que_ren);
 
         StringRequest orderInfoRequest = new StringRequest(Request.Method.POST, orderInfoUrl,
                 new Response.Listener<String>() {
@@ -366,7 +371,7 @@ public class DingDanDetailActivity extends Activity implements View.OnClickListe
         dingDanTimeTextView.setText(dingDanModel.getOrderTime());
         MyLog.d(tag, "总价=" + dingDanModel.getSumPrice());
         productSumPriceTextView.setText(FormatHelper.getMoneyFormat(dingDanModel.getGoodsSumPrice()));//设置商品金额
-        yingFuZongETextView.setText(FormatHelper.getMoneyFormat(dingDanModel.getSumPrice()));
+        yingFuZongETextView.setText(FormatHelper.getMoneyFormat(dingDanModel.getGoodsSumPrice()));
         peiSongFangShiTextView.setText(dingDanModel.getShipName());//设置配送方式
         yunFeiTextView.setText(dingDanModel.getShipFee());
         yunFeiBottomTextView.setText(dingDanModel.getShipFee());
@@ -374,6 +379,15 @@ public class DingDanDetailActivity extends Activity implements View.OnClickListe
         zhiFuFangShiTextView.setText(dingDanModel.getZhiFuFangShi());
         faPiaoTaiTouTextView.setText(dingDanModel.getFaPiaoTaiTou());
         faPiaocontentTextView.setText(dingDanModel.getFaPiaoContent());
+
+        //设置支付状态，隐藏固定栏里面的项目
+        if("2".equals(dingDanModel.getPayStatus())){    //已支付过了
+            cancelAndPayRelativeLayout.setVisibility(View.GONE);
+            yiQueRenRelaytiveLayout.setVisibility(View.VISIBLE);
+        }else if("0".equals(dingDanModel.getPayStatus())){  //未支付
+            cancelAndPayRelativeLayout.setVisibility(View.VISIBLE);
+            yiQueRenRelaytiveLayout.setVisibility(View.GONE);
+        }
 
         MyLog.d(tag, "支付方式是：" + dingDanModel.getZhiFuFangShi());
 

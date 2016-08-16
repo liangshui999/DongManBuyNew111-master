@@ -1,6 +1,5 @@
 package com.example.asus_cp.dongmanbuy.activity.product_detail;
 
-import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -36,6 +35,8 @@ import com.alibaba.mobileim.conversation.IYWConversationService;
 import com.alibaba.mobileim.conversation.YWConversation;
 import com.alibaba.mobileim.conversation.YWMessage;
 import com.alibaba.mobileim.conversation.YWMessageChannel;
+import com.alibaba.mobileim.kit.track.TrackBaseActivity;
+import com.alibaba.mobileim.utility.YWTrackUtil;
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -47,6 +48,7 @@ import com.example.asus_cp.dongmanbuy.R;
 import com.example.asus_cp.dongmanbuy.activity.MainActivity;
 import com.example.asus_cp.dongmanbuy.activity.login.LoginActivity;
 import com.example.asus_cp.dongmanbuy.adapter.ProductDetailYouHuiQuanListAdapter;
+import com.example.asus_cp.dongmanbuy.constant.AliBaiChuanConstant;
 import com.example.asus_cp.dongmanbuy.constant.MyConstant;
 import com.example.asus_cp.dongmanbuy.db.CursorHandler;
 import com.example.asus_cp.dongmanbuy.db.BookDBOperateHelper;
@@ -58,6 +60,7 @@ import com.example.asus_cp.dongmanbuy.util.FormatHelper;
 import com.example.asus_cp.dongmanbuy.util.ImageLoadHelper;
 import com.example.asus_cp.dongmanbuy.util.JsonHelper;
 import com.example.asus_cp.dongmanbuy.util.MyApplication;
+import com.example.asus_cp.dongmanbuy.util.MyIMHelper;
 import com.example.asus_cp.dongmanbuy.util.MyLog;
 import com.example.asus_cp.dongmanbuy.util.MyYWIMKitHelper;
 
@@ -74,7 +77,7 @@ import java.util.Map;
  * 商品详情
  * Created by asus-cp on 2016-06-01.
  */
-public class ProductDetailActivity extends Activity implements View.OnClickListener {
+public class ProductDetailActivity extends TrackBaseActivity implements View.OnClickListener {
 
     private ImageView daoHangImagView;//导航
     private ImageView productBigPicImageView;//商品的大图
@@ -242,8 +245,51 @@ public class ProductDetailActivity extends Activity implements View.OnClickListe
         buyAtOnceButton.setOnClickListener(this);
         liuLanJiLu();//向数据库中插入数据，做浏览记录
 
+    }
 
 
+    /**
+     * 用户足迹
+     */
+    private void userZuJi() {
+        //上传用户足迹信息
+        YWTrackUtil.init("zmobuy1", AliBaiChuanConstant.APP_KEY, new IWxCallback() {
+            @Override
+            public void onSuccess(Object... objects) {
+
+            }
+
+            @Override
+            public void onError(int i, String s) {
+
+            }
+
+            @Override
+            public void onProgress(int i) {
+
+            }
+        });
+
+        String extra_ui="{\"商品名称\":\""+good.getGoodName()+"\"}";
+        String extra_param="开发者可以使用该字段完成业务参数的传递";
+        YWTrackUtil.updateExtraInfo(extra_ui, extra_param, new IWxCallback() {
+            @Override
+            public void onSuccess(Object... objects) {
+
+            }
+
+            @Override
+            public void onError(int i, String s) {
+
+            }
+
+            @Override
+            public void onProgress(int i) {
+
+            }
+        });
+
+        setYWTrackTitleAndUrl(tag, "www.baidu.com");
     }
 
     /**
@@ -475,6 +521,9 @@ public class ProductDetailActivity extends Activity implements View.OnClickListe
 
         //给服务设置初值
         setFirstValueToFuWu();
+
+        //设置用户足迹
+        userZuJi();
     }
 
 
@@ -746,7 +795,8 @@ public class ProductDetailActivity extends Activity implements View.OnClickListe
                 break;
             case R.id.ll_ke_fu://客服
                 //Toast.makeText(this, "客服", Toast.LENGTH_SHORT).show();
-                keFuClickChuLi();
+                MyIMHelper myIMHelper=new MyIMHelper();
+                myIMHelper.openKeFuLiaoTianAndSendMessage(good.getGoodName());
                 break;
             case R.id.ll_shopping_car_product_detail://购物车
                 //Toast.makeText(this, "购物车", Toast.LENGTH_SHORT).show();
@@ -824,9 +874,9 @@ public class ProductDetailActivity extends Activity implements View.OnClickListe
             @Override
             public void onSuccess(Object... arg0) {
                 MyLog.d(tag, "登陆成功了");
+                MyLog.d(tag,"goodId="+good.getGoodId());
                 //创建一条宝贝焦点消息, 参数为宝贝id
                 YWMessage message = YWMessageChannel.createGoodsFocusMessage(good.getGoodId());
-                message.setContent(good.getGoodName());
                 IYWConversationService conversationService = mIMKit.getConversationService();
                 final EServiceContact contact = new EServiceContact("动漫卡哇伊周小沫", 161017570);
                 //获取会话对象
@@ -837,8 +887,6 @@ public class ProductDetailActivity extends Activity implements View.OnClickListe
                     public void onSuccess(Object... arg0) {
                         // 发送成功
                         MyLog.d(tag, "发送到千牛的消息是：" + arg0.toString());
-                        Intent intent = mIMKit.getChattingActivityIntent(contact);
-                        startActivity(intent);
 
                     }
 
@@ -853,7 +901,26 @@ public class ProductDetailActivity extends Activity implements View.OnClickListe
                     }
                 });
 
+                final YWMessage nameMessage=YWMessageChannel.createTextMessage("商品名称是：" + good.getGoodName());
+                conversation.getMessageSender().sendMessage(nameMessage, 10, new IWxCallback() {
+                    @Override
+                    public void onSuccess(Object... arg0) {
+                        // 发送成功
+                        MyLog.d(tag, "发送到千牛的消息是：" + nameMessage);
+                        Intent intent = mIMKit.getChattingActivityIntent(contact);
+                        startActivity(intent);
+                    }
 
+                    @Override
+                    public void onProgress(int arg0) {
+
+                    }
+
+                    @Override
+                    public void onError(int arg0, String arg1) {
+                        // 发送失败
+                    }
+                });
             }
 
             @Override

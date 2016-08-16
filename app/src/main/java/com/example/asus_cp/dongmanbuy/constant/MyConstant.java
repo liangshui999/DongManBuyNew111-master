@@ -70,5 +70,8 @@ public interface MyConstant {
     public static final String SHOP_MODE_LIST_KEY="shopmodellistkey";//传递shopmodle集合时用
     public static final String GUIDE_SHAREPRENCE_NAME="guide";//引导页保存数据的shareprefrence的名字
     public static final String IS_FIRST_KEY="isfirst";//是否是第一次启动应用程序
+    public static final String HOUR_KEY="hour";
+    public static final String MINUTE_KEY="minute";
+    public static final String SECOND_KEY="second";
 
 }

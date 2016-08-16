@@ -19,6 +19,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.example.asus_cp.dongmanbuy.R;
 import com.example.asus_cp.dongmanbuy.constant.MyConstant;
 import com.example.asus_cp.dongmanbuy.model.User;
+import com.example.asus_cp.dongmanbuy.util.FormatHelper;
 import com.example.asus_cp.dongmanbuy.util.JsonHelper;
 import com.example.asus_cp.dongmanbuy.util.MyApplication;
 import com.example.asus_cp.dongmanbuy.util.MyLog;
@@ -118,7 +119,7 @@ public class FundManagerActivity extends Activity implements View.OnClickListene
     private void setValueToView() {
         //设置初始值
         MyLog.d(tag, user.getMoney() + "...." + user.getDongJieJinE());
-        keYongYuETextView.setText(user.getMoney());
+        keYongYuETextView.setText(FormatHelper.getMoneyFormat(user.getMoney()));
         dongJieJinETextView.setText(user.getDongJieJinE());
         hongBaoTextView.setText(user.getHongBao());
         yinHangKaTextView.setText(user.getBankCards());

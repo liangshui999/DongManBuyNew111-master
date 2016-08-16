@@ -61,7 +61,8 @@ public class DingDanJieMianListAdapterOut extends BaseAdapter implements View.On
 
     private Context context;
     private List<ShopModel> shopModles;
-    private ArrayList<List<Integer>> itemGoodCounts;
+    private ArrayList<List<Integer>> itemGoodCounts;//每一个小项的商品数量
+    private List<Double> itemSumPrice;//每一小项的商品总价
     private LayoutInflater inflater;
     private ImageLoadHelper helper;
     private View parentView;//所有view的父view
@@ -86,6 +87,25 @@ public class DingDanJieMianListAdapterOut extends BaseAdapter implements View.On
         parentView= LayoutInflater.from(context).inflate(R.layout.ding_dan_activity_layout,null);
         densty=dingDanActivity.getDensty();
         requestQueue= MyApplication.getRequestQueue();
+        initItemSumPrice();
+    }
+
+    /**
+     * 初始化itemsumprice
+     */
+    private void initItemSumPrice() {
+        itemSumPrice=new ArrayList<Double>();
+        for(int i=0;i<shopModles.size();i++){
+            itemSumPrice.add(0.00);
+        }
+    }
+
+    /**
+     * 获取到itemsumprice
+     * @return
+     */
+    public List<Double> getItemSumPrice() {
+        return itemSumPrice;
     }
 
     @Override
@@ -119,6 +139,7 @@ public class DingDanJieMianListAdapterOut extends BaseAdapter implements View.On
             viewHolder.goodNumberTextView= (TextView) v.findViewById(R.id.text_good_sum_count_list_item_out);
             viewHolder.peiSongFangShiRelativeLayout= (RelativeLayout) v.findViewById(R.id.re_layout_pei_song_fang_shi_list_item_out);
             viewHolder.peiSongFangShiTextView= (TextView) v.findViewById(R.id.text_pei_song_fang_shi_ding_dan);
+            viewHolder.yunFeiTextView= (TextView) v.findViewById(R.id.text_yun_fei_ding_dan_list);
             viewHolder.maiJiaLiuYanEditText= (EditText) v.findViewById(R.id.edit_mai_jia_liu_yan_list_item_out);
             viewHolder.goodNumberDownTextView= (TextView) v.findViewById(R.id.text_product_sum_he_ji_list_item_out);
             viewHolder.sumPriceTextView= (TextView) v.findViewById(R.id.text_he_ji_price_list_item_out);
@@ -167,7 +188,12 @@ public class DingDanJieMianListAdapterOut extends BaseAdapter implements View.On
             sumPrice=sumPrice+tempCount*singlePrice;
         }
         viewHolder.sumPriceTextView.setText(FormatHelper.getOneXiaoShuFormat(""+sumPrice));
-        shopModel.setSumPrice(FormatHelper.getOneXiaoShuFormat(""+sumPrice));//主要是为了上传用的
+        shopModel.setSumPrice(FormatHelper.getOneXiaoShuFormat("" + sumPrice));//主要是为了上传用的
+
+        //将总价的值装入itemsumprice
+        itemSumPrice.set(position, sumPrice);
+        MyLog.d(tag,"positon的商品价格是："+itemSumPrice.get(position));
+
 
         //设置点击事件
         final ViewHolder finalViewHolder = viewHolder;
@@ -338,6 +364,7 @@ public class DingDanJieMianListAdapterOut extends BaseAdapter implements View.On
         LinearLayout dispalyAllLinearLayout;//点击之后展示所有的商品
         TextView goodNumberTextView;//商品数量
         RelativeLayout peiSongFangShiRelativeLayout;//配送方式
+        TextView yunFeiTextView;//运费
         TextView peiSongFangShiTextView;//
         EditText maiJiaLiuYanEditText;
         TextView goodNumberDownTextView;//商品数量下面

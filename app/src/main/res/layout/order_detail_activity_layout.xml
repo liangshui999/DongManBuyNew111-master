@@ -649,6 +649,7 @@
 
     <!--固定栏-->
     <RelativeLayout
+        android:id="@+id/re_layout_cancel_and_pay_gu_ding"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingTop="10dp"
@@ -678,6 +679,23 @@
             android:layout_toLeftOf="@id/btn_zhi_fu_bao_zhi_fu_order_detail"
             android:layout_centerVertical="true"
             android:layout_marginRight="10dp"
+            android:textSize="16sp"/>
+
+    </RelativeLayout>
+
+
+    <RelativeLayout
+        android:id="@+id/re_layout_yi_que_ren"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="@string/yi_qu_ren"
             android:textSize="16sp"/>
 
     </RelativeLayout>

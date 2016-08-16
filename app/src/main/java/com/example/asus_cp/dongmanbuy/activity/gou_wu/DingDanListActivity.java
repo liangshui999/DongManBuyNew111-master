@@ -165,7 +165,6 @@ public class DingDanListActivity extends Activity implements View.OnClickListene
                                     }catch (Exception e){
                                         e.printStackTrace();
                                     }
-
                                     if(goodArray!=null){
                                         for(int j=0;j<goodArray.length();j++){
                                             JSONObject goodJs=goodArray.getJSONObject(j);
@@ -178,7 +177,6 @@ public class DingDanListActivity extends Activity implements View.OnClickListene
                                             good.setGoodsImg(imgJs.getString("url"));
                                             good.setGoodsThumb(imgJs.getString("thumb"));
                                             good.setGoodsSmallImag(imgJs.getString("small"));
-
                                             goods.add(good);
                                         }
                                     }

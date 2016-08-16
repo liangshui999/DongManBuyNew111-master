@@ -163,7 +163,7 @@ public class TiXianActivity extends Activity implements View.OnClickListener{
                                 JSONObject jsonObject1=jsonObject.getJSONObject("status");
                                 String succed=jsonObject1.getString("succeed");
                                 if("1".equals(succed)){
-                                    Toast.makeText(TiXianActivity.this,"提现成功",Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(TiXianActivity.this,"提现已经申请",Toast.LENGTH_SHORT).show();
                                     Intent intent=new Intent(TiXianActivity.this,ShenQingJiLuActivity.class);
                                     startActivity(intent);
                                 }else {
