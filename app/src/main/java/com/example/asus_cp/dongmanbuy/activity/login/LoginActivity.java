@@ -54,6 +54,7 @@ public class LoginActivity extends Activity implements View.OnClickListener{
 
     private int passwordFlag;//改变密码明码的标记
 
+    private ImageView daoHangImageView;//导航
     private EditText zhangHaoEditText;//账号
     private EditText passWordEdtiText;//密码
     private ImageView seePassWordImagView;//设置显示密码还是明码
@@ -108,6 +109,7 @@ public class LoginActivity extends Activity implements View.OnClickListener{
      * 初始化视图
      */
     private void initView() {
+        daoHangImageView= (ImageView) findViewById(R.id.img_dao_hang_login);
         zhangHaoEditText= (EditText) findViewById(R.id.edit_zhang_hao);
         passWordEdtiText= (EditText) findViewById(R.id.edit_password);
         seePassWordImagView= (ImageView) findViewById(R.id.img_see_password);
@@ -118,6 +120,7 @@ public class LoginActivity extends Activity implements View.OnClickListener{
         weiBoLinearLayout= (LinearLayout) findViewById(R.id.ll_wei_bo);
         weiXinLinearLayout= (LinearLayout) findViewById(R.id.ll_wei_xin);
 
+        daoHangImageView.setOnClickListener(this);
         seePassWordImagView.setOnClickListener(this);
         forgetPassWord.setOnClickListener(this);
         loginButton.setOnClickListener(this);
@@ -135,6 +138,9 @@ public class LoginActivity extends Activity implements View.OnClickListener{
     @Override
     public void onClick(View v) {
         switch (v.getId()){
+            case R.id.img_dao_hang_login://点击了导航
+                finish();
+                break;
             case R.id.img_see_password:
                 if(passwordFlag%2==0){
                     seePassWordImagView.setBackgroundResource(R.drawable.see_password_selected);

@@ -10,6 +10,7 @@ import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -175,9 +176,12 @@ public class DingDanListAdapter extends BaseAdapter{
                             if("1".equals(flag)){
                                 models.remove(position);
                                 notifyDataSetChanged();
+                            }else{
+                                Toast.makeText(context,"客户端暂时不支持取消订单",Toast.LENGTH_SHORT).show();
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
+                            Toast.makeText(context,"客户端暂时不支持取消订单",Toast.LENGTH_SHORT).show();
                         }
                     }
                 }, new Response.ErrorListener() {

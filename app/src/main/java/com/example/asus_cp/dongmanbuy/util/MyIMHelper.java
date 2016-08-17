@@ -6,21 +6,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v4.app.Fragment;
 
-import com.alibaba.mobileim.IYWLoginService;
-import com.alibaba.mobileim.YWIMKit;
-import com.alibaba.mobileim.YWLoginParam;
-import com.alibaba.mobileim.channel.cloud.contact.YWProfileInfo;
-import com.alibaba.mobileim.channel.event.IWxCallback;
-import com.alibaba.mobileim.contact.IYWContact;
-import com.alibaba.mobileim.contact.IYWContactHeadClickListener;
-import com.alibaba.mobileim.contact.IYWContactService;
-import com.alibaba.mobileim.contact.IYWCrossContactProfileCallback;
-import com.alibaba.mobileim.conversation.EServiceContact;
-import com.alibaba.mobileim.conversation.IYWConversationService;
-import com.alibaba.mobileim.conversation.YWConversation;
-import com.alibaba.mobileim.conversation.YWMessage;
-import com.alibaba.mobileim.conversation.YWMessageChannel;
-import com.alibaba.mobileim.lib.model.contact.Contact;
+
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -46,7 +32,7 @@ import java.util.Map;
  * Created by asus-cp on 2016-08-16.
  */
 public class MyIMHelper {
-    private String tag="MyIMHelper";
+   /* private String tag="MyIMHelper";
     private  Context context=MyApplication.getContext();
     private  boolean enableUseLocalUserProfile = true;
     private RequestQueue requestQueue;
@@ -57,10 +43,10 @@ public class MyIMHelper {
 
     }
 
-    /**
+    *//**
      * 弹出客服聊天对话框，并且向客服发送商品名称
      * @param s 需要发送的消息，可以是商品名称，或者不发
-     */
+     *//*
     public void openKeFuLiaoTianAndSendMessage(final String s) {
 
         //开始登录
@@ -80,7 +66,7 @@ public class MyIMHelper {
                 YWConversation conversation = conversationService.getConversation(contact);
                 if("".equals(s)){
                     openKeFuActivity(mIMKit,contact);
-                }else{
+                }else{  //先发送中消息，再打开客服聊天窗口
                     final YWMessage nameMessage=YWMessageChannel.createTextMessage("商品名称是：" + s);
                     conversation.getMessageSender().sendMessage(nameMessage, 10, new IWxCallback() {
                         @Override
@@ -116,11 +102,11 @@ public class MyIMHelper {
 
     }
 
-    /**
+    *//**
      * 打开客服界面
      * @param mIMKit
      * @param contact
-     */
+     *//*
     private void openKeFuActivity(YWIMKit mIMKit, EServiceContact contact) {
         Intent intent = mIMKit.getChattingActivityIntent(contact);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -163,14 +149,14 @@ public class MyIMHelper {
         //设置用户信息回调，如果开发者已经把用户信息导入了IM服务器，则不需要再调用该方法，IMSDK会自动到IM服务器获取用户信息
         contactManager.setCrossContactProfileCallback(new IYWCrossContactProfileCallback() {
 
-            /**
+            *//**
              * 设置头像点击事件, 该方法已废弃，后续请使用
              * {@link IYWContactService#)}
              * @param userId 需要打开页面的用户
              * @param appKey 需要返回个人信息的用户所属站点
              * @return
              * @deprecated
-             */
+             *//*
             @Override
             public Intent onShowProfileActivity(String userId, String appKey) {
                 return null;
@@ -216,13 +202,13 @@ public class MyIMHelper {
         });
     }
 
-    /**
+    *//**
      *  todo 1. 账号的昵称和头像已经导入云旺服务器的情况，一般情况直接返回false即可，除非需"特殊处理"的账号
      *      2.未导入云旺服务器的情况，返回true即可（建议导入）
      * @param userid
      * @param appkey
      * @return
-     */
+     *//*
     private static boolean isNeedSpecialHandleAccount(String userid, String appkey){
 //        if(!TextUtils.isEmpty(userid)&&userid.startsWith("云")){
 //            return true;
@@ -288,9 +274,9 @@ public class MyIMHelper {
 
 
 
-    /**
+    *//**
      * 联网获取数据，并给view赋值
-     */
+     *//*
     private void getDataFromIntenetAndSetView(final String userId, final IYWContactService contactManager) {
         SharedPreferences sharedPreferences=context.getSharedPreferences(MyConstant.USER_SHAREPREFRENCE_NAME,Context.MODE_APPEND);
         final String uid=sharedPreferences.getString(MyConstant.UID_KEY, null);
@@ -328,10 +314,10 @@ public class MyIMHelper {
     }
 
 
-    /**
+    *//**
      * 解析json数据
      * @param s
-     */
+     *//*
     private User parseJson(String s) {
         MyLog.d(tag, "返回的数据是：" + s);
         User user=new User();
@@ -360,5 +346,5 @@ public class MyIMHelper {
         }
         return user;
     }
-
+*/
 }

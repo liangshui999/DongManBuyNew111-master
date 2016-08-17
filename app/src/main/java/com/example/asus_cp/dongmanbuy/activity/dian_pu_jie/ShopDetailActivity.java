@@ -22,11 +22,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.alibaba.mobileim.IYWLoginService;
-import com.alibaba.mobileim.YWIMKit;
-import com.alibaba.mobileim.YWLoginParam;
-import com.alibaba.mobileim.channel.event.IWxCallback;
-import com.alibaba.mobileim.conversation.EServiceContact;
+
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -44,6 +40,7 @@ import com.example.asus_cp.dongmanbuy.util.FormatHelper;
 import com.example.asus_cp.dongmanbuy.util.ImageLoadHelper;
 import com.example.asus_cp.dongmanbuy.util.JsonHelper;
 import com.example.asus_cp.dongmanbuy.util.MyApplication;
+import com.example.asus_cp.dongmanbuy.util.MyIMHelper;
 import com.example.asus_cp.dongmanbuy.util.MyLog;
 import com.example.asus_cp.dongmanbuy.util.MyYWIMKitHelper;
 
@@ -95,6 +92,7 @@ public class ShopDetailActivity extends Activity implements View.OnClickListener
     private ShopModel shopModel;
 
     private ImageLoadHelper helper;
+    private MyIMHelper myIMHelper;
 
 
     private String guanZhuUrl="http://www.zmobuy.com/PHP/?url=/store/addcollect";//关注的接口
@@ -209,6 +207,9 @@ public class ShopDetailActivity extends Activity implements View.OnClickListener
             erWeiMaView=inflater.inflate(R.layout.er_wei_ma_tan_chu,null);
             erWeiMaImageView= (ImageView) erWeiMaView.findViewById(R.id.img_er_wei_ma);
             parentView=inflater.inflate(R.layout.shop_detail_activity_layout,null);
+
+            //实例化Myimhelper
+            myIMHelper=new MyIMHelper();
         }
     }
 
@@ -238,7 +239,8 @@ public class ShopDetailActivity extends Activity implements View.OnClickListener
                 break;
             case R.id.re_layout_ke_fu://点击了在线客服
                 //Toast.makeText(this,"点击了在线客服",Toast.LENGTH_SHORT).show();
-                keFuClickChuLi();
+                //keFuClickChuLi()
+                //myIMHelper.openKeFuLiaoTianAndSendMessage("");
                 break;
             case R.id.re_layout_shop_er_wei_ma://点击了二维码
                 /*Intent saoYiSaoIntent = new Intent(ShopDetailActivity.this, MipcaActivityCapture.class);
@@ -267,7 +269,7 @@ public class ShopDetailActivity extends Activity implements View.OnClickListener
      * 客服的点击事件处理
      */
     private void keFuClickChuLi() {
-        //开始登录
+        /*//开始登录
         String userid = "zmobuy1";
         String password = "123456";
         final YWIMKit mIMKit= MyYWIMKitHelper.getYwimkit(userid);//需要userId才能得到这个
@@ -295,7 +297,7 @@ public class ShopDetailActivity extends Activity implements View.OnClickListener
             public void onError(int errCode, String description) {
                 //如果登录失败，errCode为错误码,description是错误的具体描述信息
             }
-        });
+        });*/
     }
 
 

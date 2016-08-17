@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -17,6 +18,7 @@ import com.example.asus_cp.dongmanbuy.R;
  * Created by asus-cp on 2016-05-30.
  */
 public class FindByEmailYanZhengMaActiity extends Activity {
+    private ImageView daoHangImageView;
     private TextView emailAddressTextView;
     private EditText yanZhengMaEdtiText;
     private Button nextStepButton;
@@ -39,12 +41,20 @@ public class FindByEmailYanZhengMaActiity extends Activity {
      */
     private void init() {
         email=getIntent().getStringExtra(FindPassworByEmaildActivity.EMAIL_KEY);
+        daoHangImageView= (ImageView) findViewById(R.id.img_dao_hang_yan_zheng_ma);
         yanZhengMaEdtiText= (EditText) findViewById(R.id.edit_yan_zheng_ma_find_by_email);
         nextStepButton= (Button) findViewById(R.id.btn_next_step_email_yan_zheng_ma);
         emailAddressTextView= (TextView) findViewById(R.id.text_email_address_yan_zheng);
 
         //设置邮箱地址
         emailAddressTextView.setText(email);
+
+        daoHangImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
         nextStepButton.setOnClickListener(new View.OnClickListener() {
             @Override

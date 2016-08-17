@@ -4,11 +4,34 @@
     android:layout_height="match_parent"
     android:layout_margin="5dp">
 
+    <!--头部-->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="2dp"
+        android:background="@color/white_my">
+        <ImageView
+            android:id="@+id/img_dao_hang_login"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_centerVertical="true"
+            android:src="@mipmap/leftdaohang"
+            android:layout_marginLeft="5dp"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/login"
+            android:gravity="center"
+            android:layout_centerInParent="true"
+            android:padding="5dp"
+            android:textSize="@dimen/dao_hang_base_font"
+            />
+    </RelativeLayout>
     <!--账号-->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp">
+        android:layout_marginTop="10dp">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

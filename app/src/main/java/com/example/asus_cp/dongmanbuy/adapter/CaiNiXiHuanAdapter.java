@@ -62,8 +62,16 @@ public class CaiNiXiHuanAdapter extends BaseAdapter{
         }else{
             viewHolder= (ViewHolder) v.getTag();
         }
+        Good good=goods.get(position);
+
         viewHolder.nameTextView.setText(goods.get(position).getGoodName());
-        viewHolder.shopPriceTextView.setText(FormatHelper.getMoneyFormat(goods.get(position).getShopPrice()));
+        //设置商品店铺价格,不带人民币符号
+        String zheKouPrice = FormatHelper.getNumberFromRenMingBi(good.getPromotePrice());
+        if (zheKouPrice==null || "0.00".equals(zheKouPrice) || "0".equals(zheKouPrice)) {
+            viewHolder.shopPriceTextView.setText(FormatHelper.getMoneyFormat(goods.get(position).getShopPrice()));//使用shopprice
+        }else{
+            viewHolder.shopPriceTextView.setText(FormatHelper.getMoneyFormat(goods.get(position).getPromotePrice()));//使用折扣价格
+        }
         ImageLoader.ImageListener imageListener=imageLoader.getImageListener(viewHolder.imageView, R.mipmap.yu_jia_zai_cai_ni_xi_huan,
                 R.mipmap.yu_jia_zai_cai_ni_xi_huan);
         imageLoader.get(goods.get(position).getGoodsImg(), imageListener,500,500);

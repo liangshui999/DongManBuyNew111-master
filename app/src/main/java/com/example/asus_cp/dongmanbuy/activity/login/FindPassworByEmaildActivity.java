@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -38,6 +39,7 @@ import java.util.Map;
  * Created by asus-cp on 2016-05-30.
  */
 public class FindPassworByEmaildActivity extends Activity{
+    private ImageView daoHangImageView;
     private EditText inputEmailEditText;
     private Button nextStepButton;
     private TextView alsoFindByPhoneTextView;
@@ -64,10 +66,18 @@ public class FindPassworByEmaildActivity extends Activity{
      */
     private void init() {
         requestQueue=MyApplication.getRequestQueue();
+        daoHangImageView= (ImageView) findViewById(R.id.img_dao_hang_find_by_email);
         inputEmailEditText= (EditText) findViewById(R.id.edit_email_num_find_password);
         nextStepButton= (Button) findViewById(R.id.btn_next_step_email);
 
         userName=getIntent().getStringExtra(LoginActivity.USER_NAME_KEY);
+
+        daoHangImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
         nextStepButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -89,13 +99,13 @@ public class FindPassworByEmaildActivity extends Activity{
                                 String succeed=jsonObject1.getString("succeed");
                                 if("1".equals(succeed)){
                                     Intent intent=new Intent(FindPassworByEmaildActivity.this,FindByEmailYanZhengMaActiity.class);
-                                    intent.putExtra(EMAIL_KEY,email);
+                                    intent.putExtra(EMAIL_KEY, email);
                                     startActivity(intent);
                                 }else{
-                                    Toast.makeText(FindPassworByEmaildActivity.this,"邮箱和用户名不匹配",Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(FindPassworByEmaildActivity.this,"邮箱不存在",Toast.LENGTH_SHORT).show();
                                 }
                             } catch (Exception e) {
-                                Toast.makeText(FindPassworByEmaildActivity.this,"邮箱和用户名不匹配",Toast.LENGTH_SHORT).show();
+                                Toast.makeText(FindPassworByEmaildActivity.this,"邮箱不存在",Toast.LENGTH_SHORT).show();
                                 e.printStackTrace();
                             }
 

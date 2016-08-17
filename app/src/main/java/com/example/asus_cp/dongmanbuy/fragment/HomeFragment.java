@@ -103,7 +103,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
 
     //限时秒杀
     public static final int XIAN_SHI_TIME=11;//限时秒杀的消息标记
-
+    private String promoteEndTime;//促销结束时间
 
 
     private int[] imageIds={R.drawable.guanggao1,R.drawable.guanggao2,R.drawable.guanggao3};//装imagview图片id的数组
@@ -398,9 +398,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
         hourTextView= (TextView) v.findViewById(R.id.text_hour_xian_shi_miao_sha);
         minuteTextView= (TextView) v.findViewById(R.id.text_minute_xian_shi_miao_sha);
         secondTextView= (TextView) v.findViewById(R.id.text_second_xian_shi_miao_sha);
-        //给限时秒杀的时间设置值
-        setXianShiTime();
-        handler.sendEmptyMessageDelayed(XIAN_SHI_TIME,1000);
         String shanShiUrl="http://www.zmobuy.com/PHP/index.php?url=/home/grab";
         StringRequest xianShiStringRequest=new StringRequest(Request.Method.GET, shanShiUrl, new Response.Listener<String>() {
             @Override
@@ -425,6 +422,10 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
                         good.setShopPrice(JsonHelper.decodeUnicode(js.getString("shop_price")));
                         good.setGoodsNumber(js.getString("goods_number"));
                         goods.add(good);
+                        promoteEndTime=js.getString("promote_end_date");//获取促销结束时间
+                        //给限时秒杀的时间设置值
+                        setXianShiTime();
+                        handler.sendEmptyMessageDelayed(XIAN_SHI_TIME,1000);
                     }
                     xianShiMiaoShaImagView= (ImageView) v.findViewById(R.id.img_xian_shi_miao_sha_content);
                     xianShiMiaoShaImagView.setOnClickListener(new View.OnClickListener() {
@@ -669,7 +670,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
      * 给限时秒杀的时间设置值
      */
     private void setXianShiTime() {
-        Map<String,Long> map= MyTimeHelper.getTimeCha("");
+        Map<String,Long> map= MyTimeHelper.getTimeCha(promoteEndTime);
         hourTextView.setText(FormatHelper.convertStringToTwoString(""+map.get(MyConstant.HOUR_KEY)));
         minuteTextView.setText(FormatHelper.convertStringToTwoString(""+map.get(MyConstant.MINUTE_KEY)));
         secondTextView.setText(FormatHelper.convertStringToTwoString(""+map.get(MyConstant.SECOND_KEY)));

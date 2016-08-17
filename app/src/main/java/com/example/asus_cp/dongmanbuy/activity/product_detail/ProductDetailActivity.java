@@ -1,5 +1,6 @@
 package com.example.asus_cp.dongmanbuy.activity.product_detail;
 
+import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -26,17 +27,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.alibaba.mobileim.IYWLoginService;
-import com.alibaba.mobileim.YWIMKit;
-import com.alibaba.mobileim.YWLoginParam;
-import com.alibaba.mobileim.channel.event.IWxCallback;
-import com.alibaba.mobileim.conversation.EServiceContact;
-import com.alibaba.mobileim.conversation.IYWConversationService;
-import com.alibaba.mobileim.conversation.YWConversation;
-import com.alibaba.mobileim.conversation.YWMessage;
-import com.alibaba.mobileim.conversation.YWMessageChannel;
-import com.alibaba.mobileim.kit.track.TrackBaseActivity;
-import com.alibaba.mobileim.utility.YWTrackUtil;
+
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -77,7 +68,7 @@ import java.util.Map;
  * 商品详情
  * Created by asus-cp on 2016-06-01.
  */
-public class ProductDetailActivity extends TrackBaseActivity implements View.OnClickListener {
+public class ProductDetailActivity extends Activity implements View.OnClickListener {
 
     private ImageView daoHangImagView;//导航
     private ImageView productBigPicImageView;//商品的大图
@@ -252,7 +243,7 @@ public class ProductDetailActivity extends TrackBaseActivity implements View.OnC
      * 用户足迹
      */
     private void userZuJi() {
-        //上传用户足迹信息
+       /* //上传用户足迹信息
         YWTrackUtil.init("zmobuy1", AliBaiChuanConstant.APP_KEY, new IWxCallback() {
             @Override
             public void onSuccess(Object... objects) {
@@ -289,7 +280,7 @@ public class ProductDetailActivity extends TrackBaseActivity implements View.OnC
             }
         });
 
-        setYWTrackTitleAndUrl(tag, "www.baidu.com");
+        setYWTrackTitleAndUrl(tag, "www.baidu.com");*/
     }
 
     /**
@@ -795,8 +786,8 @@ public class ProductDetailActivity extends TrackBaseActivity implements View.OnC
                 break;
             case R.id.ll_ke_fu://客服
                 //Toast.makeText(this, "客服", Toast.LENGTH_SHORT).show();
-                MyIMHelper myIMHelper=new MyIMHelper();
-                myIMHelper.openKeFuLiaoTianAndSendMessage(good.getGoodName());
+//                MyIMHelper myIMHelper=new MyIMHelper();
+//                myIMHelper.openKeFuLiaoTianAndSendMessage(good.getGoodName());
                 break;
             case R.id.ll_shopping_car_product_detail://购物车
                 //Toast.makeText(this, "购物车", Toast.LENGTH_SHORT).show();
@@ -864,7 +855,7 @@ public class ProductDetailActivity extends TrackBaseActivity implements View.OnC
      * 客服的点击事件处理
      */
     private void keFuClickChuLi() {
-        //开始登录
+       /* //开始登录
         String userid = "zmobuy1";
         String password = "123456";
         final YWIMKit mIMKit= MyYWIMKitHelper.getYwimkit(userid);//需要userId才能得到这个
@@ -933,7 +924,7 @@ public class ProductDetailActivity extends TrackBaseActivity implements View.OnC
                 //如果登录失败，errCode为错误码,description是错误的具体描述信息
             }
         });
-
+*/
     }
 
 

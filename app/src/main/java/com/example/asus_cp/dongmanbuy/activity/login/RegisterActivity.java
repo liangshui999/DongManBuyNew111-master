@@ -19,6 +19,7 @@ import com.example.asus_cp.dongmanbuy.fragment.register_fragment.PhoneRegisterFr
  * Created by asus-cp on 2016-05-27.
  */
 public class RegisterActivity extends FragmentActivity implements View.OnClickListener{
+    private ImageView daoHangImageView;//导航
     private TextView phoneRegisterTextView;//手机注册
     private TextView emailRegisterTextView;//邮箱注册
     private ImageView phoneRegisterImageView;
@@ -36,6 +37,7 @@ public class RegisterActivity extends FragmentActivity implements View.OnClickLi
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.register_activity_layout);
 
+        daoHangImageView= (ImageView) findViewById(R.id.img_dao_hang_register);
         phoneRegisterTextView= (TextView) findViewById(R.id.text_phone_register);
         emailRegisterTextView= (TextView) findViewById(R.id.text_email_register);
         phoneRegisterImageView= (ImageView) findViewById(R.id.img_phone_register_status);
@@ -45,6 +47,8 @@ public class RegisterActivity extends FragmentActivity implements View.OnClickLi
 
         phoneRegisterTextView.setTextColor(getResources().getColor(R.color.bottom_lable_color));
 
+        //设置点击事件
+        daoHangImageView.setOnClickListener(this);
         phoneRegisterTextView.setOnClickListener(this);
         emailRegisterTextView.setOnClickListener(this);
         zhiJieLoginTextView.setOnClickListener(this);//直接登陆
@@ -64,6 +68,9 @@ public class RegisterActivity extends FragmentActivity implements View.OnClickLi
     @Override
     public void onClick(View v) {
         switch (v.getId()){
+            case R.id.img_dao_hang_register:
+                finish();
+                break;
             case R.id.text_phone_register://手机注册
                 reset();
                 FragmentTransaction transaction1=fragmentManager.beginTransaction();

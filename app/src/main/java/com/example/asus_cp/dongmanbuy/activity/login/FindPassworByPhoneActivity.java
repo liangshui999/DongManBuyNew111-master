@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.asus_cp.dongmanbuy.R;
@@ -23,6 +24,7 @@ import com.example.asus_cp.dongmanbuy.util.MyLog;
  * Created by asus-cp on 2016-05-30.
  */
 public class FindPassworByPhoneActivity extends Activity{
+    private ImageView daoHangImageView;
     private EditText phoneNumberEditText;
     private Button nextButton;
     private TextView alsoFindByEmailTextView;
@@ -34,9 +36,17 @@ public class FindPassworByPhoneActivity extends Activity{
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.find_password_by_phone_layout);
+        daoHangImageView= (ImageView) findViewById(R.id.img_dao_hang_change_by_phone);
         phoneNumberEditText= (EditText) findViewById(R.id.edit_phone_num_find_password);
         nextButton= (Button) findViewById(R.id.btn_next_step_phone);
         alsoFindByEmailTextView= (TextView) findViewById(R.id.text_also_find_by_email);
+
+        daoHangImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
         phoneNumberEditText.clearFocus();
 
@@ -75,5 +85,7 @@ public class FindPassworByPhoneActivity extends Activity{
         public void onClick(View widget) {
         }
     }
+
+
 
 }
