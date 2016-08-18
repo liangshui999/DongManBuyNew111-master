@@ -113,7 +113,8 @@ public class DataSetActivity extends Activity implements View.OnClickListener{
                 break;
             case R.id.re_layout_sex_data_set://点击了性别
                 Intent toSexIntent=new Intent(this,SexSelectActivity.class);
-                startActivityForResult(toSexIntent,REQUEST_CODE_SEX);
+                toSexIntent.putExtra(MyConstant.USER_KEY,user);
+                startActivityForResult(toSexIntent, REQUEST_CODE_SEX);
                 break;
             case R.id.re_layout_phone_data_set://点击了手机
                 Intent toPhoneIntent=new Intent(this,ChangePhoneActivity.class);//注意要修改后一个参数
@@ -121,7 +122,8 @@ public class DataSetActivity extends Activity implements View.OnClickListener{
                 break;
             case R.id.re_layout_email_data_set://点击邮箱
                 Intent toEmailIntent=new Intent(this,ChangeEmailActivity.class);
-                startActivityForResult(toEmailIntent,REQUEST_CODE_EMAIL);
+                toEmailIntent.putExtra(MyConstant.USER_KEY,user);
+                startActivityForResult(toEmailIntent, REQUEST_CODE_EMAIL);
                 break;
             case R.id.re_layout_change_password_data_set://点击了修改密码
                 Intent toChangePasswordIntent=new Intent(this,ChangPasswordPersonalCenterActivity.class);

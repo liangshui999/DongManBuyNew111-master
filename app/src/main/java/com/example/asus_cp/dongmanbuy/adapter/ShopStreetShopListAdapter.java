@@ -117,7 +117,7 @@ public class ShopStreetShopListAdapter extends BaseAdapter {
         ImageLoader imageLoader=helper.getImageLoader();
         ImageLoader.ImageListener listener=imageLoader.getImageListener(viewHolder.logoImagView,
                 R.mipmap.yu_jia_zai,R.mipmap.yu_jia_zai);
-        imageLoader.get(shopModel.getBrandThumb(), listener);
+        imageLoader.get(shopModel.getLogoThumb(), listener);
 
 
         viewHolder.shopNameTextView.setText(shopModel.getShopName());

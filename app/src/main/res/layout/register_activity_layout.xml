@@ -10,7 +10,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white_my"
-        android:layout_marginBottom="2dp">
+        android:layout_marginBottom="2dp"
+        android:paddingTop="@dimen/head_padding"
+        android:paddingBottom="@dimen/head_padding">
         <ImageView
             android:id="@+id/img_dao_hang_register"
             android:layout_width="30dp"
@@ -28,6 +30,11 @@
             android:textSize="@dimen/dao_hang_base_font"
             />
     </RelativeLayout>
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/gray"/>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -51,7 +58,8 @@
                 android:id="@+id/img_phone_register_status"
                 android:layout_width="match_parent"
                 android:layout_height="20dp"
-                android:src="@mipmap/register_selected"/>
+                android:src="@mipmap/register_selected"
+                />
 
         </LinearLayout>
 
@@ -73,7 +81,8 @@
                 android:id="@+id/img_email_register_status"
                 android:layout_width="match_parent"
                 android:layout_height="20dp"
-                android:src="@mipmap/register_not_selected"/>
+                android:src="@mipmap/register_not_selected"
+                />
 
         </LinearLayout>
     </LinearLayout>

@@ -73,5 +73,6 @@ public interface MyConstant {
     public static final String HOUR_KEY="hour";
     public static final String MINUTE_KEY="minute";
     public static final String SECOND_KEY="second";
+    public static final String SESSION_ID_KEY="sessionId";//sessionId的key
 
 }

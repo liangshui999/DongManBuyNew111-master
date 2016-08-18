@@ -10,6 +10,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white_my"
+        android:paddingTop="@dimen/head_padding"
+        android:paddingBottom="@dimen/head_padding"
         android:layout_marginBottom="2dp">
         <ImageView
             android:id="@+id/img_dao_hang_order_list"

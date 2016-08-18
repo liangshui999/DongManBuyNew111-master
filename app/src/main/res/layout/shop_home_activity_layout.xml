@@ -64,9 +64,9 @@
                 <!--店铺名称-->
                 <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="90dp"
                     android:padding="10dp"
-                    android:background="@color/gray">
+                    android:background="@mipmap/shopping_backgroud">
                     <ImageView
                         android:id="@+id/img_shop_logo_home"
                         android:layout_width="70dp"
@@ -87,11 +87,13 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="动漫社书屋"
-                            android:textSize="16sp"/>
+                            android:textSize="16sp"
+                            android:textColor="@color/white_my"/>
                         <TextView
                             android:id="@+id/text_guan_zhu_ren_shu_home"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:textColor="@color/white_my"
                             android:text="已经有0人关注"/>
                     </LinearLayout>
 
@@ -177,11 +179,13 @@
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="5dp"
-                    android:background="@color/gray"/>
+                    android:background="@color/gray"
+                    android:visibility="gone"/>
 
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:paddingBottom="10dp"
                     >
                     <TextView
                         android:layout_width="wrap_content"
@@ -189,7 +193,8 @@
                         android:text="@string/hot_product"
                         android:layout_marginLeft="10dp"
                         android:layout_marginTop="10dp"
-                        android:textSize="16sp"/>
+                        android:textSize="16sp"
+                        android:layout_centerVertical="true"/>
 
                 </RelativeLayout>
 
@@ -201,9 +206,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:numColumns="2"
-                    android:horizontalSpacing="10dp"
-                    android:verticalSpacing="10dp"
-                    android:padding="10dp"
+                    android:horizontalSpacing="@dimen/grid_view_space"
+                    android:verticalSpacing="@dimen/grid_view_space"
+                    android:padding="5dp"
                     android:background="@color/gray"
                     >
                 </com.example.asus_cp.dongmanbuy.customview.MyGridViewA>

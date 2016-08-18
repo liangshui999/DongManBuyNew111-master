@@ -179,10 +179,10 @@
             android:numColumns="2"
             android:visibility="visible"
             android:background="@color/gray"
-            android:paddingTop="10dp"
-            android:paddingBottom="10dp"
-            android:verticalSpacing="10dp"
-            android:horizontalSpacing="10dp"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+            android:verticalSpacing="@dimen/grid_view_space"
+            android:horizontalSpacing="@dimen/grid_view_space"
             android:scrollbars="none">
         </com.handmark.pulltorefresh.library.PullToRefreshGridView>
 

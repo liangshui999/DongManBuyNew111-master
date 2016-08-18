@@ -17,7 +17,9 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/bottom_lable_color">
+                android:background="@color/white_my"
+                android:paddingTop="@dimen/head_padding"
+                android:paddingBottom="@dimen/head_padding">
                 <ImageView
                     android:id="@+id/img_dao_hang_product_detail"
                     android:layout_width="30dp"
@@ -30,11 +32,16 @@
                     android:text="@string/product_detail"
                     android:gravity="center"
                     android:layout_centerInParent="true"
-                    android:textColor="@color/white_my"
                     android:padding="5dp"
                     android:textSize="20sp"
                     />
             </RelativeLayout>
+
+            <!--分隔线-->
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/gray"/>
 
 
             <!--//......................商品图片.....................-->
@@ -225,8 +232,8 @@
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
                     android:layout_marginTop="@dimen/product_detail_margin"
-
-                    android:background="@color/white_my">
+                    android:background="@color/white_my"
+                    android:visibility="gone">
                     <LinearLayout
                         android:layout_width="0dp"
                         android:layout_weight="1"

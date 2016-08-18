@@ -225,4 +225,15 @@ public class FormatHelper {
         MyLog.d(tag,"result="+result);
         return result;
     }
+
+    public static String getSessionId(String s){
+        String result=null;
+        String regex="ECS_ID=\\w+";
+        Pattern pattern=Pattern.compile(regex);
+        Matcher matcher=pattern.matcher(s);
+        if(matcher.find()){
+            result=matcher.group();
+        }
+        return result;
+    }
 }

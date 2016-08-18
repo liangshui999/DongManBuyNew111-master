@@ -23,6 +23,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.example.asus_cp.dongmanbuy.R;
+import com.example.asus_cp.dongmanbuy.activity.MainActivity;
 import com.example.asus_cp.dongmanbuy.activity.product_detail.QueHuoDengJiActivity;
 import com.example.asus_cp.dongmanbuy.constant.MyConstant;
 import com.example.asus_cp.dongmanbuy.constant.SinaConstants;
@@ -235,6 +236,9 @@ public class LoginActivity extends Activity implements View.OnClickListener{
                                 Intent detailIntent=new Intent();
                                 setResult(RESULT_OK,detailIntent);
                                 finish();
+                            }else if("findPassword".equals(whoStartMe)){ //找回密码之后跳转过来的
+                                Intent toMainActivityIntent=new Intent(LoginActivity.this, MainActivity.class);
+                                startActivity(toMainActivityIntent);
                             }
                         }else {
                             Toast.makeText(LoginActivity.this,"登录失败",Toast.LENGTH_SHORT).show();

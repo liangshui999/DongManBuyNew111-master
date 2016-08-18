@@ -20,6 +20,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.example.asus_cp.dongmanbuy.R;
 import com.example.asus_cp.dongmanbuy.constant.MyConstant;
+import com.example.asus_cp.dongmanbuy.model.User;
 import com.example.asus_cp.dongmanbuy.util.MyApplication;
 import com.example.asus_cp.dongmanbuy.util.MyLog;
 
@@ -55,6 +56,8 @@ public class SexSelectActivity extends Activity implements View.OnClickListener{
 
     private String sid;
 
+    private User user;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,6 +73,7 @@ public class SexSelectActivity extends Activity implements View.OnClickListener{
      */
     private void init() {
 
+        user=getIntent().getParcelableExtra(MyConstant.USER_KEY);
         requestQueue= MyApplication.getRequestQueue();
         SharedPreferences sharedPreferences=getSharedPreferences(MyConstant.USER_SHAREPREFRENCE_NAME,MODE_APPEND);
         uid=sharedPreferences.getString(MyConstant.UID_KEY,null);
@@ -141,7 +145,6 @@ public class SexSelectActivity extends Activity implements View.OnClickListener{
                                 }else if("2".equals(sex)){
                                     intent.putExtra(MyConstant.SEX_KEY,"女");
                                 }
-
                                 setResult(RESULT_OK, intent);
                             }else{
                                 Toast.makeText(SexSelectActivity.this,"修改失败",Toast.LENGTH_SHORT).show();
@@ -162,7 +165,7 @@ public class SexSelectActivity extends Activity implements View.OnClickListener{
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String,String> map=new HashMap<String,String>();
-                String json="{\"session\":{\"uid\":\""+uid+"\",\"sid\":\""+sid+"\"},\"sex\":\""+sex+"\",\"email\":\"\"}";
+                String json="{\"session\":{\"uid\":\""+uid+"\",\"sid\":\""+sid+"\"},\"sex\":\""+sex+"\",\"email\":\""+user.getEmail()+"\"}";
                 map.put("json",json);
                 return map;
             }

@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/white_my">
 
     <!--头部-->
     <RelativeLayout
@@ -9,7 +10,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white_my"
-        android:layout_marginBottom="2dp">
+        android:paddingTop="@dimen/head_padding"
+        android:paddingBottom="@dimen/head_padding">
         <ImageView
             android:id="@+id/img_dao_hang_shou_huo_ren_list"
             android:layout_width="@dimen/dao_hang_img_base_font"
@@ -20,7 +22,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/shou_huo_ren_list"
+            android:text="@string/ship_address"
             android:gravity="center"
             android:layout_centerInParent="true"
             android:padding="5dp"
@@ -28,11 +30,17 @@
             />
     </RelativeLayout>
 
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@color/gray"/>
+
     <ListView
         android:id="@+id/list_view_shou_huo_ren_xin_xi"
         android:layout_below="@id/re_layout_head"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:background="@color/white_my">
     </ListView>
     <TextView
         android:id="@+id/text_xin_zeng_shou_huo_ren_xin_xi"

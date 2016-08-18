@@ -12,7 +12,7 @@
     <string name="shopping_car">购物车</string>
     <string name="my_wallet">我的钱包</string>
     <string name="my_order">我的订单</string>
-    <string name="order">订单</string>
+    <string name="order_confirm">确认订单</string>
     <string name="order_list">订单列表</string>
     <string name="order_detail">订单详情</string>
     <string name="browse_history">浏览记录</string>
@@ -58,6 +58,7 @@
     <string name="password_hint">请输入密码</string>
     <string name="forget_password">忘记密码?</string>
     <string name="login">登录</string>
+    <string name="user_login">用户登录</string>
     <string name="new_user_zhu_ce">新用户注册</string>
     <string name="di_san_fang_deng_lu">第三方登录</string>
     <string name="qq">QQ</string>
@@ -331,5 +332,8 @@
     <string name="yi_qu_ren">已确认</string>
     <string name="input_email">输入邮箱</string>
     <string name="input_phone">输入手机号</string>
+    <string name="find_password">找回密码</string>
+    <string name="goods_qing_dan">商品清单</string>
+    <string name="add_shou_huo_address">新增收货地址</string>
 
 </resources>

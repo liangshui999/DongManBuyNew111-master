@@ -40,7 +40,8 @@
             android:src="@mipmap/shoppingcar_hong"
             android:layout_alignParentRight="true"
             android:layout_marginRight="10dp"
-            android:layout_centerVertical="true"/>
+            android:layout_centerVertical="true"
+            android:visibility="gone"/>
     </RelativeLayout>
 
 </LinearLayout>

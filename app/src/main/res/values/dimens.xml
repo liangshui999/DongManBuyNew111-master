@@ -28,7 +28,9 @@
     <dimen name="slidingmenu_offset">60dp</dimen>
     <dimen name="shadow_width">5dp</dimen>
     <dimen name="search_way_base_font">16sp</dimen>
-    <dimen name="dao_hang_base_font">16sp</dimen>
+    <dimen name="dao_hang_base_font">18sp</dimen>
     <dimen name="dao_hang_img_base_font">30dp</dimen>
     <dimen name="check_box_size">26dp</dimen>
+    <dimen name="head_padding">5dp</dimen>
+
 </resources>

@@ -3,10 +3,46 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <!--头部-->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white_my"
+        android:layout_marginBottom="2dp"
+        android:paddingTop="@dimen/head_padding"
+        android:paddingBottom="@dimen/head_padding">
+        <ImageView
+            android:id="@+id/img_dao_hang_good_qing_dan"
+            android:layout_width="@dimen/dao_hang_img_base_font"
+            android:layout_height="@dimen/dao_hang_img_base_font"
+            android:layout_centerVertical="true"
+            android:src="@mipmap/leftdaohang"
+            android:layout_marginLeft="5dp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/goods_qing_dan"
+            android:layout_centerHorizontal="true"
+            android:layout_centerInParent="true"
+            android:padding="5dp"
+            android:textSize="@dimen/dao_hang_base_font"
+            />
+        <TextView
+            android:id="@+id/text_good_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="共3件"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="5dp"
+            android:textSize="16sp"/>
+    </RelativeLayout>
+
     <com.example.asus_cp.dongmanbuy.customview.MyListView
         android:id="@+id/my_list_view_ding_dan_good_display"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/white_my"
         >
     </com.example.asus_cp.dongmanbuy.customview.MyListView>
 

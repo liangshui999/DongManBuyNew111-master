@@ -2,6 +2,7 @@ package com.example.asus_cp.dongmanbuy.activity.login;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.Spannable;
 import android.text.SpannableString;
@@ -25,14 +26,25 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.example.asus_cp.dongmanbuy.R;
+import com.example.asus_cp.dongmanbuy.constant.MyConstant;
 import com.example.asus_cp.dongmanbuy.util.CheckHelper;
+import com.example.asus_cp.dongmanbuy.util.FormatHelper;
 import com.example.asus_cp.dongmanbuy.util.MyApplication;
 import com.example.asus_cp.dongmanbuy.util.MyLog;
 
 import org.json.JSONObject;
 
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.CookieManager;
+import java.net.HttpURLConnection;
+import java.net.URI;
+import java.net.URL;
+import java.net.URLEncoder;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * 邮箱找回密码的界面
@@ -89,7 +101,7 @@ public class FindPassworByEmaildActivity extends Activity{
                 }else if(!CheckHelper.checkEmail(email)){
                     Toast.makeText(FindPassworByEmaildActivity.this,"邮箱格式错误，@请用英文状态下的@",Toast.LENGTH_SHORT).show();
                 }else{
-                    StringRequest stringRequest=new StringRequest(Request.Method.POST, findPasswordUrl, new Response.Listener<String>() {
+                    /*StringRequest stringRequest=new StringRequest(Request.Method.POST, findPasswordUrl, new Response.Listener<String>() {
                         @Override
                         public void onResponse(String s) {
                             MyLog.d(tag,"返回的数据："+s);
@@ -125,7 +137,8 @@ public class FindPassworByEmaildActivity extends Activity{
                             return map;
                         }
                     };
-                    requestQueue.add(stringRequest);
+                    requestQueue.add(stringRequest);*/
+                    shouDongPost(email);
                 }
             }
         });
@@ -166,6 +179,94 @@ public class FindPassworByEmaildActivity extends Activity{
         @Override
         public void onClick(View widget) {
         }
+    }
+
+
+    /**
+     * 手动发起post请求
+     *
+     */
+    private void shouDongPost(final String email) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                HttpURLConnection conn=null;
+                try {
+                    //String ceShiUrl="http://192.168.1.104:2006";
+                    URL url=new URL(findPasswordUrl);
+                    conn= (HttpURLConnection) url.openConnection();
+                    conn.setConnectTimeout(10 * 1000);
+                    conn.setReadTimeout(10 * 1000);
+                    conn.setRequestMethod("POST");
+                    conn.setDoOutput(true);
+                    conn.setDoInput(true);
+//                    sid="ECS_ID=fda22a552433c1c8408dcbe85e702861cfcb487c";
+//                    conn.setRequestProperty("Cookie", sid);// 有网站需要将当前的session id一并上传
+                    conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded; charset=" + "UTF-8");
+                    OutputStream out=conn.getOutputStream();
+                    String content="{\"username\":\"\",\"email\":\""+email+"\",\"email_code\":\""+""+"\",\"sms_code\":\"\",\"mobile\":\"\",\"new_password\":\""+""+"\"}";
+                    content="json="+ URLEncoder.encode(content, "utf-8");
+                    out.write(content.getBytes("utf-8"));
+                    out.flush();
+                    out.close();
+
+                    Map<String, List<String>>mapp=conn.getHeaderFields();
+                    Set<Map.Entry<String,List<String>>> sett=mapp.entrySet();
+                    for(Map.Entry<String,List<String>> m:sett){
+                        if("Set-Cookie".equals(m.getKey())){
+                            SharedPreferences sharedPreferences=getSharedPreferences(MyConstant.USER_SHAREPREFRENCE_NAME,MODE_APPEND);
+                            String sessionId=sharedPreferences.getString(MyConstant.SESSION_ID_KEY,null);
+                            if(sessionId!=null){
+                                SharedPreferences.Editor editor=sharedPreferences.edit();
+                                editor.remove(MyConstant.SESSION_ID_KEY);
+                                editor.apply();
+                            }
+                            SharedPreferences.Editor editor=sharedPreferences.edit();
+                            editor.putString(MyConstant.SESSION_ID_KEY,FormatHelper.getSessionId(m.getValue()+""));
+                            editor.apply();
+                            MyLog.d(tag,"SessionId："+ FormatHelper.getSessionId(m.getValue()+""));
+                        }
+                        MyLog.d(tag,"key："+m.getKey());
+                        MyLog.d(tag,"value："+m.getValue());
+                    }
+                    String responseCookie = conn.getHeaderField("Set-Cookie");// 取到服务端返回的Cookie,这个cooke返回的不全
+                    MyLog.d(tag, "服务器返回的cookes："+responseCookie+"...."+conn.getResponseMessage()+"....."+conn.getResponseCode());
+
+                    if(conn.getResponseCode()==200){
+                        InputStream in=conn.getInputStream();
+                        byte[] buf=new byte[1024*10];
+                        in.read(buf);
+                        String responses=new String(buf);
+                        String s=responses.trim();
+                        MyLog.d(tag, "发送的数据是" + content);
+                        MyLog.d(tag, "返回的数据是："+responses.trim());
+                        try {
+                            JSONObject jsonObject=new JSONObject(s);
+                            JSONObject jsonObject1=jsonObject.getJSONObject("data");
+                            String succeed=jsonObject1.getString("succeed");
+                            if("1".equals(succeed)){
+                                Intent intent=new Intent(FindPassworByEmaildActivity.this,FindByEmailYanZhengMaActiity.class);
+                                intent.putExtra(EMAIL_KEY, email);
+                                startActivity(intent);
+                            }else{
+                                Toast.makeText(FindPassworByEmaildActivity.this,"邮箱不存在",Toast.LENGTH_SHORT).show();
+                            }
+                        } catch (Exception e) {
+                            Toast.makeText(FindPassworByEmaildActivity.this,"邮箱不存在",Toast.LENGTH_SHORT).show();
+                            e.printStackTrace();
+                        }
+
+                    }else{
+                        Toast.makeText(FindPassworByEmaildActivity.this,"网络请求失败",Toast.LENGTH_SHORT).show();
+                    }
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }finally {
+                    conn.disconnect();
+                }
+            }
+        }).start();
     }
 
 }

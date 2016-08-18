@@ -9,7 +9,8 @@
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:background="@color/bottom_lable_color"
-        android:layout_alignParentTop="true">
+        android:layout_alignParentTop="true"
+        android:visibility="gone">
         <ImageView
             android:id="@+id/img_shoping_car_activity_dao_hang"
             android:layout_width="30dp"
@@ -75,9 +76,9 @@
                     android:numColumns="2"
                     android:visibility="visible"
                     android:background="@color/gray"
-                    android:horizontalSpacing="10dp"
-                    android:verticalSpacing="10dp"
-                    android:padding="10dp">
+                    android:horizontalSpacing="@dimen/grid_view_space"
+                    android:verticalSpacing="@dimen/grid_view_space"
+                    android:padding="5dp">
                 </com.example.asus_cp.dongmanbuy.customview.MyGridViewA>
 
                 <!--把下面的挤出来,为什么是90，固定栏60加上标签的30，总共是90-->
@@ -102,7 +103,7 @@
                 <!--购物车内容的布局-->
                 <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="450dp"
+                    android:layout_height="300dp"
                     android:background="@color/home_fragment_background">
                     <LinearLayout
                         android:layout_width="wrap_content"
