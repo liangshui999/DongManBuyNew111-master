@@ -48,12 +48,12 @@
             android:layout_marginTop="2dp"
             android:background="@color/white_my"
             android:hint="@string/please_input_ge_ren_huo_dan_wei_ming_cheng"
-            android:textSize="14sp"/>
+            android:textSize="10sp"/>
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="2dp"
+            android:layout_marginTop="5dp"
             android:padding="10dp"
             android:background="@color/white_my"
             android:text="@string/fa_piao_content"/>

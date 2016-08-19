@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white_my">
+
+    <!--类型所在的布局-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <com.example.asus_cp.dongmanbuy.customview.MyFocuseableListView
+            android:id="@+id/list_type_one"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content">
+
+        </com.example.asus_cp.dongmanbuy.customview.MyFocuseableListView>
+
+        <com.example.asus_cp.dongmanbuy.customview.MyFocuseableListView
+            android:id="@+id/list_type_two"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content">
+
+        </com.example.asus_cp.dongmanbuy.customview.MyFocuseableListView>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content">
+
+        </LinearLayout>
+
+    </LinearLayout>
+    
+    
+    
+    <!--两个按钮所在的布局-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <Button
+            android:id="@+id/btn_reset"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:background="@color/white_my"
+            android:text="@string/reset"/>
+        <Button
+            android:id="@+id/btn_confirm"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:background="@color/bottom_lable_color"
+            android:textColor="@color/white_my"
+            android:text="@string/confirm"/>
+    </LinearLayout>
+    
+    
+    
+    
+
+</LinearLayout>

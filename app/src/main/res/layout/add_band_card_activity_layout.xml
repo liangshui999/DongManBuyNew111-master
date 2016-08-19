@@ -8,7 +8,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white_my"
-        android:layout_marginBottom="2dp">
+        android:layout_marginBottom="2dp"
+        android:paddingTop="@dimen/head_padding"
+        android:paddingBottom="@dimen/head_padding">
         <ImageView
             android:id="@+id/img_dao_hang_add_card"
             android:layout_width="@dimen/dao_hang_img_base_font"
@@ -109,7 +111,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
-        android:background="@color/bottom_lable_color"
+        android:background="@drawable/red_backgroud_yuan_jiao_button"
         android:textColor="@color/white_my"
         android:text="@string/ti_jiao"/>
 

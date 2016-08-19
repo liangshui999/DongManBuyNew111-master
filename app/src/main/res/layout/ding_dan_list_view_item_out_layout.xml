@@ -152,13 +152,13 @@
                 android:id="@+id/text_pei_song_fang_shi_ding_dan"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="商家配送"
+                android:text="选择配送方式"
                 android:textSize="@dimen/ding_dan_layout_base_font" />
             <TextView
                 android:id="@+id/text_yun_fei_ding_dan_list"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="0.00"
+                android:text=""
                 android:layout_marginLeft="5dp"
                 />
         </LinearLayout>

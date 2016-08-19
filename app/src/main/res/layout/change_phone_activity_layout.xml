@@ -8,7 +8,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white_my"
-        android:layout_marginBottom="2dp">
+        android:paddingTop="@dimen/head_padding"
+        android:paddingBottom="@dimen/head_padding">
         <ImageView
             android:id="@+id/img_dao_hang_change_phone"
             android:layout_width="30dp"
@@ -33,7 +34,7 @@
         android:layout_height="wrap_content"
         android:hint="@string/please_input_shou_ji_hao"
         android:textSize="14sp"
-        android:padding="5dp"
+        android:paddingLeft="10dp"
         android:layout_marginTop="20dp"
         android:layout_marginBottom="10dp"/>
     <Button

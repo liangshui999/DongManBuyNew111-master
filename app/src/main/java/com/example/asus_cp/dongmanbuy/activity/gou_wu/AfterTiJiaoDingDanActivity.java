@@ -12,6 +12,7 @@ import android.text.TextUtils;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -45,10 +46,12 @@ import java.util.Map;
  * Created by asus-cp on 2016-06-20.
  */
 public class AfterTiJiaoDingDanActivity extends Activity implements View.OnClickListener{
+    private ImageView daoHangImgView;
     private TextView priceTextView;
     private MyListView listView;
     private Button zhiFuBaoZhiFuButton;
     private TextView huiYuanZhongXinTextView;
+    private TextView seeOrderTextView;
 
     private String price;//付款金额
     private List<String> bianHaos;//订单编号
@@ -142,10 +145,12 @@ public class AfterTiJiaoDingDanActivity extends Activity implements View.OnClick
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.after_ti_jiao_order_activity_layout);
+        daoHangImgView= (ImageView) findViewById(R.id.img_dao_hang_zhi_fu_bao_succed);
         priceTextView= (TextView) findViewById(R.id.text_fu_kuan_jin_e_after_ti_jiao_ding_dan);
         listView= (MyListView) findViewById(R.id.my_list_ding_dan_hao_list);
         zhiFuBaoZhiFuButton= (Button) findViewById(R.id.btn_zhi_fu_bao_zhi_fu_after_ti_jiao_ding_dan);
-        huiYuanZhongXinTextView = (TextView) findViewById(R.id.text_see_ding_dan_after_ti_jiao_ding_dan);
+        huiYuanZhongXinTextView = (TextView) findViewById(R.id.text_hui_yuan_center_after_ti_jiao_ding_dan);
+        seeOrderTextView= (TextView) findViewById(R.id.text_see_order_after_ti_jiao_ding_dan);
 
         zhiFuBaoHelper=new ZhiFuBaoHelper();
         PARTNER=zhiFuBaoHelper.getPid();
@@ -172,21 +177,29 @@ public class AfterTiJiaoDingDanActivity extends Activity implements View.OnClick
         MyLog.d(tag,"price="+price);
 
         //设置点击事件
+        daoHangImgView.setOnClickListener(this);
         zhiFuBaoZhiFuButton.setOnClickListener(this);
         huiYuanZhongXinTextView.setOnClickListener(this);
+        seeOrderTextView.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()){
+            case R.id.img_dao_hang_zhi_fu_bao_succed://导航
+                finish();
+                break;
             case R.id.btn_zhi_fu_bao_zhi_fu_after_ti_jiao_ding_dan://点击了支付宝支付
                 Toast.makeText(this,"点击了支付宝支付",Toast.LENGTH_SHORT).show();
                 //pay();//调用支付宝支付
                 zhiFuClickChuLi();
                 break;
-            case R.id.text_see_ding_dan_after_ti_jiao_ding_dan://点击了查看订单
+            case R.id.text_hui_yuan_center_after_ti_jiao_ding_dan://点击会员中心
                 Intent intent=new Intent(AfterTiJiaoDingDanActivity.this,PersonalCenterActivity.class);
                 startActivity(intent);
+                break;
+            case R.id.text_see_order_after_ti_jiao_ding_dan://点击了查看订单(查看订单需要订单id和订单编号，而这边没有订单编号)
+
                 break;
         }
     }

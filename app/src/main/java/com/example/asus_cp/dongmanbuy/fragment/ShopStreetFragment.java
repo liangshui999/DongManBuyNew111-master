@@ -1,13 +1,21 @@
 package com.example.asus_cp.dongmanbuy.fragment;
 
 import android.content.Context;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -21,6 +29,8 @@ import com.example.asus_cp.dongmanbuy.R;
 import com.example.asus_cp.dongmanbuy.activity.MainActivity;
 import com.example.asus_cp.dongmanbuy.adapter.ShopStreetShopListAdapter;
 import com.example.asus_cp.dongmanbuy.adapter.ShopStreetSpinnerAdapter;
+import com.example.asus_cp.dongmanbuy.customview.MyFocuseableListView;
+import com.example.asus_cp.dongmanbuy.customview.MyListView;
 import com.example.asus_cp.dongmanbuy.model.Good;
 import com.example.asus_cp.dongmanbuy.model.ShopModel;
 import com.example.asus_cp.dongmanbuy.util.DialogHelper;
@@ -45,13 +55,38 @@ import java.util.Map;
  * 店铺街的界面
  * Created by asus-cp on 2016-05-19.
  */
-public class ShopStreetFragment extends Fragment {
+public class ShopStreetFragment extends Fragment implements View.OnClickListener{
     private Context context;
     private String tag="ShopStreetFragment";
     private Spinner paiLieShunXunSpinner;//排列顺序
     private Spinner productCategorySpinner;//商品类型
     private Spinner shopPostionSpinner;//店铺位置
     private PullToRefreshListView shopListListView;//店铺列表
+
+    private LinearLayout goodTypeLinearLayout;
+    private ImageView leftImageView;
+    private ImageView rightImageView;
+    private View parentView;
+
+    private PopupWindow typePopuWindow;
+
+    private LayoutInflater inflater;
+
+    //弹出窗口view里面的数据
+    private List<String> oneList;
+    private List<String> twoList;
+
+    //点击类型之后弹窗窗口里面的view
+    private View typeView;
+    private MyFocuseableListView oneListView;
+    private MyFocuseableListView twoListView;
+    private Button resetButton;
+    private Button confirmButton;
+    private ArrayAdapter oneAdapter;
+    private ArrayAdapter twoAdapter;
+
+
+
 
     private RequestQueue requestQueue;
 
@@ -121,6 +156,13 @@ public class ShopStreetFragment extends Fragment {
         context=getActivity();
         mainActivity= (MainActivity) getActivity();
         requestQueue= MyApplication.getRequestQueue();
+
+        inflater=LayoutInflater.from(context);
+        parentView=v.findViewById(R.id.ll_popu_parent);
+
+        goodTypeLinearLayout= (LinearLayout) v.findViewById(R.id.ll_good_type);
+        leftImageView= (ImageView) v.findViewById(R.id.img_left_good_type);
+        rightImageView= (ImageView) v.findViewById(R.id.img_right_good_type);
         paiLieShunXunSpinner= (Spinner) v.findViewById(R.id.spin_pai_lie_shun_xu);
         productCategorySpinner= (Spinner) v.findViewById(R.id.spin_product_category);
         shopPostionSpinner= (Spinner) v.findViewById(R.id.spin_shop_street_position);
@@ -129,6 +171,27 @@ public class ShopStreetFragment extends Fragment {
         shopListListView.setOnRefreshListener(new MyOnrefreshListener());
 
         mainActivity.menu.addIgnoredView(shopListListView);//将listview添加到忽略里面
+
+        //点击类型之后弹出窗口数据的初始化
+        typeView=inflater.inflate(R.layout.good_type_layout,null);
+        oneListView= (MyFocuseableListView) typeView.findViewById(R.id.list_type_one);
+        twoListView= (MyFocuseableListView) typeView.findViewById(R.id.list_type_two);
+        resetButton= (Button) typeView.findViewById(R.id.btn_reset);
+        confirmButton= (Button) typeView.findViewById(R.id.btn_confirm);
+        oneList=new ArrayList<String>();
+        twoList=new ArrayList<String>();
+        oneList.add("上装");
+        oneList.add("下装");
+        oneList.add("箱包");
+        oneList.add("宅品");
+        oneList.add("DIY定制");
+        oneList.add("模玩手办");
+        twoList.add("毛绒");
+        twoList.add("配饰");
+        oneAdapter=new ArrayAdapter(context,R.layout.good_type_item_layout,R.id.text_type_item,oneList);
+        twoAdapter=new ArrayAdapter(context,R.layout.good_type_item_layout,R.id.text_type_item,twoList);
+
+
         List<String> paiLies=new ArrayList<String>();
         paiLies.add("排列顺序");
         List<String> shopPostions=new ArrayList<String>();
@@ -228,6 +291,10 @@ public class ShopStreetFragment extends Fragment {
 
        // DialogHelper.showDialog(context);
         tongYongClickChuLi("", ALL);//初始状态
+
+
+        //设置点击事件
+        goodTypeLinearLayout.setOnClickListener(this);
     }
 
     /**
@@ -465,6 +532,91 @@ public class ShopStreetFragment extends Fragment {
         }
         return shopModels;
     }
+
+
+    /**
+     *
+     * @param v
+     */
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.ll_good_type://商品类型按钮的点击事件
+                if(leftImageView.getVisibility()==View.GONE){
+                    leftImageView.setVisibility(View.VISIBLE);
+                    rightImageView.setVisibility(View.VISIBLE);
+                    showPopuWindow();
+                }else{
+                    leftImageView.setVisibility(View.GONE);
+                    rightImageView.setVisibility(View.GONE);
+                }
+                break;
+
+            //----------------类型弹出窗口的点击事件---------------------
+            case R.id.btn_reset://重置按钮
+                Toast.makeText(context,"重置按钮",Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.btn_confirm://点击了确认按钮
+                Toast.makeText(context,"点击了确认按钮",Toast.LENGTH_SHORT).show();
+                break;
+        }
+    }
+
+
+    /**
+     * 显示popuwindow
+     */
+    private void showPopuWindow() {
+        oneListView.setAdapter(oneAdapter);
+        twoListView.setAdapter(twoAdapter);
+        //设置点击事件
+        oneListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Toast.makeText(context, "点击的位置是：" + position, Toast.LENGTH_SHORT).show();
+            }
+        });
+        twoListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Toast.makeText(context, "点击的位置是：" + position, Toast.LENGTH_SHORT).show();
+            }
+        });
+        resetButton.setOnClickListener(this);
+        confirmButton.setOnClickListener(this);
+
+        typePopuWindow=new PopupWindow(typeView,ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT);
+        //外部点击时可以消失
+        typePopuWindow.setBackgroundDrawable(new ColorDrawable());
+        typePopuWindow.setOutsideTouchable(true);
+        typePopuWindow.setFocusable(true);
+        //typePopuWindow.showAtLocation(parentView, Gravity.CENTER,0,0);
+        typePopuWindow.showAsDropDown(goodTypeLinearLayout);
+        //setBackgroundAlpha(0.5f);
+        typePopuWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+               // setBackgroundAlpha(1f);
+            }
+        });
+
+    }
+
+    /**
+     * 设置添加屏幕的背景透明度
+     *
+     * @param bgAlpha
+     */
+    public void setBackgroundAlpha(float bgAlpha) {
+        WindowManager.LayoutParams lp = mainActivity.getWindow().getAttributes();
+        lp.alpha = bgAlpha; //0.0-1.0
+        mainActivity.getWindow().setAttributes(lp);
+    }
+
+
+
+
 
 
     /**

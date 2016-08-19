@@ -3,6 +3,33 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+
+    <!--头部-->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white_my"
+        android:layout_marginBottom="2dp"
+        android:paddingTop="@dimen/head_padding"
+        android:paddingBottom="@dimen/head_padding">
+        <ImageView
+            android:id="@+id/img_dao_hang_zhi_fu_bao_succed"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_centerVertical="true"
+            android:src="@mipmap/leftdaohang"
+            android:layout_marginLeft="5dp"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/shou_yin_tai"
+            android:gravity="center"
+            android:layout_centerInParent="true"
+            android:padding="5dp"
+            android:textSize="@dimen/dao_hang_base_font"
+            />
+    </RelativeLayout>
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -36,6 +63,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="256.00"
+                        android:textSize="20sp"
                         android:layout_gravity="center"/>
 
                 </LinearLayout>
@@ -79,7 +107,17 @@
                 android:text="@string/zhi_fu_bao_zhi_fu"/>
 
             <TextView
-                android:id="@+id/text_see_ding_dan_after_ti_jiao_ding_dan"
+                android:id="@+id/text_see_order_after_ti_jiao_ding_dan"
+                android:clickable="true"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:text="@string/see_ding_dan"
+                android:gravity="center"
+                android:visibility="gone"/>
+
+            <TextView
+                android:id="@+id/text_hui_yuan_center_after_ti_jiao_ding_dan"
                 android:clickable="true"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

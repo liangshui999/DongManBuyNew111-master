@@ -175,9 +175,16 @@
 
 
 
-
-
-
+    <!--为了避免穿越而准备的-->
+    <Button
+        android:id="@+id/bi_mian_chuan_yue"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_alignParentBottom="true"
+        android:background="@color/white_my"
+        android:clickable="false"
+        android:focusable="false"
+        android:alpha="0"/>
 
 
     <!--固定栏-->
@@ -189,7 +196,8 @@
         android:paddingBottom="10dp"
         android:paddingRight="10dp"
         android:background="@color/white_my"
-        android:layout_alignParentBottom="true"
+        android:layout_alignBottom="@id/bi_mian_chuan_yue"
+        android:layout_above="@id/bi_mian_chuan_yue"
         >
         <CheckBox
             android:id="@+id/check_box_quan_xuan"

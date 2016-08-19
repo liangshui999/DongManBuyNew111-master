@@ -8,7 +8,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white_my"
-        android:layout_marginBottom="2dp">
+        android:layout_marginBottom="2dp"
+        android:paddingTop="@dimen/head_padding"
+        android:paddingBottom="@dimen/head_padding">
         <ImageView
             android:id="@+id/img_dao_hang_sex"
             android:layout_width="30dp"
@@ -19,7 +21,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/sex"
+            android:text="@string/change_sex"
             android:gravity="center"
             android:layout_centerInParent="true"
             android:padding="5dp"

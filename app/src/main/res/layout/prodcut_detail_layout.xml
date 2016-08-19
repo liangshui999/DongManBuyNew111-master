@@ -738,11 +738,21 @@
 
 
 
+    <!--为了避免穿越而准备的-->
+    <Button
+        android:id="@+id/bi_mian_chuan_yue"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:layout_alignParentBottom="true"
+        android:background="@color/white_my"
+        android:clickable="false"
+        android:focusable="false"
+        android:alpha="0"/>
 
     <!--固定栏所在的布局-->
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="80dp"
         android:layout_alignParentBottom="true"
         android:background="@color/white_my"
         >

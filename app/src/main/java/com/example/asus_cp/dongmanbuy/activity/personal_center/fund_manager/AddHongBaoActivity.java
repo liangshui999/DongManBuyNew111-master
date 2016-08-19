@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -35,6 +36,7 @@ public class AddHongBaoActivity extends Activity{
 
     private String tag="AddHongBaoActivity";
 
+    private ImageView daoHangImageView;
     private EditText kouLingEditText;
     private EditText passwordEditText;
     private Button tiJiaoButton;
@@ -61,9 +63,17 @@ public class AddHongBaoActivity extends Activity{
         uid=sharedPreferences.getString(MyConstant.UID_KEY,null);
         sid=sharedPreferences.getString(MyConstant.SID_KEY,null);
 
+        daoHangImageView= (ImageView) findViewById(R.id.img_dao_hang_you_hui_quan);
         kouLingEditText= (EditText) findViewById(R.id.edit_hong_bao_kou_ling);
         passwordEditText= (EditText) findViewById(R.id.edit_hong_bao_password);
         tiJiaoButton= (Button) findViewById(R.id.btn_add_hong_bao);
+
+        daoHangImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
         tiJiaoButton.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -38,6 +39,7 @@ public class FundManagerActivity extends Activity implements View.OnClickListene
 
     private String tag="FundManagerActivity";
 
+    private ImageView daoHangImageView;
     private TextView keYongYuETextView;//可用余额
     private TextView dongJieJinETextView;//冻结金额
     private LinearLayout chongZhiLinearLayout;//充值
@@ -88,6 +90,7 @@ public class FundManagerActivity extends Activity implements View.OnClickListene
      * 初始化视图
      */
     private void initView() {
+        daoHangImageView= (ImageView) findViewById(R.id.img_dao_hang_fund_manager);
         keYongYuETextView= (TextView) findViewById(R.id.text_ke_yong_yu_e_fund_manager);
         dongJieJinETextView= (TextView) findViewById(R.id.text_dong_jie_jin_e_fund_manager);
         chongZhiLinearLayout= (LinearLayout) findViewById(R.id.ll_chong_zhi_fund_manager);
@@ -104,6 +107,7 @@ public class FundManagerActivity extends Activity implements View.OnClickListene
         setValueToView();
 
         //设置点击事件
+        daoHangImageView.setOnClickListener(this);
         chongZhiLinearLayout.setOnClickListener(this);
         tiXianLinearLayout.setOnClickListener(this);
         hongBaoLinearLayout.setOnClickListener(this);
@@ -130,6 +134,9 @@ public class FundManagerActivity extends Activity implements View.OnClickListene
     @Override
     public void onClick(View v) {
         switch (v.getId()){
+            case R.id.img_dao_hang_fund_manager://导航
+                finish();
+                break;
             case R.id.ll_chong_zhi_fund_manager://点击了充值
                 Intent toChongZhiIntent=new Intent(this,ChongZhiActivity.class);
                 startActivityForResult(toChongZhiIntent, REQUST_CODE_CHONG_ZHI);
