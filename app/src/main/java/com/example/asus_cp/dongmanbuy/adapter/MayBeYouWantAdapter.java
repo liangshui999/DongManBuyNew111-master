@@ -13,6 +13,7 @@ import com.example.asus_cp.dongmanbuy.R;
 import com.example.asus_cp.dongmanbuy.model.Good;
 import com.example.asus_cp.dongmanbuy.util.FormatHelper;
 import com.example.asus_cp.dongmanbuy.util.ImageLoadHelper;
+import com.example.asus_cp.dongmanbuy.util.MyGoodHelper;
 import com.example.asus_cp.dongmanbuy.util.MyLog;
 
 import java.util.List;
@@ -63,7 +64,7 @@ public class MayBeYouWantAdapter extends RecyclerView.Adapter {
                 R.mipmap.yu_jia_zai,R.mipmap.yu_jia_zai);
         imageLoader.get(goods.get(position).getGoodsThumb(),listener,300,300);
         mViewHolder.nameTextView.setText(goods.get(position).getGoodName());
-        mViewHolder.shopPriceTextView.setText(FormatHelper.getMoneyFormat(goods.get(position).getShopPrice()));
+        mViewHolder.shopPriceTextView.setText(FormatHelper.getMoneyFormat(MyGoodHelper.getRealPrice(goods.get(position))));
         MyLog.d(tag,"onBindViewHolder");
 
         //如果设置了回调，则设置点击事件

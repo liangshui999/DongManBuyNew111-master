@@ -127,11 +127,13 @@ public class GoodSearchResultActivity extends Activity implements View.OnClickLi
 
         searchContent = getIntent().getStringExtra(MyConstant.SEARCH_CONTENT_KEY);
         dbHelper=new SearchRecordDBOperateHelper();
-        if(dbHelper.queryByKeyWord(searchContent)){
-            dbHelper.deleteByKeyWord(searchContent);
-            dbHelper.insert(searchContent);
-        }else{
-            dbHelper.insert(searchContent);
+        if(!"".equals(searchContent)){  //搜索关键字不是空的，才进行插入，否则不插入数据库
+            if(dbHelper.queryByKeyWord(searchContent)){
+                dbHelper.deleteByKeyWord(searchContent);
+                dbHelper.insert(searchContent);
+            }else{
+                dbHelper.insert(searchContent);
+            }
         }
         MyLog.d(tag, "传递过来的数据是：" + searchContent);
         requestQueue = MyApplication.getRequestQueue();
@@ -263,17 +265,23 @@ public class GoodSearchResultActivity extends Activity implements View.OnClickLi
                                     for (int i = 0; i < goods.size(); i++) {
                                         for (int j = 0; j < gridGoods.size(); j++) {
                                             if (gridGoods.get(j).getGoodId().equals(goods.get(i).getGoodId())) {
-                                                Toast.makeText(GoodSearchResultActivity.this, "已经是最后一项了", Toast.LENGTH_SHORT).show();
-                                                productGridView.onRefreshComplete();
                                                 break ;
                                             }else{
                                                 gridCount++;
                                             }
                                         }
+                                        MyLog.d(tag,"gridcount="+gridCount);
+                                        MyLog.d(tag,"gridgoods.size()="+gridGoods.size());
                                         if(gridCount==gridGoods.size()){//说明在整个gridgoods里面都没有找到该商品
                                             temp.add(goods.get(i));
                                         }
+                                        gridCount=0;
                                     }
+                                    if(temp.size()<goods.size()){   //说明有重复的
+                                        Toast.makeText(GoodSearchResultActivity.this, "已经是最后一项了", Toast.LENGTH_SHORT).show();
+                                        productGridView.onRefreshComplete();
+                                    }
+                                    MyLog.d(tag,"temp.size()="+temp.size());
                                     gridGoods.addAll(temp);
                                     gridAdapter.notifyDataSetChanged();
                                     productGridView.onRefreshComplete();
@@ -291,8 +299,6 @@ public class GoodSearchResultActivity extends Activity implements View.OnClickLi
                                     for (int i = 0; i < goods.size(); i++) {
                                         for (int j = 0; j < smallListGoods.size(); j++) {
                                             if (smallListGoods.get(j).getGoodId().equals(goods.get(i).getGoodId())) {
-                                                Toast.makeText(GoodSearchResultActivity.this, "已经是最后一项了", Toast.LENGTH_SHORT).show();
-                                                productListViewSmall.onRefreshComplete();
                                                 break ;
                                             }else{
                                                 smallCount++;
@@ -301,6 +307,11 @@ public class GoodSearchResultActivity extends Activity implements View.OnClickLi
                                         if(smallCount==smallListGoods.size()){//说明在整个gridgoods里面都没有找到该商品
                                             temp.add(goods.get(i));
                                         }
+                                        smallCount=0;
+                                    }
+                                    if(temp.size()<goods.size()){   //说明有重复的
+                                        Toast.makeText(GoodSearchResultActivity.this, "已经是最后一项了", Toast.LENGTH_SHORT).show();
+                                        productListViewSmall.onRefreshComplete();
                                     }
                                     smallListGoods.addAll(temp);
                                     smallListAdapter.notifyDataSetChanged();
@@ -319,8 +330,6 @@ public class GoodSearchResultActivity extends Activity implements View.OnClickLi
                                     for (int i = 0; i < goods.size(); i++) {
                                         for (int j = 0; j < bigListGoods.size(); j++) {
                                             if (bigListGoods.get(j).getGoodId().equals(goods.get(i).getGoodId())) {
-                                                Toast.makeText(GoodSearchResultActivity.this, "已经是最后一项了", Toast.LENGTH_SHORT).show();
-                                                productListViewBig.onRefreshComplete();
                                                 break ;
                                             }else{
                                                 bigCount++;
@@ -329,6 +338,11 @@ public class GoodSearchResultActivity extends Activity implements View.OnClickLi
                                         if(bigCount==bigListGoods.size()){//说明在整个gridgoods里面都没有找到该商品
                                             temp.add(goods.get(i));
                                         }
+                                        bigCount=0;
+                                    }
+                                    if(temp.size()<goods.size()){   //说明有重复的
+                                        Toast.makeText(GoodSearchResultActivity.this, "已经是最后一项了", Toast.LENGTH_SHORT).show();
+                                        productListViewBig.onRefreshComplete();
                                     }
                                     bigListGoods.addAll(temp);
                                     bigListAdapter.notifyDataSetChanged();

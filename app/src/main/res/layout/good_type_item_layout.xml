@@ -8,6 +8,7 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:text="皮鞋"
+        android:textSize="16sp"
         android:paddingTop="10dp"
         android:paddingBottom="10dp"
         />

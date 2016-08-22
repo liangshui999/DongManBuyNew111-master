@@ -17,6 +17,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -30,6 +31,7 @@ import com.example.asus_cp.dongmanbuy.activity.MainActivity;
 import com.example.asus_cp.dongmanbuy.adapter.ShopStreetShopListAdapter;
 import com.example.asus_cp.dongmanbuy.adapter.ShopStreetSpinnerAdapter;
 import com.example.asus_cp.dongmanbuy.customview.MyFocuseableListView;
+import com.example.asus_cp.dongmanbuy.customview.MyGridViewA;
 import com.example.asus_cp.dongmanbuy.customview.MyListView;
 import com.example.asus_cp.dongmanbuy.model.Good;
 import com.example.asus_cp.dongmanbuy.model.ShopModel;
@@ -62,8 +64,10 @@ public class ShopStreetFragment extends Fragment implements View.OnClickListener
     private Spinner productCategorySpinner;//商品类型
     private Spinner shopPostionSpinner;//店铺位置
     private PullToRefreshListView shopListListView;//店铺列表
+    private LinearLayout typeBackGroudLinearLayout;//在listview的上面
 
     private LinearLayout goodTypeLinearLayout;
+    private TextView goodTypeTextView;
     private ImageView leftImageView;
     private ImageView rightImageView;
     private View parentView;
@@ -78,12 +82,13 @@ public class ShopStreetFragment extends Fragment implements View.OnClickListener
 
     //点击类型之后弹窗窗口里面的view
     private View typeView;
-    private MyFocuseableListView oneListView;
-    private MyFocuseableListView twoListView;
+    private MyGridViewA typeGridView;
+//    private MyFocuseableListView oneListView;
+//    private MyFocuseableListView twoListView;
     private Button resetButton;
     private Button confirmButton;
     private ArrayAdapter oneAdapter;
-    private ArrayAdapter twoAdapter;
+//    private ArrayAdapter twoAdapter;
 
 
 
@@ -93,15 +98,14 @@ public class ShopStreetFragment extends Fragment implements View.OnClickListener
     private String indexUrl="http://www.zmobuy.com/PHP/?url=/store/index";//店铺分类的url
 
     public static final int ALL=0;
-    public static final int SHU_JI=1;
-    public static final int MO_WAN=2;
-    public static final int DIY=3;
-    public static final int SHANG_ZHUANG=4;
-    public static final int XIA_ZHUANG=5;
-    public static final int XIANG_BAO=6;
-    public static final int ZHAI_PIN=7;
-    public static final int MAO_RONG=8;
-    public static final int PEI_SHI=9;
+    public static final int SHANG_ZHUANG=1;
+    public static final int XIA_ZHUANG=2;
+    public static final int XIANG_BAO=3;
+    public static final int ZHAI_PIN=4;
+    public static final int DIY=5;
+    public static final int MO_WAN=6;
+    public static final int MAO_RONG=7;
+    public static final int PEI_SHI=8;
 
     private ShopStreetShopListAdapter allAdapter;
     private ShopStreetShopListAdapter shuJiAdapter;
@@ -161,11 +165,13 @@ public class ShopStreetFragment extends Fragment implements View.OnClickListener
         parentView=v.findViewById(R.id.ll_popu_parent);
 
         goodTypeLinearLayout= (LinearLayout) v.findViewById(R.id.ll_good_type);
+        goodTypeTextView= (TextView) v.findViewById(R.id.text_good_type);
         leftImageView= (ImageView) v.findViewById(R.id.img_left_good_type);
         rightImageView= (ImageView) v.findViewById(R.id.img_right_good_type);
         paiLieShunXunSpinner= (Spinner) v.findViewById(R.id.spin_pai_lie_shun_xu);
         productCategorySpinner= (Spinner) v.findViewById(R.id.spin_product_category);
         shopPostionSpinner= (Spinner) v.findViewById(R.id.spin_shop_street_position);
+        typeBackGroudLinearLayout= (LinearLayout) v.findViewById(R.id.ll_type_backgroud);
         shopListListView= (PullToRefreshListView) v.findViewById(R.id.list_view_shop_list);
         shopListListView.setMode(PullToRefreshBase.Mode.PULL_FROM_END);//设置模式是上拉加载
         shopListListView.setOnRefreshListener(new MyOnrefreshListener());
@@ -174,24 +180,37 @@ public class ShopStreetFragment extends Fragment implements View.OnClickListener
 
         //点击类型之后弹出窗口数据的初始化
         typeView=inflater.inflate(R.layout.good_type_layout,null);
-        oneListView= (MyFocuseableListView) typeView.findViewById(R.id.list_type_one);
-        twoListView= (MyFocuseableListView) typeView.findViewById(R.id.list_type_two);
+        typeGridView= (MyGridViewA) typeView.findViewById(R.id.grid_view_good_type);
+//        oneListView= (MyFocuseableListView) typeView.findViewById(R.id.list_type_one);
+//        twoListView= (MyFocuseableListView) typeView.findViewById(R.id.list_type_two);
         resetButton= (Button) typeView.findViewById(R.id.btn_reset);
         confirmButton= (Button) typeView.findViewById(R.id.btn_confirm);
         oneList=new ArrayList<String>();
         twoList=new ArrayList<String>();
+        oneList.add("全部分类");
         oneList.add("上装");
         oneList.add("下装");
         oneList.add("箱包");
         oneList.add("宅品");
         oneList.add("DIY定制");
         oneList.add("模玩手办");
-        twoList.add("毛绒");
-        twoList.add("配饰");
+        oneList.add("毛绒");
+        oneList.add("配饰");
         oneAdapter=new ArrayAdapter(context,R.layout.good_type_item_layout,R.id.text_type_item,oneList);
-        twoAdapter=new ArrayAdapter(context,R.layout.good_type_item_layout,R.id.text_type_item,twoList);
+
+        DialogHelper.showDialog(context);
+        location=ALL;
+        tongYongClickChuLi("", ALL);//初始状态
+
+        //设置点击事件
+        goodTypeLinearLayout.setOnClickListener(this);
 
 
+
+        //twoAdapter=new ArrayAdapter(context,R.layout.good_type_item_layout,R.id.text_type_item,twoList);
+
+
+        /*
         List<String> paiLies=new ArrayList<String>();
         paiLies.add("排列顺序");
         List<String> shopPostions=new ArrayList<String>();
@@ -287,14 +306,9 @@ public class ShopStreetFragment extends Fragment implements View.OnClickListener
             public void onNothingSelected(AdapterView<?> parent) {
 
             }
-        });
-
-       // DialogHelper.showDialog(context);
-        tongYongClickChuLi("", ALL);//初始状态
+        });*/
 
 
-        //设置点击事件
-        goodTypeLinearLayout.setOnClickListener(this);
     }
 
     /**
@@ -313,33 +327,12 @@ public class ShopStreetFragment extends Fragment implements View.OnClickListener
                         allAdapter=new ShopStreetShopListAdapter(mainActivity,allModles);
                         shopListListView.setAdapter(allAdapter);
                         break;
-                    case SHU_JI:
-                        DialogHelper.dissmisDialog();
-                        shuJiModles.clear();
-                        shuJiModles.addAll(parseJson(s));
-                        shuJiAdapter=new ShopStreetShopListAdapter(mainActivity,shuJiModles);
-                        shopListListView.setAdapter(shuJiAdapter);
-                        break;
-                    case MO_WAN:
-                        DialogHelper.dissmisDialog();
-                        moWanModles.clear();
-                        moWanModles.addAll(parseJson(s));
-                        moWanAdapter=new ShopStreetShopListAdapter(mainActivity,moWanModles);
-                        shopListListView.setAdapter(moWanAdapter);
-                        break;
-                    case DIY:
-                        DialogHelper.dissmisDialog();
-                        DIYModles.clear();
-                        DIYModles.addAll(parseJson(s));
-                        DIYAdapter=new ShopStreetShopListAdapter(mainActivity,DIYModles);
-                        shopListListView.setAdapter(DIYAdapter);
-                        break;
                     case SHANG_ZHUANG:
                         DialogHelper.dissmisDialog();
                         shangZhuangModles.clear();
                         shangZhuangModles.addAll(parseJson(s));
                         shangZhuangAdapter=new ShopStreetShopListAdapter(mainActivity,shangZhuangModles);
-                        shopListListView.setAdapter(shuJiAdapter);
+                        shopListListView.setAdapter(shangZhuangAdapter);
                         break;
                     case XIA_ZHUANG:
                         DialogHelper.dissmisDialog();
@@ -361,6 +354,20 @@ public class ShopStreetFragment extends Fragment implements View.OnClickListener
                         zhaiPinModles.addAll(parseJson(s));
                         zhaiPinAdapter=new ShopStreetShopListAdapter(mainActivity,zhaiPinModles);
                         shopListListView.setAdapter(zhaiPinAdapter);
+                        break;
+                    case DIY:
+                        DialogHelper.dissmisDialog();
+                        DIYModles.clear();
+                        DIYModles.addAll(parseJson(s));
+                        DIYAdapter=new ShopStreetShopListAdapter(mainActivity,DIYModles);
+                        shopListListView.setAdapter(DIYAdapter);
+                        break;
+                    case MO_WAN:
+                        DialogHelper.dissmisDialog();
+                        moWanModles.clear();
+                        moWanModles.addAll(parseJson(s));
+                        moWanAdapter=new ShopStreetShopListAdapter(mainActivity,moWanModles);
+                        shopListListView.setAdapter(moWanAdapter);
                         break;
                     case MAO_RONG:
                         DialogHelper.dissmisDialog();
@@ -413,10 +420,6 @@ public class ShopStreetFragment extends Fragment implements View.OnClickListener
                         case ALL:
                             allModles.addAll(parseJson(s));
                             allAdapter.notifyDataSetChanged();
-                            break;
-                        case SHU_JI:
-                            shuJiModles.addAll(parseJson(s));
-                            shuJiAdapter.notifyDataSetChanged();
                             break;
                         case MO_WAN:
                             moWanModles.addAll(parseJson(s));
@@ -542,14 +545,9 @@ public class ShopStreetFragment extends Fragment implements View.OnClickListener
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.ll_good_type://商品类型按钮的点击事件
-                if(leftImageView.getVisibility()==View.GONE){
-                    leftImageView.setVisibility(View.VISIBLE);
-                    rightImageView.setVisibility(View.VISIBLE);
-                    showPopuWindow();
-                }else{
-                    leftImageView.setVisibility(View.GONE);
-                    rightImageView.setVisibility(View.GONE);
-                }
+                count0 = 1;//将count设为初始值
+                location=ALL;
+                showPopuWindow();
                 break;
 
             //----------------类型弹出窗口的点击事件---------------------
@@ -567,21 +565,82 @@ public class ShopStreetFragment extends Fragment implements View.OnClickListener
      * 显示popuwindow
      */
     private void showPopuWindow() {
-        oneListView.setAdapter(oneAdapter);
-        twoListView.setAdapter(twoAdapter);
-        //设置点击事件
+//        oneListView.setAdapter(oneAdapter);
+//        twoListView.setAdapter(twoAdapter);
+        typeGridView.setAdapter(oneAdapter);
+        typeGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                goodTypeTextView.setText(oneList.get(position));
+                typePopuWindow.dismiss();
+                switch (position) {
+                    case ALL:
+                        DialogHelper.showDialog(context);
+                        tongYongClickChuLi("", ALL);
+                        location = position;
+                        count0 = 1;//将count设为初始值
+                        break;
+                    case SHANG_ZHUANG:
+                        DialogHelper.showDialog(context);
+                        tongYongClickChuLi(1464 + "", SHANG_ZHUANG);
+                        location = position;
+                        count4 = 1;
+                        break;
+                    case XIA_ZHUANG:
+                        DialogHelper.showDialog(context);
+                        tongYongClickChuLi(1479 + "", XIA_ZHUANG);
+                        location = position;
+                        count5 = 1;
+                        break;
+                    case XIANG_BAO:
+                        DialogHelper.showDialog(context);
+                        tongYongClickChuLi(1486 + "", XIANG_BAO);
+                        location = position;
+                        count6 = 1;
+                        break;
+                    case ZHAI_PIN:
+                        DialogHelper.showDialog(context);
+                        tongYongClickChuLi(1492 + "", ZHAI_PIN);
+                        location = position;
+                        count7 = 1;
+                        break;
+                    case DIY:
+                        DialogHelper.showDialog(context);
+                        tongYongClickChuLi(1647 + "", DIY);
+                        location = position;
+                        count3 = 1;
+                        break;
+                    case MO_WAN:
+                        DialogHelper.showDialog(context);
+                        tongYongClickChuLi(1661 + "", MO_WAN);
+                        location = position;
+                        count2 = 1;
+                        break;
+                    case MAO_RONG:
+                        DialogHelper.showDialog(context);
+                        tongYongClickChuLi(1501 + "", MAO_RONG);
+                        location = position;
+                        count8 = 1;
+                        break;
+                    case PEI_SHI:
+                        DialogHelper.showDialog(context);
+                        tongYongClickChuLi(1506 + "", PEI_SHI);
+                        location = position;
+                        count9 = 1;
+                        break;
+                }
+            }
+        });
+        /*//设置点击事件
         oneListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(context, "点击的位置是：" + position, Toast.LENGTH_SHORT).show();
+                //Toast.makeText(context, "点击的位置是：" + position, Toast.LENGTH_SHORT).show();
+
             }
-        });
-        twoListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(context, "点击的位置是：" + position, Toast.LENGTH_SHORT).show();
-            }
-        });
+        });*/
+
+        //重置和确认的点击事件
         resetButton.setOnClickListener(this);
         confirmButton.setOnClickListener(this);
 
@@ -592,12 +651,14 @@ public class ShopStreetFragment extends Fragment implements View.OnClickListener
         typePopuWindow.setOutsideTouchable(true);
         typePopuWindow.setFocusable(true);
         //typePopuWindow.showAtLocation(parentView, Gravity.CENTER,0,0);
-        typePopuWindow.showAsDropDown(goodTypeLinearLayout);
-        //setBackgroundAlpha(0.5f);
+        typePopuWindow.showAsDropDown(goodTypeLinearLayout,0,10);
+        typeBackGroudLinearLayout.setVisibility(View.VISIBLE);
+        setBackgroundAlpha(0.5f);
         typePopuWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
             @Override
             public void onDismiss() {
-               // setBackgroundAlpha(1f);
+                typeBackGroudLinearLayout.setVisibility(View.GONE);
+                //setBackgroundAlpha(1f);
             }
         });
 
@@ -609,9 +670,13 @@ public class ShopStreetFragment extends Fragment implements View.OnClickListener
      * @param bgAlpha
      */
     public void setBackgroundAlpha(float bgAlpha) {
-        WindowManager.LayoutParams lp = mainActivity.getWindow().getAttributes();
-        lp.alpha = bgAlpha; //0.0-1.0
-        mainActivity.getWindow().setAttributes(lp);
+//        WindowManager.LayoutParams lp = mainActivity.getWindow().getAttributes();
+//        lp.alpha = bgAlpha; //0.0-1.0
+//        mainActivity.getWindow().setAttributes(lp);
+
+        typeBackGroudLinearLayout.setAlpha(bgAlpha);
+
+
     }
 
 
@@ -652,9 +717,6 @@ public class ShopStreetFragment extends Fragment implements View.OnClickListener
                 switch (location) {
                     case ALL:
                         tongYongClickChuLi("", count0 + "");
-                        break;
-                    case SHU_JI:
-                        tongYongClickChuLi(1625+"", count1 + "");
                         break;
                     case MO_WAN:
                         tongYongClickChuLi(1661+"", count2 + "");

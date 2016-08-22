@@ -4,15 +4,44 @@
     android:layout_height="match_parent"
     android:background="@color/white_my">
 
+    <!--主要是形成一种分隔线的效果-->
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:background="@color/white_my"
+        android:visibility="gone"/>
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@color/gray"
+        android:visibility="gone"/>
+
     <!--类型所在的布局-->
     <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <com.example.asus_cp.dongmanbuy.customview.MyGridViewA
+            android:id="@+id/grid_view_good_type"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:verticalSpacing="0dp"
+            android:horizontalSpacing="0dp"
+            android:numColumns="3">
+
+        </com.example.asus_cp.dongmanbuy.customview.MyGridViewA>
+    </LinearLayout>
+
+
+    <!--<LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <com.example.asus_cp.dongmanbuy.customview.MyFocuseableListView
             android:id="@+id/list_type_one"
             android:layout_width="0dp"
             android:layout_weight="1"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:divider="@null">
 
         </com.example.asus_cp.dongmanbuy.customview.MyFocuseableListView>
 
@@ -20,25 +49,32 @@
             android:id="@+id/list_type_two"
             android:layout_width="0dp"
             android:layout_weight="1"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:divider="@null"
+            android:visibility="gone">
 
         </com.example.asus_cp.dongmanbuy.customview.MyFocuseableListView>
 
         <LinearLayout
             android:layout_width="0dp"
             android:layout_weight="1"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:visibility="gone">
 
         </LinearLayout>
 
-    </LinearLayout>
+    </LinearLayout>-->
+
+
+
     
     
     
     <!--两个按钮所在的布局-->
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:visibility="gone">
         <Button
             android:id="@+id/btn_reset"
             android:layout_width="0dp"

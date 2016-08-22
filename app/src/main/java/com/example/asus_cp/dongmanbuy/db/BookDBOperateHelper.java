@@ -6,6 +6,8 @@ import android.database.sqlite.SQLiteDatabase;
 
 import com.example.asus_cp.dongmanbuy.constant.DBConstant;
 import com.example.asus_cp.dongmanbuy.model.Good;
+import com.example.asus_cp.dongmanbuy.util.FormatHelper;
+import com.example.asus_cp.dongmanbuy.util.MyGoodHelper;
 import com.example.asus_cp.dongmanbuy.util.MyLog;
 
 /**
@@ -35,7 +37,7 @@ public class BookDBOperateHelper {
             contentValues.put(DBConstant.Good.THUM_IMAG,good.getGoodsThumb());
             contentValues.put(DBConstant.Good.SMALL_IMAG, good.getGoodsSmallImag());
             contentValues.put(DBConstant.Good.GOOD_NAME,good.getGoodName());
-            contentValues.put(DBConstant.Good.SHOP_PRICE,good.getShopPrice());
+            contentValues.put(DBConstant.Good.SHOP_PRICE, MyGoodHelper.getRealPrice(good));
             contentValues.put(DBConstant.Good.MARKET_PRICE,good.getMarket_price());
             contentValues.put(DBConstant.Good.SALE_VOLUME,good.getSalesVolume());
             contentValues.put(DBConstant.Good.GOODS_NUMBER,good.getGoodsNumber());

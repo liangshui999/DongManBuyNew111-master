@@ -59,14 +59,19 @@ public class FormatHelper {
      * 从人民币中取出数字
      */
     public static String getNumberFromRenMingBi(String s){
-        String result=null;
-        String regex="[0-9][0-9]*\\.*[0-9]*";
-        Pattern pattern=Pattern.compile(regex);
-        Matcher matcher=pattern.matcher(s);
-        if(matcher.find()){
-            result=matcher.group();
+        if(s!=null){
+            String result=null;
+            String regex="[0-9][0-9]*\\.*[0-9]*";
+            Pattern pattern=Pattern.compile(regex);
+            Matcher matcher=pattern.matcher(s);
+            if(matcher.find()){
+                result=matcher.group();
+            }
+            return result;
+        }else{
+            return null;
         }
-        return result;
+
 
 
 

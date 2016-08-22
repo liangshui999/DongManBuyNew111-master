@@ -73,10 +73,13 @@
             android:layout_centerInParent="true"
             android:orientation="horizontal">
             <TextView
+                android:id="@+id/text_good_type"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/good_type"
-                android:layout_gravity="center_vertical"/>
+                android:textSize="18sp"
+                android:layout_gravity="center_vertical"
+                />
             <ImageView
                 android:layout_width="20dp"
                 android:layout_height="20dp"
@@ -106,6 +109,10 @@
     </RelativeLayout>
 
 
+
+
+
+
     <LinearLayout
         android:id="@+id/ll_popu_parent"
         android:layout_width="match_parent"
@@ -116,17 +123,34 @@
             android:layout_width="match_parent"
             android:layout_height="10dp"
             android:background="@color/gray"
+            android:visibility="visible"
             />
 
-        <!--店铺列表-->
-        <com.handmark.pulltorefresh.library.PullToRefreshListView
-            android:id="@+id/list_view_shop_list"
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:dividerHeight="10dp"
-            android:background="@color/white_my"
-            android:scrollbars="none">
-        </com.handmark.pulltorefresh.library.PullToRefreshListView>
+            android:layout_height="match_parent">
+            <!--店铺列表-->
+            <com.handmark.pulltorefresh.library.PullToRefreshListView
+                android:id="@+id/list_view_shop_list"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:dividerHeight="10dp"
+                android:background="@color/white_my"
+                android:scrollbars="none">
+            </com.handmark.pulltorefresh.library.PullToRefreshListView>
+
+            <LinearLayout
+                android:id="@+id/ll_type_backgroud"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/black"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+            </LinearLayout>
+        </FrameLayout>
+
+
     </LinearLayout>
 
 
