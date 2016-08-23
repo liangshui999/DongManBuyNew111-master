@@ -49,7 +49,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="本次最大提现金额888"
-                android:textSize="14sp"/>
+                android:textSize="14sp"
+                android:singleLine="true"/>
         </LinearLayout>
     </LinearLayout>
 

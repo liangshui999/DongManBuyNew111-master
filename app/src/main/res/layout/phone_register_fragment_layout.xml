@@ -26,7 +26,8 @@
                android:layout_width="match_parent"
                android:layout_height="match_parent"
                android:hint="@string/phone_num"
-               android:textSize="@dimen/register_font_size"/>
+               android:textSize="@dimen/register_font_size"
+               android:singleLine="true"/>
     </LinearLayout>
     </LinearLayout>
 
@@ -50,7 +51,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:hint="@string/inpu_yan_zheng_ma"
-                android:textSize="@dimen/register_font_size"/>
+                android:textSize="@dimen/register_font_size"
+                android:singleLine="true"/>
         </LinearLayout>
 
         <TextView
@@ -80,7 +82,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:hint="@string/input_password"
-                android:textSize="@dimen/register_font_size"/>
+                android:textSize="@dimen/register_font_size"
+                android:singleLine="true"/>
         </LinearLayout>
 
         <ImageView
@@ -107,7 +110,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:hint="@string/input_password_again"
-                android:textSize="@dimen/register_font_size"/>
+                android:textSize="@dimen/register_font_size"
+                android:singleLine="true"/>
         </LinearLayout>
 
         <ImageView

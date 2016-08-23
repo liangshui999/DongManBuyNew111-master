@@ -51,6 +51,7 @@
                 android:layout_height="wrap_content"
                 android:hint="@string/please_input_shou_huo_ren_name"
                 android:textSize="14sp"
+                android:singleLine="true"
                 />
         </LinearLayout>
 
@@ -72,7 +73,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/please_input_phone"
-                android:textSize="14sp"/>
+                android:textSize="14sp"
+                android:singleLine="true"/>
         </LinearLayout>
 
         <!--所在地区-->

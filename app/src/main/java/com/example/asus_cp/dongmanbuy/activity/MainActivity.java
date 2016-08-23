@@ -4,6 +4,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -12,12 +13,16 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -158,6 +163,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private RequestQueue requestQueue;
 
+    private View messageAndSaoYiSaoView;
+
+    private PopupWindow messageAndSaoPopuWindow;
+
     private int messageAndSaoCount;//标记message和扫一扫的是显示还是隐藏
 
     public static final int SCAN_CODE = 1;//扫一扫的请求码
@@ -170,6 +179,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private int densty;//屏幕像素密度
 
     private ImageLoadHelper imageLoaderhelper;
+
+    private long pressedTime;//按下返回键的时间
 
 
     @Override
@@ -305,13 +316,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         homeText.setTextColor(getResources().getColor(R.color.bottom_lable_color));
 
 
-        //初始化消息和扫一扫
-        messageAndSao= (LinearLayout) findViewById(R.id.ll_message_and_sao);
-        messagell= (LinearLayout) findViewById(R.id.ll_message);
-        sao= (LinearLayout) findViewById(R.id.ll_sao);
-        messageAndSao.setOnClickListener(this);
-        messagell.setOnClickListener(this);
-        sao.setOnClickListener(this);
 
         //初始化framelayout
         frameLaout= (FrameLayout) findViewById(R.id.frame_layout_main);
@@ -456,6 +460,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setTingTextView.setOnClickListener(this);
 
 
+        //--------初始化消息和扫一扫的视图
+        messageAndSaoYiSaoView= LayoutInflater.from(this).inflate(R.layout.message_and_sao_yi_sao_layout,null);
+        messageAndSao= (LinearLayout) messageAndSaoYiSaoView.findViewById(R.id.ll_message_and_sao);
+        messagell= (LinearLayout)messageAndSaoYiSaoView. findViewById(R.id.ll_message);
+        sao= (LinearLayout)messageAndSaoYiSaoView. findViewById(R.id.ll_sao);
+        messageAndSao.setOnClickListener(this);
+        messagell.setOnClickListener(this);
+        sao.setOnClickListener(this);
+
+
+
 
 
 
@@ -552,12 +567,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 menu.toggle();
                 break;
             case R.id.img_btn_message://消息按钮的点击事件
-                if(messageAndSaoCount%2==0){
+                messageAndSaoClickChuLi();
+               /* if(messageAndSaoCount%2==0){
                     messageAndSao.setVisibility(View.VISIBLE);//让下拉框弹出来
                 }else{
                     messageAndSao.setVisibility(View.GONE);
                 }
-                messageAndSaoCount++;
+                messageAndSaoCount++;*/
                 break;
             case R.id.ll_home:
                 //viewPager.setCurrentItem(HOME);
@@ -600,11 +616,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.ll_message:
                 Toast.makeText(this,"点击了消息",Toast.LENGTH_SHORT).show();
-                messageAndSao.setVisibility(View.GONE);
+                //messageAndSao.setVisibility(View.GONE);
+                messageAndSaoPopuWindow.dismiss();
                 break;
             case R.id.ll_sao:
                 //Toast.makeText(this,"点击了扫一扫",Toast.LENGTH_SHORT).show();
-                messageAndSao.setVisibility(View.GONE);
+                //messageAndSao.setVisibility(View.GONE);
+                messageAndSaoPopuWindow.dismiss();
                 Intent intent = new Intent(MainActivity.this, MipcaActivityCapture.class);
                 startActivityForResult(intent, SCAN_CODE);
                 break;
@@ -642,6 +660,27 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
         }
     }
+
+
+    /**
+     * 消息和扫一扫的点击事件处理
+     */
+    private void messageAndSaoClickChuLi() {
+        messageAndSaoPopuWindow=new PopupWindow(messageAndSaoYiSaoView, ViewGroup.LayoutParams.WRAP_CONTENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT);
+        //外部点击时可以消失
+        messageAndSaoPopuWindow.setBackgroundDrawable(new ColorDrawable());
+        messageAndSaoPopuWindow.setOutsideTouchable(true);
+        messageAndSaoPopuWindow.showAsDropDown(messageButton, 0, 10);
+        messageAndSaoPopuWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+
+            }
+        });
+
+    }
+
 
 
 
@@ -974,7 +1013,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (menu.isMenuShowing()) {
             menu.showContent();
         } else {
-            AlertDialog.Builder builder=new AlertDialog.Builder(this);
+            long nowTime=System.currentTimeMillis();
+            if(nowTime-pressedTime>2000){
+                Toast.makeText(this,"再按一次退出程序",Toast.LENGTH_SHORT).show();
+                pressedTime=nowTime;
+            }else{
+                Intent intent=new Intent();
+                setResult(RESULT_OK,intent);
+                finish();
+            }
+           /* AlertDialog.Builder builder=new AlertDialog.Builder(this);
             builder.setTitle("提示");
             builder.setMessage("您确定要退出吗？");
             builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
@@ -992,7 +1040,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                 }
             });
-            builder.show();
+            builder.show();*/
         }
         //super.onBackPressed();
     }

@@ -16,7 +16,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:hint="@string/user_name"
-                android:textSize="@dimen/register_font_size"/>
+                android:textSize="@dimen/register_font_size"
+                android:singleLine="true"/>
         </LinearLayout>
 
 
@@ -33,7 +34,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:hint="@string/input_email_number"
-                android:textSize="@dimen/register_font_size"/>
+                android:textSize="@dimen/register_font_size"
+                android:singleLine="true"/>
         </LinearLayout>
 
 
@@ -56,7 +58,8 @@
                 android:layout_height="match_parent"
                 android:hint="@string/input_password"
                 android:textSize="@dimen/register_font_size"
-                android:password="true"/>
+                android:password="true"
+                android:singleLine="true"/>
         </LinearLayout>
 
         <ImageView
@@ -84,7 +87,8 @@
                 android:layout_height="match_parent"
                 android:hint="@string/input_password_again"
                 android:textSize="@dimen/register_font_size"
-                android:password="true"/>
+                android:password="true"
+                android:singleLine="true"/>
         </LinearLayout>
 
         <ImageView

@@ -29,6 +29,7 @@ import com.example.asus_cp.dongmanbuy.activity.login.LoginActivity;
 import com.example.asus_cp.dongmanbuy.activity.personal_center.PersonalCenterActivity;
 import com.example.asus_cp.dongmanbuy.constant.MyConstant;
 import com.example.asus_cp.dongmanbuy.util.CheckHelper;
+import com.example.asus_cp.dongmanbuy.util.DialogHelper;
 import com.example.asus_cp.dongmanbuy.util.MyApplication;
 import com.example.asus_cp.dongmanbuy.util.MyLog;
 import com.example.asuscp.dongmanbuy.util.JieKouHelper;
@@ -163,9 +164,11 @@ public class EmailRegisterFragment extends Fragment implements View.OnClickListe
         }else if(!passWord.equals(aginPassWord)){
             Toast.makeText(context,"2次密码不相等",Toast.LENGTH_SHORT).show();
         }else{
+            DialogHelper.showDialog(context,"正在注册...");
             StringRequest registerRequest=new StringRequest(Request.Method.POST, requestUrl, new Response.Listener<String>() {
                 @Override
                 public void onResponse(String s) {
+                    DialogHelper.dissmisDialog();
                     MyLog.d(tag, "返回的数据是：" + s);
                     try {
                         JSONObject jsonObject=new JSONObject(s);

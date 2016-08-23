@@ -27,6 +27,7 @@ import com.example.asus_cp.dongmanbuy.activity.MainActivity;
 import com.example.asus_cp.dongmanbuy.activity.product_detail.QueHuoDengJiActivity;
 import com.example.asus_cp.dongmanbuy.constant.MyConstant;
 import com.example.asus_cp.dongmanbuy.constant.SinaConstants;
+import com.example.asus_cp.dongmanbuy.util.DialogHelper;
 import com.example.asus_cp.dongmanbuy.util.MyApplication;
 import com.example.asus_cp.dongmanbuy.util.MyLog;
 import com.example.asus_cp.dongmanbuy.util.SinaAccessTokenKeeper;
@@ -191,9 +192,11 @@ public class LoginActivity extends Activity implements View.OnClickListener{
         }else if(password.equals("")||password.isEmpty()){
             Toast.makeText(this,"密码为空",Toast.LENGTH_SHORT).show();
         }else {
+            DialogHelper.showDialog(this,"正在登陆...");
             StringRequest loginRequest=new StringRequest(Request.Method.POST, loginUrl, new Response.Listener<String>() {
                 @Override
                 public void onResponse(String s) {
+                    DialogHelper.dissmisDialog();
                     MyLog.d(tag, "登录的数据返回:" + s);
                     try {
                         JSONObject jsonObject=new JSONObject(s);

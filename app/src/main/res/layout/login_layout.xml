@@ -58,7 +58,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textSize="@dimen/login_font_size"
-                android:hint="@string/zhang_hao_hint"/>
+                android:hint="@string/zhang_hao_hint"
+                android:singleLine="true"/>
         </LinearLayout>
 
 
@@ -85,7 +86,8 @@
                 android:layout_height="wrap_content"
                 android:hint="@string/password_hint"
                 android:textSize="@dimen/login_font_size"
-                android:password="true"/>
+                android:password="true"
+                android:singleLine="true"/>
         </LinearLayout>
         <ImageView
             android:id="@+id/img_see_password"

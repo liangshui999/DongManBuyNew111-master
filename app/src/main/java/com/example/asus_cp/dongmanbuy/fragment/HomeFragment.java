@@ -55,6 +55,7 @@ import com.example.asus_cp.dongmanbuy.model.Binner;
 import com.example.asus_cp.dongmanbuy.model.Good;
 import com.example.asus_cp.dongmanbuy.model.ShopModel;
 import com.example.asus_cp.dongmanbuy.model.User;
+import com.example.asus_cp.dongmanbuy.util.DialogHelper;
 import com.example.asus_cp.dongmanbuy.util.FormatHelper;
 import com.example.asus_cp.dongmanbuy.util.ImageLoadHelper;
 import com.example.asus_cp.dongmanbuy.util.JsonHelper;
@@ -281,12 +282,14 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
         threePointGroup = (LinearLayout) v.findViewById(R.id.ll_point_group_three);
 
         //-----------------第一个广告的初始化动作-----------------------------------
+        DialogHelper.showDialog(context);
         firstViewPager = (ViewPager) v.findViewById(R.id.viewpager_binner_first);
         firstImageViews =new ArrayList<View>();
         String binnerUrl="http://api.zmobuy.com/JK/base/model.php";
         StringRequest binnerOneRequest=new StringRequest(Request.Method.POST, binnerUrl, new Response.Listener<String>() {
             @Override
             public void onResponse(String s) {
+                DialogHelper.dissmisDialog();
                 getBinnerImageFromIntenet(s,FIRST_BINNER_FLAG,firstImageViews,REFRESH_FIRST_BINNER,SCROLL__FIRST_BINNER);
             }
         }, new Response.ErrorListener() {

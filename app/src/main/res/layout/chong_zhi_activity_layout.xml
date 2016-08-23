@@ -50,7 +50,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/please_input_chong_zhi_jin_e"
-                android:textSize="14sp"/>
+                android:textSize="14sp"
+                android:singleLine="true"/>
         </LinearLayout>
     </LinearLayout>
 

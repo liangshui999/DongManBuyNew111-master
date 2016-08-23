@@ -67,7 +67,7 @@
             android:layout_height="match_parent">
         </FrameLayout>
 
-        <!--消息和扫一扫所在的布局-->
+        <!--&lt;!&ndash;消息和扫一扫所在的布局&ndash;&gt;
         <LinearLayout
             android:id="@+id/ll_message_and_sao"
             android:layout_width="wrap_content"
@@ -76,7 +76,7 @@
             android:layout_alignRight="@id/frame_layout_main"
             android:layout_alignTop="@id/frame_layout_main"
             android:visibility="gone"
-            android:background="@color/white_my">
+            android:background="@color/gray">
             <LinearLayout
                 android:id="@+id/ll_message"
                 android:layout_width="wrap_content"
@@ -110,8 +110,7 @@
                     android:layout_marginLeft="5dp"
                     android:text="@string/sao"/>
             </LinearLayout>
-
-        </LinearLayout>
+        </LinearLayout>-->
     </RelativeLayout>
 
     <!--底部的标签所在的布局-->
@@ -127,8 +126,8 @@
             android:gravity="center">
             <ImageView
                 android:id="@+id/img_home"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
                 android:src="@mipmap/home_normal"/>
             <TextView
                 android:id="@+id/text_home"
@@ -147,8 +146,8 @@
             android:gravity="center">
             <ImageView
                 android:id="@+id/img_category"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
                 android:src="@mipmap/category_normal"/>
             <TextView
                 android:id="@+id/text_category"
@@ -167,8 +166,8 @@
             android:gravity="center">
             <ImageView
                 android:id="@+id/img_find"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
                 android:src="@mipmap/find_normal"/>
             <TextView
                 android:id="@+id/text_find"
@@ -187,8 +186,8 @@
             android:gravity="center">
             <ImageView
                 android:id="@+id/img_shop_street"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
                 android:src="@mipmap/shopstreet_normal"/>
             <TextView
                 android:id="@+id/text_shop_street"
@@ -207,8 +206,8 @@
             android:gravity="center">
             <ImageView
                 android:id="@+id/img_shopping_car"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
                 android:src="@mipmap/shoppingcar_normal"/>
             <TextView
                 android:id="@+id/text_shoppingz_car"
