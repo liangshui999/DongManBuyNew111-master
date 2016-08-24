@@ -259,8 +259,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:background="@drawable/jie_suan_button_background"
-            android:layout_marginRight="5dp">
+            android:background="@drawable/red_backgroud_yuan_jiao_button"
+            android:layout_marginRight="5dp"
+            android:padding="10dp">
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

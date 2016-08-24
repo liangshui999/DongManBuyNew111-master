@@ -177,8 +177,8 @@ public class SexSelectActivity extends Activity implements View.OnClickListener{
      * 重置颜色
      */
     public void reset(){
-        nanTextView.setTextColor(getResources().getColor(R.color.black));
-        nvTextView.setTextColor(getResources().getColor(R.color.black));
+        nanTextView.setTextColor(getResources().getColor(R.color.myblack));
+        nvTextView.setTextColor(getResources().getColor(R.color.myblack));
         nanImageView.setImageResource(R.drawable.man_normal);
         nvImageView.setImageResource(R.drawable.woman_normal);
     }

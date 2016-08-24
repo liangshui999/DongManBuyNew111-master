@@ -17,7 +17,8 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/bottom_lable_color"
+                android:background="@color/white_my"
+                android:layout_marginBottom="1dp"
                 android:paddingTop="@dimen/head_padding"
                 android:paddingBottom="@dimen/head_padding">
                 <ImageView
@@ -25,16 +26,16 @@
                     android:layout_width="30dp"
                     android:layout_height="30dp"
                     android:layout_centerVertical="true"
-                    android:src="@mipmap/leftdaohang"/>
+                    android:src="@mipmap/left"
+                    android:layout_marginLeft="5dp"/>
                 <TextView
+                    android:text="@string/product_detail"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/product_detail"
                     android:gravity="center"
                     android:layout_centerInParent="true"
                     android:padding="5dp"
-                    android:textSize="20sp"
-                    android:textColor="@color/white_my"
+                    android:textSize="@dimen/dao_hang_base_font"
                     />
             </RelativeLayout>
 
@@ -42,7 +43,8 @@
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@color/gray"/>
+                android:background="@color/gray"
+                android:visibility="gone"/>
 
 
             <!--//......................商品图片.....................-->
@@ -54,8 +56,9 @@
                 <ImageView
                     android:id="@+id/img_product_big_pic"
                     android:layout_width="wrap_content"
-                    android:layout_height="300dp"
-                    android:layout_centerInParent="true"
+                    android:layout_height="360dp"
+                    android:layout_alignParentTop="true"
+                    android:layout_centerHorizontal="true"
                     />
 
                 <TextView
@@ -861,7 +864,7 @@
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:gravity="center"
-                android:background="@drawable/buy_at_once_button_background"
+                android:background="@drawable/red_backgroud_yuan_jiao_button"
                 android:text="@string/buy_at_once"
                 android:textColor="@color/white_my"
                 android:textSize="@dimen/add_to_shoping_car"/>

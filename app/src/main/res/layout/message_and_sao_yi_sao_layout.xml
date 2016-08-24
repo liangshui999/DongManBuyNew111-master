@@ -12,12 +12,17 @@
         android:layout_alignRight="@id/frame_layout_main"
         android:layout_alignTop="@id/frame_layout_main"
         android:visibility="visible"
-        android:background="@color/gray">
+        android:background="@color/gray"
+        >
         <LinearLayout
             android:id="@+id/ll_message"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="10dp">
+            android:padding="10dp"
+            android:background="@color/white_my"
+            android:layout_marginTop="2dp"
+            android:layout_marginRight="2dp"
+            android:layout_marginLeft="2dp">
             <ImageView
                 android:layout_width="30dp"
                 android:layout_height="30dp"
@@ -36,7 +41,11 @@
             android:layout_height="wrap_content"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
-            android:paddingBottom="10dp">
+            android:paddingBottom="10dp"
+            android:background="@color/white_my"
+            android:layout_marginBottom="2dp"
+            android:layout_marginRight="2dp"
+            android:layout_marginLeft="2dp">
             <ImageView
                 android:layout_width="30dp"
                 android:layout_height="30dp"

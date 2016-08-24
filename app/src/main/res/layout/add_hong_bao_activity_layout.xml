@@ -6,29 +6,20 @@
 
     <!--头部-->
     <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/white_my"
-        android:layout_marginBottom="2dp"
-        android:paddingTop="@dimen/head_padding"
-        android:paddingBottom="@dimen/head_padding">
+        style="@style/dao_hang_relative_layout_style">
         <ImageView
             android:id="@+id/img_dao_hang_you_hui_quan"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_centerVertical="true"
-            android:src="@mipmap/leftdaohang"
-            android:layout_marginLeft="5dp"/>
+            style="@style/dao_hang_img_style"/>
         <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             android:text="@string/you_hui_quan"
-            android:gravity="center"
-            android:layout_centerInParent="true"
-            android:padding="5dp"
-            android:textSize="@dimen/dao_hang_base_font"
+            style="@style/dao_hang_text_style"
             />
     </RelativeLayout>
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/white_my"/>
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -71,7 +62,7 @@
         android:id="@+id/btn_add_hong_bao"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/yellow_backgroud_yuan_jiao_button"
+        android:background="@drawable/add_to_shopping_car_button_background"
         android:layout_margin="10dp"
         android:text="@string/ti_jiao"
         android:textColor="@color/white_my"/>

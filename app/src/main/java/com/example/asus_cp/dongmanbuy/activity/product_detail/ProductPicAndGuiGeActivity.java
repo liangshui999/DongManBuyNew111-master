@@ -88,7 +88,7 @@ public class ProductPicAndGuiGeActivity extends FragmentActivity implements View
      * 将textcolor的颜色设置成黑色
      */
     public void reset(){
-        prodcutDetailTextView.setTextColor(getResources().getColor(R.color.black));
-        productGuiGeTextView.setTextColor(getResources().getColor(R.color.black));
+        prodcutDetailTextView.setTextColor(getResources().getColor(R.color.myblack));
+        productGuiGeTextView.setTextColor(getResources().getColor(R.color.myblack));
     }
 }

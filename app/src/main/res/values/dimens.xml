@@ -13,7 +13,7 @@
     <dimen name="login_font_size">16sp</dimen>
     <dimen name="register_font_size">16sp</dimen>
     <dimen name="find_password_font_size">16sp</dimen>
-    <dimen name="main_page_bottom_biao_qian_size">14sp</dimen>
+    <dimen name="main_page_bottom_biao_qian_size">12sp</dimen>
     <dimen name="find_by_email_yan_zhegn_ma_size">16sp</dimen>
     <dimen name="confirm_change_font_size">16sp</dimen>
     <dimen name="add_to_shoping_car">16sp</dimen>
@@ -32,5 +32,6 @@
     <dimen name="dao_hang_img_base_font">30dp</dimen>
     <dimen name="check_box_size">26dp</dimen>
     <dimen name="head_padding">5dp</dimen>
+    <dimen name="main_activity_dao_hang">30dp</dimen>
 
 </resources>

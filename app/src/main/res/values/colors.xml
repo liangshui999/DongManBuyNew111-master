@@ -4,12 +4,14 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
     <color name="bottom_lable_color">#ff5153</color>
-    <color name="gray">#F0F0F0</color>
+    <color name="bottom_lable_color_pressed">#b2393a</color>
+    <color name="gray">#f3f5f7</color>
     <color name="home_fragment_background">#F0F0F0</color>
     <color name="white_my">#ffffff</color>
-    <color name="black">#000000</color>
+    <color name="myblack">#222222</color>
     <color name="shen_hui">@android:color/darker_gray</color>
     <color name="add_to_shopping_car">#FFE153</color>
+    <color name="add_to_shopping_car_pressed">#aa710d</color>
     <color name="you_hui_quan_tian_lan">#4DFFFF</color>
     <color name="you_hui_quan_huang_se">#FFDC35</color>
     <color name="fu_wu_ping_fen">#00EC00</color>

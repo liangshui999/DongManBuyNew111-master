@@ -39,7 +39,6 @@ import com.example.asus_cp.dongmanbuy.R;
 import com.example.asus_cp.dongmanbuy.activity.MainActivity;
 import com.example.asus_cp.dongmanbuy.activity.login.LoginActivity;
 import com.example.asus_cp.dongmanbuy.adapter.ProductDetailYouHuiQuanListAdapter;
-import com.example.asus_cp.dongmanbuy.constant.AliBaiChuanConstant;
 import com.example.asus_cp.dongmanbuy.constant.MyConstant;
 import com.example.asus_cp.dongmanbuy.db.CursorHandler;
 import com.example.asus_cp.dongmanbuy.db.BookDBOperateHelper;
@@ -51,9 +50,7 @@ import com.example.asus_cp.dongmanbuy.util.FormatHelper;
 import com.example.asus_cp.dongmanbuy.util.ImageLoadHelper;
 import com.example.asus_cp.dongmanbuy.util.JsonHelper;
 import com.example.asus_cp.dongmanbuy.util.MyApplication;
-import com.example.asus_cp.dongmanbuy.util.MyIMHelper;
 import com.example.asus_cp.dongmanbuy.util.MyLog;
-import com.example.asus_cp.dongmanbuy.util.MyYWIMKitHelper;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -680,7 +677,7 @@ public class ProductDetailActivity extends Activity implements View.OnClickListe
                                 JSONArray  jsonArray = jsonObject.getJSONArray("data");
                                 if(jsonArray.length()==0){
                                     shouCangImageView.setImageResource(R.mipmap.like);
-                                    shouCangTextView.setTextColor(getResources().getColor(R.color.black));
+                                    shouCangTextView.setTextColor(getResources().getColor(R.color.myblack));
                                 }else{
                                     int count=0;
                                     for (int i = 0; i < jsonArray.length(); i++) {
@@ -695,7 +692,7 @@ public class ProductDetailActivity extends Activity implements View.OnClickListe
                                     }
                                     if(count==jsonArray.length()){  //说明没有收藏
                                         shouCangImageView.setImageResource(R.mipmap.like);
-                                        shouCangTextView.setTextColor(getResources().getColor(R.color.black));
+                                        shouCangTextView.setTextColor(getResources().getColor(R.color.myblack));
                                     }
                                 }
                             } catch (JSONException e) {
@@ -720,7 +717,7 @@ public class ProductDetailActivity extends Activity implements View.OnClickListe
             requestQueue.add(getListRequest);
         }else{  //没有登陆
             shouCangImageView.setImageResource(R.mipmap.like);
-            shouCangTextView.setTextColor(getResources().getColor(R.color.black));
+            shouCangTextView.setTextColor(getResources().getColor(R.color.myblack));
         }
     }
 
@@ -1424,7 +1421,7 @@ public class ProductDetailActivity extends Activity implements View.OnClickListe
                             String succeed=jsonObject1.getString("succeed");
                             if("1".equals(succeed)){
                                 shouCangImageView.setImageResource(R.mipmap.like);
-                                shouCangTextView.setTextColor(getResources().getColor(R.color.black));
+                                shouCangTextView.setTextColor(getResources().getColor(R.color.myblack));
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();

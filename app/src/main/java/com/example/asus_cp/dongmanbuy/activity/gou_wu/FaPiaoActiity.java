@@ -93,7 +93,7 @@ public class FaPiaoActiity extends Activity{
                 for(int i=0;i<checks.size();i++){
                     View v=parent.getChildAt(i);
                     TextView textView = (TextView) v.findViewById(R.id.text_fa_piao_category);
-                    textView.setTextColor(getResources().getColor(R.color.black));
+                    textView.setTextColor(getResources().getColor(R.color.myblack));
                 }
                 TextView textView = (TextView) view.findViewById(R.id.text_fa_piao_category);
                 textView.setTextColor(getResources().getColor(R.color.bottom_lable_color));

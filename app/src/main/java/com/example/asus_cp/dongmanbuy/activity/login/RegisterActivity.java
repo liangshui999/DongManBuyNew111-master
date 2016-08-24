@@ -97,8 +97,8 @@ public class RegisterActivity extends FragmentActivity implements View.OnClickLi
      * 重置字体颜色
      */
     public void reset(){
-        phoneRegisterTextView.setTextColor(getResources().getColor(R.color.black));
-        emailRegisterTextView.setTextColor(getResources().getColor(R.color.black));
+        phoneRegisterTextView.setTextColor(getResources().getColor(R.color.myblack));
+        emailRegisterTextView.setTextColor(getResources().getColor(R.color.myblack));
         phoneRegisterImageView.setImageResource(R.color.white_my);
         emailRegisterImageView.setImageResource(R.color.white_my);
     }

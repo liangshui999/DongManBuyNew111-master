@@ -311,7 +311,7 @@
     <string name="change_sex">修改性别</string>
     <string name="chang_phone">修改手机</string>
     <string name="change_email">修改邮箱</string>
-    <string name="ship_address_list">收货地址列表</string>
+    <string name="ship_address_list">收货地址</string>
     <string name="edit_ship_address">编辑收货地址</string>
     <string name="shou_cang_list">收藏列表</string>
     <string name="guan_zhu_list">关注列表</string>

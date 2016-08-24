@@ -7,27 +7,13 @@
 
     <!--头部-->
     <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/white_my"
-        android:layout_marginBottom="2dp"
-        android:paddingTop="@dimen/head_padding"
-        android:paddingBottom="@dimen/head_padding">
+        style="@style/dao_hang_relative_layout_style">
         <ImageView
             android:id="@+id/img_dao_hang_register"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_centerVertical="true"
-            android:src="@mipmap/leftdaohang"
-            android:layout_marginLeft="5dp"/>
+            style="@style/dao_hang_img_style"/>
         <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             android:text="@string/register"
-            android:gravity="center"
-            android:layout_centerInParent="true"
-            android:padding="5dp"
-            android:textSize="@dimen/dao_hang_base_font"
+            style="@style/dao_hang_text_style"
             />
     </RelativeLayout>
 

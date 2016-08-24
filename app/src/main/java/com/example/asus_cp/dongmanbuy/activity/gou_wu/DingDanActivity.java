@@ -410,6 +410,7 @@ public class DingDanActivity extends Activity implements View.OnClickListener{
                 zhiFuBaoCheckBox.setChecked(true);
                 yuEZhiFuCheckBox.setChecked(false);
                 zhiFuFangShiTextView.setText("支付宝");
+                zhiFuFangShiWindow.dismiss();
                 //shouXuFeiTextView.setText("0.00");
 
                 break;
@@ -417,6 +418,7 @@ public class DingDanActivity extends Activity implements View.OnClickListener{
                 zhiFuBaoCheckBox.setChecked(false);
                 yuEZhiFuCheckBox.setChecked(true);
                 zhiFuFangShiTextView.setText("余额支付");
+                zhiFuFangShiWindow.dismiss();
                 break;
         }
     }

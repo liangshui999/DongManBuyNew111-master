@@ -268,17 +268,17 @@ public class CommetnActivity extends FragmentActivity implements View.OnClickLis
      * 将标题的颜色重置为黑色
      */
     public void reset(){
-        allCommentTextView.setTextColor(getResources().getColor(R.color.black));
-        haoCommentTextView.setTextColor(getResources().getColor(R.color.black));
-        zhongCommentTextView.setTextColor(getResources().getColor(R.color.black));
-        chaCommentTextView.setTextColor(getResources().getColor(R.color.black));
-        youTuCommentTextView.setTextColor(getResources().getColor(R.color.black));
+        allCommentTextView.setTextColor(getResources().getColor(R.color.myblack));
+        haoCommentTextView.setTextColor(getResources().getColor(R.color.myblack));
+        zhongCommentTextView.setTextColor(getResources().getColor(R.color.myblack));
+        chaCommentTextView.setTextColor(getResources().getColor(R.color.myblack));
+        youTuCommentTextView.setTextColor(getResources().getColor(R.color.myblack));
 
-        allCommentCountTextView.setTextColor(getResources().getColor(R.color.black));
-        haoCommentCountTextView.setTextColor(getResources().getColor(R.color.black));
-        zhongCommentCountTextView.setTextColor(getResources().getColor(R.color.black));
-        chaCommentCountTextView.setTextColor(getResources().getColor(R.color.black));
-        youTuCommentCountTextView.setTextColor(getResources().getColor(R.color.black));
+        allCommentCountTextView.setTextColor(getResources().getColor(R.color.myblack));
+        haoCommentCountTextView.setTextColor(getResources().getColor(R.color.myblack));
+        zhongCommentCountTextView.setTextColor(getResources().getColor(R.color.myblack));
+        chaCommentCountTextView.setTextColor(getResources().getColor(R.color.myblack));
+        youTuCommentCountTextView.setTextColor(getResources().getColor(R.color.myblack));
     }
 
     /**

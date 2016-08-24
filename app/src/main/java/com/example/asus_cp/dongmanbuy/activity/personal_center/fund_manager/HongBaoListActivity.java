@@ -237,12 +237,12 @@ public class HongBaoListActivity extends Activity implements View.OnClickListene
      * 将所有颜色设置成黑色
      */
     private void reset() {
-        weiShiYongTextView.setTextColor(getResources().getColor(R.color.black));
-        weiShiYongShuTextView.setTextColor(getResources().getColor(R.color.black));
-        yiShiYongTextView.setTextColor(getResources().getColor(R.color.black));
-        yiShiYongShuTextView.setTextColor(getResources().getColor(R.color.black));
-        yiGuoQiTextView.setTextColor(getResources().getColor(R.color.black));
-        yiGuoQiShuTextView.setTextColor(getResources().getColor(R.color.black));
+        weiShiYongTextView.setTextColor(getResources().getColor(R.color.myblack));
+        weiShiYongShuTextView.setTextColor(getResources().getColor(R.color.myblack));
+        yiShiYongTextView.setTextColor(getResources().getColor(R.color.myblack));
+        yiShiYongShuTextView.setTextColor(getResources().getColor(R.color.myblack));
+        yiGuoQiTextView.setTextColor(getResources().getColor(R.color.myblack));
+        yiGuoQiShuTextView.setTextColor(getResources().getColor(R.color.myblack));
     }
 
 

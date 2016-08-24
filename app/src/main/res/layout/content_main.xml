@@ -11,15 +11,20 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:focusable="true"
-        android:focusableInTouchMode="true">
+        android:focusableInTouchMode="true"
+        android:background="@color/bottom_lable_color"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp">
         <de.hdodenhof.circleimageview.CircleImageView
+            xmlns:app="http://schemas.android.com/apk/res-auto"
             android:id="@+id/img_btn_login"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"
-            android:layout_gravity="center_vertical"
-            android:background="@mipmap/login_my"
+            android:layout_width="@dimen/main_activity_dao_hang"
+            android:layout_height="@dimen/main_activity_dao_hang"
+            android:layout_margin="5dp"
+            android:layout_gravity="center"
+            app:civ_border_width="1dp"
+            app:civ_border_color="@color/white_my"
+            android:src="@mipmap/login_my"
             />
        <!-- <android.support.v7.widget.SearchView
             android:id="@+id/search_view"
@@ -34,13 +39,13 @@
             android:id="@+id/img_search_main"
             android:layout_width="0dp"
             android:layout_weight="1"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:src="@mipmap/search_pic"/>
 
         <ImageView
             android:id="@+id/img_btn_message"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
+            android:layout_width="@dimen/main_activity_dao_hang"
+            android:layout_height="@dimen/main_activity_dao_hang"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="10dp"
             android:layout_gravity="center_vertical"
@@ -116,14 +121,17 @@
     <!--底部的标签所在的布局-->
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp">
         <LinearLayout
             android:id="@+id/ll_home"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:gravity="center">
+            android:gravity="center"
+            >
             <ImageView
                 android:id="@+id/img_home"
                 android:layout_width="20dp"

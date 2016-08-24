@@ -718,10 +718,10 @@ public class ShopProdcutSortActivity extends Activity implements View.OnClickLis
      * 将标签的颜色设置成初始状态
      */
     public void reset(){
-        zongHeTextView.setTextColor(getResources().getColor(R.color.black));
-        xinPinTextView.setTextColor(getResources().getColor(R.color.black));
-        xiaoLiangTextView.setTextColor(getResources().getColor(R.color.black));
-        priceTextView.setTextColor(getResources().getColor(R.color.black));
+        zongHeTextView.setTextColor(getResources().getColor(R.color.myblack));
+        xinPinTextView.setTextColor(getResources().getColor(R.color.myblack));
+        xiaoLiangTextView.setTextColor(getResources().getColor(R.color.myblack));
+        priceTextView.setTextColor(getResources().getColor(R.color.myblack));
         zongHeDownImageView.setImageResource(R.mipmap.down_black_sort);
         priceDownImageView.setImageResource(R.mipmap.down_black_sort);
         loadCount=2;//将loadcount设置为初始值

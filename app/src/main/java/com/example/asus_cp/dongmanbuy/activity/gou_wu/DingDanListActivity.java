@@ -246,9 +246,9 @@ public class DingDanListActivity extends Activity implements View.OnClickListene
      * 将所有标签的颜色都设置成黑色
      */
     public void reset(){
-        allDingDanTextView.setTextColor(getResources().getColor(R.color.black));
-        daiFuKuanDingDanTextView.setTextColor(getResources().getColor(R.color.black));
-        daiShouHuoDingDanTextView.setTextColor(getResources().getColor(R.color.black));
+        allDingDanTextView.setTextColor(getResources().getColor(R.color.myblack));
+        daiFuKuanDingDanTextView.setTextColor(getResources().getColor(R.color.myblack));
+        daiShouHuoDingDanTextView.setTextColor(getResources().getColor(R.color.myblack));
     }
 
 

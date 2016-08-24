@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.Spanned;
@@ -28,6 +30,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.example.asus_cp.dongmanbuy.R;
 import com.example.asus_cp.dongmanbuy.constant.MyConstant;
 import com.example.asus_cp.dongmanbuy.util.CheckHelper;
+import com.example.asus_cp.dongmanbuy.util.DialogHelper;
 import com.example.asus_cp.dongmanbuy.util.FormatHelper;
 import com.example.asus_cp.dongmanbuy.util.MyApplication;
 import com.example.asus_cp.dongmanbuy.util.MyLog;
@@ -65,6 +68,20 @@ public class FindPassworByEmaildActivity extends Activity{
     private String tag="FindPassworByEmaildActivity";
 
     public static final String EMAIL_KEY="emailKey";//传email的key
+
+    private static final int LOAD_COMPLETE=1;
+
+    private Handler handler=new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what){
+                case LOAD_COMPLETE:
+                    DialogHelper.dissmisDialog();
+                    break;
+            }
+        }
+    };
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -187,6 +204,7 @@ public class FindPassworByEmaildActivity extends Activity{
      *
      */
     private void shouDongPost(final String email) {
+        DialogHelper.showDialog(this,"正在等待验证码...");
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -238,6 +256,8 @@ public class FindPassworByEmaildActivity extends Activity{
                         in.read(buf);
                         String responses=new String(buf);
                         String s=responses.trim();
+                        Message message=handler.obtainMessage(LOAD_COMPLETE);//关闭对话框
+                        handler.sendMessage(message);
                         MyLog.d(tag, "发送的数据是" + content);
                         MyLog.d(tag, "返回的数据是："+responses.trim());
                         try {
