@@ -114,7 +114,7 @@ public class CategoryFragment extends Fragment {
                 switch (position) {
                     case SHANG_ZHUANG:
                         if(lastView!=null){
-                            lastView.setBackgroundResource(R.color.gray);
+                            lastView.setBackgroundResource(R.color.mo_kuai_backgroud);
                         }
                         FragmentTransaction transaction1 = manager.beginTransaction();
                         transaction1.replace(R.id.frame_layout_buf, shangZhuangFragment);
@@ -124,10 +124,10 @@ public class CategoryFragment extends Fragment {
                         break;
                     case XIA_ZHUANG:
                         if(lastView!=null){
-                            lastView.setBackgroundResource(R.color.gray);
+                            lastView.setBackgroundResource(R.color.mo_kuai_backgroud);
                             MyLog.d(tag,"执行了吗");
                         }
-                        getViewByPosition(0, (ListView) parent).setBackgroundResource(R.color.gray);
+                        getViewByPosition(0, (ListView) parent).setBackgroundResource(R.color.mo_kuai_backgroud);
                         FragmentTransaction transaction2 = manager.beginTransaction();
                         transaction2.replace(R.id.frame_layout_buf, xiaZhuangFragment);
                         transaction2.commit();
@@ -136,9 +136,9 @@ public class CategoryFragment extends Fragment {
                         break;
                     case XIANG_BAO:
                         if(lastView!=null){
-                            lastView.setBackgroundResource(R.color.gray);
+                            lastView.setBackgroundResource(R.color.mo_kuai_backgroud);
                         }
-                        getViewByPosition(0, (ListView) parent).setBackgroundResource(R.color.gray);
+                        getViewByPosition(0, (ListView) parent).setBackgroundResource(R.color.mo_kuai_backgroud);
                         FragmentTransaction transaction3 = manager.beginTransaction();
                         transaction3.replace(R.id.frame_layout_buf, xiangBaoFragment);
                         transaction3.commit();
@@ -147,9 +147,9 @@ public class CategoryFragment extends Fragment {
                         break;
                     case ZAI_PIN:
                         if(lastView!=null){
-                            lastView.setBackgroundResource(R.color.gray);
+                            lastView.setBackgroundResource(R.color.mo_kuai_backgroud);
                         }
-                        getViewByPosition(0, (ListView) parent).setBackgroundResource(R.color.gray);
+                        getViewByPosition(0, (ListView) parent).setBackgroundResource(R.color.mo_kuai_backgroud);
                         FragmentTransaction transaction4 = manager.beginTransaction();
                         transaction4.replace(R.id.frame_layout_buf, zaiPingFragment);
                         transaction4.commit();
@@ -158,9 +158,9 @@ public class CategoryFragment extends Fragment {
                         break;
                     case MAO_RONG:
                         if(lastView!=null){
-                            lastView.setBackgroundResource(R.color.gray);
+                            lastView.setBackgroundResource(R.color.mo_kuai_backgroud);
                         }
-                        getViewByPosition(0, (ListView) parent).setBackgroundResource(R.color.gray);
+                        getViewByPosition(0, (ListView) parent).setBackgroundResource(R.color.mo_kuai_backgroud);
                         FragmentTransaction transaction5 = manager.beginTransaction();
                         transaction5.replace(R.id.frame_layout_buf, maoRongFragment);
                         transaction5.commit();
@@ -169,9 +169,9 @@ public class CategoryFragment extends Fragment {
                         break;
                     case PEI_SHI:
                         if(lastView!=null){
-                            lastView.setBackgroundResource(R.color.gray);
+                            lastView.setBackgroundResource(R.color.mo_kuai_backgroud);
                         }
-                        getViewByPosition(0, (ListView) parent).setBackgroundResource(R.color.gray);
+                        getViewByPosition(0, (ListView) parent).setBackgroundResource(R.color.mo_kuai_backgroud);
                         FragmentTransaction transaction6 = manager.beginTransaction();
                         transaction6.replace(R.id.frame_layout_buf, peiShiFragment);
                         transaction6.commit();
@@ -180,9 +180,9 @@ public class CategoryFragment extends Fragment {
                         break;
                     case SHU_JI:
                         if(lastView!=null){
-                            lastView.setBackgroundResource(R.color.gray);
+                            lastView.setBackgroundResource(R.color.mo_kuai_backgroud);
                         }
-                        getViewByPosition(0, (ListView) parent).setBackgroundResource(R.color.gray);
+                        getViewByPosition(0, (ListView) parent).setBackgroundResource(R.color.mo_kuai_backgroud);
                         FragmentTransaction transaction7 = manager.beginTransaction();
                         transaction7.replace(R.id.frame_layout_buf, shuJiFragment);
                         transaction7.commit();
@@ -191,9 +191,9 @@ public class CategoryFragment extends Fragment {
                         break;
                     case DIY_DING_ZHI:
                         if(lastView!=null){
-                            lastView.setBackgroundResource(R.color.gray);
+                            lastView.setBackgroundResource(R.color.mo_kuai_backgroud);
                         }
-                        getViewByPosition(0, (ListView) parent).setBackgroundResource(R.color.gray);
+                        getViewByPosition(0, (ListView) parent).setBackgroundResource(R.color.mo_kuai_backgroud);
                         FragmentTransaction transaction8 = manager.beginTransaction();
                         transaction8.replace(R.id.frame_layout_buf, diyFragment);
                         transaction8.commit();
@@ -202,9 +202,9 @@ public class CategoryFragment extends Fragment {
                         break;
                     case MO_XING:
                         if(lastView!=null){
-                            lastView.setBackgroundResource(R.color.gray);
+                            lastView.setBackgroundResource(R.color.mo_kuai_backgroud);
                         }
-                        getViewByPosition(0, (ListView) parent).setBackgroundResource(R.color.gray);
+                        getViewByPosition(0, (ListView) parent).setBackgroundResource(R.color.mo_kuai_backgroud);
                         FragmentTransaction transaction9 = manager.beginTransaction();
                         transaction9.replace(R.id.frame_layout_buf, moXingFragment);
                         transaction9.commit();

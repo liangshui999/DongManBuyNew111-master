@@ -75,7 +75,7 @@
                     android:layout_height="wrap_content"
                     android:numColumns="2"
                     android:visibility="visible"
-                    android:background="@color/gray"
+                    android:background="@color/mo_kuai_backgroud"
                     android:horizontalSpacing="@dimen/grid_view_space"
                     android:verticalSpacing="@dimen/grid_view_space"
                     android:padding="5dp">

@@ -39,6 +39,7 @@
         <item name="android:windowBackground">@mipmap/dialogbc</item>
         <item name="android:windowIsFloating">true</item>
         <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowIsTranslucent">false</item>
     </style>
 
     <!--导航栏relativelayout的样式-->
@@ -71,6 +72,63 @@
         <item name="android:layout_marginLeft">5dp</item>
     </style>
 
+
+    <!--mainActivity底部标签linearlayout的样式-->
+    <style name="main_activity_bottom_label_ll_style">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:orientation">vertical</item>
+        <item name="android:gravity">center</item>
+    </style>
+
+
+    <!--mainActivity底部标签imageview的样式-->
+    <style name="main_activity_bottom_label_img_style">
+        <item name="android:layout_width">20dp</item>
+        <item name="android:layout_height">20dp</item>
+    </style>
+
+
+    <!--mainActivity底部标签textview的样式-->
+    <style name="main_activity_bottom_label_text_style">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">@dimen/main_page_bottom_biao_qian_size</item>
+    </style>
+
+
+    <!--homefragment八个按钮文字的样式-->
+    <style name="home_fragment_eight_text_style">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:layout_marginTop">5dp</item>
+        <item name="android:textSize">@dimen/fragment_eight_font_size</item>
+        <item name="android:textColor">@color/myblack</item>
+    </style>
+
+
+    <!--精品推荐和店铺街标题的样式-->
+    <style name="jing_ping_and_dian_pu_biao_ti_style">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginLeft">10dp</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/myblack</item>
+        <item name="android:layout_centerVertical">true</item>
+    </style>
+
+
+    <!--商品详情里面运费地区等的样式-->
+    <style name="product_detail_font_style">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">@dimen/product_detail_base_font_size</item>
+        <item name="android:textColor">@color/myblack</item>
+        <item name="android:textStyle">normal</item>
+    </style>
 
 
 </resources>

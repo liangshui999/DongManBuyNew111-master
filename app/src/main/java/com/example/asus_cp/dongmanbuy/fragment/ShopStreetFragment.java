@@ -201,6 +201,7 @@ public class ShopStreetFragment extends Fragment implements View.OnClickListener
         DialogHelper.showDialog(context);
         location=ALL;
         tongYongClickChuLi("", ALL);//初始状态
+        count0=1;//点击回来之后需要把这个初始化，否则上拉加载会出问题
 
         //设置点击事件
         goodTypeLinearLayout.setOnClickListener(this);

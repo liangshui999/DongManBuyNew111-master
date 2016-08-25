@@ -6,6 +6,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
@@ -37,6 +38,7 @@ public class DialogHelper {
     public static void showDialog(Context context,String message){
         //显示进度框
         progressDialog=createLoadingDialog(context,message);
+        setBackgroundAlpha(0.0f,progressDialog);
         progressDialog.show();
     }
 
@@ -77,6 +79,17 @@ public class DialogHelper {
         loadingDialog.setContentView(ll, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.MATCH_PARENT));
         return loadingDialog;
+    }
 
+
+    /**
+     * 设置添加屏幕的背景透明度
+     *
+     * @param bgAlpha
+     */
+    public static void setBackgroundAlpha(float bgAlpha,Dialog loadingDialog) {
+        WindowManager.LayoutParams lp = loadingDialog.getWindow().getAttributes();
+        lp.alpha = bgAlpha; //0.0-1.0
+        loadingDialog.getWindow().setAttributes(lp);
     }
 }

@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/gray">
+    android:background="@color/mo_kuai_backgroud">
 
     <!--头部-->
     <RelativeLayout
@@ -189,7 +189,7 @@
         <ImageView
             android:layout_width="1dp"
             android:layout_height="32dp"
-            android:background="@color/gray"/>
+            android:background="@color/mo_kuai_backgroud"/>
 
         <LinearLayout
             android:id="@+id/ll_yin_hang_ka_fund_manager"
@@ -217,7 +217,7 @@
         <ImageView
             android:layout_width="1dp"
             android:layout_height="32dp"
-            android:background="@color/gray"/>
+            android:background="@color/mo_kuai_backgroud"/>
 
 
         <LinearLayout

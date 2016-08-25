@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
@@ -748,11 +749,17 @@ public class DingDanDetailActivity extends Activity implements View.OnClickListe
                             String flag=jsonObject1.getString("succeed");
                             if("1".equals(flag)){
                                Toast.makeText(DingDanDetailActivity.this,"取消成功",Toast.LENGTH_SHORT).show();
-                                finish();
+
+                            }else{
+                                Toast.makeText(DingDanDetailActivity.this,"取消失败",Toast.LENGTH_SHORT).show();
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
+                            Toast.makeText(DingDanDetailActivity.this,"取消失败",Toast.LENGTH_SHORT).show();
                         }
+                        Intent intent=new Intent();
+                        setResult(RESULT_OK,intent);
+                        finish();
                     }
                 }, new Response.ErrorListener() {
             @Override

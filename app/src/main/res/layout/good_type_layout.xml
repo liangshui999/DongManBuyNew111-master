@@ -14,7 +14,7 @@
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="2dp"
-        android:background="@color/gray"
+        android:background="@color/mo_kuai_backgroud"
         android:visibility="gone"/>
 
     <!--类型所在的布局-->

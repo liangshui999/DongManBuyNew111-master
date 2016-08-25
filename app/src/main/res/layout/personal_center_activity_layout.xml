@@ -10,7 +10,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:background="@color/gray">
+            android:background="@color/mo_kuai_backgroud">
 
             <!--头部-->
             <RelativeLayout
@@ -37,7 +37,7 @@
                     android:layout_width="60dp"
                     android:layout_height="60dp"
                     app:civ_border_width="1dp"
-                    app:civ_border_color="@color/gray"
+                    app:civ_border_color="@color/mo_kuai_backgroud"
                     android:layout_margin="5dp"/>
 
                 <LinearLayout
@@ -130,7 +130,7 @@
                 <ImageView
                     android:layout_width="1dp"
                     android:layout_height="40dp"
-                    android:background="@color/gray"/>
+                    android:background="@color/mo_kuai_backgroud"/>
                 <LinearLayout
                     android:id="@+id/ll_guan_zhu_personal_center"
                     android:layout_width="0dp"
@@ -400,7 +400,7 @@
                 <ImageView
                     android:layout_width="1dp"
                     android:layout_height="40dp"
-                    android:background="@color/gray"/>
+                    android:background="@color/mo_kuai_backgroud"/>
 
                 <LinearLayout
                     android:id="@+id/ll_you_hui_quan_personal_center"
@@ -427,7 +427,7 @@
                 <ImageView
                     android:layout_width="1dp"
                     android:layout_height="40dp"
-                    android:background="@color/gray"/>
+                    android:background="@color/mo_kuai_backgroud"/>
 
 
                 <LinearLayout

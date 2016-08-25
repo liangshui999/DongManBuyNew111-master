@@ -44,7 +44,7 @@ public class FormatHelper {
     public static String getOneXiaoShuFormat(String str){
         if(getNumberFromRenMingBi(str)!=null){
             double d=Double.parseDouble(getNumberFromRenMingBi(str));
-            DecimalFormat a = new DecimalFormat(".##");
+            DecimalFormat a = new DecimalFormat(".#");
             return a.format(d);
         }else{
             return null;

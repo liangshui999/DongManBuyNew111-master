@@ -180,7 +180,7 @@
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="5dp"
-                    android:background="@color/gray"
+                    android:background="@color/mo_kuai_backgroud"
                     android:visibility="gone"/>
 
                 <RelativeLayout
@@ -210,7 +210,7 @@
                     android:horizontalSpacing="@dimen/grid_view_space"
                     android:verticalSpacing="@dimen/grid_view_space"
                     android:padding="5dp"
-                    android:background="@color/gray"
+                    android:background="@color/mo_kuai_backgroud"
                     >
                 </com.example.asus_cp.dongmanbuy.customview.MyGridViewA>
 
@@ -219,7 +219,7 @@
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="5dp"
-                    android:background="@color/gray"/>
+                    android:background="@color/mo_kuai_backgroud"/>
                 <TextView
                     android:id="@+id/text_see_more"
                     android:clickable="true"

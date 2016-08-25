@@ -11,7 +11,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:background="@color/home_fragment_background">
+            android:background="@color/mo_kuai_backgroud">
             <!--第一个广告条和指示点-->
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -66,10 +66,7 @@
                             android:layout_gravity="center"
                             android:src="@mipmap/all_dong_man"/>
                         <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:layout_marginTop="5dp"
+                            style="@style/home_fragment_eight_text_style"
                             android:text="@string/all_dong_man"/>
                     </LinearLayout>
 
@@ -86,10 +83,7 @@
                             android:layout_gravity="center"
                             android:src="@mipmap/tui_jian_zhu_ti"/>
                         <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:layout_marginTop="5dp"
+                            style="@style/home_fragment_eight_text_style"
                             android:text="@string/tui_jian_zhu_ti"/>
                     </LinearLayout>
 
@@ -106,10 +100,7 @@
                             android:layout_gravity="center"
                             android:src="@mipmap/you_hui_huo_dong"/>
                         <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:layout_marginTop="5dp"
+                            style="@style/home_fragment_eight_text_style"
                             android:text="@string/you_hui_huo_dong"/>
                     </LinearLayout>
 
@@ -126,10 +117,7 @@
                             android:layout_gravity="center"
                             android:src="@mipmap/tuan_gou"/>
                         <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:layout_marginTop="5dp"
+                            style="@style/home_fragment_eight_text_style"
                             android:text="@string/tuan_gou_huo_dong"/>
                     </LinearLayout>
 
@@ -152,10 +140,7 @@
                             android:layout_gravity="center"
                             android:src="@mipmap/my_guan_zhu"/>
                         <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:layout_marginTop="5dp"
+                            style="@style/home_fragment_eight_text_style"
                             android:text="@string/my_guan_zhu"/>
                     </LinearLayout>
 
@@ -172,10 +157,7 @@
                             android:layout_gravity="center"
                             android:src="@mipmap/my_order"/>
                         <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:layout_marginTop="5dp"
+                            style="@style/home_fragment_eight_text_style"
                             android:text="@string/my_order"/>
                     </LinearLayout>
 
@@ -192,10 +174,7 @@
                             android:layout_gravity="center"
                             android:src="@mipmap/ji_fen_dui_huan"/>
                         <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:layout_marginTop="5dp"
+                            style="@style/home_fragment_eight_text_style"
                             android:text="@string/ji_fen_dui_huan"/>
                     </LinearLayout>
 
@@ -212,10 +191,7 @@
                             android:layout_gravity="center"
                             android:src="@mipmap/help_center"/>
                         <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:layout_marginTop="5dp"
+                            style="@style/home_fragment_eight_text_style"
                             android:text="@string/help_center"/>
                     </LinearLayout>
 
@@ -230,15 +206,36 @@
                 android:layout_marginTop="10dp"
                 android:background="@android:color/white"
                 android:padding="10dp">
-                <TextView
+                <LinearLayout
                     android:id="@+id/xian_shi_biao_ti"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/xian_shi_miao_sha"
-                    android:textSize="18sp"
-                    android:textStyle="bold"
-                    android:textColor="@color/bottom_lable_color"
-                    android:layout_marginLeft="10dp"/>
+                    android:orientation="horizontal"
+                    android:paddingLeft="10dp"
+                    android:layout_centerVertical="true">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/xian_shi"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/bottom_lable_color"
+                        />
+                    <ImageView
+                        android:layout_width="18dp"
+                        android:layout_height="18dp"
+                        android:src="@mipmap/miao_sha"
+                        android:layout_gravity="center"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/miao_sha"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/bottom_lable_color"
+                        />
+                </LinearLayout>
+
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -382,13 +379,8 @@
                 android:background="@android:color/white">
                 <TextView
                     android:id="@+id/jing_ping_tui_jian_biao_ti"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
                     android:text="@string/jing_pin_tui_jian"
-                    android:layout_marginLeft="10dp"
-                    android:textSize="18sp"
-                    android:textStyle="bold"
-                    android:layout_centerVertical="true"
+                    style="@style/jing_ping_and_dian_pu_biao_ti_style"
                     />
                 <TextView
                     android:layout_toRightOf="@id/jing_ping_tui_jian_biao_ti"
@@ -491,16 +483,12 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:background="@android:color/white"
+                android:paddingLeft="10dp"
                 >
                 <TextView
                     android:id="@+id/dian_pu_jie_biao_ti"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
                     android:text="@string/shop_street"
-                    android:textStyle="bold"
-                    android:textSize="18sp"
-                    android:layout_marginLeft="10dp"
-                    android:layout_centerVertical="true"/>
+                    style="@style/jing_ping_and_dian_pu_biao_ti_style"/>
                 <TextView
                     android:layout_toRightOf="@id/dian_pu_jie_biao_ti"
                     android:layout_centerVertical="true"
@@ -560,14 +548,16 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:background="@color/home_fragment_background">
+                android:background="@color/mo_kuai_backgroud">
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
                     android:text="@string/cai_ni_xi_huan"
                     android:textSize="18sp"
-                    android:layout_marginTop="10dp"/>
+                    android:layout_marginTop="10dp"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="10dp"/>
             </RelativeLayout>
 
             <!--猜你喜欢的内容-->
@@ -579,7 +569,7 @@
                 android:horizontalSpacing="@dimen/grid_view_space"
                 android:verticalSpacing="@dimen/grid_view_space"
                 android:gravity="center"
-                android:background="@color/gray"
+                android:background="@color/mo_kuai_backgroud"
                 android:paddingBottom="10dp"
                 >
             </com.example.asus_cp.dongmanbuy.customview.MyGridViewA>

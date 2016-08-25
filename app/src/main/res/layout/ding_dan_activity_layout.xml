@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/gray">
+    android:background="@color/mo_kuai_backgroud">
 
     <!--头部-->
     <RelativeLayout
@@ -355,7 +355,7 @@
         android:paddingTop="10dp"
         android:paddingBottom="10dp"
         android:paddingLeft="10dp"
-        android:background="@color/gray">
+        android:background="@color/mo_kuai_backgroud">
         <TextView
             android:id="@+id/shi_fu_kuan"
             android:layout_width="wrap_content"

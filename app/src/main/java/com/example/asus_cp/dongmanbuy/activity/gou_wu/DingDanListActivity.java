@@ -65,6 +65,8 @@ public class DingDanListActivity extends Activity implements View.OnClickListene
 
     private String whoStartMe;//谁开启了我
 
+    public static final int REQUEST_DING_DAN_DETAIL_KEY=1;//跳转到订单detail界面
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -183,15 +185,22 @@ public class DingDanListActivity extends Activity implements View.OnClickListene
                                     model.setGoods(goods);
                                     dingDanModels.add(model);
                                 }
-                                DingDanListAdapter dingDanListAdapter=new DingDanListAdapter(DingDanListActivity.this,dingDanModels);
+
+                                final List<DingDanModel> tempModels=new ArrayList<DingDanModel>();
+                                for(int i=0;i<dingDanModels.size();i++){
+                                    if(dingDanModels.get(i).getGoods().size()>0){
+                                        tempModels.add(dingDanModels.get(i));
+                                    }
+                                }
+                                DingDanListAdapter dingDanListAdapter=new DingDanListAdapter(DingDanListActivity.this,tempModels);
                                 dingDanListListView.setAdapter(dingDanListAdapter);
 
                                 dingDanListListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                                     @Override
                                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                                         Intent intent=new Intent(DingDanListActivity.this, DingDanDetailActivity.class);
-                                        intent.putExtra(MyConstant.DING_DAN_MODEL_KEY, dingDanModels.get(position));
-                                        startActivity(intent);
+                                        intent.putExtra(MyConstant.DING_DAN_MODEL_KEY, tempModels.get(position));
+                                        startActivityForResult(intent, REQUEST_DING_DAN_DETAIL_KEY);
                                     }
                                 });
                             }
@@ -257,5 +266,15 @@ public class DingDanListActivity extends Activity implements View.OnClickListene
         super.onBackPressed();
         Intent intent=new Intent();
         setResult(RESULT_OK,intent);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode){
+            case REQUEST_DING_DAN_DETAIL_KEY:
+                getOrderList("");
+                break;
+        }
     }
 }

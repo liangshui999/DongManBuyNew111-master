@@ -123,106 +123,72 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingTop="5dp"
-        android:paddingBottom="5dp">
+        android:paddingBottom="5dp"
+        android:background="@color/white_my">
         <LinearLayout
             android:id="@+id/ll_home"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:gravity="center"
+            style="@style/main_activity_bottom_label_ll_style"
             >
             <ImageView
                 android:id="@+id/img_home"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
+                style="@style/main_activity_bottom_label_img_style"
                 android:src="@mipmap/home_normal"/>
             <TextView
                 android:id="@+id/text_home"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
                 android:text="@string/home"
-                android:textSize="@dimen/main_page_bottom_biao_qian_size"/>
+                style="@style/main_activity_bottom_label_text_style"/>
         </LinearLayout>
 
         <LinearLayout
             android:id="@+id/ll_category"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:gravity="center">
+            style="@style/main_activity_bottom_label_ll_style">
             <ImageView
                 android:id="@+id/img_category"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:src="@mipmap/category_normal"/>
+                android:src="@mipmap/category_normal"
+                style="@style/main_activity_bottom_label_img_style"/>
             <TextView
                 android:id="@+id/text_category"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
                 android:text="@string/category"
-                android:textSize="@dimen/main_page_bottom_biao_qian_size"/>
+                style="@style/main_activity_bottom_label_text_style"/>
         </LinearLayout>
 
         <LinearLayout
             android:id="@+id/ll_find"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:gravity="center">
+            style="@style/main_activity_bottom_label_ll_style">
             <ImageView
                 android:id="@+id/img_find"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:src="@mipmap/find_normal"/>
+                android:src="@mipmap/find_normal"
+                style="@style/main_activity_bottom_label_img_style"/>
             <TextView
                 android:id="@+id/text_find"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
                 android:text="@string/find"
-                android:textSize="@dimen/main_page_bottom_biao_qian_size"/>
+                style="@style/main_activity_bottom_label_text_style"/>
         </LinearLayout>
 
         <LinearLayout
             android:id="@+id/ll_shop_street"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:gravity="center">
+            style="@style/main_activity_bottom_label_ll_style">
             <ImageView
                 android:id="@+id/img_shop_street"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:src="@mipmap/shopstreet_normal"/>
+                android:src="@mipmap/shopstreet_normal"
+                style="@style/main_activity_bottom_label_img_style"/>
             <TextView
                 android:id="@+id/text_shop_street"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
                 android:text="@string/shop_street"
-                android:textSize="@dimen/main_page_bottom_biao_qian_size"/>
+                style="@style/main_activity_bottom_label_text_style"/>
         </LinearLayout>
 
         <LinearLayout
             android:id="@+id/ll_shopping_car"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:gravity="center">
+            style="@style/main_activity_bottom_label_ll_style">
             <ImageView
                 android:id="@+id/img_shopping_car"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:src="@mipmap/shoppingcar_normal"/>
+                android:src="@mipmap/shoppingcar_normal"
+                style="@style/main_activity_bottom_label_img_style"/>
             <TextView
                 android:id="@+id/text_shoppingz_car"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
                 android:text="@string/shopping_car"
-                android:textSize="@dimen/main_page_bottom_biao_qian_size"/>
+                style="@style/main_activity_bottom_label_text_style"/>
         </LinearLayout>
     </LinearLayout>
 

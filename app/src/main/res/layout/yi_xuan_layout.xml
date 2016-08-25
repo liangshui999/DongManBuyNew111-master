@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/gray">
+    android:background="@color/mo_kuai_backgroud">
 
     <!--...................商品图像，名称，价格，库存...................-->
     <LinearLayout
@@ -190,9 +190,9 @@
         android:background="@color/white_my">
         <ImageView
             android:id="@+id/img_yi_xuan_jian_shang_pin"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:src="@mipmap/jianhao"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:src="@mipmap/jian_goods_count"
             android:background="@drawable/chi_ma_background_wei_xuan_zhong"/>
         <TextView
             android:id="@+id/text_yi_xuan_jia_jian_shang_pin_count"
@@ -202,14 +202,15 @@
             android:text="2"
             android:layout_gravity="center"
             android:gravity="center"
-            android:background="@drawable/count_backgroud"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
             />
 
         <ImageView
             android:id="@+id/img_yi_xuan_jia_shang_pin"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:src="@mipmap/jiahao"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:src="@mipmap/jia_goods_count"
             android:background="@drawable/chi_ma_background_wei_xuan_zhong"/>
     </LinearLayout>
 

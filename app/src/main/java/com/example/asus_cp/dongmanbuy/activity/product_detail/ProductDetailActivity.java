@@ -1560,7 +1560,7 @@ public class ProductDetailActivity extends Activity implements View.OnClickListe
         yiXuanImageLoader.get(good.getGoodsImg(), yiXuanListener);
 
         yiXuanProductname.setText(good.getGoodName());
-        yiXuanPrice.setText(FormatHelper.getMoneyFormat(good.getShopPrice()));
+        yiXuanPrice.setText(benDianJiaGeTextView.getText().toString());//这个地方的价格直接使用本店的价格就可以了
         yiXuanKuCun.setText(good.getGoodsNumber());
         yiXuanProductCountTextView.setText(yiXuanProdutCount+"");
 

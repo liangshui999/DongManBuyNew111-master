@@ -422,11 +422,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         menu.setOnOpenedListener(new SlidingMenu.OnOpenedListener() {
             @Override
             public void onOpened() {
-                String uid=sharedPreferences.getString(MyConstant.UID_KEY,null);
-                String sid=sharedPreferences.getString(MyConstant.SID_KEY,null);
-                if(uid!=null && !uid.isEmpty()){
-                    getDataFromIntenetAndSetNameAndEmailAndPic(uid,sid);
-                }else{
+                String uid = sharedPreferences.getString(MyConstant.UID_KEY, null);
+                String sid = sharedPreferences.getString(MyConstant.SID_KEY, null);
+                if (uid != null && !uid.isEmpty()) {
+                    getDataFromIntenetAndSetNameAndEmailAndPic(uid, sid);
+                } else {
                     nameTextView.setText("");
                     emailTextView.setText("");
                     loginImage.setImageResource(R.mipmap.yu_jia_zai);
@@ -468,6 +468,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         messageAndSao.setOnClickListener(this);
         messagell.setOnClickListener(this);
         sao.setOnClickListener(this);
+
+        messageAndSaoPopuWindow = new PopupWindow(messageAndSaoYiSaoView, ViewGroup.LayoutParams.WRAP_CONTENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT);
+        //外部点击时可以消失
+        messageAndSaoPopuWindow.setBackgroundDrawable(new ColorDrawable());
+        messageAndSaoPopuWindow.setOutsideTouchable(true);
 
 
 
@@ -666,19 +672,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      * 消息和扫一扫的点击事件处理
      */
     private void messageAndSaoClickChuLi() {
-        messageAndSaoPopuWindow=new PopupWindow(messageAndSaoYiSaoView, ViewGroup.LayoutParams.WRAP_CONTENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT);
-        //外部点击时可以消失
-        messageAndSaoPopuWindow.setBackgroundDrawable(new ColorDrawable());
-        messageAndSaoPopuWindow.setOutsideTouchable(true);
-        messageAndSaoPopuWindow.showAsDropDown(messageButton, 0, 10);
-        messageAndSaoPopuWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
-            @Override
-            public void onDismiss() {
-
-            }
-        });
-
+        if(messageAndSaoPopuWindow.isShowing()){
+            messageAndSaoPopuWindow.dismiss();
+        }else{
+            messageAndSaoPopuWindow.showAsDropDown(messageButton, 0, 10);
+        }
     }
 
 
