@@ -34,5 +34,7 @@
     <dimen name="head_padding">5dp</dimen>
     <dimen name="main_activity_dao_hang">30dp</dimen>
     <dimen name="fragment_eight_font_size">12sp</dimen>
+    <dimen name="search_result_icon_size">20dp</dimen>
+    <dimen name="search_result_text_size">16sp</dimen>
 
 </resources>

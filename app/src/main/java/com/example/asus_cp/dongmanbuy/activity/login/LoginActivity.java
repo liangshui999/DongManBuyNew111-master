@@ -51,7 +51,7 @@ import java.util.Map;
 public class LoginActivity extends Activity implements View.OnClickListener{
 
     private RequestQueue requestQueue;
-    private String loginUrl;
+    private String loginUrl="http://www.zmobuy.com/PHP/?url=/user/signin";
     private String tag="LoginActivity";
 
     private int passwordFlag;//改变密码明码的标记
@@ -91,10 +91,10 @@ public class LoginActivity extends Activity implements View.OnClickListener{
 
         requestQueue= MyApplication.getRequestQueue();
         whoStartMe=getIntent().getStringExtra(MyConstant.START_LOGIN_ACTIVITY_FLAG_KEY);//谁开启了我
-        jieKouHelper=new JieKouHelper();
-        loginUrl=jieKouHelper.getLoginUrl();//返回加密的登陆接口
-        MyLog.d(tag, "登陆的接口数据是" + jieKouHelper.getLoginUrl());
-        MyLog.d(tag,"注册接口返回的数据是："+jieKouHelper.getRegisterUrl());
+//        jieKouHelper=new JieKouHelper();
+        //loginUrl=jieKouHelper.getLoginUrl();//返回加密的登陆接口
+//        MyLog.d(tag, "登陆的接口数据是" + jieKouHelper.getLoginUrl());
+//        MyLog.d(tag,"注册接口返回的数据是："+jieKouHelper.getRegisterUrl());
 
         initView();
 

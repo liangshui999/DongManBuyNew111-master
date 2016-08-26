@@ -18,6 +18,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.example.asus_cp.dongmanbuy.R;
+import com.example.asus_cp.dongmanbuy.activity.MainActivity;
 import com.example.asus_cp.dongmanbuy.activity.product_detail.ProductDetailActivity;
 import com.example.asus_cp.dongmanbuy.adapter.ShopProductBigListAdapter;
 import com.example.asus_cp.dongmanbuy.adapter.ShopProductGridAdapter;
@@ -127,12 +128,14 @@ public class GoodSearchResultActivity extends Activity implements View.OnClickLi
 
         searchContent = getIntent().getStringExtra(MyConstant.SEARCH_CONTENT_KEY);
         dbHelper=new SearchRecordDBOperateHelper();
-        if(!"".equals(searchContent)){  //搜索关键字不是空的，才进行插入，否则不插入数据库
+        if(!("".equals(searchContent))){  //搜索关键字不是空的，才进行插入，否则不插入数据库
             if(dbHelper.queryByKeyWord(searchContent)){
                 dbHelper.deleteByKeyWord(searchContent);
                 dbHelper.insert(searchContent);
+                MyLog.d(tag, "删除执行了吗");
             }else{
                 dbHelper.insert(searchContent);
+                MyLog.d(tag, "插入执行了吗");
             }
         }
         MyLog.d(tag, "传递过来的数据是：" + searchContent);
@@ -412,8 +415,9 @@ public class GoodSearchResultActivity extends Activity implements View.OnClickLi
         switch (v.getId()) {
             case R.id.img_dao_hang_search_result://导航
                 //Toast.makeText(this,"点击了导航",Toast.LENGTH_SHORT).show();
-                Intent intent=new Intent();
-                setResult(RESULT_OK,intent);
+                Intent intent=new Intent(this, MainActivity.class);
+                startActivity(intent);
+                //setResult(RESULT_OK,intent);
                 finish();
                 break;
             case R.id.img_search_search_result://搜索按钮

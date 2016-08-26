@@ -6,32 +6,14 @@
     <!--标题栏的布局-->
     <LinearLayout
         android:id="@+id/titel"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:focusable="true"
-        android:focusableInTouchMode="true"
-        android:layout_alignParentTop="true"
-        android:background="@color/white_my">
+        style="@style/search_ll_style">
         <ImageView
             android:id="@+id/img_dao_hang_xian_shi_miao_sha_more"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_gravity="center_vertical"
-            android:background="@mipmap/left"/>
-        <!--<android.support.v7.widget.SearchView
-            android:id="@+id/search_view_shop_product_sort"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="40dp"
-            android:queryHint="@string/search_shop_product"
-            >
-        </android.support.v7.widget.SearchView>-->
+           style="@style/search_img_dao_hang_style"/>
+
         <ImageView
             android:id="@+id/img_search_xian_shi_miao_sha_more"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="40dp"
-            android:src="@mipmap/search_pic"/>
+            style="@style/search_img_search_kuang_style"/>
 
     </LinearLayout>
 
@@ -54,19 +36,16 @@
                 android:paddingBottom="10dp">
                 <TextView
                     android:id="@+id/text_zong_he_sort_xian_shi_miao_sha_more"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
                     android:text="@string/zong_he"
                     android:layout_centerInParent="true"
+                    style="@style/search_result_text_style"
                     />
                 <ImageView
                     android:id="@+id/img_down_zong_he_sort_xian_shi_miao_sha_more"
-                    android:layout_width="15dp"
-                    android:layout_height="15dp"
-                    android:src="@mipmap/down_black_sort"
                     android:layout_toRightOf="@id/text_zong_he_sort_xian_shi_miao_sha_more"
                     android:layout_centerVertical="true"
                     android:clickable="false"
+                    style="@style/search_result_img_style"
                     />
 
 
@@ -86,10 +65,9 @@
             android:paddingBottom="10dp">
             <TextView
                 android:id="@+id/text_xin_pin_sort_xian_shi_miao_sha_more"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
                 android:text="@string/xin_pin"
-                android:layout_gravity="center"/>
+                android:layout_gravity="center"
+                style="@style/search_result_text_style"/>
         </LinearLayout>
 
 
@@ -103,10 +81,9 @@
             android:paddingBottom="10dp">
             <TextView
                 android:id="@+id/text_xiao_liang_sort_xian_shi_miao_sha_more"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
                 android:text="@string/xiao_liang"
-                android:layout_gravity="center"/>
+                android:layout_gravity="center"
+                style="@style/search_result_text_style"/>
         </LinearLayout>
 
 
@@ -123,19 +100,16 @@
                 android:paddingBottom="10dp">
                 <TextView
                     android:id="@+id/text_price_sort_xian_shi_miao_sha_more"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
                     android:text="@string/price"
                     android:layout_centerInParent="true"
+                    style="@style/search_result_text_style"
                     />
                 <ImageView
                     android:id="@+id/img_down_price_sort_xian_shi_miao_sha_more"
-                    android:layout_width="15dp"
-                    android:layout_height="15dp"
-                    android:src="@mipmap/down_black_sort"
                     android:layout_toRightOf="@id/text_price_sort_xian_shi_miao_sha_more"
                     android:layout_centerVertical="true"
                     android:clickable="false"
+                    style="@style/search_result_img_style"
                     />
             </RelativeLayout>
 

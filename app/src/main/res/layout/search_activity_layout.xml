@@ -11,29 +11,57 @@
         android:layout_height="wrap_content"
         android:padding="10dp"
         android:focusable="true"
-        android:focusableInTouchMode="true">
+        android:focusableInTouchMode="true"
+        android:background="@color/bottom_lable_color">
         <ImageView
             android:id="@+id/img_dao_hang_search"
             android:layout_width="20dp"
             android:layout_height="20dp"
-            android:background="@mipmap/left"
-            android:layout_gravity="center"/>
+            android:background="@mipmap/leftdaohang"
+            android:layout_gravity="center"
+            android:layout_marginRight="5dp"/>
+        <LinearLayout
+            android:layout_height="match_parent"
+            android:background="@drawable/search_activity_dao_hang_backgroud"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:paddingLeft="5dp">
+            <TextView
+                android:id="@+id/text_search_category"
+                android:clickable="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/good"
+                android:textColor="@color/myblack"
+                android:layout_gravity="center"/>
+            <ImageView
+                android:layout_width="18dp"
+                android:layout_height="18dp"
+                android:src="@mipmap/xia_la"
+                android:layout_gravity="center"/>
+            <EditText
+                android:id="@+id/edit_search"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/search_hint"
+                android:textSize="14sp"
+                android:layout_gravity="center"
+                android:textColor="@color/myblack"
+                android:textColorHint="@color/normal_text_color"
+                android:background="@color/white_my"
+                android:padding="8dp"/>
+        </LinearLayout>
+
         <Spinner
             android:id="@+id/spinner_search"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:visibility="visible"
-            android:layout_gravity="center">
+            android:visibility="gone"
+            android:layout_gravity="center"
+            >
         </Spinner>
 
-        <EditText
-            android:id="@+id/edit_search"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:hint="@string/search_hint"
-            android:textSize="14sp"
-            android:layout_gravity="center"/>
+
         <TextView
             android:id="@+id/text_search"
             android:clickable="true"
@@ -75,7 +103,8 @@
                     android:layout_height="wrap_content"
                     android:numColumns="3"
                     android:horizontalSpacing="20dp"
-                    android:verticalSpacing="10dp">
+                    android:verticalSpacing="10dp"
+                    android:padding="10dp">
 
                 </com.example.asus_cp.dongmanbuy.customview.MyGridViewA>
 
@@ -93,7 +122,7 @@
                         android:id="@+id/img_delete_recent_search"
                         android:layout_width="20dp"
                         android:layout_height="20dp"
-                        android:background="@drawable/delete"
+                        android:background="@mipmap/delete"
                         android:layout_alignParentRight="true"/>
                 </RelativeLayout>
 

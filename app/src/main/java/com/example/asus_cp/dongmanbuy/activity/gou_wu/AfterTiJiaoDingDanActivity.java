@@ -106,11 +106,11 @@ public class AfterTiJiaoDingDanActivity extends Activity implements View.OnClick
             switch (msg.what) {
                 case SDK_PAY_FLAG: {
                     PayResult payResult = new PayResult((String) msg.obj);
-                    /**
-                     * 同步返回的结果必须放置到服务端进行验证（验证的规则请看https://doc.open.alipay.com/doc2/
-                     * detail.htm?spm=0.0.0.0.xdvAU6&treeId=59&articleId=103665&
-                     * docType=1) 建议商户依赖异步通知
-                     */
+                   /*
+                      同步返回的结果必须放置到服务端进行验证（验证的规则请看https://doc.open.alipay.com/doc2/
+                      detail.htm?spm=0.0.0.0.xdvAU6&treeId=59&articleId=103665&
+                     docType=1) 建议商户依赖异步通知*/
+
                     String resultInfo = payResult.getResult();// 同步返回需要验证的信息
 
                     String resultStatus = payResult.getResultStatus();
@@ -152,10 +152,10 @@ public class AfterTiJiaoDingDanActivity extends Activity implements View.OnClick
         huiYuanZhongXinTextView = (TextView) findViewById(R.id.text_hui_yuan_center_after_ti_jiao_ding_dan);
         seeOrderTextView= (TextView) findViewById(R.id.text_see_order_after_ti_jiao_ding_dan);
 
-        zhiFuBaoHelper=new ZhiFuBaoHelper();
-        PARTNER=zhiFuBaoHelper.getPid();
-        SELLER=zhiFuBaoHelper.getSeller();
-        RSA_PRIVATE=zhiFuBaoHelper.getPrivateYao();
+//        zhiFuBaoHelper=new ZhiFuBaoHelper();
+//        PARTNER=zhiFuBaoHelper.getPid();
+//        SELLER=zhiFuBaoHelper.getSeller();
+//        RSA_PRIVATE=zhiFuBaoHelper.getPrivateYao();
 
         requestQueue= MyApplication.getRequestQueue();
         dingDanId=getIntent().getStringExtra(MyConstant.DING_DAN_ID_KEY);

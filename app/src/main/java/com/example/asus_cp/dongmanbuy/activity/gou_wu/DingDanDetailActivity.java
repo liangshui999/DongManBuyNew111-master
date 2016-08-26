@@ -218,10 +218,10 @@ public class DingDanDetailActivity extends Activity implements View.OnClickListe
         uid=sharedPreferences.getString(MyConstant.UID_KEY, null);
         sid=sharedPreferences.getString(MyConstant.SID_KEY, null);
 
-        zhiFuBaoHelper=new ZhiFuBaoHelper();
-        PARTNER=zhiFuBaoHelper.getPid();
-        SELLER=zhiFuBaoHelper.getSeller();
-        RSA_PRIVATE=zhiFuBaoHelper.getPrivateYao();
+//        zhiFuBaoHelper=new ZhiFuBaoHelper();
+//        PARTNER=zhiFuBaoHelper.getPid();
+//        SELLER=zhiFuBaoHelper.getSeller();
+//        RSA_PRIVATE=zhiFuBaoHelper.getPrivateYao();
         initView();
 
     }

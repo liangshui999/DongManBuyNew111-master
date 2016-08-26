@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -16,6 +17,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.example.asus_cp.dongmanbuy.R;
+import com.example.asus_cp.dongmanbuy.activity.MainActivity;
 import com.example.asus_cp.dongmanbuy.adapter.ShopStreetShopListAdapter;
 import com.example.asus_cp.dongmanbuy.adapter.ShopStreetSpinnerAdapter;
 import com.example.asus_cp.dongmanbuy.constant.MyConstant;
@@ -44,13 +46,15 @@ import java.util.Map;
  * 店铺的搜索结果
  * Created by asus-cp on 2016-06-30.
  */
-public class ShopSearchResultActivity  extends Activity{
+public class ShopSearchResultActivity  extends Activity implements View.OnClickListener{
 
     private String tag="ShopSearchResultActivity";
 
-    private Spinner paiLieShunXunSpinner;//排列顺序
-    private Spinner productCategorySpinner;//商品类型
-    private Spinner shopPostionSpinner;//店铺位置
+   // private Spinner paiLieShunXunSpinner;//排列顺序
+    //private Spinner productCategorySpinner;//商品类型
+    //private Spinner shopPostionSpinner;//店铺位置
+    private ImageView daoHangImageView;
+    private ImageView searchImageView;
     private PullToRefreshListView shopListListView;//店铺列表
 
     private RequestQueue requestQueue;
@@ -137,13 +141,23 @@ public class ShopSearchResultActivity  extends Activity{
         }
 
         requestQueue= MyApplication.getRequestQueue();
-        paiLieShunXunSpinner= (Spinner) findViewById(R.id.spin_pai_lie_shun_xu_search_result);
-        productCategorySpinner= (Spinner) findViewById(R.id.spin_product_category_search_result);
-        shopPostionSpinner= (Spinner) findViewById(R.id.spin_shop_street_position_search_result);
+        daoHangImageView= (ImageView) findViewById(R.id.img_dao_hang_search_result);
+        searchImageView= (ImageView) findViewById(R.id.img_search_search_result);
+        //paiLieShunXunSpinner= (Spinner) findViewById(R.id.spin_pai_lie_shun_xu_search_result);
+        //productCategorySpinner= (Spinner) findViewById(R.id.spin_product_category_search_result);
+        //shopPostionSpinner= (Spinner) findViewById(R.id.spin_shop_street_position_search_result);
         shopListListView= (PullToRefreshListView) findViewById(R.id.list_view_shop_list_search_result);
         shopListListView.setMode(PullToRefreshBase.Mode.PULL_FROM_END);//设置模式是上拉加载
         shopListListView.setOnRefreshListener(new MyOnrefreshListener());
-        List<String> paiLies=new ArrayList<String>();
+        DialogHelper.showDialog(ShopSearchResultActivity.this);
+        searchResultDisplay();
+
+        //设置点击事件
+        daoHangImageView.setOnClickListener(this);
+        searchImageView.setOnClickListener(this);
+
+
+       /* List<String> paiLies=new ArrayList<String>();
         paiLies.add("排列顺序");
         List<String> shopPostions=new ArrayList<String>();
         shopPostions.add("店铺位置");
@@ -237,12 +251,11 @@ public class ShopSearchResultActivity  extends Activity{
             public void onNothingSelected(AdapterView<?> parent) {
 
             }
-        });
+        });*/
 
         //tongYongClickChuLi("",ALL);//初始状态
 
-        DialogHelper.showDialog(ShopSearchResultActivity.this);
-        searchResultDisplay();
+
     }
 
 
@@ -550,6 +563,19 @@ public class ShopSearchResultActivity  extends Activity{
             e.printStackTrace();
         }
         return shopModels;
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.img_dao_hang_search_result://点击了导航
+                Intent intent=new Intent(this, MainActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.img_search_search_result://点击了搜索框
+                finish();
+                break;
+        }
     }
 
 

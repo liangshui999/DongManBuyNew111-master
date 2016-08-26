@@ -69,7 +69,7 @@ public class EmailRegisterFragment extends Fragment implements View.OnClickListe
     private int passwordFlag;//判断password的点击状态
     private int againPasswordFlag;//判断againpassword的状态
 
-    private String requestUrl;
+    private String requestUrl="http://www.zmobuy.com/PHP/?url=/user/signup";
 
     private JieKouHelper jieKouHelper;
 
@@ -84,8 +84,8 @@ public class EmailRegisterFragment extends Fragment implements View.OnClickListe
     private void init(View v) {
         context=getActivity();
         requestQueue= MyApplication.getRequestQueue();
-        jieKouHelper=new JieKouHelper();
-        requestUrl=jieKouHelper.getRegisterUrl();
+//        jieKouHelper=new JieKouHelper();
+        //requestUrl=jieKouHelper.getRegisterUrl();
 
         userNameEditText = (EditText) v.findViewById(R.id.edit_user_name);
         inputEmailEditText = (EditText) v.findViewById(R.id.edit_input_email);

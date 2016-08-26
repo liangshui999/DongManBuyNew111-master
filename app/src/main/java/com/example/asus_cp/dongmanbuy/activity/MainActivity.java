@@ -474,6 +474,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         //外部点击时可以消失
         messageAndSaoPopuWindow.setBackgroundDrawable(new ColorDrawable());
         messageAndSaoPopuWindow.setOutsideTouchable(true);
+        messageAndSaoPopuWindow.setFocusable(true);
 
 
 
@@ -672,6 +673,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      * 消息和扫一扫的点击事件处理
      */
     private void messageAndSaoClickChuLi() {
+        MyLog.d(tag,"是否显示:"+messageAndSaoPopuWindow.isShowing());
         if(messageAndSaoPopuWindow.isShowing()){
             messageAndSaoPopuWindow.dismiss();
         }else{

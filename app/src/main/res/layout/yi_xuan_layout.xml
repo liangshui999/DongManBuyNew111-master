@@ -44,13 +44,11 @@
                     android:textSize="@dimen/yi_xuan_base_size"/>
                 <ImageView
                     android:id="@+id/img_yi_xuan_close"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:src="@mipmap/close"
                     android:layout_gravity="right"
                     android:layout_marginRight="10dp"
                     android:layout_alignParentRight="true"
-                    android:layout_alignRight="@id/text_yi_xuan_productName"/>
+                    android:layout_alignRight="@id/text_yi_xuan_productName"
+                    style="@style/tan_chu_close"/>
 
                 <!--库存-->
                 <LinearLayout
@@ -193,7 +191,7 @@
             android:layout_width="35dp"
             android:layout_height="35dp"
             android:src="@mipmap/jian_goods_count"
-            android:background="@drawable/chi_ma_background_wei_xuan_zhong"/>
+            />
         <TextView
             android:id="@+id/text_yi_xuan_jia_jian_shang_pin_count"
             android:layout_width="wrap_content"
@@ -211,7 +209,7 @@
             android:layout_width="35dp"
             android:layout_height="35dp"
             android:src="@mipmap/jia_goods_count"
-            android:background="@drawable/chi_ma_background_wei_xuan_zhong"/>
+            />
     </LinearLayout>
 
     <!--加入购物车和立即购买-->

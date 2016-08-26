@@ -3,8 +3,8 @@
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/myblack</item>
-        <item name="colorPrimaryDark">@color/myblack</item>
+        <item name="colorPrimary">@color/bottom_lable_color</item>
+        <item name="colorPrimaryDark">@color/bottom_lable_color</item>
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
@@ -26,8 +26,8 @@
     <!--自定义的全局样式，继承自appcompat-->
     <style name="MyAppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/myblack</item>
-        <item name="colorPrimaryDark">@color/myblack</item>
+        <item name="colorPrimary">@color/bottom_lable_color</item>
+        <item name="colorPrimaryDark">@color/bottom_lable_color</item>
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
@@ -130,5 +130,58 @@
         <item name="android:textStyle">normal</item>
     </style>
 
+
+    <!--弹出关闭按钮的样式-->
+    <style name="tan_chu_close">
+        <item name="android:layout_width">25dp</item>
+        <item name="android:layout_height">25dp</item>
+        <item name="android:src">@mipmap/close</item>
+    </style>
+
+
+    <!--搜索栏的布局的样式-->
+    <style name="search_ll_style">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:focusable">true</item>
+        <item name="android:focusableInTouchMode">true</item>
+        <item name="android:background">@color/bottom_lable_color</item>
+        <item name="android:paddingTop">10dp</item>
+        <item name="android:paddingBottom">10dp</item>
+        <item name="android:paddingRight">10dp</item>
+    </style>
+
+    <!--搜索栏imageview的样式-->
+    <style name="search_img_dao_hang_style">
+        <item name="android:layout_width">20dp</item>
+        <item name="android:layout_height">20dp</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:layout_marginRight">10dp</item>
+        <item name="android:layout_marginLeft">10dp</item>
+        <item name="android:background">@mipmap/leftdaohang</item>
+    </style>
+
+    <!--搜索栏搜索框的样式-->
+    <style name="search_img_search_kuang_style">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:layout_height">40dp</item>
+        <item name="android:src">@mipmap/search_pic</item>
+    </style>
+
+    <!--搜索结果综合排序的文字的样式-->
+    <style name="search_result_text_style">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">@dimen/search_result_text_size</item>
+    </style>
+
+    <!--搜索结果综合排序的图片的样式-->
+    <style name="search_result_img_style">
+        <item name="android:layout_width">@dimen/search_result_icon_size</item>
+        <item name="android:layout_height">@dimen/search_result_icon_size</item>
+        <item name="android:src">@mipmap/down_black_sort</item>
+
+    </style>
 
 </resources>

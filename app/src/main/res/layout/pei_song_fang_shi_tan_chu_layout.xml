@@ -26,7 +26,7 @@
     <com.example.asus_cp.dongmanbuy.customview.FocuesableListView
         android:id="@+id/list_view_ti_xian_tan_chu"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="2dp"
         android:background="@color/white_my"
         android:dividerHeight="1dp"

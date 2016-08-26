@@ -7,32 +7,14 @@
     <!--标题栏的布局-->
     <LinearLayout
         android:id="@+id/titel"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:focusable="true"
-        android:focusableInTouchMode="true"
-        android:layout_alignParentTop="true">
+        style="@style/search_ll_style">
         <ImageView
             android:id="@+id/img_shop_home_dao_hang"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_gravity="center_vertical"
-            android:background="@mipmap/left"/>
-        <!--<android.support.v7.widget.SearchView
-            android:id="@+id/search_view_shop_home"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="40dp"
-            android:queryHint="@string/search_shop_product"
-            >
-        </android.support.v7.widget.SearchView>-->
+            style="@style/search_img_dao_hang_style"/>
+
         <ImageView
             android:id="@+id/img_search_shop_home"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="30dp"
-            android:layout_gravity="center_vertical"
-            android:background="@mipmap/search_pic"/>
+            style="@style/search_img_search_kuang_style"/>
         <TextView
             android:id="@+id/text_category_shop_home"
             android:clickable="true"
@@ -40,8 +22,8 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:text="@string/category"
-
-            android:paddingRight="5dp"/>
+            android:paddingRight="5dp"
+            android:visibility="gone"/>
     </LinearLayout>
 
 

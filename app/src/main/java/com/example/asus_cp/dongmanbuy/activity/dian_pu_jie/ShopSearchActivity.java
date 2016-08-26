@@ -35,7 +35,7 @@ public class ShopSearchActivity extends Activity implements View.OnClickListener
     private String tag="ShopSearchActivity";
 
     private ImageView daoHangImageView;//导航
-    private Spinner spinner;
+    //private Spinner spinner;
     private EditText searchEditText;//搜索框
     private TextView searchTextView;//搜索按钮
     private MyGridViewA hotSearchGridView;//热门搜索
@@ -72,7 +72,7 @@ public class ShopSearchActivity extends Activity implements View.OnClickListener
         dbHelper=new SearchRecordDBOperateHelper();
         category="商品";
         //设置spinner
-        final List<String> caterories=new ArrayList<String>();
+       /* final List<String> caterories=new ArrayList<String>();
         caterories.add("商品");
         caterories.add("店铺");
         ShopStreetSpinnerAdapter spinnerAdapter=new ShopStreetSpinnerAdapter(this,caterories);
@@ -87,7 +87,7 @@ public class ShopSearchActivity extends Activity implements View.OnClickListener
             public void onNothingSelected(AdapterView<?> parent) {
 
             }
-        });
+        });*/
 
 
         //设置gridview
@@ -121,7 +121,7 @@ public class ShopSearchActivity extends Activity implements View.OnClickListener
         });
 
 
-        listAdapter=new ArrayAdapter(this,R.layout.hot_search_list_item_layout,R.id.text_hot_search_list_item,records);
+        listAdapter=new ArrayAdapter(this,R.layout.recent_search_item,R.id.text_recent_search_item,records);
         recentSearchListView.setAdapter(listAdapter);
         recentSearchListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -147,7 +147,7 @@ public class ShopSearchActivity extends Activity implements View.OnClickListener
      */
     private void initView() {
         daoHangImageView= (ImageView) findViewById(R.id.img_dao_hang_search);
-        spinner= (Spinner) findViewById(R.id.spinner_search);
+        //spinner= (Spinner) findViewById(R.id.spinner_search);
         searchEditText= (EditText) findViewById(R.id.edit_search);
         searchTextView= (TextView) findViewById(R.id.text_search);
         hotSearchGridView= (MyGridViewA) findViewById(R.id.grid_view_hot_search);

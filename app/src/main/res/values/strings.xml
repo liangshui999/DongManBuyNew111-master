@@ -341,5 +341,7 @@
     <string name="fund_manager">资金管理</string>
     <string name="good_type">商品类型</string>
     <string name="reset">重置</string>
+    <string name="good">商品</string>
+    <string name="shop">店铺</string>
 
 </resources>

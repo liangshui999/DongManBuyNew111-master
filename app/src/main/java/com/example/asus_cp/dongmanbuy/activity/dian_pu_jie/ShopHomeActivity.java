@@ -31,6 +31,7 @@ import com.example.asus_cp.dongmanbuy.constant.MyConstant;
 import com.example.asus_cp.dongmanbuy.customview.MyGridViewA;
 import com.example.asus_cp.dongmanbuy.model.Good;
 import com.example.asus_cp.dongmanbuy.model.ShopModel;
+import com.example.asus_cp.dongmanbuy.util.DialogHelper;
 import com.example.asus_cp.dongmanbuy.util.ImageLoadHelper;
 import com.example.asus_cp.dongmanbuy.util.JsonHelper;
 import com.example.asus_cp.dongmanbuy.util.MyApplication;
@@ -140,10 +141,11 @@ public class ShopHomeActivity extends Activity implements View.OnClickListener {
         keFuLinearLayout.setOnClickListener(this);
         seeMoreTextView.setOnClickListener(this);
 
-
+        DialogHelper.showDialog(this);
         StringRequest getShopInfoRequest = new StringRequest(Request.Method.POST, shopInfoUrl, new Response.Listener<String>() {
             @Override
             public void onResponse(String s) {
+                DialogHelper.dissmisDialog();
                 MyLog.d(tag, "返回的数据是：" + s);
                 shopModel=parseJson(s);
                 ImageLoader imageLoader=helper.getImageLoader();

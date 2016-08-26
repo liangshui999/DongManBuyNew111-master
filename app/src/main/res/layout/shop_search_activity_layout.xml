@@ -10,13 +10,15 @@
         android:layout_height="wrap_content"
         android:padding="10dp"
         android:focusable="true"
-        android:focusableInTouchMode="true">
+        android:focusableInTouchMode="true"
+        android:background="@color/bottom_lable_color">
         <ImageView
             android:id="@+id/img_dao_hang_search"
             android:layout_width="20dp"
             android:layout_height="20dp"
-            android:background="@mipmap/left"
-            android:layout_gravity="center"/>
+            android:background="@mipmap/leftdaohang"
+            android:layout_gravity="center"
+            android:layout_marginRight="5dp"/>
         <Spinner
             android:id="@+id/spinner_search"
             android:layout_width="wrap_content"
@@ -34,7 +36,10 @@
             android:layout_height="wrap_content"
             android:hint="@string/search_hint"
             android:textSize="14sp"
-            android:layout_gravity="center"/>
+            android:layout_gravity="center"
+            android:background="@drawable/search_activity_dao_hang_backgroud"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"/>
         <TextView
             android:id="@+id/text_search"
             android:clickable="true"
@@ -97,7 +102,7 @@
                         android:id="@+id/img_delete_recent_search"
                         android:layout_width="20dp"
                         android:layout_height="20dp"
-                        android:background="@drawable/delete"
+                        android:background="@mipmap/delete"
                         android:layout_alignParentRight="true"/>
                 </RelativeLayout>
 

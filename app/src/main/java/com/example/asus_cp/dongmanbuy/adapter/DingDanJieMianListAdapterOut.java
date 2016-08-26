@@ -211,6 +211,8 @@ public class DingDanJieMianListAdapterOut extends BaseAdapter implements View.On
                 finalViewHolder.listViewIn.setAdapter(adapter);*/
             }
         });
+
+        //配送方式的点击事件处理
         viewHolder.peiSongFangShiRelativeLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
