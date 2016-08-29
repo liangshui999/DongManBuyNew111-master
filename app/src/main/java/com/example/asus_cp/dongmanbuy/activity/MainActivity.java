@@ -1,5 +1,6 @@
 package com.example.asus_cp.dongmanbuy.activity;
 
+import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -23,6 +24,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -37,6 +39,7 @@ import com.example.asus_cp.dongmanbuy.R;
 import com.example.asus_cp.dongmanbuy.activity.dian_pu_jie.ShopHomeActivity;
 import com.example.asus_cp.dongmanbuy.activity.gou_wu.DingDanListActivity;
 import com.example.asus_cp.dongmanbuy.activity.login.LoginActivity;
+import com.example.asus_cp.dongmanbuy.activity.main_activity_xiang_guan.LiuLanJiLuListActivity;
 import com.example.asus_cp.dongmanbuy.activity.personal_center.GuanZhuListActivity;
 import com.example.asus_cp.dongmanbuy.activity.personal_center.PersonalCenterActivity;
 import com.example.asus_cp.dongmanbuy.activity.personal_center.ShouCangListActivity;
@@ -124,7 +127,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     //侧滑菜单
     private de.hdodenhof.circleimageview.CircleImageView loginImage;//登录按钮
-    private TextView myZhuYeTextView;//我的主页
+    private TextView nameTextView;//名字
+    private TextView jiFenTextView;//积分
+    private ImageView helpImageView;//帮助按钮
+    private RelativeLayout homeRelativeLayout;//首页
+    private RelativeLayout liuLanJiLuRelativeLayout;//浏览记录
+    private RelativeLayout myShouCangRelativeLayout;//我的收藏
+    private RelativeLayout guanZhuRelativeLayout;//关注
+    private RelativeLayout youHuiQuanRelativeLayou;//优惠券
+    private RelativeLayout settingRelativeLayout;//设置
+
+    /*private TextView myZhuYeTextView;//我的主页
     private TextView myOrderTextView;//我的订单
     private TextView myWalletTextView;//我的钱包
     private TextView myShouCangTextView;//我的收藏
@@ -132,8 +145,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private TextView shipAddressTextView;//收货地址
     private TextView changPassWordTextView;//修改密码
     private TextView setTingTextView;//设置
-    private TextView nameTextView;//名字
-    private TextView emailTextView;//邮箱
+    private TextView emailTextView;//邮箱*/
 
     private String tag="MainActivity";
 
@@ -158,6 +170,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public static final int REQUEST_CODE_TO_SETTING=9;//直接跳转到设置界面
 
     public static final int REQUEST_CODE_TO_PERSONAL_CENTER=11;//跳转到个人中心
+
+    public static final int REQUEST_CODE_LOGIN_LIU_LAN_JI_LU=12;//浏览记录
 
     private String userInfoUrl="http://www.zmobuy.com/PHP/?url=/user/info";//用户信息的接口
 
@@ -415,7 +429,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         menu.setBehindOffsetRes(R.dimen.slidingmenu_offset);
         menu.setFadeDegree(0.35f);
         menu.attachToActivity(this, SlidingMenu.SLIDING_CONTENT);
-        menu.setMenu(R.layout.layout_menu);
+        menu.setMenu(R.layout.menu_new_layout);
 
 
         //给侧滑菜单设置滚动的监听事件
@@ -428,9 +442,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     getDataFromIntenetAndSetNameAndEmailAndPic(uid, sid);
                 } else {
                     nameTextView.setText("");
-                    emailTextView.setText("");
-                    loginImage.setImageResource(R.mipmap.yu_jia_zai);
-                    loginButton.setImageResource(R.mipmap.yu_jia_zai);
+                    jiFenTextView.setText("");
+                    loginImage.setImageResource(R.mipmap.tou_xiang);
+                    loginButton.setImageResource(R.mipmap.tou_xiang);
                 }
             }
         });
@@ -438,7 +452,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         //-----------------------初始化侧滑菜单-----------------------------
         loginImage= (CircleImageView) findViewById(R.id.img_login);
-        myZhuYeTextView= (TextView) findViewById(R.id.text_my_zhu_ye);
+        nameTextView= (TextView) findViewById(R.id.text_name_slid_menu);
+        jiFenTextView= (TextView) findViewById(R.id.text_ji_fen_slding_menu);
+        helpImageView= (ImageView) findViewById(R.id.img_help_sliding_menu);
+        homeRelativeLayout= (RelativeLayout) findViewById(R.id.re_layout_home_menu);
+        liuLanJiLuRelativeLayout= (RelativeLayout) findViewById(R.id.re_layout_liu_lan_ji_lu_menu);
+        myShouCangRelativeLayout= (RelativeLayout) findViewById(R.id.re_layout_shou_cang_menu);
+        guanZhuRelativeLayout= (RelativeLayout) findViewById(R.id.re_layout_guan_zhu_menu);
+        youHuiQuanRelativeLayou= (RelativeLayout) findViewById(R.id.re_layout_you_hui_quan_menu);
+        settingRelativeLayout= (RelativeLayout) findViewById(R.id.re_layout_setting_menu);
+
+
+        /*myZhuYeTextView= (TextView) findViewById(R.id.text_my_zhu_ye);
         myOrderTextView= (TextView) findViewById(R.id.text_my_order);
         myWalletTextView= (TextView) findViewById(R.id.text_my_wallet);
         myShouCangTextView= (TextView) findViewById(R.id.text_my_shou_cang);
@@ -446,18 +471,27 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         shipAddressTextView= (TextView) findViewById(R.id.text_ship_addres);
         changPassWordTextView= (TextView) findViewById(R.id.text_change_password);
         setTingTextView= (TextView) findViewById(R.id.text_setting);
-        nameTextView= (TextView) findViewById(R.id.text_name_slid_menu);
-        emailTextView= (TextView) findViewById(R.id.text_email_slid_menu);
+        emailTextView= (TextView) findViewById(R.id.text_email_slid_menu);*/
 
         loginImage.setOnClickListener(this);
-        myZhuYeTextView.setOnClickListener(this);
+        helpImageView.setOnClickListener(this);
+        homeRelativeLayout.setOnClickListener(this);
+        myShouCangRelativeLayout.setOnClickListener(this);
+        guanZhuRelativeLayout.setOnClickListener(this);
+        youHuiQuanRelativeLayou.setOnClickListener(this);
+        settingRelativeLayout.setOnClickListener(this);
+        liuLanJiLuRelativeLayout.setOnClickListener(this);
+
+
+
+       /* myZhuYeTextView.setOnClickListener(this);
         myOrderTextView.setOnClickListener(this);
         myWalletTextView.setOnClickListener(this);
         myShouCangTextView.setOnClickListener(this);
         guanZhuDianPuTextView.setOnClickListener(this);
         shipAddressTextView.setOnClickListener(this);
         changPassWordTextView.setOnClickListener(this);
-        setTingTextView.setOnClickListener(this);
+        setTingTextView.setOnClickListener(this);*/
 
 
         //--------初始化消息和扫一扫的视图
@@ -637,34 +671,60 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.img_login://登陆
                 toPersonalCenter();
                 break;
-            case R.id.text_my_zhu_ye://我的主页
+            case R.id.re_layout_home_menu://我的主页
                 toPersonalCenter();
                 break;
-            case R.id.text_my_order://我的订单
-                myOrderClickChuLi();
-                break;
-            case R.id.text_my_wallet://我的钱包
-                myWalletClickChuLi();
-                break;
-            case R.id.text_my_shou_cang://我的收藏
+            case R.id.re_layout_shou_cang_menu://我的收藏
                 shouCangClickChuLi();
                 break;
-            case R.id.text_guan_zhu_dian_pu://我的关注
+            case R.id.re_layout_guan_zhu_menu://我的关注
                 myGuanZhuClickChuLi();
                 break;
-            case R.id.text_ship_addres://收获地址
-                shipAddressClickChuLi();
-                break;
-            case R.id.text_change_password://修改密码
-                changePasswordClickChuLi();
-                break;
-            case R.id.text_setting://设置
+            case R.id.re_layout_setting_menu://设置
                 setClickChuLi();
+                break;
+            case R.id.re_layout_liu_lan_ji_lu_menu://浏览记录
+                liuLanJiLuClickChuLi();
+                break;
+            case R.id.re_layout_you_hui_quan_menu://优惠券
+
                 break;
             case R.id.img_search_main://点击了search按钮
                 Intent toSearchIntent=new Intent(this, SearchActivity.class);
                 startActivity(toSearchIntent);
                 break;
+//            case R.id.text_my_order://我的订单
+//                myOrderClickChuLi();
+//                break;
+//            case R.id.text_my_wallet://我的钱包
+//                myWalletClickChuLi();
+//                break;
+//
+//            case R.id.text_ship_addres://收获地址
+//                shipAddressClickChuLi();
+//                break;
+//            case R.id.text_change_password://修改密码
+//                changePasswordClickChuLi();
+//                break;
+
+
+        }
+    }
+
+    /**
+     * 浏览记录的点击事件处理
+     */
+    private void liuLanJiLuClickChuLi() {
+        String uid=sharedPreferences.getString(MyConstant.UID_KEY,null);
+        String sid=null;
+        if(uid==null || uid.isEmpty()){
+            Intent toLoginIntent=new Intent(this,LoginActivity.class);
+            toLoginIntent.putExtra(MyConstant.START_LOGIN_ACTIVITY_FLAG_KEY,"homeFragment");
+            startActivityForResult(toLoginIntent, REQUEST_CODE_LOGIN_LIU_LAN_JI_LU);
+        }else {
+            Intent intent=new Intent(this, LiuLanJiLuListActivity.class);
+            startActivity(intent);
+            //MyLog.d(tag,"浏览记录内部的执行了吗？");
         }
     }
 
@@ -838,14 +898,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     public void onResponse(String s) {
                         User user=parseJson(s);
                         nameTextView.setText(user.getName());
-                        emailTextView.setText(user.getEmail());
+                        //emailTextView.setText(user.getEmail());
+                        jiFenTextView.setText(user.getJiFen());
                         ImageLoader imageLoader1=imageLoaderhelper.getImageLoader();
-                        ImageLoader.ImageListener listener=imageLoader1.getImageListener(loginImage,R.mipmap.yu_jia_zai,
-                                R.mipmap.yu_jia_zai);
+                        ImageLoader.ImageListener listener=imageLoader1.getImageListener(loginImage,R.mipmap.tou_xiang,
+                                R.mipmap.tou_xiang);
                         imageLoader1.get(MyConstant.YU_MING + user.getPic(), listener, 200, 200);
                         ImageLoader imageLoader2=imageLoaderhelper.getImageLoader();
-                        ImageLoader.ImageListener listener1=imageLoader2.getImageListener(loginButton,R.mipmap.yu_jia_zai,
-                                R.mipmap.yu_jia_zai);
+                        ImageLoader.ImageListener listener1=imageLoader2.getImageListener(loginButton,R.mipmap.tou_xiang,
+                                R.mipmap.tou_xiang);
                         imageLoader2.get(MyConstant.YU_MING + user.getPic(), listener1, 200, 200);
                     }
                 }, new Response.ErrorListener() {
@@ -1143,10 +1204,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case REQUEST_CODE_TO_SETTING://从设置界面回来的
                 if(resultCode==RESULT_OK){
-                    loginImage.setImageResource(R.mipmap.yu_jia_zai);
+                    loginImage.setImageResource(R.mipmap.tou_xiang);
                     nameTextView.setText("");
-                    emailTextView.setText("");
-                    loginButton.setImageResource(R.mipmap.yu_jia_zai);
+                    jiFenTextView.setText("");
+                    loginButton.setImageResource(R.mipmap.tou_xiang);
                 }
                 break;
             case REQUEST_CODE_SHOPPING_CAR://跳转到购物车碎片
@@ -1157,6 +1218,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case REQUEST_CODE_TO_PERSONAL_CENTER://跳转到个人中心
                 if(resultCode==RESULT_OK){
                     toPersonalCenter();
+                }
+                break;
+            case REQUEST_CODE_LOGIN_LIU_LAN_JI_LU://浏览记录
+                if(resultCode== Activity.RESULT_OK){
+                    liuLanJiLuClickChuLi();
+                    MyLog.d(tag, "浏览记录回来了吗");
                 }
                 break;
 

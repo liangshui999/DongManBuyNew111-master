@@ -83,7 +83,7 @@
             <ImageView
                 android:layout_width="20dp"
                 android:layout_height="20dp"
-                android:src="@mipmap/down"
+                android:src="@mipmap/xia_la"
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="5dp"/>
 
@@ -136,9 +136,11 @@
                 android:layout_height="match_parent"
                 android:dividerHeight="10dp"
                 android:background="@color/white_my"
+                android:divider="@color/mo_kuai_backgroud"
                 android:scrollbars="none">
             </com.handmark.pulltorefresh.library.PullToRefreshListView>
 
+            <!--点了商品类型之后需要把背景变黑-->
             <LinearLayout
                 android:id="@+id/ll_type_backgroud"
                 android:layout_width="match_parent"
@@ -146,7 +148,6 @@
                 android:background="@color/myblack"
                 android:orientation="vertical"
                 android:visibility="gone">
-
             </LinearLayout>
         </FrameLayout>
 

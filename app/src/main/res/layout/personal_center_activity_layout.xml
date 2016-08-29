@@ -5,7 +5,8 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:scrollbars="none">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -53,7 +54,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="liangshui"
-                        android:textSize="@dimen/personal_center_base_font"/>
+                        android:textSize="@dimen/personal_center_base_font"
+                        android:textColor="@color/myblack"/>
                     <TextView
                         android:id="@+id/text_deng_ji_personal_center"
                         android:layout_width="wrap_content"
@@ -170,12 +172,9 @@
                     android:src="@mipmap/my_order_personal_center"
                     android:layout_centerVertical="true"/>
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
                     android:text="@string/my_order"
                     android:layout_toRightOf="@id/my_order"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="5dp"/>
+                    style="@style/personal_center_title_style"/>
                 <ImageView
                     android:id="@+id/my_order_dao_hang"
                     android:layout_width="20dp"
@@ -345,12 +344,9 @@
                     android:src="@mipmap/my_wallet_personal_center"
                     android:layout_centerVertical="true"/>
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
                     android:text="@string/my_wallet"
                     android:layout_toRightOf="@id/my_wallet"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="5dp"/>
+                    style="@style/personal_center_title_style"/>
                 <ImageView
                     android:id="@+id/my_wallet_dao_hang"
                     android:layout_width="20dp"
@@ -469,12 +465,9 @@
                     android:src="@mipmap/kefu"
                     android:layout_centerVertical="true"/>
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
                     android:text="@string/ke_fu"
                     android:layout_toRightOf="@id/ke_fu"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="5dp"/>
+                    style="@style/personal_center_title_style"/>
                 <ImageView
                     android:layout_width="20dp"
                     android:layout_height="20dp"
@@ -500,12 +493,9 @@
                     android:src="@mipmap/liu_lan_li_shi_personal_center"
                     android:layout_centerVertical="true"/>
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
                     android:text="@string/liu_lan_li_shi"
                     android:layout_toRightOf="@id/liu_lan"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="5dp"/>
+                    style="@style/personal_center_title_style"/>
 
                 <LinearLayout
                     android:id="@+id/ll_qing_kong_personal_center"

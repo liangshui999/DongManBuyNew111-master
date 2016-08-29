@@ -13,7 +13,9 @@
             android:id="@+id/text_gui_shu_ding_dan_list_item"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/zhou_mo_zi_ying"/>
+            android:text="@string/zhou_mo_zi_ying"
+            android:textSize="16sp"
+            android:textColor="@color/myblack"/>
         <TextView
             android:id="@+id/text_fu_kuan_yu_fou_ding_dan_list_item"
             android:layout_width="wrap_content"
@@ -40,7 +42,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="2013325553322555"
-            android:layout_marginLeft="10dp"/>
+            android:layout_marginLeft="10dp"
+            android:textColor="@color/myblack"/>
     </LinearLayout>
 
     <TextView

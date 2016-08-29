@@ -36,5 +36,6 @@
     <dimen name="fragment_eight_font_size">12sp</dimen>
     <dimen name="search_result_icon_size">20dp</dimen>
     <dimen name="search_result_text_size">16sp</dimen>
+    <dimen name="see_password_img_size">25dp</dimen>
 
 </resources>

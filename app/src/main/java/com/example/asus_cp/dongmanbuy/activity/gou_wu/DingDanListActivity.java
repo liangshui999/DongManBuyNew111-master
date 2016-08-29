@@ -186,6 +186,7 @@ public class DingDanListActivity extends Activity implements View.OnClickListene
                                     dingDanModels.add(model);
                                 }
 
+                                //清除掉空的订单信息（清除那些订单里面没有商品的订单）
                                 final List<DingDanModel> tempModels=new ArrayList<DingDanModel>();
                                 for(int i=0;i<dingDanModels.size();i++){
                                     if(dingDanModels.get(i).getGoods().size()>0){

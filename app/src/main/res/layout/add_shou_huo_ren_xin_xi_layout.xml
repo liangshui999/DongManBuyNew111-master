@@ -30,7 +30,8 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/shou_huo_ren"/>
+                android:text="@string/shou_huo_ren"
+                android:textColor="@color/myblack"/>
             <EditText
                 android:id="@+id/edit_shou_huo_ren_name"
                 android:layout_width="match_parent"
@@ -52,7 +53,8 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/phone"/>
+                android:text="@string/phone"
+                android:textColor="@color/myblack"/>
             <EditText
                 android:id="@+id/edit_shou_huo_ren_phone"
                 android:layout_width="match_parent"
@@ -73,7 +75,8 @@
                 android:id="@+id/suo_zai"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/suo_zai_di_qu"/>
+                android:text="@string/suo_zai_di_qu"
+                android:textColor="@color/myblack"/>
             <TextView
                 android:id="@+id/text_suo_zai_di_qu_add_xin_xi"
                 android:layout_width="wrap_content"
@@ -96,7 +99,8 @@
             android:padding="10dp"
             android:layout_marginTop="2dp"
             android:background="@color/white_my"
-            android:text="@string/xiang_xi_xin_xi"/>
+            android:text="@string/xiang_xi_xin_xi"
+            android:textColor="@color/myblack"/>
         <EditText
             android:id="@+id/edit_xiang_xi_di_zhi"
             android:layout_width="match_parent"

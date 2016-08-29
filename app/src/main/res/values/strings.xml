@@ -343,5 +343,7 @@
     <string name="reset">重置</string>
     <string name="good">商品</string>
     <string name="shop">店铺</string>
+    <string name="liu_lan_ji_lu">浏览记录</string>
+
 
 </resources>

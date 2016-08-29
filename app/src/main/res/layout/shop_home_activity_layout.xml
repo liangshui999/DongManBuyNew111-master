@@ -98,7 +98,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingTop="10dp"
-                    android:paddingBottom="10dp">
+                    android:paddingBottom="10dp"
+                    android:background="@color/white_my">
                     <LinearLayout
                         android:id="@+id/ll_all_product"
                         android:layout_width="0dp"
@@ -107,10 +108,8 @@
                         android:orientation="vertical">
                         <TextView
                             android:id="@+id/text_all_product_count"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
                             android:text="9"
-                            android:layout_gravity="center"/>
+                            style="@style/shop_home_good_count_style"/>
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -126,10 +125,8 @@
                         android:orientation="vertical">
                         <TextView
                             android:id="@+id/text_new_product_count"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
                             android:text="9"
-                            android:layout_gravity="center"/>
+                           style="@style/shop_home_good_count_style"/>
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -146,10 +143,8 @@
                         android:orientation="vertical">
                         <TextView
                             android:id="@+id/text_tui_jian_product_count"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
                             android:text="9"
-                            android:layout_gravity="center"/>
+                            style="@style/shop_home_good_count_style"/>
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -169,15 +164,18 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingBottom="10dp"
+                    android:background="@color/white_my"
+                    android:layout_marginTop="10dp"
                     >
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/hot_product"
-                        android:layout_marginLeft="10dp"
+                        android:layout_marginLeft="15dp"
                         android:layout_marginTop="10dp"
                         android:textSize="16sp"
-                        android:layout_centerVertical="true"/>
+                        android:layout_centerVertical="true"
+                        android:textColor="@color/myblack"/>
 
                 </RelativeLayout>
 
@@ -201,17 +199,23 @@
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="5dp"
-                    android:background="@color/mo_kuai_backgroud"/>
+                    android:background="@color/mo_kuai_backgroud"
+                    android:visibility="gone"/>
                 <TextView
                     android:id="@+id/text_see_more"
                     android:clickable="true"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:text="@string/see_more"
-                    android:layout_gravity="center"
+                    android:gravity="center"
                     android:paddingTop="10dp"
                     android:paddingBottom="10dp"
+                    android:background="@color/white_my"
                     />
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="5dp"
+                    android:background="@color/mo_kuai_backgroud"/>
 
 
             </LinearLayout>
@@ -238,7 +242,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/shop_detail"
-                android:layout_gravity="center"/>
+                android:layout_gravity="center"
+                android:textColor="@color/myblack"
+                android:textSize="16sp"/>
         </LinearLayout>
 
         <LinearLayout
@@ -257,12 +263,15 @@
                     android:layout_height="20dp"
                     android:layout_gravity="center"
                     android:src="@mipmap/left_more"
-                    android:layout_marginLeft="5dp"/>
+                    android:layout_marginLeft="5dp"
+                    android:visibility="gone"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/re_men_fen_lei"
-                    android:layout_gravity="center"/>
+                    android:layout_gravity="center"
+                    android:textColor="@color/myblack"
+                    android:textSize="16sp"/>
             </LinearLayout>
 
         </LinearLayout>
@@ -284,12 +293,15 @@
                     android:layout_height="20dp"
                     android:layout_gravity="center"
                     android:src="@mipmap/left_more"
-                    android:layout_marginLeft="5dp"/>
+                    android:layout_marginLeft="5dp"
+                    android:visibility="gone"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/ke_fu"
-                    android:layout_gravity="center"/>
+                    android:layout_gravity="center"
+                    android:textColor="@color/myblack"
+                    android:textSize="16sp"/>
                 </LinearLayout>
 
         </LinearLayout>

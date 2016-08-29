@@ -181,7 +181,73 @@
         <item name="android:layout_width">@dimen/search_result_icon_size</item>
         <item name="android:layout_height">@dimen/search_result_icon_size</item>
         <item name="android:src">@mipmap/down_black_sort</item>
+    </style>
 
+
+    <!--店铺主页和店铺详情商品数量的样式（全部，新品和折扣）-->
+    <style name="shop_home_good_count_style">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/myblack</item>
+        <item name="android:layout_gravity">center</item>
+    </style>
+
+
+    <!--店铺详情的描述信息的样式（如电话，地址，店铺名称之类的）-->
+    <style name="shop_detail_desc_style">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginLeft">10dp</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/myblack</item>
+    </style>
+
+
+    <!--个人中心标题的样式-->
+    <style name="personal_center_title_style">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_centerVertical">true</item>
+        <item name="android:layout_marginLeft">5dp</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/myblack</item>
+    </style>
+
+
+    <!--资料设置的小标题的样式-->
+    <style name="data_set_title_style">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_centerVertical">true</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/myblack</item>
+    </style>
+
+
+    <!--侧滑relayout的样式-->
+    <style name="menu_re_layout_style">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:padding">10dp</item>
+    </style>
+
+
+    <!--侧滑imageview的样式-->
+    <style name="menu_img_style">
+        <item name="android:layout_width">25dp</item>
+        <item name="android:layout_height">25dp</item>
+        <item name="android:layout_centerVertical">true</item>
+        <item name="android:clickable">false</item>
+    </style>
+
+
+    <!--侧滑textview的样式-->
+    <style name="menu_text_style">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_centerVertical">true</item>
+        <item name="android:layout_marginLeft">10dp</item>
     </style>
 
 </resources>

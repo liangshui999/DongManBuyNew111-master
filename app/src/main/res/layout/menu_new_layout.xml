@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white_my"
+    >
+
+
+    <!--头部所在的布局-->
+    <RelativeLayout
+        android:id="@+id/head"
+        android:layout_width="match_parent"
+        android:layout_height="180dp"
+        android:background="@color/bottom_lable_color">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:orientation="vertical">
+            <de.hdodenhof.circleimageview.CircleImageView
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/img_login"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                app:civ_border_width="1dp"
+                app:civ_border_color="@color/white_my"
+                android:layout_margin="5dp"
+                android:src="@mipmap/tou_xiang"
+                android:layout_gravity="center"
+                />
+            <TextView
+                android:id="@+id/text_name_slid_menu"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_above="@id/text_email_slid_menu"
+                android:textSize="@dimen/menu_font_size"
+                android:layout_marginLeft="5dp"
+                android:text="周小沫"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
+                android:textColor="@color/white_my"/>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp">
+
+                <ImageView
+                    android:id="@+id/ji_fen_img"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@mipmap/sliding_ji_fen"
+                    android:layout_alignParentLeft="true"
+                    android:layout_marginLeft="10dp"/>
+
+                <TextView
+                    android:id="@+id/text_ji_fen_slding_menu"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="239"
+                    android:layout_toRightOf="@id/ji_fen_img"
+                    android:layout_centerVertical="true"
+                    android:textColor="@color/white_my"/>
+
+                <ImageView
+                    android:id="@+id/img_help_sliding_menu"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:src="@mipmap/sliding_help"/>
+            </RelativeLayout>
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+
+
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/head"
+        android:orientation="vertical">
+        <!--首页-->
+        <RelativeLayout
+            android:id="@+id/re_layout_home_menu"
+            style="@style/menu_re_layout_style"
+            >
+            <ImageView
+                android:id="@+id/home"
+                android:src="@mipmap/home_menu"
+                style="@style/menu_img_style"/>
+            <TextView
+                android:text="@string/home"
+                android:layout_toRightOf="@id/home"
+                style="@style/menu_text_style"/>
+
+        </RelativeLayout>
+
+
+        <!--浏览记录-->
+        <RelativeLayout
+            android:id="@+id/re_layout_liu_lan_ji_lu_menu"
+            style="@style/menu_re_layout_style"
+            >
+            <ImageView
+                android:id="@+id/liu_lan"
+                android:src="@mipmap/liu_lan_ji_lu_menu"
+                style="@style/menu_img_style"/>
+            <TextView
+                android:text="@string/liu_lan_ji_lu"
+                android:layout_toRightOf="@id/liu_lan"
+                style="@style/menu_text_style"/>
+
+        </RelativeLayout>
+
+        <!--分隔线-->
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:src="@color/mo_kuai_backgroud"/>
+
+
+
+        <!--我的收藏-->
+        <RelativeLayout
+            android:id="@+id/re_layout_shou_cang_menu"
+            style="@style/menu_re_layout_style"
+            >
+            <ImageView
+                android:id="@+id/shou_cang"
+                android:src="@mipmap/shou_cang_menu"
+                style="@style/menu_img_style"/>
+            <TextView
+                android:text="@string/my_shou_cang"
+                android:layout_toRightOf="@id/shou_cang"
+                style="@style/menu_text_style"/>
+
+        </RelativeLayout>
+
+
+        <!--我的关注-->
+        <RelativeLayout
+            android:id="@+id/re_layout_guan_zhu_menu"
+            style="@style/menu_re_layout_style"
+            >
+            <ImageView
+                android:id="@+id/guan_zhu"
+                android:src="@mipmap/guan_zhu_menu"
+                style="@style/menu_img_style"/>
+            <TextView
+                android:text="@string/my_guan_zhu"
+                android:layout_toRightOf="@id/guan_zhu"
+                style="@style/menu_text_style"/>
+
+        </RelativeLayout>
+
+
+        <!--分隔线-->
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:src="@color/mo_kuai_backgroud"/>
+
+
+        <!--优惠券-->
+        <RelativeLayout
+            android:id="@+id/re_layout_you_hui_quan_menu"
+            style="@style/menu_re_layout_style"
+            >
+            <ImageView
+                android:id="@+id/you_hui"
+                android:src="@mipmap/you_hui_quan_menu"
+                style="@style/menu_img_style"/>
+            <TextView
+                android:text="@string/you_hui_quan"
+                android:layout_toRightOf="@id/you_hui"
+                style="@style/menu_text_style"/>
+
+        </RelativeLayout>
+    </LinearLayout>
+
+
+
+    <!--设置-->
+    <RelativeLayout
+        android:id="@+id/re_layout_setting_menu"
+        android:layout_alignParentBottom="true"
+        style="@style/menu_re_layout_style"
+        >
+        <ImageView
+            android:id="@+id/setting"
+            android:src="@mipmap/setting_menu"
+            style="@style/menu_img_style"/>
+        <TextView
+            android:text="@string/setting"
+            android:layout_toRightOf="@id/setting"
+            style="@style/menu_text_style"/>
+
+    </RelativeLayout>
+
+
+
+
+
+
+
+
+
+
+
+</RelativeLayout>

@@ -80,9 +80,10 @@
         </LinearLayout>
         <ImageView
             android:id="@+id/img_see_password"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/see_password"/>
+            android:layout_width="@dimen/see_password_img_size"
+            android:layout_height="@dimen/see_password_img_size"
+            android:background="@drawable/see_password"
+            android:layout_gravity="center"/>
 
     </LinearLayout>
 

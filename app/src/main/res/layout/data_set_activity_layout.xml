@@ -23,10 +23,8 @@
         android:padding="10dp"
         android:background="@color/white_my">
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:text="@string/tou_xiang"
-            android:layout_centerVertical="true"/>
+            style="@style/data_set_title_style"/>
         <de.hdodenhof.circleimageview.CircleImageView
             xmlns:app="http://schemas.android.com/apk/res-auto"
             android:id="@+id/img_tou_xiang_data_set"
@@ -48,10 +46,8 @@
         android:background="@color/white_my"
         android:layout_marginTop="2dp">
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:text="@string/yong_hu_ming"/>
+            android:text="@string/yong_hu_ming"
+            style="@style/data_set_title_style"/>
         <TextView
             android:id="@+id/text_name_data_set"
             android:layout_width="wrap_content"
@@ -71,9 +67,8 @@
         android:layout_marginTop="2dp"
         android:background="@color/white_my">
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/xing_bie"/>
+            android:text="@string/xing_bie"
+            style="@style/data_set_title_style"/>
         <ImageView
             android:id="@+id/sex"
             android:layout_width="20dp"
@@ -99,9 +94,8 @@
         android:layout_marginTop="2dp"
         android:background="@color/white_my">
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/shou_ji"/>
+            android:text="@string/shou_ji"
+            style="@style/data_set_title_style"/>
         <ImageView
             android:id="@+id/shouji"
             android:layout_width="20dp"
@@ -128,9 +122,8 @@
         android:layout_marginTop="2dp"
         android:background="@color/white_my">
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/you_xiang"/>
+            android:text="@string/you_xiang"
+            style="@style/data_set_title_style"/>
         <ImageView
             android:id="@+id/email"
             android:layout_width="20dp"
@@ -157,9 +150,8 @@
         android:layout_marginTop="2dp"
         android:background="@color/white_my">
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/change_password"/>
+            android:text="@string/change_password"
+            style="@style/data_set_title_style"/>
         <ImageView
             android:layout_width="20dp"
             android:layout_height="20dp"
@@ -179,9 +171,8 @@
         android:layout_marginTop="2dp"
         android:background="@color/white_my">
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/ship_address"/>
+            android:text="@string/ship_address"
+            style="@style/data_set_title_style"/>
         <ImageView
             android:layout_width="20dp"
             android:layout_height="20dp"

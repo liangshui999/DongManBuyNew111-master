@@ -29,7 +29,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="动漫社书屋"
-                    android:textSize="16sp"/>
+                    android:textSize="16sp"
+                    android:textColor="@color/myblack"/>
                 <TextView
                     android:id="@+id/text_guan_zhu_ren_shu"
                     android:layout_width="wrap_content"

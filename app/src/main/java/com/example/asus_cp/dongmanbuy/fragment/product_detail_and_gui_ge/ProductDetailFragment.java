@@ -79,7 +79,7 @@ public class ProductDetailFragment extends Fragment{
                         imageView.setLayoutParams(layoutParams);
                         ImageLoader.ImageListener imageListener=imageLoader.getImageListener(imageView,R.mipmap.yu_jia_zai,
                                 R.mipmap.yu_jia_zai);
-                        imageLoader.get(url,imageListener,600,600);
+                        imageLoader.get(url,imageListener);
                         bufLinearLayout.addView(imageView);
                     }
                 } catch (JSONException e) {

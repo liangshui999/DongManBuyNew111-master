@@ -50,7 +50,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="动漫社书屋"
-                        android:textSize="16sp"/>
+                        android:textSize="16sp"
+                        android:textColor="@color/myblack"/>
                     <TextView
                         android:id="@+id/text_guan_zhu_ren_shu_shop_detail"
                         android:layout_width="wrap_content"
@@ -176,7 +177,6 @@
                 android:layout_height="wrap_content"
                 android:paddingTop="10dp"
                 android:paddingBottom="10dp"
-                android:layout_marginTop="10dp"
                 android:background="@color/white_my">
                 <LinearLayout
                     android:id="@+id/ll_all_product_shop_detail"
@@ -186,10 +186,8 @@
                     android:orientation="vertical">
                     <TextView
                         android:id="@+id/text_all_product_count_shop_detail"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
                         android:text="9"
-                        android:layout_gravity="center"/>
+                        style="@style/shop_home_good_count_style"/>
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -205,10 +203,8 @@
                     android:orientation="vertical">
                     <TextView
                         android:id="@+id/text_new_product_count_shop_detail"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
                         android:text="9"
-                        android:layout_gravity="center"/>
+                        style="@style/shop_home_good_count_style"/>
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -225,10 +221,8 @@
                     android:orientation="vertical">
                     <TextView
                         android:id="@+id/text_cu_xiao_product_count_shop_detail"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
                         android:text="9"
-                        android:layout_gravity="center"/>
+                        style="@style/shop_home_good_count_style"/>
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -306,12 +300,9 @@
 
                     <TextView
                         android:id="@+id/text_shang_jia_phone_shop_detail"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
                         android:layout_toRightOf="@id/shangjia"
                         android:text="18827365325"
-                        android:layout_marginLeft="10dp"
-                        android:textSize="14sp"/>
+                        style="@style/shop_detail_desc_style"/>
                     <ImageView
                         android:layout_width="20dp"
                         android:layout_height="20dp"
@@ -344,12 +335,9 @@
                         android:paddingLeft="10dp"/>
                     <TextView
                         android:id="@+id/text_shop_desc"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
                         android:layout_toRightOf="@id/dian_pu_jian_jie"
                         android:text="动漫书屋"
-                        android:layout_marginLeft="10dp"
-                        android:textSize="14sp"/>
+                        style="@style/shop_detail_desc_style"/>
                 </RelativeLayout>
 
 
@@ -368,12 +356,9 @@
                         android:paddingLeft="10dp"/>
                     <TextView
                         android:id="@+id/text_gong_si_name"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
                         android:layout_toRightOf="@id/gongsiname"
                         android:text="动漫书屋"
-                        android:layout_marginLeft="10dp"
-                        android:textSize="14sp"/>
+                        style="@style/shop_detail_desc_style"/>
                 </RelativeLayout>
 
 
@@ -392,12 +377,9 @@
                         android:paddingLeft="10dp"/>
                     <TextView
                         android:id="@+id/text_kai_dian_time"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
                         android:layout_toRightOf="@id/kaidianshijian"
                         android:text="2011-11-10"
-                        android:layout_marginLeft="10dp"
-                        android:textSize="14sp"/>
+                        style="@style/shop_detail_desc_style"/>
                 </RelativeLayout>
 
                 <RelativeLayout
@@ -416,12 +398,16 @@
                         android:paddingLeft="10dp"/>
                     <TextView
                         android:id="@+id/text_suo_zai_di_qu_shop_detail"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
                         android:layout_toRightOf="@id/suozaidiqu"
                         android:text="解放路"
-                        android:layout_marginLeft="10dp"
-                        android:textSize="14sp"/>
+                        style="@style/shop_detail_desc_style"/>
+                    <ImageView
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:background="@mipmap/area"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginRight="10dp"/>
+
                 </RelativeLayout>
             </LinearLayout>
 

@@ -282,7 +282,7 @@ public class ShoppingCarFragment extends Fragment implements View.OnClickListene
                                 List<Good> goods=shopModel.getGoods();
                                 len=len+goods.size()*150*densty/160+50*densty/160;//主要是店铺名称所在的布局要占40，所以给他设置成40
                             }
-                            MyLog.d(tag,"计算出的外部listview的高度是"+len);
+                            MyLog.d(tag,"计算出的外部listview的高度是"+len+"...."+"densty="+densty);
                             //动态设置外部listview的高度
                             LinearLayout.LayoutParams params=new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                                     len);
