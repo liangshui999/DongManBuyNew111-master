@@ -13,17 +13,10 @@
         android:id="@+id/text_shop_content_name"
         android:layout_width="160dp"
         android:lines="2"
-        android:layout_height="wrap_content"
-        android:layout_gravity="left"
-        android:layout_marginLeft="10dp"
+        style="@style/good_name_base_style"
         />
     <TextView
         android:id="@+id/text_shop_content_price"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="left"
-        android:layout_marginTop="5dp"
-        android:textSize="14sp"
-        android:textColor="@color/bottom_lable_color"
-        android:layout_marginLeft="10dp"/>
+        style="@style/good_price_base_style"
+        />
 </LinearLayout>

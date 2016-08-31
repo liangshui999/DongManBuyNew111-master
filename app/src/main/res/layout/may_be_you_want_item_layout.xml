@@ -8,27 +8,17 @@
         android:layout_width="120dp"
         android:layout_height="120dp"
         android:layout_gravity="left"
-        android:src="@mipmap/ic_launcher"/>
+        android:src="@mipmap/yu_jia_zai"/>
 
         <TextView
             android:id="@+id/text_may_be_you_want_name"
             android:layout_width="120dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="left"
-            android:layout_marginTop="10dp"
-            android:layout_marginLeft="5dp"
-            android:text="hahahha"
+            style="@style/good_name_base_style"
             android:lines="2"
             />
 
     <TextView
         android:id="@+id/text_may_be_you_want_shop_price"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="left"
-        android:textSize="14sp"
-        android:textColor="@color/bottom_lable_color"
-        android:layout_marginLeft="5dp"
-        android:text="19.00"/>
+        style="@style/good_price_base_style"/>
 
 </LinearLayout>

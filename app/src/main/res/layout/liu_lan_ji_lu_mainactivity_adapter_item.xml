@@ -40,7 +40,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="印象卫衣"
-                android:maxLines="2"/>
+                android:maxLines="2"
+                android:textColor="@color/myblack"/>
 
             <!--尺码所在的布局-->
             <LinearLayout

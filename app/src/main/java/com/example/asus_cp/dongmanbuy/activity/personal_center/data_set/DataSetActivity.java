@@ -87,12 +87,16 @@ public class DataSetActivity extends Activity implements View.OnClickListener{
         ImageLoader imageLoader=helper.getImageLoader();
         ImageLoader.ImageListener listener=imageLoader.getImageListener(touXiangImageView,
                 R.mipmap.yu_jia_zai,R.mipmap.yu_jia_zai);
-        imageLoader.get(MyConstant.YU_MING + user.getPic(), listener, 200, 200);
 
-        nameTextView.setText(user.getName());
-        sexTextView.setText(user.getSex());
-        phoneTextView.setText(user.getPhone());
-        emailTextView.setText(user.getEmail());
+        if(user!=null){
+            imageLoader.get(MyConstant.YU_MING + user.getPic(), listener, 200, 200);
+
+            nameTextView.setText(user.getName());
+            sexTextView.setText(user.getSex());
+            phoneTextView.setText(user.getPhone());
+            emailTextView.setText(user.getEmail());
+        }
+
 
 
         //设置点击事件

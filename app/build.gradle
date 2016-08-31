@@ -29,7 +29,6 @@ dependencies {
     testCompile 'junit:junit:4.12'
     compile 'com.android.support:appcompat-v7:23.3.0'
     compile 'com.android.support:design:23.3.0'
-    compile files('libs/volley.jar')
     compile project(':library')
     compile files('libs/alipaySingle-20160516.jar')
     compile 'de.hdodenhof:circleimageview:2.0.0'
@@ -38,4 +37,5 @@ dependencies {
     compile 'com.google.code.gson:gson:2.7'
     compile 'com.google.zxing:core:3.2.1'
     compile 'com.google.zxing:android-core:3.2.1'
+    compile 'eu.the4thfloor.volley:com.android.volley:2015.05.28'
 }

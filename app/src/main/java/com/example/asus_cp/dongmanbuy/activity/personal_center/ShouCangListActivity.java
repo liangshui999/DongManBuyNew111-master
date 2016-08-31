@@ -147,7 +147,7 @@ public class ShouCangListActivity extends Activity{
                 good.setGoodName(JsonHelper.decodeUnicode(ziJsObj.getString("name")));
                 good.setMarket_price(JsonHelper.decodeUnicode(ziJsObj.getString("market_price")));
                 good.setShopPrice(JsonHelper.decodeUnicode(ziJsObj.getString("shop_price")));
-
+                good.setPromotePrice(JsonHelper.decodeUnicode(ziJsObj.getString("promote_price")));
                 JSONObject picJs=ziJsObj.getJSONObject("img");
                 good.setGoodsThumb(picJs.getString("thumb"));
                 good.setGoodsImg(picJs.getString("url"));

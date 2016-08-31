@@ -105,7 +105,15 @@ public class ShouCangListAdapter extends BaseAdapter{
 
         viewHolder.nameTextView.setText(good.getGoodName());
         viewHolder.kuCunTextView.setText(good.getGoodsNumber());
-        viewHolder.priceTextView.setText(FormatHelper.getMoneyFormat(good.getShopPrice()));
+
+        //设置商品店铺价格,不带人民币符号
+        String zheKouPrice = FormatHelper.getNumberFromRenMingBi(good.getPromotePrice());
+        if (zheKouPrice==null || "0.00".equals(zheKouPrice) || "0".equals(zheKouPrice)) {
+            viewHolder.priceTextView.setText(FormatHelper.getMoneyFormat(good.getShopPrice()));
+        } else {
+            viewHolder.priceTextView.setText(FormatHelper.getMoneyFormat(zheKouPrice+""));
+        }
+
 
         //设置图片点击事件
         viewHolder.picImageView.setOnClickListener(new View.OnClickListener() {

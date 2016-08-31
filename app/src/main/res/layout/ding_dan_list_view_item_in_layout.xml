@@ -39,7 +39,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="印象卫衣"
-                android:maxLines="2"/>
+                android:maxLines="2"
+                android:textColor="@color/myblack"/>
             <TextView
                 android:id="@+id/text_product_price_ding_dan_list_item"
                 android:layout_width="wrap_content"

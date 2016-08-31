@@ -68,8 +68,8 @@ public class ShopStreetFragment extends Fragment implements View.OnClickListener
 
     private LinearLayout goodTypeLinearLayout;
     private TextView goodTypeTextView;
-    private ImageView leftImageView;
-    private ImageView rightImageView;
+    //private ImageView leftImageView;
+    //private ImageView rightImageView;
     private View parentView;
 
     private PopupWindow typePopuWindow;
@@ -166,8 +166,8 @@ public class ShopStreetFragment extends Fragment implements View.OnClickListener
 
         goodTypeLinearLayout= (LinearLayout) v.findViewById(R.id.ll_good_type);
         goodTypeTextView= (TextView) v.findViewById(R.id.text_good_type);
-        leftImageView= (ImageView) v.findViewById(R.id.img_left_good_type);
-        rightImageView= (ImageView) v.findViewById(R.id.img_right_good_type);
+        //leftImageView= (ImageView) v.findViewById(R.id.img_left_good_type);
+        //rightImageView= (ImageView) v.findViewById(R.id.img_right_good_type);
         paiLieShunXunSpinner= (Spinner) v.findViewById(R.id.spin_pai_lie_shun_xu);
         productCategorySpinner= (Spinner) v.findViewById(R.id.spin_product_category);
         shopPostionSpinner= (Spinner) v.findViewById(R.id.spin_shop_street_position);

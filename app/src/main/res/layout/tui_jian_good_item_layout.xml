@@ -12,10 +12,8 @@
     <TextView
         android:id="@+id/text_cai_ni_xi_huan_name"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="left"
         android:maxLines="1"
-        android:layout_marginLeft="20dp"
+        style="@style/good_name_style_left_five"
         />
 
     <RelativeLayout
@@ -26,13 +24,7 @@
         >
         <TextView
             android:id="@+id/text_cai_ni_xi_huan_shop_price"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="left"
-            android:textSize="14sp"
-            android:text="99.00"
-            android:textColor="@color/bottom_lable_color"
-            android:layout_marginLeft="20dp"/>
+            style="@style/good_price_style_left_five"/>
         <ImageView
             android:id="@+id/img_shopping_car"
             android:layout_width="20dp"

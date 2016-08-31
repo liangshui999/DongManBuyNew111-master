@@ -34,6 +34,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="轻小说id杀菌的快乐独立开发框架的法国进口vkjdjfg "
+                android:textColor="@color/myblack"
                 />
 
             <LinearLayout

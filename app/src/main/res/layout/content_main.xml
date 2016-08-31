@@ -122,74 +122,90 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingTop="5dp"
-        android:paddingBottom="5dp"
-        android:background="@color/white_my">
+        android:background="@color/white_my"
+        android:orientation="vertical">
+
+        <!--分隔线-->
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/mo_kuai_backgroud"/>
+
+        <!--图标-->
         <LinearLayout
-            android:id="@+id/ll_home"
-            style="@style/main_activity_bottom_label_ll_style"
-            >
-            <ImageView
-                android:id="@+id/img_home"
-                style="@style/main_activity_bottom_label_img_style"
-                android:src="@mipmap/home_normal"/>
-            <TextView
-                android:id="@+id/text_home"
-                android:text="@string/home"
-                style="@style/main_activity_bottom_label_text_style"/>
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp">
+            <LinearLayout
+                android:id="@+id/ll_home"
+                style="@style/main_activity_bottom_label_ll_style"
+                >
+                <ImageView
+                    android:id="@+id/img_home"
+                    style="@style/main_activity_bottom_label_img_style"
+                    android:src="@mipmap/home_normal"/>
+                <TextView
+                    android:id="@+id/text_home"
+                    android:text="@string/home"
+                    style="@style/main_activity_bottom_label_text_style"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_category"
+                style="@style/main_activity_bottom_label_ll_style">
+                <ImageView
+                    android:id="@+id/img_category"
+                    android:src="@mipmap/category_normal"
+                    style="@style/main_activity_bottom_label_img_style"/>
+                <TextView
+                    android:id="@+id/text_category"
+                    android:text="@string/category"
+                    style="@style/main_activity_bottom_label_text_style"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_find"
+                style="@style/main_activity_bottom_label_ll_style">
+                <ImageView
+                    android:id="@+id/img_find"
+                    android:src="@mipmap/find_normal"
+                    style="@style/main_activity_bottom_label_img_style"/>
+                <TextView
+                    android:id="@+id/text_find"
+                    android:text="@string/find"
+                    style="@style/main_activity_bottom_label_text_style"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_shop_street"
+                style="@style/main_activity_bottom_label_ll_style">
+                <ImageView
+                    android:id="@+id/img_shop_street"
+                    android:src="@mipmap/shopstreet_normal"
+                    style="@style/main_activity_bottom_label_img_style"/>
+                <TextView
+                    android:id="@+id/text_shop_street"
+                    android:text="@string/shop_street"
+                    style="@style/main_activity_bottom_label_text_style"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_shopping_car"
+                style="@style/main_activity_bottom_label_ll_style">
+                <ImageView
+                    android:id="@+id/img_shopping_car"
+                    android:src="@mipmap/shoppingcar_normal"
+                    style="@style/main_activity_bottom_label_img_style"/>
+                <TextView
+                    android:id="@+id/text_shoppingz_car"
+                    android:text="@string/shopping_car"
+                    style="@style/main_activity_bottom_label_text_style"/>
+            </LinearLayout>
         </LinearLayout>
 
-        <LinearLayout
-            android:id="@+id/ll_category"
-            style="@style/main_activity_bottom_label_ll_style">
-            <ImageView
-                android:id="@+id/img_category"
-                android:src="@mipmap/category_normal"
-                style="@style/main_activity_bottom_label_img_style"/>
-            <TextView
-                android:id="@+id/text_category"
-                android:text="@string/category"
-                style="@style/main_activity_bottom_label_text_style"/>
-        </LinearLayout>
 
-        <LinearLayout
-            android:id="@+id/ll_find"
-            style="@style/main_activity_bottom_label_ll_style">
-            <ImageView
-                android:id="@+id/img_find"
-                android:src="@mipmap/find_normal"
-                style="@style/main_activity_bottom_label_img_style"/>
-            <TextView
-                android:id="@+id/text_find"
-                android:text="@string/find"
-                style="@style/main_activity_bottom_label_text_style"/>
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/ll_shop_street"
-            style="@style/main_activity_bottom_label_ll_style">
-            <ImageView
-                android:id="@+id/img_shop_street"
-                android:src="@mipmap/shopstreet_normal"
-                style="@style/main_activity_bottom_label_img_style"/>
-            <TextView
-                android:id="@+id/text_shop_street"
-                android:text="@string/shop_street"
-                style="@style/main_activity_bottom_label_text_style"/>
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/ll_shopping_car"
-            style="@style/main_activity_bottom_label_ll_style">
-            <ImageView
-                android:id="@+id/img_shopping_car"
-                android:src="@mipmap/shoppingcar_normal"
-                style="@style/main_activity_bottom_label_img_style"/>
-            <TextView
-                android:id="@+id/text_shoppingz_car"
-                android:text="@string/shopping_car"
-                style="@style/main_activity_bottom_label_text_style"/>
-        </LinearLayout>
     </LinearLayout>
 
 

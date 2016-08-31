@@ -23,6 +23,7 @@
     <color name="guide_three">#88cfc1</color>
     <color name="fen_ge_xian">#d7d7d7</color>
     <color name="normal_text_color">#999999</color>
+    <color name="ji_fen_backgroud">#33ffffff</color>
 
     <!--zxing里面用到的-->
     <color name="result_view">#b0000000</color>

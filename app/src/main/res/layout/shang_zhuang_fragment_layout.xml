@@ -16,26 +16,15 @@
             android:orientation="vertical">
             <!--卫衣的布局-->
             <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_marginTop="10dp">
+                style="@style/category_ll_style">
                 <TextView
                     android:id="@+id/text_wei_yi"
-                    android:clickable="true"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/wei_yi"
-                    android:layout_gravity="left"
+                    android:text="@string/shang_zhuang"
+                    style="@style/category_textview_style"
                     />
                 <com.example.asus_cp.dongmanbuy.customview.MyGridViewA
                     android:id="@+id/grid_view_wei_yi"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:numColumns="3"
-                    android:verticalSpacing="10dp"
-                    android:horizontalSpacing="10dp"
-                    android:gravity="center"
+                   style="@style/category_gridview_style"
                     >
                 </com.example.asus_cp.dongmanbuy.customview.MyGridViewA>
             </LinearLayout>
@@ -43,80 +32,44 @@
 
             <!--针织衫的布局-->
             <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_marginTop="20dp">
+                style="@style/category_ll_style">
                 <TextView
                     android:id="@+id/text_zhen_zhi_shan"
-                    android:clickable="true"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
                     android:text="@string/zhen_zhi_shan"
-                    android:layout_gravity="left"
+                    style="@style/category_textview_style"
                     />
                 <com.example.asus_cp.dongmanbuy.customview.MyGridViewA
                     android:id="@+id/grid_view_zhen_zhi_shan"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:numColumns="3"
-                    android:verticalSpacing="10dp"
-                    android:horizontalSpacing="10dp"
-                    android:gravity="center"
+                    style="@style/category_gridview_style"
                     >
                 </com.example.asus_cp.dongmanbuy.customview.MyGridViewA>
             </LinearLayout>
 
             <!--外套的布局-->
             <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_marginTop="20dp">
+                style="@style/category_ll_style">
                 <TextView
                     android:id="@+id/text_wai_tao"
-                    android:clickable="true"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
                     android:text="@string/wai_tao"
-                    android:layout_gravity="left"
+                    style="@style/category_textview_style"
                     />
                 <com.example.asus_cp.dongmanbuy.customview.MyGridViewA
                     android:id="@+id/grid_view_wai_tao"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:numColumns="3"
-                    android:verticalSpacing="10dp"
-                    android:horizontalSpacing="10dp"
-                    android:gravity="center"
+                    style="@style/category_gridview_style"
                     >
                 </com.example.asus_cp.dongmanbuy.customview.MyGridViewA>
             </LinearLayout>
 
             <!--T恤的布局-->
             <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_marginTop="10dp">
+                style="@style/category_ll_style">
                 <TextView
                     android:id="@+id/text_t_xue"
-                    android:clickable="true"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
                     android:text="@string/t_xue"
-                    android:layout_gravity="left"/>
+                    style="@style/category_textview_style"/>
                 <com.example.asus_cp.dongmanbuy.customview.MyGridViewA
                     android:id="@+id/grid_view_t_xue"
-                    android:layout_width="match_parent"
-                    android:layout_height="200dp"
-                    android:columnWidth="70dp"
-                    android:numColumns="auto_fit"
-                    android:verticalSpacing="10dp"
-                    android:horizontalSpacing="10dp"
-                    android:stretchMode="columnWidth"
-                    android:gravity="center"
-                    android:visibility="visible"
+                    style="@style/category_gridview_style"
                     >
                 </com.example.asus_cp.dongmanbuy.customview.MyGridViewA>
             </LinearLayout>

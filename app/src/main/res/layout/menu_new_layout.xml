@@ -10,8 +10,8 @@
     <RelativeLayout
         android:id="@+id/head"
         android:layout_width="match_parent"
-        android:layout_height="180dp"
-        android:background="@color/bottom_lable_color">
+        android:layout_height="200dp"
+        android:background="@mipmap/slding_backgroud">
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -21,8 +21,8 @@
             <de.hdodenhof.circleimageview.CircleImageView
                 xmlns:app="http://schemas.android.com/apk/res-auto"
                 android:id="@+id/img_login"
-                android:layout_width="80dp"
-                android:layout_height="80dp"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
                 app:civ_border_width="1dp"
                 app:civ_border_color="@color/white_my"
                 android:layout_margin="5dp"
@@ -46,22 +46,35 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp">
 
-                <ImageView
-                    android:id="@+id/ji_fen_img"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:src="@mipmap/sliding_ji_fen"
-                    android:layout_alignParentLeft="true"
-                    android:layout_marginLeft="10dp"/>
-
-                <TextView
-                    android:id="@+id/text_ji_fen_slding_menu"
+                <RelativeLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="239"
-                    android:layout_toRightOf="@id/ji_fen_img"
-                    android:layout_centerVertical="true"
-                    android:textColor="@color/white_my"/>
+                    android:background="@drawable/ji_fen_backgroud"
+                    android:paddingTop="2dp"
+                    android:paddingBottom="2dp"
+                    android:paddingRight="5dp"
+                    android:paddingLeft="5dp"
+                    >
+                    <ImageView
+                        android:id="@+id/ji_fen_img"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:src="@mipmap/sliding_ji_fen"
+                        android:layout_alignParentLeft="true"
+                        />
+
+                    <TextView
+                        android:id="@+id/text_ji_fen_slding_menu"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="239"
+                        android:layout_toRightOf="@id/ji_fen_img"
+                        android:layout_centerVertical="true"
+                        android:textColor="@color/white_my"
+                        />
+                </RelativeLayout>
+
+
 
                 <ImageView
                     android:id="@+id/img_help_sliding_menu"
