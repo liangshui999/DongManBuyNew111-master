@@ -19,57 +19,12 @@
                 style="@style/category_ll_style">
                 <TextView
                     android:id="@+id/text_wei_yi"
-                    android:text="@string/shang_zhuang"
+                    android:text="@string/good_category"
                     style="@style/category_textview_style"
                     />
                 <com.example.asus_cp.dongmanbuy.customview.MyGridViewA
-                    android:id="@+id/grid_view_wei_yi"
+                    android:id="@+id/grid_view_shang_zhuang"
                    style="@style/category_gridview_style"
-                    >
-                </com.example.asus_cp.dongmanbuy.customview.MyGridViewA>
-            </LinearLayout>
-
-
-            <!--针织衫的布局-->
-            <LinearLayout
-                style="@style/category_ll_style">
-                <TextView
-                    android:id="@+id/text_zhen_zhi_shan"
-                    android:text="@string/zhen_zhi_shan"
-                    style="@style/category_textview_style"
-                    />
-                <com.example.asus_cp.dongmanbuy.customview.MyGridViewA
-                    android:id="@+id/grid_view_zhen_zhi_shan"
-                    style="@style/category_gridview_style"
-                    >
-                </com.example.asus_cp.dongmanbuy.customview.MyGridViewA>
-            </LinearLayout>
-
-            <!--外套的布局-->
-            <LinearLayout
-                style="@style/category_ll_style">
-                <TextView
-                    android:id="@+id/text_wai_tao"
-                    android:text="@string/wai_tao"
-                    style="@style/category_textview_style"
-                    />
-                <com.example.asus_cp.dongmanbuy.customview.MyGridViewA
-                    android:id="@+id/grid_view_wai_tao"
-                    style="@style/category_gridview_style"
-                    >
-                </com.example.asus_cp.dongmanbuy.customview.MyGridViewA>
-            </LinearLayout>
-
-            <!--T恤的布局-->
-            <LinearLayout
-                style="@style/category_ll_style">
-                <TextView
-                    android:id="@+id/text_t_xue"
-                    android:text="@string/t_xue"
-                    style="@style/category_textview_style"/>
-                <com.example.asus_cp.dongmanbuy.customview.MyGridViewA
-                    android:id="@+id/grid_view_t_xue"
-                    style="@style/category_gridview_style"
                     >
                 </com.example.asus_cp.dongmanbuy.customview.MyGridViewA>
             </LinearLayout>

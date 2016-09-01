@@ -87,6 +87,7 @@ public class GoodSearchResultActivity extends Activity implements View.OnClickLi
     private int zongHeFlag;//综合标签点击次数的标记
     private int priceFlag;
 
+    private String categoryId;//从商品分类跳进来的时候需要用到
     private String searchContent;//搜索的内容
 
     private String searchUrl = "http://www.zmobuy.com/PHP/?url=/search";//搜索的接口
@@ -125,8 +126,16 @@ public class GoodSearchResultActivity extends Activity implements View.OnClickLi
      */
     private void init() {
         initView();
-
+        categoryId=getIntent().getStringExtra(MyConstant.CATEGORY_ID_KEY);
         searchContent = getIntent().getStringExtra(MyConstant.SEARCH_CONTENT_KEY);
+
+        if(categoryId==null){
+            categoryId="";
+        }
+        if(searchContent==null){
+            searchContent="";
+        }
+
         dbHelper=new SearchRecordDBOperateHelper();
         if(!("".equals(searchContent))){  //搜索关键字不是空的，才进行插入，否则不插入数据库
             if(dbHelper.queryByKeyWord(searchContent)){
@@ -368,7 +377,7 @@ public class GoodSearchResultActivity extends Activity implements View.OnClickLi
             protected Map<String, String> getParams() throws AuthFailureError {
                 MyLog.d(tag,"sortby="+sortBy+"...."+"keyword="+keyWord+"....."+"start="+start+"....."+"end="+end);
                 Map<String, String> map = new HashMap<String, String>();
-                String json = "{\"filter\":{\"keywords\":\"" + keyWord + "\",\"category_id\":\"\",\"price_range\":\"\",\"brand_id\":\"\",\"intro\":\"\",\"sort_by\":\"" + sortBy + "\"},\"pagination\":{\"page\":\"" + start + "\",\"loadCount\":\"" + end + "\"}}";
+                String json = "{\"filter\":{\"keywords\":\"" + keyWord + "\",\"category_id\":\""+categoryId+"\",\"price_range\":\"\",\"brand_id\":\"\",\"intro\":\"\",\"sort_by\":\"" + sortBy + "\"},\"pagination\":{\"page\":\"" + start + "\",\"loadCount\":\"" + end + "\"}}";
                 map.put("json", json);
                 return map;
             }

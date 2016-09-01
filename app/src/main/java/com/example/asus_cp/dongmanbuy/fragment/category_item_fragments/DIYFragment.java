@@ -31,7 +31,7 @@ public class DIYFragment extends Fragment{
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v=inflater.inflate(R.layout.diy_fragment_layout,null);
         diyListView= (ListView) v.findViewById(R.id.list_view_diy);
-        init();
+        //init();
         return v;
     }
 

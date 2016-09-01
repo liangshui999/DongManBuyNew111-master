@@ -1,6 +1,7 @@
 package com.example.asus_cp.dongmanbuy.fragment.category_item_fragments;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -13,6 +14,11 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.example.asus_cp.dongmanbuy.R;
+import com.example.asus_cp.dongmanbuy.activity.search.GoodSearchResultActivity;
+import com.example.asus_cp.dongmanbuy.adapter.CategoryAdapter;
+import com.example.asus_cp.dongmanbuy.constant.MyConstant;
+import com.example.asus_cp.dongmanbuy.customview.MyGridViewA;
+import com.example.asus_cp.dongmanbuy.model.CategoryModel;
 import com.example.asus_cp.dongmanbuy.util.MyApplication;
 
 import java.util.ArrayList;
@@ -23,15 +29,15 @@ import java.util.List;
  * Created by asus-cp on 2016-05-25.
  */
 public class ShuJiFragment extends Fragment {
-    private ListView shuJiListView;
-    private List<String> shuJis;
     private Context context;
+
+    private MyGridViewA shuJiGridView;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v=inflater.inflate(R.layout.shu_ji_fragment_layout,null);
-        shuJiListView= (ListView) v.findViewById(R.id.list_view_shu_ji);
-        init();
+        shuJiGridView= (MyGridViewA) v.findViewById(R.id.grid_view_shu_ji);
+        //init();
         return v;
     }
 
@@ -39,20 +45,23 @@ public class ShuJiFragment extends Fragment {
      * 初始化的方法
      */
     private void init() {
-        context= MyApplication.getContext();
-        shuJis=new ArrayList<String>();
-        shuJis.add("小说");
-        shuJis.add("漫画");
-        shuJis.add("画集");
-        shuJis.add("线稿");
-        ArrayAdapter arrayAdapter=new ArrayAdapter(context,R.layout.category_tong_yong_item_layout,shuJis);
-        shuJiListView.setAdapter(arrayAdapter);
-        shuJiListView.setDividerHeight(0);
-        shuJiListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        context= getActivity();
+        final List<CategoryModel> models=new ArrayList<CategoryModel>();
+        CategoryModel model1=new CategoryModel("1595","漫画",R.mipmap.man_hua);
+        CategoryModel model2=new CategoryModel("1594","小说",R.mipmap.xiao_shuo);
+        models.add(model1);
+        models.add(model2);
+
+        CategoryAdapter adapter=new CategoryAdapter(context,models);
+        shuJiGridView.setAdapter(adapter);
+        shuJiGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(context,shuJis.get(position),Toast.LENGTH_SHORT).show();
+                Intent intent=new Intent(context, GoodSearchResultActivity.class);
+                intent.putExtra(MyConstant.CATEGORY_ID_KEY,models.get(position).getCategoryId());
+                startActivity(intent);
             }
         });
+
     }
 }

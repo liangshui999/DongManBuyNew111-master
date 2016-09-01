@@ -71,8 +71,8 @@ public class CategoryImageLoadHelper {
             private ArrayList<CategoryModel> categoryModels = new ArrayList<CategoryModel>();
             @Override
             public void onResponse(String s) {
-                 MyLog.d(tag,"类别的数据是："+s);
-                MyLog.d(tag,"像素密度"+densty);
+                // MyLog.d(tag,"类别的数据是："+s);
+                //MyLog.d(tag,"像素密度"+densty);
                 try {
                     JSONObject jsonObject = new JSONObject(s);
                     JSONArray jsonArray = jsonObject.getJSONArray("data");
@@ -98,7 +98,7 @@ public class CategoryImageLoadHelper {
                     StringRequest weiYiRequest=new StringRequest(Request.Method.POST, searchUrl, new Response.Listener<String>() {
                         @Override
                         public void onResponse(String s) {
-                            MyLog.d(tag, "post请求的数据：" + s);
+                            //MyLog.d(tag, "post请求的数据：" + s);
                             final List<Good> goods=new ArrayList<Good>();
                             try {
                                 JSONObject postJsonObject=new JSONObject(s);

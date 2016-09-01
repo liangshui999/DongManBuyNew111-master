@@ -75,5 +75,7 @@ public interface MyConstant {
     public static final String SECOND_KEY="second";
     public static final String SESSION_ID_KEY="sessionId";//sessionId的key
     public static final String VOLLEY_LOG_TAG="MyVolley";//volley的tag
+    public static final String CATEGORY_ID_KEY="categoryIdKey";//商品搜索时传递cateId的key
+
 
 }

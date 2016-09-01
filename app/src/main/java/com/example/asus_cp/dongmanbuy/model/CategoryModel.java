@@ -7,10 +7,20 @@ package com.example.asus_cp.dongmanbuy.model;
 public class CategoryModel {
     private String categoryId;
     private String categoryName;
+    private int categoryImage;
+
+    public CategoryModel() {
+    }
 
     public CategoryModel(String categoryId, String categoryName) {
         this.categoryId = categoryId;
         this.categoryName = categoryName;
+    }
+
+    public CategoryModel(String categoryId, String categoryName, int categoryImage) {
+        this.categoryId = categoryId;
+        this.categoryName = categoryName;
+        this.categoryImage = categoryImage;
     }
 
     public String getCategoryId() {
@@ -27,5 +37,13 @@ public class CategoryModel {
 
     public void setCategoryName(String categoryName) {
         this.categoryName = categoryName;
+    }
+
+    public int getCategoryImage() {
+        return categoryImage;
+    }
+
+    public void setCategoryImage(int categoryImage) {
+        this.categoryImage = categoryImage;
     }
 }

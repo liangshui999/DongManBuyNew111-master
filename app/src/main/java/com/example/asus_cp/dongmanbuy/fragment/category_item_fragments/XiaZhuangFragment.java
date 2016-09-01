@@ -1,6 +1,7 @@
 package com.example.asus_cp.dongmanbuy.fragment.category_item_fragments;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -13,6 +14,11 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.example.asus_cp.dongmanbuy.R;
+import com.example.asus_cp.dongmanbuy.activity.search.GoodSearchResultActivity;
+import com.example.asus_cp.dongmanbuy.adapter.CategoryAdapter;
+import com.example.asus_cp.dongmanbuy.constant.MyConstant;
+import com.example.asus_cp.dongmanbuy.customview.MyGridViewA;
+import com.example.asus_cp.dongmanbuy.model.CategoryModel;
 import com.example.asus_cp.dongmanbuy.util.MyApplication;
 
 import java.util.ArrayList;
@@ -23,15 +29,15 @@ import java.util.List;
  * Created by asus-cp on 2016-05-25.
  */
 public class XiaZhuangFragment extends Fragment{
-    private ListView xiaZhaungListView;
-    private List<String> xiaZhuangs;
     private Context context;
+
+    private MyGridViewA xiaZhuangGridView;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v=inflater.inflate(R.layout.xia_zhuang_fragment_layout,null);
-        xiaZhaungListView= (ListView) v.findViewById(R.id.list_view_xia_zhuang);
-        init();
+        xiaZhuangGridView= (MyGridViewA) v.findViewById(R.id.grid_view_xia_zhuang);
+        //init();
         return v;
     }
 
@@ -39,22 +45,20 @@ public class XiaZhuangFragment extends Fragment{
      * 初始化的方法
      */
     private void init() {
-        context= MyApplication.getContext();
-        xiaZhuangs=new ArrayList<String>();
-        xiaZhuangs.add("卫裤");
-        xiaZhuangs.add("牛仔裤");
-        xiaZhuangs.add("工装裤");
-        xiaZhuangs.add("短裤");
-        xiaZhuangs.add("裙子");
-        xiaZhuangs.add("内裤");
-        ArrayAdapter arrayAdapter=new ArrayAdapter(context,R.layout.category_tong_yong_item_layout,xiaZhuangs);
-        xiaZhaungListView.setAdapter(arrayAdapter);
-        xiaZhaungListView.setDividerHeight(0);
-        xiaZhaungListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        context=getActivity();
+        final List<CategoryModel> models=new ArrayList<CategoryModel>();
+        CategoryModel model=new CategoryModel("1503","牛仔裤",R.mipmap.niu_zi_ku);
+        models.add(model);
+        CategoryAdapter adapter=new CategoryAdapter(context,models);
+        xiaZhuangGridView.setAdapter(adapter);
+        xiaZhuangGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(context,xiaZhuangs.get(position),Toast.LENGTH_SHORT).show();
+                Intent intent=new Intent(context, GoodSearchResultActivity.class);
+                intent.putExtra(MyConstant.CATEGORY_ID_KEY,models.get(position).getCategoryId());
+                startActivity(intent);
             }
         });
+
     }
 }

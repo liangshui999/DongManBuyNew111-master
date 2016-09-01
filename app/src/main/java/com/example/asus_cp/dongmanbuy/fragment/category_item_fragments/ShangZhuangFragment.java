@@ -21,6 +21,8 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.example.asus_cp.dongmanbuy.R;
 import com.example.asus_cp.dongmanbuy.activity.product_detail.ProductDetailActivity;
+import com.example.asus_cp.dongmanbuy.activity.search.GoodSearchResultActivity;
+import com.example.asus_cp.dongmanbuy.adapter.CategoryAdapter;
 import com.example.asus_cp.dongmanbuy.adapter.CategoryGridViewAdapter;
 import com.example.asus_cp.dongmanbuy.constant.MyConstant;
 import com.example.asus_cp.dongmanbuy.customview.MyGridViewA;
@@ -56,16 +58,11 @@ import java.util.Map;
  * 上装的具体内容
  * Created by asus-cp on 2016-05-25.
  */
-public class ShangZhuangFragment extends Fragment implements View.OnClickListener{
-    private MyGridViewA weiYiGridView;//卫衣的
-    private MyGridViewA zhenZhiShanGridView;//针织衫
-    private MyGridViewA waiTaoGridView;//外套
-    private MyGridViewA tXueGridView;//T恤
+public class ShangZhuangFragment extends Fragment{
 
-    private TextView weiYiTextView;
-    private TextView zhenZhiShanTextView;
-    private TextView waiTaoTextView;
-    private TextView tXueTextView;
+    private MyGridViewA shangZhuangGridView;//上装
+    private TextView shangZhuangTextView;
+
 
     private View v;//fragment的布局文件
 
@@ -99,64 +96,78 @@ public class ShangZhuangFragment extends Fragment implements View.OnClickListene
         helper=new CategoryImageLoadHelper();
         requestQueue=MyApplication.getRequestQueue();
         //控件的初始化
-        weiYiGridView= (MyGridViewA) v.findViewById(R.id.grid_view_wei_yi);
-        zhenZhiShanGridView= (MyGridViewA) v.findViewById(R.id.grid_view_zhen_zhi_shan);
-        waiTaoGridView= (MyGridViewA) v.findViewById(R.id.grid_view_wai_tao);
-        tXueGridView= (MyGridViewA) v.findViewById(R.id.grid_view_t_xue);
+        shangZhuangGridView = (MyGridViewA) v.findViewById(R.id.grid_view_shang_zhuang);
+        shangZhuangTextView = (TextView) v.findViewById(R.id.text_wei_yi);
 
-        if(MyNetHelper.isNetworkAvailable()){
-            //显示进度框
-            DialogHelper.showDialog(context);
-        }else{
-            Toast.makeText(context,"网络连接不可用",Toast.LENGTH_SHORT).show();
-        }
+        final List<CategoryModel> models=new ArrayList<CategoryModel>();
+        CategoryModel model=new CategoryModel("1498","T恤",R.mipmap.t_xu);
+        CategoryModel mode2=new CategoryModel("1699","衬衫",R.mipmap.chen_shan);
+        CategoryModel mode3=new CategoryModel("1496","外套",R.mipmap.wai_tao);
+        CategoryModel mode4=new CategoryModel("1477","卫衣",R.mipmap.wei_yi);
+        CategoryModel mode5=new CategoryModel("1488","针织衫",R.mipmap.zhen_zhi_shan);
+        models.add(model);
+        models.add(mode2);
+        models.add(mode3);
+        models.add(mode4);
+        models.add(mode5);
+        CategoryAdapter adapter=new CategoryAdapter(context,models);
+        shangZhuangGridView.setAdapter(adapter);
+        shangZhuangGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent=new Intent(context, GoodSearchResultActivity.class);
+                intent.putExtra(MyConstant.CATEGORY_ID_KEY,models.get(position).getCategoryId());
+                startActivity(intent);
+            }
+        });
 
-
-        //卫衣部分
-        asynLoadCatgory(weiYiGridView, "卫衣", "9", R.mipmap.yu_jia_zai);
-        //针织衫部分
-        helper.asynLoadCatgory(zhenZhiShanGridView,"针织衫","6",R.mipmap.yu_jia_zai);
-        //外套部分
-        helper.asynLoadCatgory(waiTaoGridView,"外套","3",R.mipmap.yu_jia_zai);
-        //T恤部分
-        helper.asynLoadCatgory(tXueGridView,"T恤","3",R.mipmap.yu_jia_zai);
-
-
-
-        weiYiTextView= (TextView) v.findViewById(R.id.text_wei_yi);
-        zhenZhiShanTextView= (TextView) v.findViewById(R.id.text_zhen_zhi_shan);
-        waiTaoTextView= (TextView) v.findViewById(R.id.text_wai_tao);
-        tXueTextView= (TextView) v.findViewById(R.id.text_t_xue);
-
-        weiYiTextView.setOnClickListener(this);
-        zhenZhiShanTextView.setOnClickListener(this);
-        waiTaoTextView.setOnClickListener(this);
-        tXueTextView.setOnClickListener(this);
     }
-
 
 
     /**
-     *点击事件处理
+     * 获取小分类的ctegoryId
      */
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()){
-            case R.id.text_wei_yi:
-                Toast.makeText(context,"点击了卫衣",Toast.LENGTH_SHORT).show();
-                break;
-            case R.id.text_zhen_zhi_shan:
-                Toast.makeText(context,"点击了针织衫",Toast.LENGTH_SHORT).show();
-                break;
-            case R.id.text_wai_tao:
-                Toast.makeText(context,"点击了外套",Toast.LENGTH_SHORT).show();
-                break;
-            case R.id.text_t_xue:
-                Toast.makeText(context,"点击了T恤",Toast.LENGTH_SHORT).show();
-                break;
+    private void getXiaoFenLeiCatId() {
+        //以下内容是测试的内容
+        helper.asynLoadCatgory(shangZhuangGridView,"T恤","3", R.mipmap.yu_jia_zai);
+        helper.asynLoadCatgory(shangZhuangGridView,"衬衫","3",R.mipmap.yu_jia_zai);
+        helper.asynLoadCatgory(shangZhuangGridView,"外套","3",R.mipmap.yu_jia_zai);
+        helper.asynLoadCatgory(shangZhuangGridView,"卫衣","3",R.mipmap.yu_jia_zai);
+        helper.asynLoadCatgory(shangZhuangGridView,"针织纱","3",R.mipmap.yu_jia_zai);
 
-        }
+        helper.asynLoadCatgory(shangZhuangGridView,"牛仔裤","3",R.mipmap.yu_jia_zai);
+
+        helper.asynLoadCatgory(shangZhuangGridView,"旅行箱","3",R.mipmap.yu_jia_zai);
+        helper.asynLoadCatgory(shangZhuangGridView,"钱包","3",R.mipmap.yu_jia_zai);
+        helper.asynLoadCatgory(shangZhuangGridView,"双肩包","3",R.mipmap.yu_jia_zai);
+
+        helper.asynLoadCatgory(shangZhuangGridView,"明信片","3",R.mipmap.yu_jia_zai);
+        helper.asynLoadCatgory(shangZhuangGridView,"扑克牌","3",R.mipmap.yu_jia_zai);
+        helper.asynLoadCatgory(shangZhuangGridView,"台历","3",R.mipmap.yu_jia_zai);
+        helper.asynLoadCatgory(shangZhuangGridView,"音箱","3",R.mipmap.yu_jia_zai);
+        helper.asynLoadCatgory(shangZhuangGridView,"雨伞","3",R.mipmap.yu_jia_zai);
+
+        helper.asynLoadCatgory(shangZhuangGridView,"抱枕","3",R.mipmap.yu_jia_zai);
+        helper.asynLoadCatgory(shangZhuangGridView,"公仔","3",R.mipmap.yu_jia_zai);
+
+        helper.asynLoadCatgory(shangZhuangGridView,"挂件","3",R.mipmap.yu_jia_zai);
+        helper.asynLoadCatgory(shangZhuangGridView,"帽子","3",R.mipmap.yu_jia_zai);
+        helper.asynLoadCatgory(shangZhuangGridView,"手套","3",R.mipmap.yu_jia_zai);
+        helper.asynLoadCatgory(shangZhuangGridView,"头饰发饰","3",R.mipmap.yu_jia_zai);
+        helper.asynLoadCatgory(shangZhuangGridView,"袜子","3",R.mipmap.yu_jia_zai);
+        helper.asynLoadCatgory(shangZhuangGridView,"围巾","3",R.mipmap.yu_jia_zai);
+        helper.asynLoadCatgory(shangZhuangGridView,"鞋子","3",R.mipmap.yu_jia_zai);
+        helper.asynLoadCatgory(shangZhuangGridView,"腰带","3",R.mipmap.yu_jia_zai);
+
+        helper.asynLoadCatgory(shangZhuangGridView,"漫画","3",R.mipmap.yu_jia_zai);
+        helper.asynLoadCatgory(shangZhuangGridView,"小说","3",R.mipmap.yu_jia_zai);
+
+        helper.asynLoadCatgory(shangZhuangGridView,"模型","3",R.mipmap.yu_jia_zai);
+        helper.asynLoadCatgory(shangZhuangGridView,"手办","3",R.mipmap.yu_jia_zai);
     }
+
+
+
 
 
 

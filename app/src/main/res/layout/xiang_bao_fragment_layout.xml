@@ -1,12 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
-    <ListView
-        android:id="@+id/list_view_xiang_bao"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+    android:layout_height="match_parent"
+    android:layout_margin="5dp">
 
-    </ListView>
+    <com.example.asus_cp.dongmanbuy.customview.MyScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scrollbars="none"
+        >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <!--卫衣的布局-->
+            <LinearLayout
+                style="@style/category_ll_style">
+                <TextView
+                    android:id="@+id/text_wei_yi"
+                    android:text="@string/good_category"
+                    style="@style/category_textview_style"
+                    />
+                <com.example.asus_cp.dongmanbuy.customview.MyGridViewA
+                    android:id="@+id/grid_view_xiang_bao"
+                    style="@style/category_gridview_style"
+                    >
+                </com.example.asus_cp.dongmanbuy.customview.MyGridViewA>
+            </LinearLayout>
+
+
+
+
+        </LinearLayout>
+    </com.example.asus_cp.dongmanbuy.customview.MyScrollView>
+
 
 </LinearLayout>
