@@ -31,6 +31,7 @@ import com.example.asus_cp.dongmanbuy.util.DialogHelper;
 import com.example.asus_cp.dongmanbuy.util.JsonHelper;
 import com.example.asus_cp.dongmanbuy.util.MyApplication;
 import com.example.asus_cp.dongmanbuy.util.MyLog;
+import com.example.asus_cp.dongmanbuy.util.MyNetHelper;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -103,9 +104,13 @@ public class ShangZhuangFragment extends Fragment implements View.OnClickListene
         waiTaoGridView= (MyGridViewA) v.findViewById(R.id.grid_view_wai_tao);
         tXueGridView= (MyGridViewA) v.findViewById(R.id.grid_view_t_xue);
 
+        if(MyNetHelper.isNetworkAvailable()){
+            //显示进度框
+            DialogHelper.showDialog(context);
+        }else{
+            Toast.makeText(context,"网络连接不可用",Toast.LENGTH_SHORT).show();
+        }
 
-        //显示进度框
-        DialogHelper.showDialog(context);
 
         //卫衣部分
         asynLoadCatgory(weiYiGridView, "卫衣", "9", R.mipmap.yu_jia_zai);
@@ -182,7 +187,7 @@ public class ShangZhuangFragment extends Fragment implements View.OnClickListene
                     for (CategoryModel model : categoryModels) {
                         if (cateGory.equals(model.getCategoryName())) { //如果有了的话，就直接退出，不用再循环了
                             categoryId = model.getCategoryId();
-                            MyLog.d(tag,"小类别"+model.getCategoryName());
+                            MyLog.d(tag,"小类别:"+model.getCategoryName()+"....."+"categoryId:"+categoryId);
                             break;
                         }
                     }

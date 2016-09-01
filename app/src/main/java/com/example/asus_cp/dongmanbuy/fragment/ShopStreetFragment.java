@@ -39,6 +39,7 @@ import com.example.asus_cp.dongmanbuy.util.DialogHelper;
 import com.example.asus_cp.dongmanbuy.util.JsonHelper;
 import com.example.asus_cp.dongmanbuy.util.MyApplication;
 import com.example.asus_cp.dongmanbuy.util.MyLog;
+import com.example.asus_cp.dongmanbuy.util.MyNetHelper;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 
@@ -198,7 +199,11 @@ public class ShopStreetFragment extends Fragment implements View.OnClickListener
         oneList.add("配饰");
         oneAdapter=new ArrayAdapter(context,R.layout.good_type_item_layout,R.id.text_type_item,oneList);
 
-        DialogHelper.showDialog(context);
+        if(MyNetHelper.isNetworkAvailable()){
+            DialogHelper.showDialog(context);
+        }else{
+            Toast.makeText(context,"网络连接不可用",Toast.LENGTH_SHORT).show();
+        }
         location=ALL;
         tongYongClickChuLi("", ALL);//初始状态
         count0=1;//点击回来之后需要把这个初始化，否则上拉加载会出问题

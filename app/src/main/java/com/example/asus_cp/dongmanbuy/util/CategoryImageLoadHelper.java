@@ -87,7 +87,7 @@ public class CategoryImageLoadHelper {
                     for (CategoryModel model : categoryModels) {
                         if (cateGory.equals(model.getCategoryName())) { //如果有了的话，就直接退出，不用再循环了
                             categoryId = model.getCategoryId();
-                            MyLog.d(tag,"小类别"+model.getCategoryName());
+                            MyLog.d(tag,"小类别"+model.getCategoryName()+"....."+"categoryId:"+categoryId);
                             break;
                         }
                     }

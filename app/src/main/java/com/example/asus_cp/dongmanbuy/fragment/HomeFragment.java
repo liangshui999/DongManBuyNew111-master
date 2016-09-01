@@ -61,6 +61,7 @@ import com.example.asus_cp.dongmanbuy.util.ImageLoadHelper;
 import com.example.asus_cp.dongmanbuy.util.JsonHelper;
 import com.example.asus_cp.dongmanbuy.util.MyApplication;
 import com.example.asus_cp.dongmanbuy.util.MyLog;
+import com.example.asus_cp.dongmanbuy.util.MyNetHelper;
 import com.example.asus_cp.dongmanbuy.util.MyTimeHelper;
 
 import org.json.JSONArray;
@@ -282,7 +283,11 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
         threePointGroup = (LinearLayout) v.findViewById(R.id.ll_point_group_three);
 
         //-----------------第一个广告的初始化动作-----------------------------------
-        DialogHelper.showDialog(context);
+        if(MyNetHelper.isNetworkAvailable()){
+            DialogHelper.showDialog(context);
+        }else{
+            Toast.makeText(context,"网络连接不可用",Toast.LENGTH_SHORT).show();
+        }
         firstViewPager = (ViewPager) v.findViewById(R.id.viewpager_binner_first);
         firstImageViews =new ArrayList<View>();
         String binnerUrl="http://api.zmobuy.com/JK/base/model.php";

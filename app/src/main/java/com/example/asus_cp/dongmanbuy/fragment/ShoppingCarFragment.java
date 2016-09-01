@@ -51,6 +51,7 @@ import com.example.asus_cp.dongmanbuy.util.ImageLoadHelper;
 import com.example.asus_cp.dongmanbuy.util.JsonHelper;
 import com.example.asus_cp.dongmanbuy.util.MyApplication;
 import com.example.asus_cp.dongmanbuy.util.MyLog;
+import com.example.asus_cp.dongmanbuy.util.MyNetHelper;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -176,8 +177,13 @@ public class ShoppingCarFragment extends Fragment implements View.OnClickListene
 
 
 
-        //显示进度框
-        DialogHelper.showDialog(context);
+        if(MyNetHelper.isNetworkAvailable()){
+            //显示进度框
+            DialogHelper.showDialog(context);
+        }else{
+            Toast.makeText(context,"网络连接不可用",Toast.LENGTH_SHORT).show();
+        }
+
         //获取购物车列表
         getShoppingCarListFromIntetnt();
 
