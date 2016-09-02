@@ -37,7 +37,7 @@ public class PeiShiFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v=inflater.inflate(R.layout.pei_shi_fragment_layout,null);
         peiShiGridView= (MyGridViewA) v.findViewById(R.id.grid_view_pei_shi);
-        //init();
+        init();
         return v;
     }
 

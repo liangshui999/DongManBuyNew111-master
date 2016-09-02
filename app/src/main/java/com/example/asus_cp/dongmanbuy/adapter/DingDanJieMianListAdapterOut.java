@@ -187,7 +187,7 @@ public class DingDanJieMianListAdapterOut extends BaseAdapter implements View.On
             double singlePrice=Double.parseDouble(FormatHelper.getNumberFromRenMingBi(goods.get(j).getShopPrice()));
             sumPrice=sumPrice+tempCount*singlePrice;
         }
-        viewHolder.sumPriceTextView.setText(FormatHelper.getOneXiaoShuFormat(""+sumPrice));
+        viewHolder.sumPriceTextView.setText(FormatHelper.getMoneyFormat(""+sumPrice));
         shopModel.setSumPrice(FormatHelper.getOneXiaoShuFormat("" + sumPrice));//主要是为了上传用的
 
         //将总价的值装入itemsumprice

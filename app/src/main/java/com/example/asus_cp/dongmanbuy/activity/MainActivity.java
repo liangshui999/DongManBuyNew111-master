@@ -441,7 +441,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 if (uid != null && !uid.isEmpty()) {
                     getDataFromIntenetAndSetNameAndEmailAndPic(uid, sid);
                 } else {
-                    nameTextView.setText("");
+                    nameTextView.setText("点击头像登陆");
                     jiFenTextView.setText("");
                     loginImage.setImageResource(R.mipmap.tou_xiang);
                     loginButton.setImageResource(R.mipmap.tou_xiang);
@@ -723,6 +723,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             startActivityForResult(toLoginIntent, REQUEST_CODE_LOGIN_LIU_LAN_JI_LU);
         }else {
             Intent intent=new Intent(this, LiuLanJiLuListActivity.class);
+            if(menu.isMenuShowing()){
+                menu.toggle();
+            }
             startActivity(intent);
             //MyLog.d(tag,"浏览记录内部的执行了吗？");
         }
@@ -814,6 +817,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             startActivityForResult(toLoginIntent, REQUEST_CODE_LOGIN_SHOU_CANG);
         }else {
             Intent toShouCangIntent=new Intent(this,ShouCangListActivity.class);
+            if(menu.isMenuShowing()){
+                menu.toggle();
+            }
             startActivity(toShouCangIntent);
         }
     }
@@ -831,6 +837,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             startActivityForResult(toLoginIntent, REQUEST_CODE_LOGIN_GUAN_ZHU);
         }else {
             Intent toGuanZhuIntent=new Intent(this,GuanZhuListActivity.class);
+            if(menu.isMenuShowing()){
+                menu.toggle();
+            }
             startActivity(toGuanZhuIntent);
         }
     }
@@ -1205,7 +1214,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case REQUEST_CODE_TO_SETTING://从设置界面回来的
                 if(resultCode==RESULT_OK){
                     loginImage.setImageResource(R.mipmap.tou_xiang);
-                    nameTextView.setText("");
+                    nameTextView.setText("点击头像登陆");
                     jiFenTextView.setText("");
                     loginButton.setImageResource(R.mipmap.tou_xiang);
                 }

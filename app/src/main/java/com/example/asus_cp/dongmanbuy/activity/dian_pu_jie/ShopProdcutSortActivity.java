@@ -157,9 +157,9 @@ public class ShopProdcutSortActivity extends Activity implements View.OnClickLis
         smallListGoods = new ArrayList<Good>();
         bigListGoods = new ArrayList<Good>();
 
-        gridAdapter = new ShopProductGridAdapter(ShopProdcutSortActivity.this, gridGoods);
-        smallListAdapter = new ShopProductSmallListAdapter(ShopProdcutSortActivity.this, smallListGoods);
-        bigListAdapter = new ShopProductBigListAdapter(ShopProdcutSortActivity.this, bigListGoods);
+        gridAdapter = new ShopProductGridAdapter(ShopProdcutSortActivity.this, gridGoods,productGridView);
+        smallListAdapter = new ShopProductSmallListAdapter(ShopProdcutSortActivity.this, smallListGoods,productListViewSmall);
+        bigListAdapter = new ShopProductBigListAdapter(ShopProdcutSortActivity.this, bigListGoods,productListViewBig);
 
         productGridView.setAdapter(gridAdapter);
         productListViewSmall.setAdapter(smallListAdapter);

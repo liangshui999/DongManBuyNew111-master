@@ -131,9 +131,9 @@ public class XianShiMiaoShaMoreActivity extends Activity implements View.OnClick
         smallListGoods = new ArrayList<Good>();
         bigListGoods = new ArrayList<Good>();
 
-        gridAdapter = new ShopProductGridAdapter(XianShiMiaoShaMoreActivity.this, gridGoods);
-        smallListAdapter = new ShopProductSmallListAdapter(XianShiMiaoShaMoreActivity.this, smallListGoods);
-        bigListAdapter = new ShopProductBigListAdapter(XianShiMiaoShaMoreActivity.this, bigListGoods);
+        gridAdapter = new ShopProductGridAdapter(XianShiMiaoShaMoreActivity.this, gridGoods,productGridView);
+        smallListAdapter = new ShopProductSmallListAdapter(XianShiMiaoShaMoreActivity.this, smallListGoods,productListViewSmall);
+        bigListAdapter = new ShopProductBigListAdapter(XianShiMiaoShaMoreActivity.this, bigListGoods,productListViewBig);
 
         productGridView.setAdapter(gridAdapter);
         productListViewSmall.setAdapter(smallListAdapter);

@@ -36,7 +36,7 @@ public class XiangBaoFragment extends Fragment{
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v=inflater.inflate(R.layout.xiang_bao_fragment_layout,null);
         xiangBaoGridView= (MyGridViewA) v.findViewById(R.id.grid_view_xiang_bao);
-        //init();
+        init();
         return v;
     }
 

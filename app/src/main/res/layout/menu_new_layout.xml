@@ -14,15 +14,15 @@
         android:background="@mipmap/slding_backgroud">
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:orientation="vertical">
             <de.hdodenhof.circleimageview.CircleImageView
                 xmlns:app="http://schemas.android.com/apk/res-auto"
                 android:id="@+id/img_login"
-                android:layout_width="70dp"
-                android:layout_height="70dp"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
                 app:civ_border_width="1dp"
                 app:civ_border_color="@color/white_my"
                 android:layout_margin="5dp"
@@ -31,20 +31,20 @@
                 />
             <TextView
                 android:id="@+id/text_name_slid_menu"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_above="@id/text_email_slid_menu"
-                android:textSize="@dimen/menu_font_size"
+                android:textSize="14sp"
                 android:layout_marginLeft="5dp"
-                android:text="周小沫"
-                android:layout_gravity="center"
-                android:layout_marginTop="10dp"
+                android:text="点击头像登陆"
+                android:gravity="center"
+                android:layout_marginTop="5dp"
                 android:textColor="@color/white_my"/>
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp">
+                android:layout_marginTop="5dp">
 
                 <RelativeLayout
                     android:layout_width="wrap_content"

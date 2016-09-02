@@ -37,7 +37,7 @@ public class MaoRongFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v=inflater.inflate(R.layout.mao_rong_fragment_layout,null);
         maoRongGridView= (MyGridViewA) v.findViewById(R.id.grid_view_mao_rong);
-        //init();
+        init();
         return v;
     }
 

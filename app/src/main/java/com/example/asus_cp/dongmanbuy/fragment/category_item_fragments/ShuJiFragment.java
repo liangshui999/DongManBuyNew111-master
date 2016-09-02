@@ -37,7 +37,7 @@ public class ShuJiFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v=inflater.inflate(R.layout.shu_ji_fragment_layout,null);
         shuJiGridView= (MyGridViewA) v.findViewById(R.id.grid_view_shu_ji);
-        //init();
+        init();
         return v;
     }
 

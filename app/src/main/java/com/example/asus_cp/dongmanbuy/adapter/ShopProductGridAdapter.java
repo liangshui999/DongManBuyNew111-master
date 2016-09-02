@@ -4,7 +4,10 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
+import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -13,6 +16,7 @@ import com.example.asus_cp.dongmanbuy.R;
 import com.example.asus_cp.dongmanbuy.model.Good;
 import com.example.asus_cp.dongmanbuy.util.FormatHelper;
 import com.example.asus_cp.dongmanbuy.util.ImageLoadHelper;
+import com.handmark.pulltorefresh.library.PullToRefreshGridView;
 
 import java.util.List;
 
@@ -25,12 +29,30 @@ public class ShopProductGridAdapter extends BaseAdapter{
     private List<Good> goods;
     private LayoutInflater inflater;
     private ImageLoadHelper helper;
+    private boolean isGridViewIdle=true;//gridview是否停止了滚动,true说明是静止的
 
-    public ShopProductGridAdapter(Context context, List<Good> goods) {
+
+    public ShopProductGridAdapter(Context context, List<Good> goods,PullToRefreshGridView gridView) {
         this.context = context;
         this.goods = goods;
         inflater=LayoutInflater.from(context);
         helper=new ImageLoadHelper();
+        gridView.setOnScrollListener(new AbsListView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(AbsListView view, int scrollState) {
+                if(scrollState== AbsListView.OnScrollListener.SCROLL_STATE_IDLE){
+                    isGridViewIdle=true;
+                    notifyDataSetChanged();
+                }else{
+                    isGridViewIdle=false;
+                }
+            }
+
+            @Override
+            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+
+            }
+        });
     }
 
     @Override
@@ -63,14 +85,24 @@ public class ShopProductGridAdapter extends BaseAdapter{
             viewHolder= (ViewHolder) v.getTag();
         }
         Good good=goods.get(position);
-        ImageLoader imageLoader=helper.getImageLoader();
-        ImageLoader.ImageListener listener=imageLoader.getImageListener(viewHolder.imgView,R.mipmap.yu_jia_zai,
-                R.mipmap.yu_jia_zai);
-        imageLoader.get(good.getGoodsThumb(),listener,200,200);
+
+        viewHolder.imgView.setImageResource(R.mipmap.yu_jia_zai);//注意这一步很关键，先把复用的图片换成预加载
+        if(isGridViewIdle){ //gridview没有滚动
+            ImageLoader imageLoader=helper.getImageLoader();
+            ImageLoader.ImageListener listener=imageLoader.getImageListener(viewHolder.imgView,R.mipmap.yu_jia_zai,
+                    R.mipmap.yu_jia_zai);
+            imageLoader.get(good.getGoodsThumb(),listener,200,200);
+        }
 
         viewHolder.nameTextView.setText(good.getGoodName());
-        viewHolder.priceTextView.setText(FormatHelper.getMoneyFormat(good.getShopPrice()));
 
+        //设置商品店铺价格,不带人民币符号
+        String zheKouPrice = FormatHelper.getNumberFromRenMingBi(good.getPromotePrice());
+        if (zheKouPrice==null || "0.00".equals(zheKouPrice) || "0".equals(zheKouPrice)) {
+            viewHolder.priceTextView.setText(FormatHelper.getMoneyFormat(good.getShopPrice()));
+        }else{
+            viewHolder.priceTextView.setText(FormatHelper.getMoneyFormat(zheKouPrice));
+        }
         return v;
     }
 

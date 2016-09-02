@@ -7,6 +7,7 @@ import android.graphics.Paint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -27,6 +28,7 @@ import com.example.asus_cp.dongmanbuy.util.FormatHelper;
 import com.example.asus_cp.dongmanbuy.util.ImageLoadHelper;
 import com.example.asus_cp.dongmanbuy.util.MyApplication;
 import com.example.asus_cp.dongmanbuy.util.MyLog;
+import com.handmark.pulltorefresh.library.PullToRefreshListView;
 
 import java.util.HashMap;
 import java.util.List;
@@ -48,12 +50,30 @@ public class ShopProductBigListAdapter extends BaseAdapter{
     private String addToShoppingCarUrl="http://www.zmobuy.com/PHP/index.php?url=/cart/create";//加入购物车
     private RequestQueue requestQueue;
 
-    public ShopProductBigListAdapter(Context context, List<Good> goods) {
+    private boolean isListViewStop=true;//listview是否停止了滚动
+
+    public ShopProductBigListAdapter(Context context, List<Good> goods,PullToRefreshListView listView) {
         this.context = context;
         requestQueue= MyApplication.getRequestQueue();
         this.goods = goods;
         inflater=LayoutInflater.from(context);
         helper=new ImageLoadHelper();
+        listView.setOnScrollListener(new AbsListView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(AbsListView view, int scrollState) {
+                if(scrollState== AbsListView.OnScrollListener.SCROLL_STATE_IDLE){
+                    isListViewStop=true;
+                    notifyDataSetChanged();
+                }else{
+                    isListViewStop=false;
+                }
+            }
+
+            @Override
+            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+
+            }
+        });
     }
 
     @Override
@@ -88,10 +108,13 @@ public class ShopProductBigListAdapter extends BaseAdapter{
             viewHolder= (ViewHolder) v.getTag();
         }
         final Good good=goods.get(position);
-        ImageLoader imageLoader=helper.getImageLoader();
-        ImageLoader.ImageListener listener=imageLoader.getImageListener(viewHolder.picImagView,
-                R.mipmap.yu_jia_zai,R.mipmap.yu_jia_zai);
-        imageLoader.get(good.getGoodsThumb(),listener,200,200);
+        viewHolder.picImagView.setImageResource(R.mipmap.yu_jia_zai);//将复用的上面的图片换成预加载的图片
+        if(isListViewStop){
+            ImageLoader imageLoader=helper.getImageLoader();
+            ImageLoader.ImageListener listener=imageLoader.getImageListener(viewHolder.picImagView,
+                    R.mipmap.yu_jia_zai,R.mipmap.yu_jia_zai);
+            imageLoader.get(good.getGoodsThumb(),listener,200,200);
+        }
 
         viewHolder.nameTextView.setText(good.getGoodName());
         viewHolder.shopPriceTextView.setText(FormatHelper.getMoneyFormat(good.getShopPrice()));

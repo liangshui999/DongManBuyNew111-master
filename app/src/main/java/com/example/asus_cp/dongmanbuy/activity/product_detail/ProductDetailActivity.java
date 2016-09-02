@@ -111,7 +111,7 @@ public class ProductDetailActivity extends Activity implements View.OnClickListe
     private TextView commentContentTextView;//评论内容
     private Button youTuPingJiaButton;//有图评价的按钮
     private Button quanBuPingJiaButton;//全部评价的按钮
-    private LinearLayout lianXiKeFuLinearLayout;//联系客服
+    private RelativeLayout lianXiKeFuLinearLayout;//联系客服
     private RecyclerView baoKuanXinPinRecyclerView;//爆款新品
     private LinearLayout commentQuYu;//评论的内容区域，可能没有
 
@@ -204,14 +204,15 @@ public class ProductDetailActivity extends Activity implements View.OnClickListe
         inflater = LayoutInflater.from(this);
         parentView = inflater.inflate(R.layout.prodcut_detail_layout, null);
         initView();
-        if(good.getGoodsNumber()==null || good.getGoodsNumber().equals("") || good.getGoodsNumber().isEmpty()
-                || good.getSalesVolume()==null || good.getSalesVolume().equals("") || good.getSalesVolume().isEmpty()
-                || good.getPromotePrice()==null || good.getPromotePrice().equals("") || good.getPromotePrice().isEmpty()
-                ){//没有库存数据才需要联网获取
-            getGoodInfoFromIntenet();
-        }else{
-            setValueToView();
-        }
+//        if(good.getGoodsNumber()==null || good.getGoodsNumber().equals("") || good.getGoodsNumber().isEmpty()
+//                || good.getSalesVolume()==null || good.getSalesVolume().equals("") || good.getSalesVolume().isEmpty()
+//                || good.getPromotePrice()==null || good.getPromotePrice().equals("") || good.getPromotePrice().isEmpty()
+//                ){//没有库存数据才需要联网获取
+//            getGoodInfoFromIntenet();
+//        }else{
+//            setValueToView();
+//        }
+        getGoodInfoFromIntenet();//所有跳到这个页面都必须重新联网，主要是解决图片大小的问题
         setValueToComment();
 
         //给view设置点击事件
@@ -635,7 +636,7 @@ public class ProductDetailActivity extends Activity implements View.OnClickListe
         commentContentTextView = (TextView) findViewById(R.id.text_commet_content);
         youTuPingJiaButton = (Button) findViewById(R.id.btn_you_tu_ping_jia);
         quanBuPingJiaButton = (Button) findViewById(R.id.btn_quan_bu_ping_jia);
-        lianXiKeFuLinearLayout = (LinearLayout) findViewById(R.id.ll_lian_xi_ke_fu);
+        lianXiKeFuLinearLayout = (RelativeLayout) findViewById(R.id.ll_lian_xi_ke_fu);
         baoKuanXinPinRecyclerView = (RecyclerView) findViewById(R.id.recycle_view_bao_kuan_xin_pin);
         commentQuYu = (LinearLayout) findViewById(R.id.ll_comment_content);
 

@@ -133,9 +133,9 @@ public class JingPinTuiJianMoreActivity extends Activity implements View.OnClick
         smallListGoods = new ArrayList<Good>();
         bigListGoods = new ArrayList<Good>();
 
-        gridAdapter = new ShopProductGridAdapter(JingPinTuiJianMoreActivity.this, gridGoods);
-        smallListAdapter = new ShopProductSmallListAdapter(JingPinTuiJianMoreActivity.this, smallListGoods);
-        bigListAdapter = new ShopProductBigListAdapter(JingPinTuiJianMoreActivity.this, bigListGoods);
+        gridAdapter = new ShopProductGridAdapter(JingPinTuiJianMoreActivity.this, gridGoods,productGridView);
+        smallListAdapter = new ShopProductSmallListAdapter(JingPinTuiJianMoreActivity.this, smallListGoods,productListViewSmall);
+        bigListAdapter = new ShopProductBigListAdapter(JingPinTuiJianMoreActivity.this, bigListGoods,productListViewBig);
 
         productGridView.setAdapter(gridAdapter);
         productListViewSmall.setAdapter(smallListAdapter);

@@ -155,9 +155,9 @@ public class GoodSearchResultActivity extends Activity implements View.OnClickLi
         smallListGoods = new ArrayList<Good>();
         bigListGoods = new ArrayList<Good>();
 
-        gridAdapter = new ShopProductGridAdapter(GoodSearchResultActivity.this, gridGoods);
-        smallListAdapter = new ShopProductSmallListAdapter(GoodSearchResultActivity.this, smallListGoods);
-        bigListAdapter = new ShopProductBigListAdapter(GoodSearchResultActivity.this, bigListGoods);
+        gridAdapter = new ShopProductGridAdapter(GoodSearchResultActivity.this, gridGoods,productGridView);
+        smallListAdapter = new ShopProductSmallListAdapter(GoodSearchResultActivity.this, smallListGoods,productListViewSmall);
+        bigListAdapter = new ShopProductBigListAdapter(GoodSearchResultActivity.this, bigListGoods,productListViewBig);
 
         productGridView.setAdapter(gridAdapter);
         productListViewSmall.setAdapter(smallListAdapter);
@@ -405,6 +405,7 @@ public class GoodSearchResultActivity extends Activity implements View.OnClickLi
                 good.setGoodName(JsonHelper.decodeUnicode(ziJsonObj.getString("name")));
                 good.setMarket_price(JsonHelper.decodeUnicode(ziJsonObj.getString("market_price")));
                 good.setShopPrice(JsonHelper.decodeUnicode(ziJsonObj.getString("shop_price")));
+                good.setPromotePrice(JsonHelper.decodeUnicode(ziJsonObj.getString("promote_price")));
 
                 JSONObject imgObj = ziJsonObj.getJSONObject("img");
                 good.setGoodsThumb(imgObj.getString("thumb"));

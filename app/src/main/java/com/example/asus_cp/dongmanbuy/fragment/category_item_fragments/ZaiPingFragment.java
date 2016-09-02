@@ -62,7 +62,7 @@ public class ZaiPingFragment extends Fragment{
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v=inflater.inflate(R.layout.zai_ping_fragment_layout,null);
         zaiPinGridView= (MyGridViewA) v.findViewById(R.id.grid_view_zai_pin);
-        //init();
+        init();
         return v;
     }
 

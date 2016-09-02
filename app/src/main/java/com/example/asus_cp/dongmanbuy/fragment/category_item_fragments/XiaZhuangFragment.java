@@ -37,7 +37,7 @@ public class XiaZhuangFragment extends Fragment{
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v=inflater.inflate(R.layout.xia_zhuang_fragment_layout,null);
         xiaZhuangGridView= (MyGridViewA) v.findViewById(R.id.grid_view_xia_zhuang);
-        //init();
+        init();
         return v;
     }
 
@@ -48,7 +48,9 @@ public class XiaZhuangFragment extends Fragment{
         context=getActivity();
         final List<CategoryModel> models=new ArrayList<CategoryModel>();
         CategoryModel model=new CategoryModel("1503","牛仔裤",R.mipmap.niu_zi_ku);
+        CategoryModel model2=new CategoryModel("1502","卫裤",R.mipmap.wei_ku);
         models.add(model);
+        models.add(model2);
         CategoryAdapter adapter=new CategoryAdapter(context,models);
         xiaZhuangGridView.setAdapter(adapter);
         xiaZhuangGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
