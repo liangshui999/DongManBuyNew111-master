@@ -181,7 +181,7 @@ public class ImageLoader {
      */
     public ImageContainer get(String requestUrl, ImageListener imageListener,
             int maxWidth, int maxHeight) {
-        return get(requestUrl, imageListener, maxWidth, maxHeight, ScaleType.CENTER_INSIDE);
+        return get(requestUrl, imageListener, maxWidth, maxHeight, ScaleType.FIT_START);
     }
 
     /**
@@ -232,6 +232,9 @@ public class ImageLoader {
             request.addContainer(imageContainer);
             return imageContainer;
         }
+
+        //我打印的内容
+        MyLog.d(tag,"直接请求网络，未使用内存缓存");
 
         // The request is not already in flight. Send the new request to the network and
         // track it.

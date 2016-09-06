@@ -15,27 +15,13 @@
             android:background="@color/mo_kuai_backgroud">
             <!--.........................商品详情......................-->
             <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/white_my"
-                android:layout_marginBottom="1dp"
-                android:paddingTop="@dimen/head_padding"
-                android:paddingBottom="@dimen/head_padding">
+                style="@style/dao_hang_relative_layout_style">
                 <ImageView
                     android:id="@+id/img_dao_hang_product_detail"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:layout_centerVertical="true"
-                    android:src="@mipmap/left"
-                    android:layout_marginLeft="5dp"/>
+                    style="@style/dao_hang_img_style"/>
                 <TextView
                     android:text="@string/product_detail"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:layout_centerInParent="true"
-                    android:padding="5dp"
-                    android:textSize="@dimen/dao_hang_base_font"
+                    style="@style/dao_hang_text_style"
                     />
             </RelativeLayout>
 
@@ -56,7 +42,7 @@
                 <ImageView
                     android:id="@+id/img_product_big_pic"
                     android:layout_width="match_parent"
-                    android:layout_height="360dp"
+                    android:layout_height="400dp"
                     android:layout_alignParentTop="true"
                     android:layout_centerHorizontal="true"
                     />

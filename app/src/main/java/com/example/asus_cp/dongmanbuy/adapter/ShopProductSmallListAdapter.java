@@ -60,7 +60,7 @@ public class ShopProductSmallListAdapter  extends BaseAdapter{
         helper=new ImageLoadHelper();
         requestQueue= MyApplication.getRequestQueue();
 
-        listView.setOnScrollListener(new AbsListView.OnScrollListener() {
+        /*listView.setOnScrollListener(new AbsListView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(AbsListView view, int scrollState) {
                 if(scrollState== AbsListView.OnScrollListener.SCROLL_STATE_IDLE){
@@ -75,7 +75,7 @@ public class ShopProductSmallListAdapter  extends BaseAdapter{
             public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
 
             }
-        });
+        });*/
 
     }
 
@@ -96,6 +96,9 @@ public class ShopProductSmallListAdapter  extends BaseAdapter{
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
+        PullToRefreshListView.InternalListViewSDK9 tempListView= (PullToRefreshListView.InternalListViewSDK9) parent;
+
+        MyLog.d(tag,"isOnMeasure:"+tempListView.isOnMesure);
         View v=convertView;
         ViewHolder viewHolder=null;
         if(v==null){
@@ -115,20 +118,18 @@ public class ShopProductSmallListAdapter  extends BaseAdapter{
         final Good good=goods.get(position);
 
         viewHolder.picImageView.setImageResource(R.mipmap.yu_jia_zai);//把复用的图片换成预加载的图片
-        if(isListViewStop){
+        if(!tempListView.isOnMesure){
             ImageLoader imageLoader=helper.getImageLoader();
             ImageLoader.ImageListener listener=imageLoader.getImageListener(viewHolder.picImageView,
                     R.mipmap.yu_jia_zai,R.mipmap.yu_jia_zai);
             imageLoader.get(good.getGoodsThumb(), listener, 200, 200);
+            viewHolder.nameTextView.setText(good.getGoodName());
+            viewHolder.kuCunTextView.setText(good.getGoodsNumber());
+            viewHolder.xiaoLiangTextView.setText(good.getSalesVolume());
+            viewHolder.shopPriceTextView.setText(FormatHelper.getMoneyFormat(good.getShopPrice()));
+            viewHolder.marketPriceTextView.setText(FormatHelper.getMoneyFormat(good.getMarket_price()));
+            viewHolder.marketPriceTextView.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG | Paint.ANTI_ALIAS_FLAG);
         }
-
-
-        viewHolder.nameTextView.setText(good.getGoodName());
-        viewHolder.kuCunTextView.setText(good.getGoodsNumber());
-        viewHolder.xiaoLiangTextView.setText(good.getSalesVolume());
-        viewHolder.shopPriceTextView.setText(FormatHelper.getMoneyFormat(good.getShopPrice()));
-        viewHolder.marketPriceTextView.setText(FormatHelper.getMoneyFormat(good.getMarket_price()));
-        viewHolder.marketPriceTextView.getPaint().setFlags(Paint. STRIKE_THRU_TEXT_FLAG| Paint.ANTI_ALIAS_FLAG);
 
         //设置点击事件
         viewHolder.shoppingCarImageView.setOnClickListener(new View.OnClickListener() {

@@ -25,6 +25,7 @@ public class ShenQingJiLuDetailActivity extends Activity{
     private TextView moneyTextView;//交易资金
     private TextView statusTextView;//交易状态
     private TextView shouXuFeiTextView;//手续费
+    private TextView huiYuanBeiZhuTextView;//会员备注
     private TextView managerNoteTextView;//管理员备注
     private Button cancelButton;//取消按钮
 
@@ -55,6 +56,7 @@ public class ShenQingJiLuDetailActivity extends Activity{
         shouXuFeiTextView= (TextView) findViewById(R.id.text_shou_xu_fei_shen_qing_ji_lu_detail);
         managerNoteTextView= (TextView) findViewById(R.id.text_manager_bei_zhu_shen_qing_ji_lu_detail);
         cancelButton= (Button) findViewById(R.id.btn_cancel_shen_qing_ji_lu_detail);
+        huiYuanBeiZhuTextView= (TextView) findViewById(R.id.text_hui_yuan_bei_zhu_shen_qing_ji_lu_detail);
 
         //给view设置值
         typeTextView.setText(model.getType());
@@ -63,6 +65,7 @@ public class ShenQingJiLuDetailActivity extends Activity{
         statusTextView.setText(model.getStatus());
         shouXuFeiTextView.setText(FormatHelper.getMoneyFormat(model.getShouXuFei()));
         managerNoteTextView.setText(model.getManagerNote());
+        huiYuanBeiZhuTextView.setText(model.getUserNote());//设置会员备注
 
         cancelButton.setOnClickListener(new View.OnClickListener() {
             @Override

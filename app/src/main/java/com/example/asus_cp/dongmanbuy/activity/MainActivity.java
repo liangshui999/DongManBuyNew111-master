@@ -1208,7 +1208,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     toSaoMiaoResultIntent.putExtra(MyConstant.SAO_MIAO_RESULT_KEY,result);
                     startActivity(toSaoMiaoResultIntent);*/
                 } else if (resultCode == RESULT_CANCELED) {
-                    Toast.makeText(this,"扫描出错",Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(this,"扫描出错",Toast.LENGTH_SHORT).show();
                 }
                 break;
             case REQUEST_CODE_TO_SETTING://从设置界面回来的

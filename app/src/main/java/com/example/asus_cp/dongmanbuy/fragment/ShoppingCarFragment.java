@@ -993,6 +993,7 @@ public class ShoppingCarFragment extends Fragment implements View.OnClickListene
                                                             itemProductCountsIn.set(position, Integer.parseInt(prodcutCount[0] + ""));
                                                             getCheckStateAndSetSumPriceAndJieSuanShuMu();
                                                             finalViewHolderIn.productCountTextView.setText(prodcutCount[0] + "");
+                                                            good.setShoppingCarNumber(""+prodcutCount[0]);
                                                             //prodcutCount[0]++;
                                                         } else if ("0".equals(succed)) {
                                                             String error = JsonHelper.decodeUnicode(jsonObject1.getString("error_desc"));
@@ -1055,6 +1056,7 @@ public class ShoppingCarFragment extends Fragment implements View.OnClickListene
                             finalViewHolderIn.productCountTextView.setText("1");
                             prodcutCount[0] = 1;
                         }
+                        good.setShoppingCarNumber(""+prodcutCount[0]);
 //                        itemProductCountsIn.set(position, prodcutCount[0]);
 //                        getCheckStateAndSetSumPriceAndJieSuanShuMu();
                         updateShoppingCar(good, prodcutCount[0] + "", finalViewHolderIn.productCountTextView, position);
@@ -1069,10 +1071,10 @@ public class ShoppingCarFragment extends Fragment implements View.OnClickListene
                     @Override
                     public void onClick(View v) {
                         goods.remove(position);
-                        notifyDataSetChanged();
                         checksIn.remove(position);
                         itemProductCountsIn.remove(position);
                         getCheckStateAndSetSumPriceAndJieSuanShuMu();
+                        notifyDataSetChanged();
 
                         StringRequest deleteRequest=new StringRequest(Request.Method.POST, deleteShoppingCarUrl,
                                 new Response.Listener<String>() {

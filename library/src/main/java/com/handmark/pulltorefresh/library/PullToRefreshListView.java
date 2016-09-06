@@ -254,7 +254,9 @@ public class PullToRefreshListView extends PullToRefreshAdapterViewBase<ListView
 	}
 
 	@TargetApi(9)
-	final class InternalListViewSDK9 extends InternalListView {
+	public final class InternalListViewSDK9 extends InternalListView {
+
+		public boolean isOnMesure;//这是我自己添加上去的
 
 		public InternalListViewSDK9(Context context, AttributeSet attrs) {
 			super(context, attrs);
@@ -271,6 +273,18 @@ public class PullToRefreshListView extends PullToRefreshAdapterViewBase<ListView
 			OverscrollHelper.overScrollBy(PullToRefreshListView.this, deltaX, scrollX, deltaY, scrollY, isTouchEvent);
 
 			return returnValue;
+		}
+
+		@Override
+		protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+			isOnMesure=true;
+			super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+		}
+
+		@Override
+		protected void onLayout(boolean changed, int l, int t, int r, int b) {
+			isOnMesure=false;
+			super.onLayout(changed, l, t, r, b);
 		}
 	}
 

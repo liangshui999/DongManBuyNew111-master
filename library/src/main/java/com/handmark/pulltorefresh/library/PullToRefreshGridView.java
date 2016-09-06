@@ -27,6 +27,7 @@ import com.handmark.pulltorefresh.library.internal.EmptyViewMethodAccessor;
 
 public class PullToRefreshGridView extends PullToRefreshAdapterViewBase<GridView> {
 
+
 	public PullToRefreshGridView(Context context) {
 		super(context);
 	}
@@ -80,7 +81,9 @@ public class PullToRefreshGridView extends PullToRefreshAdapterViewBase<GridView
 	}
 
 	@TargetApi(9)
-	final class InternalGridViewSDK9 extends InternalGridView {
+	public final class InternalGridViewSDK9 extends InternalGridView {
+
+		public boolean isOnMesure;//我自己添加上去的
 
 		public InternalGridViewSDK9(Context context, AttributeSet attrs) {
 			super(context, attrs);
@@ -98,5 +101,21 @@ public class PullToRefreshGridView extends PullToRefreshAdapterViewBase<GridView
 
 			return returnValue;
 		}
+
+
+		@Override
+		protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+			isOnMesure=true;
+			super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+		}
+
+		@Override
+		protected void onLayout(boolean changed, int l, int t, int r, int b) {
+			isOnMesure=false;
+			super.onLayout(changed, l, t, r, b);
+		}
 	}
+
+
+
 }
