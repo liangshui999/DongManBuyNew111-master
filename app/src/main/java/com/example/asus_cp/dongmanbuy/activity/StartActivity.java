@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.view.Window;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -29,8 +30,6 @@ public class StartActivity extends Activity{
 
     private String tag="StartActivity";
 
-    private RequestQueue requestQueue;
-    private String regionUrl="http://api.zmobuy.com/JK/base/model.php";
 
     private ImageView imageView;
     @Override
@@ -46,25 +45,27 @@ public class StartActivity extends Activity{
                 //开启服务
                 Intent intent = new Intent(StartActivity.this, UidService.class);
                 startService(intent);
+
+                //获取设备信息，并写入shareprfrences里面
+                getPhoneInfoAndWriteToSharePrefrences();
             }
 
             @Override
             public void onAnimationEnd(Animation animation) {
-                SharedPreferences sharedPreferences=getSharedPreferences(MyConstant.GUIDE_SHAREPRENCE_NAME,MODE_PRIVATE);
-                boolean isFirst=sharedPreferences.getBoolean(MyConstant.IS_FIRST_KEY,true);
-                if(!isFirst){
+                SharedPreferences sharedPreferences = getSharedPreferences(MyConstant.GUIDE_SHAREPRENCE_NAME, MODE_PRIVATE);
+                boolean isFirst = sharedPreferences.getBoolean(MyConstant.IS_FIRST_KEY, true);
+                if (!isFirst) {
                     Intent intent = new Intent(StartActivity.this, MainActivity.class);
                     startActivity(intent);
                     finish();
-                }else{
+                } else {
                     Intent intent = new Intent(StartActivity.this, GuideActivity.class);
                     startActivity(intent);
-                    SharedPreferences.Editor editor=sharedPreferences.edit();
-                    editor.putBoolean(MyConstant.IS_FIRST_KEY,false);
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.putBoolean(MyConstant.IS_FIRST_KEY, false);
                     editor.commit();
                     finish();
                 }
-
 
             }
 
@@ -75,7 +76,28 @@ public class StartActivity extends Activity{
         });
         imageView.startAnimation(animation);
 
-        requestQueue= MyApplication.getRequestQueue();
+        //requestQueue= MyApplication.getRequestQueue();
+    }
+
+    /**
+     * 获取设备信息，并写入shareprfrences里面
+     */
+    private void getPhoneInfoAndWriteToSharePrefrences() {
+        SharedPreferences sharedPreferences=getSharedPreferences(MyConstant.SCREEN_INFO_SHARE_NAME, MODE_PRIVATE);
+        int temp=sharedPreferences.getInt(MyConstant.SCREEN_DENSTY_DPI_KEY, -1);
+        if(temp==-1){
+            DisplayMetrics metric = new DisplayMetrics();
+            getWindowManager().getDefaultDisplay().getMetrics(metric);
+            int screenWith = metric.widthPixels;  // 屏幕宽度（像素）
+            int screenHeight = metric.heightPixels;  // 屏幕高度（像素）
+            int densityDpi = metric.densityDpi;  // 屏幕密度DPI（120 / 160 / 240）
+            SharedPreferences.Editor editor=sharedPreferences.edit();
+            editor.putInt(MyConstant.SCREEN_WIDTH_KEY,screenWith);
+            editor.putInt(MyConstant.SCREEN_HEIGHT_KEY,screenHeight);
+            editor.putInt(MyConstant.SCREEN_DENSTY_DPI_KEY,densityDpi);
+            editor.apply();
+        }
+
     }
 
     @Override
@@ -93,7 +115,7 @@ public class StartActivity extends Activity{
     /**
      * 手动发起post请求，此方法作废
      */
-    private void shouDongPost() {
+    /*private void shouDongPost() {
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -128,5 +150,5 @@ public class StartActivity extends Activity{
                 }
             }
         }).start();
-    }
+    }*/
 }

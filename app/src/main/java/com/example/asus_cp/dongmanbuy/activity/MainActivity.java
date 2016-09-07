@@ -63,6 +63,7 @@ import com.example.asus_cp.dongmanbuy.util.ImageLoadHelper;
 import com.example.asus_cp.dongmanbuy.util.JsonHelper;
 import com.example.asus_cp.dongmanbuy.util.MyApplication;
 import com.example.asus_cp.dongmanbuy.util.MyLog;
+import com.example.asus_cp.dongmanbuy.util.MyScreenInfoHelper;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 
 import org.json.JSONException;
@@ -241,9 +242,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         new CategoryImageLoadHelper(getXiangSuMiDu());
 
         //获取屏幕像素密度
-        DisplayMetrics metric = new DisplayMetrics();
-        getWindowManager().getDefaultDisplay().getMetrics(metric);
-        densty = metric.densityDpi;  // 屏幕密度DPI（120 / 160 / 240）
+//        DisplayMetrics metric = new DisplayMetrics();
+//        getWindowManager().getDefaultDisplay().getMetrics(metric);
+//        densty = metric.densityDpi;  // 屏幕密度DPI（120 / 160 / 240）
+        densty= MyScreenInfoHelper.getScreenDpi();
 
         imageLoaderhelper=new ImageLoadHelper();
         String uid=sharedPreferences.getString(MyConstant.UID_KEY,null);

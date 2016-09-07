@@ -115,21 +115,23 @@ public class ShopProductSmallListAdapter  extends BaseAdapter{
         }else{
             viewHolder= (ViewHolder) v.getTag();
         }
-        final Good good=goods.get(position);
-
-        viewHolder.picImageView.setImageResource(R.mipmap.yu_jia_zai);//把复用的图片换成预加载的图片
-        if(!tempListView.isOnMesure){
-            ImageLoader imageLoader=helper.getImageLoader();
-            ImageLoader.ImageListener listener=imageLoader.getImageListener(viewHolder.picImageView,
-                    R.mipmap.yu_jia_zai,R.mipmap.yu_jia_zai);
-            imageLoader.get(good.getGoodsThumb(), listener, 200, 200);
-            viewHolder.nameTextView.setText(good.getGoodName());
-            viewHolder.kuCunTextView.setText(good.getGoodsNumber());
-            viewHolder.xiaoLiangTextView.setText(good.getSalesVolume());
-            viewHolder.shopPriceTextView.setText(FormatHelper.getMoneyFormat(good.getShopPrice()));
-            viewHolder.marketPriceTextView.setText(FormatHelper.getMoneyFormat(good.getMarket_price()));
-            viewHolder.marketPriceTextView.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG | Paint.ANTI_ALIAS_FLAG);
+        if(tempListView.isOnMesure){    //正在测量，直接把v返回即可
+            return v;
         }
+        final Good good=goods.get(position);
+        viewHolder.picImageView.setImageResource(R.mipmap.yu_jia_zai);//把复用的图片换成预加载的图片
+
+        ImageLoader imageLoader = helper.getImageLoader();
+        ImageLoader.ImageListener listener = imageLoader.getImageListener(viewHolder.picImageView,
+                R.mipmap.yu_jia_zai, R.mipmap.yu_jia_zai);
+        imageLoader.get(good.getGoodsThumb(), listener, 200, 200);
+        viewHolder.nameTextView.setText(good.getGoodName());
+        viewHolder.kuCunTextView.setText(good.getGoodsNumber());
+        viewHolder.xiaoLiangTextView.setText(good.getSalesVolume());
+        viewHolder.shopPriceTextView.setText(FormatHelper.getMoneyFormat(good.getShopPrice()));
+        viewHolder.marketPriceTextView.setText(FormatHelper.getMoneyFormat(good.getMarket_price()));
+        viewHolder.marketPriceTextView.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG | Paint.ANTI_ALIAS_FLAG);
+
 
         //设置点击事件
         viewHolder.shoppingCarImageView.setOnClickListener(new View.OnClickListener() {

@@ -13,6 +13,7 @@ import com.example.asus_cp.dongmanbuy.R;
 import com.example.asus_cp.dongmanbuy.model.Good;
 import com.example.asus_cp.dongmanbuy.util.FormatHelper;
 import com.example.asus_cp.dongmanbuy.util.ImageLoadHelper;
+import com.example.asus_cp.dongmanbuy.util.MyScreenInfoHelper;
 
 import java.util.List;
 
@@ -63,6 +64,14 @@ public class ShopHomeHotProductAdapter extends BaseAdapter{
             viewHolder= (ViewHolder) v.getTag();
         }
         Good good=goods.get(position);
+
+        //动态设置imageview，使它能够铺满全屏
+        int screenWidth= MyScreenInfoHelper.getScreenWidth();
+        int dpi=MyScreenInfoHelper.getScreenDpi();
+        int tempWidth=(screenWidth-15*dpi/160)/2;
+        ViewGroup.LayoutParams layoutParams=viewHolder.picImageView.getLayoutParams();
+        layoutParams.height=tempWidth;
+        viewHolder.picImageView.setLayoutParams(layoutParams);
         ImageLoader imageLoader=helper.getImageLoader();
         ImageLoader.ImageListener listener=imageLoader.getImageListener(viewHolder.picImageView,
                 R.mipmap.yu_jia_zai,R.mipmap.yu_jia_zai);

@@ -13,6 +13,8 @@ import com.example.asus_cp.dongmanbuy.R;
 import com.example.asus_cp.dongmanbuy.model.Good;
 import com.example.asus_cp.dongmanbuy.util.FormatHelper;
 import com.example.asus_cp.dongmanbuy.util.ImageLoadHelper;
+import com.example.asus_cp.dongmanbuy.util.MyLog;
+import com.example.asus_cp.dongmanbuy.util.MyScreenInfoHelper;
 
 import java.util.List;
 
@@ -72,8 +74,17 @@ public class CaiNiXiHuanAdapter extends BaseAdapter{
         }else{
             viewHolder.shopPriceTextView.setText(FormatHelper.getMoneyFormat(goods.get(position).getPromotePrice()));//使用折扣价格
         }
-        ImageLoader.ImageListener imageListener=imageLoader.getImageListener(viewHolder.imageView, R.mipmap.yu_jia_zai_cai_ni_xi_huan,
-                R.mipmap.yu_jia_zai_cai_ni_xi_huan);
+        //设置imageview的高度，使他能充满每一个item
+        int screenWidth= MyScreenInfoHelper.getScreenWidth();
+        int densty=MyScreenInfoHelper.getScreenDpi();
+        int imgWidth=(screenWidth-densty*15/160)/2;//左边5，右边5，中间5，总共是15dp
+        ViewGroup.LayoutParams params=viewHolder.imageView.getLayoutParams();
+        params.height=imgWidth;
+        viewHolder.imageView.setLayoutParams(params);
+
+
+        ImageLoader.ImageListener imageListener=imageLoader.getImageListener(viewHolder.imageView, R.mipmap.yu_jia_zai,
+                R.mipmap.yu_jia_zai);
         imageLoader.get(goods.get(position).getGoodsImg(), imageListener,500,500);
 
         return v;

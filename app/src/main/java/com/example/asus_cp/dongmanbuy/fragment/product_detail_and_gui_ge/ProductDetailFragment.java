@@ -75,8 +75,8 @@ public class ProductDetailFragment extends Fragment{
                         LinearLayout.LayoutParams layoutParams=new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                                 ViewGroup.LayoutParams.WRAP_CONTENT);
                         layoutParams.gravity= Gravity.CENTER;
-
                         imageView.setLayoutParams(layoutParams);
+                        imageView.setScaleType(ImageView.ScaleType.FIT_START);
                         ImageLoader.ImageListener imageListener=imageLoader.getImageListener(imageView,R.mipmap.yu_jia_zai,
                                 R.mipmap.yu_jia_zai);
                         imageLoader.get(url,imageListener);

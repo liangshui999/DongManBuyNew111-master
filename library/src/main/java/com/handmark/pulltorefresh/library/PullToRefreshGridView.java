@@ -105,13 +105,13 @@ public class PullToRefreshGridView extends PullToRefreshAdapterViewBase<GridView
 
 		@Override
 		protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-			isOnMesure=true;
+			isOnMesure=true;//我添加上去的
 			super.onMeasure(widthMeasureSpec, heightMeasureSpec);
 		}
 
 		@Override
 		protected void onLayout(boolean changed, int l, int t, int r, int b) {
-			isOnMesure=false;
+			isOnMesure=false;//我添加上去的
 			super.onLayout(changed, l, t, r, b);
 		}
 	}

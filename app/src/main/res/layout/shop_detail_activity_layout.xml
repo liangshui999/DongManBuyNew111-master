@@ -396,17 +396,22 @@
                         android:layout_height="wrap_content"
                         android:text="@string/suo_zai_area"
                         android:paddingLeft="10dp"/>
-                    <TextView
-                        android:id="@+id/text_suo_zai_di_qu_shop_detail"
-                        android:layout_toRightOf="@id/suozaidiqu"
-                        android:text="解放路"
-                        style="@style/shop_detail_desc_style"/>
+
                     <ImageView
+                        android:id="@+id/map"
                         android:layout_width="20dp"
                         android:layout_height="20dp"
                         android:background="@mipmap/area"
                         android:layout_alignParentRight="true"
                         android:layout_marginRight="10dp"/>
+
+                    <TextView
+                        android:id="@+id/text_suo_zai_di_qu_shop_detail"
+                        android:layout_toRightOf="@id/suozaidiqu"
+                        android:layout_toLeftOf="@id/map"
+                        android:text="解放路"
+                        style="@style/shop_detail_desc_style"
+                        />
 
                 </RelativeLayout>
             </LinearLayout>

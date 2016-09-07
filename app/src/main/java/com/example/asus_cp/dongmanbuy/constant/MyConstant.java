@@ -76,6 +76,10 @@ public interface MyConstant {
     public static final String SESSION_ID_KEY="sessionId";//sessionId的key
     public static final String VOLLEY_LOG_TAG="MyVolley";//volley的tag
     public static final String CATEGORY_ID_KEY="categoryIdKey";//商品搜索时传递cateId的key
+    public static final String SCREEN_WIDTH_KEY="widthKey";//屏幕宽度的key
+    public static final String SCREEN_HEIGHT_KEY="heightKey";//屏幕高度的key
+    public static final String SCREEN_DENSTY_DPI_KEY="dpiKey";//屏幕像素密度的key
+    public static final String SCREEN_INFO_SHARE_NAME="screensharename";//存储屏幕信息的shareprefrence的名字
 
 
 }

@@ -15,6 +15,7 @@ import com.example.asus_cp.dongmanbuy.model.Good;
 import com.example.asus_cp.dongmanbuy.util.FormatHelper;
 import com.example.asus_cp.dongmanbuy.util.ImageLoadHelper;
 import com.example.asus_cp.dongmanbuy.util.MyGoodHelper;
+import com.example.asus_cp.dongmanbuy.util.MyScreenInfoHelper;
 
 import java.util.List;
 
@@ -67,6 +68,15 @@ public class TuiJianGoodAdapter extends BaseAdapter{
         }
         viewHolder.nameTextView.setText(goods.get(position).getGoodName());
         viewHolder.shopPriceTextView.setText(FormatHelper.getMoneyFormat(MyGoodHelper.getRealPrice(goods.get(position))));
+
+
+        //动态设置imageview的高度，使他能铺满全屏
+        int screenWidth= MyScreenInfoHelper.getScreenWidth();
+        int dpi=MyScreenInfoHelper.getScreenDpi();
+        int tempWidth=(screenWidth-15*dpi/160)/2;
+        ViewGroup.LayoutParams layoutParams=viewHolder.imageView.getLayoutParams();
+        layoutParams.height=tempWidth;
+        viewHolder.imageView.setLayoutParams(layoutParams);
         ImageLoader.ImageListener imageListener=imageLoader.getImageListener(viewHolder.imageView, R.mipmap.yu_jia_zai_cai_ni_xi_huan,
                 R.mipmap.yu_jia_zai_cai_ni_xi_huan);
         imageLoader.get(goods.get(position).getGoodsImg(), imageListener,500,500);

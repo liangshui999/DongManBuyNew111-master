@@ -44,7 +44,7 @@ public class CategoryListFragment extends Fragment {
         categories.add("配饰");
         categories.add("书籍");
         categories.add("DIY定制");
-        categories.add("模玩，手");
+        categories.add("模玩手办");
         CategoryListAdapter categoryListAdapter=new CategoryListAdapter(context,categories);
         categoryListListView.setAdapter(categoryListAdapter);
     }

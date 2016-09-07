@@ -52,6 +52,7 @@ import com.example.asus_cp.dongmanbuy.util.ImageLoadHelper;
 import com.example.asus_cp.dongmanbuy.util.JsonHelper;
 import com.example.asus_cp.dongmanbuy.util.MyApplication;
 import com.example.asus_cp.dongmanbuy.util.MyLog;
+import com.example.asus_cp.dongmanbuy.util.MyScreenInfoHelper;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -217,11 +218,15 @@ public class ProductDetailActivity extends Activity implements View.OnClickListe
 //        }else{
 //            setValueToView();
 //        }
-        DisplayMetrics metric = new DisplayMetrics();
-        getWindowManager().getDefaultDisplay().getMetrics(metric);
-        screenWith = metric.widthPixels;  // 屏幕宽度（像素）
-        screenHeight = metric.heightPixels;  // 屏幕高度（像素）
-        densityDpi = metric.densityDpi;  // 屏幕密度DPI（120 / 160 / 240）
+//        DisplayMetrics metric = new DisplayMetrics();
+//        getWindowManager().getDefaultDisplay().getMetrics(metric);
+//        screenWith = metric.widthPixels;  // 屏幕宽度（像素）
+//        screenHeight = metric.heightPixels;  // 屏幕高度（像素）
+//        densityDpi = metric.densityDpi;  // 屏幕密度DPI（120 / 160 / 240）
+
+        screenWith= MyScreenInfoHelper.getScreenWidth();
+        screenHeight=MyScreenInfoHelper.getScreenHeight();
+        densityDpi=MyScreenInfoHelper.getScreenDpi();
 
         getGoodInfoFromIntenet();//所有跳到这个页面都必须重新联网，主要是解决图片大小的问题
         setValueToComment();

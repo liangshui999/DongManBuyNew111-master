@@ -62,6 +62,7 @@ import com.example.asus_cp.dongmanbuy.util.JsonHelper;
 import com.example.asus_cp.dongmanbuy.util.MyApplication;
 import com.example.asus_cp.dongmanbuy.util.MyLog;
 import com.example.asus_cp.dongmanbuy.util.MyNetHelper;
+import com.example.asus_cp.dongmanbuy.util.MyScreenInfoHelper;
 import com.example.asus_cp.dongmanbuy.util.MyTimeHelper;
 
 import org.json.JSONArray;
@@ -289,6 +290,12 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
             Toast.makeText(context,"网络连接不可用",Toast.LENGTH_SHORT).show();
         }
         firstViewPager = (ViewPager) v.findViewById(R.id.viewpager_binner_first);
+        //设置firstviewpager的高度，使它能铺满全屏
+        int screenWidth= MyScreenInfoHelper.getScreenWidth();
+        int tempWidth=screenWidth*216/414;//216和414是图片的宽高比
+        ViewGroup.LayoutParams layoutParams=firstViewPager.getLayoutParams();
+        layoutParams.height=tempWidth;
+        firstViewPager.setLayoutParams(layoutParams);
         firstImageViews =new ArrayList<View>();
         String binnerUrl="http://api.zmobuy.com/JK/base/model.php";
         StringRequest binnerOneRequest=new StringRequest(Request.Method.POST, binnerUrl, new Response.Listener<String>() {

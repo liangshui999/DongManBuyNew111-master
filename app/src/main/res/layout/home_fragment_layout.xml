@@ -573,6 +573,8 @@
                 android:gravity="center"
                 android:background="@color/mo_kuai_backgroud"
                 android:paddingBottom="10dp"
+                android:paddingLeft="@dimen/grid_view_space"
+                android:paddingRight="@dimen/grid_view_space"
                 >
             </com.example.asus_cp.dongmanbuy.customview.MyGridViewA>
 

@@ -140,7 +140,8 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="800dp"
+        android:layout_height="0dp"
+        android:layout_weight="1"
         android:orientation="vertical"
         android:visibility="visible">
 
@@ -152,8 +153,7 @@
             android:numColumns="2"
             android:visibility="visible"
             android:background="@color/mo_kuai_backgroud"
-            android:paddingTop="5dp"
-            android:paddingBottom="5dp"
+            android:padding="5dp"
             android:verticalSpacing="@dimen/grid_view_space"
             android:horizontalSpacing="@dimen/grid_view_space"
             android:scrollbars="none">

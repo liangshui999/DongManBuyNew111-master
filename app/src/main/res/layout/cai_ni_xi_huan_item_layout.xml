@@ -6,9 +6,10 @@
     >
     <ImageView
         android:id="@+id/img_cai_ni_xi_huan"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="180dp"
-        android:layout_gravity="center"/>
+        android:layout_gravity="center"
+        android:scaleType="fitXY"/>
     <TextView
         android:id="@+id/text_cai_ni_xi_huan_name"
         android:layout_width="wrap_content"

@@ -16,6 +16,7 @@ import com.example.asus_cp.dongmanbuy.model.Good;
 import com.example.asus_cp.dongmanbuy.util.FormatHelper;
 import com.example.asus_cp.dongmanbuy.util.ImageLoadHelper;
 import com.example.asus_cp.dongmanbuy.util.MyLog;
+import com.example.asus_cp.dongmanbuy.util.MyScreenInfoHelper;
 import com.handmark.pulltorefresh.library.PullToRefreshGridView;
 
 import java.util.List;
@@ -97,25 +98,38 @@ public class ShopProductGridAdapter extends BaseAdapter{
         } else {
             viewHolder = (ViewHolder) v.getTag();
         }
+
+        //动态设置imageview的高度，使他能铺满全屏
+        int screenWidth= MyScreenInfoHelper.getScreenWidth();
+        int dpi=MyScreenInfoHelper.getScreenDpi();
+        int tempWidth=(screenWidth-15*dpi/160)/2;
+        ViewGroup.LayoutParams layoutParams=viewHolder.imgView.getLayoutParams();
+        layoutParams.height=tempWidth;
+        viewHolder.imgView.setLayoutParams(layoutParams);
+
+        if(tempGridView.isOnMesure){    //正在测量的时候，就直接返回v，不用给item的小项设置值
+            return  v;
+        }
+
         Good good = goods.get(position);
 
+
         viewHolder.imgView.setImageResource(R.mipmap.yu_jia_zai);//注意这一步很关键，先把复用的图片换成预加载
-        if (!tempGridView.isOnMesure) { //gridview没有滚动
-            ImageLoader imageLoader = helper.getImageLoader();
-            ImageLoader.ImageListener listener = imageLoader.getImageListener(viewHolder.imgView, R.mipmap.yu_jia_zai,
-                    R.mipmap.yu_jia_zai);
-            imageLoader.get(good.getGoodsThumb(), listener, 200, 200);
+        ImageLoader imageLoader = helper.getImageLoader();
+        ImageLoader.ImageListener listener = imageLoader.getImageListener(viewHolder.imgView, R.mipmap.yu_jia_zai,
+                R.mipmap.yu_jia_zai);
+        imageLoader.get(good.getGoodsThumb(), listener, 200, 200);
 
-            viewHolder.nameTextView.setText(good.getGoodName());
+        viewHolder.nameTextView.setText(good.getGoodName());
 
-            //设置商品店铺价格,不带人民币符号
-            String zheKouPrice = FormatHelper.getNumberFromRenMingBi(good.getPromotePrice());
-            if (zheKouPrice == null || "0.00".equals(zheKouPrice) || "0".equals(zheKouPrice)) {
-                viewHolder.priceTextView.setText(FormatHelper.getMoneyFormat(good.getShopPrice()));
-            } else {
-                viewHolder.priceTextView.setText(FormatHelper.getMoneyFormat(zheKouPrice));
-            }
+        //设置商品店铺价格,不带人民币符号
+        String zheKouPrice = FormatHelper.getNumberFromRenMingBi(good.getPromotePrice());
+        if (zheKouPrice == null || "0.00".equals(zheKouPrice) || "0".equals(zheKouPrice)) {
+            viewHolder.priceTextView.setText(FormatHelper.getMoneyFormat(good.getShopPrice()));
+        } else {
+            viewHolder.priceTextView.setText(FormatHelper.getMoneyFormat(zheKouPrice));
         }
+
 
 
         return v;
