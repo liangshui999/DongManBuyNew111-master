@@ -181,7 +181,7 @@ public class ImageLoader {
      */
     public ImageContainer get(String requestUrl, ImageListener imageListener,
             int maxWidth, int maxHeight) {
-        return get(requestUrl, imageListener, maxWidth, maxHeight, ScaleType.FIT_START);
+        return get(requestUrl, imageListener, maxWidth, maxHeight, ScaleType.CENTER_INSIDE);
     }
 
     /**

@@ -28,7 +28,7 @@
             <!--头像-->
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="120dp"
                 android:padding="20dp"
                 android:background="@color/white_my">
 
@@ -103,7 +103,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="2dp"
+                android:layout_marginTop="1dp"
                 android:paddingTop="10dp"
                 android:paddingBottom="10dp"
                 android:background="@color/white_my">
@@ -163,7 +163,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="10dp"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="10dp"
                 android:background="@color/white_my">
                 <ImageView
                     android:id="@+id/my_order"
@@ -198,7 +198,7 @@
                 android:layout_height="wrap_content"
                 android:paddingTop="10dp"
                 android:paddingBottom="10dp"
-                android:layout_marginTop="2dp"
+                android:layout_marginTop="1dp"
                 android:background="@color/white_my">
                 <LinearLayout
                     android:id="@+id/ll_dai_fu_kuan_personal_center"
@@ -216,15 +216,12 @@
                             android:layout_centerInParent="true"
                             android:orientation="vertical">
                             <ImageView
-                                android:layout_width="30dp"
-                                android:layout_height="30dp"
                                 android:src="@mipmap/dai_fu_kuan"
-                                android:layout_gravity="center"
+                                style="@style/personal_center_dai_fu_kuan_imgview_style"
                                 />
                             <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="@string/dai_fu_kuan"/>
+                                android:text="@string/dai_fu_kuan"
+                                style="@style/personal_center_dai_fu_kuan_text_view_style"/>
                         </LinearLayout>
 
                         <TextView
@@ -258,15 +255,12 @@
                             android:layout_centerInParent="true"
                             android:orientation="vertical">
                             <ImageView
-                                android:layout_width="30dp"
-                                android:layout_height="30dp"
                                 android:src="@mipmap/dai_shou_huo"
-                                android:layout_gravity="center"
+                                style="@style/personal_center_dai_fu_kuan_imgview_style"
                                 />
                             <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="@string/dai_shou_huo"/>
+                                android:text="@string/dai_shou_huo"
+                                style="@style/personal_center_dai_fu_kuan_text_view_style"/>
                         </LinearLayout>
 
                         <TextView
@@ -300,15 +294,12 @@
                             android:layout_centerInParent="true"
                             android:orientation="vertical">
                             <ImageView
-                                android:layout_width="30dp"
-                                android:layout_height="30dp"
                                 android:src="@mipmap/dai_ping_jia"
-                                android:layout_gravity="center"
+                                style="@style/personal_center_dai_fu_kuan_imgview_style"
                                 />
                             <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="@string/dai_ping_jia"/>
+                                android:text="@string/dai_ping_jia"
+                                style="@style/personal_center_dai_fu_kuan_text_view_style"/>
                         </LinearLayout>
 
                         <TextView
@@ -335,7 +326,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="10dp"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="10dp"
                 android:background="@color/white_my">
                 <ImageView
                     android:id="@+id/my_wallet"
@@ -367,7 +358,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="2dp"
+                android:layout_marginTop="1dp"
                 android:paddingTop="10dp"
                 android:paddingBottom="10dp"
                 android:background="@color/white_my">
@@ -456,7 +447,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="10dp"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="10dp"
                 android:background="@color/white_my">
                 <ImageView
                     android:id="@+id/ke_fu"
@@ -484,7 +475,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="10dp"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="10dp"
                 android:background="@color/white_my">
                 <ImageView
                     android:id="@+id/liu_lan"

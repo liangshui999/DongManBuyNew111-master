@@ -175,8 +175,6 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="2dp"
                     android:background="@color/white_my"
-                    android:paddingTop="10dp"
-                    android:paddingBottom="10dp"
                     android:visibility="visible">
                     <LinearLayout
                         android:layout_width="0dp"
@@ -185,7 +183,7 @@
                         <ImageView
                             android:id="@+id/img_one_ding_dan_order_detail"
                             android:layout_width="wrap_content"
-                            android:layout_height="120dp"
+                            android:layout_height="@dimen/order_img_height"
                             android:layout_marginLeft="5dp"
                             android:layout_marginRight="5dp"
                             />
@@ -198,7 +196,7 @@
                         <ImageView
                             android:id="@+id/img_two_ding_dan_order_detail"
                             android:layout_width="wrap_content"
-                            android:layout_height="120dp"
+                            android:layout_height="@dimen/order_img_height"
                             android:layout_marginLeft="5dp"
                             android:layout_marginRight="5dp"
                             />
@@ -211,7 +209,7 @@
                         <ImageView
                             android:id="@+id/img_three_ding_dan_order_detail"
                             android:layout_width="wrap_content"
-                            android:layout_height="120dp"
+                            android:layout_height="@dimen/order_img_height"
                             android:layout_marginLeft="5dp"
                             android:layout_marginRight="5dp"
                             />
@@ -231,7 +229,7 @@
                             android:layout_gravity="center"
                             android:gravity="center_vertical"
                             android:text="共6件"
-                            android:paddingRight="10dp"/>
+                            />
 
                         <ImageView
                             android:layout_width="20dp"
@@ -240,7 +238,7 @@
                             android:layout_marginLeft="10dp"
                             android:layout_marginRight="10dp"
                             android:background="@mipmap/right"
-                            android:visibility="gone"/>
+                            android:visibility="visible"/>
                     </LinearLayout>
                 </LinearLayout>
 

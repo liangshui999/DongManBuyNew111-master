@@ -1510,6 +1510,7 @@ public class ProductDetailActivity extends Activity implements View.OnClickListe
         //fuWuWindow.setBackgroundDrawable(new ColorDrawable());
         fuWuWindow.setFocusable(true);
         fuWuWindow.setOutsideTouchable(false);
+        fuWuWindow.setAnimationStyle(R.style.popwin_anim_style);
 
         fuWuWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
             @Override
@@ -1629,6 +1630,7 @@ public class ProductDetailActivity extends Activity implements View.OnClickListe
         //yiXuanWindow.setBackgroundDrawable(new ColorDrawable());
         yiXuanWindow.setFocusable(true);
         yiXuanWindow.setOutsideTouchable(false);
+        yiXuanWindow.setAnimationStyle(R.style.popwin_anim_style);
         yiXuanWindow.showAtLocation(parentView, Gravity.BOTTOM, 0, 0);//最后才是show,顺序很重要
         setBackgroundAlpha(0.5f);
         yiXuanWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {

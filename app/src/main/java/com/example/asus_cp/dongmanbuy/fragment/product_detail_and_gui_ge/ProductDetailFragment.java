@@ -1,6 +1,7 @@
 package com.example.asus_cp.dongmanbuy.fragment.product_detail_and_gui_ge;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -17,10 +18,12 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
+import com.android.volley.toolbox.ImageRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.example.asus_cp.dongmanbuy.R;
 import com.example.asus_cp.dongmanbuy.activity.product_detail.ProductPicAndGuiGeActivity;
 import com.example.asus_cp.dongmanbuy.model.Good;
+import com.example.asus_cp.dongmanbuy.net.MyImageRequest;
 import com.example.asus_cp.dongmanbuy.util.DialogHelper;
 import com.example.asus_cp.dongmanbuy.util.ImageLoadHelper;
 import com.example.asus_cp.dongmanbuy.util.MyApplication;
@@ -71,15 +74,25 @@ public class ProductDetailFragment extends Fragment{
                     JSONArray jsonArray=jsonObject.getJSONArray("data");
                     for(int i=0;i<jsonArray.length();i++){
                         String url=jsonArray.getString(i);
-                        ImageView imageView=new ImageView(context);
-                        LinearLayout.LayoutParams layoutParams=new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                        final ImageView imageView=new ImageView(context);
+                        LinearLayout.LayoutParams layoutParams=new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
                                 ViewGroup.LayoutParams.WRAP_CONTENT);
                         layoutParams.gravity= Gravity.CENTER;
                         imageView.setLayoutParams(layoutParams);
-                        imageView.setScaleType(ImageView.ScaleType.FIT_START);
-                        ImageLoader.ImageListener imageListener=imageLoader.getImageListener(imageView,R.mipmap.yu_jia_zai,
-                                R.mipmap.yu_jia_zai);
-                        imageLoader.get(url,imageListener);
+                        imageView.setScaleType(ImageView.ScaleType.FIT_XY);
+                        imageView.setImageResource(R.mipmap.yu_jia_zai);
+                        final MyImageRequest myImageRequest=new MyImageRequest(url, new Response.Listener<Bitmap>() {
+                            @Override
+                            public void onResponse(Bitmap response) {
+                                imageView.setImageBitmap(response);
+                            }
+                        }, 0, 0, Bitmap.Config.RGB_565, new Response.ErrorListener() {
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+                                imageView.setImageResource(R.mipmap.yu_jia_zai);
+                            }
+                        },imageView);
+                        requestQueue.add(myImageRequest);
                         bufLinearLayout.addView(imageView);
                     }
                 } catch (JSONException e) {

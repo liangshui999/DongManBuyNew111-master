@@ -27,6 +27,7 @@ import com.example.asus_cp.dongmanbuy.model.Good;
 import com.example.asus_cp.dongmanbuy.util.FormatHelper;
 import com.example.asus_cp.dongmanbuy.util.MyApplication;
 import com.example.asus_cp.dongmanbuy.util.MyLog;
+import com.example.asus_cp.dongmanbuy.util.MyScreenInfoHelper;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -115,6 +116,17 @@ public class DingDanListAdapter extends BaseAdapter{
         }
         viewHolder.productCountTextView.setText("共" + sumCount + "款");
 
+//        //动态设置gridview的高度
+//        int size=tempGoods.size();
+//        if(size%3==0){
+//            size=size/3;
+//        }else{
+//            size=size/3+1;
+//        }
+//        int dpi= MyScreenInfoHelper.getScreenDpi();
+//        ViewGroup.LayoutParams layoutParams=viewHolder.picGridView.getLayoutParams();
+//        layoutParams.height=size*160*dpi/160;
+//        viewHolder.picGridView.setLayoutParams(layoutParams);
         DingDanListGridAdapter adapter=new DingDanListGridAdapter(context,dingDanModel.getGoods());
         viewHolder.picGridView.setAdapter(adapter);
         viewHolder.picGridView.setFocusable(false);

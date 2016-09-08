@@ -97,8 +97,8 @@ public class DingDanDetailActivity extends Activity implements View.OnClickListe
     private RelativeLayout yiQueRenRelaytiveLayout;//已确认
 
     private DingDanModel dingDanModel;//其他活动传递过来的订单实体
-    private List<Good> goods;
-    private List<Integer> itemProductCount;
+    private ArrayList<Good> goods;
+    private ArrayList<Integer> itemProductCount;
 
     private ImageLoadHelper helper;
 
@@ -395,7 +395,7 @@ public class DingDanDetailActivity extends Activity implements View.OnClickListe
 
 
 
-        goods=dingDanModel.getGoods();
+        goods= (ArrayList<Good>) dingDanModel.getGoods();
         if(goods.size()==1){
             ImageLoader imageLoader1=helper.getImageLoader();
             ImageLoader.ImageListener listener1=imageLoader1.getImageListener(firstPicImageView, R.mipmap.yu_jia_zai,
@@ -498,10 +498,14 @@ public class DingDanDetailActivity extends Activity implements View.OnClickListe
                 break;
             case R.id.ll_dispaly_all_product_ding_dan_order_detail://展示商品列表
                 //Toast.makeText(this,"展示商品列表",Toast.LENGTH_SHORT).show();
-                productDisplayLinearLayoutOrignal.setVisibility(View.GONE);
-                productListLinearLayoutZhanKai.setVisibility(View.VISIBLE);
-                DingDanJieMianListAdapterIn adapter=new DingDanJieMianListAdapterIn(this,goods,itemProductCount);
-                listView.setAdapter(adapter);
+//                productDisplayLinearLayoutOrignal.setVisibility(View.GONE);
+//                productListLinearLayoutZhanKai.setVisibility(View.VISIBLE);
+//                DingDanJieMianListAdapterIn adapter=new DingDanJieMianListAdapterIn(this,goods,itemProductCount);
+//                listView.setAdapter(adapter);
+                Intent intent=new Intent(this,DingDanGoodDispalyListActivity.class);
+                intent.putExtra(MyConstant.GOOD_LIST_KEY,goods);
+                intent.putExtra(MyConstant.ITEM_PRODUCT_COUNT_KEY,itemProductCount);
+                startActivity(intent);
                 break;
             case R.id.img_down_ding_dan_order_detail://点击了收起商品列表
                 //Toast.makeText(this,"点击了收起商品列表",Toast.LENGTH_SHORT).show();

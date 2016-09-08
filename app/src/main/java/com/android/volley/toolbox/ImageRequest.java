@@ -167,7 +167,7 @@ public class ImageRequest extends Request<Bitmap> {
     /**
      * The real guts of parseNetworkResponse. Broken out for readability.
      */
-    private Response<Bitmap> doParse(NetworkResponse response) {
+    public Response<Bitmap> doParse(NetworkResponse response) {
         byte[] data = response.data;
         BitmapFactory.Options decodeOptions = new BitmapFactory.Options();
         Bitmap bitmap = null;
@@ -229,7 +229,7 @@ public class ImageRequest extends Request<Bitmap> {
      * @param desiredHeight Desired height of the bitmap
      */
     // Visible for testing.
-    static int findBestSampleSize(
+    protected static int findBestSampleSize(
             int actualWidth, int actualHeight, int desiredWidth, int desiredHeight) {
         double wr = (double) actualWidth / desiredWidth;
         double hr = (double) actualHeight / desiredHeight;

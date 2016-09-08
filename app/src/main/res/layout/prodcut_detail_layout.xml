@@ -7,7 +7,8 @@
     <!--商品详情的scrollview-->
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:scrollbars="none">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -290,7 +291,7 @@
                     android:layout_height="wrap_content"
                     android:paddingTop="10dp"
                     android:paddingBottom="10dp"
-                    android:layout_marginTop="@dimen/product_detail_margin"
+                    android:layout_marginTop="5dp"
                     android:background="@color/white_my">
                     <TextView
                         android:id="@+id/text_suo_zai"
@@ -499,7 +500,7 @@
                     android:layout_height="wrap_content"
                     android:paddingTop="10dp"
                     android:paddingBottom="10dp"
-                    android:layout_marginTop="@dimen/product_detail_margin"
+                    android:layout_marginTop="5dp"
                     android:background="@color/white_my">
                     <TextView
                         android:id="@+id/user_comment"
@@ -633,7 +634,8 @@
                         android:layout_height="wrap_content"
                         android:text="非常有饭，衣服不是很厚，但川泽华舒服，但是料子感觉固态好"
                         android:layout_margin="5dp"
-                        android:textSize="12sp"/>
+                        android:textSize="12sp"
+                        android:textColor="@color/myblack"/>
 
                 </LinearLayout>
 
@@ -792,8 +794,8 @@
                 android:gravity="center"
                 android:layout_gravity="center_vertical">
                 <ImageView
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
+                    android:layout_width="26dp"
+                    android:layout_height="26dp"
                     android:background="@mipmap/kefu"/>
                 <TextView
                     android:layout_width="wrap_content"
@@ -819,8 +821,8 @@
                     android:layout_height="match_parent">
                     <ImageView
                         android:id="@+id/gou_wu_che"
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
+                        android:layout_width="26dp"
+                        android:layout_height="26dp"
                         android:background="@mipmap/shoppingcar_normal"
                         android:layout_centerHorizontal="true"/>
                     <TextView

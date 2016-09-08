@@ -32,6 +32,14 @@
     </style>
 
 
+    <!--popu的进出的样式-->
+    <style name="popwin_anim_style">
+        <item name="android:windowEnterAnimation">@anim/popu_in</item>
+        <item name="android:windowExitAnimation">@anim/popu_out</item>
+    </style>
+
+
+
     <!-- 自定义loading dialog -->
     <style name="loading_dialog" parent="android:style/Theme.Dialog">
         <item name="android:windowNoTitle">true</item>
@@ -258,6 +266,7 @@
         <item name="android:textSize">14sp</item>
         <item name="android:textColor">@color/myblack</item>
         <item name="android:text">测试</item>
+        <item name="android:layout_marginRight">5dp</item>
     </style>
 
 
@@ -267,7 +276,8 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_gravity">left</item>
         <item name="android:layout_marginTop">5dp</item>
-        <item name="android:textSize">14sp</item>
+        <item name="android:layout_marginBottom">5dp</item>
+        <item name="android:textSize">16sp</item>
         <item name="android:textColor">@color/bottom_lable_color</item>
         <item name="android:text">0.00</item>
     </style>
@@ -314,5 +324,22 @@
         <item name="android:horizontalSpacing">10dp</item>
         <item name="android:gravity">center</item>
     </style>
+
+
+    <!--个人中心待付款的imagview样式-->
+    <style name="personal_center_dai_fu_kuan_imgview_style">
+        <item name="android:layout_width">26dp</item>
+        <item name="android:layout_height">26dp</item>
+        <item name="android:layout_gravity">center</item>
+    </style>
+
+
+    <!--个人中心待付款的textview样式-->
+    <style name="personal_center_dai_fu_kuan_text_view_style">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
 
 </resources>

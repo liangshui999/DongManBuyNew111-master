@@ -38,6 +38,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.example.asus_cp.dongmanbuy.R;
 import com.example.asus_cp.dongmanbuy.activity.dian_pu_jie.ShopHomeActivity;
 import com.example.asus_cp.dongmanbuy.activity.gou_wu.DingDanListActivity;
+import com.example.asus_cp.dongmanbuy.activity.gou_wu.YouHuiQuanActivity;
 import com.example.asus_cp.dongmanbuy.activity.login.LoginActivity;
 import com.example.asus_cp.dongmanbuy.activity.main_activity_xiang_guan.LiuLanJiLuListActivity;
 import com.example.asus_cp.dongmanbuy.activity.personal_center.GuanZhuListActivity;
@@ -173,6 +174,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public static final int REQUEST_CODE_TO_PERSONAL_CENTER=11;//跳转到个人中心
 
     public static final int REQUEST_CODE_LOGIN_LIU_LAN_JI_LU=12;//浏览记录
+
+    public static final int REQUEST_CODE_YOU_HUI_QUAN=13;//优惠券
 
     private String userInfoUrl="http://www.zmobuy.com/PHP/?url=/user/info";//用户信息的接口
 
@@ -689,7 +692,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 liuLanJiLuClickChuLi();
                 break;
             case R.id.re_layout_you_hui_quan_menu://优惠券
-
+                youHuiQuanClickChuLi();
                 break;
             case R.id.img_search_main://点击了search按钮
                 Intent toSearchIntent=new Intent(this, SearchActivity.class);
@@ -710,6 +713,27 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //                break;
 
 
+        }
+    }
+
+
+    /**
+     * 优惠券的点击事件处理
+     */
+    private void youHuiQuanClickChuLi() {
+        String uid=sharedPreferences.getString(MyConstant.UID_KEY,null);
+        String sid=null;
+        if(uid==null || uid.isEmpty()){
+            Intent toLoginIntent=new Intent(this,LoginActivity.class);
+            toLoginIntent.putExtra(MyConstant.START_LOGIN_ACTIVITY_FLAG_KEY,"homeFragment");
+            startActivityForResult(toLoginIntent, REQUEST_CODE_YOU_HUI_QUAN);
+        }else {
+            Intent intent=new Intent(this, YouHuiQuanActivity.class);
+            if(menu.isMenuShowing()){
+                menu.toggle();
+            }
+            startActivity(intent);
+            //MyLog.d(tag,"浏览记录内部的执行了吗？");
         }
     }
 
@@ -1235,6 +1259,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 if(resultCode== Activity.RESULT_OK){
                     liuLanJiLuClickChuLi();
                     MyLog.d(tag, "浏览记录回来了吗");
+                }
+                break;
+            case REQUEST_CODE_YOU_HUI_QUAN://优惠券
+                if(resultCode== Activity.RESULT_OK){
+                    youHuiQuanClickChuLi();
+                    //MyLog.d(tag, "浏览记录回来了吗");
                 }
                 break;
 

@@ -202,7 +202,7 @@ public class GoodSearchResultActivity extends Activity implements View.OnClickLi
 
         //弹出正在加载的对话框
         DialogHelper.showDialog(this);
-        getDataFromIntenet(GRID_VIEW_FLAG, searchContent, "id_asc", "1", LOAD_COUNT_ONCE_STR);
+        getDataFromIntenet(GRID_VIEW_FLAG, searchContent, "id_desc", "1", LOAD_COUNT_ONCE_STR);
 
         //给gridview设置上拉加载的监听事件
         productGridView.setMode(PullToRefreshBase.Mode.PULL_FROM_END);
