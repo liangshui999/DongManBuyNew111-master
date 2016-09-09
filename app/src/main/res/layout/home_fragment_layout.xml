@@ -352,7 +352,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:background="@color/white_my">
+                android:background="@color/white_my"
+                android:layout_marginTop="10dp">
                 <android.support.v4.view.ViewPager
                     android:id="@+id/viewpager_binner_second"
                     android:layout_width="match_parent"
@@ -488,6 +489,7 @@
                 android:orientation="horizontal"
                 android:background="@android:color/white"
                 android:paddingLeft="10dp"
+                android:layout_marginTop="10dp"
                 >
                 <TextView
                     android:id="@+id/dian_pu_jie_biao_ti"

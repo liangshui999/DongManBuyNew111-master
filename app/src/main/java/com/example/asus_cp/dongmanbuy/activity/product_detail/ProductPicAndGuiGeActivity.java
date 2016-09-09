@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.asus_cp.dongmanbuy.R;
+import com.example.asus_cp.dongmanbuy.constant.MyConstant;
 import com.example.asus_cp.dongmanbuy.fragment.HomeFragment;
 import com.example.asus_cp.dongmanbuy.fragment.product_detail_and_gui_ge.ProductDetailFragment;
 import com.example.asus_cp.dongmanbuy.fragment.product_detail_and_gui_ge.ProductGuiGeFragment;
@@ -43,6 +44,10 @@ public class ProductPicAndGuiGeActivity extends FragmentActivity implements View
         prodcutDetailTextView.setTextColor(getResources().getColor(R.color.bottom_lable_color));
         productDetailFragment=new ProductDetailFragment();
         productGuiGeFragment=new ProductGuiGeFragment();
+        //向规格碎片传递数据
+        Bundle bundle=new Bundle();
+        bundle.putString(MyConstant.GOOD_ID_KEY,good.getGoodId());
+        productGuiGeFragment.setArguments(bundle);
         fragmentManager=getSupportFragmentManager();
 
         android.support.v4.app.FragmentTransaction transaction=fragmentManager.beginTransaction();

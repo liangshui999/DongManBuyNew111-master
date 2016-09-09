@@ -80,6 +80,7 @@ public interface MyConstant {
     public static final String SCREEN_HEIGHT_KEY="heightKey";//屏幕高度的key
     public static final String SCREEN_DENSTY_DPI_KEY="dpiKey";//屏幕像素密度的key
     public static final String SCREEN_INFO_SHARE_NAME="screensharename";//存储屏幕信息的shareprefrence的名字
+    public static final String GOOD_ID_KEY="goodidkey";//goodidkey
 
 
 }

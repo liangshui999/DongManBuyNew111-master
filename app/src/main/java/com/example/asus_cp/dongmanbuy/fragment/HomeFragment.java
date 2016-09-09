@@ -173,6 +173,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
 
     private MainActivity mainActivity;
 
+    private int screenWidth;
+
 
 
 
@@ -291,10 +293,10 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
         }
         firstViewPager = (ViewPager) v.findViewById(R.id.viewpager_binner_first);
         //设置firstviewpager的高度，使它能铺满全屏
-        int screenWidth= MyScreenInfoHelper.getScreenWidth();
-        int tempWidth=screenWidth*216/414;//216和414是图片的宽高比
+        screenWidth= MyScreenInfoHelper.getScreenWidth();
+        int tempWidth1=screenWidth*216/414;//216和414是图片的宽高比
         ViewGroup.LayoutParams layoutParams=firstViewPager.getLayoutParams();
-        layoutParams.height=tempWidth;
+        layoutParams.height=tempWidth1;
         firstViewPager.setLayoutParams(layoutParams);
         firstImageViews =new ArrayList<View>();
         String binnerUrl="http://api.zmobuy.com/JK/base/model.php";
@@ -330,6 +332,12 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
         //--------------第二个广告的初始化----------------------------------------------
 
         secondViewPager = (ViewPager) v.findViewById(R.id.viewpager_binner_second);
+
+        //动态设置viewpager的高度
+        int tempWidth2=screenWidth*129/414;
+        ViewGroup.LayoutParams layoutParams2=secondViewPager.getLayoutParams();
+        layoutParams2.height=tempWidth2;
+        secondViewPager.setLayoutParams(layoutParams2);
         secondImageViews =new ArrayList<View>();
         String secondBinnerUrl="http://api.zmobuy.com/JK/base/model.php";
         StringRequest binnerSecondRequest=new StringRequest(Request.Method.POST, secondBinnerUrl, new Response.Listener<String>() {
@@ -359,6 +367,11 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
 
         //---------------------------------第三个广告的初始化-------------------------------------
         threeViewPager = (ViewPager) v.findViewById(R.id.viewpager_binner_three);
+        //动态设置viewpager的高度
+        int tempWidth3=screenWidth*129/414;
+        ViewGroup.LayoutParams layoutParams3=threeViewPager.getLayoutParams();
+        layoutParams3.height=tempWidth3;
+        threeViewPager.setLayoutParams(layoutParams3);
         threeImageViews =new ArrayList<View>();
         String threebinnerUrl="http://api.zmobuy.com/JK/base/model.php";
         StringRequest binnerThreeRequest=new StringRequest(Request.Method.POST, threebinnerUrl, new Response.Listener<String>() {

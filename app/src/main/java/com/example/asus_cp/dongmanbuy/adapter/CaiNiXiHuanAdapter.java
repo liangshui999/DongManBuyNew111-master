@@ -23,6 +23,9 @@ import java.util.List;
  * Created by asus-cp on 2016-05-21.
  */
 public class CaiNiXiHuanAdapter extends BaseAdapter{
+
+    private String tag="CaiNiXiHuanAdapter";
+
     private Context context;
     private List<Good> goods;
     private LayoutInflater inflater;
@@ -52,6 +55,7 @@ public class CaiNiXiHuanAdapter extends BaseAdapter{
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
+        MyLog.d(tag,"getView");
         View v=convertView;
         ViewHolder viewHolder=null;
         if(v==null){
