@@ -47,7 +47,7 @@
     <ListView
         android:id="@+id/list_shopping_car_item_out"
         android:layout_width="match_parent"
-        android:layout_height="400dp">
+        android:layout_height="200dp">
 
     </ListView>
 

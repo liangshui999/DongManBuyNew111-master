@@ -286,7 +286,7 @@ public class ShoppingCarFragment extends Fragment implements View.OnClickListene
                             for(int i=0;i<shopModels.size();i++){
                                 ShopModel shopModel=shopModels.get(i);
                                 List<Good> goods=shopModel.getGoods();
-                                len=len+goods.size()*150*densty/160+50*densty/160;//主要是店铺名称所在的布局要占40，所以给他设置成40
+                                len=len+goods.size()*130*densty/160+50*densty/160;//主要是店铺名称所在的布局要占40，所以给他设置成40
                             }
                             MyLog.d(tag,"计算出的外部listview的高度是"+len+"...."+"densty="+densty);
                             //动态设置外部listview的高度
@@ -695,7 +695,7 @@ public class ShoppingCarFragment extends Fragment implements View.OnClickListene
             MyLog.d(tag,"densty="+densty);
             //动态设置listview的高度，这个很重要
             LinearLayout.LayoutParams params=new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
-                    150*densty/160*shopModels.get(position).getGoods().size());
+                    130*densty/160*shopModels.get(position).getGoods().size());
             viewHolderOut.myListView.setLayoutParams(params);
             final ShopModel shopModel=shopModels.get(position);
             final ShoppingCarListAdapterIn adapterIn=new ShoppingCarListAdapterIn(context,shopModel.getGoods(),
@@ -956,6 +956,7 @@ public class ShoppingCarFragment extends Fragment implements View.OnClickListene
                 @Override
                 public void onClick(View v) {
 
+                    DialogHelper.showDialog(context,"");
                     //获取购物车的商品数量
                     StringRequest getProductListRequest = new StringRequest(Request.Method.POST, shoppingCarListUrl,
                             new Response.Listener<String>() {
@@ -984,6 +985,7 @@ public class ShoppingCarFragment extends Fragment implements View.OnClickListene
                                             new Response.Listener<String>() {
                                                 @Override
                                                 public void onResponse(String s) {
+                                                    DialogHelper.dissmisDialog();
                                                     MyLog.d(tag, "更改商品数量返回的数据：" + s);
                                                     try {
                                                         JSONObject jsonObject = new JSONObject(s);
@@ -1076,10 +1078,12 @@ public class ShoppingCarFragment extends Fragment implements View.OnClickListene
                         getCheckStateAndSetSumPriceAndJieSuanShuMu();
                         notifyDataSetChanged();
 
+                        DialogHelper.showDialog(context,"");
                         StringRequest deleteRequest=new StringRequest(Request.Method.POST, deleteShoppingCarUrl,
                                 new Response.Listener<String>() {
                                     @Override
                                     public void onResponse(String s) {
+                                        DialogHelper.dissmisDialog();
                                         MyLog.d(tag,"删除返回的数据是："+s);
                                     }
                                 }, new Response.ErrorListener() {
@@ -1160,6 +1164,7 @@ public class ShoppingCarFragment extends Fragment implements View.OnClickListene
              * 更改购物车商品数量
              */
             public void updateShoppingCar(final Good good, final String shoppingCarCount, final TextView textView, final int position){
+                DialogHelper.showDialog(context,"");
                 //获取购物车的商品数量
                 StringRequest getProductListRequest=new StringRequest(Request.Method.POST, shoppingCarListUrl,
                         new Response.Listener<String>() {
@@ -1188,6 +1193,7 @@ public class ShoppingCarFragment extends Fragment implements View.OnClickListene
                                         new Response.Listener<String>() {
                                             @Override
                                             public void onResponse(String s) {
+                                                DialogHelper.dissmisDialog();
                                                 MyLog.d(tag,"更改商品数量返回的数据："+s);
                                                 try {
                                                     JSONObject jsonObject=new JSONObject(s);

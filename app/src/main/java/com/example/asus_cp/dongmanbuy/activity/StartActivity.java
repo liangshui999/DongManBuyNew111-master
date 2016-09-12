@@ -77,6 +77,7 @@ public class StartActivity extends Activity{
         imageView.startAnimation(animation);
 
         //requestQueue= MyApplication.getRequestQueue();
+
     }
 
     /**

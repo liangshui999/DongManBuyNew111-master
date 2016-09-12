@@ -38,5 +38,6 @@
     <dimen name="search_result_text_size">16sp</dimen>
     <dimen name="see_password_img_size">25dp</dimen>
     <dimen name="order_img_height">100dp</dimen>
+    <dimen name="jia_jian_button_size">25dp</dimen>
 
 </resources>

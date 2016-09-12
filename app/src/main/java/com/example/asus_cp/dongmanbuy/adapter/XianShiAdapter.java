@@ -14,6 +14,7 @@ import com.example.asus_cp.dongmanbuy.R;
 import com.example.asus_cp.dongmanbuy.model.Good;
 import com.example.asus_cp.dongmanbuy.util.FormatHelper;
 import com.example.asus_cp.dongmanbuy.util.ImageLoadHelper;
+import com.example.asus_cp.dongmanbuy.util.MyScreenInfoHelper;
 
 import java.util.List;
 
@@ -64,6 +65,14 @@ public class XianShiAdapter extends BaseAdapter{
         }else{
             viewHolder= (ViewHolder) v.getTag();
         }
+
+//        //动态设置imageview的高度
+//        int screenWidth= MyScreenInfoHelper.getScreenWidth();
+//        int tempHeight=(screenWidth/2-5)/2-12;
+//        ViewGroup.LayoutParams layoutParams=viewHolder.imageView.getLayoutParams();
+//        layoutParams.height=tempHeight;
+//        viewHolder.imageView.setLayoutParams(layoutParams);
+
         ImageLoader.ImageListener imageListener=ImageLoader.getImageListener(viewHolder.imageView,R.mipmap.yu_jia_zai,
                 R.mipmap.yu_jia_zai);
         imageLoader.get(goods.get(position).getGoodsThumb(), imageListener, 320, 320);

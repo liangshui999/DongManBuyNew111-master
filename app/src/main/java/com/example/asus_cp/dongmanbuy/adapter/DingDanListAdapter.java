@@ -114,7 +114,7 @@ public class DingDanListAdapter extends BaseAdapter{
         for(int i=0;i<tempGoods.size();i++){
             sumCount=sumCount+Integer.parseInt(tempGoods.get(i).getDingDanNumber());
         }
-        viewHolder.productCountTextView.setText("共" + sumCount + "款");
+        viewHolder.productCountTextView.setText("共" + tempGoods.size() + "款");
 
 //        //动态设置gridview的高度
 //        int size=tempGoods.size();

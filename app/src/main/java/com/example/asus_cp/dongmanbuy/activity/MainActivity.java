@@ -537,7 +537,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         });*/
 
-
+        //throw new RuntimeException("对方不想和你说话，并向你抛出了一个空指针异常");//只是测试用
     }
 
     /**

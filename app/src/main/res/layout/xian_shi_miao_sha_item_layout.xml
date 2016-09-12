@@ -7,7 +7,8 @@
         android:id="@+id/img_xian_shi_pic"
         android:layout_width="wrap_content"
         android:layout_height="80dp"
-        android:layout_gravity="center"/>
+        android:layout_gravity="center"
+        android:src="@mipmap/sina"/>
     <TextView
         android:visibility="gone"
         android:id="@+id/text_xian_shi_name"
@@ -23,6 +24,8 @@
         android:layout_gravity="center"
         android:textSize="12sp"
         android:textColor="@color/bottom_lable_color"
+        android:text="0.00"
+
         />
     <TextView
         android:visibility="gone"

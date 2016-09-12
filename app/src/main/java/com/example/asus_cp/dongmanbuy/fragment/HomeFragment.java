@@ -456,6 +456,12 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
                         handler.sendEmptyMessageDelayed(XIAN_SHI_TIME,1000);
                     }
                     xianShiMiaoShaImagView= (ImageView) v.findViewById(R.id.img_xian_shi_miao_sha_content);
+                    //动态设置imageview的高度
+                    int tempWidth4=screenWidth/2-5;
+                    ViewGroup.LayoutParams layoutParams4=xianShiMiaoShaImagView.getLayoutParams();
+                    layoutParams4.height=tempWidth4;
+                    xianShiMiaoShaImagView.setLayoutParams(layoutParams4);
+
                     xianShiMiaoShaImagView.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {

@@ -7,6 +7,7 @@ import android.content.Context;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
 import com.example.asus_cp.dongmanbuy.constant.AliBaiChuanConstant;
+import com.example.asus_cp.dongmanbuy.crash.MyCrashHandler;
 
 
 /**
@@ -31,6 +32,10 @@ public class MyApplication extends Application {
         if (SysUtil.isMainProcess()) {
             YWAPI.init(this, AliBaiChuanConstant.APP_KEY);
         }*/
+
+        //crashhandler的配置
+        MyCrashHandler myCrashHandler=MyCrashHandler.getInstance();
+        myCrashHandler.init();
 
     }
     public static Context getContext(){

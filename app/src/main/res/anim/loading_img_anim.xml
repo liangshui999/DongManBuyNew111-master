@@ -6,5 +6,6 @@
         android:toDegrees="360"
         android:repeatMode="restart"
         android:duration="500"
-        android:repeatCount="-1"/>
+        android:repeatCount="infinite"
+        />
 </set>

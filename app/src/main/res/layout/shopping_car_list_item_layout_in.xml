@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="150dp">
+    android:layout_height="130dp">
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="140dp"
+        android:layout_height="130dp"
         android:orientation="horizontal"
-        android:paddingTop="10dp"
+        android:paddingTop="20dp"
         android:paddingBottom="10dp"
         android:background="@color/white_my">
 
@@ -24,7 +24,6 @@
                 android:layout_height="@dimen/check_box_size"
                 android:button="@null"
                 android:background="@drawable/mycheckbox"
-
                 android:layout_gravity="center_horizontal"/>
         </LinearLayout>
 
@@ -37,8 +36,10 @@
                 <ImageView
                     android:id="@+id/img_pic_shopping_car_list"
                     android:layout_width="wrap_content"
-                    android:layout_height="100dp"
+                    android:layout_height="110dp"
                     android:layout_gravity="top"
+                    android:src="@mipmap/ic_launcher"
+                    android:scaleType="fitStart"
                     />
         </LinearLayout>
 
@@ -95,21 +96,22 @@
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentBottom="true">
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginBottom="10dp">
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         >
                         <ImageView
                             android:id="@+id/img_jian_hao_shopping_car_list"
-                            android:layout_width="30dp"
-                            android:layout_height="30dp"
+                            android:layout_width="@dimen/jia_jian_button_size"
+                            android:layout_height="@dimen/jia_jian_button_size"
                             android:src="@mipmap/jian_goods_count"
                             />
                         <TextView
                             android:id="@+id/text_product_count_jia_jian_shopping_car_list"
-                            android:layout_width="30dp"
-                            android:layout_height="30dp"
+                            android:layout_width="@dimen/jia_jian_button_size"
+                            android:layout_height="@dimen/jia_jian_button_size"
                             android:textSize="12sp"
                             android:text="1"
                             android:gravity="center"
@@ -117,16 +119,16 @@
 
                         <ImageView
                             android:id="@+id/img_jia_hao_shopping_car_list"
-                            android:layout_width="30dp"
-                            android:layout_height="30dp"
+                            android:layout_width="@dimen/jia_jian_button_size"
+                            android:layout_height="@dimen/jia_jian_button_size"
                             android:src="@mipmap/jia_goods_count"
                             />
                     </LinearLayout>
 
                     <ImageView
                         android:id="@+id/img_delete_shopping_car_list"
-                        android:layout_width="25dp"
-                        android:layout_height="25dp"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
                         android:background="@mipmap/delete"
                         android:layout_alignParentRight="true"
                         android:layout_marginRight="10dp"

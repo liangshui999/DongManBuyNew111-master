@@ -1,7 +1,6 @@
 package com.example.asus_cp.dongmanbuy.util;
 
 import android.app.Dialog;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,11 +8,13 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.view.animation.LinearInterpolator;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.asus_cp.dongmanbuy.R;
+
 
 /**
  * 加载对话框的帮助类
@@ -23,13 +24,13 @@ public class DialogHelper {
 
     private static Dialog progressDialog;
 
+
     /**
      * 显示对话框
      */
     public static void showDialog(Context context){
         //显示进度框
-        progressDialog=createLoadingDialog(context,"正在加载...");
-        progressDialog.show();
+        showDialog(context,"正在加载...");
     }
 
     /**
@@ -38,8 +39,9 @@ public class DialogHelper {
     public static void showDialog(Context context,String message){
         //显示进度框
         progressDialog=createLoadingDialog(context,message);
-        setBackgroundAlpha(0.0f,progressDialog);
+        //setBackgroundAlpha(0.0f,progressDialog);
         progressDialog.show();
+
     }
 
     /**
@@ -49,6 +51,7 @@ public class DialogHelper {
         if (null != progressDialog && progressDialog.isShowing()) {
             progressDialog.dismiss();
         }
+
     }
 
 
@@ -68,10 +71,13 @@ public class DialogHelper {
         ImageView spaceshipImage = (ImageView) v.findViewById(R.id.img_loading);
         TextView tipTextView = (TextView) v.findViewById(R.id.text_loading);// 提示文字
         // 加载动画
-        Animation hyperspaceJumpAnimation = AnimationUtils.loadAnimation(
+        Animation animation = AnimationUtils.loadAnimation(
                 context, R.anim.loading_img_anim);
+        LinearInterpolator linearInterpolator=new LinearInterpolator();
+        animation.setInterpolator(linearInterpolator);//设置动画是线性旋转
+
         // 使用ImageView显示动画
-        spaceshipImage.startAnimation(hyperspaceJumpAnimation);
+        spaceshipImage.startAnimation(animation);
         tipTextView.setText(msg);// 设置加载信息
 
         Dialog loadingDialog = new Dialog(context,R.style.loading_dialog);// 创建自定义样式dialog
