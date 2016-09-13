@@ -55,7 +55,9 @@
                     android:layout_height="400dp"
                     android:layout_below="@id/biao_ti"
                     android:visibility="visible"
-                    android:dividerHeight="0dp">
+                    android:dividerHeight="10dp"
+                    android:divider="@color/mo_kuai_backgroud"
+                    android:background="@color/white_my">
                 </ListView>
 
                 <!--推荐商品-->

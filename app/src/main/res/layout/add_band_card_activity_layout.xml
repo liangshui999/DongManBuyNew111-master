@@ -21,9 +21,8 @@
         android:layout_height="wrap_content"
         android:padding="10dp">
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/ka_hao"/>
+            android:text="@string/ka_hao"
+            style="@style/add_bank_card_text_style"/>
         <EditText
             android:id="@+id/edit_ka_hao_add_bank_card"
             android:layout_width="0dp"
@@ -41,9 +40,8 @@
         android:layout_height="wrap_content"
         android:padding="10dp">
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/chi_ka_ren"/>
+            android:text="@string/chi_ka_ren"
+            style="@style/add_bank_card_text_style"/>
         <EditText
             android:id="@+id/edit_chi_ka_ren_add_bank_card"
             android:layout_width="0dp"
@@ -62,9 +60,8 @@
         android:layout_height="wrap_content"
         android:padding="10dp">
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/kai_hu_hang"/>
+            android:text="@string/kai_hu_hang"
+            style="@style/add_bank_card_text_style"/>
         <EditText
             android:id="@+id/edit_kai_hu_hang_add_bank_card"
             android:layout_width="0dp"
@@ -82,9 +79,8 @@
         android:layout_height="wrap_content"
         android:padding="10dp">
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/bank"/>
+            android:text="@string/bank"
+            style="@style/add_bank_card_text_style"/>
         <EditText
             android:id="@+id/edit_bank_add_bank_card"
             android:layout_width="0dp"

@@ -20,7 +20,7 @@
         android:id="@+id/ll_product_display_area_list_item_out"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="2dp"
+        android:layout_marginTop="@dimen/order_fen_ge_height"
         android:background="@color/white_my"
         android:paddingBottom="10dp"
         android:paddingTop="10dp">
@@ -123,7 +123,7 @@
         android:id="@+id/re_layout_pei_song_fang_shi_list_item_out"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="2dp"
+        android:layout_marginTop="@dimen/order_fen_ge_height"
         android:background="@color/white_my"
         android:paddingBottom="10dp"
         android:paddingLeft="10dp"
@@ -254,7 +254,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="2dp"
+        android:layout_marginTop="@dimen/order_fen_ge_height"
         android:background="@color/white_my"
         android:focusable="true"
         android:focusableInTouchMode="true"
@@ -285,7 +285,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="2dp"
+        android:layout_marginTop="@dimen/order_fen_ge_height"
         android:background="@color/white_my"
         android:orientation="vertical"
         android:paddingBottom="10dp"

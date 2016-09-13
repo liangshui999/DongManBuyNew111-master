@@ -5,7 +5,8 @@
 
     <!--头部-->
     <RelativeLayout
-        style="@style/dao_hang_relative_layout_style">
+        style="@style/dao_hang_relative_layout_style"
+        android:visibility="gone">
         <ImageView
             android:id="@+id/img_dao_hang_shou_cang_list"
             style="@style/dao_hang_img_style"/>

@@ -18,6 +18,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.example.asus_cp.dongmanbuy.R;
+import com.example.asus_cp.dongmanbuy.activity.BaseActivity;
 import com.example.asus_cp.dongmanbuy.activity.product_detail.ProductDetailActivity;
 import com.example.asus_cp.dongmanbuy.adapter.ShouCangListAdapter;
 import com.example.asus_cp.dongmanbuy.constant.MyConstant;
@@ -40,47 +41,52 @@ import java.util.Map;
  * 收藏列表
  * Created by asus-cp on 2016-06-23.
  */
-public class ShouCangListActivity extends Activity{
+public class ShouCangListActivity extends BaseActivity {
 
     private String tag="ShouCangListActivity";
 
     private String shouCangListUrl="http://www.zmobuy.com/PHP/?url=/user/collect/list";//获取收藏列表
 
-    private RequestQueue requestQueue;
-
-    private String uid;
-    private String sid;
-
-    private ImageView daoHangImageView;
+//    private RequestQueue requestQueue;
+//
+//    private String uid;
+//    private String sid;
+//
+//    private ImageView daoHangImageView;
     private ListView listView;
 
     private LinearLayout noContentLinearLayout;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
-        setContentView(R.layout.shou_cang_list_activity_layout);
+//        requestWindowFeature(Window.FEATURE_NO_TITLE);
+//        setContentView(R.layout.shou_cang_list_activity_layout);
+        setTitle(R.string.shou_cang_list);
+        setContentLayout(R.layout.shou_cang_list_activity_layout);
         init();
+    }
+
+    @Override
+    public void initView() {
+//        daoHangImageView= (ImageView) findViewById(R.id.img_dao_hang_shou_cang_list);
+        listView= (ListView) findViewById(R.id.list_shou_cang);
+        noContentLinearLayout= (LinearLayout) findViewById(R.id.ll_no_content_shou_cang);
     }
 
     private void init() {
 
-        requestQueue= MyApplication.getRequestQueue();
-        SharedPreferences sharedPreferences=getSharedPreferences(MyConstant.USER_SHAREPREFRENCE_NAME,MODE_APPEND);
-        uid=sharedPreferences.getString(MyConstant.UID_KEY,null);
-        sid=sharedPreferences.getString(MyConstant.SID_KEY,null);
-
-        daoHangImageView= (ImageView) findViewById(R.id.img_dao_hang_shou_cang_list);
-        listView= (ListView) findViewById(R.id.list_shou_cang);
-        noContentLinearLayout= (LinearLayout) findViewById(R.id.ll_no_content_shou_cang);
-
-        //设置点击事件
-        daoHangImageView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
+//        requestQueue= MyApplication.getRequestQueue();
+//        SharedPreferences sharedPreferences=getSharedPreferences(MyConstant.USER_SHAREPREFRENCE_NAME,MODE_APPEND);
+//        uid=sharedPreferences.getString(MyConstant.UID_KEY,null);
+//        sid=sharedPreferences.getString(MyConstant.SID_KEY,null);
+//
+//        //设置点击事件
+//        daoHangImageView.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                finish();
+//            }
+//        });
 
         //弹出正在加载的对话框
         DialogHelper.showDialog(this);

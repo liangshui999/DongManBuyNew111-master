@@ -20,7 +20,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="20000100003658995"
-                android:maxWidth="200dp"/>
+                android:maxWidth="200dp"
+                android:textColor="@color/myblack"
+                android:textSize="14sp"/>
         </LinearLayout>
 
         <TextView
@@ -28,7 +30,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="-100.00"
-            android:layout_alignParentRight="true"/>
+            android:layout_alignParentRight="true"
+            android:textSize="14sp"/>
     </RelativeLayout>
 
 

@@ -28,9 +28,9 @@
             android:orientation="vertical">
             <TextView
                 android:id="@+id/text_jiao_yi_fang_shi_shen_qing_ji_lu_detail"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/ti_xian"/>
+                android:text="@string/ti_xian"
+                android:paddingBottom="5dp"
+                style="@style/shen_qing_record_detail_text_style"/>
             <TextView
                 android:id="@+id/text_time_shen_qing_ji_lu_detail"
                 android:layout_width="wrap_content"
@@ -45,21 +45,23 @@
             android:layout_height="20dp"
             android:src="@mipmap/right"
             android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"/>
+            android:layout_centerVertical="true"
+            android:visibility="gone"/>
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:layout_toLeftOf="@id/right"
-            android:layout_marginRight="5dp">
+            android:layout_marginRight="5dp"
+            android:layout_alignParentRight="true">
 
             <TextView
                 android:id="@+id/text_jin_e_shen_qing_ji_lu_detail"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
                 android:text="2.00"
-                android:layout_gravity="center"/>
+                android:layout_gravity="center"
+                android:paddingBottom="5dp"
+                style="@style/shen_qing_record_detail_text_style"/>
 
             <TextView
                 android:id="@+id/text_status_shen_qing_ji_lu_detail"
@@ -80,22 +82,23 @@
         android:background="@color/white_my"
         android:padding="10dp">
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/zhi_fu_fang_shi"/>
+            android:text="@string/zhi_fu_fang_shi"
+            style="@style/shen_qing_record_detail_text_style"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/shou_xu_fei"
+            android:text="@string/zhi_fu_bao"
             android:layout_marginLeft="5dp"
-            android:textSize="12sp"/>
+            android:textSize="12sp"
+            android:textColor="@color/bottom_lable_color"/>
         <TextView
             android:id="@+id/text_shou_xu_fei_shen_qing_ji_lu_detail"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="0.00"
             android:layout_marginLeft="5dp"
-            android:textSize="12sp"/>
+            android:textSize="12sp"
+            android:visibility="gone"/>
 
     </LinearLayout>
 
@@ -106,12 +109,11 @@
         android:layout_height="wrap_content"
         android:padding="10dp"
         android:orientation="vertical"
-        android:layout_marginTop="2dp"
+        android:layout_marginTop="1dp"
         android:background="@color/white_my">
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="会员备注"/>
+            android:text="会员备注"
+            style="@style/shen_qing_record_detail_text_style"/>
         <TextView
             android:id="@+id/text_hui_yuan_bei_zhu_shen_qing_ji_lu_detail"
             android:layout_width="wrap_content"
@@ -128,12 +130,11 @@
         android:layout_height="wrap_content"
         android:padding="10dp"
         android:orientation="vertical"
-        android:layout_marginTop="2dp"
+        android:layout_marginTop="1dp"
         android:background="@color/white_my">
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="管理员备注"/>
+            android:text="管理员备注"
+            style="@style/shen_qing_record_detail_text_style"/>
         <TextView
             android:id="@+id/text_manager_bei_zhu_shen_qing_ji_lu_detail"
             android:layout_width="wrap_content"

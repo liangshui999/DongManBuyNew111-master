@@ -61,13 +61,14 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="印象卫衣"
-                    android:maxLines="2"/>
+                    android:maxLines="2"
+                    android:textColor="@color/myblack"/>
                 <TextView
                     android:id="@+id/text_product_price_shopping_car_list"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="99.00"
-                    android:textSize="12sp"
+                    android:textSize="16sp"
                     android:textColor="@color/bottom_lable_color"
                     android:layout_marginTop="5dp"
                     android:layout_below="@id/text_product_name_shopping_car_list"/>
@@ -97,7 +98,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
-                    android:layout_marginBottom="10dp">
+                    >
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"

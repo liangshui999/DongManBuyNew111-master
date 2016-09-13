@@ -356,4 +356,31 @@
     </style>
 
 
+    <!--申请记录详情的字体的样式-->
+    <style name="shen_qing_record_detail_text_style">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/myblack</item>
+    </style>
+
+
+    <!--提现和充值的字体样式-->
+    <style name="ti_xian_text_style">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/myblack</item>
+    </style>
+
+
+    <!--添加银行卡的字体样式-->
+    <style name="add_bank_card_text_style">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/myblack</item>
+    </style>
+
+
 </resources>

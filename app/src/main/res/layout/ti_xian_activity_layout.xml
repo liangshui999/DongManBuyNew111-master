@@ -22,10 +22,9 @@
         android:padding="10dp"
         android:background="@color/white_my">
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:text="@string/ti_xian_jin_e"
-            android:layout_gravity="center"/>
+            android:layout_gravity="center"
+            style="@style/ti_xian_text_style"/>
         <LinearLayout
             android:layout_width="0dp"
             android:layout_weight="1"
@@ -36,7 +35,8 @@
                 android:layout_height="wrap_content"
                 android:hint="本次最大提现金额888"
                 android:textSize="14sp"
-                android:singleLine="true"/>
+                android:singleLine="true"
+                />
         </LinearLayout>
     </LinearLayout>
 
@@ -49,7 +49,9 @@
         android:padding="10dp"
         android:layout_marginTop="2dp"
         android:background="@color/white_my"
-        android:text="@string/hui_yuan_bei_zhu"/>
+        android:text="@string/hui_yuan_bei_zhu"
+        android:textSize="16sp"
+        android:textColor="@color/myblack"/>
 
     <EditText
         android:id="@+id/edit_bei_zhu_ti_xian"
@@ -75,9 +77,8 @@
         >
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/ti_xian_fang_shi"/>
+            android:text="@string/ti_xian_fang_shi"
+            style="@style/ti_xian_text_style"/>
         <ImageView
             android:id="@+id/chong_zhi"
             android:layout_width="20dp"

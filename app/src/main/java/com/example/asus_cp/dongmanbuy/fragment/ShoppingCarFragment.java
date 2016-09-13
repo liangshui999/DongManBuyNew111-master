@@ -286,7 +286,7 @@ public class ShoppingCarFragment extends Fragment implements View.OnClickListene
                             for(int i=0;i<shopModels.size();i++){
                                 ShopModel shopModel=shopModels.get(i);
                                 List<Good> goods=shopModel.getGoods();
-                                len=len+goods.size()*130*densty/160+50*densty/160;//主要是店铺名称所在的布局要占40，所以给他设置成40
+                                len=len+goods.size()*130*densty/160+60*densty/160;//60=50+10,10是分割线的高度
                             }
                             MyLog.d(tag,"计算出的外部listview的高度是"+len+"...."+"densty="+densty);
                             //动态设置外部listview的高度
@@ -956,7 +956,7 @@ public class ShoppingCarFragment extends Fragment implements View.OnClickListene
                 @Override
                 public void onClick(View v) {
 
-                    DialogHelper.showDialog(context,"");
+                    DialogHelper.showDialog(context,"处理中...");
                     //获取购物车的商品数量
                     StringRequest getProductListRequest = new StringRequest(Request.Method.POST, shoppingCarListUrl,
                             new Response.Listener<String>() {
@@ -1078,7 +1078,7 @@ public class ShoppingCarFragment extends Fragment implements View.OnClickListene
                         getCheckStateAndSetSumPriceAndJieSuanShuMu();
                         notifyDataSetChanged();
 
-                        DialogHelper.showDialog(context,"");
+                        DialogHelper.showDialog(context,"处理中...");
                         StringRequest deleteRequest=new StringRequest(Request.Method.POST, deleteShoppingCarUrl,
                                 new Response.Listener<String>() {
                                     @Override
@@ -1164,7 +1164,7 @@ public class ShoppingCarFragment extends Fragment implements View.OnClickListene
              * 更改购物车商品数量
              */
             public void updateShoppingCar(final Good good, final String shoppingCarCount, final TextView textView, final int position){
-                DialogHelper.showDialog(context,"");
+                DialogHelper.showDialog(context,"处理中...");
                 //获取购物车的商品数量
                 StringRequest getProductListRequest=new StringRequest(Request.Method.POST, shoppingCarListUrl,
                         new Response.Listener<String>() {
