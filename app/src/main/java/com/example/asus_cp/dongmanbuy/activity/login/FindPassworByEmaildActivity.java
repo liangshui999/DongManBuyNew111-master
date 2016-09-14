@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.os.Message;
 import android.text.Spannable;
 import android.text.SpannableString;
@@ -32,6 +33,7 @@ import com.example.asus_cp.dongmanbuy.constant.MyConstant;
 import com.example.asus_cp.dongmanbuy.util.CheckHelper;
 import com.example.asus_cp.dongmanbuy.util.DialogHelper;
 import com.example.asus_cp.dongmanbuy.util.FormatHelper;
+import com.example.asus_cp.dongmanbuy.util.JsonHelper;
 import com.example.asus_cp.dongmanbuy.util.MyApplication;
 import com.example.asus_cp.dongmanbuy.util.MyLog;
 
@@ -71,12 +73,18 @@ public class FindPassworByEmaildActivity extends Activity{
 
     private static final int LOAD_COMPLETE=1;
 
+    private static final int TOAST_KEY=2;
+
     private Handler handler=new Handler(){
         @Override
         public void handleMessage(Message msg) {
             switch (msg.what){
                 case LOAD_COMPLETE:
                     DialogHelper.dissmisDialog();
+                    break;
+                case TOAST_KEY:
+                    String s= (String) msg.obj;
+                    Toast.makeText(FindPassworByEmaildActivity.this,s,Toast.LENGTH_SHORT).show();
                     break;
             }
         }
@@ -94,6 +102,7 @@ public class FindPassworByEmaildActivity extends Activity{
      * 初始化的方法
      */
     private void init() {
+//        Looper.prepare();
         requestQueue=MyApplication.getRequestQueue();
         daoHangImageView= (ImageView) findViewById(R.id.img_dao_hang_find_by_email);
         inputEmailEditText= (EditText) findViewById(R.id.edit_email_num_find_password);
@@ -269,11 +278,16 @@ public class FindPassworByEmaildActivity extends Activity{
                                 intent.putExtra(EMAIL_KEY, email);
                                 startActivity(intent);
                             }else{
-                                Toast.makeText(FindPassworByEmaildActivity.this,"邮箱不存在",Toast.LENGTH_SHORT).show();
+                                String error= JsonHelper.decodeUnicode(jsonObject1.getString("error_desc"));
+                                MyLog.d(tag,"邮箱不存在");
+                                Message message1=handler.obtainMessage(TOAST_KEY,error);
+                                handler.sendMessage(message1);
                             }
                         } catch (Exception e) {
-                            Toast.makeText(FindPassworByEmaildActivity.this,"邮箱不存在",Toast.LENGTH_SHORT).show();
+                            Message message2=handler.obtainMessage(TOAST_KEY,"邮箱不存在");
+                            handler.sendMessage(message2);
                             e.printStackTrace();
+                            MyLog.d(tag,e.toString());
                         }
 
                     }else{

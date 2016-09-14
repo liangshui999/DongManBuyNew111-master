@@ -81,6 +81,17 @@ public interface MyConstant {
     public static final String SCREEN_DENSTY_DPI_KEY="dpiKey";//屏幕像素密度的key
     public static final String SCREEN_INFO_SHARE_NAME="screensharename";//存储屏幕信息的shareprefrence的名字
     public static final String GOOD_ID_KEY="goodidkey";//goodidkey
+    public static final String CACH_SHAREPREFERENCE_NAME="cachShareName";//缓存首页，店铺街，购物车json数据
+    public static final String GUANG_GAO_ONE_CACH_KEY="guangOne";//第一个广告条缓存
+    public static final String GUANG_GAO_TWO_CACH_KEY="guangTwo";//第二个广告条缓存
+    public static final String GUANG_GAO_THREE_CACH_KEY="guangThree";//第三个广告条缓存
+    public static final String XIAN_SHI_MIAO_SHA_CACH_KEY="xianShiCach";//限时秒杀缓存
+    public static final String JING_PING_TUI_JIAN_CACH_KEY="jingPinCach";//精品推荐缓存
+    public static final String HOME_DIAN_PU_JIE_CACH_KEY="homeDianPuCach";//首页店铺街缓存
+    public static final String CAI_NI_XI_HUAN_CACH_KEY="caiNiCach";//猜你喜欢缓存
+    public static final String DIAN_PU_JIE_SHOPS_CACH_KEY="dianPuShopsCach";//店铺街的店铺列表缓存
+    public static final String SHOPPING_CAR_LIST_CACH_KEY="shoppingCarListCach";//购物车列表缓存
+    public static final String TUI_JIAN_GOOD_CACH_KEY="tuiJianCach";//购物车推荐商品缓存
 
 
 }

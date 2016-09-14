@@ -79,6 +79,9 @@ public class RequestQueue {
     /** Number of network request dispatcher threads to start. */
     private static final int DEFAULT_NETWORK_THREAD_POOL_SIZE = 4;
 
+    //默认的缓存线程的数量
+    private static final int DEFAULT_CACH_THREAD_POOL_SIZE=2;
+
     /** Cache interface for retrieving and storing responses. */
     private final Cache mCache;
 
@@ -92,7 +95,7 @@ public class RequestQueue {
     private NetworkDispatcher[] mDispatchers;
 
     /** The cache dispatcher. */
-    private CacheDispatcher mCacheDispatcher;
+    private CacheDispatcher[] mCacheDispatchers;//原本是一个对象，将其改成了对象数组
 
     private List<RequestFinishedListener> mFinishedListeners =
             new ArrayList<RequestFinishedListener>();
@@ -110,6 +113,7 @@ public class RequestQueue {
         mCache = cache;
         mNetwork = network;
         mDispatchers = new NetworkDispatcher[threadPoolSize];
+        mCacheDispatchers=new CacheDispatcher[DEFAULT_CACH_THREAD_POOL_SIZE];
         mDelivery = delivery;
     }
 
@@ -141,8 +145,12 @@ public class RequestQueue {
     public void start() {
         stop();  // Make sure any currently running dispatchers are stopped.
         // Create the cache dispatcher and start it.
-        mCacheDispatcher = new CacheDispatcher(mCacheQueue, mNetworkQueue, mCache, mDelivery);
-        mCacheDispatcher.start();
+//        mCacheDispatcher = new CacheDispatcher(mCacheQueue, mNetworkQueue, mCache, mDelivery);
+//        mCacheDispatcher.start();
+        for(int i=0;i<mCacheDispatchers.length;i++){
+            CacheDispatcher cacheDispatcher=new CacheDispatcher(mCacheQueue, mNetworkQueue, mCache, mDelivery);
+            cacheDispatcher.start();
+        }
 
         // Create network dispatchers (and corresponding threads) up to the pool size.
         for (int i = 0; i < mDispatchers.length; i++) {
@@ -157,9 +165,12 @@ public class RequestQueue {
      * Stops the cache and network dispatchers.
      */
     public void stop() {
-        if (mCacheDispatcher != null) {
-            mCacheDispatcher.quit();
+        for(int i=0;i<mCacheDispatchers.length;i++){
+            if (mCacheDispatchers[i] != null) {
+                mCacheDispatchers[i].quit();
+            }
         }
+
         for (int i = 0; i < mDispatchers.length; i++) {
             if (mDispatchers[i] != null) {
                 mDispatchers[i].quit();

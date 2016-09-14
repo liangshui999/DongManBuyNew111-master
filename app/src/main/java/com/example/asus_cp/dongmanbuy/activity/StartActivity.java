@@ -16,6 +16,7 @@ import com.example.asus_cp.dongmanbuy.constant.MyConstant;
 import com.example.asus_cp.dongmanbuy.service.UidService;
 import com.example.asus_cp.dongmanbuy.util.MyApplication;
 import com.example.asus_cp.dongmanbuy.util.MyLog;
+import com.example.asus_cp.dongmanbuy.util.MyNetHelper;
 
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -48,6 +49,10 @@ public class StartActivity extends Activity{
 
                 //获取设备信息，并写入shareprfrences里面
                 getPhoneInfoAndWriteToSharePrefrences();
+
+                if(MyNetHelper.isNetworkAvailable()){
+                    clearCachSharePrefrences();//清空缓存
+                }
             }
 
             @Override
@@ -78,6 +83,16 @@ public class StartActivity extends Activity{
 
         //requestQueue= MyApplication.getRequestQueue();
 
+    }
+
+    /**
+     * 清空首页的缓存数据
+     */
+    private void clearCachSharePrefrences() {
+        SharedPreferences sharedPreferences=getSharedPreferences(MyConstant.CACH_SHAREPREFERENCE_NAME,MODE_APPEND);
+        SharedPreferences.Editor editor=sharedPreferences.edit();
+        editor.clear();
+        editor.commit();
     }
 
     /**

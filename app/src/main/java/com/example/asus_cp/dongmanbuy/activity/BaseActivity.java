@@ -63,8 +63,6 @@ public abstract class BaseActivity extends Activity{
                 ViewGroup.LayoutParams.MATCH_PARENT);
         v.setLayoutParams(layoutParams);
         contentLinearLayout.addView(v);
-        initView();//注意initview调用的时间
-
     }
 
     /**
@@ -72,7 +70,6 @@ public abstract class BaseActivity extends Activity{
      */
     public void setContentLayout(View v){
         contentLinearLayout.addView(v);
-        initView();
     }
 
 

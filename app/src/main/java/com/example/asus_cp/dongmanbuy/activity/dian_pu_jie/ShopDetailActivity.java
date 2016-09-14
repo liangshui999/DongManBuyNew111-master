@@ -31,6 +31,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.StringRequest;
 import com.example.asus_cp.dongmanbuy.R;
+import com.example.asus_cp.dongmanbuy.activity.BaseActivity;
 import com.example.asus_cp.dongmanbuy.activity.login.LoginActivity;
 import com.example.asus_cp.dongmanbuy.activity.product_detail.ProductDetailActivity;
 import com.example.asus_cp.dongmanbuy.constant.MyConstant;
@@ -57,12 +58,11 @@ import java.util.Map;
  * 店铺详情的界面
  * Created by asus-cp on 2016-06-08.
  */
-public class ShopDetailActivity extends Activity implements View.OnClickListener{
+public class ShopDetailActivity extends BaseActivity implements View.OnClickListener{
 
     private static final int SCAN_CODE = 1;
     private String tag="ShopDetailActivity";
 
-    private ImageView daoHangImagView;//导航
     private ImageView logoImageView;//logo
     private TextView shopNameTextView;//店铺名字
     private TextView guanZhuRenShuTextView;//关注人数
@@ -94,12 +94,9 @@ public class ShopDetailActivity extends Activity implements View.OnClickListener
     private ImageLoadHelper helper;
     private MyIMHelper myIMHelper;
 
-
     private String guanZhuUrl="http://www.zmobuy.com/PHP/?url=/store/addcollect";//关注的接口
     private String erWeiMaUrl ="http://api.zmobuy.com/JK/base/model.php";//二维码的接口
     private String guanZhuListUrl="http://www.zmobuy.com/PHP/?url=/user/storelist";//获取关注列表的数据
-
-    private RequestQueue requestQueue;
 
     private ImageLoadHelper imageLoadHelper;
 
@@ -116,21 +113,14 @@ public class ShopDetailActivity extends Activity implements View.OnClickListener
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
-        setContentView(R.layout.shop_detail_activity_layout);
+        setTitle(R.string.shop_detail);
+        setContentLayout(R.layout.shop_detail_activity_layout);
+        initView();
         init();
     }
 
-    /**
-     * 初始化的方法
-     */
-    private void init() {
-
-        requestQueue= MyApplication.getRequestQueue();
-        imageLoadHelper=new ImageLoadHelper();
-        inflater=LayoutInflater.from(this);
-
-        daoHangImagView= (ImageView) findViewById(R.id.img_dao_hang_shop_detail);
+    @Override
+    public void initView() {
         logoImageView= (ImageView) findViewById(R.id.img_shop_logo_shop_detail);
         shopNameTextView= (TextView) findViewById(R.id.text_shop_name_shop_detail);
         guanZhuRenShuTextView= (TextView) findViewById(R.id.text_guan_zhu_ren_shu_shop_detail);
@@ -156,6 +146,15 @@ public class ShopDetailActivity extends Activity implements View.OnClickListener
         kaiDianTimeTextView= (TextView) findViewById(R.id.text_kai_dian_time);
         suoZaiAreaTextView= (TextView) findViewById(R.id.text_suo_zai_di_qu_shop_detail);
         suoZaiDiQuRelativeLayout= (RelativeLayout) findViewById(R.id.re_layout_suo_zai_di_qu_map);
+    }
+
+    /**
+     * 初始化的方法
+     */
+    private void init() {
+
+        imageLoadHelper=new ImageLoadHelper();
+        inflater=LayoutInflater.from(this);
 
         shopModel=getIntent().getParcelableExtra(MyConstant.SHOP_MODEL_KEY);
         if(shopModel!=null){
@@ -190,7 +189,6 @@ public class ShopDetailActivity extends Activity implements View.OnClickListener
 
 
             //给控件设置点击事件
-            daoHangImagView.setOnClickListener(this);
             logoImageView.setOnClickListener(this);
             shopNameTextView.setOnClickListener(this);
             guanZhuTextView.setOnClickListener(this);
@@ -216,9 +214,6 @@ public class ShopDetailActivity extends Activity implements View.OnClickListener
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.img_dao_hang_shop_detail://点击了导航按钮
-                finish();
-                break;
             case R.id.img_shop_logo_shop_detail://点击了店铺logo
                 toShopHomeActivity();
                 break;
@@ -436,10 +431,6 @@ public class ShopDetailActivity extends Activity implements View.OnClickListener
     private void guanZhuClickChuLi() {
         //Toast.makeText(this, "点击了关注按钮", Toast.LENGTH_SHORT).show();
         //Toast.makeText(context, "点击了关注", Toast.LENGTH_SHORT).show();
-        SharedPreferences sharedPreferences=getSharedPreferences(MyConstant.USER_SHAREPREFRENCE_NAME,
-                Context.MODE_APPEND);
-        final String uid=sharedPreferences.getString(MyConstant.UID_KEY, null);
-        final String sid=sharedPreferences.getString(MyConstant.SID_KEY,null);
         if(uid!=null && !uid.isEmpty()){
             StringRequest guanZhuRequest=new StringRequest(Request.Method.POST, guanZhuUrl,
                     new Response.Listener<String>() {
@@ -546,9 +537,6 @@ public class ShopDetailActivity extends Activity implements View.OnClickListener
      * @param guanZhuTextView
      */
     private void setGuanZhuTextViewFirstValue(final TextView guanZhuTextView, final ShopModel shopModel) {
-        SharedPreferences sharedPreferences=getSharedPreferences(MyConstant.USER_SHAREPREFRENCE_NAME, Context.MODE_APPEND);
-        final String uid=sharedPreferences.getString(MyConstant.UID_KEY, null);
-        final String sid=sharedPreferences.getString(MyConstant.SID_KEY,null);
         if(uid!=null && !uid.isEmpty()){
             StringRequest getGuanZhuListRequest=new StringRequest(Request.Method.POST, guanZhuListUrl,
                     new Response.Listener<String>() {

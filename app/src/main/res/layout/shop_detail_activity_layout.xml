@@ -13,7 +13,7 @@
             android:orientation="vertical">
 
             <!--头部-->
-            <RelativeLayout
+            <!--<RelativeLayout
                 style="@style/dao_hang_relative_layout_style">
                 <ImageView
                     android:id="@+id/img_dao_hang_shop_detail"
@@ -22,7 +22,7 @@
                     android:text="@string/shop_detail"
                     style="@style/dao_hang_text_style"
                     />
-            </RelativeLayout>
+            </RelativeLayout>-->
 
             <!--店铺名称-->
             <RelativeLayout
@@ -266,7 +266,7 @@
                     android:layout_height="wrap_content"
                     android:paddingTop="10dp"
                     android:paddingBottom="10dp"
-                    android:layout_marginTop="2dp"
+                    android:layout_marginTop="@dimen/shop_detail_fen_fe"
                     android:background="@color/white_my"
                     >
                     <TextView
@@ -289,7 +289,7 @@
                     android:layout_height="wrap_content"
                     android:paddingTop="10dp"
                     android:paddingBottom="10dp"
-                    android:layout_marginTop="2dp"
+                    android:layout_marginTop="@dimen/shop_detail_fen_fe"
                     android:background="@color/white_my">
                     <TextView
                         android:id="@+id/shangjia"
@@ -346,7 +346,7 @@
                     android:layout_height="wrap_content"
                     android:paddingTop="10dp"
                     android:paddingBottom="10dp"
-                    android:layout_marginTop="2dp"
+                    android:layout_marginTop="@dimen/shop_detail_fen_fe"
                     android:background="@color/white_my">
                     <TextView
                         android:id="@+id/gongsiname"
@@ -367,7 +367,7 @@
                     android:layout_height="wrap_content"
                     android:paddingTop="10dp"
                     android:paddingBottom="10dp"
-                    android:layout_marginTop="2dp"
+                    android:layout_marginTop="@dimen/shop_detail_fen_fe"
                     android:background="@color/white_my">
                     <TextView
                         android:id="@+id/kaidianshijian"
@@ -382,13 +382,15 @@
                         style="@style/shop_detail_desc_style"/>
                 </RelativeLayout>
 
+
+                <!--所在地区-->
                 <RelativeLayout
                     android:id="@+id/re_layout_suo_zai_di_qu_map"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingTop="10dp"
                     android:paddingBottom="10dp"
-                    android:layout_marginTop="2dp"
+                    android:layout_marginTop="@dimen/shop_detail_fen_fe"
                     android:background="@color/white_my">
                     <TextView
                         android:id="@+id/suozaidiqu"

@@ -15,7 +15,7 @@
             android:orientation="vertical"
             android:background="@color/mo_kuai_backgroud">
             <!--.........................商品详情......................-->
-            <RelativeLayout
+            <!--<RelativeLayout
                 style="@style/dao_hang_relative_layout_style">
                 <ImageView
                     android:id="@+id/img_dao_hang_product_detail"
@@ -24,7 +24,7 @@
                     android:text="@string/product_detail"
                     style="@style/dao_hang_text_style"
                     />
-            </RelativeLayout>
+            </RelativeLayout>-->
 
             <!--分隔线-->
             <ImageView

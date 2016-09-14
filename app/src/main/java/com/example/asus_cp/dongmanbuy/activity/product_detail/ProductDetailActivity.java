@@ -37,6 +37,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.StringRequest;
 import com.example.asus_cp.dongmanbuy.R;
+import com.example.asus_cp.dongmanbuy.activity.BaseActivity;
 import com.example.asus_cp.dongmanbuy.activity.MainActivity;
 import com.example.asus_cp.dongmanbuy.activity.login.LoginActivity;
 import com.example.asus_cp.dongmanbuy.adapter.ProductDetailYouHuiQuanListAdapter;
@@ -67,9 +68,8 @@ import java.util.Map;
  * 商品详情
  * Created by asus-cp on 2016-06-01.
  */
-public class ProductDetailActivity extends Activity implements View.OnClickListener {
+public class ProductDetailActivity extends BaseActivity implements View.OnClickListener {
 
-    private ImageView daoHangImagView;//导航
     private ImageView productBigPicImageView;//商品的大图
     private TextView productPicCountsTextView;//商品的图片数量
     private TextView isZiYingTextView;//自营还是他营
@@ -124,7 +124,6 @@ public class ProductDetailActivity extends Activity implements View.OnClickListe
     private Button buyAtOnceButton;//立即购买
     private TextView shoppingCarCountTextView;//购物车数量
 
-    private RequestQueue requestQueue;
 
     private String productPicUrl = "http://www.zmobuy.com/PHP/index.php?url=/goods/desc";//商品大图的接口地址
     private String userCommentUrl = "http://www.zmobuy.com/PHP/index.php?url=/comments";//用户评论的接口
@@ -192,8 +191,8 @@ public class ProductDetailActivity extends Activity implements View.OnClickListe
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
-        setContentView(R.layout.prodcut_detail_layout);
+        setTitle(R.string.product_detail);
+        setContentLayout(R.layout.prodcut_detail_layout);
         init();
     }
 
@@ -201,7 +200,6 @@ public class ProductDetailActivity extends Activity implements View.OnClickListe
      * 初始化方法
      */
     private void init() {
-        requestQueue = MyApplication.getRequestQueue();
         good = getIntent().getParcelableExtra(MyConstant.GOOD_KEY);
         productChiCun="S";
         MyLog.d(tag, "商品id" + good.getGoodId());
@@ -232,7 +230,6 @@ public class ProductDetailActivity extends Activity implements View.OnClickListe
         setValueToComment();
 
         //给view设置点击事件
-        daoHangImagView.setOnClickListener(this);
         shouCangLinearLayout.setOnClickListener(this);
         lingQuYouHuiQuanLinearLayout.setOnClickListener(this);
         suoZaiDiQuLayout.setOnClickListener(this);
@@ -616,9 +613,8 @@ public class ProductDetailActivity extends Activity implements View.OnClickListe
     /**
      * 初始化view
      */
-    private void initView() {
+    public void initView() {
         //初始化view
-        daoHangImagView= (ImageView) findViewById(R.id.img_dao_hang_product_detail);
         productBigPicImageView = (ImageView) findViewById(R.id.img_product_big_pic);
         productPicCountsTextView = (TextView) findViewById(R.id.text_product_pic_counts);
         isZiYingTextView = (TextView) findViewById(R.id.text_is_zi_ying);
@@ -684,10 +680,6 @@ public class ProductDetailActivity extends Activity implements View.OnClickListe
      * 给收藏设置初值
      */
     public void setFirstValueToShouCang(){
-        SharedPreferences sharedPreferences=getSharedPreferences(MyConstant.USER_SHAREPREFRENCE_NAME,
-                MODE_APPEND);
-        final String uid=sharedPreferences.getString(MyConstant.UID_KEY, null);
-        final String sid=sharedPreferences.getString(MyConstant.SID_KEY,null);
         if(uid!=null && !uid.isEmpty()){//有值
             //获取收藏列表
             StringRequest getListRequest = new StringRequest(Request.Method.POST, getShouCangListUrl,
@@ -746,12 +738,19 @@ public class ProductDetailActivity extends Activity implements View.OnClickListe
     }
 
     @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.img_dao_hang_product_detail:
+    public void backImageViewClickChuLi() {
+        getBackImageView().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
                 resetFuWu();
                 finish();
-                break;
+            }
+        });
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
             case R.id.ll_shou_cang://收藏
                 shouCangShiJianChuLi();
                 break;
@@ -968,9 +967,6 @@ public class ProductDetailActivity extends Activity implements View.OnClickListe
      * 跳转到购物车列表的界面
      */
     private void toShoppingCarList() {
-        SharedPreferences sharedPreferences=getSharedPreferences(MyConstant.USER_SHAREPREFRENCE_NAME, MODE_APPEND);
-        String uid=sharedPreferences.getString(MyConstant.UID_KEY, null);
-        String sid=sharedPreferences.getString(MyConstant.SID_KEY,null);
         if(uid!=null && !uid.isEmpty()){
             Intent shoppingCatIntent=new Intent(this,MainActivity.class);
             shoppingCatIntent.putExtra(MyConstant.KU_CUN_KEY,good.getGoodsNumber());
@@ -990,24 +986,16 @@ public class ProductDetailActivity extends Activity implements View.OnClickListe
      * @param isNeedToShoppingCar 是否需要跳转到购物车列表界面
      */
     private void addToShoppingCarAndBuyAtOnceTongYongChuLi(final boolean isNeedToShoppingCar) {
-        //Toast.makeText(this, "加入购物车", Toast.LENGTH_SHORT).show();
-        //int kuCun=Integer.parseInt(good.getGoodsNumber());
-        SharedPreferences sharedPreferences=getSharedPreferences(MyConstant.USER_SHAREPREFRENCE_NAME, MODE_APPEND);
-        final String uid=sharedPreferences.getString(MyConstant.UID_KEY, null);
-        final String sid=sharedPreferences.getString(MyConstant.SID_KEY,null);
         if(uid!=null && !uid.isEmpty()){
             if (yiXuanProdutCount == 0) {
                 Toast.makeText(this, "商品数量不能为0", Toast.LENGTH_SHORT).show();
             } else {
-                //shoppingCarGoodCount = shoppingCarGoodCount + yiXuanProdutCount;
-                //shoppingCarCountTextView.setText(shoppingCarGoodCount + "");
                 //获取购物车的商品数量
                 StringRequest getProductListRequest = new StringRequest(Request.Method.POST, shoppingCarListUrl,
                         new Response.Listener<String>() {
                             @Override
                             public void onResponse(String s) {
                                 MyLog.d(tag, "购物车列表的数据:" + s);
-                                //String recId = null;
                                 int sum = 0;
                                 try {
                                     JSONObject jsonObject = new JSONObject(s);
@@ -1015,22 +1003,12 @@ public class ProductDetailActivity extends Activity implements View.OnClickListe
                                     JSONArray jsonArray = jsonObject1.getJSONArray("goods_list");
                                     for (int i = 0; i < jsonArray.length(); i++) {
                                         JSONObject ziJsObj = jsonArray.getJSONObject(i);
-                                        //String goodId = ziJsObj.getString("goods_id");
                                         int goodsNumber = Integer.parseInt(ziJsObj.getString("goods_number"));
                                         sum = sum + goodsNumber;
-//                                        if (good.getGoodId().equals(goodId)) {
-//                                            recId = ziJsObj.getString("rec_id");
-//                                            break;
-//                                        }
                                     }
                                 } catch (JSONException e) {
                                     e.printStackTrace();
                                 }
-//                                    if (recId != null) {
-//                                        changeGoodCountToIntentAddToShoppingCar(recId, uid, sid,sum);
-//                                    } else {
-//                                        addToShoppingCarOnIntenet(uid, sid,sum);
-//                                    }
                                 addToShoppingCarOnIntenet(uid, sid, sum, isNeedToShoppingCar);
                             }
                         }, new Response.ErrorListener() {
@@ -1136,209 +1114,10 @@ public class ProductDetailActivity extends Activity implements View.OnClickListe
 
 
     /**
-     * 联网更改商品的数量，添加到购物车用,此方法作废
-     */
-    /*private void changeGoodCountToIntentAddToShoppingCar(String recId, final String uid, final String sid, final int sum) {
-        //更改商品数量
-        final String finalRecId = recId;
-        StringRequest upDateShoppingCarCountRequest=new StringRequest(Request.Method.POST, updateShoppingCarUrl,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String s) {
-                        MyLog.d(tag, "更改商品数量返回的数据：" + s);
-                        try {
-                            JSONObject jsonObject=new JSONObject(s);
-                            JSONObject jsonObject1=jsonObject.getJSONObject("status");
-                            String errorDesc=JsonHelper.decodeUnicode(jsonObject1.getString("error_desc"));
-                            Toast.makeText(ProductDetailActivity.this,errorDesc,Toast.LENGTH_SHORT).show();
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                            Toast.makeText(ProductDetailActivity.this,"加入购物车成功",Toast.LENGTH_SHORT).show();
-                            shoppingCarCountTextView.setText("" + (sum + yiXuanProdutCount));//设置购物车里面所有商品的数量
-                        }
-
-                    }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError volleyError) {
-
-            }
-        }){
-            @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-                Map<String,String> map=new HashMap<String,String>();
-                String json="{\"session\":{\"uid\":\""+uid+"\",\"sid\":\""+sid+"\"},\"rec_id\":\""+ finalRecId +"\",\"new_number\":\""+ shoppingCarGoodCount +"\"}";
-                map.put("json",json);
-                return map;
-            }
-        };
-        requestQueue.add(upDateShoppingCarCountRequest);
-    }
-*/
-
-    /**
-     * 立即购买的点击事件处理,此方法作废
-     */
-    /*public void buyAtOnceClickChuLi(){
-        int kuCun=Integer.parseInt(good.getGoodsNumber());
-        SharedPreferences sharedPreferences=getSharedPreferences(MyConstant.USER_SHAREPREFRENCE_NAME, MODE_APPEND);
-        final String uid=sharedPreferences.getString(MyConstant.UID_KEY, null);
-        final String sid=sharedPreferences.getString(MyConstant.SID_KEY,null);
-        if(uid!=null && !uid.isEmpty()){
-            if(shoppingCarGoodCount <kuCun){
-                if(yiXuanProdutCount==0){
-                    Toast.makeText(this,"商品数量不能为0",Toast.LENGTH_SHORT).show();
-                }else {
-                    shoppingCarGoodCount = shoppingCarGoodCount + yiXuanProdutCount;
-                    shoppingCarCountTextView.setText(shoppingCarGoodCount + "");
-                    //获取购物车的商品数量
-                    StringRequest getProductListRequest = new StringRequest(Request.Method.POST, shoppingCarListUrl,
-                            new Response.Listener<String>() {
-                                @Override
-                                public void onResponse(String s) {
-                                    MyLog.d(tag, "购物车列表的数据:" + s);
-                                    String recId = null;
-                                    try {
-                                        JSONObject jsonObject = new JSONObject(s);
-                                        JSONObject jsonObject1 = jsonObject.getJSONObject("data");
-                                        JSONArray jsonArray = jsonObject1.getJSONArray("goods_list");
-                                        for (int i = 0; i < jsonArray.length(); i++) {
-                                            JSONObject ziJsObj = jsonArray.getJSONObject(i);
-                                            String goodId = ziJsObj.getString("goods_id");
-                                            if (good.getGoodId().equals(goodId)) {
-                                                recId = ziJsObj.getString("rec_id");
-                                                break;
-                                            }
-                                        }
-                                    } catch (JSONException e) {
-                                        e.printStackTrace();
-                                    }
-                                    if (recId != null) {
-                                        changeGoodCountToIntenetBuyAtOnce(recId, uid, sid);
-                                    } else {
-                                        addToShoppingCarToIntenetBuyAtOnce(uid, sid);
-                                    }
-                                }
-                            }, new Response.ErrorListener() {
-                        @Override
-                        public void onErrorResponse(VolleyError volleyError) {
-
-                        }
-                    }) {
-                        @Override
-                        protected Map<String, String> getParams() throws AuthFailureError {
-                            Map<String, String> map = new HashMap<String, String>();
-                            String json = "{\"session\":{\"uid\":\"" + uid + "\",\"sid\":\"" + sid + "\"}}";
-                            map.put("json", json);
-                            return map;
-                        }
-                    };
-                    requestQueue.add(getProductListRequest);
-                }
-
-            }else{
-                AlertDialog.Builder builder=new AlertDialog.Builder(this);
-                builder.setTitle("");
-                builder.setMessage("对不起，该商品已经库存不足暂停销售。你现在要进行缺货登记来预定该商品吗？");
-                builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        if(uid!=null && !uid.isEmpty()){
-                            Intent intent=new Intent(ProductDetailActivity.this,QueHuoDengJiActivity.class);
-                            startActivity(intent);
-                        }else{
-                            Intent queHuoIntent=new Intent(ProductDetailActivity.this,LoginActivity.class);
-                            queHuoIntent.putExtra(MyConstant.START_LOGIN_ACTIVITY_FLAG_KEY,"queHuo");
-                            startActivity(queHuoIntent);
-                        }
-                    }
-                });
-                builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-
-                    }
-                });
-                AlertDialog alertDialog=builder.show();
-                alertDialog.show();
-            }
-        }else{//用户未登录，跳转到登陆界面
-            Intent intent=new Intent(this,LoginActivity.class);
-            intent.putExtra(MyConstant.START_LOGIN_ACTIVITY_FLAG_KEY,"shoppingCar");
-            startActivity(intent);
-        }
-    }*/
-
-
-    /**
-     * 添加商品上传到服务器,此方法作废
-     */
-    /*private void addToShoppingCarToIntenetBuyAtOnce(final String uid, final String sid) {
-        StringRequest addToShoppingCarRequest=new StringRequest(Request.Method.POST
-                , addToShoppingCarUrl, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String s) {
-                MyLog.d(tag, "加入购物车返回的数据:" + s);
-                toShoppingCarList();
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError volleyError) {
-
-            }
-        }){
-            @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-                Map<String,String> map=new HashMap<String,String>();
-                String json="{\"session\":{\"uid\":\""+uid+"\",\"sid\":\""+sid+"\"},\"goods_id\":\""+good.getGoodId()+"\",\"number\":\""+ yiXuanProdutCount +"\",\"spec\":\"\"}";
-                map.put("json",json);
-                return map;
-            }
-        };
-        requestQueue.add(addToShoppingCarRequest);
-    }*/
-
-
-    /**
-     * 联网改变商品数量,上传到服务器,此方法作废
-     */
-   /* private void changeGoodCountToIntenetBuyAtOnce(String recId, final String uid, final String sid) {
-        //更改商品数量
-        final String finalRecId = recId;
-        StringRequest upDateShoppingCarCountRequest=new StringRequest(Request.Method.POST, updateShoppingCarUrl,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String s) {
-                        MyLog.d(tag, "更改商品数量返回的数据：" + s);
-                        toShoppingCarList();
-                    }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError volleyError) {
-
-            }
-        }){
-            @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-                Map<String,String> map=new HashMap<String,String>();
-                String json="{\"session\":{\"uid\":\""+uid+"\",\"sid\":\""+sid+"\"},\"rec_id\":\""+ finalRecId +"\",\"new_number\":\""+ shoppingCarGoodCount +"\"}";
-                map.put("json",json);
-                return map;
-            }
-        };
-        requestQueue.add(upDateShoppingCarCountRequest);
-    }*/
-
-
-    /**
      * 收藏的点击事件处理
      */
     private void shouCangShiJianChuLi() {
         //Toast.makeText(this, "点击了收藏", Toast.LENGTH_SHORT).show();
-        SharedPreferences sharedPreferences=getSharedPreferences(MyConstant.USER_SHAREPREFRENCE_NAME,
-                MODE_APPEND);
-        final String uid=sharedPreferences.getString(MyConstant.UID_KEY, null);
-        final String sid=sharedPreferences.getString(MyConstant.SID_KEY,null);
         if(uid!=null && !uid.isEmpty()){//有值
             //获取收藏列表
             StringRequest getListRequest = new StringRequest(Request.Method.POST, getShouCangListUrl,
@@ -1696,16 +1475,12 @@ public class ProductDetailActivity extends Activity implements View.OnClickListe
     protected void onStart() {
         super.onStart();
         MyLog.d(tag,"onStart");
-        SharedPreferences sharedPreferences=getSharedPreferences(MyConstant.USER_SHAREPREFRENCE_NAME, MODE_APPEND);
-        final String uid=sharedPreferences.getString(MyConstant.UID_KEY, null);
-        final String sid=sharedPreferences.getString(MyConstant.SID_KEY,null);
         StringRequest getProductListRequest = new StringRequest(Request.Method.POST, shoppingCarListUrl,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String s) {
                         MyLog.d(tag, "购物车列表的数据:" + s);
                         MyLog.d(tag,"执行了吗?");
-                        String goodId = null;
                         int sum=0;
                         try {
                             JSONObject jsonObject = new JSONObject(s);
@@ -1713,21 +1488,11 @@ public class ProductDetailActivity extends Activity implements View.OnClickListe
                             JSONArray jsonArray = jsonObject1.getJSONArray("goods_list");
                             for (int i = 0; i < jsonArray.length(); i++) {
                                 JSONObject ziJsObj = jsonArray.getJSONObject(i);
-                                goodId = ziJsObj.getString("goods_id");
                                 sum=sum+Integer.parseInt(ziJsObj.getString("goods_number"));
-//                                if (good.getGoodId().equals(goodId)) {
-//                                    shoppingCarGoodCount = Integer.parseInt(ziJsObj.getString("goods_number"));
-//                                    shoppingCarCountTextView.setText(shoppingCarGoodCount+"");
-//                                    break;
-//                                }
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
-//                        if(goodId==null){
-//                            shoppingCarGoodCount = 0;
-//                            shoppingCarCountTextView.setText("0");
-//                        }
                         shoppingCarCountTextView.setText(sum+"");
                     }
                 }, new Response.ErrorListener() {

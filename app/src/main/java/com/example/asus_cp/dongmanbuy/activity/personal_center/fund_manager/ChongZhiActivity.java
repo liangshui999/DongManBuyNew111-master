@@ -223,6 +223,7 @@ public class ChongZhiActivity extends Activity implements View.OnClickListener{
                 String text=zhiFuBaoShouXuFeiTanChuTextView.getText().toString();
                 shouXuFeiTextView.setText(text);
                 zhiFuBaoCheckBox.setChecked(true);
+                chongZhiFangShiWindow.dismiss();
                 break;
         }
     }

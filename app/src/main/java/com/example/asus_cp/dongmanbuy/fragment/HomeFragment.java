@@ -175,7 +175,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
 
     private int screenWidth;
 
-
+    private SharedPreferences cachSharePrefrences;//保存缓存数据的shareprefrences,主要缓存json数据，不是缓存图片
 
 
     private Handler handler = new MyHandler();
@@ -285,44 +285,49 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
         secondPointGroup = (LinearLayout) v.findViewById(R.id.ll_point_group_second);
         threePointGroup = (LinearLayout) v.findViewById(R.id.ll_point_group_three);
 
+        screenWidth= MyScreenInfoHelper.getScreenWidth();//获取屏幕的宽度
+
         //-----------------第一个广告的初始化动作-----------------------------------
-        if(MyNetHelper.isNetworkAvailable()){
-            DialogHelper.showDialog(context);
-        }else{
+        if(!MyNetHelper.isNetworkAvailable()){
             Toast.makeText(context,"网络连接不可用",Toast.LENGTH_SHORT).show();
         }
         firstViewPager = (ViewPager) v.findViewById(R.id.viewpager_binner_first);
-        //设置firstviewpager的高度，使它能铺满全屏
-        screenWidth= MyScreenInfoHelper.getScreenWidth();
-        int tempWidth1=screenWidth*216/414;//216和414是图片的宽高比
-        ViewGroup.LayoutParams layoutParams=firstViewPager.getLayoutParams();
-        layoutParams.height=tempWidth1;
-        firstViewPager.setLayoutParams(layoutParams);
-        firstImageViews =new ArrayList<View>();
-        String binnerUrl="http://api.zmobuy.com/JK/base/model.php";
-        StringRequest binnerOneRequest=new StringRequest(Request.Method.POST, binnerUrl, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String s) {
-                DialogHelper.dissmisDialog();
-                getBinnerImageFromIntenet(s,FIRST_BINNER_FLAG,firstImageViews,REFRESH_FIRST_BINNER,SCROLL__FIRST_BINNER);
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError volleyError) {
+        setHeightToViewPager(firstViewPager,414,216);//设置firstviewpager的高度
 
-            }
-        }){
-            @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
+        firstImageViews =new ArrayList<View>();
+        cachSharePrefrences=context.getSharedPreferences(MyConstant.CACH_SHAREPREFERENCE_NAME,Context.MODE_APPEND);
+        String firstGuangGaoCach=cachSharePrefrences.getString(MyConstant.GUANG_GAO_ONE_CACH_KEY,null);
+        if(firstGuangGaoCach!=null){
+            getBinnerImageFromIntenet(firstGuangGaoCach,FIRST_BINNER_FLAG,firstImageViews,REFRESH_FIRST_BINNER,SCROLL__FIRST_BINNER);
+        }else{
+            DialogHelper.showDialog(context);
+            String binnerUrl="http://api.zmobuy.com/JK/base/model.php";
+            StringRequest binnerOneRequest=new StringRequest(Request.Method.POST, binnerUrl, new Response.Listener<String>() {
+                @Override
+                public void onResponse(String s) {
+                    DialogHelper.dissmisDialog();
+                    getBinnerImageFromIntenet(s, FIRST_BINNER_FLAG, firstImageViews, REFRESH_FIRST_BINNER, SCROLL__FIRST_BINNER);
+                    writeDataToCach(MyConstant.GUANG_GAO_ONE_CACH_KEY,s);//将json数据写入缓存
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError volleyError) {
+
+                }
+            }){
+                @Override
+                protected Map<String, String> getParams() throws AuthFailureError {
                 /*service	ads
                 position_id	256*/
-                Map<String,String> map=new HashMap<String,String>();
-                map.put("service","ads");
-                map.put("position_id","256");
-                return map;
-            }
-        };
-        requestQueue.add(binnerOneRequest);//加入到队列
+                    Map<String,String> map=new HashMap<String,String>();
+                    map.put("service","ads");
+                    map.put("position_id","256");
+                    return map;
+                }
+            };
+            requestQueue.add(binnerOneRequest);//加入到队列
+        }
+
         firstViewPager.addOnPageChangeListener(new MyPageChangeListener(firstImageViews, firstPointGroup));
         firstViewPager.setOnTouchListener(new MyPageTouchListener(SCROLL__FIRST_BINNER, firstViewPager));
 
@@ -334,32 +339,36 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
         secondViewPager = (ViewPager) v.findViewById(R.id.viewpager_binner_second);
 
         //动态设置viewpager的高度
-        int tempWidth2=screenWidth*129/414;
-        ViewGroup.LayoutParams layoutParams2=secondViewPager.getLayoutParams();
-        layoutParams2.height=tempWidth2;
-        secondViewPager.setLayoutParams(layoutParams2);
+        setHeightToViewPager(secondViewPager, 414, 129);
         secondImageViews =new ArrayList<View>();
-        String secondBinnerUrl="http://api.zmobuy.com/JK/base/model.php";
-        StringRequest binnerSecondRequest=new StringRequest(Request.Method.POST, secondBinnerUrl, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String s) {
-                getBinnerImageFromIntenet(s,SECOND_BINNER_FLAG,secondImageViews,REFRESH_SECOND_BINNER,SCROLL__SECOND_BINNER);
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError volleyError) {
+        String guangGaoTwoCach=cachSharePrefrences.getString(MyConstant.GUANG_GAO_TWO_CACH_KEY,null);
+        if(guangGaoTwoCach!=null){
+            getBinnerImageFromIntenet(guangGaoTwoCach,SECOND_BINNER_FLAG,secondImageViews,REFRESH_SECOND_BINNER,SCROLL__SECOND_BINNER);
+        }else{
+            String secondBinnerUrl="http://api.zmobuy.com/JK/base/model.php";
+            StringRequest binnerSecondRequest=new StringRequest(Request.Method.POST, secondBinnerUrl, new Response.Listener<String>() {
+                @Override
+                public void onResponse(String s) {
+                    getBinnerImageFromIntenet(s,SECOND_BINNER_FLAG,secondImageViews,REFRESH_SECOND_BINNER,SCROLL__SECOND_BINNER);
+                    writeDataToCach(MyConstant.GUANG_GAO_TWO_CACH_KEY,s);
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError volleyError) {
 
-            }
-        }){
-            @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-                Map<String,String> map=new HashMap<String,String>();
-                map.put("service","ads");
-                map.put("position_id","257");
-                return map;
-            }
-        };
-        requestQueue.add(binnerSecondRequest);//加入到队列
+                }
+            }){
+                @Override
+                protected Map<String, String> getParams() throws AuthFailureError {
+                    Map<String,String> map=new HashMap<String,String>();
+                    map.put("service","ads");
+                    map.put("position_id","257");
+                    return map;
+                }
+            };
+            requestQueue.add(binnerSecondRequest);//加入到队列
+        }
+
         secondViewPager.addOnPageChangeListener(new MyPageChangeListener(secondImageViews, secondPointGroup));
         secondViewPager.setOnTouchListener(new MyPageTouchListener(SCROLL__SECOND_BINNER, secondViewPager));
 
@@ -368,32 +377,37 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
         //---------------------------------第三个广告的初始化-------------------------------------
         threeViewPager = (ViewPager) v.findViewById(R.id.viewpager_binner_three);
         //动态设置viewpager的高度
-        int tempWidth3=screenWidth*129/414;
-        ViewGroup.LayoutParams layoutParams3=threeViewPager.getLayoutParams();
-        layoutParams3.height=tempWidth3;
-        threeViewPager.setLayoutParams(layoutParams3);
-        threeImageViews =new ArrayList<View>();
-        String threebinnerUrl="http://api.zmobuy.com/JK/base/model.php";
-        StringRequest binnerThreeRequest=new StringRequest(Request.Method.POST, threebinnerUrl, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String s) {
-                getBinnerImageFromIntenet(s,THREE_BINNER_FLAG,threeImageViews,REFRESH_THREE_BINNER,SCROLL__THREE_BINNER);
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError volleyError) {
+        setHeightToViewPager(threeViewPager, 414, 129);
 
-            }
-        }){
-            @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-                Map<String,String> map=new HashMap<String,String>();
-                map.put("service","ads");
-                map.put("position_id","258");
-                return map;
-            }
-        };
-        requestQueue.add(binnerThreeRequest);//加入到队列
+        threeImageViews =new ArrayList<View>();
+        String guangGaoThreeCach=cachSharePrefrences.getString(MyConstant.GUANG_GAO_THREE_CACH_KEY,null);
+        if(guangGaoThreeCach!=null){
+            getBinnerImageFromIntenet(guangGaoThreeCach,THREE_BINNER_FLAG,threeImageViews,REFRESH_THREE_BINNER,SCROLL__THREE_BINNER);
+        }else{
+            String threebinnerUrl="http://api.zmobuy.com/JK/base/model.php";
+            StringRequest binnerThreeRequest=new StringRequest(Request.Method.POST, threebinnerUrl, new Response.Listener<String>() {
+                @Override
+                public void onResponse(String s) {
+                    getBinnerImageFromIntenet(s,THREE_BINNER_FLAG,threeImageViews,REFRESH_THREE_BINNER,SCROLL__THREE_BINNER);
+                    writeDataToCach(MyConstant.GUANG_GAO_THREE_CACH_KEY,s);
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError volleyError) {
+
+                }
+            }){
+                @Override
+                protected Map<String, String> getParams() throws AuthFailureError {
+                    Map<String,String> map=new HashMap<String,String>();
+                    map.put("service","ads");
+                    map.put("position_id","258");
+                    return map;
+                }
+            };
+            requestQueue.add(binnerThreeRequest);//加入到队列
+        }
+
         threeViewPager.addOnPageChangeListener(new MyPageChangeListener(threeImageViews, threePointGroup));
         threeViewPager.setOnTouchListener(new MyPageTouchListener(SCROLL__THREE_BINNER,threeViewPager));
 
@@ -426,136 +440,54 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
         hourTextView= (TextView) v.findViewById(R.id.text_hour_xian_shi_miao_sha);
         minuteTextView= (TextView) v.findViewById(R.id.text_minute_xian_shi_miao_sha);
         secondTextView= (TextView) v.findViewById(R.id.text_second_xian_shi_miao_sha);
-        String shanShiUrl="http://www.zmobuy.com/PHP/index.php?url=/home/grab";
-        StringRequest xianShiStringRequest=new StringRequest(Request.Method.GET, shanShiUrl, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String s) {
-                MyLog.d(tag,"显示秒杀返回的数据是："+s);
-                final List<Good> goods = new ArrayList<Good>();
-                try {
-                    JSONObject jsonObject = new JSONObject(s);
-                    JSONArray jsonArray = jsonObject.getJSONArray("data");
-                    for (int i = 0; i < jsonArray.length(); i++) {
-                        Good good = new Good();
-                        JSONObject js = jsonArray.getJSONObject(i);
-                        good.setGoodId(js.getString("goods_id"));
-                        good.setGoodsImg(js.getString("goods_img"));
-                        good.setGoodsThumb(js.getString("goods_thumb"));
-                        good.setPromoteEndDate(js.getString("promote_end_date"));
-                        good.setPromotePrice(js.getString("promote_price"));
-                        good.setIsPromote(js.getString("is_promote"));
-                        good.setPromoteStartDate(js.getString("promote_start_date"));
-                        good.setGoodName(JsonHelper.decodeUnicode(js.getString("goods_name")));
-                        good.setMarket_price(js.getString("market_price"));
-                        good.setShopPrice(JsonHelper.decodeUnicode(js.getString("shop_price")));
-                        good.setGoodsNumber(js.getString("goods_number"));
-                        goods.add(good);
-                        promoteEndTime=js.getString("promote_end_date");//获取促销结束时间
-                        //给限时秒杀的时间设置值
-                        setXianShiTime();
-                        handler.sendEmptyMessageDelayed(XIAN_SHI_TIME,1000);
-                    }
-                    xianShiMiaoShaImagView= (ImageView) v.findViewById(R.id.img_xian_shi_miao_sha_content);
-                    //动态设置imageview的高度
-                    int tempWidth4=screenWidth/2-5;
-                    ViewGroup.LayoutParams layoutParams4=xianShiMiaoShaImagView.getLayoutParams();
-                    layoutParams4.height=tempWidth4;
-                    xianShiMiaoShaImagView.setLayoutParams(layoutParams4);
 
-                    xianShiMiaoShaImagView.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            Intent intent=new Intent(context,ProductDetailActivity.class);
-                            intent.putExtra(MyConstant.GOOD_KEY,goods.get(0));
-                            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                            context.startActivity(intent);
-                        }
-                    });
-                    final String urlString=goods.get(0).getGoodsThumb();
-                    ImageLoadHelper imageLoadHelper=new ImageLoadHelper();
-                    ImageLoader imageLoader=imageLoadHelper.getImageLoader();
-                    ImageLoader.ImageListener listener=imageLoader.getImageListener(xianShiMiaoShaImagView,R.mipmap.yu_jia_zai,
-                            R.mipmap.yu_jia_zai);
-                    imageLoader.get(urlString,listener);
-
-                    //限时秒杀的gridview
-                    xianShiMiaoShaGridView = (MyGridView) v.findViewById(R.id.grid_view_xian_shi_miao_sha);
-                    if (goods.size() > 0) {
-                        XianShiAdapter xianShiAdapter = new XianShiAdapter(context, getElementsFromList(goods, 5));
-                        xianShiMiaoShaGridView.setAdapter(xianShiAdapter);
-                        xianShiMiaoShaGridView.setOnItemClickListener(new XianShiOnItemClickListener(getElementsFromList(goods, 5)));
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
+        String xianShiMiaoShaCach=cachSharePrefrences.getString(MyConstant.XIAN_SHI_MIAO_SHA_CACH_KEY,null);
+        if(xianShiMiaoShaCach!=null){
+            setValueToXianShiMiaoSha(xianShiMiaoShaCach);
+        }else{
+            String shanShiUrl="http://www.zmobuy.com/PHP/index.php?url=/home/grab";
+            StringRequest xianShiStringRequest=new StringRequest(Request.Method.GET, shanShiUrl, new Response.Listener<String>() {
+                @Override
+                public void onResponse(String s) {
+                    MyLog.d(tag,"显示秒杀返回的数据是："+s);
+                    setValueToXianShiMiaoSha(s);//给限时秒杀的view设置值
+                    writeDataToCach(MyConstant.XIAN_SHI_MIAO_SHA_CACH_KEY,s);
                 }
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError volleyError) {
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError volleyError) {
 
-            }
-        });
-        requestQueue.add(xianShiStringRequest);
+                }
+            });
+            requestQueue.add(xianShiStringRequest);
+        }
+
 
 
 
         //----------------------用viewpager做的精品推荐部分-----------------------
         jingPinViewPager= (ViewPager) v.findViewById(R.id.viewpager_jing_pin);
         final List<View> gridViews=new ArrayList<View>();
-        String jingPinRequestUrl="http://www.zmobuy.com/PHP/index.php?url=/home/bestgoods";
-        StringRequest jingPinStringRequest=new StringRequest(Request.Method.GET, jingPinRequestUrl, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String s) {
-                final List<Good> goods = parseCaiNiLikeAndJingPin(s);
-               // Good[] goodArray= (Good[]) goods.toArray();
-                int size=goods.size();
-                int count=0;//取的次数
-                if(size%3==0){
-                    count=size;
-                }else{
-                    count=size/3+1;
+        String jingPinTuiJianCach=cachSharePrefrences.getString(MyConstant.JING_PING_TUI_JIAN_CACH_KEY,null);
+        if(jingPinTuiJianCach!=null){
+            setValueToJingPinTuiJian(jingPinTuiJianCach, gridViews);
+        }else{
+            String jingPinRequestUrl="http://www.zmobuy.com/PHP/index.php?url=/home/bestgoods";
+            StringRequest jingPinStringRequest=new StringRequest(Request.Method.GET, jingPinRequestUrl, new Response.Listener<String>() {
+                @Override
+                public void onResponse(String s) {
+                    setValueToJingPinTuiJian(s, gridViews);
+                    writeDataToCach(MyConstant.JING_PING_TUI_JIAN_CACH_KEY,s);
                 }
-                for(int i=0;i<count;i++){
-                    final List<Good> goodItems=new ArrayList<Good>();
-                    for(int j=3*i;j<3*i+3;j++){
-                        if(j<size){
-                            goodItems.add(goods.get(j));
-                        }
-                    }
-                    JingPinAdapter jingPinAdapter=new JingPinAdapter(context,goodItems);
-                    MyGridView gridView=new MyGridView(context);
-                    //gridView.setColumnWidth(230);
-                    gridView.setHorizontalSpacing(5);
-                    gridView.setVerticalSpacing(5);
-                    gridView.setGravity(Gravity.CENTER);
-                    gridView.setStretchMode(GridView.STRETCH_COLUMN_WIDTH);
-                    gridView.setNumColumns(3);
-                    gridView.setAdapter(jingPinAdapter);
-                    gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                        @Override
-                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                           // Toast.makeText(context,""+position,Toast.LENGTH_SHORT).show();
-                            Intent intent=new Intent(context,ProductDetailActivity.class);
-                            intent.putExtra(MyConstant.GOOD_KEY,goodItems.get(position));
-                            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                            context.startActivity(intent);
-                        }
-                    });
-                    gridViews.add(gridView);
-                }
-                jingPinViewPager.setAdapter(new MyPagerAdapter(gridViews));
-                //mainActivity.menu.addIgnoredView(jingPinViewPager);
-                LinearLayout jingPinPointGroup= (LinearLayout) v.findViewById(R.id.ll_point_group_jing_pin);
-                initPoint(jingPinPointGroup,gridViews.size());
-                jingPinViewPager.addOnPageChangeListener(new MyPageChangeListener(gridViews,jingPinPointGroup));
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError volleyError) {
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError volleyError) {
 
-            }
-        });
-        requestQueue.add(jingPinStringRequest);
+                }
+            });
+            requestQueue.add(jingPinStringRequest);
+        }
+
 
 
 
@@ -587,101 +519,59 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
         String indexUrl="http://www.zmobuy.com/PHP/?url=/store/index";//店铺分类的url
         shopStreetViewPager= (ViewPager) v.findViewById(R.id.viewpager_shop_street);
         final List<View> shopStreetGridViews=new ArrayList<View>();
-        StringRequest shopStreetStringRequest=new StringRequest(Request.Method.POST, indexUrl, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String s) {
-                final List<ShopModel> shopModels = parseJsonShopStreet(s);
-                // Good[] goodArray= (Good[]) goods.toArray();
-                int size=shopModels.size();
-                int count=0;//取的次数
-                if(size%3==0){
-                    count=size;
-                }else{
-                    count=size/3+1;
+        String shopStreetCach=cachSharePrefrences.getString(MyConstant.HOME_DIAN_PU_JIE_CACH_KEY,null);
+        if(shopStreetCach!=null){
+            setValueToShopStrret(shopStreetCach, shopStreetGridViews);
+        }else{
+            StringRequest shopStreetStringRequest=new StringRequest(Request.Method.POST, indexUrl, new Response.Listener<String>() {
+                @Override
+                public void onResponse(String s) {
+                    setValueToShopStrret(s, shopStreetGridViews);
+                    writeDataToCach(MyConstant.HOME_DIAN_PU_JIE_CACH_KEY,s);
                 }
-                for(int i=0;i<count;i++){
-                    final List<ShopModel> shopItems=new ArrayList<ShopModel>();
-                    for(int j=3*i;j<3*i+3;j++){
-                        if(j<size){
-                            shopItems.add(shopModels.get(j));
-                        }
-                    }
-                    HomeShopStreetAdapter homeShopStreetAdapter=new HomeShopStreetAdapter(context,shopItems);
-                    MyGridView gridView=new MyGridView(context);
-                    //gridView.setColumnWidth(230);
-                    gridView.setHorizontalSpacing(5);
-                    gridView.setVerticalSpacing(5);
-                    gridView.setGravity(Gravity.CENTER);
-                    gridView.setStretchMode(GridView.STRETCH_COLUMN_WIDTH);
-                    gridView.setNumColumns(3);
-                    gridView.setAdapter(homeShopStreetAdapter);
-                    gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                        @Override
-                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                            // Toast.makeText(context,""+position,Toast.LENGTH_SHORT).show();
-                            Intent intent=new Intent(context,ShopHomeActivity.class);
-                            intent.putExtra(MyConstant.SHOP_USER_ID_KEY,shopItems.get(position).getUserId());
-                            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                            context.startActivity(intent);
-                        }
-                    });
-                    shopStreetGridViews.add(gridView);
-                }
-                shopStreetViewPager.setAdapter(new MyPagerAdapter(shopStreetGridViews));
-                //mainActivity.menu.addIgnoredView(shopStreetViewPager);
-                LinearLayout shopStreetPointGroup= (LinearLayout) v.findViewById(R.id.ll_point_group_shop_street);
-                initPoint(shopStreetPointGroup,shopStreetGridViews.size());
-                shopStreetViewPager.addOnPageChangeListener(new MyPageChangeListener(shopStreetGridViews,shopStreetPointGroup));
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError volleyError) {
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError volleyError) {
 
-            }
-        }){
-            @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-                Map<String,String>map=new HashMap<String,String>();
-                String json="{\"page\":\"1\",\"where\":\"\""+""+"\"\",\"type\":\"1\"}";
-                map.put("json",json);
-                return map;
-            }
-        };
-        requestQueue.add(shopStreetStringRequest);
+                }
+            }){
+                @Override
+                protected Map<String, String> getParams() throws AuthFailureError {
+                    Map<String,String>map=new HashMap<String,String>();
+                    String json="{\"page\":\"1\",\"where\":\"\""+""+"\"\",\"type\":\"1\"}";
+                    map.put("json",json);
+                    return map;
+                }
+            };
+            requestQueue.add(shopStreetStringRequest);
+        }
 
 
 
 
         //-----------------------猜你喜欢部分---------------------------------
         caiNiXiHuanGridView= (MyGridViewA) v.findViewById(R.id.grid_view_cai_ni_xi_huan);
-        String caiNiUrl="http://www.zmobuy.com/PHP/index.php?url=/home/hotgoods";
-        StringRequest caiNiXiHuanRequest=new StringRequest(Request.Method.GET, caiNiUrl, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String s) {
-                MyLog.d(tag,"猜你喜欢部分"+s);
-                final List<Good> goods=parseCaiNiLikeAndJingPin(s);
-                CaiNiXiHuanAdapter caiNiXiHuanAdapter=new CaiNiXiHuanAdapter(context,goods);
-                caiNiXiHuanGridView.setAdapter(caiNiXiHuanAdapter);
-                //CategoryImageLoadHelper.setGridViewViewHeightBasedOnChildren(caiNiXiHuanGridView);
-                caiNiXiHuanGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                        //Toast.makeText(context,""+position,Toast.LENGTH_SHORT).show();
-                        Intent intent=new Intent(context, ProductDetailActivity.class);
-                        Bundle bundle=new Bundle();
-                        bundle.putParcelable(GOOD_KEY,goods.get(position));
-                        intent.putExtras(bundle);
-                        startActivity(intent);
-                    }
-                });
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError volleyError) {
+        String caiNiXiHuanCach=cachSharePrefrences.getString(MyConstant.CAI_NI_XI_HUAN_CACH_KEY,null);
+        if(caiNiXiHuanCach!=null){
+            setValueToCaiNiXiHuan(caiNiXiHuanCach);
+        }else{
+            String caiNiUrl="http://www.zmobuy.com/PHP/index.php?url=/home/hotgoods";
+            StringRequest caiNiXiHuanRequest=new StringRequest(Request.Method.GET, caiNiUrl, new Response.Listener<String>() {
+                @Override
+                public void onResponse(String s) {
+                    MyLog.d(tag,"猜你喜欢部分"+s);
+                    setValueToCaiNiXiHuan(s);
+                    writeDataToCach(MyConstant.CAI_NI_XI_HUAN_CACH_KEY,s);
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError volleyError) {
 
-            }
-        });
-        requestQueue.add(caiNiXiHuanRequest);
+                }
+            });
+            requestQueue.add(caiNiXiHuanRequest);
+        }
+
 
 
         //将各个viewpager添加到忽视的区域
@@ -698,6 +588,221 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
         xianShiMoreTextView.setOnClickListener(this);
         jingPinMoreTextView.setOnClickListener(this);
         dianPuJieMoreTextView.setOnClickListener(this);
+    }
+
+
+    /**
+     * 给猜你喜欢设置值
+     * @param s
+     */
+    private void setValueToCaiNiXiHuan(String s) {
+        final List<Good> goods=parseCaiNiLikeAndJingPin(s);
+        CaiNiXiHuanAdapter caiNiXiHuanAdapter=new CaiNiXiHuanAdapter(context,goods);
+        caiNiXiHuanGridView.setAdapter(caiNiXiHuanAdapter);
+        //CategoryImageLoadHelper.setGridViewViewHeightBasedOnChildren(caiNiXiHuanGridView);
+        caiNiXiHuanGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                //Toast.makeText(context,""+position,Toast.LENGTH_SHORT).show();
+                Intent intent=new Intent(context, ProductDetailActivity.class);
+                Bundle bundle=new Bundle();
+                bundle.putParcelable(GOOD_KEY,goods.get(position));
+                intent.putExtras(bundle);
+                startActivity(intent);
+            }
+        });
+    }
+
+
+    /**
+     * 给店铺街的view设置值
+     * @param s
+     * @param shopStreetGridViews
+     */
+    private void setValueToShopStrret(String s, List<View> shopStreetGridViews) {
+        final List<ShopModel> shopModels = parseJsonShopStreet(s);
+        // Good[] goodArray= (Good[]) goods.toArray();
+        int size=shopModels.size();
+        int count=0;//取的次数
+        if(size%3==0){
+            count=size;
+        }else{
+            count=size/3+1;
+        }
+        for(int i=0;i<count;i++){
+            final List<ShopModel> shopItems=new ArrayList<ShopModel>();
+            for(int j=3*i;j<3*i+3;j++){
+                if(j<size){
+                    shopItems.add(shopModels.get(j));
+                }
+            }
+            HomeShopStreetAdapter homeShopStreetAdapter=new HomeShopStreetAdapter(context,shopItems);
+            MyGridView gridView=new MyGridView(context);
+            //gridView.setColumnWidth(230);
+            gridView.setHorizontalSpacing(5);
+            gridView.setVerticalSpacing(5);
+            gridView.setGravity(Gravity.CENTER);
+            gridView.setStretchMode(GridView.STRETCH_COLUMN_WIDTH);
+            gridView.setNumColumns(3);
+            gridView.setAdapter(homeShopStreetAdapter);
+            gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    // Toast.makeText(context,""+position,Toast.LENGTH_SHORT).show();
+                    Intent intent=new Intent(context,ShopHomeActivity.class);
+                    intent.putExtra(MyConstant.SHOP_USER_ID_KEY,shopItems.get(position).getUserId());
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    context.startActivity(intent);
+                }
+            });
+            shopStreetGridViews.add(gridView);
+        }
+        shopStreetViewPager.setAdapter(new MyPagerAdapter(shopStreetGridViews));
+        //mainActivity.menu.addIgnoredView(shopStreetViewPager);
+        LinearLayout shopStreetPointGroup= (LinearLayout) v.findViewById(R.id.ll_point_group_shop_street);
+        initPoint(shopStreetPointGroup,shopStreetGridViews.size());
+        shopStreetViewPager.addOnPageChangeListener(new MyPageChangeListener(shopStreetGridViews,shopStreetPointGroup));
+    }
+
+
+    /**
+     * 给精品推荐的view设置值
+     * @param s
+     * @param gridViews
+     */
+    private void setValueToJingPinTuiJian(String s, List<View> gridViews) {
+        final List<Good> goods = parseCaiNiLikeAndJingPin(s);
+        // Good[] goodArray= (Good[]) goods.toArray();
+        int size=goods.size();
+        int count=0;//取的次数
+        if(size%3==0){
+            count=size;
+        }else{
+            count=size/3+1;
+        }
+        for(int i=0;i<count;i++){
+            final List<Good> goodItems=new ArrayList<Good>();
+            for(int j=3*i;j<3*i+3;j++){
+                if(j<size){
+                    goodItems.add(goods.get(j));
+                }
+            }
+            JingPinAdapter jingPinAdapter=new JingPinAdapter(context,goodItems);
+            MyGridView gridView=new MyGridView(context);
+            //gridView.setColumnWidth(230);
+            gridView.setHorizontalSpacing(5);
+            gridView.setVerticalSpacing(5);
+            gridView.setGravity(Gravity.CENTER);
+            gridView.setStretchMode(GridView.STRETCH_COLUMN_WIDTH);
+            gridView.setNumColumns(3);
+            gridView.setAdapter(jingPinAdapter);
+            gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                   // Toast.makeText(context,""+position,Toast.LENGTH_SHORT).show();
+                    Intent intent=new Intent(context,ProductDetailActivity.class);
+                    intent.putExtra(MyConstant.GOOD_KEY,goodItems.get(position));
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    context.startActivity(intent);
+                }
+            });
+            gridViews.add(gridView);
+        }
+        jingPinViewPager.setAdapter(new MyPagerAdapter(gridViews));
+        //mainActivity.menu.addIgnoredView(jingPinViewPager);
+        LinearLayout jingPinPointGroup= (LinearLayout) v.findViewById(R.id.ll_point_group_jing_pin);
+        initPoint(jingPinPointGroup,gridViews.size());
+        jingPinViewPager.addOnPageChangeListener(new MyPageChangeListener(gridViews,jingPinPointGroup));
+    }
+
+
+    /**
+     * 给限时秒杀的各个view设置值
+     * @param s
+     */
+    private void setValueToXianShiMiaoSha(String s) {
+        final List<Good> goods = new ArrayList<Good>();
+        try {
+            JSONObject jsonObject = new JSONObject(s);
+            JSONArray jsonArray = jsonObject.getJSONArray("data");
+            for (int i = 0; i < jsonArray.length(); i++) {
+                Good good = new Good();
+                JSONObject js = jsonArray.getJSONObject(i);
+                good.setGoodId(js.getString("goods_id"));
+                good.setGoodsImg(js.getString("goods_img"));
+                good.setGoodsThumb(js.getString("goods_thumb"));
+                good.setPromoteEndDate(js.getString("promote_end_date"));
+                good.setPromotePrice(js.getString("promote_price"));
+                good.setIsPromote(js.getString("is_promote"));
+                good.setPromoteStartDate(js.getString("promote_start_date"));
+                good.setGoodName(JsonHelper.decodeUnicode(js.getString("goods_name")));
+                good.setMarket_price(js.getString("market_price"));
+                good.setShopPrice(JsonHelper.decodeUnicode(js.getString("shop_price")));
+                good.setGoodsNumber(js.getString("goods_number"));
+                goods.add(good);
+                promoteEndTime=js.getString("promote_end_date");//获取促销结束时间
+                //给限时秒杀的时间设置值
+                setXianShiTime();
+                handler.sendEmptyMessageDelayed(XIAN_SHI_TIME,1000);
+            }
+            xianShiMiaoShaImagView= (ImageView) v.findViewById(R.id.img_xian_shi_miao_sha_content);
+            //动态设置imageview的高度
+            int tempWidth4=screenWidth/2-5;
+            ViewGroup.LayoutParams layoutParams4=xianShiMiaoShaImagView.getLayoutParams();
+            layoutParams4.height=tempWidth4;
+            xianShiMiaoShaImagView.setLayoutParams(layoutParams4);
+
+            xianShiMiaoShaImagView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent=new Intent(context,ProductDetailActivity.class);
+                    intent.putExtra(MyConstant.GOOD_KEY,goods.get(0));
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    context.startActivity(intent);
+                }
+            });
+            final String urlString=goods.get(0).getGoodsThumb();
+            ImageLoadHelper imageLoadHelper=new ImageLoadHelper();
+            ImageLoader imageLoader=imageLoadHelper.getImageLoader();
+            ImageLoader.ImageListener listener=imageLoader.getImageListener(xianShiMiaoShaImagView,R.mipmap.yu_jia_zai,
+                    R.mipmap.yu_jia_zai);
+            imageLoader.get(urlString,listener);
+
+            //限时秒杀的gridview
+            xianShiMiaoShaGridView = (MyGridView) v.findViewById(R.id.grid_view_xian_shi_miao_sha);
+            if (goods.size() > 0) {
+                XianShiAdapter xianShiAdapter = new XianShiAdapter(context, getElementsFromList(goods, 5));
+                xianShiMiaoShaGridView.setAdapter(xianShiAdapter);
+                xianShiMiaoShaGridView.setOnItemClickListener(new XianShiOnItemClickListener(getElementsFromList(goods, 5)));
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    /**
+     * 将json数据写入缓存中
+     * @param key ,写入缓存时使用的key
+     * @param data
+     */
+    private void writeDataToCach(String key,String data) {
+        SharedPreferences.Editor editor=cachSharePrefrences.edit();
+        editor.putString(key,data);
+        editor.commit();
+    }
+
+
+    /**
+     * 手动设定viewpager的高度
+     * @param width viewpager里面装的图片的宽度，注意是图片的宽度，而不是viewpager本身的宽度
+     */
+    private void setHeightToViewPager(ViewPager viewPager,int width,int height) {
+        //设置firstviewpager的高度，使它能铺满全屏
+        int tempHeight=screenWidth*height/width;//216和414是图片的宽高比
+        ViewGroup.LayoutParams layoutParams=viewPager.getLayoutParams();
+        layoutParams.height=tempHeight;
+        viewPager.setLayoutParams(layoutParams);
     }
 
     /**
