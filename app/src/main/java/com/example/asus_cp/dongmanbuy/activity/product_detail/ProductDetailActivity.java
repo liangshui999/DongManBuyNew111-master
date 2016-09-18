@@ -553,7 +553,7 @@ public class ProductDetailActivity extends BaseActivity implements View.OnClickL
                                 isZiYingLinearLayout.setVisibility(View.VISIBLE);
                                 isZiYingTextView.setVisibility(View.VISIBLE);
                                 isZiYingTextView.setText("自营");
-                                MyLog.d(tag,"自营内部执行了吗？");
+                                MyLog.d(tag, "自营内部执行了吗？");
                             }else{
                                 isZiYingLinearLayout.setVisibility(View.GONE);
                                 isZiYingTextView.setVisibility(View.GONE);
@@ -737,15 +737,24 @@ public class ProductDetailActivity extends BaseActivity implements View.OnClickL
         }
     }
 
+    /**
+     * 导航按钮的点击事件处理
+     */
     @Override
     public void backImageViewClickChuLi() {
         getBackImageView().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                resetFuWu();
-                finish();
+                backClickChuLi();
             }
         });
+    }
+
+    private void backClickChuLi() {
+        resetFuWu();
+        Intent intent=new Intent();
+        setResult(RESULT_OK,intent);
+        finish();
     }
 
     @Override
@@ -1548,7 +1557,6 @@ public class ProductDetailActivity extends BaseActivity implements View.OnClickL
     @Override
     public void onBackPressed() {
         //super.onBackPressed();
-        resetFuWu();
-        finish();
+        backClickChuLi();
     }
 }

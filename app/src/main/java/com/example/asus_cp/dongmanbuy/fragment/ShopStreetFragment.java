@@ -143,9 +143,11 @@ public class ShopStreetFragment extends Fragment implements View.OnClickListener
 
         location=ALL;
         count=1;
+        DialogHelper.showDialog(context);
+        tongYongClickChuLi("");
 
-        //设置缓存的代码
-        SharedPreferences cachSharePrefrences=context.getSharedPreferences(MyConstant.CACH_SHAREPREFERENCE_NAME,Context.MODE_APPEND);
+        //设置缓存的代码,设置缓存会造成关注失效
+       /* SharedPreferences cachSharePrefrences=context.getSharedPreferences(MyConstant.CACH_SHAREPREFERENCE_NAME,Context.MODE_APPEND);
         String shopStreetCach=cachSharePrefrences.getString(MyConstant.DIAN_PU_JIE_SHOPS_CACH_KEY,null);
         if(shopStreetCach!=null){
             setValueToListView(shopStreetCach);
@@ -173,7 +175,7 @@ public class ShopStreetFragment extends Fragment implements View.OnClickListener
                 }
             };
             requestQueue.add(moWanRequest);
-        }
+        }*/
 
 
         //设置点击事件

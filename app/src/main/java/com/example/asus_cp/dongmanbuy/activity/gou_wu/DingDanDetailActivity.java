@@ -29,6 +29,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.StringRequest;
 import com.example.asus_cp.dongmanbuy.R;
+import com.example.asus_cp.dongmanbuy.activity.BaseActivity;
 import com.example.asus_cp.dongmanbuy.adapter.DingDanJieMianListAdapterIn;
 import com.example.asus_cp.dongmanbuy.constant.MyConstant;
 import com.example.asus_cp.dongmanbuy.customview.MyListView;
@@ -58,11 +59,10 @@ import java.util.Map;
  * 订单详情的界面
  * Created by asus-cp on 2016-06-21.
  */
-public class DingDanDetailActivity extends Activity implements View.OnClickListener{
+public class DingDanDetailActivity extends BaseActivity implements View.OnClickListener{
 
     private String tag="DingDanDetailActivity";
 
-    private ImageView daoHangImageView;//导航
     private TextView peopleNameTextView;//人名
     private TextView phoneTextView;//电话
     private TextView shengAddressTextView;//收货地址
@@ -102,15 +102,9 @@ public class DingDanDetailActivity extends Activity implements View.OnClickListe
 
     private ImageLoadHelper helper;
 
-
     private String cancelOrderUrl="http://www.zmobuy.com/PHP/?url=/order/cancel";//取消订单的接口
     private String orderInfoUrl="http://www.zmobuy.com/PHP/?url=/order/info";//订单详细信息的接口
     private String regionUrl="http://www.zmobuy.com/PHP/?url=/region";//地区的接口
-
-    private RequestQueue requestQueue;
-
-    private String uid;
-    private String sid;
 
     private String bianHao;//订单编号
     private String id;//订单id
@@ -120,7 +114,6 @@ public class DingDanDetailActivity extends Activity implements View.OnClickListe
 
     private String payUrl="http://api.zmobuy.com/JK/alipay/alipayapi.php";//支付宝url
     private ZhiFuBaoHelper zhiFuBaoHelper;
-
 
     public static  String PARTNER;
     public static  String SELLER;
@@ -195,8 +188,8 @@ public class DingDanDetailActivity extends Activity implements View.OnClickListe
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
-        setContentView(R.layout.order_detail_activity_layout);
+        setContentLayout(R.layout.order_detail_activity_layout);
+        setTitle(R.string.order_detail);
         init();
 
     }
@@ -213,24 +206,13 @@ public class DingDanDetailActivity extends Activity implements View.OnClickListe
             id=dingDanModel.getOrderId();
         }
         helper=new ImageLoadHelper();
-        requestQueue= MyApplication.getRequestQueue();
-        SharedPreferences sharedPreferences = getSharedPreferences(MyConstant.USER_SHAREPREFRENCE_NAME, Context.MODE_APPEND);
-        uid=sharedPreferences.getString(MyConstant.UID_KEY, null);
-        sid=sharedPreferences.getString(MyConstant.SID_KEY, null);
-
-//        zhiFuBaoHelper=new ZhiFuBaoHelper();
-//        PARTNER=zhiFuBaoHelper.getPid();
-//        SELLER=zhiFuBaoHelper.getSeller();
-//        RSA_PRIVATE=zhiFuBaoHelper.getPrivateYao();
         initView();
-
     }
 
     /**
      * 初始化view
      */
-    private void initView() {
-        daoHangImageView= (ImageView) findViewById(R.id.img_dao_hang_order_detail);
+    public void initView() {
         peopleNameTextView= (TextView) findViewById(R.id.text_shou_huo_ren_name_order_detail);
         phoneTextView= (TextView) findViewById(R.id.text_shou_huo_ren_phone_order_detail);
         shengAddressTextView= (TextView) findViewById(R.id.text_shou_huo_address_sheng_order_detail);
@@ -291,7 +273,6 @@ public class DingDanDetailActivity extends Activity implements View.OnClickListe
 
 
         //设置点击事件
-        daoHangImageView.setOnClickListener(this);
         displayAllProductLineatLayout.setOnClickListener(this);
         downImageView.setOnClickListener(this);
         cancelOrderButton.setOnClickListener(this);
@@ -493,15 +474,7 @@ public class DingDanDetailActivity extends Activity implements View.OnClickListe
     @Override
     public void onClick(View v) {
         switch (v.getId()){
-            case R.id.img_dao_hang_order_detail://导航
-                finish();
-                break;
             case R.id.ll_dispaly_all_product_ding_dan_order_detail://展示商品列表
-                //Toast.makeText(this,"展示商品列表",Toast.LENGTH_SHORT).show();
-//                productDisplayLinearLayoutOrignal.setVisibility(View.GONE);
-//                productListLinearLayoutZhanKai.setVisibility(View.VISIBLE);
-//                DingDanJieMianListAdapterIn adapter=new DingDanJieMianListAdapterIn(this,goods,itemProductCount);
-//                listView.setAdapter(adapter);
                 Intent intent=new Intent(this,DingDanGoodDispalyListActivity.class);
                 intent.putExtra(MyConstant.GOOD_LIST_KEY,goods);
                 intent.putExtra(MyConstant.ITEM_PRODUCT_COUNT_KEY,itemProductCount);

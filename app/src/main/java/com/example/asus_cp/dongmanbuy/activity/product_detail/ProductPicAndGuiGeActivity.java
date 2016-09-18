@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.asus_cp.dongmanbuy.R;
+import com.example.asus_cp.dongmanbuy.activity.BaseActivity;
 import com.example.asus_cp.dongmanbuy.constant.MyConstant;
 import com.example.asus_cp.dongmanbuy.fragment.HomeFragment;
 import com.example.asus_cp.dongmanbuy.fragment.product_detail_and_gui_ge.ProductDetailFragment;
@@ -20,9 +21,8 @@ import com.example.asus_cp.dongmanbuy.model.Good;
  * 商品详情的图片和规格参数
  * Created by asus-cp on 2016-06-02.
  */
-public class ProductPicAndGuiGeActivity extends FragmentActivity implements View.OnClickListener{
+public class ProductPicAndGuiGeActivity extends BaseActivity implements View.OnClickListener{
 
-    private ImageView daoHangImageView;//导航
     private TextView prodcutDetailTextView;//商品详情选项
     private TextView productGuiGeTextView;//商品规格选项
     private FrameLayout bufFrameLayout;//装载碎片的容器
@@ -33,20 +33,17 @@ public class ProductPicAndGuiGeActivity extends FragmentActivity implements View
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
-        setContentView(R.layout.product_xiangqing_and_gui_ge);
-        daoHangImageView= (ImageView) findViewById(R.id.img_dao_hang_product_detail_and_gui_ge);
-        prodcutDetailTextView = (TextView) findViewById(R.id.text_product_detail);
-        productGuiGeTextView = (TextView) findViewById(R.id.text_product_gui_ge);
-        bufFrameLayout= (FrameLayout) findViewById(R.id.frame_layout_product_detail_and_gui_ge);
-        good=getIntent().getParcelableExtra(HomeFragment.GOOD_KEY);
+        setContentLayout(R.layout.product_xiangqing_and_gui_ge);
+        setTitle(R.string.gui_ge);
+        initView();
 
+        good=getIntent().getParcelableExtra(HomeFragment.GOOD_KEY);
         prodcutDetailTextView.setTextColor(getResources().getColor(R.color.bottom_lable_color));
         productDetailFragment=new ProductDetailFragment();
         productGuiGeFragment=new ProductGuiGeFragment();
         //向规格碎片传递数据
         Bundle bundle=new Bundle();
-        bundle.putString(MyConstant.GOOD_ID_KEY,good.getGoodId());
+        bundle.putString(MyConstant.GOOD_ID_KEY, good.getGoodId());
         productGuiGeFragment.setArguments(bundle);
         fragmentManager=getSupportFragmentManager();
 
@@ -54,8 +51,15 @@ public class ProductPicAndGuiGeActivity extends FragmentActivity implements View
         transaction.add(R.id.frame_layout_product_detail_and_gui_ge, productDetailFragment);
         transaction.commit();
 
+    }
+
+    @Override
+    public void initView() {
+        prodcutDetailTextView = (TextView) findViewById(R.id.text_product_detail);
+        productGuiGeTextView = (TextView) findViewById(R.id.text_product_gui_ge);
+        bufFrameLayout= (FrameLayout) findViewById(R.id.frame_layout_product_detail_and_gui_ge);
+
         //设置点击事件
-        daoHangImageView.setOnClickListener(this);
         prodcutDetailTextView.setOnClickListener(this);
         productGuiGeTextView.setOnClickListener(this);
     }
@@ -69,9 +73,6 @@ public class ProductPicAndGuiGeActivity extends FragmentActivity implements View
     @Override
     public void onClick(View v) {
         switch (v.getId()){
-            case R.id.img_dao_hang_product_detail_and_gui_ge://导航
-                finish();
-                break;
             case R.id.text_product_detail:
                 reset();
                 prodcutDetailTextView.setTextColor(getResources().getColor(R.color.bottom_lable_color));

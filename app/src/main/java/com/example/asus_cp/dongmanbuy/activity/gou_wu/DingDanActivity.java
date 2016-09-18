@@ -29,6 +29,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.example.asus_cp.dongmanbuy.R;
+import com.example.asus_cp.dongmanbuy.activity.BaseActivity;
 import com.example.asus_cp.dongmanbuy.adapter.DingDanJieMianListAdapterOut;
 import com.example.asus_cp.dongmanbuy.constant.MyConstant;
 import com.example.asus_cp.dongmanbuy.model.Good;
@@ -59,10 +60,9 @@ import java.util.Map;
  * 订单的界面
  * Created by asus-cp on 2016-06-15.
  */
-public class DingDanActivity extends Activity implements View.OnClickListener{
+public class DingDanActivity extends BaseActivity implements View.OnClickListener{
 
     private String tag="DingDanActivity";
-    private ImageView daoHangImageView;//导航
     private RelativeLayout shouHuoAddressRelativeLayout;//收货地址
     private TextView peopleNameTextView;//人名
     private TextView phoneTextView;//电话
@@ -97,17 +97,11 @@ public class DingDanActivity extends Activity implements View.OnClickListener{
 
     private String yuEZhiFuUrl="http://api.zmobuy.com/JK/base/model.php";//余额支付的接口
 
-    private RequestQueue requestQueue;
-
-    //private List<Good> goods;//从购物车传递过来的商品列表
 
     private ArrayList<List<Integer>> itemGoodCounts;//从购物车传递过来的数据
     private List<ShopModel> shopModels;//从购物车传递过来的数据
 
     private ImageLoadHelper helper;
-
-    private String uid;
-    private String sid;
 
     private View parentView;//所有弹出窗口的父view
 
@@ -147,8 +141,8 @@ public class DingDanActivity extends Activity implements View.OnClickListener{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
-        setContentView(R.layout.ding_dan_activity_layout);
+        setContentLayout(R.layout.ding_dan_activity_layout);
+        setTitle(R.string.order_confirm);
         init();
     }
 
@@ -161,21 +155,16 @@ public class DingDanActivity extends Activity implements View.OnClickListener{
         getWindowManager().getDefaultDisplay().getMetrics(metric);
         densty = metric.densityDpi;  // 屏幕密度DPI（120 / 160 / 240）
 
-        requestQueue= MyApplication.getRequestQueue();
         helper=new ImageLoadHelper();
         inflater=LayoutInflater.from(this);
         initView();
 
-        //获取uid和sid
-        SharedPreferences sharedPreferences=getSharedPreferences(MyConstant.USER_SHAREPREFRENCE_NAME,MODE_APPEND);
-        uid=sharedPreferences.getString(MyConstant.UID_KEY, null);
-        sid=sharedPreferences.getString(MyConstant.SID_KEY,null);
+        //获取收获地址列表
         getShouHuoAddressList();
 
         //获取购物车页面传递过来的商品列表
         shopModels= (List<ShopModel>) getIntent().getSerializableExtra(MyConstant.SHOP_MODE_LIST_KEY);
         itemGoodCounts= (ArrayList<List<Integer>>) getIntent().getSerializableExtra(MyConstant.XUAN_ZHONG_COUNT_KEY);
-
 
 
         MyLog.d(tag,"shopModels的个数："+shopModels.size());
@@ -229,8 +218,8 @@ public class DingDanActivity extends Activity implements View.OnClickListener{
                     public void onResponse(String s) {
                         UserModel userModel=parseJson(s);
                         addressId=userModel.getId();//默认地址的id
-                        peopleNameTextView.setText(userModel.getUserName());
-                        phoneTextView.setText(userModel.getUserPhone());
+                        peopleNameTextView.setText(userModel.getUserName()+"");
+                        phoneTextView.setText(userModel.getUserPhone()+"");
                         MyLog.d(tag,"countryName="+userModel.getCountryName());
                         if(userModel.getCountryName()==null || userModel.getCountryName().isEmpty() || userModel.getCountryName().equals("null")){
                             userModel.setCountryName("中国");
@@ -313,11 +302,10 @@ public class DingDanActivity extends Activity implements View.OnClickListener{
     /**
      * 初始化view
      */
-    private void initView() {
+    public void initView() {
 
         parentView= LayoutInflater.from(this).inflate(R.layout.ding_dan_activity_layout,null);
 
-        daoHangImageView= (ImageView) findViewById(R.id.img_dao_hang_order);
         shouHuoAddressRelativeLayout= (RelativeLayout) findViewById(R.id.re_layout_shou_huo_address_ding_dan);
         peopleNameTextView= (TextView) findViewById(R.id.text_shou_huo_ren_name_ding_dan);
         phoneTextView= (TextView) findViewById(R.id.text_shou_huo_ren_phone_ding_dan);
@@ -342,7 +330,6 @@ public class DingDanActivity extends Activity implements View.OnClickListener{
 
 
         //设置点击事件
-        daoHangImageView.setOnClickListener(this);
         shouHuoAddressRelativeLayout.setOnClickListener(this);
         zhiFuFangShiRelativeLayout.setOnClickListener(this);
         faPiaoXinXiRelativeLayout.setOnClickListener(this);
@@ -356,9 +343,6 @@ public class DingDanActivity extends Activity implements View.OnClickListener{
     @Override
     public void onClick(View v) {
         switch (v.getId()){
-            case R.id.img_dao_hang_order://导航
-                finish();
-                break;
             case R.id.re_layout_shou_huo_address_ding_dan://收货地址
                 Intent addresListIntent=new Intent(this,ShouHuoRenXinXiListActivity.class);
                 startActivityForResult(addresListIntent, SHOU_HUO_REN_XIN_XI_REQUEST_KEY);

@@ -604,9 +604,9 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 //Toast.makeText(context,""+position,Toast.LENGTH_SHORT).show();
-                Intent intent=new Intent(context, ProductDetailActivity.class);
-                Bundle bundle=new Bundle();
-                bundle.putParcelable(GOOD_KEY,goods.get(position));
+                Intent intent = new Intent(context, ProductDetailActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putParcelable(GOOD_KEY, goods.get(position));
                 intent.putExtras(bundle);
                 startActivity(intent);
             }
@@ -755,25 +755,33 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
             xianShiMiaoShaImagView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent=new Intent(context,ProductDetailActivity.class);
-                    intent.putExtra(MyConstant.GOOD_KEY,goods.get(0));
+                    Intent intent = new Intent(context, ProductDetailActivity.class);
+                    intent.putExtra(MyConstant.GOOD_KEY, goods.get(0));
                     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     context.startActivity(intent);
                 }
             });
-            final String urlString=goods.get(0).getGoodsThumb();
-            ImageLoadHelper imageLoadHelper=new ImageLoadHelper();
-            ImageLoader imageLoader=imageLoadHelper.getImageLoader();
-            ImageLoader.ImageListener listener=imageLoader.getImageListener(xianShiMiaoShaImagView,R.mipmap.yu_jia_zai,
-                    R.mipmap.yu_jia_zai);
-            imageLoader.get(urlString,listener);
+            if(goods.size()>0){
+                final String urlString=goods.get(0).getGoodsThumb();
+                ImageLoadHelper imageLoadHelper=new ImageLoadHelper();
+                ImageLoader imageLoader=imageLoadHelper.getImageLoader();
+                ImageLoader.ImageListener listener=imageLoader.getImageListener(xianShiMiaoShaImagView,R.mipmap.yu_jia_zai,
+                        R.mipmap.yu_jia_zai);
+                imageLoader.get(urlString,listener);
+            }
+
 
             //限时秒杀的gridview
             xianShiMiaoShaGridView = (MyGridView) v.findViewById(R.id.grid_view_xian_shi_miao_sha);
-            if (goods.size() > 0) {
+            if (goods.size() >= 5) {
                 XianShiAdapter xianShiAdapter = new XianShiAdapter(context, getElementsFromList(goods, 5));
                 xianShiMiaoShaGridView.setAdapter(xianShiAdapter);
                 xianShiMiaoShaGridView.setOnItemClickListener(new XianShiOnItemClickListener(getElementsFromList(goods, 5)));
+            }else if(goods.size()>0 && goods.size()<5){
+                goods.remove(0);
+                XianShiAdapter xianShiAdapter = new XianShiAdapter(context, goods);
+                xianShiMiaoShaGridView.setAdapter(xianShiAdapter);
+                xianShiMiaoShaGridView.setOnItemClickListener(new XianShiOnItemClickListener(goods));
             }
         } catch (JSONException e) {
             e.printStackTrace();

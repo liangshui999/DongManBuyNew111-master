@@ -20,6 +20,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.example.asus_cp.dongmanbuy.R;
+import com.example.asus_cp.dongmanbuy.activity.BaseActivity;
 import com.example.asus_cp.dongmanbuy.activity.product_detail.AreaActivity;
 import com.example.asus_cp.dongmanbuy.constant.MyConstant;
 import com.example.asus_cp.dongmanbuy.util.CheckHelper;
@@ -33,26 +34,20 @@ import java.util.Map;
  * 添加收货地址的界面
  * Created by asus-cp on 2016-06-16.
  */
-public class AddShouHuoAddressActivity extends Activity implements View.OnClickListener{
+public class AddShouHuoAddressActivity extends BaseActivity implements View.OnClickListener{
     private String tag="AddShouHuoAddressActivity";
 
     private String shengId;//省的编码
     private String shiId;//市的编码
     private String xianId;//县的编码
 
-    private RequestQueue requestQueue;
-
     private String addAddressUrl="http://www.zmobuy.com/PHP/?url=/address/add";//添加地址的接口
-
-    private String uid;
-    private String sid;
 
     private String shouHuoRenName;
     private String shouHuoRenPhone;
     private String xiangXiDiZhi;
     private String suoZaiDiQu;
 
-    private ImageView daoHangImageView;//导航
     private EditText shouHuoRenNameEditText;//收货人姓名
     private EditText shouHuoRenPhoneEditText;//收货人电话
     private RelativeLayout suoZaiDiQuRelaytiveLayout;//所在地区
@@ -67,26 +62,14 @@ public class AddShouHuoAddressActivity extends Activity implements View.OnClickL
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
-        setContentView(R.layout.add_shou_huo_ren_xin_xi_layout);
+        setContentLayout(R.layout.add_shou_huo_ren_xin_xi_layout);
+        setTitle(R.string.add_shou_huo_address);
+        initView();
         init();
     }
 
-
-    /**
-     * 初始化的方法
-     */
-    private void init() {
-
-        whoStartMe=getIntent().getStringExtra(MyConstant.START_ADD_SHOU_HUO_ADDRESS_ACTIVTIY_KEY);
-        requestQueue= MyApplication.getRequestQueue();
-
-        //获取uid和sid
-        SharedPreferences sharedPreferences=getSharedPreferences(MyConstant.USER_SHAREPREFRENCE_NAME,MODE_APPEND);
-        uid=sharedPreferences.getString(MyConstant.UID_KEY,null);
-        sid=sharedPreferences.getString(MyConstant.SID_KEY, null);
-
-        daoHangImageView= (ImageView) findViewById(R.id.img_dao_hang_add_shou_huo_address);
+    @Override
+    public void initView() {
         shouHuoRenNameEditText= (EditText) findViewById(R.id.edit_shou_huo_ren_name);
         shouHuoRenPhoneEditText= (EditText) findViewById(R.id.edit_shou_huo_ren_phone);
         suoZaiDiQuTextView= (TextView) findViewById(R.id.text_suo_zai_di_qu_add_xin_xi);
@@ -95,9 +78,16 @@ public class AddShouHuoAddressActivity extends Activity implements View.OnClickL
         saveButton= (Button) findViewById(R.id.btn_save);
 
         //设置点击事件
-        daoHangImageView.setOnClickListener(this);
         suoZaiDiQuRelaytiveLayout.setOnClickListener(this);
         saveButton.setOnClickListener(this);
+    }
+
+
+    /**
+     * 初始化的方法
+     */
+    private void init() {
+        whoStartMe=getIntent().getStringExtra(MyConstant.START_ADD_SHOU_HUO_ADDRESS_ACTIVTIY_KEY);
     }
 
 
@@ -105,9 +95,6 @@ public class AddShouHuoAddressActivity extends Activity implements View.OnClickL
     @Override
     public void onClick(View v) {
         switch (v.getId()){
-            case R.id.img_dao_hang_add_shou_huo_address://导航
-                finish();
-                break;
             case R.id.re_layout_suo_zai_di_qu_add_shou_huo_ren_xin_xi://所在地区的点击事件
                 //Toast.makeText(this,"点击了所在地区",Toast.LENGTH_SHORT).show();
                 Intent areaIntent=new Intent(this,AreaActivity.class);

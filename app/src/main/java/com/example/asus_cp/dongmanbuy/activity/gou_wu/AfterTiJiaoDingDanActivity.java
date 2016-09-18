@@ -24,6 +24,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.example.asus_cp.dongmanbuy.R;
+import com.example.asus_cp.dongmanbuy.activity.BaseActivity;
 import com.example.asus_cp.dongmanbuy.activity.personal_center.PersonalCenterActivity;
 import com.example.asus_cp.dongmanbuy.adapter.DingDanHaoListAdapter;
 import com.example.asus_cp.dongmanbuy.constant.MyConstant;
@@ -45,8 +46,8 @@ import java.util.Map;
  * 提交订单之后出现的页面
  * Created by asus-cp on 2016-06-20.
  */
-public class AfterTiJiaoDingDanActivity extends Activity implements View.OnClickListener{
-    private ImageView daoHangImgView;
+public class AfterTiJiaoDingDanActivity extends BaseActivity implements View.OnClickListener{
+
     private TextView priceTextView;
     private MyListView listView;
     private Button zhiFuBaoZhiFuButton;
@@ -62,12 +63,7 @@ public class AfterTiJiaoDingDanActivity extends Activity implements View.OnClick
 
     private String tag="AfterTiJiaoDingDanActivity";
 
-
     private String payUrl="http://api.zmobuy.com/JK/alipay/alipayapi.php";//支付宝url
-    private RequestQueue requestQueue;
-
-    private ZhiFuBaoHelper zhiFuBaoHelper;
-
 
     public static  String PARTNER;
     public static  String SELLER;
@@ -143,21 +139,14 @@ public class AfterTiJiaoDingDanActivity extends Activity implements View.OnClick
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
-        setContentView(R.layout.after_ti_jiao_order_activity_layout);
-        daoHangImgView= (ImageView) findViewById(R.id.img_dao_hang_zhi_fu_bao_succed);
-        priceTextView= (TextView) findViewById(R.id.text_fu_kuan_jin_e_after_ti_jiao_ding_dan);
-        listView= (MyListView) findViewById(R.id.my_list_ding_dan_hao_list);
-        zhiFuBaoZhiFuButton= (Button) findViewById(R.id.btn_zhi_fu_bao_zhi_fu_after_ti_jiao_ding_dan);
-        huiYuanZhongXinTextView = (TextView) findViewById(R.id.text_hui_yuan_center_after_ti_jiao_ding_dan);
-        seeOrderTextView= (TextView) findViewById(R.id.text_see_order_after_ti_jiao_ding_dan);
+        setContentLayout(R.layout.after_ti_jiao_order_activity_layout);
+        setTitle(R.string.shou_yin_tai);
+        initView();
+        init();
 
-//        zhiFuBaoHelper=new ZhiFuBaoHelper();
-//        PARTNER=zhiFuBaoHelper.getPid();
-//        SELLER=zhiFuBaoHelper.getSeller();
-//        RSA_PRIVATE=zhiFuBaoHelper.getPrivateYao();
+    }
 
-        requestQueue= MyApplication.getRequestQueue();
+    private void init() {
         dingDanId=getIntent().getStringExtra(MyConstant.DING_DAN_ID_KEY);
         //设置付款金额
         price=getIntent().getStringExtra(MyConstant.SHI_FU_KUAN_KEY);
@@ -172,12 +161,20 @@ public class AfterTiJiaoDingDanActivity extends Activity implements View.OnClick
 
         subject=getIntent().getStringExtra(MyConstant.DING_DAN_SUBJECT_KEY);
         desc=getIntent().getStringExtra(MyConstant.DING_DAN_DESC_KEY);
-        MyLog.d(tag,"subject="+subject);
-        MyLog.d(tag,"desc="+desc);
-        MyLog.d(tag,"price="+price);
+        MyLog.d(tag, "subject=" + subject);
+        MyLog.d(tag, "desc=" + desc);
+        MyLog.d(tag, "price=" + price);
+    }
+
+    @Override
+    public void initView() {
+        priceTextView= (TextView) findViewById(R.id.text_fu_kuan_jin_e_after_ti_jiao_ding_dan);
+        listView= (MyListView) findViewById(R.id.my_list_ding_dan_hao_list);
+        zhiFuBaoZhiFuButton= (Button) findViewById(R.id.btn_zhi_fu_bao_zhi_fu_after_ti_jiao_ding_dan);
+        huiYuanZhongXinTextView = (TextView) findViewById(R.id.text_hui_yuan_center_after_ti_jiao_ding_dan);
+        seeOrderTextView= (TextView) findViewById(R.id.text_see_order_after_ti_jiao_ding_dan);
 
         //设置点击事件
-        daoHangImgView.setOnClickListener(this);
         zhiFuBaoZhiFuButton.setOnClickListener(this);
         huiYuanZhongXinTextView.setOnClickListener(this);
         seeOrderTextView.setOnClickListener(this);
@@ -186,11 +183,8 @@ public class AfterTiJiaoDingDanActivity extends Activity implements View.OnClick
     @Override
     public void onClick(View v) {
         switch (v.getId()){
-            case R.id.img_dao_hang_zhi_fu_bao_succed://导航
-                finish();
-                break;
             case R.id.btn_zhi_fu_bao_zhi_fu_after_ti_jiao_ding_dan://点击了支付宝支付
-                Toast.makeText(this,"点击了支付宝支付",Toast.LENGTH_SHORT).show();
+                //Toast.makeText(this,"点击了支付宝支付",Toast.LENGTH_SHORT).show();
                 //pay();//调用支付宝支付
                 zhiFuClickChuLi();
                 break;
@@ -199,7 +193,6 @@ public class AfterTiJiaoDingDanActivity extends Activity implements View.OnClick
                 startActivity(intent);
                 break;
             case R.id.text_see_order_after_ti_jiao_ding_dan://点击了查看订单(查看订单需要订单id和订单编号，而这边没有订单编号)
-
                 break;
         }
     }

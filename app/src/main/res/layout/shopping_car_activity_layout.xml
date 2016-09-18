@@ -69,7 +69,8 @@
                     android:text="@string/tui_jian_shang_ping"
                     android:gravity="center"
                     android:paddingTop="10dp"
-                    android:paddingBottom="10dp"/>
+                    android:paddingBottom="10dp"
+                    android:background="@color/mo_kuai_backgroud"/>
 
                 <!--推荐商品的列表-->
                 <com.example.asus_cp.dongmanbuy.customview.MyGridViewA

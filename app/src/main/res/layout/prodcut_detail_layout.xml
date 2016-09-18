@@ -478,6 +478,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/cha_kan_product_detail"
+                        android:textColor="@color/bottom_lable_color"
                         android:layout_marginLeft="5dp"
                         android:textSize="@dimen/product_detail_base_font_size"/>
 

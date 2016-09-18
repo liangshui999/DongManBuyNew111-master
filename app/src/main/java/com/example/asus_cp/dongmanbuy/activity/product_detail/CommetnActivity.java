@@ -19,6 +19,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.example.asus_cp.dongmanbuy.R;
+import com.example.asus_cp.dongmanbuy.activity.BaseActivity;
 import com.example.asus_cp.dongmanbuy.constant.MyConstant;
 import com.example.asus_cp.dongmanbuy.fragment.HomeFragment;
 import com.example.asus_cp.dongmanbuy.fragment.comments.AllCommentFragment;
@@ -42,9 +43,8 @@ import java.util.Map;
  * 评论的界面
  * Created by asus-cp on 2016-06-02.
  */
-public class CommetnActivity extends FragmentActivity implements View.OnClickListener{
+public class CommetnActivity extends BaseActivity implements View.OnClickListener{
 
-    private ImageView daoHangImageView;//导航
     private LinearLayout allCommentLinearLayout;//全部评价
     private LinearLayout haoCommentLinearLayout;//好评
     private LinearLayout zhongCommentLinearLayout;//中评
@@ -77,8 +77,6 @@ public class CommetnActivity extends FragmentActivity implements View.OnClickLis
 
     private String tag="CommetnActivity";
 
-    private RequestQueue requestQueue;
-
     private Good good;
 
     private String youTu;
@@ -86,27 +84,20 @@ public class CommetnActivity extends FragmentActivity implements View.OnClickLis
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
-        setContentView(R.layout.comment_actvity_layout);
+        setContentLayout(R.layout.comment_actvity_layout);
+        setTitle(R.string.comment);
+        initView();
         init();
     }
 
-    /**
-     * 初始化的方法
-     */
-    private void init() {
-        requestQueue= MyApplication.getRequestQueue();
-        good=getIntent().getParcelableExtra(HomeFragment.GOOD_KEY);
-        youTu=getIntent().getStringExtra(MyConstant.YOU_TU_PING_JIA_KEY);
-
-        daoHangImageView= (ImageView) findViewById(R.id.img_dao_hang_comment);
+    @Override
+    public void initView() {
         allCommentLinearLayout= (LinearLayout) findViewById(R.id.ll_all_comment);
         haoCommentLinearLayout= (LinearLayout) findViewById(R.id.ll_hao_comment);
         zhongCommentLinearLayout= (LinearLayout) findViewById(R.id.ll_zhong_comment);
         chaCommentLinearLayout= (LinearLayout) findViewById(R.id.ll_cha_comment);
         youTuCommentLinearLayout= (LinearLayout) findViewById(R.id.ll_you_tu_comment);
 
-        daoHangImageView.setOnClickListener(this);
         allCommentLinearLayout.setOnClickListener(this);
         haoCommentLinearLayout.setOnClickListener(this);
         zhongCommentLinearLayout.setOnClickListener(this);
@@ -124,6 +115,14 @@ public class CommetnActivity extends FragmentActivity implements View.OnClickLis
         zhongCommentCountTextView= (TextView) findViewById(R.id.text_zhong_comment_count);
         chaCommentCountTextView= (TextView) findViewById(R.id.text_cha_comment_count);
         youTuCommentCountTextView= (TextView) findViewById(R.id.text_you_tu_comment_count);
+    }
+
+    /**
+     * 初始化的方法
+     */
+    private void init() {
+        good=getIntent().getParcelableExtra(HomeFragment.GOOD_KEY);
+        youTu=getIntent().getStringExtra(MyConstant.YOU_TU_PING_JIA_KEY);
 
         //设置各种评论的数量
         StringRequest commentRequst=new StringRequest(Request.Method.POST, userCommentUrl, new Response.Listener<String>() {
@@ -225,9 +224,6 @@ public class CommetnActivity extends FragmentActivity implements View.OnClickLis
     public void onClick(View v) {
         reset();
         switch (v.getId()){
-            case R.id.img_dao_hang_comment://导航
-                finish();
-                break;
             case R.id.ll_all_comment:
                 allCommentTextView.setTextColor(getResources().getColor(R.color.bottom_lable_color));
                 allCommentCountTextView.setTextColor(getResources().getColor(R.color.bottom_lable_color));

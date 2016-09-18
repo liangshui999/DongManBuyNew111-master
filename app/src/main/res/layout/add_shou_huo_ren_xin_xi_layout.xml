@@ -5,7 +5,7 @@
     >
 
     <!--头部-->
-    <RelativeLayout
+   <!-- <RelativeLayout
         style="@style/dao_hang_relative_layout_style">
         <ImageView
             android:id="@+id/img_dao_hang_add_shou_huo_address"
@@ -14,7 +14,8 @@
             android:text="@string/add_shou_huo_address"
             style="@style/dao_hang_text_style"
             />
-    </RelativeLayout>
+    </RelativeLayout>-->
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

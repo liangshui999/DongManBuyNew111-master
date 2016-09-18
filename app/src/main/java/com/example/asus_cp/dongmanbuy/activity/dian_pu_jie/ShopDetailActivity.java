@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -51,7 +53,9 @@ import org.json.JSONObject;
 
 import java.io.File;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -303,12 +307,11 @@ public class ShopDetailActivity extends BaseActivity implements View.OnClickList
         Intent intent = null;
         try {
             intent = Intent.getIntent("intent://map/geocoder?address="+shopModel.getShopAddress()+"&src=thirdapp.geo.yourCompanyName.zmobuy#Intent;scheme=bdapp;package=com.baidu.BaiduMap;end");
-
+            startActivity(intent); //启动调用
             //intent = Intent.getIntent("intent://map/marker?location="+weiDu+","+jingDu+"&title="+shopModel.getShopName()+"&content="+shopModel.getShopAddress()+"&src=thirdapp.marker.yourCompanyName.yourAppName#Intent;scheme=bdapp;package=com.baidu.BaiduMap;end");
-        } catch (URISyntaxException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
-        startActivity(intent); //启动调用
     }
 
 
@@ -320,11 +323,15 @@ public class ShopDetailActivity extends BaseActivity implements View.OnClickList
 //        Intent intent = new Intent("android.intent.action.VIEW",
 //                android.net.Uri.parse("androidamap://viewMap?sourceApplication=zmobuy&poiname="+shopModel.getShopName()+"&lat="+weiDu+"&lon="+jingDu+"&dev=0"));
 
-        Intent intent = new Intent("android.intent.action.VIEW",
-                android.net.Uri.parse("androidamap://viewGeo?sourceApplication=zmobuy&addr="+shopModel.getShopAddress()+""));
-        intent.setPackage("com.autonavi.minimap");
-        startActivity(intent);
-        startActivity(intent); //启动调用
+        try{
+            Intent intent = new Intent("android.intent.action.VIEW",
+                    android.net.Uri.parse("androidamap://viewGeo?sourceApplication=zmobuy&addr="+shopModel.getShopAddress()+""));
+            intent.setPackage("com.autonavi.minimap");
+            startActivity(intent); //启动调用
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
     }
 
 
@@ -335,7 +342,22 @@ public class ShopDetailActivity extends BaseActivity implements View.OnClickList
      * 检测手机中是否安装了其他安装包
      */
     private boolean isInstallByread(String packageName) {
-        return new File("/data/data/" + packageName).exists();
+        //return new File("/data/data/" + packageName).exists();
+        //获取packagemanager
+        final PackageManager packageManager = this.getPackageManager();
+        //获取所有已安装程序的包信息
+        List<PackageInfo> packageInfos = packageManager.getInstalledPackages(0);
+        //用于存储所有已安装程序的包名
+        List<String> packageNames = new ArrayList<String>();
+        //从pinfo中将包名字逐一取出，压入pName list中
+        if (packageInfos != null) {
+            for (int i = 0; i < packageInfos.size(); i++) {
+                String packName = packageInfos.get(i).packageName;
+                packageNames.add(packName);
+            }
+        }
+        //判断packageNames中是否有目标程序的包名，有TRUE，没有FALSE
+        return packageNames.contains(packageName);
     }
 
 

@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.view.View;
 import android.view.Window;
 import android.widget.AdapterView;
@@ -19,6 +20,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.example.asus_cp.dongmanbuy.R;
+import com.example.asus_cp.dongmanbuy.activity.BaseActivity;
 import com.example.asus_cp.dongmanbuy.adapter.DingDanListAdapter;
 import com.example.asus_cp.dongmanbuy.constant.MyConstant;
 import com.example.asus_cp.dongmanbuy.model.DingDanModel;
@@ -41,11 +43,10 @@ import java.util.Map;
  * 订单列表的activity
  * Created by asus-cp on 2016-06-20.
  */
-public class DingDanListActivity extends Activity implements View.OnClickListener{
+public class DingDanListActivity extends BaseActivity implements View.OnClickListener{
 
     private String tag="DingDanListActivity";
 
-    private ImageView daoHangImageView;
     private LinearLayout allDingDanLinearLayout;//所有订单
     private LinearLayout daiFuKuanDingDanLinearLayout;//待付款订单
     private LinearLayout daiShouHuoDingDanLinearLayout;//待收货订单
@@ -55,13 +56,7 @@ public class DingDanListActivity extends Activity implements View.OnClickListene
     private TextView daiFuKuanDingDanTextView;
     private TextView daiShouHuoDingDanTextView;
 
-
     private String dingDanListUrl="http://www.zmobuy.com/PHP/?url=/order/list";//订单列表的接口
-
-    private RequestQueue requestQueue;
-
-    private String uid;
-    private String sid;
 
     private String whoStartMe;//谁开启了我
 
@@ -70,24 +65,14 @@ public class DingDanListActivity extends Activity implements View.OnClickListene
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
-        setContentView(R.layout.ding_dan_list_activty_layout);
+        setContentLayout(R.layout.ding_dan_list_activty_layout);
+        setTitle(R.string.order_list);
+        initView();
         init();
     }
 
-    /**
-     * 初始化的方法
-     */
-    private void init() {
-
-        whoStartMe=getIntent().getStringExtra(MyConstant.TO_DING_DAN_LIST_KEY);
-        requestQueue= MyApplication.getRequestQueue();
-
-        SharedPreferences sharedPreferences=getSharedPreferences(MyConstant.USER_SHAREPREFRENCE_NAME,MODE_APPEND);
-        uid=sharedPreferences.getString(MyConstant.UID_KEY,null);
-        sid=sharedPreferences.getString(MyConstant.SID_KEY,null);
-
-        daoHangImageView= (ImageView) findViewById(R.id.img_dao_hang_order_list);
+    @Override
+    public void initView() {
         allDingDanLinearLayout= (LinearLayout) findViewById(R.id.ll_all_ding_dan);
         daiFuKuanDingDanLinearLayout= (LinearLayout) findViewById(R.id.ll_dai_fu_kuan_ding_dan);
         daiShouHuoDingDanLinearLayout= (LinearLayout) findViewById(R.id.ll_dai_shou_huo_ding_dan);
@@ -96,7 +81,18 @@ public class DingDanListActivity extends Activity implements View.OnClickListene
         daiFuKuanDingDanTextView= (TextView) findViewById(R.id.text_dai_fu_kuan_ding_dan);
         daiShouHuoDingDanTextView= (TextView) findViewById(R.id.text_dai_shou_huo_ding_dan);
 
+        //设置点击事件
+        allDingDanLinearLayout.setOnClickListener(this);
+        daiFuKuanDingDanLinearLayout.setOnClickListener(this);
+        daiShouHuoDingDanLinearLayout.setOnClickListener(this);
+    }
 
+    /**
+     * 初始化的方法
+     */
+    private void init() {
+
+        whoStartMe=getIntent().getStringExtra(MyConstant.TO_DING_DAN_LIST_KEY);
         switch (whoStartMe){
             case MyConstant.ALL_DING_DAN:
                 //弹出正在加载的对话框
@@ -120,16 +116,6 @@ public class DingDanListActivity extends Activity implements View.OnClickListene
                 break;
 
         }
-
-
-        //设置点击事件
-        daoHangImageView.setOnClickListener(this);
-        allDingDanLinearLayout.setOnClickListener(this);
-        daiFuKuanDingDanLinearLayout.setOnClickListener(this);
-        daiShouHuoDingDanLinearLayout.setOnClickListener(this);
-
-
-
     }
 
 
@@ -145,69 +131,26 @@ public class DingDanListActivity extends Activity implements View.OnClickListene
                     public void onResponse(String s) {
                         DialogHelper.dissmisDialog();
                         MyLog.d(tag, "返回的数据是" + s);
-//                        MyLog.d(tag,"uid="+uid);
-//                        MyLog.d(tag,"sid="+sid);
-                        final List<DingDanModel> dingDanModels=new ArrayList<DingDanModel>();
-                        try {
-                            JSONObject jsonObject=new JSONObject(s);
-                            JSONArray jsonArray=jsonObject.getJSONArray("data");
-                            if(jsonArray!=null){
-                                for(int i=0;i<jsonArray.length();i++){
-                                    JSONObject ziJsObj=jsonArray.getJSONObject(i);
-                                    DingDanModel model=new DingDanModel();
-                                    model.setOrderId(ziJsObj.getString("order_id"));
-                                    model.setOrderBianHao(ziJsObj.getString("order_sn"));
-                                    model.setOrderTime(ziJsObj.getString("order_time"));
-                                    model.setSumPrice(ziJsObj.getString("total_fee"));
+                        final List<DingDanModel> dingDanModels = parseJson(s);
 
-                                    List<Good> goods=new ArrayList<Good>();
-                                    JSONArray goodArray=null;
-                                    try{
-                                        goodArray=ziJsObj.getJSONArray("goods_list");
-                                    }catch (Exception e){
-                                        e.printStackTrace();
-                                    }
-                                    if(goodArray!=null){
-                                        for(int j=0;j<goodArray.length();j++){
-                                            JSONObject goodJs=goodArray.getJSONObject(j);
-                                            Good good=new Good();
-                                            good.setGoodId(goodJs.getString("goods_id"));
-                                            good.setGoodName(JsonHelper.decodeUnicode(goodJs.getString("name")));
-                                            good.setDingDanNumber(goodJs.getString("goods_number"));
-                                            good.setDingDanSumPrice(JsonHelper.decodeUnicode(goodJs.getString("subtotal")));
-                                            JSONObject imgJs=goodJs.getJSONObject("img");
-                                            good.setGoodsImg(imgJs.getString("url"));
-                                            good.setGoodsThumb(imgJs.getString("thumb"));
-                                            good.setGoodsSmallImag(imgJs.getString("small"));
-                                            goods.add(good);
-                                        }
-                                    }
-                                    model.setGoods(goods);
-                                    dingDanModels.add(model);
-                                }
-
-                                //清除掉空的订单信息（清除那些订单里面没有商品的订单）
-                                final List<DingDanModel> tempModels=new ArrayList<DingDanModel>();
-                                for(int i=0;i<dingDanModels.size();i++){
-                                    if(dingDanModels.get(i).getGoods().size()>0){
-                                        tempModels.add(dingDanModels.get(i));
-                                    }
-                                }
-                                DingDanListAdapter dingDanListAdapter=new DingDanListAdapter(DingDanListActivity.this,tempModels);
-                                dingDanListListView.setAdapter(dingDanListAdapter);
-
-                                dingDanListListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                                    @Override
-                                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                                        Intent intent=new Intent(DingDanListActivity.this, DingDanDetailActivity.class);
-                                        intent.putExtra(MyConstant.DING_DAN_MODEL_KEY, tempModels.get(position));
-                                        startActivityForResult(intent, REQUEST_DING_DAN_DETAIL_KEY);
-                                    }
-                                });
+                        //清除掉空的订单信息（清除那些订单里面没有商品的订单）
+                        final List<DingDanModel> tempModels=new ArrayList<DingDanModel>();
+                        for(int i=0;i<dingDanModels.size();i++){
+                            if(dingDanModels.get(i).getGoods().size()>0){
+                                tempModels.add(dingDanModels.get(i));
                             }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
                         }
+                        DingDanListAdapter dingDanListAdapter=new DingDanListAdapter(DingDanListActivity.this,tempModels);
+                        dingDanListListView.setAdapter(dingDanListAdapter);
+
+                        dingDanListListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                            @Override
+                            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                                Intent intent=new Intent(DingDanListActivity.this, DingDanDetailActivity.class);
+                                intent.putExtra(MyConstant.DING_DAN_MODEL_KEY, tempModels.get(position));
+                                startActivityForResult(intent, REQUEST_DING_DAN_DETAIL_KEY);
+                            }
+                        });
                     }
                 }, new Response.ErrorListener() {
             @Override
@@ -227,13 +170,61 @@ public class DingDanListActivity extends Activity implements View.OnClickListene
     }
 
 
+    /**
+     * 解析json数据
+     * @param s
+     * @return
+     */
+    @NonNull
+    private List<DingDanModel> parseJson(String s) {
+        final List<DingDanModel> dingDanModels=new ArrayList<DingDanModel>();
+        try {
+            JSONObject jsonObject=new JSONObject(s);
+            JSONArray jsonArray=jsonObject.getJSONArray("data");
+            if(jsonArray!=null){
+                for(int i=0;i<jsonArray.length();i++){
+                    JSONObject ziJsObj=jsonArray.getJSONObject(i);
+                    DingDanModel model=new DingDanModel();
+                    model.setOrderId(ziJsObj.getString("order_id"));
+                    model.setOrderBianHao(ziJsObj.getString("order_sn"));
+                    model.setOrderTime(ziJsObj.getString("order_time"));
+                    model.setSumPrice(ziJsObj.getString("total_fee"));
+                    List<Good> goods=new ArrayList<Good>();
+                    JSONArray goodArray=null;
+                    try{
+                        goodArray=ziJsObj.getJSONArray("goods_list");
+                    }catch (Exception e){
+                        e.printStackTrace();
+                    }
+                    if(goodArray!=null){
+                        for(int j=0;j<goodArray.length();j++){
+                            JSONObject goodJs=goodArray.getJSONObject(j);
+                            Good good=new Good();
+                            good.setGoodId(goodJs.getString("goods_id"));
+                            good.setGoodName(JsonHelper.decodeUnicode(goodJs.getString("name")));
+                            good.setDingDanNumber(goodJs.getString("goods_number"));
+                            good.setDingDanSumPrice(JsonHelper.decodeUnicode(goodJs.getString("subtotal")));
+                            JSONObject imgJs=goodJs.getJSONObject("img");
+                            good.setGoodsImg(imgJs.getString("url"));
+                            good.setGoodsThumb(imgJs.getString("thumb"));
+                            good.setGoodsSmallImag(imgJs.getString("small"));
+                            goods.add(good);
+                        }
+                    }
+                    model.setGoods(goods);
+                    dingDanModels.add(model);
+                }
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return dingDanModels;
+    }
+
 
     @Override
     public void onClick(View v) {
         switch (v.getId()){
-            case R.id.img_dao_hang_order_list:
-                finish();
-                break;
             case R.id.ll_all_ding_dan://点击了所有订单
                 getOrderList("");//获取所有的订单数据
                 reset();

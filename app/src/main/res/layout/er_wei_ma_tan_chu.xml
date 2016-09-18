@@ -4,8 +4,8 @@
     android:layout_height="wrap_content">
     <ImageView
         android:id="@+id/img_er_wei_ma"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:src="@mipmap/sina"/>
+        android:layout_width="160dp"
+        android:layout_height="160dp"
+        android:src="@mipmap/yu_jia_zai"/>
 
 </LinearLayout>

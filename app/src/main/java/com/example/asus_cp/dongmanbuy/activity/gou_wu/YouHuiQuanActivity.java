@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 
 import com.example.asus_cp.dongmanbuy.R;
+import com.example.asus_cp.dongmanbuy.activity.BaseActivity;
 import com.example.asus_cp.dongmanbuy.adapter.YouHuiQuanListAdapter;
 import com.example.asus_cp.dongmanbuy.constant.MyConstant;
 import com.example.asus_cp.dongmanbuy.model.YouHuiQuanModel;
@@ -22,8 +23,7 @@ import java.util.List;
  * 优惠券的界面
  * Created by asus-cp on 2016-06-17.
  */
-public class YouHuiQuanActivity extends Activity{
-    private ImageView daoHangImageView;
+public class YouHuiQuanActivity extends BaseActivity {
     private ListView listView;
     private Button confirmButton;
     private List<YouHuiQuanModel> models;
@@ -33,25 +33,22 @@ public class YouHuiQuanActivity extends Activity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
-        setContentView(R.layout.you_hui_quan_activty_layout);
+        setContentLayout(R.layout.you_hui_quan_activty_layout);
+        setTitle(R.string.you_hui_quan_list);
+        initView();
         init();
+    }
+
+    @Override
+    public void initView() {
+        listView= (ListView) findViewById(R.id.list_you_hui_quan_list);
+        confirmButton= (Button) findViewById(R.id.btn_confirm_you_hui_quan);
     }
 
     /**
      * 初始化的方法
      */
     private void init() {
-        daoHangImageView= (ImageView) findViewById(R.id.img_dao_hang_you_hui_quan_list);
-        listView= (ListView) findViewById(R.id.list_you_hui_quan_list);
-        confirmButton= (Button) findViewById(R.id.btn_confirm_you_hui_quan);
-
-        daoHangImageView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
         confirmButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -65,13 +62,13 @@ public class YouHuiQuanActivity extends Activity{
 
         models=new ArrayList<YouHuiQuanModel>();
         YouHuiQuanModel youHuiQuanModel=new YouHuiQuanModel();
-        youHuiQuanModel.setJinE(98.00 + "");
+        youHuiQuanModel.setJinE(0.00 + "");
         youHuiQuanModel.setName("ceshi");
         youHuiQuanModel.setStartTime("2016.5.18-2.016.6.18");
         models.add(youHuiQuanModel);
 
         YouHuiQuanModel youHuiQuanModel1=new YouHuiQuanModel();
-        youHuiQuanModel1.setJinE(1.00 + "");
+        youHuiQuanModel1.setJinE(0.00 + "");
         youHuiQuanModel1.setName("dddsdd");
         youHuiQuanModel1.setStartTime("2017.5.18-2.017.6.18");
         models.add(youHuiQuanModel1);

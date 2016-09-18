@@ -3,6 +3,7 @@ package com.example.asus_cp.dongmanbuy.activity;
 import android.app.Activity;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,7 +22,7 @@ import com.example.asus_cp.dongmanbuy.util.MyApplication;
  * 所有activity的基类
  * Created by asus-cp on 2016-09-13.
  */
-public abstract class BaseActivity extends Activity{
+public abstract class BaseActivity extends AppCompatActivity{
 
     //基类里面定义好一些共有变量，子类里面都需要使用的
     public RequestQueue requestQueue;
@@ -37,7 +38,9 @@ public abstract class BaseActivity extends Activity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        //requestWindowFeature(Window.FEATURE_NO_TITLE);
+        supportRequestWindowFeature(Window.FEATURE_NO_TITLE);//注意是调用这个，而不是上面的
+        //getSupportActionBar().hide();
         setContentView(R.layout.base_activity_layout);
         contentLinearLayout= (LinearLayout) findViewById(R.id.ll_content_base_activity);
         backImageView = (ImageView) findViewById(R.id.img_dao_hang_base_acitivity);

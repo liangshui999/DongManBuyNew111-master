@@ -18,6 +18,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.example.asus_cp.dongmanbuy.R;
+import com.example.asus_cp.dongmanbuy.activity.BaseActivity;
 import com.example.asus_cp.dongmanbuy.adapter.ShouHuoRenXinXiListAdapter;
 import com.example.asus_cp.dongmanbuy.constant.MyConstant;
 import com.example.asus_cp.dongmanbuy.model.UserModel;
@@ -38,20 +39,13 @@ import java.util.Map;
  * 收货人信息列表
  * Created by asus-cp on 2016-06-15.
  */
-public class ShouHuoRenXinXiListActivity extends Activity{
+public class ShouHuoRenXinXiListActivity extends BaseActivity {
 
     private String tag="ShouHuoRenXinXiListActivity";
-    private ImageView daoHangImageView;//导航
     private ListView listView;
     private TextView addShouHuoRenTextView;//新增收货人
 
     private String shouHuoAddressListUrl="http://www.zmobuy.com/PHP/index.php?url=/address/list";//收货地址列表的接口
-
-    private RequestQueue requestQueue;
-
-    private String uid;
-
-    private String sid;
 
     private List<Boolean> checks;
 
@@ -64,32 +58,22 @@ public class ShouHuoRenXinXiListActivity extends Activity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
-        setContentView(R.layout.shou_huo_ren_xin_xi_list_layout);
+        setContentLayout(R.layout.shou_huo_ren_xin_xi_list_layout);
+        setTitle(R.string.ship_address);
+        initView();
         init();
+    }
+
+    @Override
+    public void initView() {
+        listView= (ListView) findViewById(R.id.list_view_shou_huo_ren_xin_xi);
+        addShouHuoRenTextView= (TextView) findViewById(R.id.text_xin_zeng_shou_huo_ren_xin_xi);
     }
 
     /**
      *初始化方法
      */
     private void init() {
-        requestQueue= MyApplication.getRequestQueue();
-
-        //获取uid和sid
-        SharedPreferences sharedPreferences=getSharedPreferences(MyConstant.USER_SHAREPREFRENCE_NAME,MODE_APPEND);
-        uid=sharedPreferences.getString(MyConstant.UID_KEY,null);
-        sid=sharedPreferences.getString(MyConstant.SID_KEY,null);
-
-        daoHangImageView= (ImageView) findViewById(R.id.img_dao_hang_shou_huo_ren_list);
-        daoHangImageView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
-
-        listView= (ListView) findViewById(R.id.list_view_shou_huo_ren_xin_xi);
-        addShouHuoRenTextView= (TextView) findViewById(R.id.text_xin_zeng_shou_huo_ren_xin_xi);
         addShouHuoRenTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

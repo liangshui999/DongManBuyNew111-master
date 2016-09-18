@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.asus_cp.dongmanbuy.R;
+import com.example.asus_cp.dongmanbuy.activity.BaseActivity;
 import com.example.asus_cp.dongmanbuy.adapter.FaPiaoCategoryAdapter;
 import com.example.asus_cp.dongmanbuy.constant.MyConstant;
 import com.example.asus_cp.dongmanbuy.customview.MyListView;
@@ -23,8 +24,8 @@ import java.util.List;
  * 发票的界面
  * Created by asus-cp on 2016-06-17.
  */
-public class FaPiaoActiity extends Activity{
-    private ImageView daoHangImageView;
+public class FaPiaoActiity extends BaseActivity {
+
     private EditText faPiaoNeiRongEditText;
     private MyListView listView;
     private Button confirmButton;
@@ -36,27 +37,23 @@ public class FaPiaoActiity extends Activity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
-        setContentView(R.layout.fa_piao_activity_layout);
+        setContentLayout(R.layout.fa_piao_activity_layout);
+        setTitle(R.string.fa_piao);
+        initView();
         init();
+    }
+
+    @Override
+    public void initView() {
+        faPiaoNeiRongEditText= (EditText) findViewById(R.id.edit_fa_piao_tai_tou);
+        listView= (MyListView) findViewById(R.id.my_list_view_fa_piao_list);
+        confirmButton= (Button) findViewById(R.id.btn_confirm_fa_piao);
     }
 
     /**
      * 初始化的方法
      */
     private void init() {
-        daoHangImageView= (ImageView) findViewById(R.id.img_dao_hang_fa_piao);
-        faPiaoNeiRongEditText= (EditText) findViewById(R.id.edit_fa_piao_tai_tou);
-        listView= (MyListView) findViewById(R.id.my_list_view_fa_piao_list);
-        confirmButton= (Button) findViewById(R.id.btn_confirm_fa_piao);
-
-        daoHangImageView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
-
         confirmButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

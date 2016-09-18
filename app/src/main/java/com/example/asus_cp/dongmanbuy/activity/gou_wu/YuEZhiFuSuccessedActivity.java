@@ -10,6 +10,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.asus_cp.dongmanbuy.R;
+import com.example.asus_cp.dongmanbuy.activity.BaseActivity;
 import com.example.asus_cp.dongmanbuy.activity.personal_center.PersonalCenterActivity;
 import com.example.asus_cp.dongmanbuy.adapter.DingDanHaoListAdapter;
 import com.example.asus_cp.dongmanbuy.constant.MyConstant;
@@ -20,9 +21,8 @@ import java.util.List;
  * 余额支付成功后的界面
  * Created by asus-cp on 2016-06-20.
  */
-public class YuEZhiFuSuccessedActivity extends Activity implements View.OnClickListener{
+public class YuEZhiFuSuccessedActivity extends BaseActivity implements View.OnClickListener{
 
-    private ImageView daoHangImageView;
     private ListView listView;
     private TextView huiYuanZhongXinTextView;
     private TextView seeOrderTextView;
@@ -31,21 +31,26 @@ public class YuEZhiFuSuccessedActivity extends Activity implements View.OnClickL
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
-        setContentView(R.layout.yu_e_zhi_fu_successed_layout);
+        setContentLayout(R.layout.yu_e_zhi_fu_successed_layout);
+        setTitle(R.string.shou_yin_tai);
+        initView();
+        init();
+    }
 
-        daoHangImageView= (ImageView) findViewById(R.id.img_dao_hang_yu_e_suceed);
-        listView= (ListView) findViewById(R.id.my_list_ding_dan_hao_list_yu_e);
-        huiYuanZhongXinTextView = (TextView) findViewById(R.id.text_hui_yuan_center_yu_e_zhi_fu);
-        seeOrderTextView= (TextView) findViewById(R.id.text_see_order_yu_e_zhi_fu);
-
+    private void init() {
         //设置订单号
         dingDanHaos= (List<String>) getIntent().getSerializableExtra(MyConstant.DING_DAN_BIAN_HAO_LIST_KEY);
         DingDanHaoListAdapter adapter=new DingDanHaoListAdapter(this,dingDanHaos);
         listView.setAdapter(adapter);
+    }
+
+    @Override
+    public void initView() {
+        listView= (ListView) findViewById(R.id.my_list_ding_dan_hao_list_yu_e);
+        huiYuanZhongXinTextView = (TextView) findViewById(R.id.text_hui_yuan_center_yu_e_zhi_fu);
+        seeOrderTextView= (TextView) findViewById(R.id.text_see_order_yu_e_zhi_fu);
 
         //设置点击事件
-        daoHangImageView.setOnClickListener(this);
         huiYuanZhongXinTextView.setOnClickListener(this);
         seeOrderTextView.setOnClickListener(this);
 
@@ -55,9 +60,6 @@ public class YuEZhiFuSuccessedActivity extends Activity implements View.OnClickL
     @Override
     public void onClick(View v) {
         switch (v.getId()){
-            case R.id.img_dao_hang_yu_e_suceed://导航
-                finish();
-                break;
             case R.id.text_see_order_yu_e_zhi_fu://查看订单
                 break;
             case R.id.text_hui_yuan_center_yu_e_zhi_fu://会员中心
