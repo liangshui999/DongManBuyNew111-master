@@ -86,11 +86,11 @@
                     android:padding="5dp">
                 </com.example.asus_cp.dongmanbuy.customview.MyGridViewA>
 
-                <!--把下面的挤出来,为什么是90，固定栏60加上标签的30，总共是90-->
+                <!--把下面的挤出来,不是90，固定栏60，标签的30不用计算，不要算错了-->
                 <ImageView
                     android:layout_below="@id/tui"
                     android:layout_width="match_parent"
-                    android:layout_height="90dp"
+                    android:layout_height="60dp"
                     android:background="@color/white_my"
                     android:visibility="visible"/>
 

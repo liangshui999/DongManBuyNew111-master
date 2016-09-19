@@ -4,7 +4,7 @@
     android:layout_height="match_parent">
 
     <!--头部-->
-    <RelativeLayout
+    <!--<RelativeLayout
         style="@style/dao_hang_relative_layout_style">
         <ImageView
             android:id="@+id/img_dao_hang_edit_ship_address"
@@ -13,7 +13,7 @@
             android:text="@string/edit_ship_address"
             style="@style/dao_hang_text_style"
             />
-    </RelativeLayout>
+    </RelativeLayout>-->
 
     <LinearLayout
         android:layout_width="match_parent"

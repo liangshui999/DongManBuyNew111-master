@@ -17,10 +17,12 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.example.asus_cp.dongmanbuy.R;
+import com.example.asus_cp.dongmanbuy.activity.BaseActivity;
 import com.example.asus_cp.dongmanbuy.activity.gou_wu.AddShouHuoAddressActivity;
 import com.example.asus_cp.dongmanbuy.adapter.EditShipAddressListAdapter;
 import com.example.asus_cp.dongmanbuy.constant.MyConstant;
 import com.example.asus_cp.dongmanbuy.model.UserModel;
+import com.example.asus_cp.dongmanbuy.util.DialogHelper;
 import com.example.asus_cp.dongmanbuy.util.JsonHelper;
 import com.example.asus_cp.dongmanbuy.util.MyApplication;
 import com.example.asus_cp.dongmanbuy.util.MyLog;
@@ -38,21 +40,14 @@ import java.util.Map;
  * 编辑收货人信息的界面，位于个人中心下面
  * Created by asus-cp on 2016-06-23.
  */
-public class EditShipAddressActivity extends Activity{
+public class EditShipAddressActivity extends BaseActivity {
 
     private String tag="EditShipAddressActivity";
 
-    private ImageView daoHangImageView;
     private ListView listView;
     private Button addShouHuoRenXinXiButton;
 
     private String shouHuoAddressListUrl="http://www.zmobuy.com/PHP/index.php?url=/address/list";//收货地址列表的接口
-
-    private RequestQueue requestQueue;
-
-    private String uid;
-
-    private String sid;
 
     private List<Boolean> checks;
 
@@ -61,24 +56,13 @@ public class EditShipAddressActivity extends Activity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
-        setContentView(R.layout.edit_shi_address_acitivity_layout);
-        init();
+        setContentLayout(R.layout.edit_shi_address_acitivity_layout);
+        setTitle(R.string.ship_address_list);
+        initView();
     }
 
-    /**
-     * 初始化的方法
-     */
-    private void init() {
-
-        requestQueue= MyApplication.getRequestQueue();
-
-        //获取uid和sid
-        SharedPreferences sharedPreferences=getSharedPreferences(MyConstant.USER_SHAREPREFRENCE_NAME,MODE_APPEND);
-        uid=sharedPreferences.getString(MyConstant.UID_KEY,null);
-        sid=sharedPreferences.getString(MyConstant.SID_KEY, null);
-
-        daoHangImageView= (ImageView) findViewById(R.id.img_dao_hang_ship_address_list);
+    @Override
+    public void initView() {
         listView= (ListView) findViewById(R.id.list_ship_address_personal_center);
         addShouHuoRenXinXiButton= (Button) findViewById(R.id.btn_add_ship_address_personal_center);
 
@@ -93,14 +77,9 @@ public class EditShipAddressActivity extends Activity{
 
         //获取收货地址列表
         getShipAddressList();
-
-        daoHangImageView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
     }
+
+
 
 
     /**
@@ -155,11 +134,13 @@ public class EditShipAddressActivity extends Activity{
      * 获取收获地址第列表
      */
     private void getShipAddressList() {
+        DialogHelper.showDialog(this);
         //获取收货地址列表
         StringRequest shouHuoAddressListRequset=new StringRequest(Request.Method.POST, shouHuoAddressListUrl,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String s) {
+                        DialogHelper.dissmisDialog();
                         final List<UserModel> userModels=parseJson(s);
                         if (userModels.size()>0){
                             adapter=new EditShipAddressListAdapter(EditShipAddressActivity.this,

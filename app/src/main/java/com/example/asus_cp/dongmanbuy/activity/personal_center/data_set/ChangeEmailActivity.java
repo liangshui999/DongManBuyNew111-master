@@ -18,6 +18,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.example.asus_cp.dongmanbuy.R;
+import com.example.asus_cp.dongmanbuy.activity.BaseActivity;
 import com.example.asus_cp.dongmanbuy.constant.MyConstant;
 import com.example.asus_cp.dongmanbuy.model.User;
 import com.example.asus_cp.dongmanbuy.util.CheckHelper;
@@ -34,21 +35,14 @@ import java.util.Map;
  * 修改邮箱的界面
  * Created by asus-cp on 2016-06-22.
  */
-public class ChangeEmailActivity extends Activity{
+public class ChangeEmailActivity extends BaseActivity {
 
     private String tag="ChangeEmailActivity";
 
-    private ImageView changeEmailImageView;
     private EditText editText;
     private Button confirmButton;
 
     private String editInfoUrl="http://www.zmobuy.com/PHP/?url=/user/editinfo";
-
-    private RequestQueue requestQueue;
-
-    private String uid;
-
-    private String sid;
 
     private User user;
     private String sex;
@@ -56,16 +50,22 @@ public class ChangeEmailActivity extends Activity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
-        setContentView(R.layout.change_email_activity_layout);
+        setContentLayout(R.layout.change_email_activity_layout);
+        setTitle(R.string.change_email);
+        initView();
         init();
+    }
+
+    @Override
+    public void initView() {
+        editText= (EditText) findViewById(R.id.edit_change_email);
+        confirmButton= (Button) findViewById(R.id.btn_confirm_change_email);
     }
 
     /**
      * 初始化的方法
      */
     private void init() {
-
         user=getIntent().getParcelableExtra(MyConstant.USER_KEY);
         String sexcn=user.getSex();
         if("男".equals(sexcn)){
@@ -73,14 +73,7 @@ public class ChangeEmailActivity extends Activity{
         }else if("女".equals(sexcn)){
             sex=2+"";
         }
-        requestQueue= MyApplication.getRequestQueue();
-        SharedPreferences sharedPreferences=getSharedPreferences(MyConstant.USER_SHAREPREFRENCE_NAME,MODE_APPEND);
-        uid=sharedPreferences.getString(MyConstant.UID_KEY,null);
-        sid=sharedPreferences.getString(MyConstant.SID_KEY,null);
 
-        changeEmailImageView= (ImageView) findViewById(R.id.img_dao_hang_chang_email);
-        editText= (EditText) findViewById(R.id.edit_change_email);
-        confirmButton= (Button) findViewById(R.id.btn_confirm_change_email);
         confirmButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -95,12 +88,6 @@ public class ChangeEmailActivity extends Activity{
             }
         });
 
-        changeEmailImageView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
     }
 
 

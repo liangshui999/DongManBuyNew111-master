@@ -19,6 +19,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.example.asus_cp.dongmanbuy.R;
+import com.example.asus_cp.dongmanbuy.activity.BaseActivity;
 import com.example.asus_cp.dongmanbuy.adapter.HongBaoListAdapter;
 import com.example.asus_cp.dongmanbuy.constant.MyConstant;
 import com.example.asus_cp.dongmanbuy.model.YouHuiQuanModel;
@@ -40,12 +41,10 @@ import java.util.Map;
  * 红包列表的界面
  * Created by asus-cp on 2016-06-27.
  */
-public class HongBaoListActivity extends Activity implements View.OnClickListener{
+public class HongBaoListActivity extends BaseActivity implements View.OnClickListener{
 
     private static final int REQUEST_CODE_ADD_HONG_BAO =1 ;
     private String tag="HongBaoListActivity";
-
-    private ImageView daoHangImageView;
 
     private LinearLayout weiShiYongLinearLayout;//未使用
     private LinearLayout yiShiYongLinearLayout;//已使用
@@ -63,10 +62,6 @@ public class HongBaoListActivity extends Activity implements View.OnClickListene
     private Button addHongBaoButton;//添加红包
 
     private String hongBaoListUrl="http://www.zmobuy.com/PHP/?url=/user/bonus_list";//获取所有红包的接口
-    private RequestQueue requestQueue;
-
-    private String uid;
-    private String sid;
 
     public static final String ALL="all";
 
@@ -76,8 +71,8 @@ public class HongBaoListActivity extends Activity implements View.OnClickListene
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
-        setContentView(R.layout.hong_bao_list_activity_layout);
+        setContentLayout(R.layout.hong_bao_list_activity_layout);
+        setTitle(R.string.hong_bao);
         init();
     }
 
@@ -85,10 +80,7 @@ public class HongBaoListActivity extends Activity implements View.OnClickListene
      * 初始化的方法
      */
     private void init() {
-        requestQueue= MyApplication.getRequestQueue();
-        SharedPreferences sharedPreferences=getSharedPreferences(MyConstant.USER_SHAREPREFRENCE_NAME,MODE_APPEND);
-        uid=sharedPreferences.getString(MyConstant.UID_KEY,null);
-        sid=sharedPreferences.getString(MyConstant.SID_KEY,null);
+
         initView();
 
         //弹出正在加载的对话框
@@ -170,9 +162,8 @@ public class HongBaoListActivity extends Activity implements View.OnClickListene
     /**
      * 初始化view
      */
-    private void initView() {
+    public void initView() {
 
-        daoHangImageView= (ImageView) findViewById(R.id.img_dao_hang_hong_bao);
         weiShiYongLinearLayout= (LinearLayout) findViewById(R.id.ll_wei_shi_yong);
         yiShiYongLinearLayout= (LinearLayout) findViewById(R.id.ll_yi_shi_yong);
         yiGuoQiLinearLayout= (LinearLayout) findViewById(R.id.ll_yi_guo_qi);
@@ -188,12 +179,10 @@ public class HongBaoListActivity extends Activity implements View.OnClickListene
         listView= (ListView) findViewById(R.id.list_view_hong_bao_list);
         addHongBaoButton= (Button) findViewById(R.id.btn_add_hong_bao_hong_bao_list);
 
-
         weiShiYongTextView.setTextColor(getResources().getColor(R.color.bottom_lable_color));
         weiShiYongShuTextView.setTextColor(getResources().getColor(R.color.bottom_lable_color));
 
         //设置点击事件
-        daoHangImageView.setOnClickListener(this);
         weiShiYongLinearLayout.setOnClickListener(this);
         yiShiYongLinearLayout.setOnClickListener(this);
         yiGuoQiLinearLayout.setOnClickListener(this);
@@ -203,9 +192,6 @@ public class HongBaoListActivity extends Activity implements View.OnClickListene
     @Override
     public void onClick(View v) {
         switch (v.getId()){
-            case R.id.img_dao_hang_hong_bao:
-                finish();
-                break;
             case R.id.ll_wei_shi_yong://点击了未使用
                 reset();
                 weiShiYongTextView.setTextColor(getResources().getColor(R.color.bottom_lable_color));

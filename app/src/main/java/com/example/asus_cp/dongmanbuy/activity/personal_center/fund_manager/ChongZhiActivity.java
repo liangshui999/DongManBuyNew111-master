@@ -32,6 +32,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.example.asus_cp.dongmanbuy.R;
+import com.example.asus_cp.dongmanbuy.activity.BaseActivity;
 import com.example.asus_cp.dongmanbuy.constant.MyConstant;
 import com.example.asus_cp.dongmanbuy.util.DingDanHaoProduceHelper;
 import com.example.asus_cp.dongmanbuy.util.FormatHelper;
@@ -46,11 +47,10 @@ import java.util.Map;
  * 充值界面
  * Created by asus-cp on 2016-06-24.
  */
-public class ChongZhiActivity extends Activity implements View.OnClickListener{
+public class ChongZhiActivity extends BaseActivity implements View.OnClickListener{
 
     private String tag="ChongZhiActivity";
 
-    private ImageView daoHangImageView;
     private EditText chongZhiJinEEditeText;//充值金额
     private EditText beiZhuEditeText;//备注
     private RelativeLayout chongZhiFangShiRelativeLayout;//充值方式
@@ -69,10 +69,6 @@ public class ChongZhiActivity extends Activity implements View.OnClickListener{
     private static final int SDK_PAY_FLAG = 1;
 
     private String chongZhiUrl="http://api.zmobuy.com/JK/base/model.php";//充值的接口，充值之后通知服务器，我充了多少钱
-
-    private RequestQueue requestQueue;
-
-    private String uid;
 
 
     @SuppressLint("HandlerLeak")
@@ -120,23 +116,16 @@ public class ChongZhiActivity extends Activity implements View.OnClickListener{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
-        setContentView(R.layout.chong_zhi_activity_layout);
-        init();
+        setContentLayout(R.layout.chong_zhi_activity_layout);
+        setTitle(R.string.chong_zhi);
+        initView();
     }
 
-    /**
-     * 初始化的方法
-     */
-    private void init() {
-        requestQueue= MyApplication.getRequestQueue();
-        SharedPreferences sharedPreferences=getSharedPreferences(MyConstant.USER_SHAREPREFRENCE_NAME,MODE_APPEND);
-        uid=sharedPreferences.getString(MyConstant.UID_KEY, null);
-
+    @Override
+    public void initView() {
         inflater=LayoutInflater.from(this);
         parentView=inflater.inflate(R.layout.chong_zhi_activity_layout, null);
 
-        daoHangImageView= (ImageView) findViewById(R.id.img_dao_hang_chong_zhi);
         chongZhiJinEEditeText= (EditText) findViewById(R.id.edit_chong_zhi_jin_e_chong_zhi);
         beiZhuEditeText= (EditText) findViewById(R.id.edit_bei_zhu_chong_zhi);
         chongZhiFangShiRelativeLayout= (RelativeLayout) findViewById(R.id.re_layout_chong_zhi_fang_shi_chong_zhi);
@@ -145,7 +134,6 @@ public class ChongZhiActivity extends Activity implements View.OnClickListener{
         shouXuFeiTextView= (TextView) findViewById(R.id.text_shou_xu_fei_chong_zhi);
 
         //设置点击事件
-        daoHangImageView.setOnClickListener(this);
         chongZhiFangShiRelativeLayout.setOnClickListener(this);
         tiJiaoShenQingButton.setOnClickListener(this);
     }
@@ -193,9 +181,6 @@ public class ChongZhiActivity extends Activity implements View.OnClickListener{
     @Override
     public void onClick(View v) {
         switch (v.getId()){
-            case R.id.img_dao_hang_chong_zhi://导航
-                finish();
-                break;
             case R.id.re_layout_chong_zhi_fang_shi_chong_zhi://点击了充值方式
                 chongZhiFangShiClickChuLi();
                 break;

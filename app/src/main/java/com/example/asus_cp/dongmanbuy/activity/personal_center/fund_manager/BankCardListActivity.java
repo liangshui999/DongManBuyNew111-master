@@ -17,6 +17,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.example.asus_cp.dongmanbuy.R;
+import com.example.asus_cp.dongmanbuy.activity.BaseActivity;
 import com.example.asus_cp.dongmanbuy.adapter.BankCardListAdapter;
 import com.example.asus_cp.dongmanbuy.constant.MyConstant;
 import com.example.asus_cp.dongmanbuy.model.CardModel;
@@ -38,43 +39,29 @@ import java.util.Map;
  * 银行卡列表的界面
  * Created by asus-cp on 2016-06-27.
  */
-public class BankCardListActivity extends Activity{
+public class BankCardListActivity extends BaseActivity {
 
     private String tag="BankCardListActivity";
 
-    private ImageView daoHangImageView;
     private ListView listView;
 
     private String cardListUrl="http://www.zmobuy.com/PHP/?url=/user/card_list";//所有银行卡列表的接口
-    private RequestQueue requestQueue;
-    private String uid;
-    private String sid;
 
     public static int REQUEST_CODE_ADD_BANK_CARD=1;//跳转到添加银行卡的界面
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
-        setContentView(R.layout.bank_card_list_activity_layout);
+        setContentLayout(R.layout.bank_card_list_activity_layout);
+        setTitle(R.string.bank_list);
+        initView();
         init();
     }
 
-    /**
-     * 初始化的方法
-     */
-    private void init() {
-
-        requestQueue= MyApplication.getRequestQueue();
-        SharedPreferences sharedPreferences=getSharedPreferences(MyConstant.USER_SHAREPREFRENCE_NAME,MODE_APPEND);
-        uid=sharedPreferences.getString(MyConstant.UID_KEY,null);
-        sid=sharedPreferences.getString(MyConstant.SID_KEY,null);
-
-        daoHangImageView= (ImageView) findViewById(R.id.img_dao_hang_bank_list);
+    @Override
+    public void initView() {
         listView= (ListView) findViewById(R.id.list_view_bank_card_list);
-        //View v= LayoutInflater.from(this).inflate(R.layout.bank_card_list_foot_view_layout,null);
+
         Button addCardButton= (Button) findViewById(R.id.btn_add_bank_card);
         addCardButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -83,15 +70,12 @@ public class BankCardListActivity extends Activity{
                 startActivityForResult(intent, REQUEST_CODE_ADD_BANK_CARD);
             }
         });
-        //listView.addFooterView(v);
+    }
 
-        daoHangImageView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
-
+    /**
+     * 初始化的方法
+     */
+    private void init() {
         //弹出正在加载的对话框
         DialogHelper.showDialog(this);
 

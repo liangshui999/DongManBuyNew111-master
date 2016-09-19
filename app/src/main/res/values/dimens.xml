@@ -41,5 +41,6 @@
     <dimen name="jia_jian_button_size">25dp</dimen>
     <dimen name="order_fen_ge_height">1dp</dimen>
     <dimen name="shop_detail_fen_fe">1dp</dimen>
+    <dimen name="data_set_fen_ge">1dp</dimen>
 
 </resources>

@@ -18,6 +18,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.example.asus_cp.dongmanbuy.R;
+import com.example.asus_cp.dongmanbuy.activity.BaseActivity;
 import com.example.asus_cp.dongmanbuy.constant.MyConstant;
 import com.example.asus_cp.dongmanbuy.util.CheckHelper;
 import com.example.asus_cp.dongmanbuy.util.MyApplication;
@@ -33,45 +34,34 @@ import java.util.Map;
  * 改变手机号的界面
  * Created by asus-cp on 2016-06-23.
  */
-public class ChangePhoneActivity extends Activity{
+public class ChangePhoneActivity extends BaseActivity {
 
     private String tag="ChangePhoneActivity";
-
-    private ImageView changePhoneImageView;
 
     private EditText editText;
     private Button confirmButton;
 
     private String editInfoUrl="http://www.zmobuy.com/PHP/?url=/user/editinfo";
 
-    private RequestQueue requestQueue;
-
-    private String uid;
-
-    private String sid;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
-        setContentView(R.layout.change_phone_activity_layout);
+        setContentLayout(R.layout.change_phone_activity_layout);
+        setTitle(R.string.chang_phone);
+        initView();
         init();
+    }
 
-
+    @Override
+    public void initView() {
+        editText= (EditText) findViewById(R.id.edit_change_phone);
+        confirmButton= (Button) findViewById(R.id.btn_confirm_change_phone);
     }
 
     /**
      * 初始化的方法
      */
     private void init() {
-        requestQueue= MyApplication.getRequestQueue();
-        SharedPreferences sharedPreferences=getSharedPreferences(MyConstant.USER_SHAREPREFRENCE_NAME,MODE_APPEND);
-        uid=sharedPreferences.getString(MyConstant.UID_KEY,null);
-        sid=sharedPreferences.getString(MyConstant.SID_KEY,null);
-
-        changePhoneImageView= (ImageView) findViewById(R.id.img_dao_hang_change_phone);
-        editText= (EditText) findViewById(R.id.edit_change_phone);
-        confirmButton= (Button) findViewById(R.id.btn_confirm_change_phone);
         confirmButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -91,12 +81,6 @@ public class ChangePhoneActivity extends Activity{
             }
         });
 
-        changePhoneImageView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
     }
 
 

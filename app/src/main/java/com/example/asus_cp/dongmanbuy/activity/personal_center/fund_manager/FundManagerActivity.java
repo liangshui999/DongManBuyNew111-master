@@ -18,6 +18,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.example.asus_cp.dongmanbuy.R;
+import com.example.asus_cp.dongmanbuy.activity.BaseActivity;
 import com.example.asus_cp.dongmanbuy.constant.MyConstant;
 import com.example.asus_cp.dongmanbuy.model.User;
 import com.example.asus_cp.dongmanbuy.util.FormatHelper;
@@ -35,11 +36,10 @@ import java.util.Map;
  * 资金管理的界面,个人中心里面
  * Created by asus-cp on 2016-06-24.
  */
-public class FundManagerActivity extends Activity implements View.OnClickListener{
+public class FundManagerActivity extends BaseActivity implements View.OnClickListener{
 
     private String tag="FundManagerActivity";
 
-    private ImageView daoHangImageView;
     private TextView keYongYuETextView;//可用余额
     private TextView dongJieJinETextView;//冻结金额
     private LinearLayout chongZhiLinearLayout;//充值
@@ -55,19 +55,14 @@ public class FundManagerActivity extends Activity implements View.OnClickListene
     private User user;
 
     private String userInfoUrl="http://www.zmobuy.com/PHP/?url=/user/info";//用户信息的接口
-    private RequestQueue requestQueue;
-
-    private SharedPreferences sharedPreferences;
-    private String uid;
-    private String sid;
 
     public static final int REQUST_CODE_CHONG_ZHI=1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
-        setContentView(R.layout.fund_manager_activity_layout);
+        setContentLayout(R.layout.fund_manager_activity_layout);
+        setTitle(R.string.fund_manager);
         init();
     }
 
@@ -78,19 +73,13 @@ public class FundManagerActivity extends Activity implements View.OnClickListene
         user=getIntent().getParcelableExtra(MyConstant.USER_KEY);
         initView();
 
-        requestQueue= MyApplication.getRequestQueue();
-        sharedPreferences=getSharedPreferences(MyConstant.USER_SHAREPREFRENCE_NAME, MODE_APPEND);
-        uid=sharedPreferences.getString(MyConstant.UID_KEY, null);
-        sid=sharedPreferences.getString(MyConstant.SID_KEY,null);
-
     }
 
 
     /**
      * 初始化视图
      */
-    private void initView() {
-        daoHangImageView= (ImageView) findViewById(R.id.img_dao_hang_fund_manager);
+    public void initView() {
         keYongYuETextView= (TextView) findViewById(R.id.text_ke_yong_yu_e_fund_manager);
         dongJieJinETextView= (TextView) findViewById(R.id.text_dong_jie_jin_e_fund_manager);
         chongZhiLinearLayout= (LinearLayout) findViewById(R.id.ll_chong_zhi_fund_manager);
@@ -107,7 +96,6 @@ public class FundManagerActivity extends Activity implements View.OnClickListene
         setValueToView();
 
         //设置点击事件
-        daoHangImageView.setOnClickListener(this);
         chongZhiLinearLayout.setOnClickListener(this);
         tiXianLinearLayout.setOnClickListener(this);
         hongBaoLinearLayout.setOnClickListener(this);
@@ -134,9 +122,6 @@ public class FundManagerActivity extends Activity implements View.OnClickListene
     @Override
     public void onClick(View v) {
         switch (v.getId()){
-            case R.id.img_dao_hang_fund_manager://导航
-                finish();
-                break;
             case R.id.ll_chong_zhi_fund_manager://点击了充值
                 Intent toChongZhiIntent=new Intent(this,ChongZhiActivity.class);
                 startActivityForResult(toChongZhiIntent, REQUST_CODE_CHONG_ZHI);
@@ -170,8 +155,6 @@ public class FundManagerActivity extends Activity implements View.OnClickListene
      * 联网获取数据，并给view赋值
      */
     private void getDataFromIntenetAndSetView() {
-        uid=sharedPreferences.getString(MyConstant.UID_KEY, null);
-        sid=sharedPreferences.getString(MyConstant.SID_KEY, null);
         StringRequest userInfoRequest=new StringRequest(Request.Method.POST, userInfoUrl,
                 new Response.Listener<String>() {
                     @Override

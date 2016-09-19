@@ -18,6 +18,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.example.asus_cp.dongmanbuy.R;
+import com.example.asus_cp.dongmanbuy.activity.BaseActivity;
 import com.example.asus_cp.dongmanbuy.activity.dian_pu_jie.ShopHomeActivity;
 import com.example.asus_cp.dongmanbuy.adapter.GuanZhuListAdapter;
 import com.example.asus_cp.dongmanbuy.constant.MyConstant;
@@ -40,53 +41,47 @@ import java.util.Map;
  * 关注列表的界面，个人中心里面
  * Created by asus-cp on 2016-06-24.
  */
-public class GuanZhuListActivity extends Activity{
+public class GuanZhuListActivity extends BaseActivity {
 
     private String tag="GuanZhuListActivity";
 
     private String guanZhuListUrl="http://www.zmobuy.com/PHP/?url=/user/storelist";//获取关注列表的数据
 
-    private RequestQueue requestQueue;
-
-    private String uid;
-    private String sid;
-
-    private ImageView daoHangImageView;
     private ListView listView;
     private LinearLayout noContentLinearLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
-        setContentView(R.layout.guan_zhu_list_activity);
+        setContentLayout(R.layout.guan_zhu_list_activity);
+        setTitle(R.string.guan_zhu_list);
+        initView();
         init();
+    }
+
+    @Override
+    public void initView() {
+        listView= (ListView) findViewById(R.id.list_guan_zhu);
+        noContentLinearLayout= (LinearLayout) findViewById(R.id.ll_no_content_guan_zhu);
     }
 
     /**
      * 初始化的方法
      */
     private void init() {
-        requestQueue= MyApplication.getRequestQueue();
-        SharedPreferences sharedPreferences=getSharedPreferences(MyConstant.USER_SHAREPREFRENCE_NAME,MODE_APPEND);
-        uid=sharedPreferences.getString(MyConstant.UID_KEY,null);
-        sid=sharedPreferences.getString(MyConstant.SID_KEY,null);
-
-        daoHangImageView= (ImageView) findViewById(R.id.img_dao_hang_guan_zhu_list);
-        listView= (ListView) findViewById(R.id.list_guan_zhu);
-        noContentLinearLayout= (LinearLayout) findViewById(R.id.ll_no_content_guan_zhu);
 
         //弹出正在加载的对话框
         DialogHelper.showDialog(this);
 
-        //点击事件
-        daoHangImageView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
+        //获取关注列表
+        getGuanZhuListFromIntenet();
+    }
 
+
+    /**
+     * 从网络上获取关注列表的数据
+     */
+    private void getGuanZhuListFromIntenet() {
         StringRequest getGuanZhuListRequest=new StringRequest(Request.Method.POST, guanZhuListUrl,
                 new Response.Listener<String>() {
                     @Override
@@ -128,7 +123,6 @@ public class GuanZhuListActivity extends Activity{
         };
         requestQueue.add(getGuanZhuListRequest);
     }
-
 
 
     /**

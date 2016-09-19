@@ -16,6 +16,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.example.asus_cp.dongmanbuy.R;
+import com.example.asus_cp.dongmanbuy.activity.BaseActivity;
 import com.example.asus_cp.dongmanbuy.adapter.AccountDetailListAdapter;
 import com.example.asus_cp.dongmanbuy.constant.MyConstant;
 import com.example.asus_cp.dongmanbuy.model.DingDanModel;
@@ -37,49 +38,34 @@ import java.util.Map;
  * 账户明细的界面
  * Created by asus-cp on 2016-06-27.
  */
-public class AccountDetailActivity extends Activity{
+public class AccountDetailActivity extends BaseActivity {
 
     private String tag="AccountDetailActivity";
 
-    private ImageView daoHangImageView;
     private ListView listView;
     private LinearLayout noContentLinearLayout;
 
     private String accountDetailUrl="http://www.zmobuy.com/PHP/?url=/user/account_detail";//账户明细的接口
 
-    private RequestQueue requestQueue;
-    private String uid;
-    private String sid;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
-        setContentView(R.layout.account_detail_activity_layout);
+        setContentLayout(R.layout.account_detail_activity_layout);
+        setTitle(R.string.zhang_hu_ming_xi);
+        initView();
         init();
+    }
+
+    @Override
+    public void initView() {
+        listView= (ListView) findViewById(R.id.list_view_account_detail);
+        noContentLinearLayout= (LinearLayout) findViewById(R.id.ll_no_content_account_detail);
     }
 
     /**
      * 初始化的方法
      */
     private void init() {
-
-        requestQueue= MyApplication.getRequestQueue();
-        SharedPreferences sharedPreferences=getSharedPreferences(MyConstant.USER_SHAREPREFRENCE_NAME,MODE_APPEND);
-        uid=sharedPreferences.getString(MyConstant.UID_KEY,null);
-        sid=sharedPreferences.getString(MyConstant.SID_KEY,null);
-
-        daoHangImageView= (ImageView) findViewById(R.id.img_dao_hang_zhang_hu_ming_xi);
-        listView= (ListView) findViewById(R.id.list_view_account_detail);
-        noContentLinearLayout= (LinearLayout) findViewById(R.id.ll_no_content_account_detail);
-
-        daoHangImageView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
-
         //弹出正在加载的对话框
         DialogHelper.showDialog(this);
 

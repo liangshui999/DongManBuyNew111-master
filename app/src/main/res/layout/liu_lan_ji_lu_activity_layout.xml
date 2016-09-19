@@ -42,7 +42,7 @@
     <ListView
         android:id="@+id/list_liu_lan_ji_lu"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         >
     </ListView>
 

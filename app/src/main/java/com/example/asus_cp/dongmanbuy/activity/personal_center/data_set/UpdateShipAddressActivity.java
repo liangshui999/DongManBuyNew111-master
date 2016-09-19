@@ -20,6 +20,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.example.asus_cp.dongmanbuy.R;
+import com.example.asus_cp.dongmanbuy.activity.BaseActivity;
 import com.example.asus_cp.dongmanbuy.activity.product_detail.AreaActivity;
 import com.example.asus_cp.dongmanbuy.constant.MyConstant;
 import com.example.asus_cp.dongmanbuy.model.UserModel;
@@ -37,7 +38,7 @@ import java.util.Map;
  * 个人中心里面的更新收货人地址
  * Created by asus-cp on 2016-06-23.
  */
-public class UpdateShipAddressActivity extends Activity implements View.OnClickListener{
+public class UpdateShipAddressActivity extends BaseActivity implements View.OnClickListener{
 
     private String tag="UpdateShipAddressActivity";
 
@@ -45,19 +46,13 @@ public class UpdateShipAddressActivity extends Activity implements View.OnClickL
     private String shiId;//市的编码
     private String xianId;//县的编码
 
-    private RequestQueue requestQueue;
-
     private String updateAddressUrl ="http://www.zmobuy.com/PHP/?url=/address/update";//更新地址的接口
-
-    private String uid;
-    private String sid;
 
     private String shouHuoRenName;
     private String shouHuoRenPhone;
     private String xiangXiDiZhi;
     private String suoZaiDiQu;
 
-    private ImageView daoHangImageView;
     private EditText shouHuoRenNameEditText;//收货人姓名
     private EditText shouHuoRenPhoneEditText;//收货人电话
     private RelativeLayout suoZaiDiQuRelaytiveLayout;//所在地区
@@ -74,31 +69,32 @@ public class UpdateShipAddressActivity extends Activity implements View.OnClickL
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
-        setContentView(R.layout.update_shou_huo_address_layout);
+        setContentLayout(R.layout.update_shou_huo_address_layout);
+        setTitle(R.string.edit_ship_address);
+        initView();
         init();
     }
 
-    /**
-     * 初始化的方法
-     */
-    private void init() {
-        requestQueue= MyApplication.getRequestQueue();
-        userModel=getIntent().getParcelableExtra(MyConstant.USER_MODLE_KEY);
-
-
-        //获取uid和sid
-        SharedPreferences sharedPreferences=getSharedPreferences(MyConstant.USER_SHAREPREFRENCE_NAME,MODE_APPEND);
-        uid=sharedPreferences.getString(MyConstant.UID_KEY,null);
-        sid=sharedPreferences.getString(MyConstant.SID_KEY, null);
-
-        daoHangImageView= (ImageView) findViewById(R.id.img_dao_hang_edit_ship_address);
+    @Override
+    public void initView() {
         shouHuoRenNameEditText= (EditText) findViewById(R.id.edit_shou_huo_ren_name_update);
         shouHuoRenPhoneEditText= (EditText) findViewById(R.id.edit_shou_huo_ren_phone_update);
         suoZaiDiQuTextView= (TextView) findViewById(R.id.text_suo_zai_di_qu_add_xin_xi_update);
         suoZaiDiQuRelaytiveLayout= (RelativeLayout) findViewById(R.id.re_layout_suo_zai_di_qu_add_shou_huo_ren_xin_xi_update);
         xiangXiDiZhiEditText= (EditText) findViewById(R.id.edit_xiang_xi_di_zhi_update);
         saveButton= (Button) findViewById(R.id.btn_save_update);
+
+        //设置点击事件
+        suoZaiDiQuRelaytiveLayout.setOnClickListener(this);
+        saveButton.setOnClickListener(this);
+    }
+
+    /**
+     * 初始化的方法
+     */
+    private void init() {
+
+        userModel=getIntent().getParcelableExtra(MyConstant.USER_MODLE_KEY);
 
         //设置初始值
         shouHuoRenNameEditText.setText(userModel.getUserName());
@@ -110,19 +106,11 @@ public class UpdateShipAddressActivity extends Activity implements View.OnClickL
         shengId=13+"";
         shiId=180+"";
         xianId=1545+"";
-
-        //设置点击事件
-        daoHangImageView.setOnClickListener(this);
-        suoZaiDiQuRelaytiveLayout.setOnClickListener(this);
-        saveButton.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()){
-            case R.id.img_dao_hang_edit_ship_address://导航
-                finish();
-                break;
             case R.id.re_layout_suo_zai_di_qu_add_shou_huo_ren_xin_xi_update://所在地区的点击事件
                 //Toast.makeText(this,"点击了所在地区",Toast.LENGTH_SHORT).show();
                 Intent areaIntent=new Intent(this,AreaActivity.class);

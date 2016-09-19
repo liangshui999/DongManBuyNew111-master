@@ -4,7 +4,7 @@
     android:layout_height="match_parent">
 
     <!--头部-->
-    <RelativeLayout
+    <!--<RelativeLayout
         style="@style/dao_hang_relative_layout_style">
         <ImageView
             android:id="@+id/img_dao_hang_ship_address_list"
@@ -13,7 +13,9 @@
             android:text="@string/ship_address_list"
             style="@style/dao_hang_text_style"
             />
-    </RelativeLayout>
+    </RelativeLayout>-->
+
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -22,7 +24,8 @@
             android:id="@+id/list_ship_address_personal_center"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:dividerHeight="10dp">
+            android:dividerHeight="10dp"
+            android:divider="@color/mo_kuai_backgroud">
         </ListView>
     </LinearLayout>
 

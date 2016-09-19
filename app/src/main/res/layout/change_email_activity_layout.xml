@@ -4,7 +4,7 @@
     android:layout_height="match_parent">
 
     <!--头部-->
-    <RelativeLayout
+    <!--<RelativeLayout
         style="@style/dao_hang_relative_layout_style">
         <ImageView
             android:id="@+id/img_dao_hang_chang_email"
@@ -13,7 +13,9 @@
             android:text="@string/change_email"
             style="@style/dao_hang_text_style"
             />
-    </RelativeLayout>
+    </RelativeLayout>-->
+
+
     <EditText
         android:id="@+id/edit_change_email"
         android:layout_width="match_parent"

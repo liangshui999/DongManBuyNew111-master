@@ -18,6 +18,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.example.asus_cp.dongmanbuy.R;
+import com.example.asus_cp.dongmanbuy.activity.BaseActivity;
 import com.example.asus_cp.dongmanbuy.constant.MyConstant;
 import com.example.asus_cp.dongmanbuy.util.CheckHelper;
 import com.example.asus_cp.dongmanbuy.util.MyApplication;
@@ -33,11 +34,10 @@ import java.util.Map;
  * 添加银行卡的界面
  * Created by asus-cp on 2016-06-27.
  */
-public class AddBankCardActivity extends Activity{
+public class AddBankCardActivity extends BaseActivity {
 
     private String tag="AddBankCardActivity";
 
-    private ImageView daoHangImageView;
     private EditText kaHaoEdtiText;//卡号
     private EditText chiKaRenEdtiText;//持卡人
     private EditText kaiHuHangEdtiText;//开户行
@@ -46,41 +46,22 @@ public class AddBankCardActivity extends Activity{
 
     private String addBankCardUrl="http://www.zmobuy.com/PHP/?url=/user/card_add";//添加银行卡的接口
 
-    private RequestQueue requestQueue;
-    private String uid;
-    private String sid;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
-        setContentView(R.layout.add_band_card_activity_layout);
-        init();
+        setContentLayout(R.layout.add_band_card_activity_layout);
+        setTitle(R.string.add_card);
+        initView();
     }
 
-    /**
-     * 初始化的方法
-     */
-    private void init() {
-
-        requestQueue= MyApplication.getRequestQueue();
-        SharedPreferences sharedPreferences=getSharedPreferences(MyConstant.USER_SHAREPREFRENCE_NAME,MODE_APPEND);
-        uid=sharedPreferences.getString(MyConstant.UID_KEY,null);
-        sid=sharedPreferences.getString(MyConstant.SID_KEY,null);
-
-        daoHangImageView= (ImageView) findViewById(R.id.img_dao_hang_add_card);
+    @Override
+    public void initView() {
         kaHaoEdtiText= (EditText) findViewById(R.id.edit_ka_hao_add_bank_card);
         chiKaRenEdtiText= (EditText) findViewById(R.id.edit_chi_ka_ren_add_bank_card);
         kaiHuHangEdtiText= (EditText) findViewById(R.id.edit_kai_hu_hang_add_bank_card);
         bankEdtiText= (EditText) findViewById(R.id.edit_bank_add_bank_card);
         tiJiaoButton= (Button) findViewById(R.id.btn_ti_jiao_add_bank_card);
-
-        daoHangImageView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
 
         tiJiaoButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -105,6 +86,8 @@ public class AddBankCardActivity extends Activity{
             }
         });
     }
+
+
 
 
     /**

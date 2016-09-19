@@ -19,6 +19,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.example.asus_cp.dongmanbuy.R;
+import com.example.asus_cp.dongmanbuy.activity.BaseActivity;
 import com.example.asus_cp.dongmanbuy.constant.MyConstant;
 import com.example.asus_cp.dongmanbuy.model.User;
 import com.example.asus_cp.dongmanbuy.util.MyApplication;
@@ -34,11 +35,9 @@ import java.util.Map;
  * 性别选择的界面
  * Created by asus-cp on 2016-06-22.
  */
-public class SexSelectActivity extends Activity implements View.OnClickListener{
+public class SexSelectActivity extends BaseActivity implements View.OnClickListener{
 
     private String tag="SexSelectActivity";
-
-    private ImageView daoHangImageView;
 
     private LinearLayout nanLinearLayout;//男
     private LinearLayout nvLinearLayout;//女
@@ -50,36 +49,20 @@ public class SexSelectActivity extends Activity implements View.OnClickListener{
 
     private String editInfoUrl="http://www.zmobuy.com/PHP/?url=/user/editinfo";
 
-    private RequestQueue requestQueue;
-
-    private String uid;
-
-    private String sid;
-
     private User user;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
-        setContentView(R.layout.sex_select_activity_layout);
-
+        setContentLayout(R.layout.sex_select_activity_layout);
+        setTitle(R.string.change_sex);
+        initView();
         init();
     }
 
-    /**
-     * 初始化的方法
-     */
-    private void init() {
-
-        user=getIntent().getParcelableExtra(MyConstant.USER_KEY);
-        requestQueue= MyApplication.getRequestQueue();
-        SharedPreferences sharedPreferences=getSharedPreferences(MyConstant.USER_SHAREPREFRENCE_NAME,MODE_APPEND);
-        uid=sharedPreferences.getString(MyConstant.UID_KEY,null);
-        sid=sharedPreferences.getString(MyConstant.SID_KEY,null);
-
-        daoHangImageView= (ImageView) findViewById(R.id.img_dao_hang_sex);
+    @Override
+    public void initView() {
         nanLinearLayout= (LinearLayout) findViewById(R.id.ll_nan_sex_select);
         nvLinearLayout= (LinearLayout) findViewById(R.id.ll_nv_sex_select);
         nanImageView= (ImageView) findViewById(R.id.img_nan_sex_select);
@@ -89,18 +72,21 @@ public class SexSelectActivity extends Activity implements View.OnClickListener{
         confirmButton= (Button) findViewById(R.id.btn_confirm_sex_select);
 
         //设置点击事件
-        daoHangImageView.setOnClickListener(this);
         nanLinearLayout.setOnClickListener(this);
         nvLinearLayout.setOnClickListener(this);
         confirmButton.setOnClickListener(this);
     }
 
+    /**
+     * 初始化的方法
+     */
+    private void init() {
+        user=getIntent().getParcelableExtra(MyConstant.USER_KEY);
+    }
+
     @Override
     public void onClick(View v) {
         switch (v.getId()){
-            case R.id.img_dao_hang_sex://导航
-                finish();
-                break;
             case R.id.ll_nan_sex_select:
                 reset();
                 nanTextView.setTextColor(getResources().getColor(R.color.man_backgroud));

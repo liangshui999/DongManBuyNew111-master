@@ -1049,7 +1049,7 @@ public class ShoppingCarFragment extends Fragment implements View.OnClickListene
                         prodcutCount[0]--;
                         if (prodcutCount[0] >= 1) {
                             //Toast.makeText(context,"商品数量:"+prodcutCount[0],Toast.LENGTH_SHORT).show();
-                            finalViewHolderIn.productCountTextView.setText(prodcutCount[0] + "");
+                            //finalViewHolderIn.productCountTextView.setText(prodcutCount[0] + "");
                         } else {
                             Toast.makeText(context, "不能比1小", Toast.LENGTH_SHORT).show();
                             finalViewHolderIn.productCountTextView.setText("1");

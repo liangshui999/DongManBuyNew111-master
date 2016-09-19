@@ -18,6 +18,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.example.asus_cp.dongmanbuy.R;
+import com.example.asus_cp.dongmanbuy.activity.BaseActivity;
 import com.example.asus_cp.dongmanbuy.constant.MyConstant;
 import com.example.asus_cp.dongmanbuy.util.MyApplication;
 import com.example.asus_cp.dongmanbuy.util.MyLog;
@@ -32,48 +33,36 @@ import java.util.Map;
  * 添加红包的界面
  * Created by asus-cp on 2016-07-14.
  */
-public class AddHongBaoActivity extends Activity{
+public class AddHongBaoActivity extends BaseActivity {
 
     private String tag="AddHongBaoActivity";
 
-    private ImageView daoHangImageView;
     private EditText kouLingEditText;
     private EditText passwordEditText;
     private Button tiJiaoButton;
 
     private String addHongBaoUrl="http://www.zmobuy.com/PHP/?url=/user/bonus_add";//添加红包的接口
-    private RequestQueue requestQueue;
-    private String uid;
-    private String sid;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
-        setContentView(R.layout.add_hong_bao_activity_layout);
+        setContentLayout(R.layout.add_hong_bao_activity_layout);
+        setTitle(R.string.you_hui_quan);
+        initView();
         init();
+    }
+
+    @Override
+    public void initView() {
+        kouLingEditText= (EditText) findViewById(R.id.edit_hong_bao_kou_ling);
+        passwordEditText= (EditText) findViewById(R.id.edit_hong_bao_password);
+        tiJiaoButton= (Button) findViewById(R.id.btn_add_hong_bao);
     }
 
     /**
      * 初始化的方法
      */
     private void init() {
-        requestQueue= MyApplication.getRequestQueue();
-        SharedPreferences sharedPreferences=getSharedPreferences(MyConstant.USER_SHAREPREFRENCE_NAME,MODE_APPEND);
-        uid=sharedPreferences.getString(MyConstant.UID_KEY,null);
-        sid=sharedPreferences.getString(MyConstant.SID_KEY,null);
-
-        daoHangImageView= (ImageView) findViewById(R.id.img_dao_hang_you_hui_quan);
-        kouLingEditText= (EditText) findViewById(R.id.edit_hong_bao_kou_ling);
-        passwordEditText= (EditText) findViewById(R.id.edit_hong_bao_password);
-        tiJiaoButton= (Button) findViewById(R.id.btn_add_hong_bao);
-
-        daoHangImageView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
 
         tiJiaoButton.setOnClickListener(new View.OnClickListener() {
             @Override

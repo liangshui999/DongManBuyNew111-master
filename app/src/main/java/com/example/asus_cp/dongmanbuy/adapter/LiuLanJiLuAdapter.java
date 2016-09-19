@@ -52,7 +52,7 @@ public class LiuLanJiLuAdapter extends RecyclerView.Adapter{
         ImageLoader imageLoader=helper.getImageLoader();
         ImageLoader.ImageListener listener=imageLoader.getImageListener(viewHolder.picImagView,
                 R.mipmap.yu_jia_zai,R.mipmap.yu_jia_zai);
-        imageLoader.get(goods.get(position).getGoodsImg(),listener,200,200);
+        imageLoader.get(goods.get(position).getGoodsImg(),listener,500,500);
 
         //如果设置了回调，则设置点击事件
         if (mOnItemClickLitener != null) {

@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.android.volley.toolbox.ImageLoader;
 import com.example.asus_cp.dongmanbuy.R;
+import com.example.asus_cp.dongmanbuy.activity.BaseActivity;
 import com.example.asus_cp.dongmanbuy.activity.MainActivity;
 import com.example.asus_cp.dongmanbuy.constant.MyConstant;
 import com.example.asus_cp.dongmanbuy.model.User;
@@ -25,9 +26,8 @@ import de.hdodenhof.circleimageview.CircleImageView;
  * 资料设置的界面
  * Created by asus-cp on 2016-06-22.
  */
-public class DataSetActivity extends Activity implements View.OnClickListener{
+public class DataSetActivity extends BaseActivity implements View.OnClickListener{
 
-    private ImageView daoHangImageView;//导航
     private de.hdodenhof.circleimageview.CircleImageView touXiangImageView;//头像
     private TextView nameTextView;//姓名
     private RelativeLayout sexRelativeLayout;//性别
@@ -51,26 +51,17 @@ public class DataSetActivity extends Activity implements View.OnClickListener{
     private String whoStartMe;//谁开启了我
 
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
-        setContentView(R.layout.data_set_activity_layout);
+        setContentLayout(R.layout.data_set_activity_layout);
+        setTitle(R.string.data_set);
+        initView();
         init();
     }
 
-    /**
-     * 初始化的方法
-     */
-    private void init() {
-
-        user=getIntent().getParcelableExtra(MyConstant.USER_KEY);
-        helper=new ImageLoadHelper();
-        whoStartMe=getIntent().getStringExtra(MyConstant.DATA_SET_ACTIVITY_LABLE_FLAG_KEY);//谁开启了我
-
-        daoHangImageView= (ImageView) findViewById(R.id.img_dao_hang_data_set);
+    @Override
+    public void initView() {
         touXiangImageView= (CircleImageView) findViewById(R.id.img_tou_xiang_data_set);
         nameTextView= (TextView) findViewById(R.id.text_name_data_set);
         sexRelativeLayout= (RelativeLayout) findViewById(R.id.re_layout_sex_data_set);
@@ -83,24 +74,7 @@ public class DataSetActivity extends Activity implements View.OnClickListener{
         shipAddressRelativeLayout= (RelativeLayout) findViewById(R.id.re_layout_ship_address_data_set);
         exitButton= (Button) findViewById(R.id.btn_exit_data_set);
 
-        //设置值
-        ImageLoader imageLoader=helper.getImageLoader();
-        ImageLoader.ImageListener listener=imageLoader.getImageListener(touXiangImageView,
-                R.mipmap.yu_jia_zai,R.mipmap.yu_jia_zai);
-
-        if(user!=null){
-            imageLoader.get(MyConstant.YU_MING + user.getPic(), listener, 200, 200);
-
-            nameTextView.setText(user.getName());
-            sexTextView.setText(user.getSex());
-            phoneTextView.setText(user.getPhone());
-            emailTextView.setText(user.getEmail());
-        }
-
-
-
         //设置点击事件
-        daoHangImageView.setOnClickListener(this);
         sexRelativeLayout.setOnClickListener(this);
         phoneRelativeLayout.setOnClickListener(this);
         emailRelativeLayout.setOnClickListener(this);
@@ -109,12 +83,31 @@ public class DataSetActivity extends Activity implements View.OnClickListener{
         exitButton.setOnClickListener(this);
     }
 
+    /**
+     * 初始化的方法
+     */
+    private void init() {
+        user=getIntent().getParcelableExtra(MyConstant.USER_KEY);
+        helper=new ImageLoadHelper();
+        whoStartMe=getIntent().getStringExtra(MyConstant.DATA_SET_ACTIVITY_LABLE_FLAG_KEY);//谁开启了我
+
+        //设置值
+        ImageLoader imageLoader=helper.getImageLoader();
+        ImageLoader.ImageListener listener=imageLoader.getImageListener(touXiangImageView,
+                R.mipmap.yu_jia_zai,R.mipmap.yu_jia_zai);
+
+        if(user!=null){
+            imageLoader.get(MyConstant.YU_MING + user.getPic(), listener, 200, 200);
+            nameTextView.setText(user.getName());
+            sexTextView.setText(user.getSex());
+            phoneTextView.setText(user.getPhone());
+            emailTextView.setText(user.getEmail());
+        }
+    }
+
     @Override
     public void onClick(View v) {
         switch (v.getId()){
-            case R.id.img_dao_hang_data_set://导航
-                finish();
-                break;
             case R.id.re_layout_sex_data_set://点击了性别
                 Intent toSexIntent=new Intent(this,SexSelectActivity.class);
                 toSexIntent.putExtra(MyConstant.USER_KEY,user);

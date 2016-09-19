@@ -245,7 +245,7 @@ public class ProductDetailActivity extends BaseActivity implements View.OnClickL
         shoppingCarLinearLayout.setOnClickListener(this);
         addToShoppingCarButton.setOnClickListener(this);
         buyAtOnceButton.setOnClickListener(this);
-        liuLanJiLu();//向数据库中插入数据，做浏览记录
+
 
     }
 
@@ -370,6 +370,7 @@ public class ProductDetailActivity extends BaseActivity implements View.OnClickL
                             good1.setGoodsSmallImag(picJson.getString("small"));
                             good=good1;
                             setValueToView();
+                            liuLanJiLu();//向数据库中插入数据，做浏览记录
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }

@@ -38,10 +38,10 @@ public interface DBConstant {
                 +THUM_IMAG+KONG_GE+"text,"
                 +SMALL_IMAG+KONG_GE+"text,"
                 +GOOD_NAME+KONG_GE+"text not null,"
-                +SHOP_PRICE+KONG_GE+"text not null,"
-                +MARKET_PRICE+KONG_GE+"text not null,"
-                +SALE_VOLUME+KONG_GE+"text not null,"
-                +GOODS_NUMBER+KONG_GE+"text not null"
+                +SHOP_PRICE+KONG_GE+"text,"
+                +MARKET_PRICE+KONG_GE+"text,"
+                +SALE_VOLUME+KONG_GE+"text,"
+                +GOODS_NUMBER+KONG_GE+"text"
                 +");";
 
         //查询所有商品的语句

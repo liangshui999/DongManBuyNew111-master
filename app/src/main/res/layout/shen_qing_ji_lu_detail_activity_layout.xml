@@ -5,7 +5,7 @@
     android:background="@color/mo_kuai_backgroud">
 
     <!--头部-->
-    <RelativeLayout
+    <!--<RelativeLayout
         style="@style/dao_hang_relative_layout_style">
         <ImageView
             android:id="@+id/img_dao_hang_shen_qing_ji_lu_detail"
@@ -14,7 +14,7 @@
             android:text="@string/shen_qing_ji_lu"
             style="@style/dao_hang_text_style"
             />
-    </RelativeLayout>
+    </RelativeLayout>-->
 
     <RelativeLayout
         android:layout_width="match_parent"

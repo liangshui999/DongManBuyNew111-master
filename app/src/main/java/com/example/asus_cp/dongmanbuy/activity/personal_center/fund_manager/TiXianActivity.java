@@ -27,6 +27,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.example.asus_cp.dongmanbuy.R;
+import com.example.asus_cp.dongmanbuy.activity.BaseActivity;
 import com.example.asus_cp.dongmanbuy.adapter.TiXianTanChuListAdapter;
 import com.example.asus_cp.dongmanbuy.constant.MyConstant;
 import com.example.asus_cp.dongmanbuy.customview.FocuesableListView;
@@ -49,11 +50,10 @@ import java.util.Map;
  * 提现的界面
  * Created by asus-cp on 2016-06-27.
  */
-public class TiXianActivity extends Activity implements View.OnClickListener{
+public class TiXianActivity extends BaseActivity implements View.OnClickListener{
 
     private String tag="TiXianActivity";
 
-    private ImageView daoHangImageView;
     private EditText tiXianJinEEditText;//提现金额
     private EditText beiZhuEditText;//备注
     private TextView tiXianFangShiBankNameTextView;//银行名
@@ -69,35 +69,21 @@ public class TiXianActivity extends Activity implements View.OnClickListener{
     private String cardListUrl="http://www.zmobuy.com/PHP/?url=/user/card_list";//银行卡列表的接口
     private String tiXianUrl="http://www.zmobuy.com/PHP/?url=/user/account_account";//提现的接口
 
-    private String uid;
-    private String sid;
-
-    private RequestQueue requestQueue;
-
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
-        setContentView(R.layout.ti_xian_activity_layout);
+        setContentLayout(R.layout.ti_xian_activity_layout);
+        setTitle(R.string.ti_xian);
+        initView();
         init();
     }
 
-    /**
-     * 初始化的方法
-     */
-    private void init() {
-
-        requestQueue= MyApplication.getRequestQueue();
-        SharedPreferences sharedPreferences=getSharedPreferences(MyConstant.USER_SHAREPREFRENCE_NAME,MODE_APPEND);
-        uid=sharedPreferences.getString(MyConstant.UID_KEY,null);
-        sid=sharedPreferences.getString(MyConstant.SID_KEY, null);
-
-        user=getIntent().getParcelableExtra(MyConstant.USER_KEY);
+    @Override
+    public void initView() {
         parentView=LayoutInflater.from(this).inflate(R.layout.ti_xian_activity_layout, null);
 
-        daoHangImageView= (ImageView) findViewById(R.id.img_dao_hang_ti_xian);
         tiXianJinEEditText= (EditText) findViewById(R.id.edit_ti_xian_jin_e_ti_xian);
         beiZhuEditText= (EditText) findViewById(R.id.edit_bei_zhu_ti_xian);
         tiXianFangShiBankNameTextView = (TextView) findViewById(R.id.text_ti_xian_fang_shi_bank_name_ti_xian);
@@ -105,22 +91,27 @@ public class TiXianActivity extends Activity implements View.OnClickListener{
         tiXianFangShiRelativeLayout= (RelativeLayout) findViewById(R.id.re_layout_ti_xian_fang_shi_ti_xian);
         tiJiaoShenQingButton= (Button) findViewById(R.id.btn_ti_jiao_shen_qing_ti_xian);
 
+        //设置点击事件
+        tiXianFangShiRelativeLayout.setOnClickListener(this);
+        tiJiaoShenQingButton.setOnClickListener(this);
+    }
+
+    /**
+     * 初始化的方法
+     */
+    private void init() {
+
+        user=getIntent().getParcelableExtra(MyConstant.USER_KEY);
+
         //设置初始值
         tiXianJinEEditText.setHint("本次最大提现金额¥" + user.getMoney());
 
-        //设置点击事件
-        daoHangImageView.setOnClickListener(this);
-        tiXianFangShiRelativeLayout.setOnClickListener(this);
-        tiJiaoShenQingButton.setOnClickListener(this);
     }
 
 
     @Override
     public void onClick(View v) {
         switch (v.getId()){
-            case R.id.img_dao_hang_ti_xian://导航
-                finish();
-                break;
             case R.id.re_layout_ti_xian_fang_shi_ti_xian://点击了提现方式
                 tiXianFangShiClickChuLi();
                 break;

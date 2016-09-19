@@ -20,6 +20,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.example.asus_cp.dongmanbuy.R;
+import com.example.asus_cp.dongmanbuy.activity.BaseActivity;
 import com.example.asus_cp.dongmanbuy.activity.login.LoginActivity;
 import com.example.asus_cp.dongmanbuy.constant.MyConstant;
 import com.example.asus_cp.dongmanbuy.util.MyApplication;
@@ -35,11 +36,10 @@ import java.util.Map;
  * 个人中心的修改密码
  * Created by asus-cp on 2016-06-23.
  */
-public class ChangPasswordPersonalCenterActivity extends Activity implements View.OnClickListener{
+public class ChangPasswordPersonalCenterActivity extends BaseActivity implements View.OnClickListener{
 
     private String tag="ChangPasswordPersonalCenterActivity";
 
-    private ImageView daoHangImageView;
     private EditText oldPasswordEditText;
     private EditText newPasswordEditText;
     private EditText newPasswordAgainEditText;
@@ -54,29 +54,17 @@ public class ChangPasswordPersonalCenterActivity extends Activity implements Vie
 
     private String changePasswordUrl="http://www.zmobuy.com/PHP/?url=/user/editpassword";//修改密码的接口
 
-    private String uid;
-    private String sid;
-    private RequestQueue requestQueue;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
-        setContentView(R.layout.change_password_personal_center);
-        init();
+        setContentLayout(R.layout.change_password_personal_center);
+        setTitle(R.string.change_password);
+        initView();
     }
 
-
-    /**
-     * 初始化的方法
-     */
-    private void init() {
-        requestQueue= MyApplication.getRequestQueue();
-        SharedPreferences sharedPreferences=getSharedPreferences(MyConstant.USER_SHAREPREFRENCE_NAME,MODE_APPEND);
-        uid=sharedPreferences.getString(MyConstant.UID_KEY,null);
-        sid=sharedPreferences.getString(MyConstant.SID_KEY,null);
-
-        daoHangImageView= (ImageView) findViewById(R.id.img_dao_hang_change_password);
+    @Override
+    public void initView() {
         oldPasswordEditText= (EditText) findViewById(R.id.edit_input_old_password);
         newPasswordEditText= (EditText) findViewById(R.id.edit_input_new_password);
         newPasswordAgainEditText= (EditText) findViewById(R.id.edit_input_new_password_again);
@@ -86,19 +74,17 @@ public class ChangPasswordPersonalCenterActivity extends Activity implements Vie
         confirmButton= (Button) findViewById(R.id.btn_confirm_change_password);
 
         //设置点击事件
-        daoHangImageView.setOnClickListener(this);
         oldPasswordImageView.setOnClickListener(this);
         newPasswordImageView.setOnClickListener(this);
         newPasswordAgainImageView.setOnClickListener(this);
         confirmButton.setOnClickListener(this);
     }
 
+
+
     @Override
     public void onClick(View v) {
         switch (v.getId()){
-            case R.id.img_dao_hang_change_password://导航
-                finish();
-                break;
             case R.id.img_see_input_old_password://点击了旧密码旁边的是否可见
                 if(oldPasswordFlag%2==0){
                     oldPasswordImageView.setBackgroundResource(R.drawable.see_password_selected);

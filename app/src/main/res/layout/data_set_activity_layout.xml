@@ -5,7 +5,7 @@
     android:background="@color/mo_kuai_backgroud">
 
     <!--头部-->
-    <RelativeLayout
+    <!--<RelativeLayout
         style="@style/dao_hang_relative_layout_style">
         <ImageView
             android:id="@+id/img_dao_hang_data_set"
@@ -14,7 +14,7 @@
             android:text="@string/data_set"
             style="@style/dao_hang_text_style"
             />
-    </RelativeLayout>
+    </RelativeLayout>-->
 
     <!--头像-->
     <RelativeLayout
@@ -44,7 +44,7 @@
         android:layout_height="wrap_content"
         android:padding="10dp"
         android:background="@color/white_my"
-        android:layout_marginTop="2dp">
+        android:layout_marginTop="@dimen/data_set_fen_ge">
         <TextView
             android:text="@string/yong_hu_ming"
             style="@style/data_set_title_style"/>
@@ -64,7 +64,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="10dp"
-        android:layout_marginTop="2dp"
+        android:layout_marginTop="@dimen/data_set_fen_ge"
         android:background="@color/white_my">
         <TextView
             android:text="@string/xing_bie"
@@ -91,7 +91,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="10dp"
-        android:layout_marginTop="2dp"
+        android:layout_marginTop="@dimen/data_set_fen_ge"
         android:background="@color/white_my">
         <TextView
             android:text="@string/shou_ji"
@@ -119,7 +119,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="10dp"
-        android:layout_marginTop="2dp"
+        android:layout_marginTop="@dimen/data_set_fen_ge"
         android:background="@color/white_my">
         <TextView
             android:text="@string/you_xiang"
@@ -147,7 +147,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="10dp"
-        android:layout_marginTop="2dp"
+        android:layout_marginTop="@dimen/data_set_fen_ge"
         android:background="@color/white_my">
         <TextView
             android:text="@string/change_password"
@@ -168,7 +168,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="10dp"
-        android:layout_marginTop="2dp"
+        android:layout_marginTop="@dimen/data_set_fen_ge"
         android:background="@color/white_my">
         <TextView
             android:text="@string/ship_address"

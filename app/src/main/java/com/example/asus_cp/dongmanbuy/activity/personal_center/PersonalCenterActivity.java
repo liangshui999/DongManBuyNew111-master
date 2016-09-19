@@ -23,6 +23,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.StringRequest;
 import com.example.asus_cp.dongmanbuy.R;
+import com.example.asus_cp.dongmanbuy.activity.BaseActivity;
 import com.example.asus_cp.dongmanbuy.activity.gou_wu.DingDanListActivity;
 import com.example.asus_cp.dongmanbuy.activity.login.LoginActivity;
 import com.example.asus_cp.dongmanbuy.activity.personal_center.data_set.DataSetActivity;
@@ -55,11 +56,10 @@ import de.hdodenhof.circleimageview.CircleImageView;
  * 个人中心的界面
  * Created by asus-cp on 2016-06-22.
  */
-public class PersonalCenterActivity extends Activity implements View.OnClickListener{
+public class PersonalCenterActivity extends BaseActivity implements View.OnClickListener{
 
     private String tag="PersonalCenterActivity";
 
-    private ImageView daoHangImageView;//导航
     private de.hdodenhof.circleimageview.CircleImageView touXiangImageView;//头像
     private TextView nameTextView;//名字
     private TextView dengJiTextView;//等级
@@ -90,15 +90,8 @@ public class PersonalCenterActivity extends Activity implements View.OnClickList
 
     private String userInfoUrl="http://www.zmobuy.com/PHP/?url=/user/info";//用户信息的接口
     private String guanZhuShuUrl="http://api.zmobuy.com/JK/base/model.php";//关注数的接口
-    private RequestQueue requestQueue;
 
     private ImageLoadHelper helper;
-
-    private SharedPreferences sharedPreferences;
-
-    private String uid;
-
-    private String sid;
 
     public static final int REQUEST_CODE_LOGIN_KEY=0;//跳转到登陆界面用
     public static final int REQUEST_CODE_SHOU_CANG_KEY=1;//跳转到收藏界面
@@ -117,8 +110,8 @@ public class PersonalCenterActivity extends Activity implements View.OnClickList
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
-        setContentView(R.layout.personal_center_activity_layout);
+        setContentLayout(R.layout.personal_center_activity_layout);
+        setTitle(R.string.personal_center);
         init();
     }
 
@@ -128,10 +121,7 @@ public class PersonalCenterActivity extends Activity implements View.OnClickList
     private void init() {
         dbHelper=new BookDBOperateHelper();
         initView();
-        requestQueue= MyApplication.getRequestQueue();
         helper=new ImageLoadHelper();
-        sharedPreferences=getSharedPreferences(MyConstant.USER_SHAREPREFRENCE_NAME, MODE_APPEND);
-        uid=sharedPreferences.getString(MyConstant.UID_KEY,null);
         if(uid==null){
             Intent loginIntent=new Intent(this, LoginActivity.class);
             loginIntent.putExtra(MyConstant.START_LOGIN_ACTIVITY_FLAG_KEY,"personalCenter");
@@ -178,8 +168,6 @@ public class PersonalCenterActivity extends Activity implements View.OnClickList
      * 联网获取数据，并给view赋值
      */
     private void getDataFromIntenetAndSetView() {
-        uid=sharedPreferences.getString(MyConstant.UID_KEY, null);
-        sid=sharedPreferences.getString(MyConstant.SID_KEY, null);
         StringRequest userInfoRequest=new StringRequest(Request.Method.POST, userInfoUrl,
                 new Response.Listener<String>() {
                     @Override
@@ -270,8 +258,7 @@ public class PersonalCenterActivity extends Activity implements View.OnClickList
     /**
      * 初始化view
      */
-    private void initView() {
-        daoHangImageView= (ImageView) findViewById(R.id.img_dao_hang_personal_center);
+    public void initView() {
         touXiangImageView= (CircleImageView) findViewById(R.id.img_tou_xiang_personal_center);
         nameTextView= (TextView) findViewById(R.id.text_name_personal_center);
         dengJiTextView= (TextView) findViewById(R.id.text_deng_ji_personal_center);
@@ -299,7 +286,6 @@ public class PersonalCenterActivity extends Activity implements View.OnClickList
         keFuRelativeLayout= (RelativeLayout) findViewById(R.id.re_layout_ke_fu_personal_center);
         qingKongLinearLayout= (LinearLayout) findViewById(R.id.ll_qing_kong_personal_center);
         recyclerView= (RecyclerView) findViewById(R.id.id_recyle_view_personal_center);
-
 
 
         //设置recyclerView
@@ -343,11 +329,7 @@ public class PersonalCenterActivity extends Activity implements View.OnClickList
            }
        });
 
-
-
-
         //设置点击事件
-        daoHangImageView.setOnClickListener(this);
         nameLinearLayout.setOnClickListener(this);
         touXiangImageView.setOnClickListener(this);
         xinFengImageView.setOnClickListener(this);
@@ -372,9 +354,6 @@ public class PersonalCenterActivity extends Activity implements View.OnClickList
     @Override
     public void onClick(View v) {
         switch (v.getId()){
-            case R.id.img_dao_hang_personal_center://个人中心的导航
-                finish();
-                break;
             case R.id.img_tou_xiang_personal_center://点击了头像
                 toDataSetActivity();
                 break;
