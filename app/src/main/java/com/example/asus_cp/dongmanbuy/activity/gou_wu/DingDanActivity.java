@@ -3,6 +3,7 @@ package com.example.asus_cp.dongmanbuy.activity.gou_wu;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
@@ -19,6 +20,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -63,6 +65,7 @@ import java.util.Map;
 public class DingDanActivity extends BaseActivity implements View.OnClickListener{
 
     private String tag="DingDanActivity";
+    private ScrollView scrollView;
     private RelativeLayout shouHuoAddressRelativeLayout;//收货地址
     private TextView peopleNameTextView;//人名
     private TextView phoneTextView;//电话
@@ -181,12 +184,14 @@ public class DingDanActivity extends BaseActivity implements View.OnClickListene
         listviewOut.setLayoutParams(params);
         listviewOut.setAdapter(adapterOut);
 
-
         //设置商品总价
         productSumPriceTextBottomView.setText(productSumPrice);
 
         //设置实际付款
         setShiFuKuan();
+
+        //让scrollview滚动到顶部
+        scrollView.smoothScrollTo(0,0);
 
     }
 
@@ -217,28 +222,40 @@ public class DingDanActivity extends BaseActivity implements View.OnClickListene
                     @Override
                     public void onResponse(String s) {
                         UserModel userModel=parseJson(s);
-                        addressId=userModel.getId();//默认地址的id
-                        peopleNameTextView.setText(userModel.getUserName()+"");
-                        phoneTextView.setText(userModel.getUserPhone()+"");
-                        MyLog.d(tag,"countryName="+userModel.getCountryName());
-                        if(userModel.getCountryName()==null || userModel.getCountryName().isEmpty() || userModel.getCountryName().equals("null")){
-                            userModel.setCountryName("中国");
-                            MyLog.d(tag, "countryName=" + userModel.getCountryName());
+                        if(userModel.getUserName()!=null){
+                            peopleNameTextView.setVisibility(View.VISIBLE);
+                            phoneTextView.setVisibility(View.VISIBLE);
+                            addressTextView.setText("");
+
+                            addressId=userModel.getId();//默认地址的id
+                            peopleNameTextView.setText(userModel.getUserName()+"");
+                            phoneTextView.setText(userModel.getUserPhone()+"");
+                            MyLog.d(tag,"countryName="+userModel.getCountryName());
+                            if(userModel.getCountryName()==null || userModel.getCountryName().isEmpty() || userModel.getCountryName().equals("null")){
+                                userModel.setCountryName("中国");
+                                MyLog.d(tag, "countryName=" + userModel.getCountryName());
+                            }
+                            if(userModel.getProvinceName()==null || userModel.getProvinceName().isEmpty()){
+                                userModel.setProvinceName("");
+                            }
+                            if(userModel.getCityName()==null || userModel.getCityName().isEmpty()){
+                                userModel.setCityName("");
+                            }
+                            if(userModel.getDistrictName()==null || userModel.getDistrictName().isEmpty()){
+                                userModel.setDistrictName("");
+                            }
+                            if(userModel.getShouHuoArea()==null || userModel.getShouHuoArea().isEmpty()){
+                                userModel.setShouHuoArea("");
+                            }
+                            addressTextView.setText(userModel.getCountryName()+userModel.getProvinceName()
+                                    +userModel.getCityName()+userModel.getDistrictName()+" "+userModel.getShouHuoArea());
+                        }else{
+                            peopleNameTextView.setVisibility(View.GONE);
+                            phoneTextView.setVisibility(View.GONE);
+                            addressTextView.setText("点击选择收货地址!");
+                            Toast.makeText(DingDanActivity.this,"请选择收货地址!",Toast.LENGTH_LONG).show();
                         }
-                        if(userModel.getProvinceName()==null || userModel.getProvinceName().isEmpty()){
-                            userModel.setProvinceName("");
-                        }
-                        if(userModel.getCityName()==null || userModel.getCityName().isEmpty()){
-                            userModel.setCityName("");
-                        }
-                        if(userModel.getDistrictName()==null || userModel.getDistrictName().isEmpty()){
-                            userModel.setDistrictName("");
-                        }
-                        if(userModel.getShouHuoArea()==null || userModel.getShouHuoArea().isEmpty()){
-                            userModel.setShouHuoArea("");
-                        }
-                        addressTextView.setText(userModel.getCountryName()+userModel.getProvinceName()
-                                +userModel.getCityName()+userModel.getDistrictName()+" "+userModel.getShouHuoArea());
+
                     }
                 }, new Response.ErrorListener() {
             @Override
@@ -306,6 +323,7 @@ public class DingDanActivity extends BaseActivity implements View.OnClickListene
 
         parentView= LayoutInflater.from(this).inflate(R.layout.ding_dan_activity_layout,null);
 
+        scrollView= (ScrollView) findViewById(R.id.scroll_ding_dan);
         shouHuoAddressRelativeLayout= (RelativeLayout) findViewById(R.id.re_layout_shou_huo_address_ding_dan);
         peopleNameTextView= (TextView) findViewById(R.id.text_shou_huo_ren_name_ding_dan);
         phoneTextView= (TextView) findViewById(R.id.text_shou_huo_ren_phone_ding_dan);
@@ -724,6 +742,8 @@ public class DingDanActivity extends BaseActivity implements View.OnClickListene
         switch (requestCode){
             case SHOU_HUO_REN_XIN_XI_REQUEST_KEY://从收货人信息活动返回的数据
                 if(resultCode==RESULT_OK){
+                    peopleNameTextView.setVisibility(View.VISIBLE);
+                    phoneTextView.setVisibility(View.VISIBLE);
                     UserModel userModel=data.getParcelableExtra(MyConstant.USER_MODLE_KEY);
                     peopleNameTextView.setText(userModel.getUserName());
                     phoneTextView.setText(userModel.getUserPhone());

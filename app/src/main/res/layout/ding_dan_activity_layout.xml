@@ -21,6 +21,7 @@
         android:layout_height="0dp"
         android:layout_weight="1">
         <ScrollView
+            android:id="@+id/scroll_ding_dan"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 

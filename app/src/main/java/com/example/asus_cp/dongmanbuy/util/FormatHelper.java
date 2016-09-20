@@ -24,7 +24,7 @@ public class FormatHelper {
     public static String getMoneyFormat(String str){
         if(getNumberFromRenMingBi(str)!=null){
             double d=Double.parseDouble(getNumberFromRenMingBi(str));
-            DecimalFormat a = new DecimalFormat("¥#.00");
+            DecimalFormat a = new DecimalFormat("¥#0.00");
             return a.format(d);
         }else{
             return null;

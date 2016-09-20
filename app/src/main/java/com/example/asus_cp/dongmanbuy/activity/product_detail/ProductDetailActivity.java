@@ -48,6 +48,7 @@ import com.example.asus_cp.dongmanbuy.fragment.HomeFragment;
 import com.example.asus_cp.dongmanbuy.model.Comment;
 import com.example.asus_cp.dongmanbuy.model.Good;
 import com.example.asus_cp.dongmanbuy.model.YouHuiQuanModel;
+import com.example.asus_cp.dongmanbuy.util.DialogHelper;
 import com.example.asus_cp.dongmanbuy.util.FormatHelper;
 import com.example.asus_cp.dongmanbuy.util.ImageLoadHelper;
 import com.example.asus_cp.dongmanbuy.util.JsonHelper;
@@ -1000,6 +1001,7 @@ public class ProductDetailActivity extends BaseActivity implements View.OnClickL
             if (yiXuanProdutCount == 0) {
                 Toast.makeText(this, "商品数量不能为0", Toast.LENGTH_SHORT).show();
             } else {
+                DialogHelper.showDialog(ProductDetailActivity.this,"处理中...");
                 //获取购物车的商品数量
                 StringRequest getProductListRequest = new StringRequest(Request.Method.POST, shoppingCarListUrl,
                         new Response.Listener<String>() {
@@ -1084,6 +1086,7 @@ public class ProductDetailActivity extends BaseActivity implements View.OnClickL
                 , addToShoppingCarUrl, new Response.Listener<String>() {
             @Override
             public void onResponse(String s) {
+                DialogHelper.dissmisDialog();
                 MyLog.d(tag, "加入购物车返回的数据:" + s);
                 try {
                     JSONObject jsonObject=new JSONObject(s);

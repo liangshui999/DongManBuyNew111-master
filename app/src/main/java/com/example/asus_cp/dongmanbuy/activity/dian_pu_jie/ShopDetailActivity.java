@@ -107,6 +107,7 @@ public class ShopDetailActivity extends BaseActivity implements View.OnClickList
     private LayoutInflater inflater;
     private View erWeiMaView;
     private ImageView erWeiMaImageView;
+    private ImageView erWeiMaCloseImageView;
     private PopupWindow erWeiMaWindow;
     private View parentView;
 
@@ -150,6 +151,29 @@ public class ShopDetailActivity extends BaseActivity implements View.OnClickList
         kaiDianTimeTextView= (TextView) findViewById(R.id.text_kai_dian_time);
         suoZaiAreaTextView= (TextView) findViewById(R.id.text_suo_zai_di_qu_shop_detail);
         suoZaiDiQuRelativeLayout= (RelativeLayout) findViewById(R.id.re_layout_suo_zai_di_qu_map);
+
+
+        //给控件设置点击事件
+        logoImageView.setOnClickListener(this);
+        shopNameTextView.setOnClickListener(this);
+        guanZhuTextView.setOnClickListener(this);
+        allProductLinearLayout.setOnClickListener(this);
+        newProductLinearLayout.setOnClickListener(this);
+        cuXiaoProductLinearLayout.setOnClickListener(this);
+        keFuRelalltiveLayout.setOnClickListener(this);
+        erWeiMaRelativeLayout.setOnClickListener(this);
+        shangJiaPhoneRelativeLayout.setOnClickListener(this);
+        suoZaiDiQuRelativeLayout.setOnClickListener(this);
+
+
+        //初始化二维码弹出窗口的view
+        inflater=LayoutInflater.from(this);
+        erWeiMaView=inflater.inflate(R.layout.er_wei_ma_tan_chu, null);
+        erWeiMaImageView= (ImageView) erWeiMaView.findViewById(R.id.img_er_wei_ma);
+        erWeiMaCloseImageView= (ImageView) erWeiMaView.findViewById(R.id.img_close_er_wei_ma);
+        parentView=inflater.inflate(R.layout.shop_detail_activity_layout,null);
+
+        erWeiMaCloseImageView.setOnClickListener(this);
     }
 
     /**
@@ -158,7 +182,6 @@ public class ShopDetailActivity extends BaseActivity implements View.OnClickList
     private void init() {
 
         imageLoadHelper=new ImageLoadHelper();
-        inflater=LayoutInflater.from(this);
 
         shopModel=getIntent().getParcelableExtra(MyConstant.SHOP_MODEL_KEY);
         if(shopModel!=null){
@@ -190,25 +213,6 @@ public class ShopDetailActivity extends BaseActivity implements View.OnClickList
 
             //给关注textview设置颜色和值
             setGuanZhuTextViewFirstValue(guanZhuTextView,shopModel);
-
-
-            //给控件设置点击事件
-            logoImageView.setOnClickListener(this);
-            shopNameTextView.setOnClickListener(this);
-            guanZhuTextView.setOnClickListener(this);
-            allProductLinearLayout.setOnClickListener(this);
-            newProductLinearLayout.setOnClickListener(this);
-            cuXiaoProductLinearLayout.setOnClickListener(this);
-            keFuRelalltiveLayout.setOnClickListener(this);
-            erWeiMaRelativeLayout.setOnClickListener(this);
-            shangJiaPhoneRelativeLayout.setOnClickListener(this);
-            suoZaiDiQuRelativeLayout.setOnClickListener(this);
-
-
-            //初始化二维码弹出窗口的view
-            erWeiMaView=inflater.inflate(R.layout.er_wei_ma_tan_chu,null);
-            erWeiMaImageView= (ImageView) erWeiMaView.findViewById(R.id.img_er_wei_ma);
-            parentView=inflater.inflate(R.layout.shop_detail_activity_layout,null);
 
             //实例化Myimhelper
             myIMHelper=new MyIMHelper();
@@ -259,6 +263,10 @@ public class ShopDetailActivity extends BaseActivity implements View.OnClickList
                 }else{
                     Toast.makeText(ShopDetailActivity.this,"您的手机上没有安装地图应用,请先下载一个地图应用",Toast.LENGTH_SHORT).show();
                 }
+                break;
+            case R.id.img_close_er_wei_ma://关闭二维码
+                erWeiMaWindow.dismiss();
+                break;
 
         }
     }

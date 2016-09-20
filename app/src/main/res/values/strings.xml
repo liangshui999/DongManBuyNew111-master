@@ -345,6 +345,7 @@
     <string name="shop">店铺</string>
     <string name="liu_lan_ji_lu">浏览记录</string>
     <string name="good_category">商品分类</string>
+    <string name="sao_miao_er_wei_ma">扫描下方二维码关注店铺</string>
 
 
 </resources>

@@ -283,19 +283,9 @@ public class ShoppingCarFragment extends Fragment implements View.OnClickListene
                         DialogHelper.dissmisDialog();//加载完成之后将进度条关掉
                         MyLog.d(tag, "返回的数据是" + s);
                         shopModels=parseJson(s);
-                        if(shopModels.size()>0){    //说明购物车里面有内容
-                            hasContentLinearLayout.setVisibility(View.VISIBLE);
-                            hasNoContentLinearLayout.setVisibility(View.GONE);
 
-                            //计算并且设置外部listview的高度
-                            conputerAndSetListviewOutHeight();
-
-                            adapterOut=new ShoppingCarListAdapterOut(context,shopModels);
-                            myListViewOut.setAdapter(adapterOut);
-                        }else{
-                            hasContentLinearLayout.setVisibility(View.GONE);
-                            hasNoContentLinearLayout.setVisibility(View.VISIBLE);
-                        }
+                        //判断购物车里面是否有内容，有的话，就展示推荐商品，否则展示你可能想要
+                        showTuiJianOrShowMayBeYouWant();
 
                     }
                 }, new Response.ErrorListener() {
@@ -313,6 +303,26 @@ public class ShoppingCarFragment extends Fragment implements View.OnClickListene
             }
         };
         requestQueue.add(shoppingCarListRequest);
+    }
+
+
+    /**
+     * 判断购物车里面是否有内容，有的话，就展示推荐商品，否则展示你可能想要
+     */
+    private void showTuiJianOrShowMayBeYouWant() {
+        if(shopModels.size()>0){    //说明购物车里面有内容
+            hasContentLinearLayout.setVisibility(View.VISIBLE);
+            hasNoContentLinearLayout.setVisibility(View.GONE);
+
+            //计算并且设置外部listview的高度
+            conputerAndSetListviewOutHeight();
+
+            adapterOut=new ShoppingCarListAdapterOut(context,shopModels);
+            myListViewOut.setAdapter(adapterOut);
+        }else{
+            hasContentLinearLayout.setVisibility(View.GONE);
+            hasNoContentLinearLayout.setVisibility(View.VISIBLE);
+        }
     }
 
 
@@ -688,6 +698,20 @@ public class ShoppingCarFragment extends Fragment implements View.OnClickListene
             //给checkhead设置选中状态
             viewHolderOut.checkBox.setChecked(checksHead.get(position));
 
+            //判断每个店铺里面是否还有商品，如果没有的话，就将对应位置的记录该店铺的商品数量，选中状态，以及商品的集合
+            //从外部的大集合里面剔除(很重要，不然将一个店铺完全删除之后，下一个店铺的数据就会是被删除的店铺的空的数据)
+            /*for(int i=0;i<shopModels.size();i++){
+                ShopModel tempModel=shopModels.get(i);
+                MyLog.d(tag,"商品数量："+tempModel.getGoods().size());
+                if(tempModel.getGoods().size()==0){
+                    shopModels.remove(i);
+                    checksOut.remove(i);
+                    itemGoodsCountOut.remove(i);
+                    MyLog.d(tag,"i="+i);
+                }
+            }*/
+
+
             //给内部的listview设置适配器
             MyLog.d(tag,"densty="+densty);
             //动态设置listview的高度，这个很重要
@@ -843,7 +867,7 @@ public class ShoppingCarFragment extends Fragment implements View.OnClickListene
                 for(int i=0;i<checksIn.size();i++){
                     checksIn.set(i, true);
                     MyLog.d(tag, "all选中执行了吗？");
-                    MyLog.d(tag,"all选中"+checksIn.get(i));
+                    MyLog.d(tag, "all选中" + checksIn.get(i));
                 }
             }
 
@@ -860,7 +884,7 @@ public class ShoppingCarFragment extends Fragment implements View.OnClickListene
             /**
              * 初始化checks
              */
-            public void init(){
+           /* public void init(){
                 checksIn.clear();
                 itemProductCountsIn.clear();
                 for(int i=0;i<goods.size();i++){
@@ -870,7 +894,7 @@ public class ShoppingCarFragment extends Fragment implements View.OnClickListene
 
                 MyLog.d(tag,"init执行了");
             }
-
+*/
 
             @Override
             public int getCount() {
@@ -919,7 +943,9 @@ public class ShoppingCarFragment extends Fragment implements View.OnClickListene
                 imageLoader.get(good.getGoodsSmallImag(), listener);
                 viewHolderIn.nameTextView.setText(good.getGoodName());
                 viewHolderIn.priceTextView.setText(FormatHelper.getMoneyFormat(good.getShopPrice()));
-                if(checksIn.size()>0){
+
+                MyLog.d(tag, "getview（）输出的position=" + position);
+                if(checksIn.size()>0 && itemProductCountsIn.size()>0){
                     viewHolderIn.checkBox.setChecked(checksIn.get(position));//设置选择框的选中状态
                     viewHolderIn.productCountTextView.setText(itemProductCountsIn.get(position) + "");
                     MyLog.d(tag,"checksIn的选中状态："+checksIn.get(position)+"......."+"position="+position);
@@ -1069,13 +1095,15 @@ public class ShoppingCarFragment extends Fragment implements View.OnClickListene
                 viewHolderIn.deleteImageView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        MyLog.d(tag,"删除输出的position="+position);
+                        MyLog.d(tag, "删除输出的itemroductInSize=" + itemProductCountsIn.size());
                         goods.remove(position);
                         checksIn.remove(position);
                         itemProductCountsIn.remove(position);
                         getCheckStateAndSetSumPriceAndJieSuanShuMu();
                         conputerAndSetListviewOutHeight();//计算和设置外部listview的高度
                         adapterOut.notifyDataSetChanged();//这里主要是为了计算内部listview的高度
-                        notifyDataSetChanged();
+                        //notifyDataSetChanged();
 
                         DialogHelper.showDialog(context,"处理中...");
                         StringRequest deleteRequest=new StringRequest(Request.Method.POST, deleteShoppingCarUrl,
@@ -1249,6 +1277,7 @@ public class ShoppingCarFragment extends Fragment implements View.OnClickListene
                 requestQueue.add(getProductListRequest);
             }
 
+
             /**
              * 从集合中取出check状态,每次改完数据之后都会重新调用该方法
              */
@@ -1308,50 +1337,28 @@ public class ShoppingCarFragment extends Fragment implements View.OnClickListene
                     quanXuanCheckBox.setChecked(false);
                 }
 
+                //判断每个店铺里面是否还有商品，如果没有的话，就将对应位置的记录该店铺的商品数量，选中状态，以及商品的集合
+                //从外部的大集合里面剔除(很重要，不然将一个店铺完全删除之后，下一个店铺的数据就会是被删除的店铺的空的数据)
+                //注意：下面的3个缺一不可
                 //设置shopmodels,主要用于动态设置listview的高度,将没有商品的店铺移除
                 for(int i=0;i<shopModels.size();i++){
                     if(shopModels.get(i).getGoods().size()==0){
                         shopModels.remove(i);
                         checksOut.remove(i);
+                        itemGoodsCountOut.remove(i);
                     }
                 }
 
-            }
-
-
-
-            /**
-             * 从集合中取出check状态,每次改完数据之后都会重新调用该方法(此方法作废)
-             */
-            private void getCheckStateAndSetSumPriceAndJieSuanShuMu(int position) {
-                int count=0;//记录check数目的
-                heJi=0;//注意这里需要清零
-                jieSuan=0;//注意这里需要清零
-                for(int i=0;i< checksIn.size();i++){
-                    if(checksIn.get(i)){
-                        int productCount= itemProductCountsIn.get(i);
-                        heJi=heJi+Double.parseDouble(FormatHelper.getNumberFromRenMingBi(goods.get(i).getShopPrice()))*productCount;
-                        jieSuan = jieSuan+productCount;
-                        count++;
-                    }
+                //判断购物车是否是空的，购物车里面有商品则展示推荐商品，否则展示你可能想要
+                if(shopModels.size()>0){    //说明购物车里面有内容
+                    hasContentLinearLayout.setVisibility(View.VISIBLE);
+                    hasNoContentLinearLayout.setVisibility(View.GONE);
+                }else{
+                    hasContentLinearLayout.setVisibility(View.GONE);
+                    hasNoContentLinearLayout.setVisibility(View.VISIBLE);
                 }
-                priceTextView.setText(FormatHelper.getMoneyFormat(heJi + ""));
-                jieSuanShuMuTextView.setText("("+jieSuan + ")");
 
-                View v=adapterOut.getView(position,null,null);
-                CheckBox checkBox= (CheckBox) v.findViewById(R.id.check_box_head);
-
-                if(count== checksIn.size()){
-                    //ziYingCheckBox.setChecked(true);
-                    //quanXuanCheckBox.setChecked(true);
-                    checkBox.setChecked(true);
-                }else {
-                    //ziYingCheckBox.setChecked(false);
-                    //quanXuanCheckBox.setChecked(false);
-                    checkBox.setChecked(false);
-                }
             }
-
 
 
             @Override
@@ -1384,17 +1391,7 @@ public class ShoppingCarFragment extends Fragment implements View.OnClickListene
             }
         }
 
-
-
-
-
     }
-
-
-
-
-
-
 
 
 }
