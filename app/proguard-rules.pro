@@ -16,8 +16,22 @@
 #   public *;
 #}
 
-#支付宝部分的混淆规则
--libraryjars libs/alipaySDK-20150602.jar
+
+# 继承自Serializable的所有类
+-keepclassmembers class * implements java.io.Serializable {
+  *;
+}
+
+
+#支付宝部分的混淆规则,注意下面的时间要和libs里面的文件的时间对应
+#-libraryjars libs/alipaySingle-20160516.jar
+
+#为了避免打包不成功添加上去的
+-dontwarn com.alipay.**
+-dontwarn com.handmark.pulltorefresh.**
+-dontwarn com.jeremyfeinstein.slidingmenu.**
+
+
 
 -keep class com.alipay.android.app.IAlixPay{*;}
 -keep class com.alipay.android.app.IAlixPay$Stub{*;}
@@ -25,3 +39,38 @@
 -keep class com.alipay.android.app.IRemoteServiceCallback$Stub{*;}
 -keep class com.alipay.sdk.app.PayTask{ public *;}
 -keep class com.alipay.sdk.app.AuthTask{ public *;}
+
+
+#上拉刷新，下拉加载框架
+-keep class com.handmark.pulltorefresh.**{*;}
+
+#圆形imagview里面的所有内容
+-keep class de.hdodenhof.circleimageview.**{*;}
+
+#新浪微博里面的所有内容
+-keep class com.sina.**{*;}
+
+#侧滑菜单的所有内容
+-keep class com.jeremyfeinstein.slidingmenu.**{*;}
+
+#gson的所有内容
+-keep class com.google.gson.**{*;}
+
+# Gson uses generic type information stored in a class file when working with fields. Proguard  
+# removes such information by default, so configure it to keep all of it.
+-keepattributes Signature
+
+-keep class sun.misc.Unsafe {*;}
+
+-keep class com.google.gson.examples.android.model.** {*;}
+
+#和gson相关的model里面的内容
+-keep class com.example.asus_cp.dongmanbuy.model.my_json_model.** {*;}
+
+#zxing下面的所有内容
+-keep class com.google.zxing.**{*;}
+
+
+
+
+

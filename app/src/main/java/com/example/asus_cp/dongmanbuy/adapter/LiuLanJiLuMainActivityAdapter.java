@@ -77,6 +77,7 @@ public class LiuLanJiLuMainActivityAdapter extends BaseAdapter{
 
         viewHolder.nameTextView.setText(good.getGoodName());
         viewHolder.priceTextView.setText(FormatHelper.getMoneyFormat(good.getShopPrice()));
+        viewHolder.kuCunTextView.setText(good.getGoodsNumber());
 
         //删除按钮设置点击事件
         viewHolder.deleteImageView.setOnClickListener(new View.OnClickListener() {

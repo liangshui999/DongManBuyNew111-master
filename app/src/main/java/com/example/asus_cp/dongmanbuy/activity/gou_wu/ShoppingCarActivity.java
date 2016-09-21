@@ -55,9 +55,9 @@ import java.util.Map;
  * 有商品之后的购物车
  * Created by asus-cp on 2016-06-06.
  */
-public class ShoppingCarActivity extends Activity implements View.OnClickListener{
+public class ShoppingCarActivity extends Activity{
 
-    private String tag="ShoppingCarActivity";
+    /*private String tag="ShoppingCarActivity";
 
     private ImageView daoHangImageView;//导航
     public CheckBox ziYingCheckBox;//自营店的chekcbox
@@ -67,7 +67,7 @@ public class ShoppingCarActivity extends Activity implements View.OnClickListene
     private LinearLayout editLinearLayout;//编辑按钮
     private LinearLayout jieSuanLinearLayout;//结算的按钮
     public TextView jieSuanShuMuTextView;//结算的数目
-    private MyListView myListView;//购物车列表
+    private ListView myListView;//购物车列表
     private MyGridViewA tuiJianProductGridView;//推荐商品列表
 
     private ShoppingCarListAdapter adapter;
@@ -87,7 +87,6 @@ public class ShoppingCarActivity extends Activity implements View.OnClickListene
 
     public static final int REQUEST_CODE_TO_LOGIN_ACTIVITY=1;
 
-
     private View parentView;//所有popu的父布局
 
     private PopupWindow youHuiQuanWindow;//优惠券的弹出窗口
@@ -101,9 +100,9 @@ public class ShoppingCarActivity extends Activity implements View.OnClickListene
         init();
     }
 
-    /**
+    *//**
      * 初始化的方法
-     */
+     *//*
     private void init() {
         parentView=LayoutInflater.from(this).inflate(R.layout.shopping_car_activity_layout,null);
         daoHangImageView= (ImageView) findViewById(R.id.img_shoping_car_activity_dao_hang);
@@ -142,9 +141,9 @@ public class ShoppingCarActivity extends Activity implements View.OnClickListene
         goods=new ArrayList<Good>();
     }
 
-    /**
+    *//**
      * 从网络请求购物车列表的数据
-     */
+     *//*
     private void getShoppingCarListFromIntetnt() {
         StringRequest shoppingCarListRequest=new StringRequest(Request.Method.POST, shoppingCarListUrl,
                 new Response.Listener<String>() {
@@ -174,9 +173,9 @@ public class ShoppingCarActivity extends Activity implements View.OnClickListene
     }
 
 
-    /**
+    *//**
      * 主要用于解析json数据
-     */
+     *//*
     private void parseJson(String s) {
         try {
             JSONObject jsonObject=new JSONObject(s);
@@ -254,7 +253,7 @@ public class ShoppingCarActivity extends Activity implements View.OnClickListene
     @Override
     public void onClick(View v) {
         switch (v.getId()){
-            /*case R.id.check_box_zi_ying_dian://自营店
+            *//*case R.id.check_box_zi_ying_dian://自营店
                 if(goods.size()>0){
                     if(ziYingCount%2==0){
                         adapter.allXuanZhong();
@@ -267,7 +266,7 @@ public class ShoppingCarActivity extends Activity implements View.OnClickListene
                     }
                     ziYingCount++;
                 }
-                break;*/
+                break;*//*
             case R.id.check_box_quan_xuan://全选
                 if(goods.size()>0){
                     if(quanXuanCount%2==0){
@@ -286,10 +285,10 @@ public class ShoppingCarActivity extends Activity implements View.OnClickListene
             case R.id.img_shoping_car_activity_dao_hang://导航
                 finish();
                 break;
-            /*case R.id.text_ling_quan://领券
+            *//*case R.id.text_ling_quan://领券
                 //Toast.makeText(this,"领券",Toast.LENGTH_SHORT).show();
                 youHuiQuanClickChuLi();
-                break;*/
+                break;*//*
             case R.id.ll_edit://编辑
                 Toast.makeText(this,"编辑",Toast.LENGTH_SHORT).show();
                 break;
@@ -329,9 +328,9 @@ public class ShoppingCarActivity extends Activity implements View.OnClickListene
     }
 
 
-    /**
+    *//**
      * 领券的点击事件处理
-     */
+     *//*
     private void youHuiQuanClickChuLi() {
         //Toast.makeText(this,"点击了优惠券",Toast.LENGTH_SHORT).show();
         View youHuiQuanView = LayoutInflater.from(this).inflate(R.layout.you_hui_quan_layout, null);
@@ -366,11 +365,11 @@ public class ShoppingCarActivity extends Activity implements View.OnClickListene
     }
 
 
-    /**
+    *//**
      * 设置添加屏幕的背景透明度
      *
      * @param bgAlpha
-     */
+     *//*
     public void setBackgroundAlpha(float bgAlpha) {
         WindowManager.LayoutParams lp = getWindow().getAttributes();
         lp.alpha = bgAlpha; //0.0-1.0
@@ -381,10 +380,10 @@ public class ShoppingCarActivity extends Activity implements View.OnClickListene
 
 
 
-    /**
+    *//**
      * 购物车列表的适配器
      * Created by asus-cp on 2016-06-13.
-     */
+     *//*
     public class ShoppingCarListAdapter extends BaseAdapter implements View.OnClickListener{
         private String tag="ShoppingCarListAdapterIn";
         private Context context;
@@ -407,32 +406,32 @@ public class ShoppingCarActivity extends Activity implements View.OnClickListene
             init();
         }
 
-        /**
-         *返回记录选中状态的集合
-         */
+        *//**
+     *返回记录选中状态的集合
+     *//*
         public List<Boolean> getChecks() {
             return checks;
         }
 
-        /**
-         *返回每一个小项的商品数目
-         */
+        *//**
+     *返回每一个小项的商品数目
+     *//*
         public List<Integer> getItemProductCounts() {
             return itemProductCounts;
         }
 
-        /**
-         * 都选中
-         */
+        *//**
+     * 都选中
+     *//*
         public void allXuanZhong(){
             for(int i=0;i<goods.size();i++){
                 checks.set(i,true);
             }
         }
 
-        /**
-         * 都不选中
-         */
+        *//**
+     * 都不选中
+     *//*
         public void allBuXuanZhong(){
             for(int i=0;i<goods.size();i++){
                 checks.set(i, false);
@@ -440,9 +439,9 @@ public class ShoppingCarActivity extends Activity implements View.OnClickListene
         }
 
 
-        /**
-         * 初始化checks
-         */
+        *//**
+     * 初始化checks
+     *//*
         public void init(){
             checks=new ArrayList<Boolean>();
             itemProductCounts=new ArrayList<Integer>();
@@ -609,9 +608,9 @@ public class ShoppingCarActivity extends Activity implements View.OnClickListene
         }
 
 
-        /**
-         * 更改购物车商品数量
-         */
+        *//**
+     * 更改购物车商品数量
+     *//*
         public void updateShoppingCar(final Good good, final String shoppingCarCount){
             //获取购物车的商品数量
             StringRequest getProductListRequest=new StringRequest(Request.Method.POST, shoppingCarListUrl,
@@ -676,9 +675,9 @@ public class ShoppingCarActivity extends Activity implements View.OnClickListene
             requestQueue.add(getProductListRequest);
         }
 
-        /**
-         * 从集合中取出check状态,每次改完数据之后都会重新调用该方法
-         */
+        *//**
+     * 从集合中取出check状态,每次改完数据之后都会重新调用该方法
+     *//*
         private void getCheckStateAndSetTextView() {
             int count=0;//记录check数目的
             heJi=0;//注意这里需要清零
@@ -732,6 +731,6 @@ public class ShoppingCarActivity extends Activity implements View.OnClickListene
             ImageView jiaHaoImageView;
             ImageView deleteImageView;
         }
-    }
+    }*/
 
 }
