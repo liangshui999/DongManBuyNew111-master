@@ -1,6 +1,5 @@
 package com.example.asus_cp.dongmanbuy.activity.product_detail;
 
-import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -10,12 +9,10 @@ import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -31,7 +28,6 @@ import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
-import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
@@ -52,7 +48,6 @@ import com.example.asus_cp.dongmanbuy.util.DialogHelper;
 import com.example.asus_cp.dongmanbuy.util.FormatHelper;
 import com.example.asus_cp.dongmanbuy.util.ImageLoadHelper;
 import com.example.asus_cp.dongmanbuy.util.JsonHelper;
-import com.example.asus_cp.dongmanbuy.util.MyApplication;
 import com.example.asus_cp.dongmanbuy.util.MyLog;
 import com.example.asus_cp.dongmanbuy.util.MyScreenInfoHelper;
 
@@ -170,12 +165,13 @@ public class ProductDetailActivity extends BaseActivity implements View.OnClickL
 
     public static final int REQUEST_CODE_FOR_AREA_ACTIVTY=1;
     public static final int REQUEST_SHOU_CANG_LOGIN_ACTIVITY =2;//登陆login活动时的返回码
-    private static final int REQUEST_CODE_SHOPPING_CAR_LOGIN = 3;
+    private static final int REQUEST_CODE_TO_SHOPPING_CAR_ACTIVITY_LOGIN = 3;
+    public static final int REQUEST_ADD_TO_SHOPPING_CAR_ACTIVITY =4;
 
-    //private int shouCangYanSeFlag=0;//收藏的颜色的标记，点击一次后变红，再点击变灰
+
 
     private int shoppingCarGoodCount;//购物车里面的商品数量，等于选中的商品数量乘以购物车的点击次数
-   // private int shoppingCarClickCount;//购物车的点击次数
+
 
     private BookDBOperateHelper dbHelper;//数据库操作的帮助类
 
@@ -682,6 +678,10 @@ public class ProductDetailActivity extends BaseActivity implements View.OnClickL
      * 给收藏设置初值
      */
     public void setFirstValueToShouCang(){
+        SharedPreferences sharedPreferences=getSharedPreferences(MyConstant.USER_SHAREPREFRENCE_NAME,MODE_APPEND);
+        uid=sharedPreferences.getString(MyConstant.UID_KEY,null);
+        sid=sharedPreferences.getString(MyConstant.SID_KEY,null);
+
         if(uid!=null && !uid.isEmpty()){//有值
             //获取收藏列表
             StringRequest getListRequest = new StringRequest(Request.Method.POST, getShouCangListUrl,
@@ -978,6 +978,10 @@ public class ProductDetailActivity extends BaseActivity implements View.OnClickL
      * 跳转到购物车列表的界面
      */
     private void toShoppingCarList() {
+        SharedPreferences sharedPreferences=getSharedPreferences(MyConstant.USER_SHAREPREFRENCE_NAME,MODE_APPEND);
+        uid=sharedPreferences.getString(MyConstant.UID_KEY,null);
+        sid=sharedPreferences.getString(MyConstant.SID_KEY,null);
+
         if(uid!=null && !uid.isEmpty()){
             Intent shoppingCatIntent=new Intent(this,MainActivity.class);
             shoppingCatIntent.putExtra(MyConstant.KU_CUN_KEY,good.getGoodsNumber());
@@ -986,7 +990,7 @@ public class ProductDetailActivity extends BaseActivity implements View.OnClickL
         }else {
             Intent toLoginIntent=new Intent(this,LoginActivity.class);
             toLoginIntent.putExtra(MyConstant.START_LOGIN_ACTIVITY_FLAG_KEY,"productDetail");
-            startActivityForResult(toLoginIntent, REQUEST_CODE_SHOPPING_CAR_LOGIN);
+            startActivityForResult(toLoginIntent, REQUEST_CODE_TO_SHOPPING_CAR_ACTIVITY_LOGIN);
         }
     }
 
@@ -997,6 +1001,7 @@ public class ProductDetailActivity extends BaseActivity implements View.OnClickL
      * @param isNeedToShoppingCar 是否需要跳转到购物车列表界面
      */
     private void addToShoppingCarAndBuyAtOnceTongYongChuLi(final boolean isNeedToShoppingCar) {
+
         if(uid!=null && !uid.isEmpty()){
             if (yiXuanProdutCount == 0) {
                 Toast.makeText(this, "商品数量不能为0", Toast.LENGTH_SHORT).show();
@@ -1069,7 +1074,7 @@ public class ProductDetailActivity extends BaseActivity implements View.OnClickL
         }else{//用户未登录，跳转到登陆界面
             Intent intent=new Intent(this,LoginActivity.class);
             intent.putExtra(MyConstant.START_LOGIN_ACTIVITY_FLAG_KEY,"shoppingCar");
-            startActivity(intent);
+            startActivityForResult(intent, REQUEST_ADD_TO_SHOPPING_CAR_ACTIVITY);
         }
     }
 
@@ -1182,7 +1187,11 @@ public class ProductDetailActivity extends BaseActivity implements View.OnClickL
             requestQueue.add(getListRequest);
 
         }else{
-            AlertDialog.Builder builder=new AlertDialog.Builder(this);
+            Intent toLoginActivity=new Intent(ProductDetailActivity.this, LoginActivity.class);
+            toLoginActivity.putExtra(MyConstant.START_LOGIN_ACTIVITY_FLAG_KEY, "shouCang");
+            startActivityForResult(toLoginActivity, REQUEST_SHOU_CANG_LOGIN_ACTIVITY);
+
+            /*AlertDialog.Builder builder=new AlertDialog.Builder(this);
             builder.setTitle(R.string.please_login_shou_cang);
             builder.setPositiveButton("立即登陆", new DialogInterface.OnClickListener() {
                 @Override
@@ -1199,9 +1208,9 @@ public class ProductDetailActivity extends BaseActivity implements View.OnClickL
                 }
             });
             AlertDialog shouCangDialog=builder.show();
-            shouCangDialog.show();
+            shouCangDialog.show();*/
         }
-        //shouCangYanSeFlag++;
+
     }
 
 
@@ -1544,14 +1553,25 @@ public class ProductDetailActivity extends BaseActivity implements View.OnClickL
                     suoZaiDiQuTextView.setText(shengMing+""+shiMing+" "+xianMing);
                 }
                 break;
-            case REQUEST_SHOU_CANG_LOGIN_ACTIVITY://登陆活动返回的数据
+            case REQUEST_SHOU_CANG_LOGIN_ACTIVITY://从收藏请求的数据
                 if(resultCode==RESULT_OK){
                     setFirstValueToShouCang();
                 }
                 break;
-            case REQUEST_CODE_SHOPPING_CAR_LOGIN://从登陆界面返回的数据
+            case REQUEST_CODE_TO_SHOPPING_CAR_ACTIVITY_LOGIN://从立即购买请求的数据
                 if(resultCode==RESULT_OK){
-                    toShoppingCarList();
+                    //toShoppingCarList();
+                    addToShoppingCarAndBuyAtOnceTongYongChuLi(true);
+                }
+                break;
+            case REQUEST_ADD_TO_SHOPPING_CAR_ACTIVITY://从加入购物车界面请求的数据
+                if(resultCode==RESULT_OK){
+                    /*SharedPreferences sharedPreferences=getSharedPreferences(MyConstant.USER_SHAREPREFRENCE_NAME,MODE_APPEND);
+                    uid=sharedPreferences.getString(MyConstant.UID_KEY,null);
+                    sid=sharedPreferences.getString(MyConstant.SID_KEY,null);*/
+
+                    //从登陆界面返回之后，也需要把收藏的数据更新，另外收藏的方法已经做了上面3行代码的事情
+                    setFirstValueToShouCang();
                 }
                 break;
         }

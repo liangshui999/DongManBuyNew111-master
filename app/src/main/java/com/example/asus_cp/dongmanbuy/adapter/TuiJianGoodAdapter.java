@@ -77,8 +77,8 @@ public class TuiJianGoodAdapter extends BaseAdapter{
         ViewGroup.LayoutParams layoutParams=viewHolder.imageView.getLayoutParams();
         layoutParams.height=tempWidth;
         viewHolder.imageView.setLayoutParams(layoutParams);
-        ImageLoader.ImageListener imageListener=imageLoader.getImageListener(viewHolder.imageView, R.mipmap.yu_jia_zai_cai_ni_xi_huan,
-                R.mipmap.yu_jia_zai_cai_ni_xi_huan);
+        ImageLoader.ImageListener imageListener=imageLoader.getImageListener(viewHolder.imageView, R.mipmap.yu_jia_zai,
+                R.mipmap.yu_jia_zai);
         imageLoader.get(goods.get(position).getGoodsImg(), imageListener,500,500);
         //设置点击事件
         viewHolder.shoppingCarImageView.setOnClickListener(new View.OnClickListener() {

@@ -39,7 +39,7 @@ public class UidService extends Service{
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
 
-    private long time=5*60*1000;
+    private long time=18*60*1000;
 
     private Handler handler=new MyHandler();
 

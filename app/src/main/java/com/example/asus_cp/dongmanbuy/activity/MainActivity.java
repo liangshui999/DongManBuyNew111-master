@@ -48,6 +48,7 @@ import com.example.asus_cp.dongmanbuy.activity.personal_center.data_set.ChangPas
 import com.example.asus_cp.dongmanbuy.activity.personal_center.data_set.DataSetActivity;
 import com.example.asus_cp.dongmanbuy.activity.personal_center.data_set.EditShipAddressActivity;
 import com.example.asus_cp.dongmanbuy.activity.personal_center.fund_manager.FundManagerActivity;
+import com.example.asus_cp.dongmanbuy.activity.personal_center.fund_manager.HongBaoListActivity;
 import com.example.asus_cp.dongmanbuy.activity.product_detail.ProductDetailActivity;
 import com.example.asus_cp.dongmanbuy.activity.search.SearchActivity;
 import com.example.asus_cp.dongmanbuy.constant.MyConstant;
@@ -728,7 +729,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             toLoginIntent.putExtra(MyConstant.START_LOGIN_ACTIVITY_FLAG_KEY,"homeFragment");
             startActivityForResult(toLoginIntent, REQUEST_CODE_YOU_HUI_QUAN);
         }else {
-            Intent intent=new Intent(this, YouHuiQuanActivity.class);
+            Intent intent=new Intent(this, HongBaoListActivity.class);
             if(menu.isMenuShowing()){
                 menu.toggle();
             }

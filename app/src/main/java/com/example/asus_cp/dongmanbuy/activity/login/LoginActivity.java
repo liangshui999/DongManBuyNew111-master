@@ -224,6 +224,8 @@ public class LoginActivity extends Activity implements View.OnClickListener{
                                 setResult(RESULT_OK,shoppingCarIntent);
                                 finish();
                             }else if("guanZhu".equals(whoStartMe)){//从店铺街的关注跳转过来的
+                                Intent guanZhuIntent=new Intent();
+                                setResult(RESULT_OK,guanZhuIntent);
                                 finish();
                             }else if("shoppingCarActivity".equals(whoStartMe)){//从购物车调过来的
                                 finish();

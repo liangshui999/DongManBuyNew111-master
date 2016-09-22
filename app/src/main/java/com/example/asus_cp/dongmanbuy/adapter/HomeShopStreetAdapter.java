@@ -67,8 +67,8 @@ public class HomeShopStreetAdapter extends BaseAdapter{
         ShopModel shopModel=shops.get(position);
         List<Good> goods=shopModel.getGoods();
         ImageLoader imageLoader=helper.getImageLoader();
-        ImageLoader.ImageListener listener=imageLoader.getImageListener(viewHolder.imageView,R.mipmap.yu_jia_zai_shop_street,
-                R.mipmap.yu_jia_zai_shop_street);
+        ImageLoader.ImageListener listener=imageLoader.getImageListener(viewHolder.imageView,R.mipmap.yu_jia_zai,
+                R.mipmap.yu_jia_zai);
         imageLoader.get(shops.get(position).getStreetThumb(),listener);
 
         if(goods!=null){

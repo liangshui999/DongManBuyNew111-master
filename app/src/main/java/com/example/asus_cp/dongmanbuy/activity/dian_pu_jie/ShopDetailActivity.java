@@ -1,7 +1,5 @@
 package com.example.asus_cp.dongmanbuy.activity.dian_pu_jie;
 
-import android.app.Activity;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -15,7 +13,6 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -27,7 +24,6 @@ import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
-import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
@@ -35,24 +31,18 @@ import com.android.volley.toolbox.StringRequest;
 import com.example.asus_cp.dongmanbuy.R;
 import com.example.asus_cp.dongmanbuy.activity.BaseActivity;
 import com.example.asus_cp.dongmanbuy.activity.login.LoginActivity;
-import com.example.asus_cp.dongmanbuy.activity.product_detail.ProductDetailActivity;
 import com.example.asus_cp.dongmanbuy.constant.MyConstant;
-import com.example.asus_cp.dongmanbuy.model.Good;
 import com.example.asus_cp.dongmanbuy.model.ShopModel;
 import com.example.asus_cp.dongmanbuy.util.FormatHelper;
 import com.example.asus_cp.dongmanbuy.util.ImageLoadHelper;
 import com.example.asus_cp.dongmanbuy.util.JsonHelper;
-import com.example.asus_cp.dongmanbuy.util.MyApplication;
 import com.example.asus_cp.dongmanbuy.util.MyIMHelper;
 import com.example.asus_cp.dongmanbuy.util.MyLog;
-import com.example.asus_cp.dongmanbuy.util.MyYWIMKitHelper;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.File;
-import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -64,7 +54,6 @@ import java.util.Map;
  */
 public class ShopDetailActivity extends BaseActivity implements View.OnClickListener{
 
-    private static final int SCAN_CODE = 1;
     private String tag="ShopDetailActivity";
 
     private ImageView logoImageView;//logo
@@ -112,6 +101,8 @@ public class ShopDetailActivity extends BaseActivity implements View.OnClickList
     private View parentView;
 
     private AlertDialog loginDialog;//登陆的对话框
+
+    private static final int REQUEST_LOGIN = 1;
 
 
 
@@ -247,7 +238,7 @@ public class ShopDetailActivity extends BaseActivity implements View.OnClickList
                 break;
             case R.id.re_layout_shop_er_wei_ma://点击了二维码
                 /*Intent saoYiSaoIntent = new Intent(ShopDetailActivity.this, MipcaActivityCapture.class);
-                startActivityForResult(saoYiSaoIntent, SCAN_CODE);*/
+                startActivityForResult(saoYiSaoIntent, REQUEST_LOGIN);*/
                 erWeiMaClickChuLi();
                 break;
             case R.id.re_layout_shang_jia_phone://点击了商家电话
@@ -459,8 +450,7 @@ public class ShopDetailActivity extends BaseActivity implements View.OnClickList
      * 关注点击事件的处理
      */
     private void guanZhuClickChuLi() {
-        //Toast.makeText(this, "点击了关注按钮", Toast.LENGTH_SHORT).show();
-        //Toast.makeText(context, "点击了关注", Toast.LENGTH_SHORT).show();
+
         if(uid!=null && !uid.isEmpty()){
             StringRequest guanZhuRequest=new StringRequest(Request.Method.POST, guanZhuUrl,
                     new Response.Listener<String>() {
@@ -506,25 +496,11 @@ public class ShopDetailActivity extends BaseActivity implements View.OnClickList
             };
             requestQueue.add(guanZhuRequest);
         }else{//没有记录就跳转到登陆界面
-            AlertDialog.Builder builder=new AlertDialog.Builder(ShopDetailActivity.this);
-            builder.setMessage("请登录后关注该店铺");
-            builder.setPositiveButton("立即登陆", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    Intent intent = new Intent(ShopDetailActivity.this, LoginActivity.class);
-                    intent.putExtra(MyConstant.START_LOGIN_ACTIVITY_FLAG_KEY, "guanZhu");
-                    startActivity(intent);
-                    loginDialog.dismiss();
-                }
-            });
-            builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    loginDialog.dismiss();
-                }
-            });
-            loginDialog=builder.show();
-            loginDialog.show();
+
+            Intent intent = new Intent(ShopDetailActivity.this, LoginActivity.class);
+            intent.putExtra(MyConstant.START_LOGIN_ACTIVITY_FLAG_KEY, "guanZhu");
+            startActivityForResult(intent, REQUEST_LOGIN);
+
         }
     }
 
@@ -532,29 +508,14 @@ public class ShopDetailActivity extends BaseActivity implements View.OnClickList
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         switch (requestCode){
-            case SCAN_CODE:
-                if (resultCode == RESULT_OK) {
-                    String result = data.getStringExtra("scan_result");
-                    String id= FormatHelper.getIdFromUrl(result);
-                    if(id!=null){
-                        if("A".equals(id.charAt(0)+"")){  //商品
-                            String goodId=id.substring(1);
-                            MyLog.d(tag,"goodId="+goodId);
-                            Good good=new Good();
-                            good.setGoodId(goodId);
-                            Intent toGoodIntent=new Intent(this, ProductDetailActivity.class);
-                            toGoodIntent.putExtra(MyConstant.GOOD_KEY,good);
-                            startActivity(toGoodIntent);
-                        }else if("B".equals(id.charAt(0)+"")){    //商店
-                            String shopId=id.substring(1);
-                            MyLog.d(tag,"shopId="+shopId);
-                            Intent toShopHomeIntent=new Intent(this, ShopHomeActivity.class);
-                            toShopHomeIntent.putExtra(MyConstant.SHOP_USER_ID_KEY,shopId);
-                            startActivity(toShopHomeIntent);
-                        }
-                    }
-                } else if (resultCode == RESULT_CANCELED) {
-                    Toast.makeText(this,"扫描出错",Toast.LENGTH_SHORT).show();
+            case REQUEST_LOGIN:
+                if(resultCode==RESULT_OK){
+                    /*SharedPreferences sharedPreferences=getSharedPreferences(MyConstant.USER_SHAREPREFRENCE_NAME,MODE_APPEND);
+                    uid=sharedPreferences.getString(MyConstant.UID_KEY,null);
+                    sid=sharedPreferences.getString(MyConstant.SID_KEY,null);*/
+
+                    //因为这个方法里面已经有了上面的3行代码
+                    setGuanZhuTextViewFirstValue(guanZhuTextView,shopModel);
                 }
                 break;
         }
@@ -567,6 +528,10 @@ public class ShopDetailActivity extends BaseActivity implements View.OnClickList
      * @param guanZhuTextView
      */
     private void setGuanZhuTextViewFirstValue(final TextView guanZhuTextView, final ShopModel shopModel) {
+        SharedPreferences sharedPreferences=getSharedPreferences(MyConstant.USER_SHAREPREFRENCE_NAME,MODE_APPEND);
+        uid=sharedPreferences.getString(MyConstant.UID_KEY,null);
+        sid=sharedPreferences.getString(MyConstant.SID_KEY,null);
+
         if(uid!=null && !uid.isEmpty()){
             StringRequest getGuanZhuListRequest=new StringRequest(Request.Method.POST, guanZhuListUrl,
                     new Response.Listener<String>() {
