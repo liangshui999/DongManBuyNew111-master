@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
+import android.view.View;
 import android.view.Window;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -38,6 +39,11 @@ public class StartActivity extends Activity{
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.start_activity_layout);
+
+        //隐藏系统状态栏
+        View decroView=getWindow().getDecorView();
+        decroView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_FULLSCREEN);
+
         imageView= (ImageView) findViewById(R.id.img_start_img);
         Animation animation=AnimationUtils.loadAnimation(this, R.anim.start_anim);
         animation.setAnimationListener(new Animation.AnimationListener() {

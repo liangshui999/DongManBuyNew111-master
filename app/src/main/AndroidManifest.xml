@@ -68,7 +68,7 @@
     <application
         android:name=".util.MyApplication"
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/logo"
         android:label="动漫buy"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">

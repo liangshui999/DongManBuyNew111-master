@@ -112,8 +112,8 @@
                     android:orientation="vertical">
                     <ImageView
                         android:id="@+id/img_shou_cang"
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
                         android:background="@mipmap/like"
                         android:layout_gravity="center"/>
                     <TextView
@@ -744,7 +744,7 @@
             <!--把固定栏挤出来用的-->
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="80dp">
+                android:layout_height="70dp">
 
             </LinearLayout>
 
@@ -758,19 +758,20 @@
     <Button
         android:id="@+id/bi_mian_chuan_yue"
         android:layout_width="match_parent"
-        android:layout_height="80dp"
+        android:layout_height="70dp"
         android:layout_alignParentBottom="true"
         android:background="@color/white_my"
         android:clickable="false"
         android:focusable="false"
-        android:alpha="0"/>
+        android:alpha="0"
+        android:visibility="gone"/>
 
     <!--固定栏所在的布局-->
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="80dp"
+        android:layout_height="70dp"
         android:layout_alignParentBottom="true"
-        android:background="@color/white_my"
+        android:background="@color/mo_kuai_backgroud"
         android:orientation="vertical"
         >
 
@@ -784,7 +785,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            >
             <!--客服-->
             <LinearLayout
                 android:id="@+id/ll_ke_fu"

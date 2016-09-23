@@ -1,5 +1,7 @@
 package com.example.asus_cp.dongmanbuy.activity.product_detail;
 
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -182,6 +184,8 @@ public class ProductDetailActivity extends BaseActivity implements View.OnClickL
     private int screenHeight;//屏幕高
     private int densityDpi;//屏幕像素密度
 
+    private int defaultTextViewColor;
+
 
 
 
@@ -205,6 +209,8 @@ public class ProductDetailActivity extends BaseActivity implements View.OnClickL
         inflater = LayoutInflater.from(this);
         parentView = inflater.inflate(R.layout.prodcut_detail_layout, null);
         initView();
+        defaultTextViewColor=shouCangTextView.getCurrentTextColor();
+
 //        if(good.getGoodsNumber()==null || good.getGoodsNumber().equals("") || good.getGoodsNumber().isEmpty()
 //                || good.getSalesVolume()==null || good.getSalesVolume().equals("") || good.getSalesVolume().isEmpty()
 //                || good.getPromotePrice()==null || good.getPromotePrice().equals("") || good.getPromotePrice().isEmpty()
@@ -531,6 +537,16 @@ public class ProductDetailActivity extends BaseActivity implements View.OnClickL
 
         //设置用户足迹
         userZuJi();
+
+        //设置立即购买和加入购物车的宽度设置成一样
+        int width1=buyAtOnceButton.getWidth();
+        ViewGroup.LayoutParams layoutParams=addToShoppingCarButton.getLayoutParams();
+        layoutParams.width=width1;
+        addToShoppingCarButton.setLayoutParams(layoutParams);
+
+        MyLog.d(tag,"加入购车宽度："+addToShoppingCarButton.getWidth()+"......"+"立即购买宽度："+buyAtOnceButton.getWidth());
+
+
     }
 
 
@@ -695,7 +711,7 @@ public class ProductDetailActivity extends BaseActivity implements View.OnClickL
                                 JSONArray  jsonArray = jsonObject.getJSONArray("data");
                                 if(jsonArray.length()==0){
                                     shouCangImageView.setImageResource(R.mipmap.like);
-                                    shouCangTextView.setTextColor(getResources().getColor(R.color.myblack));
+                                    shouCangTextView.setTextColor(defaultTextViewColor);
                                 }else{
                                     int count=0;
                                     for (int i = 0; i < jsonArray.length(); i++) {
@@ -710,7 +726,7 @@ public class ProductDetailActivity extends BaseActivity implements View.OnClickL
                                     }
                                     if(count==jsonArray.length()){  //说明没有收藏
                                         shouCangImageView.setImageResource(R.mipmap.like);
-                                        shouCangTextView.setTextColor(getResources().getColor(R.color.myblack));
+                                        shouCangTextView.setTextColor(defaultTextViewColor);
                                     }
                                 }
                             } catch (JSONException e) {
@@ -735,7 +751,7 @@ public class ProductDetailActivity extends BaseActivity implements View.OnClickL
             requestQueue.add(getListRequest);
         }else{  //没有登陆
             shouCangImageView.setImageResource(R.mipmap.like);
-            shouCangTextView.setTextColor(getResources().getColor(R.color.myblack));
+            shouCangTextView.setTextColor(defaultTextViewColor);
         }
     }
 
@@ -1002,6 +1018,10 @@ public class ProductDetailActivity extends BaseActivity implements View.OnClickL
      */
     private void addToShoppingCarAndBuyAtOnceTongYongChuLi(final boolean isNeedToShoppingCar) {
 
+        SharedPreferences sharedPreferences=getSharedPreferences(MyConstant.USER_SHAREPREFRENCE_NAME,MODE_APPEND);
+        uid=sharedPreferences.getString(MyConstant.UID_KEY,null);
+        sid=sharedPreferences.getString(MyConstant.SID_KEY,null);
+
         if(uid!=null && !uid.isEmpty()){
             if (yiXuanProdutCount == 0) {
                 Toast.makeText(this, "商品数量不能为0", Toast.LENGTH_SHORT).show();
@@ -1103,6 +1123,13 @@ public class ProductDetailActivity extends BaseActivity implements View.OnClickL
                         }else{
                             Toast.makeText(ProductDetailActivity.this,"加入购物车成功",Toast.LENGTH_SHORT).show();
                             shoppingCarCountTextView.setText("" + (sum + yiXuanProdutCount));//设置购物车里面所有商品的数量
+                            ObjectAnimator scaleXAnimator=ObjectAnimator.ofFloat(shoppingCarCountTextView,"scaleX",1f,1.5f,1f);
+                            ObjectAnimator scaleYAnimator=ObjectAnimator.ofFloat(shoppingCarCountTextView,"scaleY",1f,1.5f,1f);
+                            ObjectAnimator alphaAnimator=ObjectAnimator.ofFloat(shoppingCarCountTextView,"alpha",1f,0.8f,1f);
+                            AnimatorSet animatorSet=new AnimatorSet();
+                            animatorSet.play(scaleXAnimator).with(scaleYAnimator).with(alphaAnimator);
+                            animatorSet.setDuration(1000);
+                            animatorSet.start();
                         }
                     }else if("0".equals(suceed)){
                         String errorDesc=JsonHelper.decodeUnicode(jsonObject1.getString("error_desc"));
@@ -1275,7 +1302,8 @@ public class ProductDetailActivity extends BaseActivity implements View.OnClickL
                             String succeed=jsonObject1.getString("succeed");
                             if("1".equals(succeed)){
                                 shouCangImageView.setImageResource(R.mipmap.like);
-                                shouCangTextView.setTextColor(getResources().getColor(R.color.myblack));
+                                //shouCangTextView.setTextColor(getResources().getColor(android.R.color.secondary_text_dark));
+                                shouCangTextView.setTextColor(defaultTextViewColor);
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();

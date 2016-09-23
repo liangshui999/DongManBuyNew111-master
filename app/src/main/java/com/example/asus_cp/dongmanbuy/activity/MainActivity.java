@@ -131,6 +131,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     //侧滑菜单
     private de.hdodenhof.circleimageview.CircleImageView loginImage;//登录按钮
     private TextView nameTextView;//名字
+    private RelativeLayout jiFenAndHelpRelativeLayout;//积分和帮助所在的布局
     private TextView jiFenTextView;//积分
     private ImageView helpImageView;//帮助按钮
     private RelativeLayout homeRelativeLayout;//首页
@@ -201,12 +202,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private long pressedTime;//按下返回键的时间
 
+    private boolean isLogined;//判断用户是否已经登陆，侧滑菜单需要用到
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);//不要标题栏
         setContentView(R.layout.activity_main);
+
         initData();
         initView();
         //MyLog.d(tag,"oncreate()执行了");
@@ -336,7 +340,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         homeText.setTextColor(getResources().getColor(R.color.bottom_lable_color));
 
 
-
         //初始化framelayout
         frameLaout= (FrameLayout) findViewById(R.id.frame_layout_main);
         fragmentManager=getSupportFragmentManager();
@@ -442,23 +445,31 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         menu.setOnOpenedListener(new SlidingMenu.OnOpenedListener() {
             @Override
             public void onOpened() {
+
                 String uid = sharedPreferences.getString(MyConstant.UID_KEY, null);
                 String sid = sharedPreferences.getString(MyConstant.SID_KEY, null);
                 if (uid != null && !uid.isEmpty()) {
-                    getDataFromIntenetAndSetNameAndEmailAndPic(uid, sid);
+                    if (!isLogined) {
+                        getDataFromIntenetAndSetNameAndEmailAndPic(uid, sid);
+                    }
                 } else {
                     nameTextView.setText("点击头像登陆");
                     jiFenTextView.setText("");
                     loginImage.setImageResource(R.mipmap.tou_xiang);
                     loginButton.setImageResource(R.mipmap.tou_xiang);
+                    jiFenAndHelpRelativeLayout.setVisibility(View.GONE);//将积分和帮助隐藏
+                    isLogined = false;
                 }
             }
         });
 
 
+
+
         //-----------------------初始化侧滑菜单-----------------------------
         loginImage= (CircleImageView) findViewById(R.id.img_login);
         nameTextView= (TextView) findViewById(R.id.text_name_slid_menu);
+        jiFenAndHelpRelativeLayout= (RelativeLayout) findViewById(R.id.re_layout_ji_fen_and_help_sliding_menu);
         jiFenTextView= (TextView) findViewById(R.id.text_ji_fen_slding_menu);
         helpImageView= (ImageView) findViewById(R.id.img_help_sliding_menu);
         homeRelativeLayout= (RelativeLayout) findViewById(R.id.re_layout_home_menu);
@@ -467,6 +478,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         guanZhuRelativeLayout= (RelativeLayout) findViewById(R.id.re_layout_guan_zhu_menu);
         youHuiQuanRelativeLayou= (RelativeLayout) findViewById(R.id.re_layout_you_hui_quan_menu);
         settingRelativeLayout= (RelativeLayout) findViewById(R.id.re_layout_setting_menu);
+
+
+        //给侧滑菜单设置点击事件
+        loginImage.setOnClickListener(this);
+        helpImageView.setOnClickListener(this);
+        homeRelativeLayout.setOnClickListener(this);
+        myShouCangRelativeLayout.setOnClickListener(this);
+        guanZhuRelativeLayout.setOnClickListener(this);
+        youHuiQuanRelativeLayou.setOnClickListener(this);
+        settingRelativeLayout.setOnClickListener(this);
+        liuLanJiLuRelativeLayout.setOnClickListener(this);
 
 
         /*myZhuYeTextView= (TextView) findViewById(R.id.text_my_zhu_ye);
@@ -478,15 +500,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         changPassWordTextView= (TextView) findViewById(R.id.text_change_password);
         setTingTextView= (TextView) findViewById(R.id.text_setting);
         emailTextView= (TextView) findViewById(R.id.text_email_slid_menu);*/
-
-        loginImage.setOnClickListener(this);
-        helpImageView.setOnClickListener(this);
-        homeRelativeLayout.setOnClickListener(this);
-        myShouCangRelativeLayout.setOnClickListener(this);
-        guanZhuRelativeLayout.setOnClickListener(this);
-        youHuiQuanRelativeLayou.setOnClickListener(this);
-        settingRelativeLayout.setOnClickListener(this);
-        liuLanJiLuRelativeLayout.setOnClickListener(this);
 
 
 
@@ -932,6 +945,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String s) {
+                        jiFenAndHelpRelativeLayout.setVisibility(View.VISIBLE);
                         User user=parseJson(s);
                         nameTextView.setText(user.getName());
                         //emailTextView.setText(user.getEmail());
@@ -944,6 +958,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         ImageLoader.ImageListener listener1=imageLoader2.getImageListener(loginButton,R.mipmap.tou_xiang,
                                 R.mipmap.tou_xiang);
                         imageLoader2.get(MyConstant.YU_MING + user.getPic(), listener1, 200, 200);
+                        isLogined=true;
                     }
                 }, new Response.ErrorListener() {
             @Override
@@ -1242,8 +1257,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 if(resultCode==RESULT_OK){
                     loginImage.setImageResource(R.mipmap.tou_xiang);
                     nameTextView.setText("点击头像登陆");
+                    jiFenAndHelpRelativeLayout.setVisibility(View.GONE);
                     jiFenTextView.setText("");
                     loginButton.setImageResource(R.mipmap.tou_xiang);
+                    isLogined=false;
                 }
                 break;
             case REQUEST_CODE_SHOPPING_CAR://跳转到购物车碎片

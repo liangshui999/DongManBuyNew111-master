@@ -22,6 +22,7 @@ import com.example.asus_cp.dongmanbuy.adapter.ShengMingListViewAdapter;
 import com.example.asus_cp.dongmanbuy.adapter.XianQuMingAdapter;
 import com.example.asus_cp.dongmanbuy.constant.MyConstant;
 import com.example.asus_cp.dongmanbuy.model.AreaModel;
+import com.example.asus_cp.dongmanbuy.util.DialogHelper;
 import com.example.asus_cp.dongmanbuy.util.JsonHelper;
 import com.example.asus_cp.dongmanbuy.util.MyApplication;
 import com.example.asus_cp.dongmanbuy.util.MyLog;
@@ -103,6 +104,10 @@ public class AreaActivity extends Activity {
         shengShiTis=new ArrayList<AreaModel>();
         shengAndShiShiTi=new HashMap<String,List<AreaModel>>();
         shiAndXianShiTi=new HashMap<String,List<AreaModel>>();
+
+        //弹出正在加载的对话框,到县的数据返回来之后，才让对话框消失
+        DialogHelper.showDialog(this);
+
         final StringRequest addressListRequest = new StringRequest(Request.Method.POST, adrressUrl, new Response.Listener<String>() {
             @Override
             public void onResponse(String s) {
@@ -133,6 +138,7 @@ public class AreaActivity extends Activity {
                                             adrressUrl, new Response.Listener<String>() {
                                         @Override
                                         public void onResponse(String s) {
+                                            DialogHelper.dissmisDialog();
                                             MyLog.d(tag, "县返回数据：" + s);
                                             List<AreaModel> xianShiTis=new ArrayList<AreaModel>();
                                             jsonParse(s,xianShiTis);
