@@ -8,6 +8,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
 import com.example.asus_cp.dongmanbuy.constant.AliBaiChuanConstant;
 import com.example.asus_cp.dongmanbuy.crash.MyCrashHandler;
+import com.umeng.analytics.MobclickAgent;
 
 
 /**
@@ -36,6 +37,11 @@ public class MyApplication extends Application {
         //crashhandler的配置
         MyCrashHandler myCrashHandler=MyCrashHandler.getInstance();
         myCrashHandler.init();
+
+
+        //友盟,设置统计场景为普通场景
+        MobclickAgent.setScenarioType(context, MobclickAgent.EScenarioType. E_UM_NORMAL);
+        MobclickAgent.enableEncrypt(true);
 
     }
     public static Context getContext(){

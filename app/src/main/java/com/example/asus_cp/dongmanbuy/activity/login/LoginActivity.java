@@ -23,6 +23,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.example.asus_cp.dongmanbuy.R;
+import com.example.asus_cp.dongmanbuy.activity.BaseActivity;
 import com.example.asus_cp.dongmanbuy.activity.MainActivity;
 import com.example.asus_cp.dongmanbuy.activity.product_detail.QueHuoDengJiActivity;
 import com.example.asus_cp.dongmanbuy.constant.MyConstant;
@@ -48,15 +49,13 @@ import java.util.Map;
  * 登录的界面
  * Created by asus-cp on 2016-05-27.
  */
-public class LoginActivity extends Activity implements View.OnClickListener{
+public class LoginActivity extends BaseActivity implements View.OnClickListener{
 
-    private RequestQueue requestQueue;
     private String loginUrl="http://www.zmobuy.com/PHP/?url=/user/signin";
     private String tag="LoginActivity";
 
     private int passwordFlag;//改变密码明码的标记
 
-    private ImageView daoHangImageView;//导航
     private EditText zhangHaoEditText;//账号
     private EditText passWordEdtiText;//密码
     private ImageView seePassWordImagView;//设置显示密码还是明码
@@ -86,10 +85,9 @@ public class LoginActivity extends Activity implements View.OnClickListener{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        requestWindowFeature(Window.FEATURE_NO_TITLE);//不要标题栏
-        setContentView(R.layout.login_layout);
+        setContentLayout(R.layout.login_layout);
+        setTitle(R.string.user_login);
 
-        requestQueue= MyApplication.getRequestQueue();
         whoStartMe=getIntent().getStringExtra(MyConstant.START_LOGIN_ACTIVITY_FLAG_KEY);//谁开启了我
 //        jieKouHelper=new JieKouHelper();
         //loginUrl=jieKouHelper.getLoginUrl();//返回加密的登陆接口
@@ -110,8 +108,7 @@ public class LoginActivity extends Activity implements View.OnClickListener{
     /**
      * 初始化视图
      */
-    private void initView() {
-        daoHangImageView= (ImageView) findViewById(R.id.img_dao_hang_login);
+    public void initView() {
         zhangHaoEditText= (EditText) findViewById(R.id.edit_zhang_hao);
         passWordEdtiText= (EditText) findViewById(R.id.edit_password);
         seePassWordImagView= (ImageView) findViewById(R.id.img_see_password);
@@ -122,7 +119,6 @@ public class LoginActivity extends Activity implements View.OnClickListener{
         weiBoLinearLayout= (LinearLayout) findViewById(R.id.ll_wei_bo);
         weiXinLinearLayout= (LinearLayout) findViewById(R.id.ll_wei_xin);
 
-        daoHangImageView.setOnClickListener(this);
         seePassWordImagView.setOnClickListener(this);
         forgetPassWord.setOnClickListener(this);
         loginButton.setOnClickListener(this);
@@ -140,9 +136,6 @@ public class LoginActivity extends Activity implements View.OnClickListener{
     @Override
     public void onClick(View v) {
         switch (v.getId()){
-            case R.id.img_dao_hang_login://点击了导航
-                finish();
-                break;
             case R.id.img_see_password:
                 if(passwordFlag%2==0){
                     seePassWordImagView.setBackgroundResource(R.drawable.see_password_selected);

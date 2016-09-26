@@ -22,6 +22,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.example.asus_cp.dongmanbuy.R;
+import com.example.asus_cp.dongmanbuy.activity.BaseActivity;
 import com.example.asus_cp.dongmanbuy.constant.MyConstant;
 import com.example.asus_cp.dongmanbuy.util.JsonHelper;
 import com.example.asus_cp.dongmanbuy.util.MyApplication;
@@ -46,8 +47,8 @@ import java.util.Set;
  * 修改密码的确认界面
  * Created by asus-cp on 2016-05-30.
  */
-public class ChangPasswordConfirmActivity extends Activity implements View.OnClickListener{
-    private ImageView daoHangImageView;
+public class ChangPasswordConfirmActivity extends BaseActivity implements View.OnClickListener{
+
     private EditText inputNewPasswordEditText;
     private Button confirmChangeButton;
     private ImageView seePasswordImagView;
@@ -55,8 +56,6 @@ public class ChangPasswordConfirmActivity extends Activity implements View.OnCli
     private String yanZhegnMa;//验证码
 
     private int passwordFlag;//密码和明码显示的标记
-
-    private RequestQueue requestQueue;
 
     private String changUrl="http://www.zmobuy.com/PHP/?url=/user/getpasswordemail";
 
@@ -92,28 +91,29 @@ public class ChangPasswordConfirmActivity extends Activity implements View.OnCli
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
-        setContentView(R.layout.chang_password_confirm_layout);
+        setContentLayout(R.layout.chang_password_confirm_layout);
+        setTitle(R.string.confirm_change);
+        initView();
         init();
+    }
+
+    @Override
+    public void initView() {
+        email=getIntent().getStringExtra(FindPassworByEmaildActivity.EMAIL_KEY);
+        yanZhegnMa=getIntent().getStringExtra(FindByEmailYanZhengMaActiity.YAN_ZHENG_MA_KEY);
+        inputNewPasswordEditText= (EditText) findViewById(R.id.edit_please_input_new_password);
+        confirmChangeButton= (Button) findViewById(R.id.btn_confirm_change);
+        seePasswordImagView= (ImageView) findViewById(R.id.img_see_password_confirm_change);
+
+        //设置点击事件
+        seePasswordImagView.setOnClickListener(this);
+        confirmChangeButton.setOnClickListener(this);
     }
 
     /**
      * 初始化的方法
      */
     private void init() {
-        requestQueue= MyApplication.getRequestQueue();
-        email=getIntent().getStringExtra(FindPassworByEmaildActivity.EMAIL_KEY);
-        yanZhegnMa=getIntent().getStringExtra(FindByEmailYanZhengMaActiity.YAN_ZHENG_MA_KEY);
-        daoHangImageView= (ImageView) findViewById(R.id.img_dao_hang_confirm_change);
-        inputNewPasswordEditText= (EditText) findViewById(R.id.edit_please_input_new_password);
-        confirmChangeButton= (Button) findViewById(R.id.btn_confirm_change);
-        seePasswordImagView= (ImageView) findViewById(R.id.img_see_password_confirm_change);
-
-        //设置点击事件
-        daoHangImageView.setOnClickListener(this);
-        seePasswordImagView.setOnClickListener(this);
-        confirmChangeButton.setOnClickListener(this);
-
         SharedPreferences sharedPreferences=getSharedPreferences(MyConstant.USER_SHAREPREFRENCE_NAME,MODE_APPEND);
         sid=sharedPreferences.getString(MyConstant.SID_KEY,"");
     }
@@ -121,9 +121,6 @@ public class ChangPasswordConfirmActivity extends Activity implements View.OnCli
     @Override
     public void onClick(View v) {
         switch (v.getId()){
-            case R.id.img_dao_hang_confirm_change://确认修改
-                finish();
-                break;
             case R.id.img_see_password_confirm_change://是明码显示密码，还是密码显示
                 if(passwordFlag%2==0){
                     seePasswordImagView.setBackgroundResource(R.drawable.see_password_selected);

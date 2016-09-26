@@ -32,7 +32,6 @@
 -dontwarn com.jeremyfeinstein.slidingmenu.**
 
 
-
 -keep class com.alipay.android.app.IAlixPay{*;}
 -keep class com.alipay.android.app.IAlixPay$Stub{*;}
 -keep class com.alipay.android.app.IRemoteServiceCallback{*;}
@@ -69,6 +68,18 @@
 
 #zxing下面的所有内容
 -keep class com.google.zxing.**{*;}
+
+#友盟统计的混淆规则
+-keepclassmembers class * {
+   public <init> (org.json.JSONObject);
+}
+-keep public class com.example.asus_cp.dongmanbuy.R$*{
+public static final int *;
+}
+-keepclassmembers enum * {
+    public static **[] values();
+    public static ** valueOf(java.lang.String);
+}
 
 
 

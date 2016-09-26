@@ -35,6 +35,10 @@ public class GuideActivity extends Activity implements View.OnClickListener{
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.guide_activity_layout);
+
+        //隐藏系统状态栏
+        View decroView=getWindow().getDecorView();
+        decroView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_FULLSCREEN);
         init();
     }
 

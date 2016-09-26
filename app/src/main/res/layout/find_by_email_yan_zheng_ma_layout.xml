@@ -6,7 +6,7 @@
     android:background="@color/white_my">
 
     <!--头部-->
-    <RelativeLayout
+   <!-- <RelativeLayout
         style="@style/dao_hang_relative_layout_style">
         <ImageView
             android:id="@+id/img_dao_hang_yan_zheng_ma"
@@ -15,7 +15,7 @@
             android:text="@string/inpu_yan_zheng_ma"
             style="@style/dao_hang_text_style"
             />
-    </RelativeLayout>
+    </RelativeLayout>-->
 
     <ImageView
         android:layout_width="match_parent"

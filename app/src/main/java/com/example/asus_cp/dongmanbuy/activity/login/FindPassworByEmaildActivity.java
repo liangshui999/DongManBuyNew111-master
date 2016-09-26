@@ -29,6 +29,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.example.asus_cp.dongmanbuy.R;
+import com.example.asus_cp.dongmanbuy.activity.BaseActivity;
 import com.example.asus_cp.dongmanbuy.constant.MyConstant;
 import com.example.asus_cp.dongmanbuy.util.CheckHelper;
 import com.example.asus_cp.dongmanbuy.util.DialogHelper;
@@ -55,8 +56,8 @@ import java.util.Set;
  * 邮箱找回密码的界面
  * Created by asus-cp on 2016-05-30.
  */
-public class FindPassworByEmaildActivity extends Activity{
-    private ImageView daoHangImageView;
+public class FindPassworByEmaildActivity extends BaseActivity {
+
     private EditText inputEmailEditText;
     private Button nextStepButton;
     private TextView alsoFindByPhoneTextView;
@@ -64,8 +65,6 @@ public class FindPassworByEmaildActivity extends Activity{
     private String userName;//用户名
 
     private String findPasswordUrl="http://www.zmobuy.com/PHP/?url=/user/getpasswordemail";
-
-    private RequestQueue requestQueue;//消息队列
 
     private String tag="FindPassworByEmaildActivity";
 
@@ -93,29 +92,23 @@ public class FindPassworByEmaildActivity extends Activity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
-        setContentView(R.layout.find_password_by_email_layout);
+        setContentLayout(R.layout.find_password_by_email_layout);
+        setTitle(R.string.find_password);
+        initView();
         init();
+    }
+
+    @Override
+    public void initView() {
+        inputEmailEditText= (EditText) findViewById(R.id.edit_email_num_find_password);
+        nextStepButton= (Button) findViewById(R.id.btn_next_step_email);
     }
 
     /**
      * 初始化的方法
      */
     private void init() {
-//        Looper.prepare();
-        requestQueue=MyApplication.getRequestQueue();
-        daoHangImageView= (ImageView) findViewById(R.id.img_dao_hang_find_by_email);
-        inputEmailEditText= (EditText) findViewById(R.id.edit_email_num_find_password);
-        nextStepButton= (Button) findViewById(R.id.btn_next_step_email);
-
         userName=getIntent().getStringExtra(LoginActivity.USER_NAME_KEY);
-
-        daoHangImageView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
 
         nextStepButton.setOnClickListener(new View.OnClickListener() {
             @Override

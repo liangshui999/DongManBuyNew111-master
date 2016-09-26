@@ -16,6 +16,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.asus_cp.dongmanbuy.R;
+import com.example.asus_cp.dongmanbuy.activity.BaseActivity;
 import com.example.asus_cp.dongmanbuy.util.MyApplication;
 import com.example.asus_cp.dongmanbuy.util.MyLog;
 
@@ -23,8 +24,8 @@ import com.example.asus_cp.dongmanbuy.util.MyLog;
  * 手机找回密码的界面
  * Created by asus-cp on 2016-05-30.
  */
-public class FindPassworByPhoneActivity extends Activity{
-    private ImageView daoHangImageView;
+public class FindPassworByPhoneActivity extends BaseActivity {
+
     private EditText phoneNumberEditText;
     private Button nextButton;
     private TextView alsoFindByEmailTextView;
@@ -34,22 +35,11 @@ public class FindPassworByPhoneActivity extends Activity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
-        setContentView(R.layout.find_password_by_phone_layout);
-        daoHangImageView= (ImageView) findViewById(R.id.img_dao_hang_change_by_phone);
-        phoneNumberEditText= (EditText) findViewById(R.id.edit_phone_num_find_password);
-        nextButton= (Button) findViewById(R.id.btn_next_step_phone);
-        alsoFindByEmailTextView= (TextView) findViewById(R.id.text_also_find_by_email);
-
-        daoHangImageView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
+        setContentLayout(R.layout.find_password_by_phone_layout);
+        setTitle(R.string.find_password);
+        initView();
 
         phoneNumberEditText.clearFocus();
-
         userName=getIntent().getStringExtra(LoginActivity.USER_NAME_KEY);
 
         MyLog.d(tag, "tag有效吗");
@@ -67,6 +57,13 @@ public class FindPassworByPhoneActivity extends Activity{
 
         alsoFindByEmailTextView.setText(spannableString);
         alsoFindByEmailTextView.setMovementMethod(LinkMovementMethod.getInstance());
+    }
+
+    @Override
+    public void initView() {
+        phoneNumberEditText= (EditText) findViewById(R.id.edit_phone_num_find_password);
+        nextButton= (Button) findViewById(R.id.btn_next_step_phone);
+        alsoFindByEmailTextView= (TextView) findViewById(R.id.text_also_find_by_email);
     }
 
     //无下划线超链接，使用textColorLink、textColorHighlight分别修改超链接前景色和按下时的颜色

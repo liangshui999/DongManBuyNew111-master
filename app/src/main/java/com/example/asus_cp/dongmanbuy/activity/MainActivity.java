@@ -1,7 +1,6 @@
 package com.example.asus_cp.dongmanbuy.activity;
 
 import android.app.Activity;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
@@ -11,16 +10,13 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.FrameLayout;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
@@ -38,7 +34,6 @@ import com.android.volley.toolbox.StringRequest;
 import com.example.asus_cp.dongmanbuy.R;
 import com.example.asus_cp.dongmanbuy.activity.dian_pu_jie.ShopHomeActivity;
 import com.example.asus_cp.dongmanbuy.activity.gou_wu.DingDanListActivity;
-import com.example.asus_cp.dongmanbuy.activity.gou_wu.YouHuiQuanActivity;
 import com.example.asus_cp.dongmanbuy.activity.login.LoginActivity;
 import com.example.asus_cp.dongmanbuy.activity.main_activity_xiang_guan.LiuLanJiLuListActivity;
 import com.example.asus_cp.dongmanbuy.activity.personal_center.GuanZhuListActivity;
@@ -68,6 +63,7 @@ import com.example.asus_cp.dongmanbuy.util.MyLog;
 import com.example.asus_cp.dongmanbuy.util.MyScreenInfoHelper;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -129,6 +125,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public SlidingMenu menu;
 
     //侧滑菜单
+    private String hongBaoListUrl="http://www.zmobuy.com/PHP/?url=/user/bonus_list";//获取所有红包的接口
+
     private de.hdodenhof.circleimageview.CircleImageView loginImage;//登录按钮
     private TextView nameTextView;//名字
     private RelativeLayout jiFenAndHelpRelativeLayout;//积分和帮助所在的布局
@@ -139,6 +137,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private RelativeLayout myShouCangRelativeLayout;//我的收藏
     private RelativeLayout guanZhuRelativeLayout;//关注
     private RelativeLayout youHuiQuanRelativeLayou;//优惠券
+    private TextView youHuiQuanCountTextView;//优惠券数目
     private RelativeLayout settingRelativeLayout;//设置
 
     /*private TextView myZhuYeTextView;//我的主页
@@ -250,20 +249,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         new CategoryImageLoadHelper(getXiangSuMiDu());
 
         //获取屏幕像素密度
-//        DisplayMetrics metric = new DisplayMetrics();
-//        getWindowManager().getDefaultDisplay().getMetrics(metric);
-//        densty = metric.densityDpi;  // 屏幕密度DPI（120 / 160 / 240）
         densty= MyScreenInfoHelper.getScreenDpi();
 
         imageLoaderhelper=new ImageLoadHelper();
-        String uid=sharedPreferences.getString(MyConstant.UID_KEY,null);
-        String sid=null;
-        if(uid==null || uid.isEmpty()){
-
-        }else {
-            sid=sharedPreferences.getString(MyConstant.SID_KEY,null);
-            getDataFromIntenetAndSetNameAndEmailAndPic(uid,sid);
-        }
 
     }
 
@@ -450,6 +438,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 String sid = sharedPreferences.getString(MyConstant.SID_KEY, null);
                 if (uid != null && !uid.isEmpty()) {
                     if (!isLogined) {
+                        getDataFromIntenetAndSetYouHuiQuanCount(uid,sid);
                         getDataFromIntenetAndSetNameAndEmailAndPic(uid, sid);
                     }
                 } else {
@@ -458,6 +447,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     loginImage.setImageResource(R.mipmap.tou_xiang);
                     loginButton.setImageResource(R.mipmap.tou_xiang);
                     jiFenAndHelpRelativeLayout.setVisibility(View.GONE);//将积分和帮助隐藏
+                    youHuiQuanCountTextView.setText("");
                     isLogined = false;
                 }
             }
@@ -477,6 +467,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         myShouCangRelativeLayout= (RelativeLayout) findViewById(R.id.re_layout_shou_cang_menu);
         guanZhuRelativeLayout= (RelativeLayout) findViewById(R.id.re_layout_guan_zhu_menu);
         youHuiQuanRelativeLayou= (RelativeLayout) findViewById(R.id.re_layout_you_hui_quan_menu);
+        youHuiQuanCountTextView= (TextView) findViewById(R.id.text_you_hui_quan_count_sliding_menu);
         settingRelativeLayout= (RelativeLayout) findViewById(R.id.re_layout_setting_menu);
 
 
@@ -489,6 +480,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         youHuiQuanRelativeLayou.setOnClickListener(this);
         settingRelativeLayout.setOnClickListener(this);
         liuLanJiLuRelativeLayout.setOnClickListener(this);
+
+        String uid=sharedPreferences.getString(MyConstant.UID_KEY,null);
+        String sid=null;
+        if(uid==null || uid.isEmpty()){
+
+        }else {
+            sid=sharedPreferences.getString(MyConstant.SID_KEY,null);
+            getDataFromIntenetAndSetYouHuiQuanCount(uid,sid);
+            getDataFromIntenetAndSetNameAndEmailAndPic(uid,sid);
+        }
 
 
         /*myZhuYeTextView= (TextView) findViewById(R.id.text_my_zhu_ye);
@@ -552,6 +553,44 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         });*/
 
         //throw new RuntimeException("对方不想和你说话，并向你抛出了一个空指针异常");//只是测试用
+    }
+
+
+    /**
+     * 联网获取优惠券的数目
+     */
+    private void getDataFromIntenetAndSetYouHuiQuanCount(final String uid, final String sid) {
+        StringRequest hongBaoRequest=new StringRequest(Request.Method.POST, hongBaoListUrl, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                MyLog.d(tag,"红包返回的数据是："+response);
+                try {
+                    JSONObject jsonObject=new JSONObject(response);
+                    JSONArray jsonArray=jsonObject.getJSONArray("data");
+                    if(jsonArray.length()>0){
+                        youHuiQuanCountTextView.setText("您有"+jsonArray.length()+"张优惠券可用");
+                    }else{
+                        youHuiQuanCountTextView.setText("");
+                    }
+                } catch (JSONException e) {
+                    youHuiQuanCountTextView.setText("");
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        }){
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String,String> map=new HashMap<String,String>();
+                String json="{\"session\":{\"uid\":\""+uid+"\",\"sid\":\""+sid+"\"}}";
+                map.put("json",json);
+                return map;
+            }
+        };
+        requestQueue.add(hongBaoRequest);
     }
 
     /**
@@ -1260,6 +1299,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     jiFenAndHelpRelativeLayout.setVisibility(View.GONE);
                     jiFenTextView.setText("");
                     loginButton.setImageResource(R.mipmap.tou_xiang);
+                    youHuiQuanCountTextView.setText("");
                     isLogined=false;
                 }
                 break;

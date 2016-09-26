@@ -8,6 +8,7 @@ import android.os.Process;
 
 import com.example.asus_cp.dongmanbuy.util.MyApplication;
 import com.example.asus_cp.dongmanbuy.util.MyLog;
+import com.umeng.analytics.MobclickAgent;
 
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -64,6 +65,9 @@ public class MyCrashHandler implements Thread.UncaughtExceptionHandler {
         MyLog.d(tag, "uncaughtException");
         //将ex写入sd卡中
         writeExceptionToSdCard(ex);
+
+        //把崩溃信息上传到友盟服务器
+        MobclickAgent.reportError(context,ex);
 
         ex.printStackTrace();//打印异常信息，方便调试
         if(mDefaultHandler!=null){

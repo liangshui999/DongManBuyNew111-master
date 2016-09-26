@@ -17,6 +17,7 @@ import com.example.asus_cp.dongmanbuy.R;
 import com.example.asus_cp.dongmanbuy.constant.MyConstant;
 import com.example.asus_cp.dongmanbuy.util.DialogHelper;
 import com.example.asus_cp.dongmanbuy.util.MyApplication;
+import com.umeng.analytics.MobclickAgent;
 
 /**
  * 所有activity的基类
@@ -110,6 +111,17 @@ public abstract class BaseActivity extends AppCompatActivity{
      */
     public void setTitle(int resId){
         titleTextView.setText(resId);
+    }
+
+
+    public void onResume() {
+        super.onResume();
+        MobclickAgent.onResume(this);//用于友盟统计
+    }
+
+    public void onPause() {
+        super.onPause();
+        MobclickAgent.onPause(this);//用于友盟统计
     }
 
 

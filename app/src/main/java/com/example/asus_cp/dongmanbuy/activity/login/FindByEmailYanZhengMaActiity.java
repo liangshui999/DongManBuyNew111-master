@@ -12,13 +12,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.asus_cp.dongmanbuy.R;
+import com.example.asus_cp.dongmanbuy.activity.BaseActivity;
 
 /**
  * 邮箱找回密码，输入验证码的界面
  * Created by asus-cp on 2016-05-30.
  */
-public class FindByEmailYanZhengMaActiity extends Activity {
-    private ImageView daoHangImageView;
+public class FindByEmailYanZhengMaActiity extends BaseActivity {
+
     private TextView emailAddressTextView;
     private EditText yanZhengMaEdtiText;
     private Button nextStepButton;
@@ -31,30 +32,26 @@ public class FindByEmailYanZhengMaActiity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
-        setContentView(R.layout.find_by_email_yan_zheng_ma_layout);
+        setContentLayout(R.layout.find_by_email_yan_zheng_ma_layout);
+        setTitle(R.string.inpu_yan_zheng_ma);
+        initView();
         init();
+    }
+
+    @Override
+    public void initView() {
+        email=getIntent().getStringExtra(FindPassworByEmaildActivity.EMAIL_KEY);
+        yanZhengMaEdtiText= (EditText) findViewById(R.id.edit_yan_zheng_ma_find_by_email);
+        nextStepButton= (Button) findViewById(R.id.btn_next_step_email_yan_zheng_ma);
+        emailAddressTextView= (TextView) findViewById(R.id.text_email_address_yan_zheng);
     }
 
     /**
      * 初始化的方法
      */
     private void init() {
-        email=getIntent().getStringExtra(FindPassworByEmaildActivity.EMAIL_KEY);
-        daoHangImageView= (ImageView) findViewById(R.id.img_dao_hang_yan_zheng_ma);
-        yanZhengMaEdtiText= (EditText) findViewById(R.id.edit_yan_zheng_ma_find_by_email);
-        nextStepButton= (Button) findViewById(R.id.btn_next_step_email_yan_zheng_ma);
-        emailAddressTextView= (TextView) findViewById(R.id.text_email_address_yan_zheng);
-
         //设置邮箱地址
         emailAddressTextView.setText(email);
-
-        daoHangImageView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
 
         nextStepButton.setOnClickListener(new View.OnClickListener() {
             @Override
