@@ -24,7 +24,7 @@
             android:layout_gravity="center"
             app:civ_border_width="1dp"
             app:civ_border_color="@color/white_my"
-            android:src="@mipmap/login_my"
+            android:src="@mipmap/tou_xiang"
             />
        <!-- <android.support.v7.widget.SearchView
             android:id="@+id/search_view"

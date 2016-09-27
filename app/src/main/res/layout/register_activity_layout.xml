@@ -45,6 +45,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="20dp"
                 android:src="@mipmap/register_selected"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
                 />
 
         </LinearLayout>
@@ -68,6 +70,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="20dp"
                 android:src="@mipmap/register_not_selected"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
                 />
 
         </LinearLayout>

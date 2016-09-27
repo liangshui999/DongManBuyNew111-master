@@ -65,6 +65,10 @@ public class HongBaoListActivity extends BaseActivity implements View.OnClickLis
 
     public static final String ALL="all";
 
+    public static final String UN_USED_BONUS="0";//未使用红包
+    public static final String USED_BONUS="1";//已使用红包
+    public static final String EXPIRED_BONUS="2";//已过期红包
+
 
 
 
@@ -85,7 +89,7 @@ public class HongBaoListActivity extends BaseActivity implements View.OnClickLis
 
         //弹出正在加载的对话框
         DialogHelper.showDialog(this);
-        getDataFromIntet("未使用", false);
+        getDataFromIntet(UN_USED_BONUS, false);
 
     }
 
@@ -103,11 +107,11 @@ public class HongBaoListActivity extends BaseActivity implements View.OnClickLis
                         HongBaoListAdapter adapter=new HongBaoListAdapter(HongBaoListActivity.this,models,isGray);
                         listView.setAdapter(adapter);
 
-                        if("未使用".equals(category)){
+                        if(UN_USED_BONUS.equals(category)){
                             weiShiYongShuTextView.setText("("+models.size()+")");
-                        }else if("已使用".equals(category)){
+                        }else if(USED_BONUS.equals(category)){
                             yiShiYongShuTextView.setText("("+models.size()+")");
-                        }else if("已过期".equals(category)){
+                        }else if(EXPIRED_BONUS.equals(category)){
                             yiGuoQiShuTextView.setText("("+models.size()+")");
                         }
                     }
@@ -145,7 +149,7 @@ public class HongBaoListActivity extends BaseActivity implements View.OnClickLis
                 YouHuiQuanModel youHuiQuanModel=new YouHuiQuanModel();
                 youHuiQuanModel.setName(JsonHelper.decodeUnicode(ziJsObj.getString("type_name")));
                 youHuiQuanModel.setJinE(ziJsObj.getString("type_money"));
-                youHuiQuanModel.setStatus(JsonHelper.decodeUnicode(ziJsObj.getString("status")));
+                youHuiQuanModel.setStatus(ziJsObj.getString("bonus_status"));
                 youHuiQuanModel.setStartTime(ziJsObj.getString("use_startdate"));
                 youHuiQuanModel.setEndTime(ziJsObj.getString("use_enddate"));
                 youHuiQuanModel.setSuoShuDianPu(ziJsObj.getString("rz_shopName"));
@@ -196,19 +200,19 @@ public class HongBaoListActivity extends BaseActivity implements View.OnClickLis
                 reset();
                 weiShiYongTextView.setTextColor(getResources().getColor(R.color.bottom_lable_color));
                 weiShiYongShuTextView.setTextColor(getResources().getColor(R.color.bottom_lable_color));
-                getDataFromIntet("未使用",false);
+                getDataFromIntet(UN_USED_BONUS,false);
                 break;
             case R.id.ll_yi_shi_yong://点击了已使用
                 reset();
                 yiShiYongTextView.setTextColor(getResources().getColor(R.color.bottom_lable_color));
                 yiShiYongShuTextView.setTextColor(getResources().getColor(R.color.bottom_lable_color));
-                getDataFromIntet("已使用",true);
+                getDataFromIntet(USED_BONUS,true);
                 break;
             case R.id.ll_yi_guo_qi://点击了已过期
                 reset();
                 yiGuoQiTextView.setTextColor(getResources().getColor(R.color.bottom_lable_color));
                 yiGuoQiShuTextView.setTextColor(getResources().getColor(R.color.bottom_lable_color));
-                getDataFromIntet("已过期",true);
+                getDataFromIntet(EXPIRED_BONUS,true);
                 break;
             case R.id.btn_add_hong_bao_hong_bao_list://点击了添加红包
                 //Toast.makeText(this,"点击了添加红包",Toast.LENGTH_SHORT).show();

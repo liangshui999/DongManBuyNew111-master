@@ -1,21 +1,16 @@
 package com.example.asus_cp.dongmanbuy.activity.gou_wu;
 
-import android.app.Activity;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.view.View;
-import android.view.Window;
 import android.widget.AdapterView;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
-import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
@@ -27,7 +22,6 @@ import com.example.asus_cp.dongmanbuy.model.DingDanModel;
 import com.example.asus_cp.dongmanbuy.model.Good;
 import com.example.asus_cp.dongmanbuy.util.DialogHelper;
 import com.example.asus_cp.dongmanbuy.util.JsonHelper;
-import com.example.asus_cp.dongmanbuy.util.MyApplication;
 import com.example.asus_cp.dongmanbuy.util.MyLog;
 
 import org.json.JSONArray;
@@ -60,7 +54,9 @@ public class DingDanListActivity extends BaseActivity implements View.OnClickLis
 
     private String whoStartMe;//谁开启了我
 
-    public static final int REQUEST_DING_DAN_DETAIL_KEY=1;//跳转到订单detail界面
+    public static final int REQUEST_DING_DAN_DETAIL_KEY_ALL =1;//跳转到订单detail界面
+    public static final int REQUEST_DING_DAN_DETAIL_KEY_AWAIT_PAY =2;
+    public static final int REQUEST_DING_DAN_DETAIL_KEY_AWAIT_SHIP =3;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -148,7 +144,19 @@ public class DingDanListActivity extends BaseActivity implements View.OnClickLis
                             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                                 Intent intent=new Intent(DingDanListActivity.this, DingDanDetailActivity.class);
                                 intent.putExtra(MyConstant.DING_DAN_MODEL_KEY, tempModels.get(position));
-                                startActivityForResult(intent, REQUEST_DING_DAN_DETAIL_KEY);
+                                if(allDingDanTextView.getCurrentTextColor()==getResources().getColor(R.color.bottom_lable_color)){
+
+                                    startActivityForResult(intent, REQUEST_DING_DAN_DETAIL_KEY_ALL);
+
+                                }else if(daiFuKuanDingDanTextView.getCurrentTextColor()==getResources().getColor(R.color.bottom_lable_color)){
+
+                                    startActivityForResult(intent, REQUEST_DING_DAN_DETAIL_KEY_AWAIT_PAY);
+
+                                }else if(daiShouHuoDingDanTextView.getCurrentTextColor()==getResources().getColor(R.color.bottom_lable_color)){
+
+                                    startActivityForResult(intent, REQUEST_DING_DAN_DETAIL_KEY_AWAIT_SHIP);
+
+                                }
                             }
                         });
                     }
@@ -226,21 +234,44 @@ public class DingDanListActivity extends BaseActivity implements View.OnClickLis
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.ll_all_ding_dan://点击了所有订单
-                getOrderList("");//获取所有的订单数据
-                reset();
-                allDingDanTextView.setTextColor(getResources().getColor(R.color.bottom_lable_color));
+                allDingDanClickChuLi();
                 break;
             case R.id.ll_dai_fu_kuan_ding_dan://点击了待付款订单
-                getOrderList("await_pay");//获取待付款的订单数据
-                reset();
-                daiFuKuanDingDanTextView.setTextColor(getResources().getColor(R.color.bottom_lable_color));
+                daiFuKuanClickChuLi();
                 break;
             case R.id.ll_dai_shou_huo_ding_dan://点击了代收货订单
-                getOrderList("await_ship");//获取代收货的订单数据
-                reset();
-                daiShouHuoDingDanTextView.setTextColor(getResources().getColor(R.color.bottom_lable_color));
+                daiShouHuoClickChuLi();
                 break;
         }
+    }
+
+    /**
+     * 待收货的点击事件处理
+     */
+    private void daiShouHuoClickChuLi() {
+        getOrderList("await_ship");//获取代收货的订单数据
+        reset();
+        daiShouHuoDingDanTextView.setTextColor(getResources().getColor(R.color.bottom_lable_color));
+    }
+
+
+    /**
+     * 待付款的点击事件处理
+     */
+    private void daiFuKuanClickChuLi() {
+        getOrderList("await_pay");//获取待付款的订单数据
+        reset();
+        daiFuKuanDingDanTextView.setTextColor(getResources().getColor(R.color.bottom_lable_color));
+    }
+
+
+    /**
+     * 所有订单的点击事件处理
+     */
+    private void allDingDanClickChuLi() {
+        getOrderList("");//获取所有的订单数据
+        reset();
+        allDingDanTextView.setTextColor(getResources().getColor(R.color.bottom_lable_color));
     }
 
     /**
@@ -264,8 +295,20 @@ public class DingDanListActivity extends BaseActivity implements View.OnClickLis
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode){
-            case REQUEST_DING_DAN_DETAIL_KEY:
-                getOrderList("");
+            case REQUEST_DING_DAN_DETAIL_KEY_ALL:
+                if(resultCode==RESULT_OK){
+                    allDingDanClickChuLi();
+                }
+                break;
+            case REQUEST_DING_DAN_DETAIL_KEY_AWAIT_PAY:
+                if(resultCode==RESULT_OK){
+                    daiFuKuanClickChuLi();
+                }
+                break;
+            case REQUEST_DING_DAN_DETAIL_KEY_AWAIT_SHIP:
+                if(resultCode==RESULT_OK){
+                    daiShouHuoClickChuLi();
+                }
                 break;
         }
     }

@@ -76,6 +76,7 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
                 transaction1.commit();
                 phoneRegisterTextView.setTextColor(getResources().getColor(R.color.bottom_lable_color));
                 phoneRegisterImageView.setImageResource(R.mipmap.register_selected);
+                emailRegisterImageView.setImageResource(R.mipmap.register_not_selected);
                 break;
             case R.id.text_email_register://邮箱注册
                 reset();
@@ -84,6 +85,7 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
                 transaction2.commit();
                 emailRegisterTextView.setTextColor(getResources().getColor(R.color.bottom_lable_color));
                 emailRegisterImageView.setImageResource(R.mipmap.register_selected);
+                phoneRegisterImageView.setImageResource(R.mipmap.register_not_selected);
                 break;
             case R.id.text_zhi_jie_login://已注册直接登陆
                 finish();

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="320dp">
+    android:layout_height="300dp">
 
     <TextView
         android:id="@+id/text_shop_name_list_item_out"
@@ -22,8 +22,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/order_fen_ge_height"
         android:background="@color/white_my"
-        android:paddingBottom="10dp"
-        android:paddingTop="10dp">
+        >
 
         <LinearLayout
             android:layout_width="0dp"
@@ -33,7 +32,7 @@
 
             <ImageView
                 android:id="@+id/img_one_ding_dan_list_item_out"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="100dp"
                 android:layout_marginLeft="5dp"
                 android:layout_marginRight="5dp"/>
@@ -47,7 +46,7 @@
 
             <ImageView
                 android:id="@+id/img_two_ding_dan_list_item_out"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="100dp"
                 android:layout_marginLeft="5dp"
                 android:layout_marginRight="5dp"/>
@@ -61,7 +60,7 @@
 
             <ImageView
                 android:id="@+id/img_three_ding_dan_list_item_out"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="100dp"
                 android:layout_marginLeft="5dp"
                 android:layout_marginRight="5dp"/>
@@ -80,7 +79,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:gravity="center_vertical"
-                android:text="共6件" />
+                android:text="共0件" />
 
             <ImageView
                 android:layout_width="20dp"

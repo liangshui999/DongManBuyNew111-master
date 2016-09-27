@@ -734,9 +734,7 @@ public class DingDanDetailActivity extends BaseActivity implements View.OnClickL
                             e.printStackTrace();
                             Toast.makeText(DingDanDetailActivity.this,"取消失败",Toast.LENGTH_SHORT).show();
                         }
-                        Intent intent=new Intent();
-                        setResult(RESULT_OK,intent);
-                        finish();
+                        backEventChuLi();
                     }
                 }, new Response.ErrorListener() {
             @Override
@@ -753,5 +751,30 @@ public class DingDanDetailActivity extends BaseActivity implements View.OnClickL
             }
         };
         requestQueue.add(cacelOrderRequest);
+    }
+
+
+    @Override
+    public void onBackPressed() {
+        backEventChuLi();
+    }
+
+    /**
+     * 返回按钮的点击事件处理
+     */
+    private void backEventChuLi() {
+        Intent intent=new Intent();
+        setResult(RESULT_OK,intent);
+        finish();
+    }
+
+    @Override
+    public void backImageViewClickChuLi() {
+        getBackImageView().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                backEventChuLi();
+            }
+        });
     }
 }

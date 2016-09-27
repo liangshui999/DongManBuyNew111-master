@@ -1227,6 +1227,15 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
 
 
     @Override
+    public void onStart() {
+        super.onStart();
+//        handler.removeMessages(SCROLL__FIRST_BINNER);
+//        handler.removeMessages(XIAN_SHI_TIME);
+//        handler.sendEmptyMessage(SCROLL__FIRST_BINNER);
+//        handler.sendEmptyMessage(XIAN_SHI_TIME);
+    }
+
+    @Override
     public void onStop() {
         super.onStop();
 

@@ -72,7 +72,7 @@ public class HongBaoListAdapter extends BaseAdapter{
         viewHolder.endTimeTextView.setText(youHuiQuanModel.getEndTime());
 
         if(isGray){
-            viewHolder.jinERelativeLayout.setBackgroundResource(R.color.mo_kuai_backgroud);
+            viewHolder.jinERelativeLayout.setBackgroundResource(R.color.used_hong_bao);
         }else{
             viewHolder.jinERelativeLayout.setBackgroundResource(R.color.you_hui_quan_huang_se);
         }

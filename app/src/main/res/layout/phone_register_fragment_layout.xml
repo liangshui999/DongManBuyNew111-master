@@ -2,7 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_margin="5dp">
+    android:layout_margin="5dp"
+    android:background="@color/white_my">
 
     <!--手机号-->
     <LinearLayout
@@ -23,13 +24,13 @@
            android:layout_height="wrap_content">
            <EditText
                android:id="@+id/edit_phone_num"
-               android:layout_width="match_parent"
-               android:layout_height="match_parent"
                android:hint="@string/phone_num"
-               android:textSize="@dimen/register_font_size"
-               android:singleLine="true"/>
+               style="@style/single_line_edit_text_style"/>
     </LinearLayout>
     </LinearLayout>
+
+
+    <include layout="@layout/fen_ge_imageview_layout"/>
 
 
     <!--验证码-->
@@ -48,11 +49,8 @@
             >
             <EditText
                 android:id="@+id/edit_input_yan_zheng_ma"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
                 android:hint="@string/inpu_yan_zheng_ma"
-                android:textSize="@dimen/register_font_size"
-                android:singleLine="true"/>
+                style="@style/single_line_edit_text_style"/>
         </LinearLayout>
 
         <TextView
@@ -65,6 +63,9 @@
             />
 
     </LinearLayout>
+
+
+    <include layout="@layout/fen_ge_imageview_layout"/>
 
     <!--密码-->
     <LinearLayout
@@ -79,11 +80,9 @@
             android:layout_height="wrap_content">
             <EditText
                 android:id="@+id/edit_password_phone_register"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
                 android:hint="@string/input_password"
-                android:textSize="@dimen/register_font_size"
-                android:singleLine="true"/>
+                android:inputType="textPassword"
+                style="@style/single_line_edit_text_style"/>
         </LinearLayout>
 
         <ImageView
@@ -93,6 +92,9 @@
             android:background="@drawable/see_password_normal"
             android:layout_gravity="center_vertical"/>
     </LinearLayout>
+
+
+    <include layout="@layout/fen_ge_imageview_layout"/>
 
     <!--重新输入密码-->
     <LinearLayout
@@ -107,11 +109,9 @@
             android:layout_height="wrap_content">
             <EditText
                 android:id="@+id/edit_password_again_phone_register"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
                 android:hint="@string/input_password_again"
-                android:textSize="@dimen/register_font_size"
-                android:singleLine="true"/>
+                android:inputType="textPassword"
+                style="@style/single_line_edit_text_style"/>
         </LinearLayout>
 
         <ImageView
@@ -121,6 +121,9 @@
             android:background="@drawable/see_password_normal"
             android:layout_gravity="center_vertical"/>
     </LinearLayout>
+
+
+    <include layout="@layout/fen_ge_imageview_layout"/>
 
     <!--注册按钮-->
     <Button

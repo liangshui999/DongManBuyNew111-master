@@ -384,5 +384,15 @@
         <item name="android:textColor">@color/myblack</item>
     </style>
 
+    <!--自定义的edittext的样式-->
+    <style name="single_line_edit_text_style">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">@dimen/login_font_size</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:background">@color/white_my</item>
+        <item name="android:layout_marginLeft">5dp</item>
+    </style>
+
 
 </resources>

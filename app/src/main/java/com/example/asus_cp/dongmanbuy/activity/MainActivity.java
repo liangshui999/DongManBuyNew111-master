@@ -54,6 +54,7 @@ import com.example.asus_cp.dongmanbuy.fragment.ShopStreetFragment;
 import com.example.asus_cp.dongmanbuy.fragment.ShoppingCarFragment;
 import com.example.asus_cp.dongmanbuy.model.Good;
 import com.example.asus_cp.dongmanbuy.model.User;
+import com.example.asus_cp.dongmanbuy.model.YouHuiQuanModel;
 import com.example.asus_cp.dongmanbuy.util.CategoryImageLoadHelper;
 import com.example.asus_cp.dongmanbuy.util.FormatHelper;
 import com.example.asus_cp.dongmanbuy.util.ImageLoadHelper;
@@ -565,10 +566,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             public void onResponse(String response) {
                 MyLog.d(tag,"红包返回的数据是："+response);
                 try {
+                    int size=0;
                     JSONObject jsonObject=new JSONObject(response);
                     JSONArray jsonArray=jsonObject.getJSONArray("data");
-                    if(jsonArray.length()>0){
-                        youHuiQuanCountTextView.setText("您有"+jsonArray.length()+"张优惠券可用");
+                    for(int i=0;i<jsonArray.length();i++){
+                        JSONObject ziJsObj=jsonArray.getJSONObject(i);
+                        String status=ziJsObj.getString("bonus_status");
+                        if ("0".equals(status)) {
+                            size++;
+                        }
+                    }
+                    if(size>0){
+                        youHuiQuanCountTextView.setText("您有"+size+"张优惠券可用");
                     }else{
                         youHuiQuanCountTextView.setText("");
                     }

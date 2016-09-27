@@ -141,7 +141,7 @@
                     android:paddingTop="10dp"
                     android:paddingLeft="10dp"
                     android:background="@color/white_my"
-                    android:layout_marginTop="2dp"
+                    android:layout_marginTop="@dimen/order_detail_fen_ge"
                     android:visibility="visible">
                     <TextView
                         android:layout_width="wrap_content"
@@ -271,7 +271,7 @@
                     android:id="@+id/re_layout_pei_song_fang_shi_ding_dan"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="2dp"
+                    android:layout_marginTop="10dp"
                     android:background="@color/white_my"
                     android:paddingTop="10dp"
                     android:paddingBottom="10dp"
@@ -315,14 +315,15 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="2dp"
+                    android:layout_marginTop="@dimen/order_detail_fen_ge"
                     android:paddingTop="10dp"
                     android:paddingBottom="10dp"
                     android:paddingLeft="10dp"
                     android:background="@color/white_my"
                     android:orientation="vertical"
                     android:focusable="true"
-                    android:focusableInTouchMode="true">
+                    android:focusableInTouchMode="true"
+                    android:visibility="visible">
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -424,7 +425,7 @@
                     android:id="@+id/re_layout_zhi_fu_fang_shi_ding_dan"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="2dp"
+                    android:layout_marginTop="10dp"
                     android:background="@color/white_my"
                     android:paddingTop="10dp"
                     android:paddingBottom="10dp"
@@ -470,7 +471,7 @@
                     android:id="@+id/re_layout_fa_piao_xin_xi_ding_dan"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="2dp"
+                    android:layout_marginTop="@dimen/order_detail_fen_ge"
                     android:background="@color/white_my"
                     android:paddingTop="10dp"
                     android:paddingBottom="10dp"
@@ -524,7 +525,7 @@
                     android:id="@+id/re_layout_product_sum_price_ding_dan"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="2dp"
+                    android:layout_marginTop="10dp"
                     android:background="@color/white_my"
                     android:paddingTop="10dp"
                     android:paddingBottom="10dp"
@@ -552,7 +553,7 @@
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="2dp"
+                    android:layout_marginTop="@dimen/order_detail_fen_ge"
                     android:background="@color/white_my"
                     android:paddingTop="10dp"
                     android:paddingBottom="10dp"
@@ -581,7 +582,7 @@
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="2dp"
+                    android:layout_marginTop="@dimen/order_detail_fen_ge"
                     android:background="@color/white_my"
                     android:paddingTop="10dp"
                     android:paddingBottom="10dp"
@@ -614,7 +615,7 @@
                     android:layout_height="wrap_content"
                     android:padding="10dp"
                     android:background="@color/white_my"
-                    android:layout_marginTop="2dp">
+                    android:layout_marginTop="@dimen/order_detail_fen_ge">
                     <TextView
                         android:id="@+id/text_ying_fu_price_order_detail"
                         android:layout_width="wrap_content"
