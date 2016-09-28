@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/white_my">
 
     <!--头部-->
     <!--<RelativeLayout
@@ -19,7 +20,9 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="10dp">
+        android:paddingTop="15dp"
+        android:paddingLeft="10dp"
+        android:paddingBottom="15dp">
         <TextView
             android:text="@string/ka_hao"
             style="@style/add_bank_card_text_style"/>
@@ -30,15 +33,26 @@
             android:layout_height="wrap_content"
             android:hint="@string/bank_ka_hao"
             android:textSize="@dimen/add_bank_card_base_size"
-            android:singleLine="true"/>
+            android:singleLine="true"
+            android:background="@null"
+            android:layout_marginLeft="5dp"/>
     </LinearLayout>
+
+
+    <!--分隔线-->
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/mo_kuai_backgroud"/>
 
 
     <!--持卡人-->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="10dp">
+        android:paddingTop="15dp"
+        android:paddingLeft="10dp"
+        android:paddingBottom="15dp">
         <TextView
             android:text="@string/chi_ka_ren"
             style="@style/add_bank_card_text_style"/>
@@ -50,15 +64,26 @@
             android:hint="@string/chi_ka_ren_name"
             android:textSize="@dimen/add_bank_card_base_size"
             android:singleLine="true"
+            android:background="@null"
+            android:layout_marginLeft="5dp"
             />
     </LinearLayout>
+
+
+    <!--分隔线-->
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/mo_kuai_backgroud"/>
 
 
     <!--开户行-->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="10dp">
+        android:paddingTop="15dp"
+        android:paddingLeft="10dp"
+        android:paddingBottom="15dp">
         <TextView
             android:text="@string/kai_hu_hang"
             style="@style/add_bank_card_text_style"/>
@@ -69,15 +94,25 @@
             android:layout_height="wrap_content"
             android:hint="@string/kai_hu_hang_sample"
             android:textSize="@dimen/add_bank_card_base_size"
-            android:singleLine="true"/>
+            android:singleLine="true"
+            android:background="@null"
+            android:layout_marginLeft="5dp"/>
     </LinearLayout>
+
+    <!--分隔线-->
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/mo_kuai_backgroud"/>
 
 
     <!--银行-->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="10dp">
+        android:paddingTop="15dp"
+        android:paddingLeft="10dp"
+        android:paddingBottom="15dp">
         <TextView
             android:text="@string/bank"
             style="@style/add_bank_card_text_style"/>
@@ -88,8 +123,17 @@
             android:layout_height="wrap_content"
             android:hint="@string/bank_sample"
             android:textSize="@dimen/add_bank_card_base_size"
-            android:singleLine="true"/>
+            android:singleLine="true"
+            android:background="@null"
+            android:layout_marginLeft="5dp"/>
     </LinearLayout>
+
+
+    <!--分隔线-->
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/mo_kuai_backgroud"/>
 
 
     <Button

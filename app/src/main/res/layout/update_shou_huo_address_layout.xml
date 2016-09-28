@@ -47,7 +47,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="10dp"
-            android:layout_marginTop="2dp"
+            android:layout_marginTop="@dimen/normal_fen_ge_height"
             android:background="@color/white_my"
             >
             <TextView
@@ -70,7 +70,7 @@
             android:layout_height="wrap_content"
             android:padding="10dp"
             android:background="@color/white_my"
-            android:layout_marginTop="2dp">
+            android:layout_marginTop="@dimen/normal_fen_ge_height">
             <TextView
                 android:id="@+id/suo_zai"
                 android:layout_width="wrap_content"
@@ -96,7 +96,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="10dp"
-            android:layout_marginTop="2dp"
+            android:layout_marginTop="@dimen/normal_fen_ge_height"
             android:background="@color/white_my"
             android:text="@string/xiang_xi_xin_xi"/>
         <EditText
