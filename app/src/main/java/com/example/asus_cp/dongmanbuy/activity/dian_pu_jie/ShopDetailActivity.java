@@ -1,5 +1,6 @@
 package com.example.asus_cp.dongmanbuy.activity.dian_pu_jie;
 
+import android.Manifest;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -8,6 +9,7 @@ import android.content.pm.PackageManager;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -38,6 +40,9 @@ import com.example.asus_cp.dongmanbuy.util.ImageLoadHelper;
 import com.example.asus_cp.dongmanbuy.util.JsonHelper;
 import com.example.asus_cp.dongmanbuy.util.MyIMHelper;
 import com.example.asus_cp.dongmanbuy.util.MyLog;
+import com.zhy.m.permission.MPermissions;
+import com.zhy.m.permission.PermissionDenied;
+import com.zhy.m.permission.PermissionGrant;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -47,6 +52,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 
 /**
  * 店铺详情的界面
@@ -103,6 +109,8 @@ public class ShopDetailActivity extends BaseActivity implements View.OnClickList
     private AlertDialog loginDialog;//登陆的对话框
 
     private static final int REQUEST_LOGIN = 1;
+
+    public static final int PERMISSION_CALL=1;//申请打电话的运行时权限
 
 
 
@@ -242,9 +250,8 @@ public class ShopDetailActivity extends BaseActivity implements View.OnClickList
                 erWeiMaClickChuLi();
                 break;
             case R.id.re_layout_shang_jia_phone://点击了商家电话
-                Intent callIntent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" +
-                        shangJiaPhoneTextView.getText().toString()));
-                startActivity(callIntent);
+                MPermissions.requestPermissions(this,PERMISSION_CALL, Manifest.permission.CALL_PHONE);
+                //callSeller();
                 break;
             case R.id.re_layout_suo_zai_di_qu_map://点击了所在地区
                 if(isInstallByread("com.baidu.BaiduMap")){
@@ -260,6 +267,16 @@ public class ShopDetailActivity extends BaseActivity implements View.OnClickList
                 break;
 
         }
+    }
+
+
+    /**
+     * 给商家打电话
+     */
+    private void callSeller() {
+        Intent callIntent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" +
+                shangJiaPhoneTextView.getText().toString()));
+        startActivity(callIntent);
     }
 
 
@@ -502,6 +519,23 @@ public class ShopDetailActivity extends BaseActivity implements View.OnClickList
             startActivityForResult(intent, REQUEST_LOGIN);
 
         }
+    }
+
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        MPermissions.onRequestPermissionsResult(this,requestCode, permissions, grantResults);
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    }
+
+    @PermissionGrant(PERMISSION_CALL)
+    public void requestCallPhoneSuccess(){
+        callSeller();
+    }
+
+    @PermissionDenied(PERMISSION_CALL)
+    public void requsetCallPhoneDenied(){
+        Toast.makeText(this,"需要拨打电话的权限才能使用该功能，请到设置中设置",Toast.LENGTH_LONG).show();
     }
 
 

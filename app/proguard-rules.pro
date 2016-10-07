@@ -81,6 +81,12 @@ public static final int *;
     public static ** valueOf(java.lang.String);
 }
 
+#运行时权限jar包的混淆规则
+-dontwarn com.zhy.m.**
+-keep class com.zhy.m.** {*;}
+-keep interface com.zhy.m.** { *; }
+-keep class **$$PermissionProxy { *; }
+
 
 
 

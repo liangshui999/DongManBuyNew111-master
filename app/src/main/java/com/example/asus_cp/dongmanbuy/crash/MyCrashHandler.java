@@ -1,14 +1,23 @@
 package com.example.asus_cp.dongmanbuy.crash;
 
+import android.Manifest;
+import android.app.Activity;
 import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.*;
 import android.os.Process;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.Fragment;
+import android.widget.Toast;
 
 import com.example.asus_cp.dongmanbuy.util.MyApplication;
 import com.example.asus_cp.dongmanbuy.util.MyLog;
 import com.umeng.analytics.MobclickAgent;
+import com.zhy.m.permission.MPermissions;
+import com.zhy.m.permission.PermissionDenied;
+import com.zhy.m.permission.PermissionGrant;
 
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -39,6 +48,7 @@ public class MyCrashHandler implements Thread.UncaughtExceptionHandler {
 
     private String fenGe="--";
 
+
     private MyCrashHandler(){}
 
     /**
@@ -63,8 +73,9 @@ public class MyCrashHandler implements Thread.UncaughtExceptionHandler {
     @Override
     public void uncaughtException(Thread thread, Throwable ex) {
         MyLog.d(tag, "uncaughtException");
+
         //将ex写入sd卡中
-        writeExceptionToSdCard(ex);
+        //writeExceptionToSdCard(ex);
 
         //把崩溃信息上传到友盟服务器
         MobclickAgent.reportError(context,ex);
@@ -86,7 +97,7 @@ public class MyCrashHandler implements Thread.UncaughtExceptionHandler {
         MyLog.d(tag,"writeExceptionToSdCard");
         SimpleDateFormat dateFormat=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String time=dateFormat.format(new Date());
-        MyLog.d(tag,"sd卡可用："+isSDCardAvailable());
+        MyLog.d(tag, "sd卡可用：" + isSDCardAvailable());
         //检查sd卡的状态是否可用
         if(isSDCardAvailable()){
             String dirPath=sdCardPath+"/"+"zmobuyCrash";
@@ -175,4 +186,6 @@ public class MyCrashHandler implements Thread.UncaughtExceptionHandler {
             return false;
         }
     }
+
+
 }

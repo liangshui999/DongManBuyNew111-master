@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.example.asus_cp.dongmanbuy">
 
     <meta-data android:value="57e8d86867e58ea22c002d44" android:name="UMENG_APPKEY"/>
@@ -35,6 +36,7 @@
         android:anyDensity="true"/>
 
     <application
+        tools:replace="android:label"
         android:name=".util.MyApplication"
         android:allowBackup="true"
         android:icon="@mipmap/logo"
@@ -305,7 +307,6 @@
 
         <!--引导页的activity-->
         <activity android:name=".activity.GuideActivity"/>
-
 
 
         <!--搜索的activity,因为必须按照ui做，此类作废-->

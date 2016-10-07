@@ -67,7 +67,7 @@ public class HongBaoListActivity extends BaseActivity implements View.OnClickLis
 
     public static final String UN_USED_BONUS="0";//未使用红包
     public static final String USED_BONUS="1";//已使用红包
-    public static final String EXPIRED_BONUS="2";//已过期红包
+    public static final String EXPIRED_BONUS="3";//已过期红包
 
 
 

@@ -1,11 +1,13 @@
 package com.example.asus_cp.dongmanbuy.activity;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -54,7 +56,6 @@ import com.example.asus_cp.dongmanbuy.fragment.ShopStreetFragment;
 import com.example.asus_cp.dongmanbuy.fragment.ShoppingCarFragment;
 import com.example.asus_cp.dongmanbuy.model.Good;
 import com.example.asus_cp.dongmanbuy.model.User;
-import com.example.asus_cp.dongmanbuy.model.YouHuiQuanModel;
 import com.example.asus_cp.dongmanbuy.util.CategoryImageLoadHelper;
 import com.example.asus_cp.dongmanbuy.util.FormatHelper;
 import com.example.asus_cp.dongmanbuy.util.ImageLoadHelper;
@@ -63,6 +64,9 @@ import com.example.asus_cp.dongmanbuy.util.MyApplication;
 import com.example.asus_cp.dongmanbuy.util.MyLog;
 import com.example.asus_cp.dongmanbuy.util.MyScreenInfoHelper;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
+import com.zhy.m.permission.MPermissions;
+import com.zhy.m.permission.PermissionDenied;
+import com.zhy.m.permission.PermissionGrant;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -190,6 +194,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private int messageAndSaoCount;//标记message和扫一扫的是显示还是隐藏
 
     public static final int SCAN_CODE = 1;//扫一扫的请求码
+
+    public static final int PERMISSION_CODE_CAMERA =1;//扫一扫请求运行时权限的请求吗
 
     private String passUid;//传递给碎片的uid
     private String passsid;
@@ -731,8 +737,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 //Toast.makeText(this,"点击了扫一扫",Toast.LENGTH_SHORT).show();
                 //messageAndSao.setVisibility(View.GONE);
                 messageAndSaoPopuWindow.dismiss();
-                Intent intent = new Intent(MainActivity.this, MipcaActivityCapture.class);
-                startActivityForResult(intent, SCAN_CODE);
+//                if(MPermissions.shouldShowRequestPermissionRationale(this,
+//                        Manifest.permission.CAMERA,PERMISSION_CODE_CAMERA)){
+//                    Toast.makeText(this,"解释",Toast.LENGTH_SHORT).show();
+//                }
+                MPermissions.requestPermissions(MainActivity.this, PERMISSION_CODE_CAMERA,
+                        Manifest.permission.CAMERA);
+
+                //toScanActivity();
                 break;
 
             case R.id.img_login://登陆
@@ -776,6 +788,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
         }
+    }
+
+
+    /**
+     * 跳转到扫描的activity
+     */
+    private void toScanActivity() {
+        Intent intent = new Intent(MainActivity.this, MipcaActivityCapture.class);
+        startActivityForResult(intent, SCAN_CODE);
     }
 
 
@@ -1225,6 +1246,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
         return super.onKeyDown(keyCode, event);
     }*/
+
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        MPermissions.onRequestPermissionsResult(this, requestCode, permissions, grantResults);
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    }
+
+    @PermissionGrant(PERMISSION_CODE_CAMERA)
+    public void requestCameraSuccess(){
+        toScanActivity();
+    }
+
+    @PermissionDenied(PERMISSION_CODE_CAMERA)
+    public void requestCameraDenied(){
+        Toast.makeText(MainActivity.this, "需要打开摄像头的权限才能使用，请到设置中设置", Toast.LENGTH_LONG).show();
+    }
+
 
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
