@@ -199,148 +199,162 @@
 
             </LinearLayout>
 
+
+
             <!--限时秒杀-->
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="1dp"
-                android:background="@android:color/white"
-                android:padding="10dp">
-                <LinearLayout
-                    android:id="@+id/xian_shi_biao_ti"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:paddingLeft="10dp"
-                    android:layout_centerVertical="true">
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/xian_shi"
-                        android:textSize="18sp"
-                        android:textStyle="bold"
-                        android:textColor="@color/bottom_lable_color"
-                        />
-                    <ImageView
-                        android:layout_width="18dp"
-                        android:layout_height="18dp"
-                        android:src="@mipmap/miao_sha"
-                        android:layout_gravity="center"/>
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/miao_sha"
-                        android:textSize="18sp"
-                        android:textStyle="bold"
-                        android:textColor="@color/bottom_lable_color"
-                        />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_toRightOf="@id/xian_shi_biao_ti"
-                    >
-                    <TextView
-                        android:id="@+id/text_hour_xian_shi_miao_sha"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="00"
-                        android:layout_centerVertical="true"
-                        android:layout_marginLeft="10dp"
-                        android:textColor="@color/white_my"
-                        android:padding="2dp"
-                        android:background="@drawable/xian_shi_miao_sha_background"
-                        />
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text=":"
-                        android:paddingLeft="5dp"
-                        android:paddingRight="2dp"/>
-                    <TextView
-                        android:id="@+id/text_minute_xian_shi_miao_sha"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="00"
-                        android:layout_centerVertical="true"
-                        android:layout_marginLeft="10dp"
-                        android:textColor="@color/white_my"
-                        android:padding="2dp"
-                        android:background="@drawable/xian_shi_miao_sha_background"
-                        />
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text=":"
-                        android:paddingLeft="5dp"
-                        android:paddingRight="2dp"/>
-                    <TextView
-                        android:id="@+id/text_second_xian_shi_miao_sha"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="00"
-                        android:layout_centerVertical="true"
-                        android:layout_marginLeft="10dp"
-                        android:textColor="@color/white_my"
-                        android:padding="2dp"
-                        android:background="@drawable/xian_shi_miao_sha_background"
-                        />
-                </LinearLayout>
-
-
-                <ImageView
-                    android:id="@+id/xianshi"
-                    android:layout_width="15dp"
-                    android:layout_height="15dp"
-                    android:layout_alignParentRight="true"
-                    android:src="@mipmap/right"
-                    android:layout_centerVertical="true"/>
-                <TextView
-                    android:id="@+id/text_xian_shi_more"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_toLeftOf="@id/xianshi"
-                    android:text="@string/more"
-                    android:clickable="true"/>
-            </RelativeLayout>
-
-            <!--限时秒杀的列表展示-->
             <LinearLayout
+                android:id="@+id/ll_xian_shi_miao_sha"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/white_my"
-                android:visibility="visible"
-                >
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1">
-                    <ImageView
-                        android:id="@+id/img_xian_shi_miao_sha_content"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:scaleType="fitXY"
-                        android:layout_marginLeft="5dp"/>
+                android:orientation="vertical">
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="1dp"
+                    android:background="@android:color/white"
+                    android:padding="10dp">
+                    <LinearLayout
+                        android:id="@+id/xian_shi_biao_ti"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:paddingLeft="10dp"
+                        android:layout_centerVertical="true">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/xian_shi"
+                            android:textSize="18sp"
+                            android:textStyle="bold"
+                            android:textColor="@color/bottom_lable_color"
+                            />
+                        <ImageView
+                            android:layout_width="18dp"
+                            android:layout_height="18dp"
+                            android:src="@mipmap/miao_sha"
+                            android:layout_gravity="center"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/miao_sha"
+                            android:textSize="18sp"
+                            android:textStyle="bold"
+                            android:textColor="@color/bottom_lable_color"
+                            />
+                    </LinearLayout>
 
-                </LinearLayout>
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="200dp"
-                    android:layout_weight="1">
-                    <com.example.asus_cp.dongmanbuy.customview.MyGridView
-                        android:id="@+id/grid_view_xian_shi_miao_sha"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:numColumns="2"
-                        android:gravity="center"
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_toRightOf="@id/xian_shi_biao_ti"
                         >
-                    </com.example.asus_cp.dongmanbuy.customview.MyGridView>
+                        <TextView
+                            android:id="@+id/text_hour_xian_shi_miao_sha"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="00"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="10dp"
+                            android:textColor="@color/white_my"
+                            android:padding="2dp"
+                            android:background="@drawable/xian_shi_miao_sha_background"
+                            />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text=":"
+                            android:paddingLeft="5dp"
+                            android:paddingRight="2dp"/>
+                        <TextView
+                            android:id="@+id/text_minute_xian_shi_miao_sha"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="00"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="10dp"
+                            android:textColor="@color/white_my"
+                            android:padding="2dp"
+                            android:background="@drawable/xian_shi_miao_sha_background"
+                            />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text=":"
+                            android:paddingLeft="5dp"
+                            android:paddingRight="2dp"/>
+                        <TextView
+                            android:id="@+id/text_second_xian_shi_miao_sha"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="00"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="10dp"
+                            android:textColor="@color/white_my"
+                            android:padding="2dp"
+                            android:background="@drawable/xian_shi_miao_sha_background"
+                            />
+                    </LinearLayout>
+
+
+                    <ImageView
+                        android:id="@+id/xianshi"
+                        android:layout_width="15dp"
+                        android:layout_height="15dp"
+                        android:layout_alignParentRight="true"
+                        android:src="@mipmap/right"
+                        android:layout_centerVertical="true"/>
+                    <TextView
+                        android:id="@+id/text_xian_shi_more"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_toLeftOf="@id/xianshi"
+                        android:text="@string/more"
+                        android:clickable="true"/>
+                </RelativeLayout>
+
+                <!--限时秒杀的列表展示-->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white_my"
+                    android:visibility="visible"
+                    >
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1">
+                        <ImageView
+                            android:id="@+id/img_xian_shi_miao_sha_content"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:scaleType="fitXY"
+                            android:layout_marginLeft="5dp"/>
+
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="200dp"
+                        android:layout_weight="1">
+                        <com.example.asus_cp.dongmanbuy.customview.MyGridView
+                            android:id="@+id/grid_view_xian_shi_miao_sha"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:numColumns="2"
+                            android:gravity="center"
+                            >
+                        </com.example.asus_cp.dongmanbuy.customview.MyGridView>
+                    </LinearLayout>
                 </LinearLayout>
+
+
+
             </LinearLayout>
+
+
+
 
 
             <!--第二个广告条和指示点-->

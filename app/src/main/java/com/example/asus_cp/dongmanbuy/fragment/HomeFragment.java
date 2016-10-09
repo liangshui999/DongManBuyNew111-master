@@ -22,6 +22,7 @@ import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -127,6 +128,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
     private LinearLayout helpll;
 
     //限时秒杀的gridview
+    private LinearLayout xianShiMiaoShaRelativeLayout;
     private TextView hourTextView;
     private TextView minuteTextView;
     private TextView secondTextView;
@@ -437,6 +439,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
 
 
         //-----------------------限时秒杀部分---------------------------------
+        xianShiMiaoShaRelativeLayout= (LinearLayout) v.findViewById(R.id.ll_xian_shi_miao_sha);
         hourTextView= (TextView) v.findViewById(R.id.text_hour_xian_shi_miao_sha);
         minuteTextView= (TextView) v.findViewById(R.id.text_minute_xian_shi_miao_sha);
         secondTextView= (TextView) v.findViewById(R.id.text_second_xian_shi_miao_sha);
@@ -745,6 +748,13 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
                 setXianShiTime();
                 handler.sendEmptyMessageDelayed(XIAN_SHI_TIME,1000);
             }
+            if(goods.size()>0){
+                xianShiMiaoShaRelativeLayout.setVisibility(View.VISIBLE);
+            }else{
+                xianShiMiaoShaRelativeLayout.setVisibility(View.GONE);
+                return;
+            }
+
             xianShiMiaoShaImagView= (ImageView) v.findViewById(R.id.img_xian_shi_miao_sha_content);
             //动态设置imageview的高度
             int tempWidth4=screenWidth/2-5;
