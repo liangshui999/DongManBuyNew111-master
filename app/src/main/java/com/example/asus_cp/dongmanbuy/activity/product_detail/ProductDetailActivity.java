@@ -28,6 +28,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
+import com.alibaba.mobileim.IYWLoginService;
+import com.alibaba.mobileim.YWIMKit;
+import com.alibaba.mobileim.YWLoginParam;
+import com.alibaba.mobileim.channel.event.IWxCallback;
+import com.alibaba.mobileim.conversation.EServiceContact;
+import com.alibaba.mobileim.conversation.IYWConversationService;
+import com.alibaba.mobileim.conversation.YWConversation;
+import com.alibaba.mobileim.conversation.YWMessage;
+import com.alibaba.mobileim.conversation.YWMessageChannel;
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -50,8 +59,10 @@ import com.example.asus_cp.dongmanbuy.util.DialogHelper;
 import com.example.asus_cp.dongmanbuy.util.FormatHelper;
 import com.example.asus_cp.dongmanbuy.util.ImageLoadHelper;
 import com.example.asus_cp.dongmanbuy.util.JsonHelper;
+import com.example.asus_cp.dongmanbuy.util.MyIMHelper;
 import com.example.asus_cp.dongmanbuy.util.MyLog;
 import com.example.asus_cp.dongmanbuy.util.MyScreenInfoHelper;
+import com.example.asus_cp.dongmanbuy.util.MyYWIMKitHelper;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -185,6 +196,7 @@ public class ProductDetailActivity extends BaseActivity implements View.OnClickL
     private int densityDpi;//屏幕像素密度
 
     private int defaultTextViewColor;
+
 
 
 
@@ -829,12 +841,14 @@ public class ProductDetailActivity extends BaseActivity implements View.OnClickL
                 startActivity(allCommentIntent);
                 break;
             case R.id.ll_lian_xi_ke_fu://联系客服
-                Toast.makeText(this, "联系客服", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(this, "联系客服", Toast.LENGTH_SHORT).show();
+                MyIMHelper myIMHelper1=new MyIMHelper();
+                myIMHelper1.openKeFuLiaoTianAndSendMessage("");
                 break;
             case R.id.ll_ke_fu://客服
                 //Toast.makeText(this, "客服", Toast.LENGTH_SHORT).show();
-//                MyIMHelper myIMHelper=new MyIMHelper();
-//                myIMHelper.openKeFuLiaoTianAndSendMessage(good.getGoodName());
+                MyIMHelper myIMHelper2=new MyIMHelper();
+                myIMHelper2.openKeFuLiaoTianAndSendMessage("");
                 break;
             case R.id.ll_shopping_car_product_detail://购物车
                 //Toast.makeText(this, "购物车", Toast.LENGTH_SHORT).show();
@@ -903,7 +917,7 @@ public class ProductDetailActivity extends BaseActivity implements View.OnClickL
      * 客服的点击事件处理
      */
     private void keFuClickChuLi() {
-       /* //开始登录
+        //开始登录
         String userid = "zmobuy1";
         String password = "123456";
         final YWIMKit mIMKit= MyYWIMKitHelper.getYwimkit(userid);//需要userId才能得到这个
@@ -972,7 +986,6 @@ public class ProductDetailActivity extends BaseActivity implements View.OnClickL
                 //如果登录失败，errCode为错误码,description是错误的具体描述信息
             }
         });
-*/
     }
 
 

@@ -40,6 +40,7 @@ import com.example.asus_cp.dongmanbuy.model.User;
 import com.example.asus_cp.dongmanbuy.util.ImageLoadHelper;
 import com.example.asus_cp.dongmanbuy.util.JsonHelper;
 import com.example.asus_cp.dongmanbuy.util.MyApplication;
+import com.example.asus_cp.dongmanbuy.util.MyIMHelper;
 import com.example.asus_cp.dongmanbuy.util.MyLog;
 
 import org.json.JSONException;
@@ -106,6 +107,8 @@ public class PersonalCenterActivity extends BaseActivity implements View.OnClick
     private LiuLanJiLuAdapter liuLanJiLuAdapter;
     private List<Good> goods;
 
+    private MyIMHelper myIMHelper;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -119,6 +122,7 @@ public class PersonalCenterActivity extends BaseActivity implements View.OnClick
      * 初始化的方法
      */
     private void init() {
+        myIMHelper=new MyIMHelper();
         dbHelper=new BookDBOperateHelper();
         initView();
         helper=new ImageLoadHelper();
@@ -400,7 +404,8 @@ public class PersonalCenterActivity extends BaseActivity implements View.OnClick
                 //Toast.makeText(this,"点击了积分",Toast.LENGTH_SHORT).show();
                 break;
             case R.id.re_layout_ke_fu_personal_center://点击了客服
-                Toast.makeText(this,"点击了客服",Toast.LENGTH_SHORT).show();
+                //Toast.makeText(this,"点击了客服",Toast.LENGTH_SHORT).show();
+                myIMHelper.openKeFuLiaoTianAndSendMessage("");
                 break;
             case R.id.ll_qing_kong_personal_center://点击了清空
                 dbHelper.deleteAll();

@@ -87,6 +87,15 @@ public static final int *;
 -keep interface com.zhy.m.** { *; }
 -keep class **$$PermissionProxy { *; }
 
+#阿里百川的混淆规则
+-dontwarn com.taobao.**
+-dontwarn com.alibaba.**
+-keep class com.taobao.wireless.**{*;}
+-keep class com.alibaba.**{*;}
+-keep interface com.alibaba.**{*;}
+-keep class com.taobao.**{*;}
+-keep interface com.taobao.**{*;}
+
 
 
 

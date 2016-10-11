@@ -64,7 +64,8 @@
             android:layout_height="wrap_content"
             android:padding="10dp"
             android:layout_marginBottom="2dp"
-            android:background="@color/white_my">
+            android:background="@color/white_my"
+            android:visibility="gone">
             <TextView
                 android:id="@+id/yu_e_zhi_fu"
                 android:layout_width="wrap_content"

@@ -241,8 +241,8 @@ public class ShopDetailActivity extends BaseActivity implements View.OnClickList
                 break;
             case R.id.re_layout_ke_fu://点击了在线客服
                 //Toast.makeText(this,"点击了在线客服",Toast.LENGTH_SHORT).show();
-                //keFuClickChuLi()
-                //myIMHelper.openKeFuLiaoTianAndSendMessage("");
+                //keFuClickChuLi();
+                myIMHelper.openKeFuLiaoTianAndSendMessage("");
                 break;
             case R.id.re_layout_shop_er_wei_ma://点击了二维码
                 /*Intent saoYiSaoIntent = new Intent(ShopDetailActivity.this, MipcaActivityCapture.class);

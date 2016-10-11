@@ -167,7 +167,8 @@
 
             <LinearLayout
                 android:id="@+id/ll_find"
-                style="@style/main_activity_bottom_label_ll_style">
+                style="@style/main_activity_bottom_label_ll_style"
+                android:visibility="gone">
                 <ImageView
                     android:id="@+id/img_find"
                     android:src="@mipmap/find_normal"

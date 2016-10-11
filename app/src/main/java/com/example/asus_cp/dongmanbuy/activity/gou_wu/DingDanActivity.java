@@ -471,7 +471,7 @@ public class DingDanActivity extends BaseActivity implements View.OnClickListene
 
                         } catch (JSONException e) {
                             e.printStackTrace();
-                            Toast.makeText(DingDanActivity.this,"提交订单失败",Toast.LENGTH_SHORT).show();
+                            Toast.makeText(DingDanActivity.this,R.string.ti_jiao_order_fail,Toast.LENGTH_LONG).show();
                         }
                     }
                 }, new Response.ErrorListener() {

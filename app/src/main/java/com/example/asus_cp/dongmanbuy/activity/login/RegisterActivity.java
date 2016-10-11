@@ -44,7 +44,7 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
 
         fragmentManager=getSupportFragmentManager();
         FragmentTransaction transaction=fragmentManager.beginTransaction();
-        transaction.add(R.id.frame_register_buf,phoneRegisterFragment);
+        transaction.add(R.id.frame_register_buf,emailRegisterFragment);
         transaction.commit();
     }
 

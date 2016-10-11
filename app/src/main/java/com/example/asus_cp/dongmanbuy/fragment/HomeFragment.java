@@ -1020,16 +1020,16 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.ll_all_dong_man://全部动漫
-                Toast.makeText(context, "点击了全部动漫", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, R.string.zan_wei_kai_fang, Toast.LENGTH_SHORT).show();
                 break;
             case R.id.ll_tui_jian_zhu_ti://推荐主题
-                Toast.makeText(context, "点击了推荐主题", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, R.string.zan_wei_kai_fang, Toast.LENGTH_SHORT).show();
                 break;
             case R.id.ll_you_hui_huo_dong://优惠活动
-                Toast.makeText(context, "点击了优惠活动", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, R.string.zan_wei_kai_fang, Toast.LENGTH_SHORT).show();
                 break;
             case R.id.ll_ship_tuan_gou://团购
-                Toast.makeText(context, "点击了团购", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, R.string.zan_wei_kai_fang, Toast.LENGTH_SHORT).show();
                 break;
             case R.id.ll_my_guan_zhu://我的关注
                 myGuanZhuClickChuLi();
@@ -1038,10 +1038,10 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
                 MyOrderClickChuLi();
                 break;
             case R.id.ll_ji_fen_dui_huan://积分兑换
-                Toast.makeText(context, "点击了积分兑换", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, R.string.zan_wei_kai_fang, Toast.LENGTH_SHORT).show();
                 break;
             case R.id.ll_help_center://帮助中心
-                Toast.makeText(context, "点击了帮助中心", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, R.string.zan_wei_kai_fang, Toast.LENGTH_SHORT).show();
                 break;
             case R.id.text_xian_shi_more://限时秒杀的更多按钮
                 Intent toXianShiMiaoShaMore=new Intent(context, XianShiMiaoShaMoreActivity.class);

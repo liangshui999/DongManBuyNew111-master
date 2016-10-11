@@ -2,6 +2,8 @@ package com.example.asus_cp.dongmanbuy.util;
 
 
 
+import com.alibaba.mobileim.YWAPI;
+import com.alibaba.mobileim.YWIMKit;
 import com.example.asus_cp.dongmanbuy.constant.AliBaiChuanConstant;
 
 /**
@@ -10,10 +12,10 @@ import com.example.asus_cp.dongmanbuy.constant.AliBaiChuanConstant;
  */
 public class MyYWIMKitHelper {
 
-   /* public static YWIMKit mIMKit;
+    public static YWIMKit mIMKit;
 
     public static YWIMKit getYwimkit(String userid){
         mIMKit = YWAPI.getIMKitInstance(userid, AliBaiChuanConstant.APP_KEY);
         return mIMKit;
-    }*/
+    }
 }

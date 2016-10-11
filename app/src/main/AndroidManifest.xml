@@ -40,7 +40,7 @@
         android:name=".util.MyApplication"
         android:allowBackup="true"
         android:icon="@mipmap/logo"
-        android:label="动漫buy"
+        android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
@@ -53,7 +53,7 @@
         <!--启动界面的activity-->
         <activity android:name=".activity.StartActivity"
             android:icon="@mipmap/logo"
-            android:label="动漫buy"
+            android:label="@string/app_name"
             android:theme="@style/AppTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
