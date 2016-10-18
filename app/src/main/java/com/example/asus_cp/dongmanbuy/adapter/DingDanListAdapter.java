@@ -103,8 +103,9 @@ public class DingDanListAdapter extends BaseAdapter{
         }
 
         final DingDanModel dingDanModel=models.get(position);
+        viewHolder.guiShuTextView.setText(dingDanModel.getShopName());
         viewHolder.dingDanHaoTextView.setText(dingDanModel.getOrderBianHao());
-        viewHolder.dingDanTimeTextView.setText(FormatHelper.getDate(dingDanModel.getOrderTime()));
+        viewHolder.dingDanTimeTextView.setText(dingDanModel.getOrderTime());
         //viewHolder.productCountTextView.setText("共" + dingDanModel.getGoods().size() + "款");
         viewHolder.heJiTextView.setText(FormatHelper.getMoneyFormat(dingDanModel.getSumPrice()));
 

@@ -72,6 +72,9 @@ public class ShopHomeHotProductAdapter extends BaseAdapter{
         ViewGroup.LayoutParams layoutParams=viewHolder.picImageView.getLayoutParams();
         layoutParams.height=tempWidth;
         viewHolder.picImageView.setLayoutParams(layoutParams);
+
+        //给imageview设置值
+        viewHolder.picImageView.setTag(good.getGoodsImg());
         ImageLoader imageLoader=helper.getImageLoader();
         ImageLoader.ImageListener listener=imageLoader.getImageListener(viewHolder.picImageView,
                 R.mipmap.yu_jia_zai,R.mipmap.yu_jia_zai);

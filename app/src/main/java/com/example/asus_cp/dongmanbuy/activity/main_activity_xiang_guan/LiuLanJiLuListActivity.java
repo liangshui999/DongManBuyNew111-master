@@ -35,6 +35,7 @@ public class LiuLanJiLuListActivity extends Activity implements View.OnClickList
     private List<Good> goods;
     private BookDBOperateHelper dbHelper;
     private LiuLanJiLuMainActivityAdapter adapter;
+    private LinearLayout noContentLinearLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +47,7 @@ public class LiuLanJiLuListActivity extends Activity implements View.OnClickList
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.liu_lan_ji_lu_activity_layout);
         daoHangImageView= (ImageView) findViewById(R.id.img_dao_hang_liu_lan_ji_lu);
+        noContentLinearLayout= (LinearLayout) findViewById(R.id.ll_no_content_liu_lan_li_shi);
         qingKongLinearLayout= (LinearLayout) findViewById(R.id.ll_qing_kong_liu_lan_ji_lu);
         listView= (ListView) findViewById(R.id.list_liu_lan_ji_lu);
 
@@ -74,8 +76,16 @@ public class LiuLanJiLuListActivity extends Activity implements View.OnClickList
                 return goodsN;
             }
         });
-        adapter=new LiuLanJiLuMainActivityAdapter(this,goods);
-        listView.setAdapter(adapter);
+        if(goods.size()>0){
+            noContentLinearLayout.setVisibility(View.GONE);
+            listView.setVisibility(View.VISIBLE);
+            adapter=new LiuLanJiLuMainActivityAdapter(this,goods);
+            listView.setAdapter(adapter);
+        }else{
+            noContentLinearLayout.setVisibility(View.VISIBLE);
+            listView.setVisibility(View.GONE);
+        }
+
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -95,8 +105,10 @@ public class LiuLanJiLuListActivity extends Activity implements View.OnClickList
                 break;
             case R.id.ll_qing_kong_liu_lan_ji_lu://点击了清空
                 goods.clear();
-                adapter.notifyDataSetChanged();
+                //adapter.notifyDataSetChanged();
                 dbHelper.deleteAll();
+                noContentLinearLayout.setVisibility(View.VISIBLE);
+                listView.setVisibility(View.GONE);
                 break;
         }
     }

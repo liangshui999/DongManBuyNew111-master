@@ -3,13 +3,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.example.asus_cp.dongmanbuy">
 
-    <meta-data android:value="57e8d86867e58ea22c002d44" android:name="UMENG_APPKEY"/>
-
-
-    <meta-data
-        android:name="UMENG_CHANNEL"
-        android:value="${UMENG_CHANNEL_VALUE}"/>
-
 
     <!--支付宝jar所需要的权限-->
     <uses-permission android:name="android.permission.CALL_PHONE" />
@@ -27,7 +20,6 @@
     <uses-feature android:name="android.hardware.autofocus"/>
 
 
-
     <supports-screens
         android:smallScreens="true"
         android:normalScreens="true"
@@ -43,6 +35,12 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
+        <meta-data android:value="57e8d86867e58ea22c002d44" android:name="UMENG_APPKEY"/>
+        <meta-data
+            android:name="UMENG_CHANNEL"
+            android:value="${UMENG_CHANNEL_VALUE}"/>
+
 
         <!--百度地图的开发者密钥-->
         <meta-data

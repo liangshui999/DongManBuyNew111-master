@@ -48,6 +48,7 @@ public class ShopStreetShopContentAdapter extends RecyclerView.Adapter{
         final ViewHolder viewHolder= (ViewHolder) holder;
         viewHolder.nameTextView.setText(goods.get(position).getGoodName());
         viewHolder.priceTextView.setText(FormatHelper.getMoneyFormat(goods.get(position).getShopPrice()));
+        viewHolder.picImagView.setTag(goods.get(position).getGoodsImg());
         ImageLoader imageLoader=helper.getImageLoader();
         ImageLoader.ImageListener listener=imageLoader.getImageListener(viewHolder.picImagView,
                 R.mipmap.yu_jia_zai,R.mipmap.yu_jia_zai);

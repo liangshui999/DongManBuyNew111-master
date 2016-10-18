@@ -121,6 +121,7 @@ public class ShopProductSmallListAdapter  extends BaseAdapter{
         final Good good=goods.get(position);
         viewHolder.picImageView.setImageResource(R.mipmap.yu_jia_zai);//把复用的图片换成预加载的图片
 
+        viewHolder.picImageView.setTag(good.getGoodsThumb());
         ImageLoader imageLoader = helper.getImageLoader();
         ImageLoader.ImageListener listener = imageLoader.getImageListener(viewHolder.picImageView,
                 R.mipmap.yu_jia_zai, R.mipmap.yu_jia_zai);

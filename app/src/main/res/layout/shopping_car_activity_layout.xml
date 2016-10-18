@@ -134,7 +134,7 @@
                             android:layout_gravity="center"
                             android:gravity="center"
                             android:layout_marginTop="20dp"
-                            android:background="@color/white_my"
+                            android:background="@drawable/button_white"
                             android:text="@string/qu_guang_guang"/>
                     </LinearLayout>
                 </RelativeLayout>

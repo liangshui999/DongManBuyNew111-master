@@ -17,6 +17,7 @@ package com.handmark.pulltorefresh.library;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.nfc.Tag;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.Gravity;
@@ -36,7 +37,9 @@ import com.handmark.pulltorefresh.library.internal.EmptyViewMethodAccessor;
 import com.handmark.pulltorefresh.library.internal.IndicatorLayout;
 
 public abstract class PullToRefreshAdapterViewBase<T extends AbsListView> extends PullToRefreshBase<T> implements
-		OnScrollListener {
+		OnScrollListener,PullToRefreshBase.OnLastItemVisibleListener {
+
+	private static final String TAG = "PullToRefreshAdapterV";
 
 	private static FrameLayout.LayoutParams convertEmptyViewLayoutParams(ViewGroup.LayoutParams lp) {
 		FrameLayout.LayoutParams newLp = null;
@@ -65,24 +68,33 @@ public abstract class PullToRefreshAdapterViewBase<T extends AbsListView> extend
 	private boolean mShowIndicator;
 	private boolean mScrollEmptyView = true;
 
+	//这个字段是我加上去的，代表是否还有更多数据需要加载
+	private boolean isHaveMoreData=true;
+
+
 	public PullToRefreshAdapterViewBase(Context context) {
 		super(context);
 		mRefreshableView.setOnScrollListener(this);
+		this.setOnLastItemVisibleListener(this);
+
 	}
 
 	public PullToRefreshAdapterViewBase(Context context, AttributeSet attrs) {
 		super(context, attrs);
 		mRefreshableView.setOnScrollListener(this);
+		this.setOnLastItemVisibleListener(this);
 	}
 
 	public PullToRefreshAdapterViewBase(Context context, Mode mode) {
 		super(context, mode);
 		mRefreshableView.setOnScrollListener(this);
+		this.setOnLastItemVisibleListener(this);
 	}
 
 	public PullToRefreshAdapterViewBase(Context context, Mode mode, AnimationStyle animStyle) {
 		super(context, mode, animStyle);
 		mRefreshableView.setOnScrollListener(this);
+		this.setOnLastItemVisibleListener(this);
 	}
 
 	/**
@@ -119,6 +131,9 @@ public abstract class PullToRefreshAdapterViewBase<T extends AbsListView> extend
 		if (getShowIndicatorInternal()) {
 			updateIndicatorViewsVisibility();
 		}
+
+
+
 
 		// Finally call OnScrollListener if we have one
 		if (null != mOnScrollListener) {
@@ -216,6 +231,11 @@ public abstract class PullToRefreshAdapterViewBase<T extends AbsListView> extend
 		mOnScrollListener = listener;
 	}
 
+	//设置是否有更多的数据，这个是我加上去的
+	public void setIsHaveMoreData(boolean isHaveMoreData) {
+		this.isHaveMoreData = isHaveMoreData;
+	}
+
 	public final void setScrollEmptyView(boolean doScroll) {
 		mScrollEmptyView = doScroll;
 	}
@@ -241,6 +261,19 @@ public abstract class PullToRefreshAdapterViewBase<T extends AbsListView> extend
 	}
 
 	;
+
+	/**
+	 * 这个是我添加上去的
+	 */
+	@Override
+	public void onLastItemVisible() {
+		//这段是我加上去的,
+		//Log.d(TAG,"totalItemCount="+totalItemCount+"......"+"firstVisibleIte"+firstVisibleItem+"......"+"visibleItemCount="+visibleItemCount);
+		Log.d(TAG,"isHaveMoreData="+isHaveMoreData);
+		if(isReadyForPullEnd() && isHaveMoreData) {
+			setState(State.REFRESHING, true);
+		}
+	}
 
 	@Override
 	protected void onPullToRefresh() {

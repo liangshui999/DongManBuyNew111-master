@@ -39,6 +39,7 @@ import com.example.asus_cp.dongmanbuy.model.ShopModel;
 import com.example.asus_cp.dongmanbuy.model.UserModel;
 import com.example.asus_cp.dongmanbuy.model.YouHuiQuanModel;
 import com.example.asus_cp.dongmanbuy.model.my_json_model.ShopModelJson;
+import com.example.asus_cp.dongmanbuy.util.DialogHelper;
 import com.example.asus_cp.dongmanbuy.util.FormatHelper;
 import com.example.asus_cp.dongmanbuy.util.ImageLoadHelper;
 import com.example.asus_cp.dongmanbuy.util.JsonHelper;
@@ -96,7 +97,7 @@ public class DingDanActivity extends BaseActivity implements View.OnClickListene
 
     private String shouHuoAddressListUrl="http://www.zmobuy.com/PHP/index.php?url=/address/list";//收货地址列表的接口
 
-    private String tiJiaoDingDanUrl="http://api.zmobuy.com/JK/base/model.php";//提交订单的接口
+    private String tiJiaoDingDanUrl="http://mv.zmobuy.com/order/create.action";//提交订单的接口
 
     private String yuEZhiFuUrl="http://api.zmobuy.com/JK/base/model.php";//余额支付的接口
 
@@ -141,6 +142,9 @@ public class DingDanActivity extends BaseActivity implements View.OnClickListene
     //收货地址id
     private String addressId;
 
+    //适配器
+    private DingDanJieMianListAdapterOut adapterOut;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -176,7 +180,7 @@ public class DingDanActivity extends BaseActivity implements View.OnClickListene
         productSumCount=getIntent().getStringExtra(MyConstant.PRODUCT_SHU_MU_SUM_KEY);
 
         //给外部的listview设置适配器
-        DingDanJieMianListAdapterOut adapterOut=new DingDanJieMianListAdapterOut(this,shopModels,itemGoodCounts);
+        adapterOut=new DingDanJieMianListAdapterOut(this,shopModels,itemGoodCounts);
 
         //动态设置listview的高度，这个很重要，关于为什么是320的解释，因为我自己设置的小项的高度就是320
         LinearLayout.LayoutParams params=new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
@@ -433,10 +437,30 @@ public class DingDanActivity extends BaseActivity implements View.OnClickListene
         final String shopValue=getJsonFromShopModels();//上传到服务器的shop键所对应的值
         MyLog.d(tag, "shopValue的值是：" + shopValue);
         String zhiFuFangShi=zhiFuFangShiTextView.getText().toString();
-        if("支付宝".equals(zhiFuFangShi)){
-            tiJiaoDingDanIntenetRequest(shopValue,"12");
-        }else if("余额支付".equals(zhiFuFangShi)){
-            tiJiaoDingDanIntenetRequest(shopValue,"11");
+
+        //验证用户是否选择了配送方式
+        int peiSongFangShiNum=0;
+        for(int i=0;i<shopModels.size();i++){
+            TextView peiSongFangShiTextView= (TextView) listviewOut.findViewWithTag(i);//根据tag找到某个view
+            String peiSongFangShi=peiSongFangShiTextView.getText().toString();
+            if(!peiSongFangShi.isEmpty() && !"选择配送方式".equals(peiSongFangShi)){
+                peiSongFangShiNum++;
+            }else{
+                Toast.makeText(this,"请为"+shopModels.get(i).getShopName()+"选择配送方式",Toast.LENGTH_SHORT).show();
+            }
+        }
+
+        //验证用户是否选择了收货地址
+        String name=peopleNameTextView.getText().toString();
+        if(name.isEmpty()){
+            Toast.makeText(this,"请选择收货地址",Toast.LENGTH_SHORT).show();
+        }else if(peiSongFangShiNum==shopModels.size()){
+            if("支付宝".equals(zhiFuFangShi)){
+                DialogHelper.showDialog(this,"正在处理...");
+                tiJiaoDingDanIntenetRequest(shopValue, "12");
+            }else if("余额支付".equals(zhiFuFangShi)){
+                tiJiaoDingDanIntenetRequest(shopValue,"11");
+            }
         }
 
     }
@@ -451,6 +475,7 @@ public class DingDanActivity extends BaseActivity implements View.OnClickListene
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String s) {
+                        DialogHelper.dissmisDialog();
                         MyLog.d(tag, "提交订单返回的数据是：" + s);
                         try {
                             List<String> dingDans=new ArrayList<String>();
@@ -465,6 +490,7 @@ public class DingDanActivity extends BaseActivity implements View.OnClickListene
                                 intent.putExtra(MyConstant.DING_DAN_SUBJECT_KEY,shopModels.get(0).getGoods().get(0).getGoodName());
                                 intent.putExtra(MyConstant.DING_DAN_DESC_KEY,shopModels.get(0).getGoods().get(0).getGoodName());
                                 startActivity(intent);
+                                finish();
                             }else if("11".equals(zhiFuType)){  //余额
                                 yuEZhiFuJieKouChuLi(dingDans);
                             }
@@ -491,6 +517,8 @@ public class DingDanActivity extends BaseActivity implements View.OnClickListene
                 order_amount	398.00
                 inv_payee
                 inv_content*/
+                MyLog.d(tag,"uid="+uid);
+                MyLog.d(tag,"sid"+sid);
                 MyLog.d(tag,"addressId="+addressId);
                 MyLog.d(tag,"zhiFuType="+zhiFuType);
                 MyLog.d(tag,"实际付款："+FormatHelper.getOneXiaoShuFormat(shiFuKuanTextView.getText().toString()));
@@ -528,6 +556,7 @@ public class DingDanActivity extends BaseActivity implements View.OnClickListene
                 Intent intent=new Intent(DingDanActivity.this,YuEZhiFuSuccessedActivity.class);
                 intent.putExtra(MyConstant.DING_DAN_BIAN_HAO_LIST_KEY, (Serializable) dingDans);
                 startActivity(intent);
+                finish();
             }
         }, new Response.ErrorListener() {
             @Override

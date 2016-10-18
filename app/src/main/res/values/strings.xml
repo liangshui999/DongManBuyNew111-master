@@ -90,6 +90,7 @@
     <string name="ke_fu">客服</string>
     <string name="add_to_shopping_car">加入购物车</string>
     <string name="buy_at_once">立即购买</string>
+    <string name="zan_shi_que_huo">暂时缺货</string>
     <string name="product_detail">商品详情</string>
     <string name="shou_cang">收藏</string>
     <string name="market_price">市场价格:</string>
@@ -348,6 +349,7 @@
     <string name="sao_miao_er_wei_ma">扫描下方二维码关注店铺</string>
     <string name="zan_wei_kai_fang">暂未开放哦，亲</string>
     <string name="ti_jiao_order_fail">提交订单失败,请选择配送方式，目前只支持周末自营店铺的商品</string>
+    <string name="click_tou_xiang_login">点击头像登录</string>
 
 
 

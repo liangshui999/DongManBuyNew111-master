@@ -191,7 +191,7 @@
                             android:id="@+id/text_fa_piao_content_ding_dan"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="明细"
+                            android:text="不开发票"
                             android:textSize="@dimen/ding_dan_layout_base_font"/>
 
                     </LinearLayout>
@@ -376,7 +376,7 @@
             android:id="@+id/btn_ti_jiao_ding_dan"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/ti_jiao_ding_dan_button_background"
+            android:background="@drawable/red_backgroud_yuan_jiao_button"
             android:textColor="@color/white_my"
             android:text="@string/ti_jiao_ding_dan"
             android:layout_alignParentRight="true"

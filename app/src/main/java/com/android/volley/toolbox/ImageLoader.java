@@ -112,7 +112,13 @@ public class ImageLoader {
             @Override
             public void onResponse(ImageContainer response, boolean isImmediate) {
                 if (response.getBitmap() != null) {
-                    view.setImageBitmap(response.getBitmap());
+
+                    //这段代码是我自己加上去的
+                    if(response.getRequestUrl().equals(view.getTag())){
+                        view.setImageBitmap(response.getBitmap());
+                    }else{
+                        //throw new RuntimeException("没有给imageview设置tag");
+                    }
                 } else if (defaultImageResId != 0) {
                     view.setImageResource(defaultImageResId);
                 }

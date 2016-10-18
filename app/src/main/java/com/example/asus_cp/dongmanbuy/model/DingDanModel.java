@@ -35,6 +35,7 @@ public class DingDanModel implements Parcelable{
     private String faPiaoContent;//发票内容
     private String goodsSumPrice;//goods总价,不包含运费
     private String maiJiaLiuYan;//买家留言
+    private String shopName;//店铺名称
 
     public DingDanModel(){}
 
@@ -65,6 +66,7 @@ public class DingDanModel implements Parcelable{
         faPiaoContent = in.readString();
         goodsSumPrice = in.readString();
         maiJiaLiuYan = in.readString();
+        shopName=in.readString();
     }
 
     public static final Creator<DingDanModel> CREATOR = new Creator<DingDanModel>() {
@@ -111,6 +113,7 @@ public class DingDanModel implements Parcelable{
         dest.writeString(faPiaoContent);
         dest.writeString(goodsSumPrice);
         dest.writeString(maiJiaLiuYan);
+        dest.writeString(shopName);
     }
 
     public String getOrderId() {
@@ -311,5 +314,13 @@ public class DingDanModel implements Parcelable{
 
     public void setMaiJiaLiuYan(String maiJiaLiuYan) {
         this.maiJiaLiuYan = maiJiaLiuYan;
+    }
+
+    public String getShopName() {
+        return shopName;
+    }
+
+    public void setShopName(String shopName) {
+        this.shopName = shopName;
     }
 }

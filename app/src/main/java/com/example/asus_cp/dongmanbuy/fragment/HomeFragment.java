@@ -773,6 +773,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
             });
             if(goods.size()>0){
                 final String urlString=goods.get(0).getGoodsThumb();
+                xianShiMiaoShaImagView.setTag(urlString);//设置tag
                 ImageLoadHelper imageLoadHelper=new ImageLoadHelper();
                 ImageLoader imageLoader=imageLoadHelper.getImageLoader();
                 ImageLoader.ImageListener listener=imageLoader.getImageListener(xianShiMiaoShaImagView,R.mipmap.yu_jia_zai,
@@ -990,6 +991,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
             final ImageLoadHelper imageLoadHelper=new ImageLoadHelper();
             for(final Binner binner:binners){
                 ImageView imageView=new ImageView(context);
+                imageView.setTag(binner.getImg());
                 ImageLoader imageLoader=imageLoadHelper.getImageLoader();
                 ImageLoader.ImageListener imageListener=imageLoader.getImageListener(imageView,
                         R.mipmap.yu_jia_zai,R.mipmap.yu_jia_zai);

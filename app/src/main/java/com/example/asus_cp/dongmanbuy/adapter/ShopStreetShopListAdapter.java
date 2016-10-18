@@ -114,6 +114,7 @@ public class ShopStreetShopListAdapter extends BaseAdapter {
             viewHolder= (ViewHolder) v.getTag();
         }
         final ShopModel shopModel=shopModels.get(position);
+        viewHolder.logoImagView.setTag(shopModel.getLogoThumb());//设置tag
         ImageLoader imageLoader=helper.getImageLoader();
         ImageLoader.ImageListener listener=imageLoader.getImageListener(viewHolder.logoImagView,
                 R.mipmap.yu_jia_zai,R.mipmap.yu_jia_zai);

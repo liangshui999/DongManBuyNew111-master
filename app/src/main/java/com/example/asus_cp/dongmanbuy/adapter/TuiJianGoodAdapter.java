@@ -77,6 +77,9 @@ public class TuiJianGoodAdapter extends BaseAdapter{
         ViewGroup.LayoutParams layoutParams=viewHolder.imageView.getLayoutParams();
         layoutParams.height=tempWidth;
         viewHolder.imageView.setLayoutParams(layoutParams);
+
+        //给imageview设置值
+        viewHolder.imageView.setTag(goods.get(position).getGoodsImg());
         ImageLoader.ImageListener imageListener=imageLoader.getImageListener(viewHolder.imageView, R.mipmap.yu_jia_zai,
                 R.mipmap.yu_jia_zai);
         imageLoader.get(goods.get(position).getGoodsImg(), imageListener,500,500);

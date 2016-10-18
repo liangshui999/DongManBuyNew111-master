@@ -92,6 +92,7 @@ public class DataSetActivity extends BaseActivity implements View.OnClickListene
         whoStartMe=getIntent().getStringExtra(MyConstant.DATA_SET_ACTIVITY_LABLE_FLAG_KEY);//谁开启了我
 
         //设置值
+        touXiangImageView.setTag(MyConstant.YU_MING + user.getPic());
         ImageLoader imageLoader=helper.getImageLoader();
         ImageLoader.ImageListener listener=imageLoader.getImageListener(touXiangImageView,
                 R.mipmap.yu_jia_zai,R.mipmap.yu_jia_zai);

@@ -194,6 +194,10 @@ public abstract class PullToRefreshBase<T extends View> extends LinearLayout imp
 		return mState;
 	}
 
+	public boolean ismIsBeingDragged() {
+		return mIsBeingDragged;
+	}
+
 	/**
 	 * @deprecated See {@link #isScrollingWhileRefreshingEnabled()}.
 	 */
@@ -301,6 +305,7 @@ public abstract class PullToRefreshBase<T extends View> extends LinearLayout imp
 
 	@Override
 	public final void onRefreshComplete() {
+		//下面的if是我注释的
 		if (isRefreshing()) {
 			setState(State.RESET);
 		}
@@ -347,8 +352,10 @@ public abstract class PullToRefreshBase<T extends View> extends LinearLayout imp
 				if (mIsBeingDragged) {
 					mIsBeingDragged = false;
 
+					//最后一个条件是我加上去的
 					if (mState == State.RELEASE_TO_REFRESH
-							&& (null != mOnRefreshListener || null != mOnRefreshListener2)) {
+							&& (null != mOnRefreshListener || null != mOnRefreshListener2)
+							&& mCurrentMode!=Mode.PULL_FROM_END) {
 						setState(State.REFRESHING, true);
 						return true;
 					}
@@ -427,6 +434,16 @@ public abstract class PullToRefreshBase<T extends View> extends LinearLayout imp
 			mMode = mode;
 			updateUIForMode();
 		}
+	}
+
+	//这个方法是我添加上去的
+	public void setmIsBeingDragged(boolean mIsBeingDragged) {
+		this.mIsBeingDragged = mIsBeingDragged;
+	}
+
+	//这个方法是我添加上去的
+	public State getmState() {
+		return mState;
 	}
 
 	public void setOnPullEventListener(OnPullEventListener<T> listener) {

@@ -234,9 +234,17 @@ public class ShopStreetFragment extends Fragment implements View.OnClickListener
         StringRequest moWanRequest=new StringRequest(Request.Method.POST, indexUrl, new Response.Listener<String>() {
             @Override
             public void onResponse(String s) {
-                MyLog.d(tag,"category="+category+"page="+page+"s="+s);
+                MyLog.d(tag, "category=" + category + "page=" + page + "s=" + s);
                 DialogHelper.dissmisDialog();
-                setValueToListView(s);
+
+                MyLog.d(tag,""+parseJson(s).size()+"...."+""+parseJson(s));
+                if(parseJson(s)==null || parseJson(s).size()==0){
+                    Toast.makeText(context, "已经是最后一项了", Toast.LENGTH_SHORT).show();
+                    shopListListView.onRefreshComplete();//通知刷新完毕
+                    shopListListView.setIsHaveMoreData(false);
+                }else{
+                    setValueToListView(s);
+                }
             }
         }, new Response.ErrorListener() {
             @Override
@@ -260,12 +268,9 @@ public class ShopStreetFragment extends Fragment implements View.OnClickListener
      * @param s
      */
     private void setValueToListView(String s) {
-        if(parseJson(s)==null || parseJson(s).size()==0){
-            Toast.makeText(context, "已经是最后一项了", Toast.LENGTH_SHORT).show();
-        }else{
-            List<ShopModel> temp=parseJson(s);
-            shopModels.addAll(temp);
-        }
+
+        List<ShopModel> temp = parseJson(s);
+        shopModels.addAll(temp);
         adapter.notifyDataSetChanged();
         shopListListView.onRefreshComplete();//通知刷新完毕
     }

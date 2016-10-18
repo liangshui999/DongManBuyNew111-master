@@ -59,6 +59,8 @@ public class MayBeYouWantAdapter extends RecyclerView.Adapter {
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
         final MyViewHolder mViewHolder= (MyViewHolder) holder;//这里需要进行强制类型转换
+
+        mViewHolder.imageView.setTag(goods.get(position).getGoodsThumb());//设置tag
         ImageLoader imageLoader=helper.getImageLoader();
         ImageLoader.ImageListener listener=ImageLoader.getImageListener(mViewHolder.imageView,
                 R.mipmap.yu_jia_zai,R.mipmap.yu_jia_zai);

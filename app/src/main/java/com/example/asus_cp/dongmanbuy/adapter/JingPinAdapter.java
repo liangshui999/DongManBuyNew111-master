@@ -62,6 +62,7 @@ public class JingPinAdapter extends BaseAdapter{
         }else{
             viewHolder= (ViewHolder) v.getTag();
         }
+        viewHolder.imageView.setTag(goods.get(position).getGoodsImg());//设置tag
         ImageLoader.ImageListener imageListener=ImageLoader.getImageListener(viewHolder.imageView,R.mipmap.yu_jia_zai,
                 R.mipmap.yu_jia_zai);
         imageLoader.get(goods.get(position).getGoodsImg(), imageListener,400,400);

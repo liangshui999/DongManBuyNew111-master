@@ -34,7 +34,7 @@
             android:layout_marginTop="2dp"
             android:background="@color/white_my"
             android:hint="@string/please_input_ge_ren_huo_dan_wei_ming_cheng"
-            android:textSize="10sp"/>
+            android:textSize="12sp"/>
 
         <TextView
             android:layout_width="match_parent"

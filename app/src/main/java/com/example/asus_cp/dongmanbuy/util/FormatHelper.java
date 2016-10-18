@@ -150,6 +150,20 @@ public class FormatHelper {
 
 
     /**
+     *将时间戳转换成年月日时的时间格式
+     */
+    public static String getDateFromTimeChuo(String s){
+        String result = null;
+        Date date = new Date(s);
+        String output = "yyyy-MM-dd HH:mm:ss";
+        SimpleDateFormat simpleDateFormat1 = new SimpleDateFormat(output, Locale.CHINESE);
+        result = simpleDateFormat1.format(date);
+        return result;
+    }
+
+
+
+    /**
      * 将网址拆分成3部分,按？和&进行拆分
      */
     public static String[] splitUrl(String s){

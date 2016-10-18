@@ -36,7 +36,7 @@
                 android:layout_above="@id/text_email_slid_menu"
                 android:textSize="14sp"
                 android:layout_marginLeft="5dp"
-                android:text="点击头像登陆"
+                android:text="@string/click_tou_xiang_login"
                 android:gravity="center"
                 android:textColor="@color/white_my"
                 />

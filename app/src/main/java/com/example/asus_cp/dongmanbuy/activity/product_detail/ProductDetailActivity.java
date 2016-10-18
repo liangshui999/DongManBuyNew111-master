@@ -28,15 +28,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
-import com.alibaba.mobileim.IYWLoginService;
-import com.alibaba.mobileim.YWIMKit;
-import com.alibaba.mobileim.YWLoginParam;
-import com.alibaba.mobileim.channel.event.IWxCallback;
-import com.alibaba.mobileim.conversation.EServiceContact;
-import com.alibaba.mobileim.conversation.IYWConversationService;
-import com.alibaba.mobileim.conversation.YWConversation;
-import com.alibaba.mobileim.conversation.YWMessage;
-import com.alibaba.mobileim.conversation.YWMessageChannel;
+//import com.alibaba.mobileim.IYWLoginService;
+//import com.alibaba.mobileim.YWIMKit;
+//import com.alibaba.mobileim.YWLoginParam;
+//import com.alibaba.mobileim.channel.event.IWxCallback;
+//import com.alibaba.mobileim.conversation.EServiceContact;
+//import com.alibaba.mobileim.conversation.IYWConversationService;
+//import com.alibaba.mobileim.conversation.YWConversation;
+//import com.alibaba.mobileim.conversation.YWMessage;
+//import com.alibaba.mobileim.conversation.YWMessageChannel;
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -59,7 +59,7 @@ import com.example.asus_cp.dongmanbuy.util.DialogHelper;
 import com.example.asus_cp.dongmanbuy.util.FormatHelper;
 import com.example.asus_cp.dongmanbuy.util.ImageLoadHelper;
 import com.example.asus_cp.dongmanbuy.util.JsonHelper;
-import com.example.asus_cp.dongmanbuy.util.MyIMHelper;
+//import com.example.asus_cp.dongmanbuy.util.MyIMHelper;
 import com.example.asus_cp.dongmanbuy.util.MyLog;
 import com.example.asus_cp.dongmanbuy.util.MyScreenInfoHelper;
 import com.example.asus_cp.dongmanbuy.util.MyYWIMKitHelper;
@@ -132,6 +132,9 @@ public class ProductDetailActivity extends BaseActivity implements View.OnClickL
     private Button addToShoppingCarButton;//加入购物车
     private Button buyAtOnceButton;//立即购买
     private TextView shoppingCarCountTextView;//购物车数量
+    private LinearLayout zanShiQueHuoLinearLayout;//暂时缺货
+    private LinearLayout addToShoppingCarLinearLayout;//加入购物车
+    private LinearLayout buyAtOnceLinearLayout;//立即购买
 
 
     private String productPicUrl = "http://www.zmobuy.com/PHP/index.php?url=/goods/desc";//商品大图的接口地址
@@ -494,6 +497,7 @@ public class ProductDetailActivity extends BaseActivity implements View.OnClickL
         productBigPicImageView.setLayoutParams(params);
 
         //设置商品图片
+        productBigPicImageView.setTag(good.getGoodsImg());//设置tag
         ImageLoader.ImageListener listener = imageLoader.getImageListener(productBigPicImageView, R.mipmap.yu_jia_zai,
                 R.mipmap.yu_jia_zai);
         imageLoader.get(good.getGoodsImg(), listener);
@@ -559,6 +563,29 @@ public class ProductDetailActivity extends BaseActivity implements View.OnClickL
         MyLog.d(tag,"加入购车宽度："+addToShoppingCarButton.getWidth()+"......"+"立即购买宽度："+buyAtOnceButton.getWidth());
 
 
+        //设置暂时缺货与否
+        setValueToZanShiQueHuo();
+
+    }
+
+
+    /**
+     * 给暂时缺货设置值
+     */
+    private void setValueToZanShiQueHuo() {
+        String tempKuCun=good.getGoodsNumber();
+        if(tempKuCun!=null && !tempKuCun.isEmpty()){
+            int kuCun=Integer.parseInt(tempKuCun);
+            if(kuCun>0){
+                zanShiQueHuoLinearLayout.setVisibility(View.GONE);
+                addToShoppingCarLinearLayout.setVisibility(View.VISIBLE);
+                buyAtOnceLinearLayout.setVisibility(View.VISIBLE);
+            }else{
+                zanShiQueHuoLinearLayout.setVisibility(View.VISIBLE);
+                addToShoppingCarLinearLayout.setVisibility(View.GONE);
+                buyAtOnceLinearLayout.setVisibility(View.GONE);
+            }
+        }
     }
 
 
@@ -690,6 +717,9 @@ public class ProductDetailActivity extends BaseActivity implements View.OnClickL
         addToShoppingCarButton = (Button) findViewById(R.id.btn_add_to_shopping_car);
         buyAtOnceButton = (Button) findViewById(R.id.btn_buy_at_once);
         shoppingCarCountTextView= (TextView) findViewById(R.id.text_gou_wu_che_count);
+        zanShiQueHuoLinearLayout= (LinearLayout) findViewById(R.id.ll_zan_shi_que_huo_product_detail);
+        addToShoppingCarLinearLayout= (LinearLayout) findViewById(R.id.ll_add_to_shopping_car_product_detail);
+        buyAtOnceLinearLayout= (LinearLayout) findViewById(R.id.ll_buy_at_once_product_detail);
 
 
         //对服务弹出窗口进行初始化
@@ -842,13 +872,13 @@ public class ProductDetailActivity extends BaseActivity implements View.OnClickL
                 break;
             case R.id.ll_lian_xi_ke_fu://联系客服
                 //Toast.makeText(this, "联系客服", Toast.LENGTH_SHORT).show();
-                MyIMHelper myIMHelper1=new MyIMHelper();
-                myIMHelper1.openKeFuLiaoTianAndSendMessage("");
+//                MyIMHelper myIMHelper1=new MyIMHelper();
+//                myIMHelper1.openKeFuLiaoTianAndSendMessage("");
                 break;
             case R.id.ll_ke_fu://客服
                 //Toast.makeText(this, "客服", Toast.LENGTH_SHORT).show();
-                MyIMHelper myIMHelper2=new MyIMHelper();
-                myIMHelper2.openKeFuLiaoTianAndSendMessage("");
+//                MyIMHelper myIMHelper2=new MyIMHelper();
+//                myIMHelper2.openKeFuLiaoTianAndSendMessage("");
                 break;
             case R.id.ll_shopping_car_product_detail://购物车
                 //Toast.makeText(this, "购物车", Toast.LENGTH_SHORT).show();
@@ -918,74 +948,74 @@ public class ProductDetailActivity extends BaseActivity implements View.OnClickL
      */
     private void keFuClickChuLi() {
         //开始登录
-        String userid = "zmobuy1";
-        String password = "123456";
-        final YWIMKit mIMKit= MyYWIMKitHelper.getYwimkit(userid);//需要userId才能得到这个
-        IYWLoginService loginService = mIMKit.getLoginService();
-        YWLoginParam loginParam = YWLoginParam.createLoginParam(userid, password);
-        loginService.login(loginParam, new IWxCallback() {
-            @Override
-            public void onSuccess(Object... arg0) {
-                MyLog.d(tag, "登陆成功了");
-                MyLog.d(tag,"goodId="+good.getGoodId());
-                //创建一条宝贝焦点消息, 参数为宝贝id
-                YWMessage message = YWMessageChannel.createGoodsFocusMessage(good.getGoodId());
-                IYWConversationService conversationService = mIMKit.getConversationService();
-                final EServiceContact contact = new EServiceContact("动漫卡哇伊周小沫", 161017570);
-                //获取会话对象
-                YWConversation conversation = conversationService.getConversation(contact);
-                //发送宝贝焦点消息，其中TIMEOUT为超时时间，单位为秒
-                conversation.getMessageSender().sendMessage(message, 10, new IWxCallback() {
-                    @Override
-                    public void onSuccess(Object... arg0) {
-                        // 发送成功
-                        MyLog.d(tag, "发送到千牛的消息是：" + arg0.toString());
-
-                    }
-
-                    @Override
-                    public void onProgress(int arg0) {
-
-                    }
-
-                    @Override
-                    public void onError(int arg0, String arg1) {
-                        // 发送失败
-                    }
-                });
-
-                final YWMessage nameMessage=YWMessageChannel.createTextMessage("商品名称是：" + good.getGoodName());
-                conversation.getMessageSender().sendMessage(nameMessage, 10, new IWxCallback() {
-                    @Override
-                    public void onSuccess(Object... arg0) {
-                        // 发送成功
-                        MyLog.d(tag, "发送到千牛的消息是：" + nameMessage);
-                        Intent intent = mIMKit.getChattingActivityIntent(contact);
-                        startActivity(intent);
-                    }
-
-                    @Override
-                    public void onProgress(int arg0) {
-
-                    }
-
-                    @Override
-                    public void onError(int arg0, String arg1) {
-                        // 发送失败
-                    }
-                });
-            }
-
-            @Override
-            public void onProgress(int arg0) {
-                // TODO Auto-generated method stub
-            }
-
-            @Override
-            public void onError(int errCode, String description) {
-                //如果登录失败，errCode为错误码,description是错误的具体描述信息
-            }
-        });
+//        String userid = "zmobuy1";
+//        String password = "123456";
+//        final YWIMKit mIMKit= MyYWIMKitHelper.getYwimkit(userid);//需要userId才能得到这个
+//        IYWLoginService loginService = mIMKit.getLoginService();
+//        YWLoginParam loginParam = YWLoginParam.createLoginParam(userid, password);
+//        loginService.login(loginParam, new IWxCallback() {
+//            @Override
+//            public void onSuccess(Object... arg0) {
+//                MyLog.d(tag, "登陆成功了");
+//                MyLog.d(tag,"goodId="+good.getGoodId());
+//                //创建一条宝贝焦点消息, 参数为宝贝id
+//                YWMessage message = YWMessageChannel.createGoodsFocusMessage(good.getGoodId());
+//                IYWConversationService conversationService = mIMKit.getConversationService();
+//                final EServiceContact contact = new EServiceContact("动漫卡哇伊周小沫", 161017570);
+//                //获取会话对象
+//                YWConversation conversation = conversationService.getConversation(contact);
+//                //发送宝贝焦点消息，其中TIMEOUT为超时时间，单位为秒
+//                conversation.getMessageSender().sendMessage(message, 10, new IWxCallback() {
+//                    @Override
+//                    public void onSuccess(Object... arg0) {
+//                        // 发送成功
+//                        MyLog.d(tag, "发送到千牛的消息是：" + arg0.toString());
+//
+//                    }
+//
+//                    @Override
+//                    public void onProgress(int arg0) {
+//
+//                    }
+//
+//                    @Override
+//                    public void onError(int arg0, String arg1) {
+//                        // 发送失败
+//                    }
+//                });
+//
+//                final YWMessage nameMessage=YWMessageChannel.createTextMessage("商品名称是：" + good.getGoodName());
+//                conversation.getMessageSender().sendMessage(nameMessage, 10, new IWxCallback() {
+//                    @Override
+//                    public void onSuccess(Object... arg0) {
+//                        // 发送成功
+//                        MyLog.d(tag, "发送到千牛的消息是：" + nameMessage);
+//                        Intent intent = mIMKit.getChattingActivityIntent(contact);
+//                        startActivity(intent);
+//                    }
+//
+//                    @Override
+//                    public void onProgress(int arg0) {
+//
+//                    }
+//
+//                    @Override
+//                    public void onError(int arg0, String arg1) {
+//                        // 发送失败
+//                    }
+//                });
+//            }
+//
+//            @Override
+//            public void onProgress(int arg0) {
+//                // TODO Auto-generated method stub
+//            }
+//
+//            @Override
+//            public void onError(int errCode, String description) {
+//                //如果登录失败，errCode为错误码,description是错误的具体描述信息
+//            }
+//        });
     }
 
 
@@ -1426,6 +1456,9 @@ public class ProductDetailActivity extends BaseActivity implements View.OnClickL
     private void yiXuanClickChuLi() {
         //Toast.makeText(this,"已选",Toast.LENGTH_SHORT).show();
         final View yiXuanView = inflater.inflate(R.layout.yi_xuan_layout, null);
+        LinearLayout yiXuanAddToShoppingCarLinearLayout= (LinearLayout) yiXuanView.findViewById(R.id.ll_yi_xuan_add_to_shopping_car);
+        LinearLayout yiXuanBuyAtOnceLinearLayout= (LinearLayout) yiXuanView.findViewById(R.id.ll_yi_xuan_buy_at_once);
+        LinearLayout yiXuanZanShiQueHuoLinearLayout= (LinearLayout) yiXuanView.findViewById(R.id.ll_yi_xuan_zan_shi_que_huo);
         ImageView yiXuanPic = (ImageView) yiXuanView.findViewById(R.id.img_yi_xuan_product_pic);
         ImageView yiXuanCloseImageView = (ImageView) yiXuanView.findViewById(R.id.img_yi_xuan_close);
         TextView yiXuanProductname = (TextView) yiXuanView.findViewById(R.id.text_yi_xuan_productName);
@@ -1450,6 +1483,7 @@ public class ProductDetailActivity extends BaseActivity implements View.OnClickL
         });
 
         //给已选控件赋值
+        yiXuanPic.setTag(good.getGoodsImg());
         ImageLoader yiXuanImageLoader = helper.getImageLoader();
         ImageLoader.ImageListener yiXuanListener = yiXuanImageLoader.getImageListener(yiXuanPic,
                 R.mipmap.yu_jia_zai, R.mipmap.yu_jia_zai);
@@ -1459,6 +1493,21 @@ public class ProductDetailActivity extends BaseActivity implements View.OnClickL
         yiXuanPrice.setText(benDianJiaGeTextView.getText().toString());//这个地方的价格直接使用本店的价格就可以了
         yiXuanKuCun.setText(good.getGoodsNumber());
         yiXuanProductCountTextView.setText(yiXuanProdutCount+"");
+
+        //设置是否暂时缺货
+        String tempKuCun=good.getGoodsNumber();
+        if(tempKuCun!=null && !tempKuCun.isEmpty()){
+            int kuCun=Integer.parseInt(tempKuCun);
+            if(kuCun>0){
+                yiXuanZanShiQueHuoLinearLayout.setVisibility(View.GONE);
+                yiXuanAddToShoppingCarLinearLayout.setVisibility(View.VISIBLE);
+                yiXuanBuyAtOnceLinearLayout.setVisibility(View.VISIBLE);
+            }else{
+                yiXuanZanShiQueHuoLinearLayout.setVisibility(View.VISIBLE);
+                yiXuanAddToShoppingCarLinearLayout.setVisibility(View.GONE);
+                yiXuanBuyAtOnceLinearLayout.setVisibility(View.GONE);
+            }
+        }
 
         //给已选的控件设置点击事件
         yiXuanCloseImageView.setOnClickListener(this);

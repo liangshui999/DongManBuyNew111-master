@@ -66,6 +66,7 @@ public class HomeShopStreetAdapter extends BaseAdapter{
 
         ShopModel shopModel=shops.get(position);
         List<Good> goods=shopModel.getGoods();
+        viewHolder.imageView.setTag(shops.get(position).getStreetThumb());
         ImageLoader imageLoader=helper.getImageLoader();
         ImageLoader.ImageListener listener=imageLoader.getImageListener(viewHolder.imageView,R.mipmap.yu_jia_zai,
                 R.mipmap.yu_jia_zai);
@@ -96,6 +97,7 @@ public class HomeShopStreetAdapter extends BaseAdapter{
      * @param goods
      */
     private void setValueToImageView(ViewHolder viewHolder, List<Good> goods,ImageView view,int i) {
+        view.setTag(goods.get(i).getGoodsThumb());
         ImageLoader imageLoader1=helper.getImageLoader();
         ImageLoader.ImageListener listener1=imageLoader1.getImageListener(view, R.mipmap.yu_jia_zai,
                 R.mipmap.yu_jia_zai);

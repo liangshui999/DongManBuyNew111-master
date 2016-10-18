@@ -148,6 +148,7 @@ public class ShopHomeActivity extends Activity implements View.OnClickListener {
                 DialogHelper.dissmisDialog();
                 MyLog.d(tag, "返回的数据是：" + s);
                 shopModel=parseJson(s);
+                logoImageView.setTag(shopModel.getShopLogo());
                 ImageLoader imageLoader=helper.getImageLoader();
                 ImageLoader.ImageListener listener=imageLoader.getImageListener(logoImageView,
                         R.mipmap.yu_jia_zai,R.mipmap.yu_jia_zai);

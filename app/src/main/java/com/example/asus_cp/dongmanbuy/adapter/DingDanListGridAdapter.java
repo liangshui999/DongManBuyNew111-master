@@ -59,6 +59,7 @@ public class DingDanListGridAdapter extends BaseAdapter{
             viewHolder= (ViewHolder) v.getTag();
         }
 
+        viewHolder.imageView.setTag(goods.get(position).getGoodsImg());
         ImageLoader imageLoader=helper.getImageLoader();
         ImageLoader.ImageListener listener=imageLoader.getImageListener(viewHolder.imageView,
                 R.mipmap.yu_jia_zai,R.mipmap.yu_jia_zai);

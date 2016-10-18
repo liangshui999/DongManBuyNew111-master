@@ -937,6 +937,7 @@ public class ShoppingCarFragment extends Fragment implements View.OnClickListene
                 final int[] prodcutCount = {Integer.parseInt(good.getShoppingCarNumber())};//加号和减号公用的商品数量,不能放在全局里面，也不能放在onclicklistener厘米那
 
                 //给控件设置值
+                viewHolderIn.picImageView.setTag(good.getGoodsSmallImag());
                 ImageLoader imageLoader=helper.getImageLoader();
                 ImageLoader.ImageListener listener=imageLoader.getImageListener(viewHolderIn.picImageView,
                         R.mipmap.yu_jia_zai,R.mipmap.yu_jia_zai);

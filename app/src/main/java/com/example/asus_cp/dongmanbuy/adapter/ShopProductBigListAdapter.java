@@ -115,6 +115,7 @@ public class ShopProductBigListAdapter extends BaseAdapter{
         final Good good=goods.get(position);
         viewHolder.picImagView.setImageResource(R.mipmap.yu_jia_zai);//将复用的上面的图片换成预加载的图片
 
+        viewHolder.picImagView.setTag(good.getGoodsThumb());
         ImageLoader imageLoader = helper.getImageLoader();
         ImageLoader.ImageListener listener = imageLoader.getImageListener(viewHolder.picImagView,
                 R.mipmap.yu_jia_zai, R.mipmap.yu_jia_zai);

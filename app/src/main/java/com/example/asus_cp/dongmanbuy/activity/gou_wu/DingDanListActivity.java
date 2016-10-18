@@ -8,6 +8,7 @@ import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -50,7 +51,7 @@ public class DingDanListActivity extends BaseActivity implements View.OnClickLis
     private TextView daiFuKuanDingDanTextView;
     private TextView daiShouHuoDingDanTextView;
 
-    private String dingDanListUrl="http://www.zmobuy.com/PHP/?url=/order/list";//订单列表的接口
+    private String dingDanListUrl="http://mv.zmobuy.com/order/show.action";//订单列表的接口
 
     private String whoStartMe;//谁开启了我
 
@@ -130,33 +131,41 @@ public class DingDanListActivity extends BaseActivity implements View.OnClickLis
                         final List<DingDanModel> dingDanModels = parseJson(s);
 
                         //清除掉空的订单信息（清除那些订单里面没有商品的订单）
-                        final List<DingDanModel> tempModels=new ArrayList<DingDanModel>();
+                       /* final List<DingDanModel> tempModels=new ArrayList<DingDanModel>();
                         for(int i=0;i<dingDanModels.size();i++){
                             if(dingDanModels.get(i).getGoods().size()>0){
                                 tempModels.add(dingDanModels.get(i));
                             }
-                        }
+                        }*/
+                        final List<DingDanModel> tempModels=dingDanModels;
                         DingDanListAdapter dingDanListAdapter=new DingDanListAdapter(DingDanListActivity.this,tempModels);
                         dingDanListListView.setAdapter(dingDanListAdapter);
 
                         dingDanListListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                             @Override
                             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                                Intent intent=new Intent(DingDanListActivity.this, DingDanDetailActivity.class);
-                                intent.putExtra(MyConstant.DING_DAN_MODEL_KEY, tempModels.get(position));
-                                if(allDingDanTextView.getCurrentTextColor()==getResources().getColor(R.color.bottom_lable_color)){
 
-                                    startActivityForResult(intent, REQUEST_DING_DAN_DETAIL_KEY_ALL);
+                                if(tempModels.get(position).getGoods()!=null && tempModels.get(position).getGoods().size()>0){
+                                    Intent intent=new Intent(DingDanListActivity.this, DingDanDetailActivity.class);
+                                    intent.putExtra(MyConstant.DING_DAN_MODEL_KEY, tempModels.get(position));
+                                    if(allDingDanTextView.getCurrentTextColor()==getResources().getColor(R.color.bottom_lable_color)){
 
-                                }else if(daiFuKuanDingDanTextView.getCurrentTextColor()==getResources().getColor(R.color.bottom_lable_color)){
+                                        startActivityForResult(intent, REQUEST_DING_DAN_DETAIL_KEY_ALL);
 
-                                    startActivityForResult(intent, REQUEST_DING_DAN_DETAIL_KEY_AWAIT_PAY);
+                                    }else if(daiFuKuanDingDanTextView.getCurrentTextColor()==getResources().getColor(R.color.bottom_lable_color)){
 
-                                }else if(daiShouHuoDingDanTextView.getCurrentTextColor()==getResources().getColor(R.color.bottom_lable_color)){
+                                        startActivityForResult(intent, REQUEST_DING_DAN_DETAIL_KEY_AWAIT_PAY);
 
-                                    startActivityForResult(intent, REQUEST_DING_DAN_DETAIL_KEY_AWAIT_SHIP);
+                                    }else if(daiShouHuoDingDanTextView.getCurrentTextColor()==getResources().getColor(R.color.bottom_lable_color)){
 
+                                        startActivityForResult(intent, REQUEST_DING_DAN_DETAIL_KEY_AWAIT_SHIP);
+
+                                    }
+                                }else{
+                                    Toast.makeText(DingDanListActivity.this,"没有商品哦",Toast.LENGTH_SHORT).show();
                                 }
+
+
                             }
                         });
                     }
@@ -169,8 +178,9 @@ public class DingDanListActivity extends BaseActivity implements View.OnClickLis
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String,String> map=new HashMap<String,String>();
-                String json="{\"session\":{\"uid\":\""+uid+"\",\"sid\":\""+sid+"\"},\"pagination\":{\"page\":\"1\",\"count\":\"100\"},\"type\":\""+type+"\"}";
-                map.put("json",json);
+//                String json="{\"session\":{\"uid\":\""+uid+"\",\"sid\":\""+sid+"\"},\"pagination\":{\"page\":\"1\",\"count\":\"100\"},\"type\":\""+type+"\"}";
+//                map.put("json",json);
+                map.put("user_id",uid);
                 return map;
             }
         };
@@ -187,42 +197,42 @@ public class DingDanListActivity extends BaseActivity implements View.OnClickLis
     private List<DingDanModel> parseJson(String s) {
         final List<DingDanModel> dingDanModels=new ArrayList<DingDanModel>();
         try {
-            JSONObject jsonObject=new JSONObject(s);
-            JSONArray jsonArray=jsonObject.getJSONArray("data");
-            if(jsonArray!=null){
-                for(int i=0;i<jsonArray.length();i++){
-                    JSONObject ziJsObj=jsonArray.getJSONObject(i);
-                    DingDanModel model=new DingDanModel();
-                    model.setOrderId(ziJsObj.getString("order_id"));
-                    model.setOrderBianHao(ziJsObj.getString("order_sn"));
-                    model.setOrderTime(ziJsObj.getString("order_time"));
-                    model.setSumPrice(ziJsObj.getString("total_fee"));
-                    List<Good> goods=new ArrayList<Good>();
-                    JSONArray goodArray=null;
-                    try{
-                        goodArray=ziJsObj.getJSONArray("goods_list");
-                    }catch (Exception e){
-                        e.printStackTrace();
-                    }
-                    if(goodArray!=null){
-                        for(int j=0;j<goodArray.length();j++){
-                            JSONObject goodJs=goodArray.getJSONObject(j);
-                            Good good=new Good();
-                            good.setGoodId(goodJs.getString("goods_id"));
-                            good.setGoodName(JsonHelper.decodeUnicode(goodJs.getString("name")));
-                            good.setDingDanNumber(goodJs.getString("goods_number"));
-                            good.setDingDanSumPrice(JsonHelper.decodeUnicode(goodJs.getString("subtotal")));
-                            JSONObject imgJs=goodJs.getJSONObject("img");
-                            good.setGoodsImg(imgJs.getString("url"));
-                            good.setGoodsThumb(imgJs.getString("thumb"));
-                            good.setGoodsSmallImag(imgJs.getString("small"));
-                            goods.add(good);
-                        }
-                    }
-                    model.setGoods(goods);
-                    dingDanModels.add(model);
+//            JSONObject jsonObject=new JSONObject(s);
+            JSONArray jsonArray=new JSONArray(s);
+            for (int i = 0; i < jsonArray.length(); i++) {
+                JSONObject ziJsObj = jsonArray.getJSONObject(i);
+                DingDanModel model = new DingDanModel();
+                model.setShopName(JsonHelper.decodeUnicode(ziJsObj.getString("goods_shop_name")));
+                model.setOrderId(ziJsObj.getString("order_id"));
+                model.setOrderBianHao(ziJsObj.getString("order_sn"));
+                model.setOrderTime(ziJsObj.getString("order_time"));
+                model.setSumPrice(ziJsObj.getString("total_fee"));
+                List<Good> goods = new ArrayList<Good>();
+                JSONArray goodArray = null;
+                try {
+                    goodArray = ziJsObj.getJSONArray("goods_list");
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
+                if (goodArray != null) {
+                    for (int j = 0; j < goodArray.length(); j++) {
+                        JSONObject goodJs = goodArray.getJSONObject(j);
+                        Good good = new Good();
+                        good.setGoodId(goodJs.getString("goods_id"));
+                        good.setGoodName(JsonHelper.decodeUnicode(goodJs.getString("name")));
+                        good.setDingDanNumber(goodJs.getString("goods_number"));
+                        good.setDingDanSumPrice(JsonHelper.decodeUnicode(goodJs.getString("subtotal")));
+                        JSONObject imgJs = goodJs.getJSONObject("img");
+                        good.setGoodsImg(imgJs.getString("url"));
+                        good.setGoodsThumb(imgJs.getString("thumb"));
+                        good.setGoodsSmallImag(imgJs.getString("small"));
+                        goods.add(good);
+                    }
+                }
+                model.setGoods(goods);
+                dingDanModels.add(model);
             }
+
         } catch (JSONException e) {
             e.printStackTrace();
         }

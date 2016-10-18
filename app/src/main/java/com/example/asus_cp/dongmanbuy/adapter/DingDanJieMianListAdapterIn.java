@@ -68,6 +68,7 @@ public class DingDanJieMianListAdapterIn extends BaseAdapter{
         }
 
         Good good=goods.get(position);
+        viewHolder.picImageView.setTag(good.getGoodsImg());
         ImageLoader imageLoader=helper.getImageLoader();
         ImageLoader.ImageListener listener=imageLoader.getImageListener(viewHolder.picImageView,
                 R.mipmap.yu_jia_zai,R.mipmap.yu_jia_zai);

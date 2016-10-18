@@ -854,6 +854,7 @@
 
             <!--加入购物车-->
             <LinearLayout
+                android:id="@+id/ll_add_to_shopping_car_product_detail"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="3"
@@ -874,6 +875,7 @@
 
             <!--立即购买-->
             <LinearLayout
+                android:id="@+id/ll_buy_at_once_product_detail"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="3"
@@ -892,6 +894,32 @@
                     android:textSize="@dimen/add_to_shoping_car"/>
 
             </LinearLayout>
+
+
+            <!--暂时缺货-->
+            <LinearLayout
+                android:id="@+id/ll_zan_shi_que_huo_product_detail"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="6"
+                android:layout_gravity="center"
+                android:visibility="gone"
+                >
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:gravity="center"
+                    android:background="@drawable/gray_backgroud_yuan_jiao_button"
+                    android:text="@string/zan_shi_que_huo"
+                    android:textColor="@color/white_my"
+                    android:textSize="@dimen/add_to_shoping_car"/>
+
+            </LinearLayout>
+
+
+
         </LinearLayout>
 
 

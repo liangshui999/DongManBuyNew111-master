@@ -374,40 +374,18 @@ public class DingDanDetailActivity extends BaseActivity implements View.OnClickL
         MyLog.d(tag, "支付方式是：" + dingDanModel.getZhiFuFangShi());
 
 
-
-
         goods= (ArrayList<Good>) dingDanModel.getGoods();
-        if(goods.size()==1){
-            ImageLoader imageLoader1=helper.getImageLoader();
-            ImageLoader.ImageListener listener1=imageLoader1.getImageListener(firstPicImageView, R.mipmap.yu_jia_zai,
-                    R.mipmap.yu_jia_zai);
-            imageLoader1.get(goods.get(0).getGoodsImg(),listener1,400,400);
-        }else if(goods.size()==2){
-            ImageLoader imageLoader1=helper.getImageLoader();
-            ImageLoader.ImageListener listener1=imageLoader1.getImageListener(firstPicImageView,R.mipmap.yu_jia_zai,
-                    R.mipmap.yu_jia_zai);
-            imageLoader1.get(goods.get(0).getGoodsImg(),listener1,400,400);
 
-            ImageLoader imageLoader2=helper.getImageLoader();
-            ImageLoader.ImageListener listener2=imageLoader2.getImageListener(secondPicImageView,R.mipmap.yu_jia_zai,
-                    R.mipmap.yu_jia_zai);
-            imageLoader2.get(goods.get(1).getGoodsImg(), listener2, 400, 400);
+        if (goods.size() == 1) {
+            setValueToImageView(goods.get(0).getGoodsImg(), firstPicImageView);
+        } else if (goods.size() == 2) {
+            setValueToImageView(goods.get(0).getGoodsImg(), firstPicImageView);
+            setValueToImageView(goods.get(1).getGoodsImg(), secondPicImageView);
 
-        }else if(goods.size()>=3){
-            ImageLoader imageLoader1=helper.getImageLoader();
-            ImageLoader.ImageListener listener1=imageLoader1.getImageListener(firstPicImageView,R.mipmap.yu_jia_zai,
-                    R.mipmap.yu_jia_zai);
-            imageLoader1.get(goods.get(0).getGoodsImg(),listener1,400,400);
-
-            ImageLoader imageLoader2=helper.getImageLoader();
-            ImageLoader.ImageListener listener2=imageLoader2.getImageListener(secondPicImageView, R.mipmap.yu_jia_zai,
-                    R.mipmap.yu_jia_zai);
-            imageLoader2.get(goods.get(1).getGoodsImg(),listener2,400,400);
-
-            ImageLoader imageLoader3=helper.getImageLoader();
-            ImageLoader.ImageListener listener3=imageLoader3.getImageListener(threePicImageView,R.mipmap.yu_jia_zai,
-                    R.mipmap.yu_jia_zai);
-            imageLoader3.get(goods.get(2).getGoodsImg(),listener3,400,400);
+        } else if (goods.size() >= 3) {
+            setValueToImageView(goods.get(0).getGoodsImg(), firstPicImageView);
+            setValueToImageView(goods.get(1).getGoodsImg(), secondPicImageView);
+            setValueToImageView(goods.get(2).getGoodsImg(), threePicImageView);
         }
 
 
@@ -426,6 +404,19 @@ public class DingDanDetailActivity extends BaseActivity implements View.OnClickL
         gongJiJianTextView.setText("共"+sum+"件");
 
 
+    }
+
+
+
+    /**
+     * 给商品的imageview赋值
+     */
+    private void setValueToImageView(String url,ImageView imageView) {
+        imageView.setTag(url);
+        ImageLoader imageLoader3=helper.getImageLoader();
+        ImageLoader.ImageListener listener3=imageLoader3.getImageListener(imageView, R.mipmap.yu_jia_zai,
+                R.mipmap.yu_jia_zai);
+        imageLoader3.get(url,listener3,400,400);
     }
 
 

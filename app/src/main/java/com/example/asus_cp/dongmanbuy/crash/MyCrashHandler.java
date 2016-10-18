@@ -75,7 +75,7 @@ public class MyCrashHandler implements Thread.UncaughtExceptionHandler {
         MyLog.d(tag, "uncaughtException");
 
         //将ex写入sd卡中
-        //writeExceptionToSdCard(ex);
+        writeExceptionToSdCard(ex);
 
         //把崩溃信息上传到友盟服务器
         MobclickAgent.reportError(context,ex);

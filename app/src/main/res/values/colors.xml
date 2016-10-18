@@ -26,6 +26,7 @@
     <color name="ji_fen_backgroud">#33ffffff</color>
     <color name="tou_xiang_border">#33ffffff</color>
     <color name="used_hong_bao">#d0d0d0</color>
+    <color name="zan_shi_que_huo_backgroud">#BCBCBC</color>
 
     <!--zxing里面用到的-->
     <color name="result_view">#b0000000</color>

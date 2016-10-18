@@ -40,7 +40,7 @@ import com.example.asus_cp.dongmanbuy.model.User;
 import com.example.asus_cp.dongmanbuy.util.ImageLoadHelper;
 import com.example.asus_cp.dongmanbuy.util.JsonHelper;
 import com.example.asus_cp.dongmanbuy.util.MyApplication;
-import com.example.asus_cp.dongmanbuy.util.MyIMHelper;
+//import com.example.asus_cp.dongmanbuy.util.MyIMHelper;
 import com.example.asus_cp.dongmanbuy.util.MyLog;
 
 import org.json.JSONException;
@@ -107,7 +107,7 @@ public class PersonalCenterActivity extends BaseActivity implements View.OnClick
     private LiuLanJiLuAdapter liuLanJiLuAdapter;
     private List<Good> goods;
 
-    private MyIMHelper myIMHelper;
+    //private MyIMHelper myIMHelper;
 
 
     @Override
@@ -122,7 +122,7 @@ public class PersonalCenterActivity extends BaseActivity implements View.OnClick
      * 初始化的方法
      */
     private void init() {
-        myIMHelper=new MyIMHelper();
+        //myIMHelper=new MyIMHelper();
         dbHelper=new BookDBOperateHelper();
         initView();
         helper=new ImageLoadHelper();
@@ -178,6 +178,7 @@ public class PersonalCenterActivity extends BaseActivity implements View.OnClick
                     public void onResponse(String s) {
                         User user=parseJson(s);
                         passUser=user;
+                        touXiangImageView.setTag(MyConstant.YU_MING + user.getPic());
                         ImageLoader imageLoader=helper.getImageLoader();
                         ImageLoader.ImageListener listener=imageLoader.getImageListener(touXiangImageView,
                                 R.mipmap.yu_jia_zai,R.mipmap.yu_jia_zai);
@@ -405,7 +406,7 @@ public class PersonalCenterActivity extends BaseActivity implements View.OnClick
                 break;
             case R.id.re_layout_ke_fu_personal_center://点击了客服
                 //Toast.makeText(this,"点击了客服",Toast.LENGTH_SHORT).show();
-                myIMHelper.openKeFuLiaoTianAndSendMessage("");
+                //myIMHelper.openKeFuLiaoTianAndSendMessage("");
                 break;
             case R.id.ll_qing_kong_personal_center://点击了清空
                 dbHelper.deleteAll();

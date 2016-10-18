@@ -213,6 +213,7 @@ public class DingDanJieMianListAdapterOut extends BaseAdapter implements View.On
         });
 
         //配送方式的点击事件处理
+        viewHolder.peiSongFangShiTextView.setTag(position);
         viewHolder.peiSongFangShiRelativeLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -254,6 +255,7 @@ public class DingDanJieMianListAdapterOut extends BaseAdapter implements View.On
      * 给商品的imageview赋值
      */
     private void setValueToImageView(String url,ImageView imageView) {
+        imageView.setTag(url);
         ImageLoader imageLoader3=helper.getImageLoader();
         ImageLoader.ImageListener listener3=imageLoader3.getImageListener(imageView, R.mipmap.yu_jia_zai,
                 R.mipmap.yu_jia_zai);

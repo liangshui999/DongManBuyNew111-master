@@ -449,7 +449,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         getDataFromIntenetAndSetNameAndEmailAndPic(uid, sid);
                     }
                 } else {
-                    nameTextView.setText("点击头像登陆");
+                    nameTextView.setText(R.string.click_tou_xiang_login);
                     jiFenTextView.setText("");
                     loginImage.setImageResource(R.mipmap.tou_xiang);
                     loginButton.setImageResource(R.mipmap.tou_xiang);
@@ -1019,10 +1019,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         nameTextView.setText(user.getName());
                         //emailTextView.setText(user.getEmail());
                         jiFenTextView.setText(user.getJiFen());
+                        loginImage.setTag(MyConstant.YU_MING + user.getPic());//设置tag
                         ImageLoader imageLoader1=imageLoaderhelper.getImageLoader();
                         ImageLoader.ImageListener listener=imageLoader1.getImageListener(loginImage,R.mipmap.tou_xiang,
                                 R.mipmap.tou_xiang);
                         imageLoader1.get(MyConstant.YU_MING + user.getPic(), listener, 200, 200);
+
+                        loginButton.setTag(MyConstant.YU_MING + user.getPic());
                         ImageLoader imageLoader2=imageLoaderhelper.getImageLoader();
                         ImageLoader.ImageListener listener1=imageLoader2.getImageListener(loginButton,R.mipmap.tou_xiang,
                                 R.mipmap.tou_xiang);
@@ -1343,7 +1346,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case REQUEST_CODE_TO_SETTING://从设置界面回来的
                 if(resultCode==RESULT_OK){
                     loginImage.setImageResource(R.mipmap.tou_xiang);
-                    nameTextView.setText("点击头像登陆");
+                    nameTextView.setText(R.string.click_tou_xiang_login);
                     jiFenAndHelpRelativeLayout.setVisibility(View.GONE);
                     jiFenTextView.setText("");
                     loginButton.setImageResource(R.mipmap.tou_xiang);

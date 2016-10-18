@@ -115,6 +115,7 @@ public class ShopProductGridAdapter extends BaseAdapter{
 
 
         viewHolder.imgView.setImageResource(R.mipmap.yu_jia_zai);//注意这一步很关键，先把复用的图片换成预加载
+        viewHolder.imgView.setTag(good.getGoodsThumb());
         ImageLoader imageLoader = helper.getImageLoader();
         ImageLoader.ImageListener listener = imageLoader.getImageListener(viewHolder.imgView, R.mipmap.yu_jia_zai,
                 R.mipmap.yu_jia_zai);

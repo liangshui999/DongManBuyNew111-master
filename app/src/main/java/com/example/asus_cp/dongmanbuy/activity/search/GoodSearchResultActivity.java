@@ -292,6 +292,7 @@ public class GoodSearchResultActivity extends Activity implements View.OnClickLi
                                     if(temp.size()<goods.size()){   //说明有重复的
                                         Toast.makeText(GoodSearchResultActivity.this, "已经是最后一项了", Toast.LENGTH_SHORT).show();
                                         productGridView.onRefreshComplete();
+                                        productGridView.setIsHaveMoreData(false);
                                     }
                                     MyLog.d(tag,"temp.size()="+temp.size());
                                     gridGoods.addAll(temp);
@@ -324,6 +325,7 @@ public class GoodSearchResultActivity extends Activity implements View.OnClickLi
                                     if(temp.size()<goods.size()){   //说明有重复的
                                         Toast.makeText(GoodSearchResultActivity.this, "已经是最后一项了", Toast.LENGTH_SHORT).show();
                                         productListViewSmall.onRefreshComplete();
+                                        productListViewSmall.setIsHaveMoreData(false);
                                     }
                                     smallListGoods.addAll(temp);
                                     smallListAdapter.notifyDataSetChanged();
@@ -355,6 +357,7 @@ public class GoodSearchResultActivity extends Activity implements View.OnClickLi
                                     if(temp.size()<goods.size()){   //说明有重复的
                                         Toast.makeText(GoodSearchResultActivity.this, "已经是最后一项了", Toast.LENGTH_SHORT).show();
                                         productListViewBig.onRefreshComplete();
+                                        productListViewBig.setIsHaveMoreData(false);
                                     }
                                     bigListGoods.addAll(temp);
                                     bigListAdapter.notifyDataSetChanged();
