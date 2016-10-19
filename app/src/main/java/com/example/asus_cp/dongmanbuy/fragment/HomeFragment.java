@@ -79,7 +79,7 @@ import java.util.Map;
  * 首页的展示界面
  * Created by asus-cp on 2016-05-19.
  */
-public class HomeFragment extends Fragment implements View.OnClickListener{
+public class HomeFragment extends BaseFragment implements View.OnClickListener{
     private String tag="HomeFragment";
     //第一个广告条
     private ViewPager firstViewPager;

@@ -79,7 +79,7 @@ import java.util.Map;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener{
+public class MainActivity extends BaseActivity implements View.OnClickListener{
     private static final int REQUEST_CODE_SHOU_CANG_KEY = 9;
     private static final int REQUEST_CODE_SHOPPING_CAR =10 ;
     private static final int REQUEST_CODE_TO_LOGIN_ACTIVITY = 12;
@@ -185,7 +185,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private String userInfoUrl="http://www.zmobuy.com/PHP/?url=/user/info";//用户信息的接口
 
-    private RequestQueue requestQueue;
 
     private View messageAndSaoYiSaoView;
 
@@ -214,7 +213,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        requestWindowFeature(Window.FEATURE_NO_TITLE);//不要标题栏
         setContentView(R.layout.activity_main);
 
         initData();
@@ -228,7 +226,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      */
     private void initData() {
         sharedPreferences=getSharedPreferences(MyConstant.USER_SHAREPREFRENCE_NAME, MODE_APPEND);
-        requestQueue= MyApplication.getRequestQueue();
         fragments=new ArrayList<Fragment>();
         Fragment homeFragment=new HomeFragment();
         Fragment categoryFragment=new CategoryFragment();
@@ -270,7 +267,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     /**
      * 初始化view
      */
-    private void initView() {
+    public void initView() {
         /*searchView= (SearchView) findViewById(R.id.search_view);
         searchView.setIconifiedByDefault(false);
         searchView.setFocusable(true);//默认不聚焦
@@ -633,8 +630,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onStart() {
         super.onStart();
-        MyLog.d(tag, "onResume");
+        MyLog.d(tag, "onStart");
+        setIsNeedTongJiPage(false);
     }
+
+
 
 
     /**

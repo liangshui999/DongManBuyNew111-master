@@ -44,6 +44,10 @@ public class MyApplication extends Application {
         //友盟,设置统计场景为普通场景
         MobclickAgent.setScenarioType(context, MobclickAgent.EScenarioType. E_UM_NORMAL);
         MobclickAgent.enableEncrypt(true);//允许加密
+        MobclickAgent.openActivityDurationTrack(false);//禁止默认的统计页面的方式，使用自定义的页面统计方式
+
+        //正式使用之前需要将集成测试注释掉，只是测试用的,切记切记
+        MobclickAgent.setDebugMode( true );
 
     }
     public static Context getContext(){

@@ -26,6 +26,7 @@ import com.example.asus_cp.dongmanbuy.adapter.CategoryAdapter;
 import com.example.asus_cp.dongmanbuy.adapter.CategoryGridViewAdapter;
 import com.example.asus_cp.dongmanbuy.constant.MyConstant;
 import com.example.asus_cp.dongmanbuy.customview.MyGridViewA;
+import com.example.asus_cp.dongmanbuy.fragment.BaseFragment;
 import com.example.asus_cp.dongmanbuy.model.CategoryModel;
 import com.example.asus_cp.dongmanbuy.model.Good;
 import com.example.asus_cp.dongmanbuy.util.CategoryImageLoadHelper;
@@ -47,7 +48,7 @@ import java.util.Map;
  * 宅品的内容
  * Created by asus-cp on 2016-05-25.
  */
-public class ZaiPingFragment extends Fragment{
+public class ZaiPingFragment extends BaseFragment{
 
     private String tag="ZaiPingFragment";
 
@@ -68,7 +69,6 @@ public class ZaiPingFragment extends Fragment{
 
     /**
      * 初始化的方法
-     * @param v
      */
     private void init() {
         context= getActivity();//注意这个context不能使用Myapplication.getconxt(),否则会报异常;

@@ -12,7 +12,7 @@ import com.example.asus_cp.dongmanbuy.R;
 /**
  * Created by asus-cp on 2016-05-19.
  */
-public class FindFragment extends Fragment {
+public class FindFragment extends BaseFragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

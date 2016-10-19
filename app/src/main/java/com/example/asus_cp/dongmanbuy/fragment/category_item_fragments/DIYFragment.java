@@ -13,6 +13,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.example.asus_cp.dongmanbuy.R;
+import com.example.asus_cp.dongmanbuy.fragment.BaseFragment;
 import com.example.asus_cp.dongmanbuy.util.MyApplication;
 
 import java.util.ArrayList;
@@ -22,7 +23,7 @@ import java.util.List;
  * diy定制的内容
  * Created by asus-cp on 2016-05-25.
  */
-public class DIYFragment extends Fragment{
+public class DIYFragment extends BaseFragment{
     private ListView diyListView;
     private List<String> diys;
     private Context context;

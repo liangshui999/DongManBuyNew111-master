@@ -11,6 +11,7 @@ import android.widget.ListView;
 
 import com.example.asus_cp.dongmanbuy.R;
 import com.example.asus_cp.dongmanbuy.adapter.CategoryListAdapter;
+import com.example.asus_cp.dongmanbuy.fragment.BaseFragment;
 import com.example.asus_cp.dongmanbuy.util.MyApplication;
 
 import java.util.ArrayList;
@@ -20,7 +21,7 @@ import java.util.List;
  * 展示商品列表，比如上装，下装箱包等选项
  * Created by asus-cp on 2016-05-25.
  */
-public class CategoryListFragment extends Fragment {
+public class CategoryListFragment extends BaseFragment {
     private ListView categoryListListView;
     private List<String> categories;
     private Context context;

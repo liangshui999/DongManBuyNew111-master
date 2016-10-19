@@ -18,6 +18,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.example.asus_cp.dongmanbuy.R;
+import com.example.asus_cp.dongmanbuy.activity.BaseActivity;
 import com.example.asus_cp.dongmanbuy.activity.product_detail.ProductDetailActivity;
 import com.example.asus_cp.dongmanbuy.adapter.ShopProductBigListAdapter;
 import com.example.asus_cp.dongmanbuy.adapter.ShopProductGridAdapter;
@@ -49,7 +50,7 @@ import java.util.Map;
  * 店铺商品排序的界面
  * Created by asus-cp on 2016-06-12.
  */
-public class ShopProdcutSortActivity extends Activity implements View.OnClickListener{
+public class ShopProdcutSortActivity extends BaseActivity implements View.OnClickListener{
 
     private String tag="ShopProdcutSortActivity";
 
@@ -85,7 +86,6 @@ public class ShopProdcutSortActivity extends Activity implements View.OnClickLis
 
     private String searchContent;//搜索的内容
     private String searchUrl = "http://www.zmobuy.com/PHP/?url=/store/prolist";//店铺商品排序的接口
-    private RequestQueue requestQueue;
     private ImageLoadHelper helper;
 
     //注意下面的3对是一一对应的,上拉加载只负责集合里面添加数据，至于什么时候清空集合则是综合，价格，销量等标签的点击事件负责
@@ -119,7 +119,6 @@ public class ShopProdcutSortActivity extends Activity implements View.OnClickLis
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.shop_product_sort_activity_layout);
         init();
 
@@ -150,7 +149,6 @@ public class ShopProdcutSortActivity extends Activity implements View.OnClickLis
             dbHelper.insert(searchContent);
         }
 
-        requestQueue = MyApplication.getRequestQueue();
         helper = new ImageLoadHelper();
 
         gridGoods = new ArrayList<Good>();
@@ -412,7 +410,7 @@ public class ShopProdcutSortActivity extends Activity implements View.OnClickLis
     /**
      * 初始化视图
      */
-    private void initView() {
+    public void initView() {
         daoHangImageView= (ImageView) findViewById(R.id.img_shop_product_sort_dao_hang);
         searchView= (ImageView) findViewById(R.id.img_search_shop_product_sort);
         categoryTextView= (TextView) findViewById(R.id.text_category_shop_product_sort);

@@ -552,11 +552,16 @@ public class DingDanActivity extends BaseActivity implements View.OnClickListene
         StringRequest yuERequest=new StringRequest(Request.Method.POST, yuEZhiFuUrl, new Response.Listener<String>() {
             @Override
             public void onResponse(String s) {
-                MyLog.d(tag,"余额支付返回的数据是："+s);
-                Intent intent=new Intent(DingDanActivity.this,YuEZhiFuSuccessedActivity.class);
-                intent.putExtra(MyConstant.DING_DAN_BIAN_HAO_LIST_KEY, (Serializable) dingDans);
-                startActivity(intent);
-                finish();
+                MyLog.d(tag, "余额支付返回的数据是：" + s);
+                if("余额不足".equals(FormatHelper.removeBom(s))){
+                    Toast.makeText(DingDanActivity.this,"余额不足",Toast.LENGTH_SHORT).show();
+                }else{
+                    Intent intent=new Intent(DingDanActivity.this,YuEZhiFuSuccessedActivity.class);
+                    intent.putExtra(MyConstant.DING_DAN_BIAN_HAO_LIST_KEY, (Serializable) dingDans);
+                    startActivity(intent);
+                    finish();
+                }
+
             }
         }, new Response.ErrorListener() {
             @Override

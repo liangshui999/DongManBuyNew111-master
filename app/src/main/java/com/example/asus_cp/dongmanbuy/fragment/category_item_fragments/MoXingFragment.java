@@ -26,6 +26,7 @@ import com.example.asus_cp.dongmanbuy.adapter.CategoryAdapter;
 import com.example.asus_cp.dongmanbuy.adapter.CategoryGridViewAdapter;
 import com.example.asus_cp.dongmanbuy.constant.MyConstant;
 import com.example.asus_cp.dongmanbuy.customview.MyGridViewA;
+import com.example.asus_cp.dongmanbuy.fragment.BaseFragment;
 import com.example.asus_cp.dongmanbuy.model.CategoryModel;
 import com.example.asus_cp.dongmanbuy.model.Good;
 import com.example.asus_cp.dongmanbuy.util.CategoryImageLoadHelper;
@@ -47,7 +48,7 @@ import java.util.Map;
  * 模型的内容
  * Created by asus-cp on 2016-05-25.
  */
-public class MoXingFragment extends Fragment{
+public class MoXingFragment extends BaseFragment{
 
     private String tag="MoXingFragment";
     private Context context;

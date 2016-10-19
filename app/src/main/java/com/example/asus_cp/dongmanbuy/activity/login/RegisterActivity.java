@@ -48,6 +48,13 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
         transaction.commit();
     }
 
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        setIsNeedTongJiPage(false);
+    }
+
     @Override
     public void initView() {
         phoneRegisterTextView= (TextView) findViewById(R.id.text_phone_register);

@@ -18,6 +18,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.example.asus_cp.dongmanbuy.R;
+import com.example.asus_cp.dongmanbuy.activity.BaseActivity;
 import com.example.asus_cp.dongmanbuy.activity.MainActivity;
 import com.example.asus_cp.dongmanbuy.activity.product_detail.ProductDetailActivity;
 import com.example.asus_cp.dongmanbuy.adapter.ShopProductBigListAdapter;
@@ -50,7 +51,7 @@ import java.util.Map;
  * 搜索结果展示的界面
  * Created by asus-cp on 2016-06-29.
  */
-public class GoodSearchResultActivity extends Activity implements View.OnClickListener {
+public class GoodSearchResultActivity extends BaseActivity implements View.OnClickListener {
 
     private String tag = "GoodSearchResultActivity";
 
@@ -91,7 +92,7 @@ public class GoodSearchResultActivity extends Activity implements View.OnClickLi
     private String searchContent;//搜索的内容
 
     private String searchUrl = "http://www.zmobuy.com/PHP/?url=/search";//搜索的接口
-    private RequestQueue requestQueue;
+
     private ImageLoadHelper helper;
 
     //注意下面的3对是一一对应的,上拉加载只负责集合里面添加数据，至于什么时候清空集合则是综合，价格，销量等标签的点击事件负责
@@ -116,7 +117,6 @@ public class GoodSearchResultActivity extends Activity implements View.OnClickLi
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.search_result_activity_layout);
         init();
     }
@@ -148,7 +148,6 @@ public class GoodSearchResultActivity extends Activity implements View.OnClickLi
             }
         }
         MyLog.d(tag, "传递过来的数据是：" + searchContent);
-        requestQueue = MyApplication.getRequestQueue();
         helper = new ImageLoadHelper();
 
         gridGoods = new ArrayList<Good>();
@@ -229,7 +228,7 @@ public class GoodSearchResultActivity extends Activity implements View.OnClickLi
     /**
      * 初始化视图
      */
-    private void initView() {
+    public void initView() {
         daoHangImageView = (ImageView) findViewById(R.id.img_dao_hang_search_result);
         searchImagView = (ImageView) findViewById(R.id.img_search_search_result);
         zongHeTextView = (TextView) findViewById(R.id.text_zong_he_sort_search_result);

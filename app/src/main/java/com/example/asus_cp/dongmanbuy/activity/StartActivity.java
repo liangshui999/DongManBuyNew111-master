@@ -18,6 +18,7 @@ import com.example.asus_cp.dongmanbuy.service.UidService;
 import com.example.asus_cp.dongmanbuy.util.MyApplication;
 import com.example.asus_cp.dongmanbuy.util.MyLog;
 import com.example.asus_cp.dongmanbuy.util.MyNetHelper;
+import com.example.asus_cp.dongmanbuy.util.YouMengHelper;
 
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -88,6 +89,8 @@ public class StartActivity extends Activity{
         imageView.startAnimation(animation);
 
         //requestQueue= MyApplication.getRequestQueue();
+
+        //MyLog.d(tag,YouMengHelper.getDeviceInfo(this));
 
     }
 

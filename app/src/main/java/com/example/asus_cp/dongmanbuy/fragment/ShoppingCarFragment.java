@@ -67,7 +67,7 @@ import java.util.Map;
  * 购物车的内容
  * Created by asus-cp on 2016-05-19.
  */
-public class ShoppingCarFragment extends Fragment implements View.OnClickListener{
+public class ShoppingCarFragment extends BaseFragment implements View.OnClickListener{
     private Context context;
     private String tag="ShoppingCarFragment";
 

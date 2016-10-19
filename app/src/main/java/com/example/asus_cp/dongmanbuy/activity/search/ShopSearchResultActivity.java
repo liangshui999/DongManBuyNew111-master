@@ -17,6 +17,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.example.asus_cp.dongmanbuy.R;
+import com.example.asus_cp.dongmanbuy.activity.BaseActivity;
 import com.example.asus_cp.dongmanbuy.activity.MainActivity;
 import com.example.asus_cp.dongmanbuy.adapter.ShopStreetShopListAdapter;
 import com.example.asus_cp.dongmanbuy.adapter.ShopStreetSpinnerAdapter;
@@ -46,7 +47,7 @@ import java.util.Map;
  * 店铺的搜索结果
  * Created by asus-cp on 2016-06-30.
  */
-public class ShopSearchResultActivity  extends Activity implements View.OnClickListener{
+public class ShopSearchResultActivity extends BaseActivity implements View.OnClickListener{
 
     private String tag="ShopSearchResultActivity";
 
@@ -56,8 +57,6 @@ public class ShopSearchResultActivity  extends Activity implements View.OnClickL
     private ImageView daoHangImageView;
     private ImageView searchImageView;
     private PullToRefreshListView shopListListView;//店铺列表
-
-    private RequestQueue requestQueue;
 
     private String indexUrl="http://www.zmobuy.com/PHP/?url=/store/index";//店铺分类的url
 
@@ -121,9 +120,13 @@ public class ShopSearchResultActivity  extends Activity implements View.OnClickL
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.shop_search_result_activity_layout);
         init();
+    }
+
+    @Override
+    public void initView() {
+
     }
 
     /**
@@ -140,7 +143,7 @@ public class ShopSearchResultActivity  extends Activity implements View.OnClickL
             dbHelper.insert(searchContent);
         }
 
-        requestQueue= MyApplication.getRequestQueue();
+
         daoHangImageView= (ImageView) findViewById(R.id.img_dao_hang_search_result);
         searchImageView= (ImageView) findViewById(R.id.img_search_search_result);
         //paiLieShunXunSpinner= (Spinner) findViewById(R.id.spin_pai_lie_shun_xu_search_result);

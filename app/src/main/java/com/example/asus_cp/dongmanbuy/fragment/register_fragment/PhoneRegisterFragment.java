@@ -28,6 +28,7 @@ import com.example.asus_cp.dongmanbuy.R;
 import com.example.asus_cp.dongmanbuy.activity.login.LoginActivity;
 import com.example.asus_cp.dongmanbuy.activity.personal_center.PersonalCenterActivity;
 import com.example.asus_cp.dongmanbuy.constant.MyConstant;
+import com.example.asus_cp.dongmanbuy.fragment.BaseFragment;
 import com.example.asus_cp.dongmanbuy.util.CheckHelper;
 import com.example.asus_cp.dongmanbuy.util.MyApplication;
 import com.example.asus_cp.dongmanbuy.util.MyLog;
@@ -42,7 +43,7 @@ import java.util.Map;
  * 手机注册的碎片
  * Created by asus-cp on 2016-05-27.
  */
-public class PhoneRegisterFragment extends Fragment implements View.OnClickListener{
+public class PhoneRegisterFragment extends BaseFragment implements View.OnClickListener{
 
     private String tag="PhoneRegisterFragment";
     private Context context;

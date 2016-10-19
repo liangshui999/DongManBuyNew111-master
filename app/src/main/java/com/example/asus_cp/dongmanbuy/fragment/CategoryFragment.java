@@ -30,7 +30,7 @@ import com.example.asus_cp.dongmanbuy.util.MyLog;
  * 分类子标签
  * Created by asus-cp on 2016-05-19.
  */
-public class CategoryFragment extends Fragment {
+public class CategoryFragment extends BaseFragment {
 
     private String tag="CategoryFragment";
 

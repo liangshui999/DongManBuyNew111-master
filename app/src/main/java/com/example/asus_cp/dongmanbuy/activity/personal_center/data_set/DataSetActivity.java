@@ -19,6 +19,7 @@ import com.example.asus_cp.dongmanbuy.constant.MyConstant;
 import com.example.asus_cp.dongmanbuy.model.User;
 import com.example.asus_cp.dongmanbuy.service.UidService;
 import com.example.asus_cp.dongmanbuy.util.ImageLoadHelper;
+import com.umeng.analytics.MobclickAgent;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -132,6 +133,9 @@ public class DataSetActivity extends BaseActivity implements View.OnClickListene
                 startActivity(toEditShipAddressListIntent);
                 break;
             case R.id.btn_exit_data_set://点击了退出按钮
+                //退出友盟统计
+                MobclickAgent.onProfileSignOff();
+
                 SharedPreferences sharedPreferences=getSharedPreferences(MyConstant.USER_SHAREPREFRENCE_NAME,
                         MODE_APPEND);
                 SharedPreferences.Editor editor=sharedPreferences.edit();

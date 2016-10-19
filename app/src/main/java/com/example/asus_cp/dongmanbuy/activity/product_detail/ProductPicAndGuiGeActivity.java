@@ -53,6 +53,13 @@ public class ProductPicAndGuiGeActivity extends BaseActivity implements View.OnC
 
     }
 
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        setIsNeedTongJiPage(false);
+    }
+
     @Override
     public void initView() {
         prodcutDetailTextView = (TextView) findViewById(R.id.text_product_detail);

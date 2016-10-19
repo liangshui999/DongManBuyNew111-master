@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.android.volley.RequestQueue;
@@ -17,6 +18,7 @@ import com.example.asus_cp.dongmanbuy.R;
 import com.example.asus_cp.dongmanbuy.constant.MyConstant;
 import com.example.asus_cp.dongmanbuy.util.DialogHelper;
 import com.example.asus_cp.dongmanbuy.util.MyApplication;
+import com.example.asus_cp.dongmanbuy.util.MyLog;
 import com.umeng.analytics.MobclickAgent;
 
 /**
@@ -25,6 +27,8 @@ import com.umeng.analytics.MobclickAgent;
  */
 public abstract class BaseActivity extends AppCompatActivity{
 
+    private static final String TAG = "BaseActivity";
+
     //基类里面定义好一些共有变量，子类里面都需要使用的
     public RequestQueue requestQueue;
 
@@ -32,9 +36,13 @@ public abstract class BaseActivity extends AppCompatActivity{
 
     public String sid;
 
+    private RelativeLayout titleRelativeLayout;//头部的整个布局
     private LinearLayout contentLinearLayout;
     private ImageView backImageView;//返回按钮
     private TextView titleTextView;//标题栏
+
+    private boolean isNeedTongJiPage=true;//默认是需要统计页面的(给友盟统计用的)
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +51,7 @@ public abstract class BaseActivity extends AppCompatActivity{
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE);//注意是调用这个，而不是上面的
         //getSupportActionBar().hide();
         setContentView(R.layout.base_activity_layout);
+        titleRelativeLayout= (RelativeLayout) findViewById(R.id.re_layout_title);
         contentLinearLayout= (LinearLayout) findViewById(R.id.ll_content_base_activity);
         backImageView = (ImageView) findViewById(R.id.img_dao_hang_base_acitivity);
         titleTextView = (TextView) findViewById(R.id.text_dao_hang_base_activity);
@@ -114,17 +123,41 @@ public abstract class BaseActivity extends AppCompatActivity{
     }
 
 
+    /**
+     * 隐藏头部的方法
+     */
+    public void hideTitle(){
+        titleRelativeLayout.setVisibility(View.GONE);
+    }
+
+
     public void onResume() {
         super.onResume();
+        if(isNeedTongJiPage){
+            MobclickAgent.onPageStart(this.getClass().getSimpleName());//使用的是反射的方式
+        }
         MobclickAgent.onResume(this);//用于友盟统计
+        MyLog.d(TAG, this.getClass().getSimpleName());
     }
 
     public void onPause() {
         super.onPause();
+        if(isNeedTongJiPage){
+            MobclickAgent.onPageEnd(this.getClass().getSimpleName());
+        }
         MobclickAgent.onPause(this);//用于友盟统计
+        //MyLog.d(TAG, this.getClass().getSimpleName());
     }
 
 
+    /**
+     * 设置是否需要统计页面,该方法需要在onstart（）里面调用
+     * 主要是针对内部含有fragment的activity
+     * @param isNeedTongJiPage
+     */
+    public void setIsNeedTongJiPage(boolean isNeedTongJiPage) {
+        this.isNeedTongJiPage = isNeedTongJiPage;
+    }
 
     /**
      * 初始化view

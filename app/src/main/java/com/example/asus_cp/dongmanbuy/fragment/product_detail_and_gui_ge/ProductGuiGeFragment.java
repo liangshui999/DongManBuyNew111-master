@@ -18,6 +18,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.example.asus_cp.dongmanbuy.R;
 import com.example.asus_cp.dongmanbuy.adapter.GuiGeAdapter;
 import com.example.asus_cp.dongmanbuy.constant.MyConstant;
+import com.example.asus_cp.dongmanbuy.fragment.BaseFragment;
 import com.example.asus_cp.dongmanbuy.model.GuiGeModel;
 import com.example.asus_cp.dongmanbuy.net.MyImageRequest;
 import com.example.asus_cp.dongmanbuy.util.DialogHelper;
@@ -38,7 +39,7 @@ import java.util.Map;
  * 商品规格的碎片
  * Created by asus-cp on 2016-06-02.
  */
-public class ProductGuiGeFragment extends Fragment{
+public class ProductGuiGeFragment extends BaseFragment{
 
     private String tag="ProductGuiGeFragment";
     private RequestQueue requestQueue;

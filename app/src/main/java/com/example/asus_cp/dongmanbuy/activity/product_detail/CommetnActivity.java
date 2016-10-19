@@ -91,6 +91,12 @@ public class CommetnActivity extends BaseActivity implements View.OnClickListene
     }
 
     @Override
+    protected void onStart() {
+        super.onStart();
+        setIsNeedTongJiPage(false);
+    }
+
+    @Override
     public void initView() {
         allCommentLinearLayout= (LinearLayout) findViewById(R.id.ll_all_comment);
         haoCommentLinearLayout= (LinearLayout) findViewById(R.id.ll_hao_comment);

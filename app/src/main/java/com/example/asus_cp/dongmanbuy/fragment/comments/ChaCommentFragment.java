@@ -9,12 +9,13 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 
 import com.example.asus_cp.dongmanbuy.R;
+import com.example.asus_cp.dongmanbuy.fragment.BaseFragment;
 
 /**
  * 差评
  * Created by asus-cp on 2016-06-02.
  */
-public class ChaCommentFragment extends Fragment {
+public class ChaCommentFragment extends BaseFragment {
     private ListView listView;
     @Nullable
     @Override

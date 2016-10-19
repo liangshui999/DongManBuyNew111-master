@@ -18,6 +18,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.example.asus_cp.dongmanbuy.R;
+import com.example.asus_cp.dongmanbuy.activity.BaseActivity;
 import com.example.asus_cp.dongmanbuy.adapter.ShengMingListViewAdapter;
 import com.example.asus_cp.dongmanbuy.adapter.XianQuMingAdapter;
 import com.example.asus_cp.dongmanbuy.constant.MyConstant;
@@ -46,13 +47,12 @@ import java.util.Set;
  * 所在地区的界面
  * Created by asus-cp on 2016-06-03.
  */
-public class AreaActivity extends Activity {
+public class AreaActivity extends BaseActivity {
     private String tag = "AreaActivity";
 
     private RelativeLayout closeReativeLayout;//关闭按钮
     private ListView shengListView;//省名列表
     private ExpandableListView shiExapanListView;//市名列表
-    private RequestQueue requestQueue;
 
     private List<String> shengMings;//省名列表
     private List<String> shiMings;//市名列表
@@ -87,16 +87,19 @@ public class AreaActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.area_activity_layout);
         init();
+    }
+
+    @Override
+    public void initView() {
+
     }
 
     /**
      * 初始化方法
      */
     private void init() {
-        requestQueue = MyApplication.getRequestQueue();
         sharedPreferences = getSharedPreferences(MyConstant.USER_SHAREPREFRENCE_NAME, MODE_APPEND);
         uid = sharedPreferences.getString(MyConstant.UID_KEY, null);
         sid = sharedPreferences.getString(MyConstant.SID_KEY, null);

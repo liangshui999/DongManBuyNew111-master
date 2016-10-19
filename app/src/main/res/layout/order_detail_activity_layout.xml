@@ -123,6 +123,7 @@
                     android:background="@color/white_my"/>
 
                 <TextView
+                    android:id="@+id/text_shop_name_order_detail"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="店铺名称"

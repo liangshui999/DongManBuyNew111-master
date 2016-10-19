@@ -202,9 +202,24 @@ public class DingDanListActivity extends BaseActivity implements View.OnClickLis
             for (int i = 0; i < jsonArray.length(); i++) {
                 JSONObject ziJsObj = jsonArray.getJSONObject(i);
                 DingDanModel model = new DingDanModel();
+                model.setShouHuoRenName(ziJsObj.getString("consignee"));
+                model.setPhone(ziJsObj.getString("mobile"));
+
+                //解析地址的部分
+                JSONObject addressObj=ziJsObj.getJSONObject("address");
+                model.setSheng(JsonHelper.decodeUnicode(addressObj.getString("province")));
+                model.setShi(JsonHelper.decodeUnicode(addressObj.getString("city")));
+                model.setXian(JsonHelper.decodeUnicode(addressObj.getString("district")));
+                model.setDetailAddress(JsonHelper.decodeUnicode(addressObj.getString("address")));
+
                 model.setShopName(JsonHelper.decodeUnicode(ziJsObj.getString("goods_shop_name")));
                 model.setOrderId(ziJsObj.getString("order_id"));
                 model.setOrderBianHao(ziJsObj.getString("order_sn"));
+                model.setShipName(JsonHelper.decodeUnicode(ziJsObj.getString("shipping_name")));
+                model.setMaiJiaLiuYan(JsonHelper.decodeUnicode(ziJsObj.getString("postscript")));
+                model.setZhiFuFangShi(JsonHelper.decodeUnicode(ziJsObj.getString("pay_name")));
+                model.setFaPiaoTaiTou(JsonHelper.decodeUnicode(ziJsObj.getString("inv_payee")));
+                model.setFaPiaoContent(JsonHelper.decodeUnicode(ziJsObj.getString("inv_content")));
                 model.setOrderTime(ziJsObj.getString("order_time"));
                 model.setSumPrice(ziJsObj.getString("total_fee"));
                 List<Good> goods = new ArrayList<Good>();

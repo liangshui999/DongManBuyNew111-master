@@ -1,18 +1,14 @@
 package com.example.asus_cp.dongmanbuy.activity.gou_wu;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.view.View;
-import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -23,14 +19,12 @@ import android.widget.Toast;
 import com.alipay.sdk.app.PayTask;
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
-import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.StringRequest;
 import com.example.asus_cp.dongmanbuy.R;
 import com.example.asus_cp.dongmanbuy.activity.BaseActivity;
-import com.example.asus_cp.dongmanbuy.adapter.DingDanJieMianListAdapterIn;
 import com.example.asus_cp.dongmanbuy.constant.MyConstant;
 import com.example.asus_cp.dongmanbuy.customview.MyListView;
 import com.example.asus_cp.dongmanbuy.model.DingDanModel;
@@ -38,7 +32,6 @@ import com.example.asus_cp.dongmanbuy.model.Good;
 import com.example.asus_cp.dongmanbuy.util.FormatHelper;
 import com.example.asus_cp.dongmanbuy.util.ImageLoadHelper;
 import com.example.asus_cp.dongmanbuy.util.JsonHelper;
-import com.example.asus_cp.dongmanbuy.util.MyApplication;
 import com.example.asus_cp.dongmanbuy.util.MyLog;
 import com.example.asus_cp.dongmanbuy.util.zhi_fu_bao_util.PayResult;
 import com.example.asus_cp.dongmanbuy.util.zhi_fu_bao_util.SignUtils;
@@ -69,6 +62,7 @@ public class DingDanDetailActivity extends BaseActivity implements View.OnClickL
     private TextView shiAddressTextView;//收货地址
     private TextView xianAddressTextView;//收货地址
     private TextView detailAddressTextView;//收货地址
+    private TextView shopNameTextView;//店铺名称
     private TextView dingDanHaoTextView;//订单号
     private TextView dingDanTimeTextView;//订单时间
     private LinearLayout productDisplayLinearLayoutOrignal;//商品的展示区
@@ -207,6 +201,7 @@ public class DingDanDetailActivity extends BaseActivity implements View.OnClickL
         }
         helper=new ImageLoadHelper();
         initView();
+        setValueToView();
     }
 
     /**
@@ -219,6 +214,7 @@ public class DingDanDetailActivity extends BaseActivity implements View.OnClickL
         shiAddressTextView= (TextView) findViewById(R.id.text_shou_huo_address_shi_order_detail);
         xianAddressTextView= (TextView) findViewById(R.id.text_shou_huo_address_xian_order_detail);
         detailAddressTextView= (TextView) findViewById(R.id.text_shou_huo_address_order_detail);
+        shopNameTextView= (TextView) findViewById(R.id.text_shop_name_order_detail);
         dingDanHaoTextView= (TextView) findViewById(R.id.text_ding_dan_hao_ding_dan_order_detail);
         dingDanTimeTextView= (TextView) findViewById(R.id.text_time_ding_dan_order_detail);
         productDisplayLinearLayoutOrignal = (LinearLayout) findViewById(R.id.ll_product_display_area_order_detail);
@@ -246,6 +242,20 @@ public class DingDanDetailActivity extends BaseActivity implements View.OnClickL
         cancelAndPayRelativeLayout= (RelativeLayout) findViewById(R.id.re_layout_cancel_and_pay_gu_ding);
         yiQueRenRelaytiveLayout= (RelativeLayout) findViewById(R.id.re_layout_yi_que_ren);
 
+       // getDataFromIntenet();
+
+        //设置点击事件
+        displayAllProductLineatLayout.setOnClickListener(this);
+        downImageView.setOnClickListener(this);
+        cancelOrderButton.setOnClickListener(this);
+        zhiFuBaoZhiFuButton.setOnClickListener(this);
+    }
+
+
+    /**
+     * 此方法作废，订单详情的接口已经没有使用了
+     */
+    private void getDataFromIntenet() {
         StringRequest orderInfoRequest = new StringRequest(Request.Method.POST, orderInfoUrl,
                 new Response.Listener<String>() {
                     @Override
@@ -269,14 +279,6 @@ public class DingDanDetailActivity extends BaseActivity implements View.OnClickL
             }
         };
         requestQueue.add(orderInfoRequest);
-
-
-
-        //设置点击事件
-        displayAllProductLineatLayout.setOnClickListener(this);
-        downImageView.setOnClickListener(this);
-        cancelOrderButton.setOnClickListener(this);
-        zhiFuBaoZhiFuButton.setOnClickListener(this);
     }
 
 
@@ -342,18 +344,23 @@ public class DingDanDetailActivity extends BaseActivity implements View.OnClickL
      * 给view设置值
      */
     private void setValueToView() {
-        setAreaValue(1 + "", dingDanModel.getSheng() + "", shengAddressTextView);
-        setAreaValue(dingDanModel.getSheng(), dingDanModel.getShi(), shiAddressTextView);
-        setAreaValue(dingDanModel.getShi(), dingDanModel.getXian(), xianAddressTextView);
+//        setAreaValue(1 + "", dingDanModel.getSheng() + "", shengAddressTextView);
+//        setAreaValue(dingDanModel.getSheng(), dingDanModel.getShi(), shiAddressTextView);
+//        setAreaValue(dingDanModel.getShi(), dingDanModel.getXian(), xianAddressTextView);
 
         peopleNameTextView.setText(dingDanModel.getShouHuoRenName());
         phoneTextView.setText(dingDanModel.getPhone());
+        shengAddressTextView.setText(dingDanModel.getSheng());
+        shiAddressTextView.setText(dingDanModel.getShi());
+        xianAddressTextView.setText(dingDanModel.getXian());
         detailAddressTextView.setText(dingDanModel.getDetailAddress());
+        shopNameTextView.setText(dingDanModel.getShopName());
         dingDanHaoTextView.setText(dingDanModel.getOrderBianHao());
         dingDanTimeTextView.setText(dingDanModel.getOrderTime());
         MyLog.d(tag, "总价=" + dingDanModel.getSumPrice());
-        productSumPriceTextView.setText(FormatHelper.getMoneyFormat(dingDanModel.getGoodsSumPrice()));//设置商品金额
-        yingFuZongETextView.setText(FormatHelper.getMoneyFormat(dingDanModel.getGoodsSumPrice()));
+        MyLog.d(tag,"格式化之后的总价："+FormatHelper.getMoneyFormat(dingDanModel.getSumPrice()));
+        productSumPriceTextView.setText(FormatHelper.getMoneyFormat(dingDanModel.getSumPrice()));//设置商品金额
+        yingFuZongETextView.setText(FormatHelper.getMoneyFormat(dingDanModel.getSumPrice()));
         peiSongFangShiTextView.setText(dingDanModel.getShipName());//设置配送方式
         yunFeiTextView.setText(dingDanModel.getShipFee());
         yunFeiBottomTextView.setText(dingDanModel.getShipFee());

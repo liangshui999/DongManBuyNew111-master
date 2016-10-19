@@ -12,6 +12,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import com.example.asus_cp.dongmanbuy.R;
+import com.example.asus_cp.dongmanbuy.activity.BaseActivity;
 import com.example.asus_cp.dongmanbuy.activity.product_detail.ProductDetailActivity;
 import com.example.asus_cp.dongmanbuy.adapter.LiuLanJiLuMainActivityAdapter;
 import com.example.asus_cp.dongmanbuy.constant.DBConstant;
@@ -27,7 +28,7 @@ import java.util.List;
  * 首页点击浏览记录之后浏览记录的展示列表
  * Created by asus-cp on 2016-07-21.
  */
-public class LiuLanJiLuListActivity extends Activity implements View.OnClickListener{
+public class LiuLanJiLuListActivity extends BaseActivity implements View.OnClickListener{
 
     private ImageView daoHangImageView;//导航
     private LinearLayout qingKongLinearLayout;//清空按钮
@@ -40,16 +41,20 @@ public class LiuLanJiLuListActivity extends Activity implements View.OnClickList
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.liu_lan_ji_lu_activity_layout);
         init();
     }
 
-    private void init() {
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
-        setContentView(R.layout.liu_lan_ji_lu_activity_layout);
+    @Override
+    public void initView() {
         daoHangImageView= (ImageView) findViewById(R.id.img_dao_hang_liu_lan_ji_lu);
         noContentLinearLayout= (LinearLayout) findViewById(R.id.ll_no_content_liu_lan_li_shi);
         qingKongLinearLayout= (LinearLayout) findViewById(R.id.ll_qing_kong_liu_lan_ji_lu);
         listView= (ListView) findViewById(R.id.list_liu_lan_ji_lu);
+    }
+
+    private void init() {
+        initView();
 
         //设置点击事件
         daoHangImageView.setOnClickListener(this);

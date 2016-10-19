@@ -14,6 +14,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.example.asus_cp.dongmanbuy.R;
+import com.example.asus_cp.dongmanbuy.activity.BaseActivity;
 import com.example.asus_cp.dongmanbuy.adapter.ShopStreetSpinnerAdapter;
 import com.example.asus_cp.dongmanbuy.constant.DBConstant;
 import com.example.asus_cp.dongmanbuy.constant.MyConstant;
@@ -30,7 +31,7 @@ import java.util.List;
  * 店铺搜索的界面，和搜索界面类似，但是是不同的界面
  * Created by asus-cp on 2016-07-13.
  */
-public class ShopSearchActivity extends Activity implements View.OnClickListener{
+public class ShopSearchActivity extends BaseActivity implements View.OnClickListener{
 
     private String tag="ShopSearchActivity";
 
@@ -56,7 +57,6 @@ public class ShopSearchActivity extends Activity implements View.OnClickListener
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.shop_search_activity_layout);
         init();
     }
@@ -145,7 +145,7 @@ public class ShopSearchActivity extends Activity implements View.OnClickListener
     /**
      * 初始化视图
      */
-    private void initView() {
+    public void initView() {
         daoHangImageView= (ImageView) findViewById(R.id.img_dao_hang_search);
         //spinner= (Spinner) findViewById(R.id.spinner_search);
         searchEditText= (EditText) findViewById(R.id.edit_search);

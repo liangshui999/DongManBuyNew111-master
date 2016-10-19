@@ -24,6 +24,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.StringRequest;
 import com.example.asus_cp.dongmanbuy.R;
+import com.example.asus_cp.dongmanbuy.activity.BaseActivity;
 import com.example.asus_cp.dongmanbuy.activity.login.LoginActivity;
 import com.example.asus_cp.dongmanbuy.activity.product_detail.ProductDetailActivity;
 import com.example.asus_cp.dongmanbuy.adapter.ShopHomeHotProductAdapter;
@@ -50,7 +51,7 @@ import java.util.Map;
  * 店铺主页的界面
  * Created by asus-cp on 2016-06-07.
  */
-public class ShopHomeActivity extends Activity implements View.OnClickListener {
+public class ShopHomeActivity extends BaseActivity implements View.OnClickListener {
 
     private String tag = "ShopHomeActivity";
 
@@ -83,8 +84,6 @@ public class ShopHomeActivity extends Activity implements View.OnClickListener {
 
     private String guanZhuListUrl="http://www.zmobuy.com/PHP/?url=/user/storelist";//获取关注列表的数据
 
-    private RequestQueue requestQueue;
-
     private ImageLoadHelper helper;
 
     private ShopModel shopModel;
@@ -94,19 +93,12 @@ public class ShopHomeActivity extends Activity implements View.OnClickListener {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.shop_home_activity_layout);
         init();
     }
 
-    /**
-     * 初始化的方法
-     */
-    private void init() {
-        shopUserId = getIntent().getStringExtra(MyConstant.SHOP_USER_ID_KEY);
-        requestQueue = MyApplication.getRequestQueue();
-        helper=new ImageLoadHelper();
-
+    @Override
+    public void initView() {
         daoHangImagView = (ImageView) findViewById(R.id.img_shop_home_dao_hang);
         searchImageView = (ImageView) findViewById(R.id.img_search_shop_home);
         categoryTextView = (TextView) findViewById(R.id.text_category_shop_home);
@@ -140,7 +132,23 @@ public class ShopHomeActivity extends Activity implements View.OnClickListener {
         hotCategoryLinearLayout.setOnClickListener(this);
         keFuLinearLayout.setOnClickListener(this);
         seeMoreTextView.setOnClickListener(this);
+    }
 
+    /**
+     * 初始化的方法
+     */
+    private void init() {
+        shopUserId = getIntent().getStringExtra(MyConstant.SHOP_USER_ID_KEY);
+        helper=new ImageLoadHelper();
+        initView();
+        getDataFromIntenetAndSetView();
+    }
+
+
+    /**
+     * 从网络获取数据并且给view赋值
+     */
+    private void getDataFromIntenetAndSetView() {
         DialogHelper.showDialog(this);
         StringRequest getShopInfoRequest = new StringRequest(Request.Method.POST, shopInfoUrl, new Response.Listener<String>() {
             @Override

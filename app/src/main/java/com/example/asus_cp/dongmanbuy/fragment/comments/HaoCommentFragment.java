@@ -19,6 +19,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.example.asus_cp.dongmanbuy.R;
 import com.example.asus_cp.dongmanbuy.activity.product_detail.CommetnActivity;
 import com.example.asus_cp.dongmanbuy.adapter.CommentAdapter;
+import com.example.asus_cp.dongmanbuy.fragment.BaseFragment;
 import com.example.asus_cp.dongmanbuy.model.Comment;
 import com.example.asus_cp.dongmanbuy.model.Good;
 import com.example.asus_cp.dongmanbuy.util.MyApplication;
@@ -37,7 +38,7 @@ import java.util.Map;
  * 好评
  * Created by asus-cp on 2016-06-02.
  */
-public class HaoCommentFragment extends Fragment {
+public class HaoCommentFragment extends BaseFragment {
     private Context context;
     private ListView listView;
     private String userCommentUrl = "http://www.zmobuy.com/PHP/index.php?url=/comments";//用户评论的接口

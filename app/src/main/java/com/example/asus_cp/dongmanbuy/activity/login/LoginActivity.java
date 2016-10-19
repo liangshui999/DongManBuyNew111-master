@@ -38,6 +38,7 @@ import com.sina.weibo.sdk.auth.Oauth2AccessToken;
 import com.sina.weibo.sdk.auth.WeiboAuthListener;
 import com.sina.weibo.sdk.auth.sso.SsoHandler;
 import com.sina.weibo.sdk.exception.WeiboException;
+import com.umeng.analytics.MobclickAgent;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -204,6 +205,10 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener{
                             writeToSharePreferences(sid, MyConstant.SID_KEY);
                             writeToSharePreferences(zhangHao, MyConstant.USER_NAME);
                             writeToSharePreferences(password, MyConstant.PASS_WORD);
+
+                            //使用友盟进行账号统计(用户登陆的时候)
+                            MobclickAgent.onProfileSignIn(uid);
+
                             if(whoStartMe.equals("shouCang")){//说明是从收藏跳转过来的
                                 Intent shouCangIntent=new Intent();
                                 setResult(RESULT_OK,shouCangIntent);

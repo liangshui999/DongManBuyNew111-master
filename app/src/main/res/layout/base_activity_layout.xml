@@ -5,6 +5,7 @@
 
     <!--头部-->
     <RelativeLayout
+        android:id="@+id/re_layout_title"
         style="@style/dao_hang_relative_layout_style">
         <ImageView
             android:id="@+id/img_dao_hang_base_acitivity"

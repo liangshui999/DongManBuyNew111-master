@@ -54,7 +54,7 @@ import java.util.Map;
  * 店铺街的界面
  * Created by asus-cp on 2016-05-19.
  */
-public class ShopStreetFragment extends Fragment implements View.OnClickListener{
+public class ShopStreetFragment extends BaseFragment implements View.OnClickListener{
     private Context context;
     private String tag="ShopStreetFragment";
     private Spinner paiLieShunXunSpinner;//排列顺序

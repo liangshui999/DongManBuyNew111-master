@@ -18,6 +18,7 @@ import com.example.asus_cp.dongmanbuy.activity.search.GoodSearchResultActivity;
 import com.example.asus_cp.dongmanbuy.adapter.CategoryAdapter;
 import com.example.asus_cp.dongmanbuy.constant.MyConstant;
 import com.example.asus_cp.dongmanbuy.customview.MyGridViewA;
+import com.example.asus_cp.dongmanbuy.fragment.BaseFragment;
 import com.example.asus_cp.dongmanbuy.model.CategoryModel;
 import com.example.asus_cp.dongmanbuy.util.MyApplication;
 
@@ -28,7 +29,7 @@ import java.util.List;
  * 毛绒的内容
  * Created by asus-cp on 2016-05-25.
  */
-public class MaoRongFragment extends Fragment {
+public class MaoRongFragment extends BaseFragment {
     private Context context;
 
     private MyGridViewA maoRongGridView;

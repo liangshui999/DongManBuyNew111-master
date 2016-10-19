@@ -9,12 +9,13 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 
 import com.example.asus_cp.dongmanbuy.R;
+import com.example.asus_cp.dongmanbuy.fragment.BaseFragment;
 
 /**
  * 有图评价
  * Created by asus-cp on 2016-06-02.
  */
-public class YouTuCommentFragment extends Fragment {
+public class YouTuCommentFragment extends BaseFragment {
     private ListView listView;
     @Nullable
     @Override

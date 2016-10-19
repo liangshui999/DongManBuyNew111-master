@@ -22,6 +22,7 @@ import com.android.volley.toolbox.ImageRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.example.asus_cp.dongmanbuy.R;
 import com.example.asus_cp.dongmanbuy.activity.product_detail.ProductPicAndGuiGeActivity;
+import com.example.asus_cp.dongmanbuy.fragment.BaseFragment;
 import com.example.asus_cp.dongmanbuy.model.Good;
 import com.example.asus_cp.dongmanbuy.net.MyImageRequest;
 import com.example.asus_cp.dongmanbuy.util.DialogHelper;
@@ -40,7 +41,7 @@ import java.util.Map;
  * 商品详情图片所在的碎片,需要动态构建imageview，因为返回的图片数目不定
  * Created by asus-cp on 2016-06-02.
  */
-public class ProductDetailFragment extends Fragment{
+public class ProductDetailFragment extends BaseFragment{
     private String productUrl="http://www.zmobuy.com/PHP/index.php?url=/goods/desc";
     private RequestQueue requestQueue;
     private Context context;

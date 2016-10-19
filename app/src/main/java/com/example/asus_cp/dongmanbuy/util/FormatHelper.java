@@ -22,6 +22,7 @@ public class FormatHelper {
      * 将数字保留2位小数，且以人民币开头
      */
     public static String getMoneyFormat(String str){
+        //MyLog.d(tag,"str="+str);
         if(getNumberFromRenMingBi(str)!=null){
             double d=Double.parseDouble(getNumberFromRenMingBi(str));
             DecimalFormat a = new DecimalFormat("¥#0.00");
@@ -59,6 +60,7 @@ public class FormatHelper {
      * 从人民币中取出数字
      */
     public static String getNumberFromRenMingBi(String s){
+        //MyLog.d(tag,"s="+s);
         if(s!=null){
             String result=null;
             String regex="[0-9][0-9]*\\.*[0-9]*";
@@ -66,6 +68,7 @@ public class FormatHelper {
             Matcher matcher=pattern.matcher(s);
             if(matcher.find()){
                 result=matcher.group();
+                MyLog.d(tag,"result="+result);
             }
             return result;
         }else{
