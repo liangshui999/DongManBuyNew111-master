@@ -298,13 +298,20 @@
             android:screenOrientation="portrait"/>
 
         <!--店铺地址的地图的activity-->
-        <activity android:name=".activity.map_activity_my.ShopStreerMapActivity"/>
+        <activity android:name=".activity.map_activity_my.ShopStreerMapActivity"
+            android:screenOrientation="portrait"/>
 
         <!--线路规划的activity-->
-        <activity android:name=".activity.map_activity_my.SearchWayActivity"/>
+        <activity android:name=".activity.map_activity_my.SearchWayActivity"
+            android:screenOrientation="portrait"/>
 
         <!--引导页的activity-->
-        <activity android:name=".activity.GuideActivity"/>
+        <activity android:name=".activity.GuideActivity"
+            android:screenOrientation="portrait"/>
+
+        <!--带评价列表的activity-->
+        <activity android:name=".activity.gou_wu.AwaitCommentListActivity"
+            android:screenOrientation="portrait"/>
 
 
         <!--搜索的activity,因为必须按照ui做，此类作废-->

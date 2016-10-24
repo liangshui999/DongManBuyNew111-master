@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal" android:layout_width="match_parent"
+    android:layout_height="140dp"
+    android:padding="10dp">
+
+    <!--图片所在的布局-->
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@color/white_my">
+        <ImageView
+            android:id="@+id/img_good_pic_await_comment"
+            android:layout_width="wrap_content"
+            android:layout_height="140dp"
+            android:src="@mipmap/sina"/>
+
+    </LinearLayout>
+
+    <!--名称和评价所在的布局-->
+    <RelativeLayout
+        android:layout_width="0dp"
+        android:layout_weight="3"
+        android:layout_height="wrap_content"
+        android:paddingLeft="10dp"
+        android:background="@color/white_my">
+        <TextView
+            android:id="@+id/text_good_name_await_comment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:text="这是商品的名称"
+            android:textColor="@color/myblack"/>
+
+        <TextView
+            android:id="@+id/text_comment_await_comment"
+            android:clickable="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/ping_jia_sai_dan"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:textColor="@color/bottom_lable_color"
+            android:background="@drawable/guan_zhu_background"/>
+
+    </RelativeLayout>
+
+
+
+</LinearLayout>

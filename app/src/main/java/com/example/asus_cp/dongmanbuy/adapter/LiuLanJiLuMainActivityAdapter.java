@@ -70,6 +70,7 @@ public class LiuLanJiLuMainActivityAdapter extends BaseAdapter{
         }
 
         final Good good=goods.get(position);
+        viewHolder.picImageView.setTag(good.getGoodsThumb());
         ImageLoader imageLoader=helper.getImageLoader();
         ImageLoader.ImageListener listener=imageLoader.getImageListener(viewHolder.picImageView,R.mipmap.yu_jia_zai,
                 R.mipmap.yu_jia_zai);

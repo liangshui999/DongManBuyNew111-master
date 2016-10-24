@@ -12,12 +12,10 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -28,7 +26,6 @@ import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
-import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
@@ -60,7 +57,6 @@ import com.example.asus_cp.dongmanbuy.util.CategoryImageLoadHelper;
 import com.example.asus_cp.dongmanbuy.util.FormatHelper;
 import com.example.asus_cp.dongmanbuy.util.ImageLoadHelper;
 import com.example.asus_cp.dongmanbuy.util.JsonHelper;
-import com.example.asus_cp.dongmanbuy.util.MyApplication;
 import com.example.asus_cp.dongmanbuy.util.MyLog;
 import com.example.asus_cp.dongmanbuy.util.MyScreenInfoHelper;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
@@ -209,6 +205,10 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
 
     private boolean isLogined;//判断用户是否已经登陆，侧滑菜单需要用到
 
+    private Fragment mCurrentFragment;//当前的fragment
+
+    private Fragment mLastFragment;//上一个fragment
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -227,16 +227,17 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
     private void initData() {
         sharedPreferences=getSharedPreferences(MyConstant.USER_SHAREPREFRENCE_NAME, MODE_APPEND);
         fragments=new ArrayList<Fragment>();
-        Fragment homeFragment=new HomeFragment();
-        Fragment categoryFragment=new CategoryFragment();
-        Fragment findFragment=new FindFragment();
-        Fragment shopStreetFragment=new ShopStreetFragment();
-        Fragment shoppingCarFragment=new ShoppingCarFragment();
+        homeFragment=new HomeFragment();
+        categoryFragment=new CategoryFragment();
+        findFragment=new FindFragment();
+        shopStreetFragment=new ShopStreetFragment();
+        shoppingCarFragment=new ShoppingCarFragment();
         fragments.add(homeFragment);
         fragments.add(categoryFragment);
         fragments.add(findFragment);
         fragments.add(shopStreetFragment);
         fragments.add(shoppingCarFragment);
+
         fragmentPagerAdapter=new FragmentPagerAdapter(getSupportFragmentManager()) {
             @Override
             public Fragment getItem(int position) {
@@ -335,38 +336,35 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
         //初始化framelayout
         frameLaout= (FrameLayout) findViewById(R.id.frame_layout_main);
         fragmentManager=getSupportFragmentManager();
-        homeFragment=new HomeFragment();
-        categoryFragment=new CategoryFragment();
-        findFragment=new FindFragment();
-        shopStreetFragment=new ShopStreetFragment();
-        shoppingCarFragment=new ShoppingCarFragment();
+        mLastFragment=homeFragment;
         FragmentTransaction fragmentTransaction=fragmentManager.beginTransaction();
         fragmentTransaction.add(R.id.frame_layout_main, homeFragment);
         fragmentTransaction.commit();
+
 
 
         //跳转到购物车碎片(从别的活动跳过来的时候,只有当活动在后台销毁的时候，这段代码才会调用)
         labelFlag=getIntent().getStringExtra(MyConstant.MAIN_ACTIVITY_LABLE_FALG_KEY);
         MyLog.d(tag, "labelFlag=" + labelFlag);
         if(MyConstant.SHOPPING_CAR_FLAG_KEY.equals(labelFlag)){
-            MyLog.d(tag,"init中的方法执行了吗");
-            FragmentTransaction shoppingTransaction=fragmentManager.beginTransaction();
-            shoppingTransaction.replace(R.id.frame_layout_main, shoppingCarFragment);
-            shoppingTransaction.commit();
+            MyLog.d(tag, "init中的方法执行了吗");
+            showAndHideShoppingCarFragment();
             resetLabel();
             shoppingCarImg.setImageResource(R.mipmap.home_selected);
             shoppingCarText.setTextColor(getResources().getColor(R.color.bottom_lable_color));
         }else if(MyConstant.SHOPPING_STRRET_FLAG_KEY.equals(labelFlag)){
-            FragmentTransaction shopStreetTransaction=fragmentManager.beginTransaction();
-            shopStreetTransaction.replace(R.id.frame_layout_main,shopStreetFragment);
-            shopStreetTransaction.commit();
+//            FragmentTransaction shopStreetTransaction=fragmentManager.beginTransaction();
+//            shopStreetTransaction.replace(R.id.frame_layout_main,shopStreetFragment);
+//            shopStreetTransaction.commit();
+            showAndHideFragment(shopStreetFragment);
             resetLabel();
             shopStreetImg.setImageResource(R.mipmap.shopstreet_selected);
             shopStreetText.setTextColor(getResources().getColor(R.color.bottom_lable_color));
         }else if(MyConstant.HOME_FLAG_KEY.equals(labelFlag)){
-            FragmentTransaction homeTransaction=fragmentManager.beginTransaction();
-            homeTransaction.replace(R.id.frame_layout_main,homeFragment);
-            homeTransaction.commit();
+//            FragmentTransaction homeTransaction=fragmentManager.beginTransaction();
+//            homeTransaction.replace(R.id.frame_layout_main,homeFragment);
+//            homeTransaction.commit();
+            showAndHideFragment(homeFragment);
             resetLabel();
             homeImg.setImageResource(R.mipmap.home_selected);
             homeText.setTextColor(getResources().getColor(R.color.bottom_lable_color));
@@ -561,6 +559,42 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
 
 
     /**
+     * 显示和隐藏shoppingcarfragment
+     */
+    private void showAndHideShoppingCarFragment() {
+        FragmentTransaction shoppingCarTranscation=fragmentManager.beginTransaction();
+        shoppingCarTranscation.hide(mLastFragment);
+        if(shoppingCarFragment.isAdded()){
+            shoppingCarTranscation.remove(shoppingCarFragment);
+            shoppingCarFragment=new ShoppingCarFragment();
+            shoppingCarTranscation.add(R.id.frame_layout_main,shoppingCarFragment);
+        }else{
+            shoppingCarTranscation.add(R.id.frame_layout_main,shoppingCarFragment);
+        }
+        shoppingCarTranscation.commit();
+        mLastFragment=shoppingCarFragment;
+    }
+
+
+    /**
+     * 显示新的fragment，隐藏旧的fragemnt
+     */
+    private void showAndHideFragment(Fragment fragment) {
+        FragmentTransaction transaction=fragmentManager.beginTransaction();
+        MyLog.d(tag,"fragment.isAdded()="+fragment.isAdded());
+        MyLog.d(tag, "mLastFragment:" + mLastFragment.getClass().getSimpleName());
+        transaction.hide(mLastFragment);
+        if(fragment.isAdded()){
+            transaction.show(fragment);
+        }else{
+            transaction.add(R.id.frame_layout_main,fragment);
+        }
+        transaction.commit();
+        mLastFragment=fragment;
+    }
+
+
+    /**
      * 联网获取优惠券的数目
      */
     private void getDataFromIntenetAndSetYouHuiQuanCount(final String uid, final String sid) {
@@ -648,24 +682,28 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
         labelFlag=intent.getStringExtra(MyConstant.MAIN_ACTIVITY_LABLE_FALG_KEY);
         MyLog.d(tag, "labelFlag=" + labelFlag);
         if(MyConstant.SHOPPING_CAR_FLAG_KEY.equals(labelFlag)){
-            MyLog.d(tag,"init中的方法执行了吗");
-            FragmentTransaction shoppingTransaction=fragmentManager.beginTransaction();
-            shoppingTransaction.replace(R.id.frame_layout_main, shoppingCarFragment);
-            shoppingTransaction.commit();
+            MyLog.d(tag, "init中的方法执行了吗");
+//            FragmentTransaction shoppingTransaction=fragmentManager.beginTransaction();
+//            shoppingTransaction.replace(R.id.frame_layout_main, shoppingCarFragment);
+//            shoppingTransaction.commit();
+            //showAndHideFragment(shoppingCarFragment);
+            showAndHideShoppingCarFragment();
             resetLabel();
             shoppingCarImg.setImageResource(R.mipmap.shoppingcar_selected);
             shoppingCarText.setTextColor(getResources().getColor(R.color.bottom_lable_color));
         }else if(MyConstant.SHOPPING_STRRET_FLAG_KEY.equals(labelFlag)){
-            FragmentTransaction shopStreetTransaction=fragmentManager.beginTransaction();
-            shopStreetTransaction.replace(R.id.frame_layout_main,shopStreetFragment);
-            shopStreetTransaction.commit();
+//            FragmentTransaction shopStreetTransaction=fragmentManager.beginTransaction();
+//            shopStreetTransaction.replace(R.id.frame_layout_main,shopStreetFragment);
+//            shopStreetTransaction.commit();
+            showAndHideFragment(shopStreetFragment);
             resetLabel();
             shopStreetImg.setImageResource(R.mipmap.shopstreet_selected);
             shopStreetText.setTextColor(getResources().getColor(R.color.bottom_lable_color));
         }else if(MyConstant.HOME_FLAG_KEY.equals(labelFlag)){
-            FragmentTransaction homeTransaction=fragmentManager.beginTransaction();
-            homeTransaction.replace(R.id.frame_layout_main,homeFragment);
-            homeTransaction.commit();
+//            FragmentTransaction homeTransaction=fragmentManager.beginTransaction();
+//            homeTransaction.replace(R.id.frame_layout_main,homeFragment);
+//            homeTransaction.commit();
+            showAndHideFragment(homeFragment);
             resetLabel();
             homeImg.setImageResource(R.mipmap.home_selected);
             homeText.setTextColor(getResources().getColor(R.color.bottom_lable_color));
@@ -691,36 +729,40 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
                 break;
             case R.id.ll_home:
                 //viewPager.setCurrentItem(HOME);
-                FragmentTransaction homeTransaction=fragmentManager.beginTransaction();
-                homeTransaction.replace(R.id.frame_layout_main,homeFragment);
-                homeTransaction.commit();
+//                FragmentTransaction homeTransaction=fragmentManager.beginTransaction();
+//                homeTransaction.replace(R.id.frame_layout_main,homeFragment);
+//                homeTransaction.commit();
+                showAndHideFragment(homeFragment);
                 resetLabel();
                 homeImg.setImageResource(R.mipmap.home_selected);
                 homeText.setTextColor(getResources().getColor(R.color.bottom_lable_color));
                 break;
             case R.id.ll_category:
                 //viewPager.setCurrentItem(CATEGORY);
-                FragmentTransaction categoryTransaction=fragmentManager.beginTransaction();
-                categoryTransaction.replace(R.id.frame_layout_main,categoryFragment);
-                categoryTransaction.commit();
+//                FragmentTransaction categoryTransaction=fragmentManager.beginTransaction();
+//                categoryTransaction.replace(R.id.frame_layout_main,categoryFragment);
+//                categoryTransaction.commit();
+                showAndHideFragment(categoryFragment);
                 resetLabel();
                 categoryImg.setImageResource(R.mipmap.category_selected);
                 categoryText.setTextColor(getResources().getColor(R.color.bottom_lable_color));
                 break;
             case R.id.ll_find:
                 //viewPager.setCurrentItem(FIND);
-                FragmentTransaction findTransaction=fragmentManager.beginTransaction();
-                findTransaction.replace(R.id.frame_layout_main,findFragment);
-                findTransaction.commit();
+//                FragmentTransaction findTransaction=fragmentManager.beginTransaction();
+//                findTransaction.replace(R.id.frame_layout_main,findFragment);
+//                findTransaction.commit();
+                showAndHideFragment(findFragment);
                 resetLabel();
                 findImg.setImageResource(R.mipmap.find_selected);
                 findText.setTextColor(getResources().getColor(R.color.bottom_lable_color));
                 break;
             case R.id.ll_shop_street:
                 //viewPager.setCurrentItem(SHOP_STREET);
-                FragmentTransaction shopStreetTransaction=fragmentManager.beginTransaction();
-                shopStreetTransaction.replace(R.id.frame_layout_main,shopStreetFragment);
-                shopStreetTransaction.commit();
+//                FragmentTransaction shopStreetTransaction=fragmentManager.beginTransaction();
+//                shopStreetTransaction.replace(R.id.frame_layout_main,shopStreetFragment);
+//                shopStreetTransaction.commit();
+                showAndHideFragment(shopStreetFragment);
                 resetLabel();
                 shopStreetImg.setImageResource(R.mipmap.shopstreet_selected);
                 shopStreetText.setTextColor(getResources().getColor(R.color.bottom_lable_color));
@@ -868,9 +910,11 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
             toLoginIntent.putExtra(MyConstant.START_LOGIN_ACTIVITY_FLAG_KEY,"homeFragment");
             startActivityForResult(toLoginIntent,REQUEST_CODE_SHOPPING_CAR);
         }else {
-            FragmentTransaction shoppingTransaction=fragmentManager.beginTransaction();
-            shoppingTransaction.replace(R.id.frame_layout_main, shoppingCarFragment);
-            shoppingTransaction.commitAllowingStateLoss();
+//            FragmentTransaction shoppingTransaction=fragmentManager.beginTransaction();
+//            shoppingTransaction.replace(R.id.frame_layout_main, shoppingCarFragment);
+//            shoppingTransaction.commitAllowingStateLoss();
+            //showAndHideFragment(shoppingCarFragment);
+            showAndHideShoppingCarFragment();
             resetLabel();
             shoppingCarImg.setImageResource(R.mipmap.shoppingcar_selected);
             shoppingCarText.setTextColor(getResources().getColor(R.color.bottom_lable_color));

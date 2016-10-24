@@ -22,7 +22,8 @@
             android:layout_height="wrap_content"
             android:text="未确认，未付款，未发货"
             android:layout_alignParentRight="true"
-            android:textColor="@color/bottom_lable_color"/>
+            android:textColor="@color/bottom_lable_color"
+            android:visibility="gone"/>
     </RelativeLayout>
 
 

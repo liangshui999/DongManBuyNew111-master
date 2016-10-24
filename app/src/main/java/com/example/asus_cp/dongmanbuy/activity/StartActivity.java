@@ -90,7 +90,7 @@ public class StartActivity extends Activity{
 
         //requestQueue= MyApplication.getRequestQueue();
 
-        //MyLog.d(tag,YouMengHelper.getDeviceInfo(this));
+        MyLog.d(tag,""+YouMengHelper.getDeviceInfo(this));
 
     }
 

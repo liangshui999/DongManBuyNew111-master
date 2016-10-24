@@ -24,6 +24,7 @@ import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.StringRequest;
 import com.example.asus_cp.dongmanbuy.R;
 import com.example.asus_cp.dongmanbuy.activity.BaseActivity;
+import com.example.asus_cp.dongmanbuy.activity.gou_wu.AwaitCommentListActivity;
 import com.example.asus_cp.dongmanbuy.activity.gou_wu.DingDanListActivity;
 import com.example.asus_cp.dongmanbuy.activity.login.LoginActivity;
 import com.example.asus_cp.dongmanbuy.activity.personal_center.data_set.DataSetActivity;
@@ -389,7 +390,9 @@ public class PersonalCenterActivity extends BaseActivity implements View.OnClick
                 toDingDanListAcitivy(MyConstant.DAI_SHOU_HUO_DING_DAN);
                 break;
             case R.id.ll_dai_ping_jia_personal_center://点击了待评价
-                toDingDanListAcitivy(MyConstant.DAI_PING_JIA_DING_DAN);
+                //toDingDanListAcitivy(MyConstant.DAI_PING_JIA_DING_DAN);
+                Intent toAwaitCommentIntent=new Intent(this, AwaitCommentListActivity.class);
+                startActivity(toAwaitCommentIntent);
                 break;
             case R.id.re_layout_my_wallet_personal_center://点击了我的钱包
                 toFundManagerAcitvity();

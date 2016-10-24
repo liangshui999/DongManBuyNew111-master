@@ -59,6 +59,10 @@ public class DingDanListActivity extends BaseActivity implements View.OnClickLis
     public static final int REQUEST_DING_DAN_DETAIL_KEY_AWAIT_PAY =2;
     public static final int REQUEST_DING_DAN_DETAIL_KEY_AWAIT_SHIP =3;
 
+    public static final String ALL="0";//全部订单
+    public static final String AWAIT_PAY="1";//待付款
+    public static final String AWAIT_SHIP="2";//待收货
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -95,18 +99,18 @@ public class DingDanListActivity extends BaseActivity implements View.OnClickLis
                 //弹出正在加载的对话框
                 DialogHelper.showDialog(this);
                 allDingDanTextView.setTextColor(getResources().getColor(R.color.bottom_lable_color));
-                getOrderList("");//获取所有的订单数据
+                getOrderList(ALL);//获取所有的订单数据
                 break;
             case MyConstant.DAI_FU_KUAN_DING_DAN:
                 //弹出正在加载的对话框
                 DialogHelper.showDialog(this);
-                getOrderList("await_pay");//获取待付款的订单数据
+                getOrderList(AWAIT_PAY);//获取待付款的订单数据
                 daiFuKuanDingDanTextView.setTextColor(getResources().getColor(R.color.bottom_lable_color));
                 break;
             case MyConstant.DAI_SHOU_HUO_DING_DAN:
                 //弹出正在加载的对话框
                 DialogHelper.showDialog(this);
-                getOrderList("await_ship");//获取代收货的订单数据
+                getOrderList(AWAIT_SHIP);//获取代收货的订单数据
                 daiShouHuoDingDanTextView.setTextColor(getResources().getColor(R.color.bottom_lable_color));
                 break;
             case MyConstant.DAI_PING_JIA_DING_DAN:
@@ -181,6 +185,8 @@ public class DingDanListActivity extends BaseActivity implements View.OnClickLis
 //                String json="{\"session\":{\"uid\":\""+uid+"\",\"sid\":\""+sid+"\"},\"pagination\":{\"page\":\"1\",\"count\":\"100\"},\"type\":\""+type+"\"}";
 //                map.put("json",json);
                 map.put("user_id",uid);
+                map.put("type", type);
+                MyLog.d(tag,"user_id="+uid+"..........."+"type="+type);
                 return map;
             }
         };
@@ -274,7 +280,7 @@ public class DingDanListActivity extends BaseActivity implements View.OnClickLis
      * 待收货的点击事件处理
      */
     private void daiShouHuoClickChuLi() {
-        getOrderList("await_ship");//获取代收货的订单数据
+        getOrderList(AWAIT_SHIP);//获取代收货的订单数据
         reset();
         daiShouHuoDingDanTextView.setTextColor(getResources().getColor(R.color.bottom_lable_color));
     }
@@ -284,7 +290,7 @@ public class DingDanListActivity extends BaseActivity implements View.OnClickLis
      * 待付款的点击事件处理
      */
     private void daiFuKuanClickChuLi() {
-        getOrderList("await_pay");//获取待付款的订单数据
+        getOrderList(AWAIT_PAY);//获取待付款的订单数据
         reset();
         daiFuKuanDingDanTextView.setTextColor(getResources().getColor(R.color.bottom_lable_color));
     }
@@ -294,7 +300,7 @@ public class DingDanListActivity extends BaseActivity implements View.OnClickLis
      * 所有订单的点击事件处理
      */
     private void allDingDanClickChuLi() {
-        getOrderList("");//获取所有的订单数据
+        getOrderList(ALL);//获取所有的订单数据
         reset();
         allDingDanTextView.setTextColor(getResources().getColor(R.color.bottom_lable_color));
     }

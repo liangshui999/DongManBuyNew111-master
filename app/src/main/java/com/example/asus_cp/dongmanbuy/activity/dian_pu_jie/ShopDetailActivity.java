@@ -389,6 +389,7 @@ public class ShopDetailActivity extends BaseActivity implements View.OnClickList
                         MyLog.d(tag,"二维码返回的数据是："+s);
                         s=FormatHelper.removeBom(s);
                         String temp=s.replace(" ","");
+                        erWeiMaImageView.setTag(temp);
                         ImageLoader imageLoader=imageLoadHelper.getImageLoader();
                         ImageLoader.ImageListener listener=imageLoader.getImageListener(erWeiMaImageView,
                                 R.mipmap.yu_jia_zai,R.mipmap.yu_jia_zai);
