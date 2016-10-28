@@ -56,6 +56,28 @@ public class FormatHelper {
         return a.format(d);*/
     }
 
+
+    /**
+     * 将数字保留2位小数
+     */
+    public static String getTwoXiaoShuFormat(String str){
+        if(getNumberFromRenMingBi(str)!=null){
+            double d=Double.parseDouble(getNumberFromRenMingBi(str));
+            DecimalFormat a = new DecimalFormat("#0.00");
+            return a.format(d);
+        }else{
+            return null;
+        }
+
+        /*double d=Double.parseDouble(str);
+        DecimalFormat a = new DecimalFormat(".#");
+        return a.format(d);*/
+    }
+
+
+
+
+
     /**
      * 从人民币中取出数字
      */

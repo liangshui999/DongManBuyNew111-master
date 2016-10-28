@@ -30,7 +30,8 @@
 -dontwarn com.alipay.**
 -dontwarn com.handmark.pulltorefresh.**
 -dontwarn com.jeremyfeinstein.slidingmenu.**
-
+-dontwarn me.nereo.multi_image_selector.**
+-dontwarn com.squareup.picasso.**
 
 -keep class com.alipay.android.app.IAlixPay{*;}
 -keep class com.alipay.android.app.IAlixPay$Stub{*;}
@@ -95,6 +96,15 @@ public static final int *;
 -keep interface com.alibaba.**{*;}
 -keep class com.taobao.**{*;}
 -keep interface com.taobao.**{*;}
+
+
+#选择相册图片
+-keep class me.nereo.multi_image_selector.**{*;}
+-keep interface me.nereo.multi_image_selector.**{*;}
+
+#图片加载
+-keep class com.squareup.picasso.**{*;}
+-keep interface com.squareup.picasso.**{*;}
 
 
 

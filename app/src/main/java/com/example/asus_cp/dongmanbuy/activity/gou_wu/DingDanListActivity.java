@@ -224,6 +224,7 @@ public class DingDanListActivity extends BaseActivity implements View.OnClickLis
                 model.setShipName(JsonHelper.decodeUnicode(ziJsObj.getString("shipping_name")));
                 model.setMaiJiaLiuYan(JsonHelper.decodeUnicode(ziJsObj.getString("postscript")));
                 model.setZhiFuFangShi(JsonHelper.decodeUnicode(ziJsObj.getString("pay_name")));
+                model.setPayStatus(ziJsObj.getString("pay_status"));
                 model.setFaPiaoTaiTou(JsonHelper.decodeUnicode(ziJsObj.getString("inv_payee")));
                 model.setFaPiaoContent(JsonHelper.decodeUnicode(ziJsObj.getString("inv_content")));
                 model.setOrderTime(ziJsObj.getString("order_time"));

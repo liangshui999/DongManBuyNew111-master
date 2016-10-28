@@ -92,6 +92,10 @@ public interface MyConstant {
     public static final String DIAN_PU_JIE_SHOPS_CACH_KEY="dianPuShopsCach";//店铺街的店铺列表缓存
     public static final String SHOPPING_CAR_LIST_CACH_KEY="shoppingCarListCach";//购物车列表缓存
     public static final String TUI_JIAN_GOOD_CACH_KEY="tuiJianCach";//购物车推荐商品缓存
+    public static final String ADD_PIC_IMAGE_PATH="000000";//添加图片的按钮默认的path
+    public static final String PREVIEW_INIT_POSTION_KEY="previewInitPositon";//预览图片时，初始页面的位置
+    public static final String PREVIEW_PATHS_KEY="previewPathKey";//传递到预览图片界面路径的key
+
 
 
 }

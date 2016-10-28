@@ -33,6 +33,7 @@ import com.example.asus_cp.dongmanbuy.util.FormatHelper;
 import com.example.asus_cp.dongmanbuy.util.ImageLoadHelper;
 import com.example.asus_cp.dongmanbuy.util.JsonHelper;
 import com.example.asus_cp.dongmanbuy.util.MyLog;
+import com.example.asus_cp.dongmanbuy.util.zhi_fu_bao_util.Base64;
 import com.example.asus_cp.dongmanbuy.util.zhi_fu_bao_util.PayResult;
 import com.example.asus_cp.dongmanbuy.util.zhi_fu_bao_util.SignUtils;
 import com.example.asuscp.dongmanbuy.util.ZhiFuBaoHelper;
@@ -107,14 +108,18 @@ public class DingDanDetailActivity extends BaseActivity implements View.OnClickL
     private String price;//订单价格
 
     private String payUrl="http://api.zmobuy.com/JK/alipay/alipayapi.php";//支付宝url
+    private String checkUrl="http://mv.zmobuy.com/order/check.action";//验签的url
     private ZhiFuBaoHelper zhiFuBaoHelper;
 
-    public static  String PARTNER;
-    public static  String SELLER;
-    public static  String RSA_PRIVATE;
+//    public static  String PARTNER;
+//    public static  String SELLER;
+//    public static  String RSA_PRIVATE;
+
+    public static String DAI_FU_KUAN="0";//待付款
+    public static String DAI_SHOU_HUO="2";//待收货
 
 
-    /*// 商户PID
+    // 商户PID
     public static final String PARTNER = "2088121021289716";
     // 商户收款账号
     public static final String SELLER = "postmaster@zmobuy.com";
@@ -132,9 +137,12 @@ public class DingDanDetailActivity extends BaseActivity implements View.OnClickL
             "2QNGl+roAuu60mmx6p1cqccSgUf7AkBhWZz+7fYYIK1MZ5ZDP1KTNhvuwBjrKsZg" +
             "mljwjUk8ZsKvKnyH6EjMM8ofHjDrt0HThOgK0pVI1ixMYGfNjed1AkEA5IOsn7jP" +
             "Ef3uJnorl15rhzY8uEopIWwdWasBk14RkoYwgsJxR4cOU5KLbNgm5EPXekA5C1SE" +
-            "tLTyJx7aWI6SLw==";*/
+            "tLTyJx7aWI6SLw==";
     // 支付宝公钥
-    //public static final String RSA_PUBLIC = "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCnxj/9qwVfgoUh/y2W89L6BkRAFljhNhgPdyPuBV64bfQNN1PjbCzkIM6qRdKBoLPXmKKMiFYnkd6rAoprih3/PrQEB/VsW8OoM8fxn67UDYuyBTqA23MML9q1+ilIZwBC2AQ2UBVOrFXfFl75p6/B5KsiNG9zpgmLCUYuLkxpLQIDAQAB";
+    public static final String RSA_PUBLIC = "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQC8cHesD9UFcM5DgRd5x9pcymzM" +
+            "m11sq2NDiabfVz1QMoiy/JaHrz/cSQSO5+i6cWF31znE+xtCsVm0ikSs9+K9cydH" +
+            "itrQ8Es/6vDy0fy68qBfK+DYalIsHIJwbMfaU8P51ebvl7nUAf9W0qkd2dPfXYpv" +
+            "TbaPmDyzM77UrhVZ/wIDAQAB";
     private static final int SDK_PAY_FLAG = 1;
 
 
@@ -144,13 +152,19 @@ public class DingDanDetailActivity extends BaseActivity implements View.OnClickL
         public void handleMessage(Message msg) {
             switch (msg.what) {
                 case SDK_PAY_FLAG: {
+
                     PayResult payResult = new PayResult((String) msg.obj);
                     /**
                      * 同步返回的结果必须放置到服务端进行验证（验证的规则请看https://doc.open.alipay.com/doc2/
                      * detail.htm?spm=0.0.0.0.xdvAU6&treeId=59&articleId=103665&
                      * docType=1) 建议商户依赖异步通知
                      */
-                    String resultInfo = payResult.getResult();// 同步返回需要验证的信息
+                    String resultInfo = (String) msg.obj;// 同步返回需要验证的信息
+                    checkResultInfoFromIntenet(payResult);
+
+                    MyLog.d(tag,"支付之后支付宝返回的信息："+resultInfo);
+
+
 
                     String resultStatus = payResult.getResultStatus();
                     // 判断resultStatus 为“9000”则代表支付成功，具体状态码代表含义可参考接口文档
@@ -175,7 +189,6 @@ public class DingDanDetailActivity extends BaseActivity implements View.OnClickL
             }
         };
     };
-
 
 
 
@@ -250,6 +263,41 @@ public class DingDanDetailActivity extends BaseActivity implements View.OnClickL
         cancelOrderButton.setOnClickListener(this);
         zhiFuBaoZhiFuButton.setOnClickListener(this);
     }
+
+
+    /**
+     * 对支付宝的支付结果进行验签(验签成功之后，服务端应该改变该订单的订单状态)
+     */
+    private void checkResultInfoFromIntenet(final PayResult payResult) {
+        StringRequest checkRrequest=new StringRequest(Request.Method.POST, checkUrl, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                MyLog.d(tag,"验签返回的数据："+response);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+
+                Map<String,String> map=new HashMap<>();
+                String resultStatus=payResult.getResultStatus();
+                String result=payResult.getResult();
+                map.put("resultStatus",resultStatus);
+                map.put("result",result);
+
+                MyLog.d(tag, "resultStatus:" + resultStatus);
+                MyLog.d(tag,"result:"+result);
+                return map;
+            }
+        };
+        requestQueue.add(checkRrequest);
+    }
+
+
 
 
     /**
@@ -370,10 +418,10 @@ public class DingDanDetailActivity extends BaseActivity implements View.OnClickL
         faPiaocontentTextView.setText(dingDanModel.getFaPiaoContent());
 
         //设置支付状态，隐藏固定栏里面的项目
-        if("2".equals(dingDanModel.getPayStatus())){    //已支付过了
+        if(DAI_SHOU_HUO.equals(dingDanModel.getPayStatus())){    //已支付过了
             cancelAndPayRelativeLayout.setVisibility(View.GONE);
             yiQueRenRelaytiveLayout.setVisibility(View.VISIBLE);
-        }else if("0".equals(dingDanModel.getPayStatus())){  //未支付
+        }else if(DAI_FU_KUAN.equals(dingDanModel.getPayStatus())){  //未支付
             cancelAndPayRelativeLayout.setVisibility(View.VISIBLE);
             yiQueRenRelaytiveLayout.setVisibility(View.GONE);
         }
@@ -504,10 +552,27 @@ public class DingDanDetailActivity extends BaseActivity implements View.OnClickL
             case R.id.btn_zhi_fu_bao_zhi_fu_order_detail://点击了支付宝支付
                 //zhiFuBaoZhiFuClickChuLi();
                 jieKouZhiFuClickChuLi();
+                //test();
                 break;
 
         }
     }
+
+    //用于测试的方法
+    private void test() {
+//        String s="service=\"mobile.securitypay.pay\"&partner=\"2088121021289716\"&seller_id=\"postmaster@zmobuy.com\"&payment_type=\"1\"&notify_url=\"http://api.zmobuy.com/JK/alipay/notify_url.php\"&return_url=\"m.alipay.com\"&_input_charset=\"utf-8\"&out_trade_no=\"20161025151932\"&subject=\"舰队Collection舰娘北方栖姬北酱动漫周边发卡发箍头饰\"&total_fee=\"0.01\"&body=\"舰队Collection舰娘北方栖姬北酱动漫周边发卡发箍头饰\"&it_b_pay=\"30m\"&success=\"true\"&sign_type=\"RSA\"&sign=\"cH4rNB5blOzPu3en9QPNd68WeGmviGSzAOB08KKpC75kJICJxPv9jcwaBAQBsq0hdTRgw6gt5xwMK49T/F+6HfBAah6G9mh8eGl5gETGTINAmOVOKwlDziXF2rIKL7ASXAQb7R5Gd7gWRzk26zmucn6DFa+ZkzMXVKomn26w8UQ=\"";
+//        //String signType=PayResult.getSignType(s);
+//        String sinContent=PayResult.getSignContent(s);
+//        String yuanShi="{"+PayResult.getYuanShiContent(s)+"}";
+//        //MyLog.d(tag,"signType:"+signType);
+//        MyLog.d(tag,"sinContent:"+sinContent);
+//        MyLog.d(tag,"yunshi:"+yuanShi);
+//        MyLog.d(tag,"签名验证结果："+SignUtils.verify(yuanShi,sinContent,RSA_PUBLIC));
+//        String content="hahahahhhhhhhhhhhhhhhhhh";
+//        String result=sign(content);
+//        MyLog.d(tag,"实验的结果:"+SignUtils.verify(content, result, RSA_PUBLIC)+"..."+result);
+    }
+
 
 
     /**
@@ -518,11 +583,10 @@ public class DingDanDetailActivity extends BaseActivity implements View.OnClickL
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(final String s) {
-                        MyLog.d(tag,"支付处理返回的数据是："+s);
+                        MyLog.d(tag,"使用接口签名返回的数据是："+s);
                         new Thread(new Runnable() {
                             @Override
                             public void run() {
-                                MyLog.d(tag,"支付处理返回的数据是："+s);
                                 PayTask alipay = new PayTask(DingDanDetailActivity.this);
                                 String result=alipay.pay(s, true);
                                 Message msg = new Message();
@@ -586,11 +650,24 @@ public class DingDanDetailActivity extends BaseActivity implements View.OnClickL
             return;
         }
         String orderInfo = getOrderInfo(subject, desc, FormatHelper.getNumberFromRenMingBi(price));
+        orderInfo=PayResult.SortString(orderInfo);//对orderinfo进行排序
 
         /**
          * 特别注意，这里的签名逻辑需要放在服务端，切勿将私钥泄露在代码中！
          */
         String sign = sign(orderInfo);
+
+        //这段是我加的
+        String content=orderInfo;
+        String resultM=sign(orderInfo);
+        MyLog.d(tag,"我签名之前的内容："+content);
+        MyLog.d(tag,"我签名之后的内容："+resultM);
+        try {
+            MyLog.d(tag,"我签名之后做urlencoder:"+URLEncoder.encode(resultM, "UTF-8"));
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        MyLog.d(tag,"用orderinfo做实验："+SignUtils.verify(content,resultM,RSA_PUBLIC));
         try {
             /**
              * 仅需对sign 做URL编码
@@ -613,7 +690,7 @@ public class DingDanDetailActivity extends BaseActivity implements View.OnClickL
                 PayTask alipay = new PayTask(DingDanDetailActivity.this);
                 // 调用支付接口，获取支付结果
                 String result = alipay.pay(payInfo, true);
-
+                MyLog.d(tag,"支付宝同步返回的结果："+result);
                 Message msg = new Message();
                 msg.what = SDK_PAY_FLAG;
                 msg.obj = result;
@@ -664,7 +741,7 @@ public class DingDanDetailActivity extends BaseActivity implements View.OnClickL
         orderInfo += "&payment_type=\"1\"";
 
         // 参数编码， 固定值
-        orderInfo += "&_input_charset=\"utf-8\"";
+        orderInfo += "&charset=\"utf-8\"";
 
         // 设置未付款交易的超时时间
         // 默认30分钟，一旦超时，该笔交易就会自动被关闭。

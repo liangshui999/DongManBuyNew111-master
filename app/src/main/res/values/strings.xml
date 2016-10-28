@@ -351,6 +351,14 @@
     <string name="ti_jiao_order_fail">提交订单失败,请选择配送方式，目前只支持周末自营店铺的商品</string>
     <string name="click_tou_xiang_login">点击头像登录</string>
     <string name="ping_jia_sai_dan">评价晒单</string>
+    <string name="please_select_ship_address">请选择收货地址!</string>
+    <string name="click_select_ship_address">点击选择收货地址！</string>
+    <string name="input_comment_content">填写评论内容（0-100字）</string>
+    <string name="sai_tu">晒图</string>
+    <string name="select_camera">选择照片</string>
+    <string name="commint_comment">提交评论</string>
+    <string name="order_comment">订单评价</string>
+    <string name="pic_preiview">图片预览</string>
 
 
 

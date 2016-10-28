@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/mo_kuai_backgroud">
+
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:focusable="true"
+            android:focusableInTouchMode="true">
+
+            <!--图片和名称所在的布局-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="10dp"
+                android:background="@color/white_my">
+
+                <ImageView
+                    android:id="@+id/img_good_pic_order_comment"
+                    android:layout_width="wrap_content"
+                    android:layout_height="140dp"
+                    android:src="@mipmap/sina"/>
+
+                <TextView
+                    android:id="@+id/text_good_name_order_comment"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"
+                    android:layout_marginLeft="10dp"
+                    android:text="商品名称"
+                    android:textColor="@color/myblack"
+                    />
+            </LinearLayout>
+
+
+
+            <!--评价所在的布局-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white_my"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal"
+                android:padding="10dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/comment"
+                    android:textSize="16sp"
+                    android:layout_gravity="center"/>
+
+                <ImageView
+                    android:id="@+id/img_xing_one"
+                    style="@style/star_img_style"
+                    />
+                <ImageView
+                    android:id="@+id/img_xing_two"
+                    style="@style/star_img_style"/>
+                <ImageView
+                    android:id="@+id/img_xing_three"
+                    style="@style/star_img_style"/>
+                <ImageView
+                    android:id="@+id/img_xing_four"
+                    style="@style/star_img_style"/>
+                <ImageView
+                    android:id="@+id/img_xing_five"
+                    style="@style/star_img_style"/>
+
+            </LinearLayout>
+
+
+            <!--评论区域-->
+            <EditText
+                android:id="@+id/edit_text_order_comment"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:layout_marginTop="1dp"
+                android:background="@color/white_my"
+                android:hint="@string/input_comment_content"
+                android:textSize="14sp"
+                android:paddingLeft="10dp"
+                android:paddingTop="10dp"
+                android:gravity="top"/>
+
+
+
+            <!--选择图片的布局-->
+            <com.example.asus_cp.dongmanbuy.customview.MyGridViewA
+                android:id="@+id/grid_view_order_comment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:numColumns="3"
+                android:background="@color/white_my"
+                android:verticalSpacing="5dp"
+                android:horizontalSpacing="5dp"
+                android:padding="5dp">
+
+            </com.example.asus_cp.dongmanbuy.customview.MyGridViewA>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white_my"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp">
+                <TextView
+                    android:id="@+id/text_add_pic_order_comment"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/select_camera"
+                    android:clickable="true"
+                    android:layout_marginLeft="10dp"
+                    android:background="@drawable/gray_backgroud_yuan_jiao_button"
+                    android:padding="10dp"
+                    android:textColor="@color/white_my"
+                    />
+            </LinearLayout>
+
+
+
+        <Button
+            android:id="@+id/btn_commit_comment_order_comment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:background="@drawable/red_backgroud_yuan_jiao_button"
+            android:textColor="@color/white_my"
+            android:text="@string/commint_comment"/>
+
+
+
+        </LinearLayout>
+
+
+
+
+    </ScrollView>
+
+
+
+
+
+</LinearLayout>

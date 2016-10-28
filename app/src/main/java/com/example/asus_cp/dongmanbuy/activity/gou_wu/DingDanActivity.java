@@ -256,8 +256,8 @@ public class DingDanActivity extends BaseActivity implements View.OnClickListene
                         }else{
                             peopleNameTextView.setVisibility(View.GONE);
                             phoneTextView.setVisibility(View.GONE);
-                            addressTextView.setText("点击选择收货地址!");
-                            Toast.makeText(DingDanActivity.this,"请选择收货地址!",Toast.LENGTH_LONG).show();
+                            addressTextView.setText(R.string.click_select_ship_address);
+                            Toast.makeText(DingDanActivity.this,R.string.please_select_ship_address,Toast.LENGTH_LONG).show();
                         }
 
                     }
@@ -451,9 +451,9 @@ public class DingDanActivity extends BaseActivity implements View.OnClickListene
         }
 
         //验证用户是否选择了收货地址
-        String name=peopleNameTextView.getText().toString();
-        if(name.isEmpty()){
-            Toast.makeText(this,"请选择收货地址",Toast.LENGTH_SHORT).show();
+        String name=addressTextView.getText().toString();
+        if(name.isEmpty() || getResources().getString(R.string.click_select_ship_address).equals(name)){
+            Toast.makeText(this,R.string.please_select_ship_address,Toast.LENGTH_SHORT).show();
         }else if(peiSongFangShiNum==shopModels.size()){
             if("支付宝".equals(zhiFuFangShi)){
                 DialogHelper.showDialog(this,"正在处理...");
@@ -462,6 +462,8 @@ public class DingDanActivity extends BaseActivity implements View.OnClickListene
                 tiJiaoDingDanIntenetRequest(shopValue,"11");
             }
         }
+        MyLog.d(tag,"name="+name);
+        MyLog.d(tag,""+getResources().getString(R.string.click_select_ship_address));
 
     }
 
@@ -521,8 +523,8 @@ public class DingDanActivity extends BaseActivity implements View.OnClickListene
                 MyLog.d(tag,"sid"+sid);
                 MyLog.d(tag,"addressId="+addressId);
                 MyLog.d(tag,"zhiFuType="+zhiFuType);
-                MyLog.d(tag,"实际付款："+FormatHelper.getOneXiaoShuFormat(shiFuKuanTextView.getText().toString()));
-                MyLog.d(tag,"总金额:"+FormatHelper.getOneXiaoShuFormat(productSumPriceTextBottomView.getText().toString()));
+                MyLog.d(tag,"实际付款："+FormatHelper.getTwoXiaoShuFormat(shiFuKuanTextView.getText().toString()));
+                MyLog.d(tag,"总金额:"+FormatHelper.getTwoXiaoShuFormat(productSumPriceTextBottomView.getText().toString()));
                 MyLog.d(tag,"抬头："+faPiaoTaiTouTextView.getText().toString());
                 MyLog.d(tag, "内容" + faPiaocontentTextView.getText().toString());
                 MyLog.d(tag, "店铺内容json是：" + shopValue);
@@ -533,8 +535,8 @@ public class DingDanActivity extends BaseActivity implements View.OnClickListene
                 map.put("sid",sid);
                 map.put("address_id",addressId);
                 map.put("pay_id",zhiFuType);
-                map.put("goods_amount",FormatHelper.getOneXiaoShuFormat(productSumPriceTextBottomView.getText().toString()));
-                map.put("real_pay", FormatHelper.getOneXiaoShuFormat(shiFuKuanTextView.getText().toString()));
+                map.put("goods_amount",FormatHelper.getTwoXiaoShuFormat(productSumPriceTextBottomView.getText().toString()));
+                map.put("real_pay", FormatHelper.getTwoXiaoShuFormat(shiFuKuanTextView.getText().toString()));
                 map.put("inv_payee",faPiaoTaiTouTextView.getText().toString());
                 map.put("inv_content",faPiaocontentTextView.getText().toString());
                 map.put("shops",shopValue);
@@ -597,6 +599,7 @@ public class DingDanActivity extends BaseActivity implements View.OnClickListene
             shopModelJson.setShipping_id(shopModel.getShippingId());//设置快递方式
             shopModelJson.setPostscript(shopModel.getMaiJiaLiuYan());//设置买家留言
             shopModelJson.setGoods_amount(shopModel.getSumPrice());//设置该店铺所有商品的总价格
+            MyLog.d(tag,"店铺商品的总价格："+shopModel.getSumPrice());
             shopModelJson.setShipping_fee("0.00");//这个是暂时的
             List<String> goodIds=new ArrayList<String>();
             List<Good> tempGoods=shopModel.getGoods();

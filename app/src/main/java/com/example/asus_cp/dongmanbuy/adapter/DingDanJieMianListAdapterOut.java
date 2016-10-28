@@ -188,7 +188,7 @@ public class DingDanJieMianListAdapterOut extends BaseAdapter implements View.On
             sumPrice=sumPrice+tempCount*singlePrice;
         }
         viewHolder.sumPriceTextView.setText(FormatHelper.getMoneyFormat(""+sumPrice));
-        shopModel.setSumPrice(FormatHelper.getOneXiaoShuFormat("" + sumPrice));//主要是为了上传用的
+        shopModel.setSumPrice(FormatHelper.getTwoXiaoShuFormat("" + sumPrice));//主要是为了上传用的
 
         //将总价的值装入itemsumprice
         itemSumPrice.set(position, sumPrice);
