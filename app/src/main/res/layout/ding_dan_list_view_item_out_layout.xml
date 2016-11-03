@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="300dp">
+    android:layout_height="326dp">
 
     <TextView
         android:id="@+id/text_shop_name_list_item_out"
@@ -271,7 +271,8 @@
         <EditText
             android:id="@+id/edit_mai_jia_liu_yan_list_item_out"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="60dp"
+            android:gravity="bottom"
             android:hint="选填"
             android:paddingTop="5dp"
             android:textSize="14sp"

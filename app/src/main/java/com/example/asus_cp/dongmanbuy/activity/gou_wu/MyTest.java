@@ -12,16 +12,14 @@ public class MyTest {
         String qianQian="";
 
 
-        String zhiFuBaoFanHui="service=\"mobile.securitypay.pay\"" +
-                "&partner=\"2088121021289716\"&seller_id=\"postmaster@zmobuy.com\"" +
-                "&payment_type=\"1\"&notify_url=\"http://api.zmobuy.com/JK/alipay/notify_url.php\"" +
-                "&return_url=\"m.alipay.com\"&_input_charset=\"utf-8\"&out_trade_no=\"20161026161418\"" +
-                "&subject=\"舰队Collection舰娘北方栖姬北酱动漫周边发卡发箍头饰\"&total_fee=\"0.01\"" +
-                "&body=\"舰队Collection舰娘北方栖姬北酱动漫周边发卡发箍头饰\"&it_b_pay=\"30m\"&success=\"true\"" +
+        String zhiFuBaoFanHui="resultStatus={9000};memo={};result={" +
+                "partner=\"2088121021289716\"&seller_id=\"postmaster@zmobuy.com\"&out_trade_no=\"20161026085423\"" +
+                "&subject=\"舰队Collection舰娘北方栖姬北酱动漫周边发卡发箍头饰 \"&body=\"舰队Collection舰娘北方栖姬北酱动漫周边发卡发箍头饰\"" +
+                "&total_fee=\"0.01\"&notify_url=\"http://notify.msp.hk/notify.htm\"&service=\"mobile.securitypay.pay\"&payment_type=\"1\"" +
+                "&_input_charset=\"utf-8\"&it_b_pay=\"30m\"&return_url=\"m.alipay.com\"&success=\"true\"" +
                 "&sign_type=\"RSA\"" +
-                "&sign=\"XtCBK8Pr6Qx+v8vbhI5FHdMoUtG4+gqTpiYO+ZOMWYsk5MPn3jPfjbJnDBfHk0DMmaAvHEb80VQr/UaKTdDjbQWgOIdufIhPN" +
-                "xCvR141Wgm9FBe+yaWuzP2lAqgxZE3rFcLadUXfetbMFonh7qaATvJzvI2+n7aPzpnjbqCCCmk=\"}\n" +
-                "\n";
+                "&sign=\"S8V0JVP2fDkDLFxz4mN2aypN23BuoxN4Ljwb34tFIhfrepYgPB4hq6zr6OdEAaiLySKHFxQn" +
+                "Y3BAqy61X1fQKY8AK+A4PCWofP9Br+ery3miuAb1Gp6YoCQ/VSJVoVaNPGbLo0wkQncvqCoHdKHSGd5G3EF/WEsmnM9L9GfCJaU=\"}";
 
 
         String ziQian="";

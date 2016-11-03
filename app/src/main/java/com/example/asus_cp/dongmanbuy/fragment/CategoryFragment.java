@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.FrameLayout;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.example.asus_cp.dongmanbuy.R;
 import com.example.asus_cp.dongmanbuy.activity.MainActivity;
@@ -65,6 +66,7 @@ public class CategoryFragment extends BaseFragment {
     private int density;//屏幕像素密度
 
     private View lastView;//上一个点击的view
+    private TextView lastTextView;
 
     @Nullable
     @Override
@@ -105,111 +107,173 @@ public class CategoryFragment extends BaseFragment {
     public void onResume() {
         super.onResume();
         categoryList=categoryListFragment.getListView();
-        //categoryList.getAdapter().getView(0,null,categoryList).setBackgroundResource(R.color.white_my);
 
+        //初始化.对第一个位置的初始化是在adapter里面进行的,去看adpter里面的代码
+//        View firstView=getViewByPosition(0,categoryList);
+//        TextView firstTextView= (TextView) firstView.findViewById(R.id.text_category_item_list);
+//        firstTextView.setTextColor(getResources().getColor(R.color.bottom_lable_color));
+//        firstView.setBackgroundResource(R.color.white_my);
+//        lastView=firstView;//注意这句话不能少
+//        lastTextView=firstTextView;
 
         categoryList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                View firstViewInner=getViewByPosition(0, (ListView) parent);
+                TextView firstTextViewInner= (TextView) firstViewInner.findViewById(R.id.text_category_item_list);
+                TextView textView=(TextView) view.findViewById(R.id.text_category_item_list);
                 switch (position) {
                     case SHANG_ZHUANG:
                         if(lastView!=null){
                             lastView.setBackgroundResource(R.color.mo_kuai_backgroud);
+                        }
+                        if(lastTextView!=null){
+                            lastTextView.setTextColor(getResources().getColor(R.color.myblack));
                         }
                         FragmentTransaction transaction1 = manager.beginTransaction();
                         transaction1.replace(R.id.frame_layout_buf, shangZhuangFragment);
                         transaction1.commit();
                         view.setBackgroundResource(R.color.white_my);
                         lastView=view;
+                        textView.setTextColor(getResources().getColor(R.color.bottom_lable_color));
+                        lastTextView=textView;
                         break;
                     case XIA_ZHUANG:
                         if(lastView!=null){
                             lastView.setBackgroundResource(R.color.mo_kuai_backgroud);
                             MyLog.d(tag,"执行了吗");
                         }
-                        getViewByPosition(0, (ListView) parent).setBackgroundResource(R.color.mo_kuai_backgroud);
+                        if(lastTextView!=null){
+                            lastTextView.setTextColor(getResources().getColor(R.color.myblack));
+                        }
+                        firstViewInner.setBackgroundResource(R.color.mo_kuai_backgroud);
+                        firstTextViewInner.setTextColor(getResources().getColor(R.color.myblack));
                         FragmentTransaction transaction2 = manager.beginTransaction();
                         transaction2.replace(R.id.frame_layout_buf, xiaZhuangFragment);
                         transaction2.commit();
                         view.setBackgroundResource(R.color.white_my);
                         lastView=view;
+                        textView.setTextColor(getResources().getColor(R.color.bottom_lable_color));
+                        lastTextView=textView;
                         break;
                     case XIANG_BAO:
                         if(lastView!=null){
                             lastView.setBackgroundResource(R.color.mo_kuai_backgroud);
                         }
-                        getViewByPosition(0, (ListView) parent).setBackgroundResource(R.color.mo_kuai_backgroud);
+                        if(lastTextView!=null){
+                            lastTextView.setTextColor(getResources().getColor(R.color.myblack));
+                        }
+                        firstViewInner.setBackgroundResource(R.color.mo_kuai_backgroud);
+                        firstTextViewInner.setTextColor(getResources().getColor(R.color.myblack));
                         FragmentTransaction transaction3 = manager.beginTransaction();
                         transaction3.replace(R.id.frame_layout_buf, xiangBaoFragment);
                         transaction3.commit();
                         view.setBackgroundResource(R.color.white_my);
                         lastView=view;
+                        textView.setTextColor(getResources().getColor(R.color.bottom_lable_color));
+                        lastTextView=textView;
                         break;
                     case ZAI_PIN:
                         if(lastView!=null){
                             lastView.setBackgroundResource(R.color.mo_kuai_backgroud);
                         }
-                        getViewByPosition(0, (ListView) parent).setBackgroundResource(R.color.mo_kuai_backgroud);
+                        if(lastTextView!=null){
+                            lastTextView.setTextColor(getResources().getColor(R.color.myblack));
+                        }
+                        firstViewInner.setBackgroundResource(R.color.mo_kuai_backgroud);
+                        firstTextViewInner.setTextColor(getResources().getColor(R.color.myblack));
                         FragmentTransaction transaction4 = manager.beginTransaction();
                         transaction4.replace(R.id.frame_layout_buf, zaiPingFragment);
                         transaction4.commit();
                         view.setBackgroundResource(R.color.white_my);
                         lastView=view;
+                        textView.setTextColor(getResources().getColor(R.color.bottom_lable_color));
+                        lastTextView=textView;
                         break;
                     case MAO_RONG:
                         if(lastView!=null){
                             lastView.setBackgroundResource(R.color.mo_kuai_backgroud);
                         }
-                        getViewByPosition(0, (ListView) parent).setBackgroundResource(R.color.mo_kuai_backgroud);
+                        if(lastTextView!=null){
+                            lastTextView.setTextColor(getResources().getColor(R.color.myblack));
+                        }
+                        firstViewInner.setBackgroundResource(R.color.mo_kuai_backgroud);
+                        firstTextViewInner.setTextColor(getResources().getColor(R.color.myblack));
                         FragmentTransaction transaction5 = manager.beginTransaction();
                         transaction5.replace(R.id.frame_layout_buf, maoRongFragment);
                         transaction5.commit();
                         view.setBackgroundResource(R.color.white_my);
                         lastView=view;
+                        textView.setTextColor(getResources().getColor(R.color.bottom_lable_color));
+                        lastTextView=textView;
                         break;
                     case PEI_SHI:
                         if(lastView!=null){
                             lastView.setBackgroundResource(R.color.mo_kuai_backgroud);
                         }
-                        getViewByPosition(0, (ListView) parent).setBackgroundResource(R.color.mo_kuai_backgroud);
+                        if(lastTextView!=null){
+                            lastTextView.setTextColor(getResources().getColor(R.color.myblack));
+                        }
+                        firstViewInner.setBackgroundResource(R.color.mo_kuai_backgroud);
+                        firstTextViewInner.setTextColor(getResources().getColor(R.color.myblack));
                         FragmentTransaction transaction6 = manager.beginTransaction();
                         transaction6.replace(R.id.frame_layout_buf, peiShiFragment);
                         transaction6.commit();
                         view.setBackgroundResource(R.color.white_my);
                         lastView=view;
+                        textView.setTextColor(getResources().getColor(R.color.bottom_lable_color));
+                        lastTextView=textView;
                         break;
                     case SHU_JI:
                         if(lastView!=null){
                             lastView.setBackgroundResource(R.color.mo_kuai_backgroud);
                         }
-                        getViewByPosition(0, (ListView) parent).setBackgroundResource(R.color.mo_kuai_backgroud);
+                        if(lastTextView!=null){
+                            lastTextView.setTextColor(getResources().getColor(R.color.myblack));
+                        }
+                        firstViewInner.setBackgroundResource(R.color.mo_kuai_backgroud);
+                        firstTextViewInner.setTextColor(getResources().getColor(R.color.myblack));
                         FragmentTransaction transaction7 = manager.beginTransaction();
                         transaction7.replace(R.id.frame_layout_buf, shuJiFragment);
                         transaction7.commit();
                         view.setBackgroundResource(R.color.white_my);
                         lastView=view;
+                        textView.setTextColor(getResources().getColor(R.color.bottom_lable_color));
+                        lastTextView=textView;
                         break;
                     case DIY_DING_ZHI:
                         if(lastView!=null){
                             lastView.setBackgroundResource(R.color.mo_kuai_backgroud);
                         }
-                        getViewByPosition(0, (ListView) parent).setBackgroundResource(R.color.mo_kuai_backgroud);
+                        if(lastTextView!=null){
+                            lastTextView.setTextColor(getResources().getColor(R.color.myblack));
+                        }
+                        firstViewInner.setBackgroundResource(R.color.mo_kuai_backgroud);
+                        firstTextViewInner.setTextColor(getResources().getColor(R.color.myblack));
                         FragmentTransaction transaction8 = manager.beginTransaction();
                         transaction8.replace(R.id.frame_layout_buf, diyFragment);
                         transaction8.commit();
                         view.setBackgroundResource(R.color.white_my);
                         lastView=view;
+                        textView.setTextColor(getResources().getColor(R.color.bottom_lable_color));
+                        lastTextView=textView;
                         break;
                     case MO_XING:
                         if(lastView!=null){
                             lastView.setBackgroundResource(R.color.mo_kuai_backgroud);
                         }
-                        getViewByPosition(0, (ListView) parent).setBackgroundResource(R.color.mo_kuai_backgroud);
+                        if(lastTextView!=null){
+                            lastTextView.setTextColor(getResources().getColor(R.color.myblack));
+                        }
+                        firstViewInner.setBackgroundResource(R.color.mo_kuai_backgroud);
+                        firstTextViewInner.setTextColor(getResources().getColor(R.color.myblack));
                         FragmentTransaction transaction9 = manager.beginTransaction();
                         transaction9.replace(R.id.frame_layout_buf, moXingFragment);
                         transaction9.commit();
                         view.setBackgroundResource(R.color.white_my);
                         lastView=view;
+                        textView.setTextColor(getResources().getColor(R.color.bottom_lable_color));
+                        lastTextView=textView;
                         break;
                 }
             }
@@ -230,5 +294,20 @@ public class CategoryFragment extends BaseFragment {
             final int childIndex = pos - firstListItemPosition;
             return listView.getChildAt(childIndex);
         }
+    }
+
+
+    /**
+     * 重置
+     */
+    public void reset(){
+        int count=categoryList.getCount();
+        for(int i=0;i<count;i++){
+            View v=categoryList.getAdapter().getView(i,null,categoryList);
+            TextView textView= (TextView) v.findViewById(R.id.text_category_item_list);
+            v.setBackgroundResource(R.color.mo_kuai_backgroud);
+            textView.setTextColor(getResources().getColor(R.color.myblack));
+        }
+
     }
 }

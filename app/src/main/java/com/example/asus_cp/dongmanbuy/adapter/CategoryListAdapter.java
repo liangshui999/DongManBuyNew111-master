@@ -55,6 +55,7 @@ public class CategoryListAdapter extends BaseAdapter {
         }
         if(position==0){
             v.setBackgroundResource(R.color.white_my);
+            viewHolder.textView.setTextColor(context.getResources().getColor(R.color.bottom_lable_color));
         }
         viewHolder.textView.setText(categories.get(position));
         return v;

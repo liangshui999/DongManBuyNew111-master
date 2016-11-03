@@ -198,7 +198,7 @@
 
                 <ImageView
                     android:layout_width="match_parent"
-                    android:layout_height="5dp"
+                    android:layout_height="1dp"
                     android:background="@color/mo_kuai_backgroud"
                     android:visibility="gone"/>
                 <TextView
@@ -214,7 +214,7 @@
                     />
                 <ImageView
                     android:layout_width="match_parent"
-                    android:layout_height="5dp"
+                    android:layout_height="1dp"
                     android:background="@color/mo_kuai_backgroud"/>
 
 
@@ -226,11 +226,11 @@
     <!--固定栏-->
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:paddingTop="10dp"
+        android:layout_height="50dp"
         android:layout_alignParentBottom="true"
         android:background="@color/white_my"
-        android:visibility="visible">
+        android:visibility="visible"
+        android:gravity="center">
         <LinearLayout
             android:layout_width="0dp"
             android:layout_weight="1"
@@ -246,6 +246,11 @@
                 android:textColor="@color/myblack"
                 android:textSize="16sp"/>
         </LinearLayout>
+
+        <ImageView
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:background="@color/mo_kuai_backgroud"/>
 
         <LinearLayout
             android:id="@+id/ll_hot_category"
@@ -273,8 +278,13 @@
                     android:textColor="@color/myblack"
                     android:textSize="16sp"/>
             </LinearLayout>
-
         </LinearLayout>
+
+
+        <ImageView
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:background="@color/mo_kuai_backgroud"/>
 
         <LinearLayout
             android:id="@+id/ll_ke_fu_shop_home"

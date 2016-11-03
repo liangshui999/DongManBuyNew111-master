@@ -81,7 +81,11 @@
     <ListView
         android:id="@+id/list_view_ding_dan_list"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:dividerHeight="10dp"
+        android:divider="@color/mo_kuai_backgroud"
+        android:background="@color/white_my">
     </ListView>
 
 </LinearLayout>

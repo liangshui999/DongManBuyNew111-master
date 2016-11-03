@@ -184,7 +184,7 @@ public class DingDanActivity extends BaseActivity implements View.OnClickListene
 
         //动态设置listview的高度，这个很重要，关于为什么是320的解释，因为我自己设置的小项的高度就是320
         LinearLayout.LayoutParams params=new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
-                300*densty/160*shopModels.size());
+                326*densty/160*shopModels.size());
         listviewOut.setLayoutParams(params);
         listviewOut.setAdapter(adapterOut);
 

@@ -222,7 +222,7 @@
                         android:id="@+id/text_you_hui_quan_shu_mu_ding_dan"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="2"
+                        android:text="2张"
                         android:layout_marginLeft="5dp"
                         android:layout_toRightOf="@id/you_hui"/>
                     <ImageView

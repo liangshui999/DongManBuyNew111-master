@@ -52,10 +52,10 @@
                     android:id="@+id/text_product_pic_counts"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_alignParentBottom="true"
+                    android:layout_alignRight="@id/img_product_big_pic"
+                    android:layout_alignBottom="@id/img_product_big_pic"
                     android:layout_marginRight="10dp"
-                    android:layout_marginBottom="5dp"
+                    android:layout_marginBottom="10dp"
                     android:text="1/1"
                     android:textColor="@color/white_my"
                     android:background="@drawable/pic_count_background"/>
@@ -291,7 +291,7 @@
                     android:layout_height="wrap_content"
                     android:paddingTop="10dp"
                     android:paddingBottom="10dp"
-                    android:layout_marginTop="5dp"
+                    android:layout_marginTop="10dp"
                     android:background="@color/white_my">
                     <TextView
                         android:id="@+id/text_suo_zai"
@@ -501,7 +501,7 @@
                     android:layout_height="wrap_content"
                     android:paddingTop="10dp"
                     android:paddingBottom="10dp"
-                    android:layout_marginTop="5dp"
+                    android:layout_marginTop="10dp"
                     android:background="@color/white_my">
                     <TextView
                         android:id="@+id/user_comment"
