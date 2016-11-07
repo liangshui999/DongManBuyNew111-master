@@ -21,7 +21,9 @@ import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.ImageRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.example.asus_cp.dongmanbuy.R;
+import com.example.asus_cp.dongmanbuy.activity.product_detail.ProductDetailActivity;
 import com.example.asus_cp.dongmanbuy.activity.product_detail.ProductPicAndGuiGeActivity;
+import com.example.asus_cp.dongmanbuy.constant.MyConstant;
 import com.example.asus_cp.dongmanbuy.fragment.BaseFragment;
 import com.example.asus_cp.dongmanbuy.model.Good;
 import com.example.asus_cp.dongmanbuy.net.MyImageRequest;
@@ -41,12 +43,12 @@ import java.util.Map;
  * 商品详情图片所在的碎片,需要动态构建imageview，因为返回的图片数目不定
  * Created by asus-cp on 2016-06-02.
  */
-public class ProductDetailFragment extends BaseFragment{
+public class ProductPicFragment extends BaseFragment{
     private String productUrl="http://www.zmobuy.com/PHP/index.php?url=/goods/desc";
     private RequestQueue requestQueue;
     private Context context;
     private Good good;
-    private String tag="ProductDetailFragment";
+    private String tag="ProductPicFragment";
     private LinearLayout bufLinearLayout;
     private ImageLoadHelper helper;
     private ImageLoader imageLoader;
@@ -59,8 +61,8 @@ public class ProductDetailFragment extends BaseFragment{
         helper=new ImageLoadHelper();
         imageLoader=helper.getImageLoader();
         requestQueue=MyApplication.getRequestQueue();
-        ProductPicAndGuiGeActivity productPicAndGuiGeActivity= (ProductPicAndGuiGeActivity) getActivity();
-        good=productPicAndGuiGeActivity.getGood();
+        Bundle bundle=getArguments();
+        good=bundle.getParcelable(MyConstant.GOOD_KEY);
         MyLog.d(tag,"商品id"+good.getGoodId());
 
         //弹出正在加载的对话框

@@ -322,6 +322,7 @@
             android:screenOrientation="portrait"/>
 
 
+
         <!--搜索的activity,因为必须按照ui做，此类作废-->
         <activity android:name=".activity.MySearchActivity">
             <intent-filter>

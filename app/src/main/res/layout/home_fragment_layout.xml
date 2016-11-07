@@ -322,7 +322,17 @@
                     android:background="@color/white_my"
                     android:visibility="visible"
                     >
-                    <LinearLayout
+
+                    <android.support.v4.view.ViewPager
+                        android:id="@+id/viewpager_xian_shi_miao_sha"
+                        android:layout_width="wrap_content"
+                        android:layout_height="170dp"
+                        android:paddingLeft="5dp"
+                        android:paddingRight="5dp">
+                    </android.support.v4.view.ViewPager>
+
+                    <!--原来的限时秒杀列表-->
+                   <!-- <LinearLayout
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1">
@@ -346,7 +356,7 @@
                             android:gravity="center"
                             >
                         </com.example.asus_cp.dongmanbuy.customview.MyGridView>
-                    </LinearLayout>
+                    </LinearLayout>-->
                 </LinearLayout>
 
 
@@ -426,14 +436,31 @@
             </RelativeLayout>
 
             <!--精品推荐的列表展示-->
-
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:background="@color/white_my"
                 >
-                <android.support.v4.view.ViewPager
+
+                <com.example.asus_cp.dongmanbuy.customview.MyGridViewA
+                    android:id="@+id/grid_view_jing_pin_tui_jian"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:numColumns="2"
+                    android:horizontalSpacing="@dimen/grid_view_space"
+                    android:verticalSpacing="@dimen/grid_view_space"
+                    android:gravity="center"
+                    android:background="@color/mo_kuai_backgroud"
+                    android:paddingBottom="10dp"
+                    android:paddingLeft="@dimen/grid_view_space"
+                    android:paddingRight="@dimen/grid_view_space"
+                    >
+                </com.example.asus_cp.dongmanbuy.customview.MyGridViewA>
+
+
+                <!--原来的精品推荐部分-->
+                <!--<android.support.v4.view.ViewPager
                     android:id="@+id/viewpager_jing_pin"
                     android:layout_width="wrap_content"
                     android:layout_height="200dp">
@@ -449,10 +476,10 @@
                     android:orientation="horizontal"
                     android:layout_marginBottom="10dp"
                     android:paddingBottom="10dp">
-                </LinearLayout>
+                </LinearLayout>-->
             </RelativeLayout>
 
-            <com.example.asus_cp.dongmanbuy.customview.MyGridView
+           <!-- <com.example.asus_cp.dongmanbuy.customview.MyGridView
                 android:visibility="gone"
                 android:layout_marginTop="10dp"
                 android:id="@+id/grid_view_jing_pin_tui_jian"
@@ -466,7 +493,7 @@
                 android:gravity="center"
                 >
             </com.example.asus_cp.dongmanbuy.customview.MyGridView>
-
+-->
             <!--第三个广告条-->
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -555,7 +582,8 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@id/viewpager_shop_street"
                     android:layout_centerInParent="true"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:visibility="gone">
                 </LinearLayout>
             </RelativeLayout>
 

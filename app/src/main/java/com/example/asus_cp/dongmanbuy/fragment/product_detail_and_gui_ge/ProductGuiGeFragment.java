@@ -64,11 +64,11 @@ public class ProductGuiGeFragment extends BaseFragment{
         context=getActivity();
         requestQueue= MyApplication.getRequestQueue();
         goodId=getArguments().getString(MyConstant.GOOD_ID_KEY);
-        DialogHelper.showDialog(context);
+        //DialogHelper.showDialog(context);
         StringRequest guiGeRequest=new StringRequest(Request.Method.POST, guiGeUrl, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                DialogHelper.dissmisDialog();
+                //DialogHelper.dissmisDialog();
                 MyLog.d(tag,"返回的数据是："+response);
                 MyLog.d(tag,"转换后的数据是："+convertJsObjToJsArr(response));
                 List<GuiGeModel> models=new ArrayList<GuiGeModel>();

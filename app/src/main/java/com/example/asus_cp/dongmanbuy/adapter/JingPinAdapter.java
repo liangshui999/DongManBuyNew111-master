@@ -1,6 +1,7 @@
 package com.example.asus_cp.dongmanbuy.adapter;
 
 import android.content.Context;
+import android.graphics.Paint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -58,6 +59,7 @@ public class JingPinAdapter extends BaseAdapter{
             viewHolder.imageView= (ImageView) v.findViewById(R.id.img_jing_pin_tui_jian);
             viewHolder.nameTextView= (TextView) v.findViewById(R.id.text_jing_pin_name);
             viewHolder.shopPriceTextView= (TextView) v.findViewById(R.id.text_jing_pin_shop_price);
+            viewHolder.marketPriceTextView= (TextView) v.findViewById(R.id.text_jing_pin_market_price);
             v.setTag(viewHolder);
         }else{
             viewHolder= (ViewHolder) v.getTag();
@@ -68,6 +70,8 @@ public class JingPinAdapter extends BaseAdapter{
         imageLoader.get(goods.get(position).getGoodsImg(), imageListener,400,400);
         viewHolder.nameTextView.setText(goods.get(position).getGoodName());
         viewHolder.shopPriceTextView.setText(FormatHelper.getMoneyFormat(goods.get(position).getShopPrice()));
+        viewHolder.marketPriceTextView.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG|Paint.ANTI_ALIAS_FLAG); //中划线
+        viewHolder.marketPriceTextView.setText(FormatHelper.getMoneyFormat(goods.get(position).getMarket_price()));
         return v;
     }
 
@@ -75,6 +79,7 @@ public class JingPinAdapter extends BaseAdapter{
         private ImageView imageView;
         private TextView nameTextView;
         private TextView shopPriceTextView;
+        TextView marketPriceTextView;
     }
 
 }

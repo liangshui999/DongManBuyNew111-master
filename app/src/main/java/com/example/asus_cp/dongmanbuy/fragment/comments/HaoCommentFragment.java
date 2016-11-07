@@ -19,6 +19,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.example.asus_cp.dongmanbuy.R;
 import com.example.asus_cp.dongmanbuy.activity.product_detail.CommetnActivity;
 import com.example.asus_cp.dongmanbuy.adapter.CommentAdapter;
+import com.example.asus_cp.dongmanbuy.constant.MyConstant;
 import com.example.asus_cp.dongmanbuy.fragment.BaseFragment;
 import com.example.asus_cp.dongmanbuy.model.Comment;
 import com.example.asus_cp.dongmanbuy.model.Good;
@@ -55,8 +56,8 @@ public class HaoCommentFragment extends BaseFragment {
 
         moRenLinearLayout= (LinearLayout) v.findViewById(R.id.ll_no_comment_display_hao);
         context=getActivity();
-        CommetnActivity commetnActivity= (CommetnActivity) getActivity();
-        good=commetnActivity.getGood();
+        Bundle bundle=getArguments();
+        good=bundle.getParcelable(MyConstant.GOOD_KEY);
         comments=new ArrayList<Comment>();
         requestQueue= MyApplication.getRequestQueue();
         //弹出正在加载的对话框

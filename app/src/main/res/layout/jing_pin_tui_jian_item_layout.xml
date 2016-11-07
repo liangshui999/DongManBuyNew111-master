@@ -13,10 +13,21 @@ android:layout_margin="5dp">
         android:id="@+id/text_jing_pin_name"
         style="@style/good_name_style_left_five"
         android:layout_width="wrap_content"
-        android:singleLine="true" />
+        android:singleLine="true"
+        android:visibility="gone"/>
 
     <TextView
     android:id="@+id/text_jing_pin_shop_price"
-    style="@style/good_price_style_left_five"/>
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:textColor="@color/bottom_lable_color"/>
+
+    <TextView
+        android:id="@+id/text_jing_pin_market_price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="0.00"
+        android:layout_gravity="center"/>
 
 </LinearLayout>

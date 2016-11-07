@@ -132,18 +132,20 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener{
     private TextView hourTextView;
     private TextView minuteTextView;
     private TextView secondTextView;
-    private MyGridView xianShiMiaoShaGridView;
-    private ImageView xianShiMiaoShaImagView;
+    private ViewPager xianShiMiaoShaViewPager;
     public static final int REFRESH_XIAN_SHI_MIAO_SHA=10;
+//    private MyGridView xianShiMiaoShaGridView;
+//    private ImageView xianShiMiaoShaImagView;
+
 
     //精品推荐的gridview
-    private MyGridView jingPinTuiJianGridview;
+    private MyGridViewA jingPinTuiJianGridview;
 
     //猜你喜欢的gridview
     private MyGridViewA caiNiXiHuanGridView;
 
     //精品推荐的viewpager
-    private ViewPager jingPinViewPager;
+    //private ViewPager jingPinViewPager;
 
     //店铺街的viewpager
     private ViewPager shopStreetViewPager;
@@ -234,7 +236,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener{
                     break;
                 case REFRESH_XIAN_SHI_MIAO_SHA://更新限时秒杀
                     Bitmap bitmap= (Bitmap) msg.obj;
-                    xianShiMiaoShaImagView.setImageBitmap(bitmap);
+//                    xianShiMiaoShaImagView.setImageBitmap(bitmap);
                     break;
                 case XIAN_SHI_TIME://限时秒杀
                     setXianShiTime();
@@ -443,6 +445,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener{
         hourTextView= (TextView) v.findViewById(R.id.text_hour_xian_shi_miao_sha);
         minuteTextView= (TextView) v.findViewById(R.id.text_minute_xian_shi_miao_sha);
         secondTextView= (TextView) v.findViewById(R.id.text_second_xian_shi_miao_sha);
+        xianShiMiaoShaViewPager= (ViewPager) v.findViewById(R.id.viewpager_xian_shi_miao_sha);
 
         String xianShiMiaoShaCach=cachSharePrefrences.getString(MyConstant.XIAN_SHI_MIAO_SHA_CACH_KEY,null);
         if(xianShiMiaoShaCach!=null){
@@ -469,17 +472,18 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener{
 
 
         //----------------------用viewpager做的精品推荐部分-----------------------
-        jingPinViewPager= (ViewPager) v.findViewById(R.id.viewpager_jing_pin);
-        final List<View> gridViews=new ArrayList<View>();
+        //jingPinViewPager= (ViewPager) v.findViewById(R.id.viewpager_jing_pin);
+        jingPinTuiJianGridview= (MyGridViewA) v.findViewById(R.id.grid_view_jing_pin_tui_jian);
+        //final List<View> gridViews=new ArrayList<View>();
         String jingPinTuiJianCach=cachSharePrefrences.getString(MyConstant.JING_PING_TUI_JIAN_CACH_KEY,null);
         if(jingPinTuiJianCach!=null){
-            setValueToJingPinTuiJian(jingPinTuiJianCach, gridViews);
+            setValueToJingPinTuiJian(jingPinTuiJianCach);
         }else{
             String jingPinRequestUrl="http://www.zmobuy.com/PHP/index.php?url=/home/bestgoods";
             StringRequest jingPinStringRequest=new StringRequest(Request.Method.GET, jingPinRequestUrl, new Response.Listener<String>() {
                 @Override
                 public void onResponse(String s) {
-                    setValueToJingPinTuiJian(s, gridViews);
+                    setValueToJingPinTuiJian(s);
                     writeDataToCach(MyConstant.JING_PING_TUI_JIAN_CACH_KEY,s);
                 }
             }, new Response.ErrorListener() {
@@ -581,7 +585,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener{
         mainActivity.menu.addIgnoredView(firstViewPager);
         mainActivity.menu.addIgnoredView(secondViewPager);
         mainActivity.menu.addIgnoredView(threeViewPager);
-        mainActivity.menu.addIgnoredView(jingPinViewPager);
+        //mainActivity.menu.addIgnoredView(jingPinViewPager);
         mainActivity.menu.addIgnoredView(shopStreetViewPager);
 
         //3个更多按钮的初始化和点击事件
@@ -663,7 +667,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener{
         shopStreetViewPager.setAdapter(new MyPagerAdapter(shopStreetGridViews));
         //mainActivity.menu.addIgnoredView(shopStreetViewPager);
         LinearLayout shopStreetPointGroup= (LinearLayout) v.findViewById(R.id.ll_point_group_shop_street);
-        initPoint(shopStreetPointGroup,shopStreetGridViews.size());
+        initPoint(shopStreetPointGroup, shopStreetGridViews.size());
         shopStreetViewPager.addOnPageChangeListener(new MyPageChangeListener(shopStreetGridViews,shopStreetPointGroup));
     }
 
@@ -671,12 +675,26 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener{
     /**
      * 给精品推荐的view设置值
      * @param s
-     * @param gridViews
      */
-    private void setValueToJingPinTuiJian(String s, List<View> gridViews) {
-        final List<Good> goods = parseCaiNiLikeAndJingPin(s);
-        // Good[] goodArray= (Good[]) goods.toArray();
-        int size=goods.size();
+    private void setValueToJingPinTuiJian(String s) {
+        final List<Good> goods = getElementsFromList(parseCaiNiLikeAndJingPin(s),4);
+        CaiNiXiHuanAdapter caiNiXiHuanAdapter=new CaiNiXiHuanAdapter(context,goods);
+        jingPinTuiJianGridview.setAdapter(caiNiXiHuanAdapter);
+        //CategoryImageLoadHelper.setGridViewViewHeightBasedOnChildren(caiNiXiHuanGridView);
+        jingPinTuiJianGridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                //Toast.makeText(context,""+position,Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(context, ProductDetailActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putParcelable(GOOD_KEY, goods.get(position));
+                intent.putExtras(bundle);
+                startActivity(intent);
+            }
+        });
+
+//        以前的精品推荐部分
+       /* int size=goods.size();
         int count=0;//取的次数
         if(size%3==0){
             count=size;
@@ -715,7 +733,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener{
         //mainActivity.menu.addIgnoredView(jingPinViewPager);
         LinearLayout jingPinPointGroup= (LinearLayout) v.findViewById(R.id.ll_point_group_jing_pin);
         initPoint(jingPinPointGroup,gridViews.size());
-        jingPinViewPager.addOnPageChangeListener(new MyPageChangeListener(gridViews,jingPinPointGroup));
+        jingPinViewPager.addOnPageChangeListener(new MyPageChangeListener(gridViews,jingPinPointGroup));*/
     }
 
 
@@ -755,7 +773,50 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener{
                 return;
             }
 
-            xianShiMiaoShaImagView= (ImageView) v.findViewById(R.id.img_xian_shi_miao_sha_content);
+
+            List<View> gridViews=new ArrayList<>();
+            int size=goods.size();
+            int count=0;//取的次数
+            if(size%3==0){
+                count=size;
+            }else{
+                count=size/3+1;
+            }
+            for(int i=0;i<count;i++){
+                final List<Good> goodItems=new ArrayList<Good>();
+                for(int j=3*i;j<3*i+3;j++){
+                    if(j<size){
+                        goodItems.add(goods.get(j));
+                    }
+                }
+                JingPinAdapter jingPinAdapter=new JingPinAdapter(context,goodItems);
+                MyGridView gridView=new MyGridView(context);
+                //gridView.setColumnWidth(230);
+                gridView.setHorizontalSpacing(5);
+                gridView.setVerticalSpacing(5);
+                gridView.setGravity(Gravity.CENTER);
+                gridView.setStretchMode(GridView.STRETCH_COLUMN_WIDTH);
+                gridView.setNumColumns(3);
+                gridView.setAdapter(jingPinAdapter);
+                gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        // Toast.makeText(context,""+position,Toast.LENGTH_SHORT).show();
+                        Intent intent=new Intent(context,ProductDetailActivity.class);
+                        intent.putExtra(MyConstant.GOOD_KEY,goodItems.get(position));
+                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        context.startActivity(intent);
+                    }
+                });
+                gridViews.add(gridView);
+            }
+            xianShiMiaoShaViewPager.setAdapter(new MyPagerAdapter(gridViews));
+
+
+
+
+//            先前的限时秒杀的界面
+            /*xianShiMiaoShaImagView= (ImageView) v.findViewById(R.id.img_xian_shi_miao_sha_content);
             //动态设置imageview的高度
             int tempWidth4=screenWidth/2-5;
             ViewGroup.LayoutParams layoutParams4=xianShiMiaoShaImagView.getLayoutParams();
@@ -793,7 +854,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener{
                 XianShiAdapter xianShiAdapter = new XianShiAdapter(context, goods);
                 xianShiMiaoShaGridView.setAdapter(xianShiAdapter);
                 xianShiMiaoShaGridView.setOnItemClickListener(new XianShiOnItemClickListener(goods));
-            }
+            }*/
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -1012,7 +1073,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener{
      */
     public List<Good> getElementsFromList(List<Good> goods, int num) {
         List<Good> list = new ArrayList<Good>();
-        for (int i = 1; i < num; i++) {
+        for (int i = 0; i < num; i++) {
             list.add(goods.get(i));
         }
         return list;
@@ -1255,7 +1316,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener{
         mainActivity.menu.removeIgnoredView(firstViewPager);
         mainActivity.menu.removeIgnoredView(secondViewPager);
         mainActivity.menu.removeIgnoredView(threeViewPager);
-        mainActivity.menu.removeIgnoredView(jingPinViewPager);
+//        mainActivity.menu.removeIgnoredView(jingPinViewPager);
         mainActivity.menu.removeIgnoredView(shopStreetViewPager);
 
     }

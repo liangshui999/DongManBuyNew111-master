@@ -1,14 +1,15 @@
-package com.example.asus_cp.dongmanbuy.activity.product_detail;
+package com.example.asus_cp.dongmanbuy.fragment.comments;
 
+import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.view.LayoutInflater;
 import android.view.View;
-import android.view.Window;
-import android.widget.ImageView;
+import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -19,14 +20,9 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.example.asus_cp.dongmanbuy.R;
-import com.example.asus_cp.dongmanbuy.activity.BaseActivity;
 import com.example.asus_cp.dongmanbuy.constant.MyConstant;
+import com.example.asus_cp.dongmanbuy.fragment.BaseFragment;
 import com.example.asus_cp.dongmanbuy.fragment.HomeFragment;
-import com.example.asus_cp.dongmanbuy.fragment.comments.AllCommentFragment;
-import com.example.asus_cp.dongmanbuy.fragment.comments.ChaCommentFragment;
-import com.example.asus_cp.dongmanbuy.fragment.comments.HaoCommentFragment;
-import com.example.asus_cp.dongmanbuy.fragment.comments.YouTuCommentFragment;
-import com.example.asus_cp.dongmanbuy.fragment.comments.ZhongCommentFragment;
 import com.example.asus_cp.dongmanbuy.model.Good;
 import com.example.asus_cp.dongmanbuy.util.MyApplication;
 import com.example.asus_cp.dongmanbuy.util.MyLog;
@@ -38,13 +34,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-
 /**
- * 评论的界面,此类作废，由对应的碎片代替
- * Created by asus-cp on 2016-06-02.
+ * 评论的碎片
+ * Created by asus-cp on 2016-11-03.
  */
-@Deprecated
-public class CommetnActivity extends BaseActivity implements View.OnClickListener{
+public class CommentFragment extends BaseFragment implements View.OnClickListener{
 
     private LinearLayout allCommentLinearLayout;//全部评价
     private LinearLayout haoCommentLinearLayout;//好评
@@ -82,28 +76,26 @@ public class CommetnActivity extends BaseActivity implements View.OnClickListene
 
     private String youTu;
 
+    private Context context;
+
+    private RequestQueue requestQueue;
+
+    @Nullable
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentLayout(R.layout.comment_actvity_layout);
-        setTitle(R.string.comment);
-        initView();
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View v=inflater.inflate(R.layout.comment_actvity_layout,null);
+        initView(v);
         init();
+        return v;
     }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-        setIsNeedTongJiPage(false);
-    }
 
-    @Override
-    public void initView() {
-        allCommentLinearLayout= (LinearLayout) findViewById(R.id.ll_all_comment);
-        haoCommentLinearLayout= (LinearLayout) findViewById(R.id.ll_hao_comment);
-        zhongCommentLinearLayout= (LinearLayout) findViewById(R.id.ll_zhong_comment);
-        chaCommentLinearLayout= (LinearLayout) findViewById(R.id.ll_cha_comment);
-        youTuCommentLinearLayout= (LinearLayout) findViewById(R.id.ll_you_tu_comment);
+    public void initView(View v) {
+        allCommentLinearLayout= (LinearLayout) v.findViewById(R.id.ll_all_comment);
+        haoCommentLinearLayout= (LinearLayout) v.findViewById(R.id.ll_hao_comment);
+        zhongCommentLinearLayout= (LinearLayout) v.findViewById(R.id.ll_zhong_comment);
+        chaCommentLinearLayout= (LinearLayout) v.findViewById(R.id.ll_cha_comment);
+        youTuCommentLinearLayout= (LinearLayout) v.findViewById(R.id.ll_you_tu_comment);
 
         allCommentLinearLayout.setOnClickListener(this);
         haoCommentLinearLayout.setOnClickListener(this);
@@ -111,25 +103,33 @@ public class CommetnActivity extends BaseActivity implements View.OnClickListene
         chaCommentLinearLayout.setOnClickListener(this);
         youTuCommentLinearLayout.setOnClickListener(this);
 
-        allCommentTextView= (TextView) findViewById(R.id.text_all_comment);
-        haoCommentTextView= (TextView) findViewById(R.id.text_hao_comment);
-        zhongCommentTextView= (TextView) findViewById(R.id.text_zhong_comment);
-        chaCommentTextView= (TextView) findViewById(R.id.text_cha_comment);
-        youTuCommentTextView= (TextView) findViewById(R.id.text_you_tu_comment);
+        allCommentTextView= (TextView) v.findViewById(R.id.text_all_comment);
+        haoCommentTextView= (TextView) v.findViewById(R.id.text_hao_comment);
+        zhongCommentTextView= (TextView) v.findViewById(R.id.text_zhong_comment);
+        chaCommentTextView= (TextView) v.findViewById(R.id.text_cha_comment);
+        youTuCommentTextView= (TextView) v.findViewById(R.id.text_you_tu_comment);
 
-        allCommentCountTextView= (TextView) findViewById(R.id.text_all_comment_count);
-        haoCommentCountTextView= (TextView) findViewById(R.id.text_hao_comment_count);
-        zhongCommentCountTextView= (TextView) findViewById(R.id.text_zhong_comment_count);
-        chaCommentCountTextView= (TextView) findViewById(R.id.text_cha_comment_count);
-        youTuCommentCountTextView= (TextView) findViewById(R.id.text_you_tu_comment_count);
+        allCommentCountTextView= (TextView) v.findViewById(R.id.text_all_comment_count);
+        haoCommentCountTextView= (TextView) v.findViewById(R.id.text_hao_comment_count);
+        zhongCommentCountTextView= (TextView) v.findViewById(R.id.text_zhong_comment_count);
+        chaCommentCountTextView= (TextView) v.findViewById(R.id.text_cha_comment_count);
+        youTuCommentCountTextView= (TextView) v.findViewById(R.id.text_you_tu_comment_count);
+
+        viewPager= (ViewPager) v.findViewById(R.id.view_pager_comment);
     }
 
     /**
      * 初始化的方法
      */
     private void init() {
-        good=getIntent().getParcelableExtra(HomeFragment.GOOD_KEY);
-        youTu=getIntent().getStringExtra(MyConstant.YOU_TU_PING_JIA_KEY);
+        context=getActivity();
+        requestQueue= MyApplication.getRequestQueue();
+
+//        good=getIntent().getParcelableExtra(HomeFragment.GOOD_KEY);
+//        youTu=getIntent().getStringExtra(MyConstant.YOU_TU_PING_JIA_KEY);
+        Bundle bundle=getArguments();
+        good=bundle.getParcelable(MyConstant.GOOD_KEY);
+        youTu=bundle.getString(MyConstant.YOU_TU_PING_JIA_KEY);
 
         //设置各种评论的数量
         StringRequest commentRequst=new StringRequest(Request.Method.POST, userCommentUrl, new Response.Listener<String>() {
@@ -163,7 +163,7 @@ public class CommetnActivity extends BaseActivity implements View.OnClickListene
         allCommentTextView.setTextColor(getResources().getColor(R.color.bottom_lable_color));
         allCommentCountTextView.setTextColor(getResources().getColor(R.color.bottom_lable_color));
 
-        viewPager= (ViewPager) findViewById(R.id.view_pager_comment);
+
 
         fragments=new ArrayList<Fragment>();
         AllCommentFragment allCommentFragment=new AllCommentFragment();
@@ -171,12 +171,17 @@ public class CommetnActivity extends BaseActivity implements View.OnClickListene
         ZhongCommentFragment zhongCommentFragment=new ZhongCommentFragment();
         ChaCommentFragment chaCommentFragment=new ChaCommentFragment();
         YouTuCommentFragment youTuCommentFragment=new YouTuCommentFragment();
+        allCommentFragment.setArguments(bundle);
+        haoCommentFragment.setArguments(bundle);
+        zhongCommentFragment.setArguments(bundle);
+        chaCommentFragment.setArguments(bundle);
+        youTuCommentFragment.setArguments(bundle);
         fragments.add(allCommentFragment);
         fragments.add(haoCommentFragment);
         fragments.add(zhongCommentFragment);
         fragments.add(chaCommentFragment);
         fragments.add(youTuCommentFragment);
-        FragmentManager fragmentManager=getSupportFragmentManager();
+        FragmentManager fragmentManager=getChildFragmentManager();
         MyFragmentPagerAdapter myFragmentPagerAdapter=new MyFragmentPagerAdapter(fragmentManager);
         viewPager.setAdapter(myFragmentPagerAdapter);
 
@@ -287,7 +292,7 @@ public class CommetnActivity extends BaseActivity implements View.OnClickListene
     /**
      * 我自己viewpager的适配器
      */
-    class MyFragmentPagerAdapter extends FragmentPagerAdapter{
+    class MyFragmentPagerAdapter extends FragmentPagerAdapter {
 
         public MyFragmentPagerAdapter(FragmentManager fm) {
             super(fm);
