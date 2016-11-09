@@ -6,7 +6,9 @@
     <ListView
         android:id="@+id/list_hao_comment"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:dividerHeight="1dp"
+        android:divider="@color/mo_kuai_backgroud">
     </ListView>
 
     <LinearLayout

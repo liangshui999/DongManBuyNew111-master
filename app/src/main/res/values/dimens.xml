@@ -44,5 +44,6 @@
     <dimen name="data_set_fen_ge">1dp</dimen>
     <dimen name="order_detail_fen_ge">1dp</dimen>
     <dimen name="normal_fen_ge_height">1dp</dimen>
+    <dimen name="product_padding">15dp</dimen>
 
 </resources>

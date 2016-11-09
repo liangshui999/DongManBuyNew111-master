@@ -235,7 +235,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener{
                     threeViewPager.setAdapter(new MyPagerAdapter(threeImageViews));
                     break;
                 case REFRESH_XIAN_SHI_MIAO_SHA://更新限时秒杀
-                    Bitmap bitmap= (Bitmap) msg.obj;
+//                    Bitmap bitmap= (Bitmap) msg.obj;
 //                    xianShiMiaoShaImagView.setImageBitmap(bitmap);
                     break;
                 case XIAN_SHI_TIME://限时秒杀
@@ -580,13 +580,6 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener{
         }
 
 
-
-        //将各个viewpager添加到忽视的区域
-        mainActivity.menu.addIgnoredView(firstViewPager);
-        mainActivity.menu.addIgnoredView(secondViewPager);
-        mainActivity.menu.addIgnoredView(threeViewPager);
-        //mainActivity.menu.addIgnoredView(jingPinViewPager);
-        mainActivity.menu.addIgnoredView(shopStreetViewPager);
 
         //3个更多按钮的初始化和点击事件
         xianShiMoreTextView= (TextView) v.findViewById(R.id.text_xian_shi_more);
@@ -1180,7 +1173,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener{
             startActivityForResult(toLoginIntent, REQUEST_CODE_LOGIN_WALLET);
         }else {
             sid=sharedPreferences.getString(MyConstant.SID_KEY,null);
-            getDataFromIntenetAndSetView(uid,sid);
+            getDataFromIntenetAndSetView(uid, sid);
         }
     }
 
@@ -1302,22 +1295,32 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener{
     @Override
     public void onStart() {
         super.onStart();
+//        mainActivity.menu.clearIgnoredViews();
+//        //将各个viewpager添加到忽视的区域
+//        mainActivity.menu.addIgnoredView(firstViewPager);
+//        mainActivity.menu.addIgnoredView(secondViewPager);
+//        mainActivity.menu.addIgnoredView(threeViewPager);
+//        //mainActivity.menu.addIgnoredView(jingPinViewPager);
+//        mainActivity.menu.addIgnoredView(shopStreetViewPager);
+
 //        handler.removeMessages(SCROLL__FIRST_BINNER);
 //        handler.removeMessages(XIAN_SHI_TIME);
 //        handler.sendEmptyMessage(SCROLL__FIRST_BINNER);
 //        handler.sendEmptyMessage(XIAN_SHI_TIME);
     }
 
+
     @Override
     public void onStop() {
         super.onStop();
 
-        //移除忽视的view，否则容易产生内存溢出
-        mainActivity.menu.removeIgnoredView(firstViewPager);
-        mainActivity.menu.removeIgnoredView(secondViewPager);
-        mainActivity.menu.removeIgnoredView(threeViewPager);
+//        mainActivity.menu.clearIgnoredViews();
+//        //移除忽视的view，否则容易产生内存溢出
+//        mainActivity.menu.removeIgnoredView(firstViewPager);
+//        mainActivity.menu.removeIgnoredView(secondViewPager);
+//        mainActivity.menu.removeIgnoredView(threeViewPager);
 //        mainActivity.menu.removeIgnoredView(jingPinViewPager);
-        mainActivity.menu.removeIgnoredView(shopStreetViewPager);
+//        mainActivity.menu.removeIgnoredView(shopStreetViewPager);
 
     }
 
@@ -1381,6 +1384,8 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener{
         private boolean isStoped = false;
         private int scrollFlag;
         private ViewPager viewPager;
+        private float firstX = 0;//手指按下时的x值
+        private float firstY = 0;
 
         /**
          *
@@ -1394,8 +1399,6 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener{
 
         @Override
         public boolean onTouch(View v, MotionEvent event) {
-            float firstX = 0;//手指按下时的x值
-            float firstY = 0;
             float distance = 0f;
             switch (event.getAction()) {
                 case MotionEvent.ACTION_DOWN:

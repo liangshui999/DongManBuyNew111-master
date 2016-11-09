@@ -5,6 +5,7 @@
     <color name="colorAccent">#FF4081</color>
     <color name="bottom_lable_color">#ff5153</color>
     <color name="bottom_lable_color_pressed">#b2393a</color>
+    <color name="bottom_lable_color_tou_ming">#00ff5153</color>
     <color name="mo_kuai_backgroud">#f3f5f7</color>
     <color name="home_fragment_background">#F0F0F0</color>
     <color name="white_my">#ffffff</color>
@@ -28,6 +29,7 @@
     <color name="used_hong_bao">#d0d0d0</color>
     <color name="zan_shi_que_huo_backgroud">#BCBCBC</color>
     <color name="product_detail_pic_count_backgroud">#4d000000</color>
+    <color name="xian_shi_miao_sha_time_backgroud">#808080</color>
 
     <!--zxing里面用到的-->
     <color name="result_view">#b0000000</color>

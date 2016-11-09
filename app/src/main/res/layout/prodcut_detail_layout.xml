@@ -91,7 +91,7 @@
                     android:layout_weight="5"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:paddingLeft="5dp">
+                    >
                     <TextView
                         android:id="@+id/text_product_name"
                         android:layout_width="wrap_content"
@@ -181,7 +181,8 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp">
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="10dp">
 
                     <LinearLayout
                         android:layout_width="0dp"
@@ -289,8 +290,8 @@
                     android:id="@+id/re_layout_suo_zai_di_qu"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingTop="10dp"
-                    android:paddingBottom="10dp"
+                    android:paddingTop="@dimen/product_padding"
+                    android:paddingBottom="@dimen/product_padding"
                     android:layout_marginTop="10dp"
                     android:background="@color/white_my">
                     <TextView
@@ -317,8 +318,8 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingTop="10dp"
-                    android:paddingBottom="10dp"
+                    android:paddingTop="@dimen/product_padding"
+                    android:paddingBottom="@dimen/product_padding"
                     android:layout_marginTop="@dimen/product_detail_margin"
                     android:background="@color/white_my">
                     <TextView
@@ -339,8 +340,8 @@
                     android:id="@+id/re_layout_yi_xuan"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingTop="10dp"
-                    android:paddingBottom="10dp"
+                    android:paddingTop="@dimen/product_padding"
+                    android:paddingBottom="@dimen/product_padding"
                     android:layout_marginTop="@dimen/product_detail_margin"
                     android:background="@color/white_my">
                     <TextView
@@ -370,8 +371,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:paddingTop="10dp"
-                android:paddingBottom="10dp"
+                android:paddingTop="@dimen/product_padding"
+                android:paddingBottom="@dimen/product_padding"
                 android:layout_marginTop="@dimen/product_detail_margin"
                 android:background="@color/white_my">
                 <RelativeLayout
@@ -470,8 +471,8 @@
                     android:id="@+id/re_layout_product_detail"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingTop="10dp"
-                    android:paddingBottom="10dp"
+                    android:paddingTop="@dimen/product_padding"
+                    android:paddingBottom="@dimen/product_padding"
                     android:layout_marginTop="@dimen/product_detail_margin"
                     android:background="@color/white_my">
                     <TextView
@@ -499,8 +500,8 @@
                     android:id="@+id/re_layout_user_commet"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingTop="10dp"
-                    android:paddingBottom="10dp"
+                    android:paddingTop="@dimen/product_padding"
+                    android:paddingBottom="@dimen/product_padding"
                     android:layout_marginTop="10dp"
                     android:background="@color/white_my">
                     <TextView

@@ -12,7 +12,9 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.widget.DrawerLayout;
 import android.util.DisplayMetrics;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -82,6 +84,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
 
     private String shoppingCarListUrl="http://www.zmobuy.com/PHP/index.php?url=/cart/list";//购物车列表
     //private android.support.v7.widget.SearchView searchView;
+    private DrawerLayout drawerLayout;
     private ImageView searchImageView;//搜索的图片
     private de.hdodenhof.circleimageview.CircleImageView loginButton;//登录按钮
     private ImageView messageButton;//消息按钮
@@ -298,6 +301,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
             searchView.clearFocus();
         }*/
 
+        drawerLayout= (DrawerLayout) findViewById(R.id.drawer_layout);
         searchImageView= (ImageView) findViewById(R.id.img_search_main);
         loginButton= (CircleImageView) findViewById(R.id.img_btn_login);
         messageButton= (ImageView) findViewById(R.id.img_btn_message);
@@ -419,23 +423,52 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
         //slidingMenu= (SlidingMenu) findViewById(R.id.id_menu);
 
 
-        //使用侧滑菜单
-        menu = new SlidingMenu(this);
-        menu.setMode(SlidingMenu.LEFT);
-        menu.setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);
-        menu.setShadowWidthRes(R.dimen.shadow_width);//这个是调节阴影宽度的
-        menu.setShadowDrawable(R.drawable.shadow);
-        menu.setBehindOffsetRes(R.dimen.slidingmenu_offset);
-        menu.setFadeDegree(0.35f);
-        menu.attachToActivity(this, SlidingMenu.SLIDING_CONTENT);
-        menu.setMenu(R.layout.menu_new_layout);
+//        //使用侧滑菜单
+//        menu = new SlidingMenu(this);
+//        menu.setMode(SlidingMenu.LEFT);
+//        menu.setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);
+//        menu.setShadowWidthRes(R.dimen.shadow_width);//这个是调节阴影宽度的
+//        menu.setShadowDrawable(R.drawable.shadow);
+//        menu.setBehindOffsetRes(R.dimen.slidingmenu_offset);
+//        menu.setFadeDegree(0.35f);
+//        menu.attachToActivity(this, SlidingMenu.SLIDING_CONTENT);
+//        menu.setMenu(R.layout.menu_new_layout);
+//
+//
+//        //给侧滑菜单设置滚动的监听事件
+//        menu.setOnOpenedListener(new SlidingMenu.OnOpenedListener() {
+//            @Override
+//            public void onOpened() {
+//
+//                String uid = sharedPreferences.getString(MyConstant.UID_KEY, null);
+//                String sid = sharedPreferences.getString(MyConstant.SID_KEY, null);
+//                if (uid != null && !uid.isEmpty()) {
+//                    if (!isLogined) {
+//                        getDataFromIntenetAndSetYouHuiQuanCount(uid,sid);
+//                        getDataFromIntenetAndSetNameAndEmailAndPic(uid, sid);
+//                    }
+//                } else {
+//                    nameTextView.setText(R.string.click_tou_xiang_login);
+//                    jiFenTextView.setText("");
+//                    loginImage.setImageResource(R.mipmap.tou_xiang);
+//                    loginButton.setImageResource(R.mipmap.tou_xiang);
+//                    jiFenAndHelpRelativeLayout.setVisibility(View.GONE);//将积分和帮助隐藏
+//                    youHuiQuanCountTextView.setText("");
+//                    isLogined = false;
+//                }
+//            }
+//        });
 
 
-        //给侧滑菜单设置滚动的监听事件
-        menu.setOnOpenedListener(new SlidingMenu.OnOpenedListener() {
+        drawerLayout.addDrawerListener(new DrawerLayout.SimpleDrawerListener() {
             @Override
-            public void onOpened() {
+            public void onDrawerSlide(View drawerView, float slideOffset) {
+                super.onDrawerSlide(drawerView, slideOffset);
+            }
 
+            @Override
+            public void onDrawerOpened(View drawerView) {
+                super.onDrawerOpened(drawerView);
                 String uid = sharedPreferences.getString(MyConstant.UID_KEY, null);
                 String sid = sharedPreferences.getString(MyConstant.SID_KEY, null);
                 if (uid != null && !uid.isEmpty()) {
@@ -453,9 +486,17 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
                     isLogined = false;
                 }
             }
+
+            @Override
+            public void onDrawerClosed(View drawerView) {
+                super.onDrawerClosed(drawerView);
+            }
+
+            @Override
+            public void onDrawerStateChanged(int newState) {
+                super.onDrawerStateChanged(newState);
+            }
         });
-
-
 
 
         //-----------------------初始化侧滑菜单-----------------------------
@@ -567,7 +608,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
         if(shoppingCarFragment.isAdded()){
             shoppingCarTranscation.remove(shoppingCarFragment);
             shoppingCarFragment=new ShoppingCarFragment();
-            shoppingCarTranscation.add(R.id.frame_layout_main,shoppingCarFragment);
+            shoppingCarTranscation.add(R.id.frame_layout_main, shoppingCarFragment);
         }else{
             shoppingCarTranscation.add(R.id.frame_layout_main,shoppingCarFragment);
         }
@@ -716,7 +757,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
             case R.id.img_btn_login://登录按钮的点击事件
                 //Toast.makeText(this,"点击了登录按钮",Toast.LENGTH_SHORT).show();
                 //slidingMenu.toggle();
-                menu.toggle();
+                //menu.toggle();
+                toggleDrawLayout();
                 break;
             case R.id.img_btn_message://消息按钮的点击事件
                 messageAndSaoClickChuLi();
@@ -834,6 +876,18 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
 
 
     /**
+     * toggle drawlayout
+     */
+    public void toggleDrawLayout(){
+        if(drawerLayout.isDrawerOpen(Gravity.LEFT)){
+            drawerLayout.closeDrawer(Gravity.LEFT);
+        }else{
+            drawerLayout.openDrawer(Gravity.LEFT);
+        }
+    }
+
+
+    /**
      * 跳转到扫描的activity
      */
     private void toScanActivity() {
@@ -854,9 +908,10 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
             startActivityForResult(toLoginIntent, REQUEST_CODE_YOU_HUI_QUAN);
         }else {
             Intent intent=new Intent(this, HongBaoListActivity.class);
-            if(menu.isMenuShowing()){
-                menu.toggle();
-            }
+//            if(menu.isMenuShowing()){
+//                menu.toggle();
+//            }
+            toggleDrawLayout();
             startActivity(intent);
             //MyLog.d(tag,"浏览记录内部的执行了吗？");
         }
@@ -874,9 +929,10 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
             startActivityForResult(toLoginIntent, REQUEST_CODE_LOGIN_LIU_LAN_JI_LU);
         }else {
             Intent intent=new Intent(this, LiuLanJiLuListActivity.class);
-            if(menu.isMenuShowing()){
-                menu.toggle();
-            }
+//            if(menu.isMenuShowing()){
+//                menu.toggle();
+//            }
+            toggleDrawLayout();
             startActivity(intent);
             //MyLog.d(tag,"浏览记录内部的执行了吗？");
         }
@@ -908,7 +964,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
         if(uid==null || uid.isEmpty()){
             Intent toLoginIntent=new Intent(this,LoginActivity.class);
             toLoginIntent.putExtra(MyConstant.START_LOGIN_ACTIVITY_FLAG_KEY,"homeFragment");
-            startActivityForResult(toLoginIntent,REQUEST_CODE_SHOPPING_CAR);
+            startActivityForResult(toLoginIntent, REQUEST_CODE_SHOPPING_CAR);
         }else {
 //            FragmentTransaction shoppingTransaction=fragmentManager.beginTransaction();
 //            shoppingTransaction.replace(R.id.frame_layout_main, shoppingCarFragment);
@@ -970,9 +1026,10 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
             startActivityForResult(toLoginIntent, REQUEST_CODE_LOGIN_SHOU_CANG);
         }else {
             Intent toShouCangIntent=new Intent(this,ShouCangListActivity.class);
-            if(menu.isMenuShowing()){
-                menu.toggle();
-            }
+//            if(menu.isMenuShowing()){
+//                menu.toggle();
+//            }
+            toggleDrawLayout();
             startActivity(toShouCangIntent);
         }
     }
@@ -990,9 +1047,10 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
             startActivityForResult(toLoginIntent, REQUEST_CODE_LOGIN_GUAN_ZHU);
         }else {
             Intent toGuanZhuIntent=new Intent(this,GuanZhuListActivity.class);
-            if(menu.isMenuShowing()){
-                menu.toggle();
-            }
+//            if(menu.isMenuShowing()){
+//                menu.toggle();
+//            }
+            toggleDrawLayout();
             startActivity(toGuanZhuIntent);
         }
     }
@@ -1106,7 +1164,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
                     public void onResponse(String s) {
                         User user=parseJson(s);
                         Intent settingIntent=new Intent(MainActivity.this, DataSetActivity.class);
-                        settingIntent.putExtra(MyConstant.USER_KEY,user);
+                        settingIntent.putExtra(MyConstant.USER_KEY, user);
                         startActivityForResult(settingIntent, REQUEST_CODE_TO_SETTING);
                     }
                 }, new Response.ErrorListener() {
@@ -1215,9 +1273,10 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
         if(uid!=null && !uid.isEmpty()){
             Intent toPersonalCenterIntent=new Intent(this, PersonalCenterActivity.class);
             startActivity(toPersonalCenterIntent);
-            if(menu.isMenuShowing()){
-                menu.toggle();
-            }
+//            if(menu.isMenuShowing()){
+//                menu.toggle();
+//            }
+            toggleDrawLayout();
         }else{
             Intent toLoginIntent=new Intent(this,LoginActivity.class);
             toLoginIntent.putExtra(MyConstant.START_LOGIN_ACTIVITY_FLAG_KEY,"homeFragment");
@@ -1238,8 +1297,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
 //        editor.remove(MyConstant.SID_KEY);
 //        editor.apply();
 
-        if (menu.isMenuShowing()) {
-            menu.showContent();
+
+        if (drawerLayout.isDrawerOpen(Gravity.LEFT)) {
+            drawerLayout.closeDrawer(Gravity.LEFT);
         } else {
             long nowTime=System.currentTimeMillis();
             if(nowTime-pressedTime>2000){

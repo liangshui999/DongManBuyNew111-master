@@ -130,7 +130,7 @@ public class ShopStreetFragment extends BaseFragment implements View.OnClickList
         shopListListView= (PullToRefreshListView) v.findViewById(R.id.list_view_shop_list);
         shopListListView.setMode(PullToRefreshBase.Mode.PULL_FROM_END);//设置模式是上拉加载
         shopListListView.setOnRefreshListener(new MyOnrefreshListener());
-        mainActivity.menu.addIgnoredView(shopListListView);//将listview添加到忽略里面
+
 
         shopModels =new ArrayList<ShopModel>();
         adapter=new ShopStreetShopListAdapter(getActivity(),shopModels);
@@ -529,8 +529,17 @@ public class ShopStreetFragment extends BaseFragment implements View.OnClickList
     }
 
     @Override
+    public void onStart() {
+        super.onStart();
+//        mainActivity.menu.clearIgnoredViews();
+//        mainActivity.menu.addIgnoredView(shopListListView);//将listview添加到忽略里面
+    }
+
+
+    @Override
     public void onStop() {
         super.onStop();
-        mainActivity.menu.removeIgnoredView(shopListListView);
+//        mainActivity.menu.clearIgnoredViews();
+        //mainActivity.menu.removeIgnoredView(shopListListView);
     }
 }

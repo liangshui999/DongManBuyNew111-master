@@ -8,10 +8,10 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.view.Window;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,7 +23,6 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.StringRequest;
 import com.example.asus_cp.dongmanbuy.R;
-import com.example.asus_cp.dongmanbuy.activity.BaseActivity;
 import com.example.asus_cp.dongmanbuy.activity.gou_wu.AwaitCommentListActivity;
 import com.example.asus_cp.dongmanbuy.activity.gou_wu.DingDanListActivity;
 import com.example.asus_cp.dongmanbuy.activity.login.LoginActivity;
@@ -34,6 +33,8 @@ import com.example.asus_cp.dongmanbuy.activity.product_detail.ProductDetailActiv
 import com.example.asus_cp.dongmanbuy.adapter.LiuLanJiLuAdapter;
 import com.example.asus_cp.dongmanbuy.constant.DBConstant;
 import com.example.asus_cp.dongmanbuy.constant.MyConstant;
+import com.example.asus_cp.dongmanbuy.customview.MyScrollView;
+import com.example.asus_cp.dongmanbuy.customview.OnScrollChangeListnerMy;
 import com.example.asus_cp.dongmanbuy.db.CursorHandler;
 import com.example.asus_cp.dongmanbuy.db.BookDBOperateHelper;
 import com.example.asus_cp.dongmanbuy.model.Good;
@@ -58,16 +59,26 @@ import de.hdodenhof.circleimageview.CircleImageView;
  * 个人中心的界面
  * Created by asus-cp on 2016-06-22.
  */
-public class PersonalCenterActivity extends BaseActivity implements View.OnClickListener{
+public class PersonalCenterActivity extends Activity implements View.OnClickListener{
 
     private String tag="PersonalCenterActivity";
 
+    private RelativeLayout titleRelativeLayout;
+    private ImageView daoHangImageView;//导航
+    private TextView titleTextView;
+    private ImageView settingImageView;//设置
+
+    private RelativeLayout titleRelativeLayoutInner;
+    private ImageView daoHangImageViewInner;//导航
+    private ImageView settingImageViewInner;
+
+    private MyScrollView scrollView;
     private de.hdodenhof.circleimageview.CircleImageView touXiangImageView;//头像
     private TextView nameTextView;//名字
     private TextView dengJiTextView;//等级
     private LinearLayout nameLinearLayout;//名字和等级点击用
-    private ImageView xinFengImageView;//信封图标
-    private LinearLayout settingLinearLayout;//设置
+    //private ImageView xinFengImageView;//信封图标
+    //private LinearLayout settingLinearLayout;//设置
     private LinearLayout shouCangLinearLayout;//收藏
     private LinearLayout guanZhuLinearLayout;//关注
     private TextView shouCangShuTextView;//收藏的数目
@@ -108,13 +119,17 @@ public class PersonalCenterActivity extends BaseActivity implements View.OnClick
     private LiuLanJiLuAdapter liuLanJiLuAdapter;
     private List<Good> goods;
 
+    private RequestQueue requestQueue;
+
+    private String uid;
+    private String sid;
     //private MyIMHelper myIMHelper;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentLayout(R.layout.personal_center_activity_layout);
+        setContentView(R.layout.personal_center_activity_layout);
         setTitle(R.string.personal_center);
         init();
     }
@@ -123,6 +138,10 @@ public class PersonalCenterActivity extends BaseActivity implements View.OnClick
      * 初始化的方法
      */
     private void init() {
+        requestQueue=MyApplication.getRequestQueue();
+        SharedPreferences sharedPreferences=getSharedPreferences(MyConstant.USER_SHAREPREFRENCE_NAME,MODE_APPEND);
+        uid=sharedPreferences.getString(MyConstant.UID_KEY,null);
+        sid=sharedPreferences.getString(MyConstant.SID_KEY,null);
         //myIMHelper=new MyIMHelper();
         dbHelper=new BookDBOperateHelper();
         initView();
@@ -135,6 +154,26 @@ public class PersonalCenterActivity extends BaseActivity implements View.OnClick
             getDataFromIntenetAndSetView();
             setValueToGuanZhuText();//设置关注数
         }
+
+        scrollView.smoothScrollTo(0,0);
+        //给scrollview设置滚动的监听事件
+        scrollView.setOnScrollChangeListnerMy(new OnScrollChangeListnerMy() {
+            @Override
+            public void onScrollChanged(MyScrollView scrollView, int x, int y, int oldx, int oldy) {
+                MyLog.d(tag,"y="+y);
+                titleRelativeLayout.setAlpha(y/120);//因为y是整数，我这里也没有进行强制类型转换，所以y<120之前一直都是0
+                titleRelativeLayoutInner.setAlpha(1-y/120);
+//                if(y>120){
+//                    titleRelativeLayout.setVisibility(View.VISIBLE);
+//                    titleRelativeLayoutInner.setVisibility(View.GONE);
+//                }else if(y==0){
+//                    titleRelativeLayout.setVisibility(View.GONE);
+//                    titleRelativeLayoutInner.setVisibility(View.VISIBLE);
+//                }else{
+//
+//                }
+            }
+        });
 
     }
 
@@ -265,12 +304,21 @@ public class PersonalCenterActivity extends BaseActivity implements View.OnClick
      * 初始化view
      */
     public void initView() {
+        titleRelativeLayout= (RelativeLayout) findViewById(R.id.re_layout_head);
+        daoHangImageView= (ImageView) findViewById(R.id.img_dao_hang_personal_center);
+        titleTextView= (TextView) findViewById(R.id.text_title);
+        settingImageView= (ImageView) findViewById(R.id.img_setting_personal_center);
+
+        titleRelativeLayoutInner=(RelativeLayout) findViewById(R.id.re_layout_head_inner);
+        daoHangImageViewInner=(ImageView) findViewById(R.id.img_dao_hang_personal_center_inner);
+        settingImageViewInner=(ImageView) findViewById(R.id.img_setting_personal_center_inner);
+
+        scrollView= (MyScrollView) findViewById(R.id.scroll_view_personal_center);
         touXiangImageView= (CircleImageView) findViewById(R.id.img_tou_xiang_personal_center);
         nameTextView= (TextView) findViewById(R.id.text_name_personal_center);
         dengJiTextView= (TextView) findViewById(R.id.text_deng_ji_personal_center);
         nameLinearLayout= (LinearLayout) findViewById(R.id.ll_name_personal_center);
-        xinFengImageView= (ImageView) findViewById(R.id.img_xin_feng_personal_center);
-        settingLinearLayout= (LinearLayout) findViewById(R.id.ll_setting_personal_center);
+        //xinFengImageView= (ImageView) findViewById(R.id.img_xin_feng_personal_center);
         shouCangLinearLayout= (LinearLayout) findViewById(R.id.ll_shou_cang_personal_center);
         guanZhuLinearLayout= (LinearLayout) findViewById(R.id.ll_guan_zhu_personal_center);
         shouCangShuTextView= (TextView) findViewById(R.id.text_shou_cang_shu_personal_center);
@@ -335,11 +383,15 @@ public class PersonalCenterActivity extends BaseActivity implements View.OnClick
            }
        });
 
+        recyclerView.setFocusable(false);
         //设置点击事件
+        daoHangImageView.setOnClickListener(this);
+        settingImageView.setOnClickListener(this);
+        daoHangImageViewInner.setOnClickListener(this);
+        settingImageViewInner.setOnClickListener(this);
         nameLinearLayout.setOnClickListener(this);
         touXiangImageView.setOnClickListener(this);
-        xinFengImageView.setOnClickListener(this);
-        settingLinearLayout.setOnClickListener(this);
+        //xinFengImageView.setOnClickListener(this);
         shouCangLinearLayout.setOnClickListener(this);
         guanZhuLinearLayout.setOnClickListener(this);
         myOrderRelaytiveLayout.setOnClickListener(this);
@@ -354,22 +406,32 @@ public class PersonalCenterActivity extends BaseActivity implements View.OnClick
         qingKongLinearLayout.setOnClickListener(this);
 
 
+
     }
 
 
     @Override
     public void onClick(View v) {
         switch (v.getId()){
+            case R.id.img_dao_hang_personal_center://导航
+                finish();
+                break;
+            case R.id.img_dao_hang_personal_center_inner://导航
+                finish();
+                break;
             case R.id.img_tou_xiang_personal_center://点击了头像
                 toDataSetActivity();
                 break;
             case R.id.ll_name_personal_center://点击了名字
                 toDataSetActivity();
                 break;
-            case R.id.img_xin_feng_personal_center://点击了信封
-                Toast.makeText(this,"点击了信封",Toast.LENGTH_SHORT).show();
+//            case R.id.img_xin_feng_personal_center://点击了信封
+//                Toast.makeText(this,"点击了信封",Toast.LENGTH_SHORT).show();
+//                break;
+            case R.id.img_setting_personal_center://点击了设置
+                toDataSetActivity();
                 break;
-            case R.id.ll_setting_personal_center://点击了设置
+            case R.id.img_setting_personal_center_inner://点击了设置
                 toDataSetActivity();
                 break;
             case R.id.ll_shou_cang_personal_center://点击了收藏
