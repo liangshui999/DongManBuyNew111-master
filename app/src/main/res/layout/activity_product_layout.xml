@@ -102,11 +102,18 @@
     </RelativeLayout>
 
 
-    <FrameLayout
+    <android.support.v4.view.ViewPager
+        android:id="@+id/view_pager_product"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    </android.support.v4.view.ViewPager>
+
+    <!--<FrameLayout
         android:id="@+id/frame_content_product"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-    </FrameLayout>
+    </FrameLayout>-->
 
 </LinearLayout>

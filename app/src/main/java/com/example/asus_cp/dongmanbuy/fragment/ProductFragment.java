@@ -847,37 +847,69 @@ public class ProductFragment extends BaseFragment implements View.OnClickListene
             case R.id.re_layout_product_detail://查看商品详情
                 activity.reset();
                 activity.detailBottomImageView.setVisibility(View.VISIBLE);
-                FragmentTransaction fragmentTransaction=activity.fragmentManager.beginTransaction();
-                fragmentTransaction.replace(R.id.frame_content_product, activity.getProductPicAndGuiGeFragment());
-                fragmentTransaction.commit();
+                activity.viewPager.setCurrentItem(1);
+//                FragmentTransaction fragmentTransaction=activity.fragmentManager.beginTransaction();
+//                fragmentTransaction.replace(R.id.frame_content_product, activity.getProductPicAndGuiGeFragment());
+//                fragmentTransaction.commit();
                 break;
             case R.id.re_layout_user_commet://用户评价
+                CommentFragment commentFragment1=new CommentFragment();
+                Bundle bundle1=new Bundle();
+                bundle1.putParcelable(MyConstant.GOOD_KEY, good);
+                commentFragment1.setArguments(bundle1);
+                activity.fragments.remove(2);
+                activity.fragments.add(commentFragment1);
+                //activity.adpater.notifyDataSetChanged();
+
                 activity.reset();
                 activity.commentBottomImageView.setVisibility(View.VISIBLE);
-                FragmentTransaction fragmentTransaction2=activity.fragmentManager.beginTransaction();
-                fragmentTransaction2.replace(R.id.frame_content_product, activity.getCommentFragment());
-                fragmentTransaction2.commit();
+                activity.viewPager.setCurrentItem(2);
+//                FragmentTransaction fragmentTransaction2=activity.fragmentManager.beginTransaction();
+//                fragmentTransaction2.replace(R.id.frame_content_product, activity.getCommentFragment());
+//                fragmentTransaction2.commit();
                 break;
             case R.id.btn_you_tu_ping_jia://有图评价
-                activity.reset();
-                activity.commentBottomImageView.setVisibility(View.VISIBLE);
                 //注意这里为什么需要新new一个，而不是像商品详情那样直接使用activity里面的
                 //activity和这个里面传递的参数是不一样的，不要互相干扰，这个里面多了一个有图的key
                 CommentFragment commentFragment=new CommentFragment();
                 Bundle bundle=new Bundle();
                 bundle.putParcelable(MyConstant.GOOD_KEY, good);
-                bundle.putString(MyConstant.YOU_TU_PING_JIA_KEY,MyConstant.YOU_TU_PING_JIA_CONTENT);
+                bundle.putString(MyConstant.YOU_TU_PING_JIA_KEY, MyConstant.YOU_TU_PING_JIA_CONTENT);
                 commentFragment.setArguments(bundle);
-                FragmentTransaction fragmentTransaction3=activity.fragmentManager.beginTransaction();
-                fragmentTransaction3.replace(R.id.frame_content_product, commentFragment);
-                fragmentTransaction3.commit();
-                break;
-            case R.id.btn_quan_bu_ping_jia://全部评价
+                activity.fragments.remove(2);
+                activity.fragments.add(commentFragment);
+                //activity.adpater.notifyDataSetChanged();
+
                 activity.reset();
                 activity.commentBottomImageView.setVisibility(View.VISIBLE);
-                FragmentTransaction fragmentTransaction4=activity.fragmentManager.beginTransaction();
-                fragmentTransaction4.replace(R.id.frame_content_product, activity.getCommentFragment());
-                fragmentTransaction4.commit();
+                activity.viewPager.setCurrentItem(2);
+
+//                //注意这里为什么需要新new一个，而不是像商品详情那样直接使用activity里面的
+//                //activity和这个里面传递的参数是不一样的，不要互相干扰，这个里面多了一个有图的key
+//                CommentFragment commentFragment=new CommentFragment();
+//                Bundle bundle=new Bundle();
+//                bundle.putParcelable(MyConstant.GOOD_KEY, good);
+//                bundle.putString(MyConstant.YOU_TU_PING_JIA_KEY,MyConstant.YOU_TU_PING_JIA_CONTENT);
+//                commentFragment.setArguments(bundle);
+//                FragmentTransaction fragmentTransaction3=activity.fragmentManager.beginTransaction();
+//                fragmentTransaction3.replace(R.id.frame_content_product, commentFragment);
+//                fragmentTransaction3.commit();
+                break;
+            case R.id.btn_quan_bu_ping_jia://全部评价
+                CommentFragment commentFragment3=new CommentFragment();
+                Bundle bundle3=new Bundle();
+                bundle3.putParcelable(MyConstant.GOOD_KEY, good);
+                commentFragment3.setArguments(bundle3);
+                activity.fragments.remove(2);
+                activity.fragments.add(commentFragment3);
+                //activity.adpater.notifyDataSetChanged();
+
+                activity.reset();
+                activity.commentBottomImageView.setVisibility(View.VISIBLE);
+                activity.viewPager.setCurrentItem(2);
+//                FragmentTransaction fragmentTransaction4=activity.fragmentManager.beginTransaction();
+//                fragmentTransaction4.replace(R.id.frame_content_product, activity.getCommentFragment());
+//                fragmentTransaction4.commit();
                 break;
             case R.id.ll_lian_xi_ke_fu://联系客服
                 //Toast.makeText(this, "联系客服", Toast.LENGTH_SHORT).show();

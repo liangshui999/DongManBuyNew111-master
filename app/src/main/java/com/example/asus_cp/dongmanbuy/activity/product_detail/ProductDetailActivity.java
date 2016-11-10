@@ -1,9 +1,15 @@
 package com.example.asus_cp.dongmanbuy.activity.product_detail;
 
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.PagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -25,6 +31,10 @@ import com.example.asus_cp.dongmanbuy.fragment.ProductFragment;
 import com.example.asus_cp.dongmanbuy.fragment.comments.CommentFragment;
 import com.example.asus_cp.dongmanbuy.fragment.product_detail_and_gui_ge.ProductPicAndGuiGeFragment;
 import com.example.asus_cp.dongmanbuy.model.Good;
+
+import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.List;
 //import com.example.asus_cp.dongmanbuy.util.MyIMHelper;
 
 
@@ -39,7 +49,10 @@ public class ProductDetailActivity extends BaseActivity implements View.OnClickL
     private TextView productTextView;//商品
     private TextView detailTextView;//详情
     private TextView commentTextView;//评论
-    private FrameLayout contentFrameLayout;
+    //private FrameLayout contentFrameLayout;
+    public ViewPager viewPager;
+    public MyFragmentPagerAdpater adpater;
+
     public ImageView productBottomImageView;//商品下面的白色横条
     public ImageView detailBottomImageView;//详情下面的白色横条
     public ImageView commentBottomImageView;//评论下面的白色横条
@@ -49,6 +62,8 @@ public class ProductDetailActivity extends BaseActivity implements View.OnClickL
     private ProductFragment productFragment;
     private ProductPicAndGuiGeFragment productPicAndGuiGeFragment;
     private CommentFragment commentFragment;
+
+    public List<Fragment> fragments;
 
 
     @Override
@@ -67,7 +82,8 @@ public class ProductDetailActivity extends BaseActivity implements View.OnClickL
         productTextView= (TextView) findViewById(R.id.text_product_product);
         detailTextView= (TextView) findViewById(R.id.text_detail_product);
         commentTextView= (TextView) findViewById(R.id.text_comment_product);
-        contentFrameLayout= (FrameLayout) findViewById(R.id.frame_content_product);
+        viewPager= (ViewPager) findViewById(R.id.view_pager_product);
+//        contentFrameLayout= (FrameLayout) findViewById(R.id.frame_content_product);
         productBottomImageView= (ImageView) findViewById(R.id.img_product_product);
         detailBottomImageView= (ImageView) findViewById(R.id.img_detail_product);
         commentBottomImageView = (ImageView) findViewById(R.id.img_comment_product);
@@ -95,9 +111,46 @@ public class ProductDetailActivity extends BaseActivity implements View.OnClickL
         productPicAndGuiGeFragment.setArguments(bundle);
         commentFragment.setArguments(bundle);
 
-        FragmentTransaction transaction=fragmentManager.beginTransaction();
-        transaction.add(R.id.frame_content_product, productFragment);
-        transaction.commit();
+        fragments=new ArrayList<>();
+        fragments.add(productFragment);
+        fragments.add(productPicAndGuiGeFragment);
+        fragments.add(commentFragment);
+
+        adpater=new MyFragmentPagerAdpater(fragmentManager);
+        viewPager.setAdapter(adpater);
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                switch (position) {
+                    case 0:
+                        reset();
+                        productBottomImageView.setVisibility(View.VISIBLE);
+                        break;
+                    case 1:
+                        reset();
+                        detailBottomImageView.setVisibility(View.VISIBLE);
+                        break;
+                    case 2:
+                        reset();
+                        commentBottomImageView.setVisibility(View.VISIBLE);
+                        break;
+                }
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
+
+//        FragmentTransaction transaction=fragmentManager.beginTransaction();
+//        transaction.add(R.id.frame_content_product, productFragment);
+//        transaction.commit();
     }
 
 
@@ -110,23 +163,26 @@ public class ProductDetailActivity extends BaseActivity implements View.OnClickL
             case R.id.text_product_product://商品
                 reset();
                 productBottomImageView.setVisibility(View.VISIBLE);
-                FragmentTransaction transaction=fragmentManager.beginTransaction();
-                transaction.replace(R.id.frame_content_product, productFragment);
-                transaction.commit();
+                viewPager.setCurrentItem(0);
+//                FragmentTransaction transaction=fragmentManager.beginTransaction();
+//                transaction.replace(R.id.frame_content_product, productFragment);
+//                transaction.commit();
                 break;
             case R.id.text_detail_product://详情
                 reset();
                 detailBottomImageView.setVisibility(View.VISIBLE);
-                FragmentTransaction transaction2=fragmentManager.beginTransaction();
-                transaction2.replace(R.id.frame_content_product, productPicAndGuiGeFragment);
-                transaction2.commit();
+                viewPager.setCurrentItem(1);
+//                FragmentTransaction transaction2=fragmentManager.beginTransaction();
+//                transaction2.replace(R.id.frame_content_product, productPicAndGuiGeFragment);
+//                transaction2.commit();
                 break;
             case R.id.text_comment_product://评论
                 reset();
                 commentBottomImageView.setVisibility(View.VISIBLE);
-                FragmentTransaction transaction3=fragmentManager.beginTransaction();
-                transaction3.replace(R.id.frame_content_product, commentFragment);
-                transaction3.commit();
+                viewPager.setCurrentItem(2);
+//                FragmentTransaction transaction3=fragmentManager.beginTransaction();
+//                transaction3.replace(R.id.frame_content_product, commentFragment);
+//                transaction3.commit();
                 break;
         }
     }
@@ -147,6 +203,69 @@ public class ProductDetailActivity extends BaseActivity implements View.OnClickL
         productBottomImageView.setVisibility(View.GONE);
         detailBottomImageView.setVisibility(View.GONE);
         commentBottomImageView.setVisibility(View.GONE);
+    }
+
+
+
+    public class MyFragmentPagerAdpater extends FragmentPagerAdapter{
+
+        private FragmentManager fm;
+        public MyFragmentPagerAdpater(FragmentManager fm) {
+            super(fm);
+            this.fm=fm;
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+            return fragments.get(position);
+        }
+
+        @Override
+        public int getCount() {
+            return fragments.size();
+        }
+
+        @Override
+        public int getItemPosition(Object object) {
+            return PagerAdapter.POSITION_NONE;
+        }
+
+        @Override
+        public Object instantiateItem(ViewGroup container, int position) {
+            if (position == 2)
+                removeFragment(container,position);
+            return super.instantiateItem(container, position);
+
+        }
+
+        private void removeFragment(ViewGroup container,int index) {
+            String tag = getFragmentTag(container.getId(), index);
+            Fragment fragment = fm.findFragmentByTag(tag);
+            if (fragment == null)
+                return;
+            FragmentTransaction ft = fm.beginTransaction();
+            ft.remove(fragment);
+            ft.commit();
+            ft = null;
+            fm.executePendingTransactions();
+        }
+
+
+        private String getFragmentTag(int viewId, int index) {
+            try {
+                Class<FragmentPagerAdapter> cls = FragmentPagerAdapter.class;
+                Class<?>[] parameterTypes = { int.class, long.class };
+                Method method = cls.getDeclaredMethod("makeFragmentName",
+                        parameterTypes);
+                method.setAccessible(true);
+                String tag = (String) method.invoke(this, viewId, index);
+                return tag;
+            } catch (Exception e) {
+                e.printStackTrace();
+                return "";
+            }
+        }
+
     }
 
 

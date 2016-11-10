@@ -212,7 +212,7 @@ public class ShoppingCarFragment extends BaseFragment implements View.OnClickLis
                 mayBeYouWantRecycler.setAdapter(adapter1);
 
                 //将recyclview添加到忽略里面
-                mainActivity.menu.addIgnoredView(mayBeYouWantRecycler);
+//                mainActivity.menu.addIgnoredView(mayBeYouWantRecycler);
                 adapter1.setOnItemClickLitener(new MayBeYouWantAdapter.OnItemClickLitener() {
                     @Override
                     public void onItemClick(View view, int position) {
@@ -588,7 +588,7 @@ public class ShoppingCarFragment extends BaseFragment implements View.OnClickLis
     @Override
     public void onStop() {
         super.onStop();
-        mainActivity.menu.removeIgnoredView(mayBeYouWantRecycler);
+        //mainActivity.menu.removeIgnoredView(mayBeYouWantRecycler);
     }
 
     /**

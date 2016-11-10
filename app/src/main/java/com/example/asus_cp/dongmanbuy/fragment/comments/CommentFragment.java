@@ -185,6 +185,7 @@ public class CommentFragment extends BaseFragment implements View.OnClickListene
         MyFragmentPagerAdapter myFragmentPagerAdapter=new MyFragmentPagerAdapter(fragmentManager);
         viewPager.setAdapter(myFragmentPagerAdapter);
 
+        MyLog.d(tag,"youTu="+youTu);
         //有图评价跳转过来
         if(MyConstant.YOU_TU_PING_JIA_CONTENT.equals(youTu)){
             reset();
