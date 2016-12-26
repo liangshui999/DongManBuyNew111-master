@@ -56,6 +56,8 @@ import com.example.asus_cp.dongmanbuy.model.Binner;
 import com.example.asus_cp.dongmanbuy.model.Good;
 import com.example.asus_cp.dongmanbuy.model.ShopModel;
 import com.example.asus_cp.dongmanbuy.model.User;
+import com.example.asus_cp.dongmanbuy.net.MyImageRequest;
+import com.example.asus_cp.dongmanbuy.net.OnImageSizeGetListener;
 import com.example.asus_cp.dongmanbuy.util.DialogHelper;
 import com.example.asus_cp.dongmanbuy.util.FormatHelper;
 import com.example.asus_cp.dongmanbuy.util.ImageLoadHelper;
@@ -872,10 +874,16 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener{
      */
     private void setHeightToViewPager(ViewPager viewPager,int width,int height) {
         //设置firstviewpager的高度，使它能铺满全屏
-        int tempHeight=screenWidth*height/width;//216和414是图片的宽高比
+        /*int tempHeight=screenWidth*height/width;//216和414是图片的宽高比
         ViewGroup.LayoutParams layoutParams=viewPager.getLayoutParams();
         layoutParams.height=tempHeight;
+        viewPager.setLayoutParams(layoutParams);*/
+
+        ViewGroup.LayoutParams layoutParams = viewPager.getLayoutParams();
+        layoutParams.width = width;
+        layoutParams.height = height;
         viewPager.setLayoutParams(layoutParams);
+
     }
 
     /**
@@ -1012,7 +1020,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener{
      * @param refreshFlag 需要刷新的view的消息标记
      * @param scrollFlag 需要滚动的view的标记
      */
-    private void getBinnerImageFromIntenet(String s,int binnerPositionFlag, final List<View> imageViews, final int refreshFlag, final int scrollFlag) {
+    private void getBinnerImageFromIntenet(String s, final int binnerPositionFlag, final List<View> imageViews, final int refreshFlag, final int scrollFlag) {
         MyLog.d(tag, "广告位的:" + s);
         s= FormatHelper.removeBom(s);
         final List<Binner> binners=new ArrayList<Binner>();
@@ -1044,12 +1052,43 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener{
             }
             final ImageLoadHelper imageLoadHelper=new ImageLoadHelper();
             for(final Binner binner:binners){
-                ImageView imageView=new ImageView(context);
+                final ImageView imageView=new ImageView(context);
+                ViewGroup.LayoutParams layoutParams = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                        ViewGroup.LayoutParams.MATCH_PARENT);
+                imageView.setLayoutParams(layoutParams);
                 imageView.setTag(binner.getImg());
-                ImageLoader imageLoader=imageLoadHelper.getImageLoader();
-                ImageLoader.ImageListener imageListener=imageLoader.getImageListener(imageView,
-                        R.mipmap.yu_jia_zai,R.mipmap.yu_jia_zai);
-                imageLoader.get(binner.getImg(),imageListener);
+//                ImageLoader imageLoader=imageLoadHelper.getImageLoader();
+//                ImageLoader.ImageListener imageListener=imageLoader.getImageListener(imageView,
+//                        R.mipmap.yu_jia_zai,R.mipmap.yu_jia_zai);
+//                imageLoader.get(binner.getImg(),imageListener);
+                final MyImageRequest myImageRequest=new MyImageRequest(binner.getImg(), new Response.Listener<Bitmap>() {
+                    @Override
+                    public void onResponse(Bitmap response) {
+                        imageView.setImageBitmap(response);
+                    }
+                }, 0, 0, Bitmap.Config.RGB_565, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        imageView.setImageResource(R.mipmap.yu_jia_zai);
+                    }
+                }, imageView, new OnImageSizeGetListener() {
+                    @Override
+                    public void onImageSizeGeted(int width, int height) {
+                        switch (binnerPositionFlag){
+                            case FIRST_BINNER_FLAG:
+                                setHeightToViewPager(firstViewPager, width, height);
+                                break;
+                            case SECOND_BINNER_FLAG:
+                                setHeightToViewPager(secondViewPager, width, height);
+                                break;
+                            case THREE_BINNER_FLAG:
+                                setHeightToViewPager(threeViewPager, width, height);
+                                break;
+                        }
+
+                    }
+                });
+                requestQueue.add(myImageRequest);
                 imageViews.add(imageView);
             }
             handler.sendEmptyMessage(refreshFlag);

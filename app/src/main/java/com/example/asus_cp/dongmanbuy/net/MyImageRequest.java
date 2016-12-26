@@ -23,6 +23,8 @@ public class MyImageRequest extends ImageRequest{
     private String tag="MyImageRequest";
     private ImageView imageView;
 
+    private OnImageSizeGetListener onImageSizeGetListener;
+
     private Handler handler=new Handler(){
         @Override
         public void handleMessage(Message msg) {
@@ -30,6 +32,9 @@ public class MyImageRequest extends ImageRequest{
             layoutParams.width=msg.arg1;
             layoutParams.height=msg.arg2;
             imageView.setLayoutParams(layoutParams);
+            if(onImageSizeGetListener != null){
+                onImageSizeGetListener.onImageSizeGeted(msg.arg1, msg.arg2);//这句代码是我加的
+            }
         }
     };
 
@@ -40,7 +45,14 @@ public class MyImageRequest extends ImageRequest{
     public MyImageRequest(String url, Response.Listener<Bitmap> listener, int maxWidth, int maxHeight, Bitmap.Config decodeConfig, Response.ErrorListener errorListener,ImageView imageView) {
         super(url, listener, maxWidth, maxHeight, decodeConfig, errorListener);
         this.imageView=imageView;
+    }
 
+    public MyImageRequest(String url, Response.Listener<Bitmap> listener, int maxWidth, int maxHeight,
+                          Bitmap.Config decodeConfig, Response.ErrorListener errorListener,
+                          ImageView imageView, OnImageSizeGetListener onImageSizeGetListener) {
+        super(url, listener, maxWidth, maxHeight, decodeConfig, errorListener);
+        this.imageView=imageView;
+        this.onImageSizeGetListener = onImageSizeGetListener;
     }
 
     @Override
@@ -58,6 +70,7 @@ public class MyImageRequest extends ImageRequest{
         // Then compute the dimensions we would ideally like to decode to.
         int desiredWidth = MyScreenInfoHelper.getScreenWidth();//我改的主要就是这两句代码，其他都没有改变
         int desiredHeight = desiredWidth*actualHeight/actualWidth;
+
 
         Message message=handler.obtainMessage(1);
         message.arg1=desiredWidth;
