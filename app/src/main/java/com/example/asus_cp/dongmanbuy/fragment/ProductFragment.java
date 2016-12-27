@@ -56,6 +56,7 @@ import com.example.asus_cp.dongmanbuy.util.FormatHelper;
 import com.example.asus_cp.dongmanbuy.util.ImageLoadHelper;
 import com.example.asus_cp.dongmanbuy.util.JsonHelper;
 import com.example.asus_cp.dongmanbuy.util.MyApplication;
+import com.example.asus_cp.dongmanbuy.util.MyIMHelper;
 import com.example.asus_cp.dongmanbuy.util.MyLog;
 import com.example.asus_cp.dongmanbuy.util.MyScreenInfoHelper;
 
@@ -913,13 +914,13 @@ public class ProductFragment extends BaseFragment implements View.OnClickListene
                 break;
             case R.id.ll_lian_xi_ke_fu://联系客服
                 //Toast.makeText(this, "联系客服", Toast.LENGTH_SHORT).show();
-//                MyIMHelper myIMHelper1=new MyIMHelper();
-//                myIMHelper1.openKeFuLiaoTianAndSendMessage("");
+                MyIMHelper myIMHelper1=new MyIMHelper();
+                myIMHelper1.openKeFuLiaoTianAndSendMessage("");
                 break;
             case R.id.ll_ke_fu://客服
                 //Toast.makeText(this, "客服", Toast.LENGTH_SHORT).show();
-//                MyIMHelper myIMHelper2=new MyIMHelper();
-//                myIMHelper2.openKeFuLiaoTianAndSendMessage("");
+                MyIMHelper myIMHelper2=new MyIMHelper();
+                myIMHelper2.openKeFuLiaoTianAndSendMessage("");
                 break;
             case R.id.ll_shopping_car_product_detail://购物车
                 //Toast.makeText(this, "购物车", Toast.LENGTH_SHORT).show();

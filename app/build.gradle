@@ -13,7 +13,7 @@ android {
         targetSdkVersion 23
         versionCode 1
         versionName "1.0"
-        multiDexEnabled = false
+        multiDexEnabled = true
     }
     buildTypes {
         release {
@@ -43,6 +43,10 @@ android {
 
         c360 {
             manifestPlaceholders = [UMENG_CHANNEL_VALUE: "c360"]
+        }
+
+        yingyongbao {
+            manifestPlaceholders = [UMENG_CHANNEL_VALUE: "yingyongbao"]
         }
 
         uc {
@@ -81,4 +85,5 @@ dependencies {
     compile 'com.zhy:mpermission-api:1.0.0'
     compile 'com.github.lovetuzitong:MultiImageSelector:1.2'
     compile 'com.squareup.picasso:picasso:2.4.0'
+    compile project(':alibaichuanSDK')
 }

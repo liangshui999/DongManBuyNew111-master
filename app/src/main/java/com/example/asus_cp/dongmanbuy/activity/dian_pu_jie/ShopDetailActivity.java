@@ -39,6 +39,7 @@ import com.example.asus_cp.dongmanbuy.util.FormatHelper;
 import com.example.asus_cp.dongmanbuy.util.ImageLoadHelper;
 import com.example.asus_cp.dongmanbuy.util.JsonHelper;
 //import com.example.asus_cp.dongmanbuy.util.MyIMHelper;
+import com.example.asus_cp.dongmanbuy.util.MyIMHelper;
 import com.example.asus_cp.dongmanbuy.util.MyLog;
 import com.zhy.m.permission.MPermissions;
 import com.zhy.m.permission.PermissionDenied;
@@ -91,7 +92,7 @@ public class ShopDetailActivity extends BaseActivity implements View.OnClickList
     private ShopModel shopModel;
 
     private ImageLoadHelper helper;
-    //private MyIMHelper myIMHelper;
+    private MyIMHelper myIMHelper;
 
     private String guanZhuUrl="http://www.zmobuy.com/PHP/?url=/store/addcollect";//关注的接口
     private String erWeiMaUrl ="http://api.zmobuy.com/JK/base/model.php";//二维码的接口
@@ -215,7 +216,7 @@ public class ShopDetailActivity extends BaseActivity implements View.OnClickList
             setGuanZhuTextViewFirstValue(guanZhuTextView,shopModel);
 
             //实例化Myimhelper
-            //myIMHelper=new MyIMHelper();
+            myIMHelper=new MyIMHelper();
         }
     }
 
@@ -243,7 +244,7 @@ public class ShopDetailActivity extends BaseActivity implements View.OnClickList
             case R.id.re_layout_ke_fu://点击了在线客服
                 //Toast.makeText(this,"点击了在线客服",Toast.LENGTH_SHORT).show();
                 //keFuClickChuLi();
-                //myIMHelper.openKeFuLiaoTianAndSendMessage("");
+                myIMHelper.openKeFuLiaoTianAndSendMessage("");
                 break;
             case R.id.re_layout_shop_er_wei_ma://点击了二维码
                 /*Intent saoYiSaoIntent = new Intent(ShopDetailActivity.this, MipcaActivityCapture.class);

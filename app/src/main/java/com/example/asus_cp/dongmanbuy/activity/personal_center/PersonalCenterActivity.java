@@ -43,6 +43,7 @@ import com.example.asus_cp.dongmanbuy.util.ImageLoadHelper;
 import com.example.asus_cp.dongmanbuy.util.JsonHelper;
 import com.example.asus_cp.dongmanbuy.util.MyApplication;
 //import com.example.asus_cp.dongmanbuy.util.MyIMHelper;
+import com.example.asus_cp.dongmanbuy.util.MyIMHelper;
 import com.example.asus_cp.dongmanbuy.util.MyLog;
 
 import org.json.JSONException;
@@ -123,7 +124,7 @@ public class PersonalCenterActivity extends Activity implements View.OnClickList
 
     private String uid;
     private String sid;
-    //private MyIMHelper myIMHelper;
+    private MyIMHelper myIMHelper;
 
 
     @Override
@@ -142,7 +143,7 @@ public class PersonalCenterActivity extends Activity implements View.OnClickList
         SharedPreferences sharedPreferences=getSharedPreferences(MyConstant.USER_SHAREPREFRENCE_NAME,MODE_APPEND);
         uid=sharedPreferences.getString(MyConstant.UID_KEY,null);
         sid=sharedPreferences.getString(MyConstant.SID_KEY,null);
-        //myIMHelper=new MyIMHelper();
+        myIMHelper=new MyIMHelper();
         dbHelper=new BookDBOperateHelper();
         initView();
         helper=new ImageLoadHelper();
@@ -471,7 +472,7 @@ public class PersonalCenterActivity extends Activity implements View.OnClickList
                 break;
             case R.id.re_layout_ke_fu_personal_center://点击了客服
                 //Toast.makeText(this,"点击了客服",Toast.LENGTH_SHORT).show();
-                //myIMHelper.openKeFuLiaoTianAndSendMessage("");
+                myIMHelper.openKeFuLiaoTianAndSendMessage("");
                 break;
             case R.id.ll_qing_kong_personal_center://点击了清空
                 dbHelper.deleteAll();

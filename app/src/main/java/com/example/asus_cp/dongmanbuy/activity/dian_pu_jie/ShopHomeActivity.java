@@ -36,6 +36,7 @@ import com.example.asus_cp.dongmanbuy.util.DialogHelper;
 import com.example.asus_cp.dongmanbuy.util.ImageLoadHelper;
 import com.example.asus_cp.dongmanbuy.util.JsonHelper;
 import com.example.asus_cp.dongmanbuy.util.MyApplication;
+import com.example.asus_cp.dongmanbuy.util.MyIMHelper;
 import com.example.asus_cp.dongmanbuy.util.MyLog;
 
 import org.json.JSONArray;
@@ -314,10 +315,12 @@ public class ShopHomeActivity extends BaseActivity implements View.OnClickListen
                 startActivity(toProductDetailIntent);
                 break;
             case R.id.ll_hot_category://热门分类
-                Toast.makeText(this, "点击了热门分类", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "暂未开放哦", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.ll_ke_fu_shop_home://点击了客服
-                Toast.makeText(this, "点击了客服", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(this, "点击了客服", Toast.LENGTH_SHORT).show();
+                MyIMHelper myIMHelper = new MyIMHelper();
+                myIMHelper.openKeFuLiaoTianAndSendMessage("");
                 break;
         }
     }

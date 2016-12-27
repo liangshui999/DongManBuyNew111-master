@@ -413,7 +413,7 @@ public class DingDanDetailActivity extends BaseActivity implements View.OnClickL
         yunFeiTextView.setText(dingDanModel.getShipFee());
         yunFeiBottomTextView.setText(dingDanModel.getShipFee());
         maiJiaLiuYanTextView.setText(dingDanModel.getMaiJiaLiuYan());//设置买家留言
-        zhiFuFangShiTextView.setText(dingDanModel.getZhiFuFangShi());
+        zhiFuFangShiTextView.setText(FormatHelper.getStrFromHtmlBiaoQian(dingDanModel.getZhiFuFangShi()));
         faPiaoTaiTouTextView.setText(dingDanModel.getFaPiaoTaiTou());
         faPiaocontentTextView.setText(dingDanModel.getFaPiaoContent());
 
